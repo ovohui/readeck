@@ -392,7 +392,7 @@ declare namespace dom {
      *
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Document/append)
      */
-    append(node: Node): undefined
+    append(...nodes: (Node | string)[]): undefined
 
     /**
      * Returns a copy of node. If deep is true, the copy also includes the node's descendants.
@@ -458,6 +458,9 @@ declare namespace dom {
     /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Node/removeChild) */
     removeChild(node: Node): Node
 
+    /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Element/remove) */
+    remove(): Node
+
     /**
      * Returns the first element that is a descendant of node that matches selectors.
      *
@@ -471,6 +474,13 @@ declare namespace dom {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Document/querySelectorAll)
      */
     querySelectorAll(s: string): Node[]
+
+    /**
+     * Returns the first ancestor of node (or itself) that matches selectors.
+     *
+     * [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Element/closest)
+     */
+    closest(s: string): Node
 
     /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Node/replaceChild) */
     replaceChild(newChild: Node, oldChild: Node): Node
