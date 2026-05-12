@@ -32,7 +32,7 @@ var (
 var sessionHandler *securecookie.Handler
 
 // InitSession creates the session handler.
-func InitSession() (err error) {
+func InitSession() {
 	// Create the session handler
 	sessionHandler = securecookie.NewHandler(
 		securecookie.Key(configs.Keys.SessionKey()),
@@ -40,8 +40,6 @@ func InitSession() (err error) {
 		securecookie.WithMaxAge(configs.Config.Server.Session.MaxAge),
 		securecookie.WithName(configs.Config.Server.Session.CookieName),
 	)
-
-	return
 }
 
 // SessionHandler returns the [securecookie.Handler] configured for

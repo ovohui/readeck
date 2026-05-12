@@ -284,9 +284,7 @@ func InitServer(s *server.Server) error {
 	server.DefaultErrorComponent = components.DefaultError
 
 	// Init session store
-	if err := server.InitSession(); err != nil {
-		return err
-	}
+	server.InitSession()
 
 	// Static asserts
 	assets.SetupRoutes(s)
