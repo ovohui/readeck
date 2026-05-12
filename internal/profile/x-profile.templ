@@ -19,21 +19,19 @@ templ (v Views) userProfile(f *profileForm) {
 	}}
 	@v.base(title) {
 		<h1 class="title text-h2">{  title }</h1>
-		if !user.Locked() || user.RequiresMFA() {
-			<form action={ URL(ctx, "/logout") } method="post" class="my-8">
-				<p class="btn-block items-center">
-					<span class="grow">
-						@templ.Raw(L(ctx).Gettext("You are connected as <strong>%s</strong>",
-							templ.EscapeString(user.Username)),
-						)
-					</span>
-					<button type="submit" class="btn-outlined btn-danger">
-						@Icon("o-logout")
-						<span>{ L(ctx).Gettext("Sign out") }</span>
-					</button>
-				</p>
-			</form>
-		}
+		<form action={ URL(ctx, "/logout") } method="post" class="my-8">
+			<p class="btn-block items-center">
+				<span class="grow">
+					@templ.Raw(L(ctx).Gettext("You are connected as <strong>%s</strong>",
+						templ.EscapeString(user.Username)),
+					)
+				</span>
+				<button type="submit" class="btn-outlined btn-danger">
+					@Icon("o-logout")
+					<span>{ L(ctx).Gettext("Sign out") }</span>
+				</button>
+			</p>
+		</form>
 		@CustomTemplate("profile/extra.html.tmpl", nil)
 		<form action={ URL(ctx) } method="post">
 			@F.Errors(f)

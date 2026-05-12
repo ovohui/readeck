@@ -52,7 +52,6 @@ func New() *Server {
 		CannonicalPaths,
 		auth.Init(
 			&TokenAuthProvider{},
-			&ForwardedAuthProvider{},
 			&SessionAuthProvider{},
 		),
 		LoadLocale,

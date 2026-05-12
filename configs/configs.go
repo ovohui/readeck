@@ -7,7 +7,6 @@ package configs
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log/slog"
 	"net"
@@ -79,17 +78,7 @@ type configServer struct {
 	Session        configSession `json:"session"`
 }
 
-type configAuth struct {
-	Forwarded configForwardedAuth
-}
-
-type configForwardedAuth struct {
-	Enabled             bool   `json:"enabled"      env:"AUTH_FORWARDED_ENABLED"`
-	ProvisioningEnabled bool   `json:"provisioning" env:"AUTH_FORWARDED_PROVISIONING"`
-	HeaderUser          string `json:"header_user"  env:"AUTH_FORWARDED_HEADER_USER"`
-	HeaderEmail         string `json:"header_email" env:"AUTH_FORWARDED_HEADER_EMAIL"`
-	HeaderGroup         string `json:"header_group" env:"AUTH_FORWARDED_HEADER_GROUP"`
-}
+type configAuth struct{}
 
 type configDB struct {
 	Source string `json:"source" env:"DATABASE_SOURCE,unset"`
@@ -175,14 +164,6 @@ func (c *config) LoadEnv() error {
 }
 
 func (c *config) validate() error {
-	if len(map[string]struct{}{
-		c.Auth.Forwarded.HeaderUser:  {},
-		c.Auth.Forwarded.HeaderEmail: {},
-		c.Auth.Forwarded.HeaderGroup: {},
-	}) != 3 {
-		return errors.New("auth.forwarded: all header names must be different")
-	}
-
 	return nil
 }
 
@@ -358,15 +339,6 @@ var Config = config{
 	Database: configDB{},
 	Email: configEmail{
 		Port: 25,
-	},
-	Auth: configAuth{
-		Forwarded: configForwardedAuth{
-			Enabled:             false,
-			HeaderUser:          "Remote-User",
-			HeaderEmail:         "Remote-Email",
-			HeaderGroup:         "Remote-Groups",
-			ProvisioningEnabled: true,
-		},
 	},
 	Bookmarks: configBookmarks{
 		PublicShareTTL: 24,
