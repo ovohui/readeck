@@ -28,19 +28,19 @@ func SetupRoutes(s *server.Server) {
 
 type authHandler struct {
 	chi.Router
-	srv *server.Server
 }
 
-func newAuthHandler(s *server.Server) *authHandler {
+func newAuthHandler(srv *server.Server) *authHandler {
 	// Non authenticated routes
 	r := chi.NewRouter()
 	r.Use(
 		server.Csrf,
 		server.WithSession(),
+		server.WithCustomErrorComponent(Views{}.Error),
 	)
 
-	h := &authHandler{r, s}
-	s.AddRoute("/login", r)
+	h := &authHandler{r}
+	srv.AddRoute("/login", r)
 	r.Get("/", h.login)
 	r.Post("/", h.login)
 	r.Get("/mfa", h.mfa)
@@ -56,7 +56,7 @@ func newAuthHandler(s *server.Server) *authHandler {
 
 	// Authenticated routes
 	ar := server.AuthenticatedRouter(server.WithRedirectLogin)
-	s.AddRoute("/logout", ar)
+	srv.AddRoute("/logout", ar)
 	ar.Post("/", h.logout)
 
 	return h
