@@ -5,6 +5,11 @@
 package signin
 
 import (
+	"maps"
+	"slices"
+
+	"codeberg.org/readeck/readeck/configs"
+
 	. "codeberg.org/readeck/readeck/components"
 	F "codeberg.org/readeck/readeck/components/forms"
 	"net/http"
@@ -85,6 +90,25 @@ templ (v Views) signIn(f *loginForm) {
 					{ L(ctx).Gettext("Forgot your password?") }
 				</a>
 			</p>
+		}
+		if providers := configs.Config.Auth.OIDC.Providers; len(providers) > 0 {
+			<form action={ URL(ctx, "/login/oidc") } method="post">
+				<fieldset class="mt-8 border-t">
+					<legend class="mx-auto px-2">{ L(ctx).Gettext("Or continue with") }</legend>
+					<ul class="mt-4">
+						for _, id := range slices.Sorted(maps.Keys(providers)) {
+							<li>
+								<button
+									class="btn btn-outlined font-semibold w-full mb-4 rounded-md"
+									type="submit"
+									name="id"
+									value={ id }
+								>{ providers[id].Name }</button>
+							</li>
+						}
+					</ul>
+				</fieldset>
+			</form>
 		}
 	}
 }

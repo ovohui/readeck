@@ -30,6 +30,7 @@ import (
 	"codeberg.org/readeck/readeck/internal/admin"
 	"codeberg.org/readeck/readeck/internal/assets"
 	"codeberg.org/readeck/readeck/internal/auth/oauth2"
+	"codeberg.org/readeck/readeck/internal/auth/oidc"
 	"codeberg.org/readeck/readeck/internal/auth/onboarding"
 	"codeberg.org/readeck/readeck/internal/auth/signin"
 	bookmark_routes "codeberg.org/readeck/readeck/internal/bookmarks/routes"
@@ -291,6 +292,7 @@ func InitServer(s *server.Server) error {
 
 	// Auth routes
 	signin.SetupRoutes(s)
+	oidc.SetupRoutes(s)
 	oauth2.SetupRoutes(s)
 
 	// Onboarding routes
