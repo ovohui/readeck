@@ -78,7 +78,23 @@ type configServer struct {
 	Session        configSession `json:"session"`
 }
 
-type configAuth struct{}
+type configAuth struct {
+	OIDC configOIDC `json:"oidc"`
+}
+
+type configOIDC struct {
+	Providers map[string]OIDCProvider `json:"providers"`
+}
+
+// OIDCProvider contains an OIDC provider configuration.
+type OIDCProvider struct {
+	Name           string      `json:"name"`
+	URL            string      `json:"url"`
+	ClientID       string      `json:"client_id"`
+	ClientSecret   string      `json:"client_secret"`
+	Groups         [][2]string `json:"groups"`
+	NoProvisioning bool        `json:"no_provisioning"`
+}
 
 type configDB struct {
 	Source string `json:"source" env:"DATABASE_SOURCE,unset"`
