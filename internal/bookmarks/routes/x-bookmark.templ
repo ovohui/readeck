@@ -22,7 +22,7 @@ templ (v Views) bookmarkRefreshHead() {
 	<noscript><meta http-equiv="refresh" content="5"/></noscript>
 }
 
-templ (v Views) bookmarkMissing(_ int) {
+templ (v Views) bookmarkMissing() {
 	{{ title := L(ctx).Gettext("Bookmark not found") }}
 	@SideMenuStdLayout(L(ctx).Gettext("Edit bookmark"), v.menu()) {
 		<turbo-frame id="bookmark-info">
