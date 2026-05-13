@@ -190,9 +190,6 @@ func (p *SessionAuthProvider) Authenticate(w http.ResponseWriter, r *http.Reques
 		return r, err
 	}
 
-	// lock user when external
-	u.Lock(sess.Payload.External)
-
 	// At this point, the user is granted access.
 	// We renew its session for another max age duration.
 	sess.Save(w, r)

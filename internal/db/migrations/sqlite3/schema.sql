@@ -20,7 +20,9 @@ CREATE TABLE IF NOT EXISTS user (
     `group`     text     NOT NULL DEFAULT "user",
     settings    json     NOT NULL DEFAULT "{}",
     seed        integer  NOT NULL DEFAULT 0,
-    totp_secret blob     NULL
+    totp_secret blob     NULL,
+    ext_id      text     UNIQUE NULL,
+    ext_info    json     NULL
 );
 
 CREATE TABLE IF NOT EXISTS token (

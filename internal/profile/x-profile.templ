@@ -41,14 +41,14 @@ templ (v Views) userProfile(f *profileForm) {
 					F.Label(L(ctx).Gettext("Username")),
 					F.Required(true),
 					F.Classes("field-h"),
-					F.InputAttr("disabled", user.Locked()),
+					F.InputAttr("disabled", user.IsExternal()),
 				)
 				@F.TextField(&f.Email,
 					F.InputType("email"),
 					F.Label(L(ctx).Gettext("Email Address")),
 					F.Required(true),
 					F.Classes("field-h"),
-					F.InputAttr("disabled", user.Locked()),
+					F.InputAttr("disabled", user.IsExternal()),
 				)
 				@F.SelectField[string](&f.SettingsLang,
 					F.Label(L(ctx).Gettext("Language")),

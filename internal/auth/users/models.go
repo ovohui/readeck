@@ -47,7 +47,6 @@ var (
 
 // User is a user record in database.
 type User struct {
-	locked     bool
 	ID         int           `db:"id"          goqu:"skipinsert,skipupdate"`
 	UID        string        `db:"uid"`
 	Created    time.Time     `db:"created"     goqu:"skipupdate"`
@@ -60,6 +59,8 @@ type User struct {
 	Settings   *UserSettings `db:"settings"`
 	Seed       int           `db:"seed"`
 	TOTPSecret []byte        `db:"totp_secret"`
+	ExtID      *string       `db:"ext_id"`
+	ExtInfo    *ExtInfo      `db:"ext_info"`
 }
 
 // Manager is a query helper for user entries.
@@ -251,14 +252,9 @@ func (u *User) Lang() string {
 	return locales.LoadTranslation(u.Settings.Lang).Tag.String()
 }
 
-// Lock locks the user's username, email and password change.
-func (u *User) Lock(v bool) {
-	u.locked = v
-}
-
-// Locked returns the user's locked status.
-func (u *User) Locked() bool {
-	return u.locked
+// IsExternal returns whether the user was provisionned by a 3rd pary authentication method.
+func (u *User) IsExternal() bool {
+	return u.ExtID != nil
 }
 
 // LastActivity returns a [time.Time] of the last known user activity.
@@ -367,6 +363,42 @@ func (s *UserSettings) Scan(value any) error {
 
 // Value encodes a UserSettings value for storage.
 func (s *UserSettings) Value() (driver.Value, error) {
+	v, err := json.Marshal(s)
+	if err != nil {
+		return "", err
+	}
+	return string(v), nil
+}
+
+// ExtInfo contains information about the external authentication provider.
+type ExtInfo struct {
+	AddedOn time.Time `json:"added_on"`
+	Issuer  string    `json:"issuer"`
+}
+
+// Scan loads a [ExtInfo] instance from a column.
+func (s *ExtInfo) Scan(value any) error {
+	if value == nil {
+		return nil
+	}
+
+	v, err := types.JSONBytes(value)
+	if err != nil {
+		return err
+	}
+	json.Unmarshal(v, s) //nolint:errcheck
+	return nil
+}
+
+// Value encodes a [ExtInfo] value for storage.
+func (s *ExtInfo) Value() (driver.Value, error) {
+	if s == nil {
+		return nil, nil
+	}
+
+	if s.AddedOn.IsZero() {
+		s.AddedOn = time.Now().UTC()
+	}
 	v, err := json.Marshal(s)
 	if err != nil {
 		return "", err

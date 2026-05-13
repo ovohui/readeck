@@ -88,12 +88,12 @@ type configOIDC struct {
 
 // OIDCProvider contains an OIDC provider configuration.
 type OIDCProvider struct {
-	Name           string      `json:"name"`
-	URL            string      `json:"url"`
-	ClientID       string      `json:"client_id"`
-	ClientSecret   string      `json:"client_secret"`
-	Groups         [][2]string `json:"groups"`
-	NoProvisioning bool        `json:"no_provisioning"`
+	Name                string      `json:"name"`
+	URL                 string      `json:"url"`
+	ClientID            string      `json:"client_id"`
+	ClientSecret        string      `json:"client_secret"`
+	Groups              [][2]string `json:"groups"`
+	ProvisioningEnabled bool        `json:"provisioning"`
 }
 
 type configDB struct {

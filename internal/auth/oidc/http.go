@@ -9,14 +9,12 @@ import (
 	"log/slog"
 	"net/http"
 	"slices"
-	"time"
 
 	"github.com/coreos/go-oidc/v3/oidc"
 	"github.com/go-chi/chi/v5"
 	"golang.org/x/oauth2"
 
 	"codeberg.org/readeck/readeck/internal/auth/signin"
-	"codeberg.org/readeck/readeck/internal/auth/users"
 	"codeberg.org/readeck/readeck/internal/server"
 	"codeberg.org/readeck/readeck/internal/sessions"
 	"codeberg.org/readeck/readeck/pkg/forms"
@@ -140,8 +138,8 @@ func (h *oidcHandler) oidcCallback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// it might be enough information (email and group)
-	if info.Email == "" || info.Groups == nil {
+	// it might not be enough information so fetch the user if we can
+	if info.Username == "" || info.Email == "" || info.Groups == nil {
 		// Get user information
 		info, err = provider.GetUser(r.Context(), token)
 		if err != nil {
@@ -150,60 +148,26 @@ func (h *oidcHandler) oidcCallback(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Get group from mapping
-	for _, g := range provider.Groups {
-		if slices.Contains(info.Groups, g[0]) {
-			info.Group = g[1]
-			break
-		}
-	}
-
-	slog.Debug("OIDC user",
-		slog.Any("email", info.Email),
-		slog.String("group", info.Group),
-		slog.Any("groups", info.Groups),
-	)
-
 	// We don't need the oidc cookie anymore
 	tracker.Delete(w, r)
 
-	userForm := forms.New[users.ProvisioningForm](
-		forms.WithTranslator(r.Context(), server.Locale(r)),
+	// Provisioning user
+	form := info.provisioningForm()
+	slog.Debug("OIDC user",
+		slog.Any("id", form.ID.Value()),
+		slog.Any("username", form.Username.Value()),
+		slog.Any("email", form.Email.Value()),
+		slog.String("group", form.Group.Value()),
 	)
 
-	user, update, err := userForm.LoadUser(info.Email, info.Email, info.Group)
-	if err != nil {
-		if fe, ok := errors.AsType[forms.Errors](err); ok {
-			server.Err(w, r, newError(fe, withStatus(http.StatusForbidden)))
-		} else {
-			server.Err(w, r, newError(err))
-		}
-
+	if !form.IsValid() {
+		server.Err(w, r, newError(form.errors(), withStatus(http.StatusInternalServerError)))
 		return
 	}
 
-	if user.IsAnonymous() {
-		// If user does not exist we might provision it or reject the request,
-		// according to the setting [ForwardedAuthProvider.AllowProvisioning].
-		if provider.NoProvisioning {
-			server.Err(w, r, errNoProvisioning)
-			return
-		}
-
-		if err = users.Users.Create(user); err != nil {
-			server.Err(w, r, newError(err))
-			return
-		}
-	} else if len(update) > 0 {
-		// When user is known, we might need to update them.
-		update["updated"] = time.Now().UTC()
-	}
-
-	// Prepare session
-	// Update user with provided update info and last_login
-	update["last_login"] = time.Now().UTC()
-	if err = user.Update(update); err != nil {
-		server.Err(w, r, newError(err))
+	user, err := form.execute(provider)
+	if err != nil {
+		server.Err(w, r, err)
 		return
 	}
 
@@ -211,7 +175,6 @@ func (h *oidcHandler) oidcCallback(w http.ResponseWriter, r *http.Request) {
 	sess, _ := sessions.New(server.SessionHandler(), r)
 	sess.Payload.User = user.ID
 	sess.Payload.Seed = user.Seed
-	sess.Payload.External = true
 	sess.Payload.RequiresMFA = user.RequiresMFA()
 	sess.Save(w, r)
 

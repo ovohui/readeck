@@ -164,7 +164,7 @@ func (v Views) userProfile(f *profileForm) templ.Component {
 				F.Label(L(ctx).Gettext("Username")),
 				F.Required(true),
 				F.Classes("field-h"),
-				F.InputAttr("disabled", user.Locked()),
+				F.InputAttr("disabled", user.IsExternal()),
 			).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -174,7 +174,7 @@ func (v Views) userProfile(f *profileForm) templ.Component {
 				F.Label(L(ctx).Gettext("Email Address")),
 				F.Required(true),
 				F.Classes("field-h"),
-				F.InputAttr("disabled", user.Locked()),
+				F.InputAttr("disabled", user.IsExternal()),
 			).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err

@@ -50,13 +50,6 @@ type cookie struct {
 	PKCEVerifier string `json:"v"`
 }
 
-// userInfo contains the information gathered after the token exchange.
-type userInfo struct {
-	Email  string   `json:"email,omitempty"`
-	Groups []string `json:"groups,omitempty"`
-	Group  string   `json:"-"`
-}
-
 func randText(l int) string {
 	src := make([]byte, l)
 	rand.Read(src)
@@ -205,7 +198,7 @@ func (p *providerInfo) Exchange(ctx context.Context, code, nonce, pkceVerifier s
 	// Verify id_token, if any
 	rawID, ok := token.Extra("id_token").(string)
 	if !ok {
-		return token, &userInfo{}, nil
+		return token, &userInfo{provider: p}, nil
 	}
 
 	verifier := p.Config.NewProvider(ctx).Verifier(&oidc.Config{
@@ -224,7 +217,7 @@ func (p *providerInfo) Exchange(ctx context.Context, code, nonce, pkceVerifier s
 	}
 
 	// Retrieve the claims, it's ok to fail here.
-	userInfo := &userInfo{}
+	userInfo := &userInfo{provider: p}
 	_ = tokenID.Claims(userInfo)
 
 	return token, userInfo, nil
@@ -240,7 +233,8 @@ func (p *providerInfo) GetUser(ctx context.Context, token *oauth2.Token) (*userI
 	}
 
 	res := &userInfo{
-		Email: info.Email,
+		provider: p,
+		Email:    info.Email,
 	}
 	if err = info.Claims(res); err != nil {
 		return nil, err
