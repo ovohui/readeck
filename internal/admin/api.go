@@ -218,29 +218,31 @@ func newUserList(ctx context.Context, ds *goqu.SelectDataset) (*userList, error)
 }
 
 type userItem struct {
-	ID        string              `json:"id"`
-	Href      string              `json:"href"`
-	Username  string              `json:"username"`
-	Email     string              `json:"email"`
-	Group     string              `json:"group"`
-	Created   time.Time           `json:"created"`
-	Updated   time.Time           `json:"updated"`
-	LastLogin time.Time           `json:"last_login"`
-	Settings  *users.UserSettings `json:"settings,omitempty"`
-	IsDeleted bool                `json:"is_deleted"`
+	ID         string              `json:"id"`
+	Href       string              `json:"href"`
+	Username   string              `json:"username"`
+	Email      string              `json:"email"`
+	Group      string              `json:"group"`
+	Created    time.Time           `json:"created"`
+	Updated    time.Time           `json:"updated"`
+	LastLogin  time.Time           `json:"last_login"`
+	Settings   *users.UserSettings `json:"settings,omitempty"`
+	IsExternal bool                `json:"is_external"`
+	IsDeleted  bool                `json:"is_deleted"`
 }
 
 func newUserItem(ctx context.Context, u *users.User) *userItem {
 	return &userItem{
-		ID:        u.UID,
-		Href:      urls.AbsoluteURLContext(ctx, "/api/admin/users", u.UID).String(),
-		Username:  u.Username,
-		Email:     u.Email,
-		Group:     u.Group,
-		Created:   u.Created,
-		Updated:   u.Updated,
-		LastLogin: u.LastLogin,
-		IsDeleted: deleteUserTask.IsRunning(u.ID),
+		ID:         u.UID,
+		Href:       urls.AbsoluteURLContext(ctx, "/api/admin/users", u.UID).String(),
+		Username:   u.Username,
+		Email:      u.Email,
+		Group:      u.Group,
+		Created:    u.Created,
+		Updated:    u.Updated,
+		LastLogin:  u.LastLogin,
+		IsExternal: u.IsExternal(),
+		IsDeleted:  deleteUserTask.IsRunning(u.ID),
 	}
 }
 

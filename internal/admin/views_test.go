@@ -111,7 +111,7 @@ func TestViews(t *testing.T) {
 		client.RT(t,
 			WithTarget(client.History[0].Response.Redirect),
 			AssertStatus(200),
-			AssertContains("test3</h1>"),
+			AssertContains(">test3"),
 		)
 
 		// Update user
@@ -126,7 +126,7 @@ func TestViews(t *testing.T) {
 		client.RT(t,
 			WithTarget(client.History[0].Response.Redirect),
 			AssertStatus(200),
-			AssertContains("test1</h1>"),
+			AssertContains(">test1"),
 			AssertContains("<strong>User updated.</strong>"),
 		)
 
@@ -156,7 +156,7 @@ func TestViews(t *testing.T) {
 		client.RT(t,
 			WithTarget(client.History[0].Response.Redirect),
 			AssertStatus(200),
-			AssertContains("admin</h1>"),
+			AssertContains(">admin"),
 			AssertContains("<strong>User updated.</strong>"),
 		)
 

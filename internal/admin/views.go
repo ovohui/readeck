@@ -7,7 +7,9 @@ package admin
 import (
 	"log/slog"
 	"net/http"
+	"time"
 
+	"github.com/doug-martin/goqu/v9"
 	"github.com/go-chi/chi/v5"
 
 	"codeberg.org/readeck/readeck/components"
@@ -38,6 +40,7 @@ func newAdminViews(api *adminAPI) *adminViews {
 		r.Post("/users/add", h.userCreate)
 		r.With(api.withUser).Post("/users/{uid:[a-zA-Z0-9]{18,22}}", h.userInfo)
 		r.With(api.withUser).Post("/users/{uid:[a-zA-Z0-9]{18,22}}/delete", h.userDelete)
+		r.With(api.withUser).Post("/users/{uid:[a-zA-Z0-9]{18,22}}/detach", h.userDetach)
 	})
 
 	return h
@@ -140,4 +143,20 @@ func (h *adminViews) userDelete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	server.Redirect(w, r, f.To.String())
+}
+
+func (h *adminViews) userDetach(w http.ResponseWriter, r *http.Request) {
+	tr := server.Locale(r)
+	u := getUser(r.Context())
+	if err := u.Update(goqu.Record{
+		"ext_id":   nil,
+		"ext_info": nil,
+		"updated":  time.Now().UTC(),
+	}); err != nil {
+		server.Err(w, r, err)
+		return
+	}
+
+	server.AddFlash(w, r, "success", tr.Gettext("User detached."))
+	server.Redirect(w, r, "..", u.UID)
 }

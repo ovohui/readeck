@@ -28,17 +28,25 @@ templ (v Views) userList(ul *userList) {
 				@List("my-6") {
 					for _, u := range ul.Items {
 						@ListItem("flex gap-2 items-center hfw:bg-gray-100 max-md:block") {
-							<a class="block sm:flex flex-grow p-4" href={ URL(ctx, ".", u.ID) }>
-								<span class="grow">
+							<a class="block sm:flex items-center flex-grow p-4" href={ URL(ctx, ".", u.ID) }>
+								<span class="grow inline-flex gap-2 items-center">
 									<strong class="link font-semibold">{ u.Username }</strong>
 									({ u.Group })
+									if u.IsExternal {
+										@Icon("o-ext-auth",
+											WithIconClass("text-blue-800"),
+											WithIconAttrs(templ.Attributes{"title": L(ctx).Gettext("External User")}),
+										)
+									}
+									if u.ID == server.GetUser(ctx).UID {
+										@Icon("o-user",
+											WithIconClass("text-green-700"),
+											WithIconAttrs(templ.Attributes{"title": L(ctx).Gettext("This is you!")}),
+										)
+									}
 								</span>
 								<small class="block sm:text-right">
-									{ L(ctx).Gettext("Created on: %s", Strftime(ctx, u.Created, "%e %B %Y %H:%M")) }
-									<br/>
-									{ L(ctx).Gettext("Last update: %s", Strftime(ctx, u.Updated, "%e %B %Y %H:%M")) }
 									if !u.LastLogin.IsZero() {
-										<br/>
 										{ L(ctx).Gettext("Last login: %s", Strftime(ctx, u.LastLogin, "%e %B %Y %H:%M")) }
 									}
 								</small>
@@ -108,7 +116,14 @@ templ (v Views) userInfo(f *userForm, u *extendedUserItem) {
 		user := server.GetUser(ctx)
 	}}
 	@v.base(title) {
-		<h1 class="title text-h2">{ u.Username }</h1>
+		<h1 class="title text-h2">
+			{ u.Username }
+			if u.ID == user.UID {
+				<span class="text-lg text-green-700">
+					({ L(ctx).Gettext("This is you!") })
+				</span>
+			}
+		</h1>
 		if u.IsDeleted {
 			<form action={ URL(ctx, ".", "delete") } method="POST">
 				<input type="hidden" name="_to" value={ CurrentPath(ctx) }/>
@@ -125,40 +140,59 @@ templ (v Views) userInfo(f *userForm, u *extendedUserItem) {
 				F.Label(L(ctx).Gettext("Username")),
 				F.Required(true),
 				F.Classes("field-h"),
+				F.InputAttr("disabled", f.user.IsExternal()),
 			)
 			@F.TextField(&f.Email,
 				F.InputType("email"),
 				F.Label(L(ctx).Gettext("Email address")),
 				F.Required(true),
 				F.Classes("field-h"),
+				F.InputAttr("disabled", f.user.IsExternal()),
 			)
 			@F.SelectField[string](&f.Group,
 				F.Label(L(ctx).Gettext("Group")),
 				F.Required(true),
 				F.Classes("field-h"),
+				F.InputAttr("disabled", f.user.IsExternal()),
 			)
-			@F.PasswordField(&f.Password,
-				F.Label(L(ctx).Gettext("Password")),
-				F.Classes("field-h"),
-				F.InputAttr("autocomplete", "off"),
-				F.Help(L(ctx).Gettext("will not change if empty")),
-			)
-			<p class="btn-block">
-				<button class="btn btn-primary" type="submit">{ L(ctx).Gettext("Save") }</button>
-				if u.ID != user.UID && !u.IsDeleted {
-					<button
-						class="ml-auto btn-outlined btn-danger"
-						type="submit"
-						formaction={ URL(ctx, ".", "delete") }
-					>
-						{ L(ctx).Gettext("Delete this user") }
-					</button>
-				}
-			</p>
+			if !f.user.IsExternal() {
+				@F.PasswordField(&f.Password,
+					F.Label(L(ctx).Gettext("Password")),
+					F.Classes("field-h"),
+					F.InputAttr("autocomplete", "off"),
+					F.Help(L(ctx).Gettext("will not change if empty")),
+				)
+			}
+			{{
+				canEdit := !f.user.IsExternal()
+				canDelete := u.ID != user.UID && !u.IsDeleted
+			}}
+			if canEdit || canDelete {
+				<div class="btn-block">
+					if canEdit {
+						<button class="btn btn-primary" type="submit">{ L(ctx).Gettext("Save") }</button>
+					}
+					if canDelete {
+						<button
+							class="ml-auto btn-outlined btn-danger"
+							type="submit"
+							formaction={ URL(ctx, ".", "delete") }
+						>
+							{ L(ctx).Gettext("Delete this user") }
+						</button>
+					}
+				</div>
+			}
 		</form>
+		<div class="field field-h sm:mb-0.5">
+			<label>{ L(ctx).Gettext("Created on") }</label>
+			<div class="control">
+				{ Strftime(ctx, u.Created, "%e %B %Y %H:%M") }
+			</div>
+		</div>
 		if !u.LastLogin.IsZero() {
 			<div class="field field-h sm:mb-0.5">
-				<label>{ L(ctx).Gettext("Last login") }</label>
+				<label>{ L(ctx).Gettext("Last Login") }</label>
 				<div class="control">
 					{ Strftime(ctx, u.LastLogin, "%e %B %Y %H:%M") }
 				</div>
@@ -177,8 +211,25 @@ templ (v Views) userInfo(f *userForm, u *extendedUserItem) {
 			<div class="control">{ u.BookmarkCount }</div>
 		</div>
 		<div class="field field-h sm:mb-0.5">
-			<label>{ L(ctx).Gettext("Disk usage") }</label>
+			<label>{ L(ctx).Gettext("Disk Usage") }</label>
 			<div class="control">{ utils.FormatBytes(u.BookmarkDiskUsage) }</div>
 		</div>
+		if f.user.IsExternal() {
+			@Message(WithMessageIcon("o-ext-auth")) {
+				<details>
+					<summary>{ L(ctx).Gettext("External User") }</summary>
+					<form action={ URL(ctx, ".", "detach") } method="post">
+						<p class="my-4">
+							{ L(ctx).Gettext(`
+								This user is attached to an external authentication provider.
+								Therefore, some of their properties are not editable.
+								Detach the user when needed.
+							`) }
+						</p>
+						<button class="btn btn-primary" name="detach" value="1">{ L(ctx).Gettext("Detach this user") }</button>
+					</form>
+				</details>
+			}
+		}
 	}
 }
