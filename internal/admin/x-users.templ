@@ -124,16 +124,7 @@ templ (v Views) userInfo(f *userForm, u *extendedUserItem) {
 				</span>
 			}
 		</h1>
-		if u.IsDeleted {
-			<form action={ URL(ctx, ".", "delete") } method="POST">
-				<input type="hidden" name="_to" value={ CurrentPath(ctx) }/>
-				@Message() {
-					{ L(ctx).Gettext("User will be removed in a few seconds") }
-					&nbsp;
-					<button class="btn btn-primary" name="cancel" value="1">{ L(ctx).Gettext("Cancel") }</button>
-				}
-			</form>
-		}
+		<h2 class="title text-h3">{ L(ctx).Gettext("User information") }</h2>
 		<form class="mb-8" action={ URL(ctx) } method="post">
 			@F.Errors(f)
 			@F.TextField(&f.Username,
@@ -163,24 +154,9 @@ templ (v Views) userInfo(f *userForm, u *extendedUserItem) {
 					F.Help(L(ctx).Gettext("will not change if empty")),
 				)
 			}
-			{{
-				canEdit := !f.user.IsExternal()
-				canDelete := u.ID != user.UID && !u.IsDeleted
-			}}
-			if canEdit || canDelete {
+			if !f.user.IsExternal() {
 				<div class="btn-block">
-					if canEdit {
-						<button class="btn btn-primary" type="submit">{ L(ctx).Gettext("Save") }</button>
-					}
-					if canDelete {
-						<button
-							class="ml-auto btn-outlined btn-danger"
-							type="submit"
-							formaction={ URL(ctx, ".", "delete") }
-						>
-							{ L(ctx).Gettext("Delete this user") }
-						</button>
-					}
+					<button class="btn btn-primary" type="submit">{ L(ctx).Gettext("Save") }</button>
 				</div>
 			}
 		</form>
@@ -214,21 +190,70 @@ templ (v Views) userInfo(f *userForm, u *extendedUserItem) {
 			<label>{ L(ctx).Gettext("Disk Usage") }</label>
 			<div class="control">{ utils.FormatBytes(u.BookmarkDiskUsage) }</div>
 		</div>
-		if f.user.IsExternal() {
-			@Message(WithMessageIcon("o-ext-auth")) {
-				<details>
-					<summary>{ L(ctx).Gettext("External User") }</summary>
-					<form action={ URL(ctx, ".", "detach") } method="post">
-						<p class="my-4">
-							{ L(ctx).Gettext(`
-								This user is attached to an external authentication provider.
-								Therefore, some of their properties are not editable.
-								Detach the user when needed.
-							`) }
+		<h2 class="title text-h3 mt-8">{ L(ctx).Gettext("User Administration") }</h2>
+		@List("my-6") {
+			if u.IsDeleted {
+				@ListItem() {
+					<form class="flex gap-4 items-baseline max-md:flex-col" action={ URL(ctx, ".", "delete") } method="POST">
+						<p class="grow">
+							{ L(ctx).Gettext("User will be removed in a few seconds") }
+							<input type="hidden" name="_to" value={ CurrentPath(ctx) }/>
 						</p>
-						<button class="btn btn-primary" name="detach" value="1">{ L(ctx).Gettext("Detach this user") }</button>
+						<button class="btn btn-primary" name="cancel" value="1">{ L(ctx).Gettext("Cancel") }</button>
 					</form>
-				</details>
+				}
+			} else {
+				@ListItem() {
+					<form class="flex gap-4 items-baseline max-md:flex-col" action={ URL(ctx, ".", "signout") } method="post">
+						<p class="grow">
+							{ L(ctx).Gettext("This will sign this user out of all active sessions on the web application.") }
+						</p>
+						<button class="btn-outlined btn-primary" name="detach" value="1">
+							@Icon("o-logout")
+							{ " " }
+							{ L(ctx).Gettext("Sign this user out") }
+						</button>
+					</form>
+				}
+				if f.user.IsExternal() {
+					@ListItem() {
+						<form class="flex gap-4 items-baseline max-md:flex-col" action={ URL(ctx, ".", "detach") } method="post">
+							<p class="grow">
+								@templ.Raw(L(ctx).Gettext(`
+									This user is attached to an external authentication provider:<br />
+									<strong>%[1]s</strong>.<br />
+									Therefore, some of their properties are not editable.<br />
+									This will detach the user <strong>%[2]s</strong>.
+								`,
+									templ.EscapeString(f.user.ExtInfo.Issuer),
+									templ.EscapeString(f.user.Username),
+								))
+							</p>
+							<button class="btn-outlined btn-primary" name="detach" value="1">
+								@Icon("o-ext-auth")
+								{ " " }
+								{ L(ctx).Gettext("Detach this user") }
+							</button>
+						</form>
+					}
+				}
+				if u.ID != user.UID && !u.IsDeleted {
+					@ListItem() {
+						<form class="flex gap-4 items-baseline max-md:flex-col" action={ URL(ctx, ".", "delete") } method="post">
+							<p class="grow">
+								@templ.Raw(L(ctx).Gettext(
+									`This will delete the user <strong>%s</strong> and all their contents.`,
+									templ.EscapeString(u.Username),
+								))
+							</p>
+							<button class="btn-outlined btn-danger" type="submit">
+								@Icon("o-trash")
+								{ " " }
+								{ L(ctx).Gettext("Delete this user") }
+							</button>
+						</form>
+					}
+				}
 			}
 		}
 	}

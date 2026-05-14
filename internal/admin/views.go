@@ -38,9 +38,12 @@ func newAdminViews(api *adminAPI) *adminViews {
 
 	r.With(server.WithPermission("admin:users", "write")).Group(func(r chi.Router) {
 		r.Post("/users/add", h.userCreate)
-		r.With(api.withUser).Post("/users/{uid:[a-zA-Z0-9]{18,22}}", h.userInfo)
-		r.With(api.withUser).Post("/users/{uid:[a-zA-Z0-9]{18,22}}/delete", h.userDelete)
-		r.With(api.withUser).Post("/users/{uid:[a-zA-Z0-9]{18,22}}/detach", h.userDetach)
+		r.With(api.withUser).Group(func(r chi.Router) {
+			r.Post("/users/{uid:[a-zA-Z0-9]{18,22}}", h.userInfo)
+			r.Post("/users/{uid:[a-zA-Z0-9]{18,22}}/delete", h.userDelete)
+			r.Post("/users/{uid:[a-zA-Z0-9]{18,22}}/detach", h.userDetach)
+			r.Post("/users/{uid:[a-zA-Z0-9]{18,22}}/signout", h.userSignout)
+		})
 	})
 
 	return h
@@ -158,5 +161,28 @@ func (h *adminViews) userDetach(w http.ResponseWriter, r *http.Request) {
 	}
 
 	server.AddFlash(w, r, "success", tr.Gettext("User detached."))
+	server.Redirect(w, r, "..", u.UID)
+}
+
+func (h *adminViews) userSignout(w http.ResponseWriter, r *http.Request) {
+	tr := server.Locale(r)
+	u := getUser(r.Context())
+	u.SetSeed()
+	if err := u.Update(goqu.Record{
+		"seed":    u.Seed,
+		"updated": time.Now().UTC(),
+	}); err != nil {
+		server.Err(w, r, err)
+		return
+	}
+
+	// Refresh session if same user
+	if auth.GetRequestUser(r).ID == u.ID {
+		sess := server.GetSession(r)
+		sess.Payload.User = u.ID
+		sess.Payload.Seed = u.Seed
+	}
+
+	server.AddFlash(w, r, "success", tr.Gettext("User signed out."))
 	server.Redirect(w, r, "..", u.UID)
 }
