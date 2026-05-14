@@ -163,7 +163,6 @@ func (h *authHandler) recover(w http.ResponseWriter, r *http.Request) {
 			email.WithMDText(body),
 		)
 		if err != nil {
-			server.Err(w, r, err)
 			return
 		}
 
