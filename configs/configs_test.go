@@ -162,6 +162,48 @@ func TestEnvVars(t *testing.T) {
 		})
 	}
 
+	t.Run("OIDC settings", func(t *testing.T) {
+		envMap := map[string]string{
+			"READECK_AUTH_OIDC_PROVIDER_1_URL":           "http://auth.example.org",
+			"READECK_AUTH_OIDC_PROVIDER_1_NAME":          "Provider 1",
+			"READECK_AUTH_OIDC_PROVIDER_1_CLIENT_ID":     "",
+			"READECK_AUTH_OIDC_PROVIDER_1_CLIENT_SECRET": "",
+			"READECK_AUTH_OIDC_PROVIDER_1_GROUPS":        "",
+			"READECK_AUTH_OIDC_PROVIDER_1_PROVISIONING":  "1",
+			"READECK_AUTH_OIDC_PROVIDER_2_URL":           "http://auth.example.com",
+			"READECK_AUTH_OIDC_PROVIDER_2_NAME":          "Provider 1",
+			"READECK_AUTH_OIDC_PROVIDER_2_CLIENT_ID":     "",
+			"READECK_AUTH_OIDC_PROVIDER_2_CLIENT_SECRET": "",
+			"READECK_AUTH_OIDC_PROVIDER_2_GROUPS":        "group1=admin group2=user",
+		}
+
+		for k, v := range envMap {
+			t.Setenv(k, v)
+		}
+		cf := config{}
+		err := cf.LoadEnv()
+		require.NoError(t, err)
+
+		require.Equal(t, map[string]OIDCProvider{
+			"PROVIDER_1": {
+				Name:                "Provider 1",
+				URL:                 "http://auth.example.org",
+				ClientID:            "",
+				ClientSecret:        "",
+				Groups:              [][2]string(nil),
+				ProvisioningEnabled: true,
+			},
+			"PROVIDER_2": {
+				Name:                "Provider 1",
+				URL:                 "http://auth.example.com",
+				ClientID:            "",
+				ClientSecret:        "",
+				Groups:              [][2]string{{"group1", "admin"}, {"group2", "user"}},
+				ProvisioningEnabled: false,
+			},
+		}, cf.Auth.OIDC.Providers)
+	})
+
 	t.Run("email settings", func(t *testing.T) {
 		envMap := map[string]string{
 			"READECK_MAIL_DEBUG":       "false",

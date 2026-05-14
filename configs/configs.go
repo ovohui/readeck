@@ -86,16 +86,6 @@ type configOIDC struct {
 	Providers map[string]OIDCProvider `json:"providers"`
 }
 
-// OIDCProvider contains an OIDC provider configuration.
-type OIDCProvider struct {
-	Name                string      `json:"name"`
-	URL                 string      `json:"url"`
-	ClientID            string      `json:"client_id"`
-	ClientSecret        string      `json:"client_secret"`
-	Groups              [][2]string `json:"groups"`
-	ProvisioningEnabled bool        `json:"provisioning"`
-}
-
 type configDB struct {
 	Source string `json:"source" env:"DATABASE_SOURCE,unset"`
 }
@@ -173,13 +163,35 @@ func (c *config) LoadFile(filename string) error {
 }
 
 func (c *config) LoadEnv() error {
-	return env.ParseWithOptions(c, env.Options{
+	err := env.ParseWithOptions(c, env.Options{
 		Prefix:                "READECK_",
 		UseFieldNameByDefault: false,
 	})
+	if err != nil {
+		return err
+	}
+	return c.loadOIDCProviders()
 }
 
 func (c *config) validate() error {
+	for k, v := range c.Auth.OIDC.Providers {
+		f := ""
+		switch {
+		case v.URL == "":
+			f = "url"
+		case v.Name == "":
+			f = "name"
+		case v.ClientID == "":
+			f = "client_id"
+		case v.ClientSecret == "":
+			f = "client_secret"
+		}
+
+		if f != "" {
+			return fmt.Errorf("auth.oidc.providers.%s.%s is empty", k, f)
+		}
+	}
+
 	return nil
 }
 

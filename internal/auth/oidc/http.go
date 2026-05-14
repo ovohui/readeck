@@ -5,6 +5,7 @@
 package oidc
 
 import (
+	"crypto/subtle"
 	"errors"
 	"log/slog"
 	"net/http"
@@ -114,7 +115,7 @@ func (h *oidcHandler) oidcCallback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if tracker.State != f.State.Value() {
+	if subtle.ConstantTimeCompare([]byte(tracker.State), []byte(f.State.Value())) == 0 {
 		server.Err(w, r, errState)
 		return
 	}
