@@ -48,6 +48,7 @@ type cookie struct {
 	State        string `json:"s"`
 	Nonce        string `json:"n"`
 	PKCEVerifier string `json:"v"`
+	Redir        string `json:"r"`
 }
 
 func randText(l int) string {
@@ -204,7 +205,7 @@ func (p *providerInfo) Exchange(ctx context.Context, code, nonce, pkceVerifier s
 	verifier := p.Config.NewProvider(ctx).Verifier(&oidc.Config{
 		ClientID:                   p.OAuth.ClientID,
 		SupportedSigningAlgs:       p.Config.Algorithms,
-		InsecureSkipSignatureCheck: true,
+		InsecureSkipSignatureCheck: false,
 	})
 
 	tokenID, err := verifier.Verify(ctx, rawID)

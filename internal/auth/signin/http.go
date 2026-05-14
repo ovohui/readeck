@@ -62,36 +62,38 @@ func newAuthHandler(srv *server.Server) *authHandler {
 	return h
 }
 
-func (h *authHandler) redirTo(w http.ResponseWriter, r *http.Request, redir string) {
-	// Get redirection from a form "redirect" parameter
-	// Since it goes to Redirect(), it will be sanitized there
-	// and can only stay within the app.
+// Redirect triggers a 303 response with a redirect location, taking
+// care of not sending the user to the login page again.
+// Since it goes to [server.Redirect], it will be sanitized there
+// and can only stay within the app.
+func Redirect(w http.ResponseWriter, r *http.Request, redir string) {
 	if redir == "" || strings.HasPrefix(redir, "/login") {
 		redir = "/"
 	}
 	server.Redirect(w, r, redir)
 }
 
-func (h *authHandler) redirToMFA(w http.ResponseWriter, r *http.Request, redir string) {
+// RedirectToMFA triggers a 303 response to the MFA page, keeping
+// the initial redirect value.
+func RedirectToMFA(w http.ResponseWriter, r *http.Request, redir string) {
 	v := url.Values{"r": {redir}}
 	server.Redirect(w, r, "/login/mfa?"+v.Encode())
 }
 
 func (h *authHandler) login(w http.ResponseWriter, r *http.Request) {
-	// f := newLoginForm(server.Locale(r))
 	f := forms.New[loginForm](r.Context())
 
 	if r.Method == http.MethodGet {
-		// // Set the redirect value from the query string
+		// Set the redirect value from the query string
 		_ = forms.UnmarshalValues(r.URL.Query()[f.Redirect.Name()], &f.Redirect)
 
 		// Do we have a session already?
 		if sess := server.GetSession(r); sess.Payload.User != 0 {
 			if sess.Payload.RequiresMFA {
-				h.redirToMFA(w, r, f.Redirect.Value())
+				RedirectToMFA(w, r, f.Redirect.Value())
 				return
 			}
-			h.redirTo(w, r, f.Redirect.Value())
+			Redirect(w, r, f.Redirect.Value())
 			return
 		}
 	}
@@ -111,7 +113,7 @@ func (h *authHandler) login(w http.ResponseWriter, r *http.Request) {
 				sess.Save(w, r)
 
 				if sess.Payload.RequiresMFA {
-					h.redirToMFA(w, r, f.Redirect.Value())
+					RedirectToMFA(w, r, f.Redirect.Value())
 					return
 				}
 
@@ -119,7 +121,7 @@ func (h *authHandler) login(w http.ResponseWriter, r *http.Request) {
 					"last_login": time.Now().UTC(),
 				})
 
-				h.redirTo(w, r, f.Redirect.Value())
+				Redirect(w, r, f.Redirect.Value())
 				return
 			}
 			// we must set the content type to avoid the

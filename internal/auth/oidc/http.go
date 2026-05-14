@@ -67,6 +67,7 @@ func (h *oidcHandler) oidcRedirect(w http.ResponseWriter, r *http.Request) {
 		ID:    id,
 		State: randText(10),
 		Nonce: randText(10),
+		Redir: r.FormValue("r"),
 	}
 
 	if slices.Contains(cf.Config.CodeChallengeMethodsSupported, "S256") {
@@ -149,6 +150,7 @@ func (h *oidcHandler) oidcCallback(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// We don't need the oidc cookie anymore
+	redir := tracker.Redir
 	tracker.Delete(w, r)
 
 	// Provisioning user
@@ -178,5 +180,10 @@ func (h *oidcHandler) oidcCallback(w http.ResponseWriter, r *http.Request) {
 	sess.Payload.RequiresMFA = user.RequiresMFA()
 	sess.Save(w, r)
 
-	server.Redirect(w, r, "/")
+	if sess.Payload.RequiresMFA {
+		signin.RedirectToMFA(w, r, redir)
+		return
+	}
+
+	signin.Redirect(w, r, redir)
 }

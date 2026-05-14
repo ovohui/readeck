@@ -28,6 +28,7 @@ templ (_ Components) OIDC() {
 		<form action={ URL(ctx, "/login/oidc") } method="post">
 			<fieldset class="mt-8 border-t">
 				<legend class="mx-auto px-2">{ L(ctx).Gettext("Or continue with") }</legend>
+				{ children... }
 				<ul class="mt-4">
 					for _, id := range slices.Sorted(maps.Keys(providers)) {
 						<li>
@@ -68,7 +69,7 @@ templ (v Views) base(title string) {
 templ (v Views) Error(status int) {
 	@BasePage(L(ctx).Gettext("Error")) {
 		@v.header()
-		<main class="w-full max-w-sm p-8 mt-6 mx-auto text-center" id="content">
+		<main class="w-full max-w-sm p-8 mt-6 mx-auto text-center border border-red-800 bg-red-100 rounded-md" id="content">
 			<h2 class="title text-h3">{ L(ctx).Gettext("An error occurred") }</h2>
 			<p>{ http.StatusText(status) }</p>
 			<p class="mt-8">
@@ -115,7 +116,9 @@ templ (v Views) signIn(f *loginForm) {
 				</a>
 			</p>
 		}
-		@Components{}.OIDC()
+		@Components{}.OIDC() {
+			<input type="hidden" name={ f.Redirect.Name() } value={ f.Redirect.Value() }/>
+		}
 	}
 }
 
