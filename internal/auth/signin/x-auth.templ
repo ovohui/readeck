@@ -21,6 +21,30 @@ func SigninLayout(title string) templ.Component {
 	return Views{}.base(title)
 }
 
+type Components struct{}
+
+templ (_ Components) OIDC() {
+	if providers := configs.Config.Auth.OIDC.Providers; len(providers) > 0 {
+		<form action={ URL(ctx, "/login/oidc") } method="post">
+			<fieldset class="mt-8 border-t">
+				<legend class="mx-auto px-2">{ L(ctx).Gettext("Or continue with") }</legend>
+				<ul class="mt-4">
+					for _, id := range slices.Sorted(maps.Keys(providers)) {
+						<li>
+							<button
+								class="btn btn-outlined font-semibold w-full mb-4 rounded-md"
+								type="submit"
+								name="id"
+								value={ id }
+							>{ providers[id].Name }</button>
+						</li>
+					}
+				</ul>
+			</fieldset>
+		</form>
+	}
+}
+
 templ (_ Views) header() {
 	<h1 class="max-w-sm mt-12 mx-auto px-8">
 		<div>
@@ -91,25 +115,7 @@ templ (v Views) signIn(f *loginForm) {
 				</a>
 			</p>
 		}
-		if providers := configs.Config.Auth.OIDC.Providers; len(providers) > 0 {
-			<form action={ URL(ctx, "/login/oidc") } method="post">
-				<fieldset class="mt-8 border-t">
-					<legend class="mx-auto px-2">{ L(ctx).Gettext("Or continue with") }</legend>
-					<ul class="mt-4">
-						for _, id := range slices.Sorted(maps.Keys(providers)) {
-							<li>
-								<button
-									class="btn btn-outlined font-semibold w-full mb-4 rounded-md"
-									type="submit"
-									name="id"
-									value={ id }
-								>{ providers[id].Name }</button>
-							</li>
-						}
-					</ul>
-				</fieldset>
-			</form>
-		}
+		@Components{}.OIDC()
 	}
 }
 

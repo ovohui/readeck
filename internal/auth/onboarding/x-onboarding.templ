@@ -5,6 +5,8 @@
 package onboarding
 
 import (
+	"codeberg.org/readeck/readeck/internal/auth/signin"
+
 	. "codeberg.org/readeck/readeck/components"
 	F "codeberg.org/readeck/readeck/components/forms"
 )
@@ -59,6 +61,7 @@ templ (_ Views) onboarding(f *onboardingForm) {
 					</button>
 				</p>
 			</form>
+			@signin.Components{}.OIDC()
 		</main>
 	}
 }
