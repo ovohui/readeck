@@ -151,6 +151,11 @@ func newProvider(ctx context.Context, cf *configs.OIDCProvider) (*providerInfo, 
 	return res, nil
 }
 
+// Clear removes all cached providers. Used by tests.
+func (pl *providerList) Clear() {
+	pl.items = map[string]providerInfo{}
+}
+
 // get returns a [providerInfo] from an ID.
 // Providers are loaded from the configuration the first time
 // we need them.
