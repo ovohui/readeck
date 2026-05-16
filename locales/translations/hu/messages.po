@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-02-04 20:03+0100\n"
+"POT-Creation-Date: 2026-05-16 15:13+0200\n"
 "PO-Revision-Date: 2025-05-27 06:01+0000\n"
 "Last-Translator: arpad <user240803@noreply.codeberg.org>\n"
 "Language: hu_HU\n"
@@ -17,384 +17,469 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: assets/templates/_layouts/sidemenu.jet.html:29
-#: assets/templates/bookmarks/bookmark.jet.html:26
-#: assets/templates/error.jet.html:12
-msgid "Menu"
-msgstr "Menü"
-
-#: assets/templates/_layouts/sidemenu.jet.html:30
-msgid "Secondary Menu"
-msgstr "Másodlagos menü"
-
-#: assets/templates/_layouts/sidemenu.jet.html:31
-#: assets/templates/bookmarks/bookmark.jet.html:27
-#: assets/templates/error.jet.html:13
-msgid "Main content"
-msgstr "Tartalom"
-
-#: assets/templates/_layouts/sidemenu.jet.html:46
-msgid "Close menu"
-msgstr "Menü bezárása"
-
-#: assets/templates/_libs/common.jet.html:1
-msgid "Quick access menu"
-msgstr "Gyors elérés menü"
-
-#: assets/templates/_libs/common.jet.html:1
+#: components/breadcrumbs.templ:13
 msgid "Home Page"
 msgstr "Kezdőlap"
 
-#: assets/templates/_libs/forms.jet.html:1
-#: assets/templates/_libs/forms.jet.html:42
-#: assets/templates/bookmarks/import/form-csv.jet.html:55
-msgid "Required"
-msgstr "Kötelező"
+#: components/errors.templ:10 components/errors.templ:18
+#: components/layout.templ:233 internal/auth/oauth2/x-oauth.templ:29
+msgid "Error"
+msgstr "Hiba"
 
-#: assets/templates/_libs/forms.jet.html:10
+#: components/errors.templ:12 components/layout.templ:166
+#: internal/bookmarks/routes/x-bookmark.templ:48
+msgid "Menu"
+msgstr "Menü"
+
+#: components/errors.templ:13 components/layout.templ:168
+#: internal/bookmarks/routes/x-bookmark.templ:49
+msgid "Main content"
+msgstr "Tartalom"
+
+#: components/errors.templ:21
+msgid "Permission denied."
+msgstr "Hozzáférés megtagadva."
+
+#: components/errors.templ:23
+msgid "Page not found."
+msgstr "Oldal nem található."
+
+#: components/errors.templ:25 components/layout.templ:236
+#: internal/bookmarks/routes/x-shared-public.templ:113
+msgid "An error occurred."
+msgstr "Hiba történt."
+
+#: components/forms/forms.templ:21
 msgid "Errors"
 msgstr "Hibák"
 
-#: assets/templates/_libs/forms.jet.html:16
+#: components/forms/forms.templ:28
 msgid "Please check your form for errors."
 msgstr "Ellenőrizze az űrlapot."
 
-#: assets/templates/_libs/forms.jet.html:262
+#: components/forms/forms.templ:48 components/forms/forms.templ:52
+#: internal/bookmarks/importer/x-forms.templ:126
+msgid "Required"
+msgstr "Kötelező"
+
+#: components/forms/forms.templ:349
 msgid "The previous"
 msgstr "Előző"
 
-#: assets/templates/_libs/forms.jet.html:271
+#: components/forms/forms.templ:364
 msgid "Day(s)"
 msgstr "Nap(ok)"
 
-#: assets/templates/_libs/forms.jet.html:272
+#: components/forms/forms.templ:365
 msgid "Week(s)"
 msgstr "Hét"
 
-#: assets/templates/_libs/forms.jet.html:273
+#: components/forms/forms.templ:366
 msgid "Month(s)"
 msgstr "Hónap(ok)"
 
-#: assets/templates/_libs/forms.jet.html:274
+#: components/forms/forms.templ:367
 msgid "Year(s)"
 msgstr "Év(ek)"
 
-#: assets/templates/_libs/forms.jet.html:277
+#: components/forms/forms.templ:370
 msgctxt "word"
 msgid "or"
 msgstr "vagy"
 
-#: assets/templates/_libs/forms.jet.html:307
+#: components/forms/forms.templ:399
 msgid "Select or drop file"
 msgstr "Válassza ki vagy húzza ide a fájlt"
 
-#: assets/templates/_libs/forms.jet.html:311
+#: components/forms/forms.templ:407
 msgid "remove"
 msgstr "eltávolítás"
 
-#: assets/templates/_libs/pagination.jet.html:1
-msgid "Go to previous page"
-msgstr "Tovább az előző oldalra"
+#: components/layout.templ:72
+#, fuzzy
+msgid "Home page"
+msgstr "Kezdőlap"
 
-#: assets/templates/_libs/pagination.jet.html:1
-#, python-format
-msgid "Go to page %d"
-msgstr "Tovább a %d oldalra"
-
-#: assets/templates/_libs/pagination.jet.html:1
-msgid "Go to next page"
-msgstr "Tovább a következő oldalra"
-
-#: assets/templates/_libs/pagination.jet.html:10
-msgctxt "page"
-msgid "Previous"
-msgstr "Előző"
-
-#: assets/templates/_libs/pagination.jet.html:15
-msgctxt "page"
-msgid "Next"
-msgstr "Következő"
-
-#: assets/templates/admin/user.jet.html:9
-#: assets/templates/admin/user_list.jet.html:9
-#: assets/templates/profile/base.jet.html:45 internal/admin/views.go:59
-#: internal/admin/views.go:89 internal/admin/views.go:134
-msgid "Users"
-msgstr "Felhasználók"
-
-#: assets/templates/admin/user.jet.html:18
-msgid "User will be removed in a few seconds"
-msgstr "A felhasználó néhány másodpercen belül eltávolításra kerül"
-
-#: assets/templates/admin/user.jet.html:19
-#: assets/templates/admin/user_list.jet.html:48
-#: assets/templates/bookmarks/collection.jet.html:27
-#: assets/templates/bookmarks/components/card.jet.html:99
-#: assets/templates/bookmarks/import/form-browser.jet.html:48
-#: assets/templates/bookmarks/import/form-csv.jet.html:34
-#: assets/templates/bookmarks/import/form-goodlinks.jet.html:34
-#: assets/templates/bookmarks/import/form-linkwarden.jet.html:34
-#: assets/templates/bookmarks/import/form-omnivore.jet.html:43
-#: assets/templates/bookmarks/import/form-pocket-file.jet.html:50
-#: assets/templates/bookmarks/import/form-readwise.jet.html:34
-#: assets/templates/bookmarks/import/form-text.jet.html:35
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:69
-#: assets/templates/bookmarks/label.jet.html:57
-#: assets/templates/profile/app_list.jet.html:66
-#: assets/templates/profile/token.jet.html:19
-#: assets/templates/profile/token_list.jet.html:63
-msgid "Cancel"
-msgstr "Mégse"
-
-#: assets/templates/admin/user.jet.html:29
-#: assets/templates/admin/user_create.jet.html:19
-#: assets/templates/auth/onboarding.jet.html:23
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:40
-#: assets/templates/profile/index.jet.html:32
-msgid "Username"
-msgstr "Felhasználónév"
-
-#: assets/templates/admin/user.jet.html:35
-#: assets/templates/admin/user_create.jet.html:25
-#: assets/templates/auth/onboarding.jet.html:36
-#: assets/templates/auth/recover.jet.html:28
-msgid "Email address"
-msgstr "E-mail cím"
-
-#: assets/templates/admin/user.jet.html:39
-#: assets/templates/admin/user_create.jet.html:30
-msgid "Group"
-msgstr "Csoport"
-
-#: assets/templates/admin/user.jet.html:44
-#: assets/templates/admin/user_create.jet.html:35
-#: assets/templates/auth/login.jet.html:30
-#: assets/templates/auth/onboarding.jet.html:28
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:47
-msgid "Password"
-msgstr "Jelszó"
-
-#: assets/templates/admin/user.jet.html:47
-msgid "will not change if empty"
-msgstr "nem fog változni, ha üres"
-
-#: assets/templates/admin/user.jet.html:50
-#: assets/templates/bookmarks/bookmark_update.jet.html:17
-#: assets/templates/bookmarks/collection.jet.html:82
-#: assets/templates/bookmarks/collection_create.jet.html:29
-#: assets/templates/bookmarks/components/content_block.jet.html:71
-#: assets/templates/bookmarks/components/content_block.jet.html:73
-#: assets/templates/bookmarks/components/title_block.jet.html:29
-#: assets/templates/profile/index.jet.html:100
-#: assets/templates/profile/password.jet.html:38
-#: assets/templates/profile/token.jet.html:73
-msgid "Save"
-msgstr "Mentés"
-
-#: assets/templates/admin/user.jet.html:53
-msgid "Delete this user"
-msgstr "Ezen felhasználó törlése"
-
-#: assets/templates/admin/user.jet.html:60
-msgid "Last login"
-msgstr ""
-
-#: assets/templates/admin/user.jet.html:69
-msgid "Last Activity"
-msgstr ""
-
-#: assets/templates/admin/user.jet.html:75
-#: assets/templates/bookmarks/base.jet.html:15
-#: assets/templates/bookmarks/bookmark.jet.html:15
-#: assets/templates/menu.jet.html:20
-#: internal/bookmarks/routes/views_bookmarks.go:208
-#: internal/bookmarks/routes/views_import.go:28
-#: internal/bookmarks/routes/views_import.go:37
+#: components/layout.templ:80 internal/admin/x-users.templ:186
+#: internal/bookmarks/routes/views_bookmarks.go:302
+#: internal/bookmarks/routes/views_bookmarks.go:322
+#: internal/bookmarks/routes/views_bookmarks.go:352
+#: internal/bookmarks/routes/views_import.go:23
+#: internal/bookmarks/routes/views_import.go:36
 #: internal/bookmarks/routes/views_import.go:68
+#: internal/bookmarks/routes/x-base.templ:21
+#: internal/bookmarks/routes/x-bookmark.templ:46
 msgid "Bookmarks"
 msgstr "Könyjelzők"
 
-#: assets/templates/admin/user.jet.html:80
-msgid "Disk usage"
-msgstr ""
+#: components/layout.templ:90 components/layout.templ:95
+msgid "Change color theme"
+msgstr "Színtéma módosítása"
 
-#: assets/templates/admin/user_create.jet.html:9 internal/admin/views.go:90
-msgid "New User"
-msgstr "Új felhasználó"
+#: components/layout.templ:108 internal/profile/x-base.templ:14
+msgid "Settings"
+msgstr "Beállítások"
 
-#: assets/templates/admin/user_create.jet.html:41
-msgid "Create user"
-msgstr "Felhasználó létrehozása"
+#: components/layout.templ:110
+#: internal/bookmarks/routes/x-bookmark-list.templ:121
+#: internal/bookmarks/routes/x-collections.templ:217 internal/docs/http.go:179
+#: internal/docs/http.go:256 internal/docs/http.go:307
+msgid "Documentation"
+msgstr "Dokumentáció"
 
-#: assets/templates/admin/user_list.jet.html:14
-msgid "Add a new user"
-msgstr "Új felhasználó hozzáadása"
+#: components/layout.templ:144
+msgid "Quick access menu"
+msgstr "Gyors elérés menü"
 
-#: assets/templates/admin/user_list.jet.html:32
-#: assets/templates/profile/token_list.jet.html:44
-#, python-format
-msgid "Created on: %s"
-msgstr "Létrehozva ekkor: %s"
+#: components/layout.templ:167
+msgid "Secondary Menu"
+msgstr "Másodlagos menü"
 
-#: assets/templates/admin/user_list.jet.html:33
-#, python-format
-msgid "Last update: %s"
-msgstr "Utoljára frissítve: %s"
+#: components/layout.templ:176
+#, fuzzy
+msgid "Open Menu"
+msgstr "Menü megnyitása"
 
-# | msgid "Created on: %s"
-#: assets/templates/admin/user_list.jet.html:35
-#, fuzzy, python-format
-msgid "Last login: %s"
-msgstr "Legutoljára használva ekkor: %s"
+#: components/layout.templ:185
+msgid "Close menu"
+msgstr "Menü bezárása"
 
-#: assets/templates/admin/user_list.jet.html:43
-msgid "This user will be removed in a few seconds."
-msgstr "A felhasználó néhány másodpercen belül eltávolításra kerül."
-
-#: assets/templates/auth/login.jet.html:9
-#: assets/templates/auth/login.jet.html:37
-msgid "Sign in"
-msgstr "Bejelentkezés"
-
-#: assets/templates/auth/login.jet.html:12
-msgid "Sign in to Readeck"
-msgstr "Bejelentkezés a Readeck-be"
-
-#: assets/templates/auth/login.jet.html:21
-msgid "Username or email address"
-msgstr "Felhasználónév vagy e-mail cím"
-
-#: assets/templates/auth/login.jet.html:41
-msgid "Forgot your password?"
-msgstr "Elfelejtette a jelszavát?"
-
-#: assets/templates/auth/oauth/auth-code.jet.html:8
-#: assets/templates/auth/oauth/device-code.jet.html:9
-#: assets/templates/auth/oauth/form.jet.html:14
-msgid "Authorization required"
-msgstr ""
-
-#: assets/templates/auth/oauth/device-code.jet.html:13
+#: components/layout.templ:239 internal/auth/oauth2/x-oauth.templ:87
 #, fuzzy
 msgid "Go back to Readeck"
 msgstr "Bejelentkezés a Readeck-be"
 
-#: assets/templates/auth/oauth/device-code.jet.html:28
-#: assets/templates/auth/oauth/device-code.jet.html:47
-#: assets/templates/auth/oauth/device-code.jet.html:54
+#: components/pagination.templ:15
+msgctxt "page"
+msgid "Previous"
+msgstr "Előző"
+
+#: components/pagination.templ:22
+msgctxt "page"
+msgid "Next"
+msgstr "Következő"
+
+#: components/pagination.templ:28
+msgid "Go to previous page"
+msgstr "Tovább az előző oldalra"
+
+#: components/pagination.templ:39
+#, python-format
+msgid "Go to page %d"
+msgstr "Tovább a %d oldalra"
+
+#: components/pagination.templ:48
+msgid "Go to next page"
+msgstr "Tovább a következő oldalra"
+
+# | msgid "Password ID"
+#: internal/admin/forms.go:39
+msgid "password is empty"
+msgstr "üres jelszó"
+
+#: internal/admin/forms.go:73
+msgid "User is external and can't be updated."
+msgstr ""
+
+#: internal/admin/forms.go:85 internal/profile/forms.go:104
+msgid "username is already in use"
+msgstr ""
+
+#: internal/admin/forms.go:92 internal/profile/forms.go:111
+msgid "email address is already in use"
+msgstr ""
+
+#: internal/admin/views.go:61 internal/admin/views.go:86
+#: internal/admin/views.go:127 internal/admin/x-users.templ:16
+#: internal/admin/x-users.templ:115 internal/profile/x-base.templ:70
+msgid "Users"
+msgstr "Felhasználók"
+
+#: internal/admin/views.go:77
+msgid "User created."
+msgstr "Felhasználó létrehozva."
+
+#: internal/admin/views.go:87 internal/admin/x-users.templ:79
+msgid "New User"
+msgstr "Új felhasználó"
+
+#: internal/admin/views.go:112
+msgid "User updated."
+msgstr "Felhasználó frissítve."
+
+#: internal/admin/views.go:163
+#, fuzzy
+msgid "User detached."
+msgstr "Felhasználó frissítve."
+
+#: internal/admin/views.go:186
+#, fuzzy
+msgid "User signed out."
+msgstr "Kijelentkezés"
+
+#: internal/admin/x-users.templ:19
+msgid "Add a new user"
+msgstr "Új felhasználó hozzáadása"
+
+#: internal/admin/x-users.templ:38
+#, fuzzy
+msgid "External User"
+msgstr "Felhasználó létrehozása"
+
+#: internal/admin/x-users.templ:44 internal/admin/x-users.templ:123
+msgid "This is you!"
+msgstr ""
+
+# | msgid "Created on: %s"
+#: internal/admin/x-users.templ:50
+#, fuzzy, python-format
+msgid "Last login: %s"
+msgstr "Legutoljára használva ekkor: %s"
+
+#: internal/admin/x-users.templ:57
+msgid "This user will be removed in a few seconds."
+msgstr "A felhasználó néhány másodpercen belül eltávolításra kerül."
+
+#: internal/admin/x-users.templ:64 internal/admin/x-users.templ:202
+#: internal/bookmarks/importer/x-forms.templ:23
+#: internal/bookmarks/routes/x-bookmark-list.templ:538
+#: internal/bookmarks/routes/x-collections.templ:162
+#: internal/bookmarks/routes/x-labels.templ:132
+#: internal/profile/x-applications.templ:84 internal/profile/x-tokens.templ:83
+#: internal/profile/x-tokens.templ:106
+msgid "Cancel"
+msgstr "Mégse"
+
+#: internal/admin/x-users.templ:85 internal/admin/x-users.templ:131
+#: internal/auth/onboarding/x-onboarding.templ:34
+#: internal/bookmarks/importer/x-forms.templ:325
+#: internal/profile/x-profile.templ:42
+msgid "Username"
+msgstr "Felhasználónév"
+
+#: internal/admin/x-users.templ:91 internal/admin/x-users.templ:138
+#: internal/auth/onboarding/x-onboarding.templ:47
+#: internal/auth/signin/x-auth.templ:139
+msgid "Email address"
+msgstr "E-mail cím"
+
+#: internal/admin/x-users.templ:96 internal/admin/x-users.templ:144
+msgid "Group"
+msgstr "Csoport"
+
+#: internal/admin/x-users.templ:101 internal/admin/x-users.templ:151
+#: internal/auth/onboarding/x-onboarding.templ:39
+#: internal/auth/signin/x-auth.templ:64
+#: internal/bookmarks/importer/x-forms.templ:330
+msgid "Password"
+msgstr "Jelszó"
+
+#: internal/admin/x-users.templ:107
+msgid "Create user"
+msgstr "Felhasználó létrehozása"
+
+#: internal/admin/x-users.templ:127
+#, fuzzy
+msgid "User information"
+msgstr "Rendszerinformációk"
+
+#: internal/admin/x-users.templ:154
+msgid "will not change if empty"
+msgstr "nem fog változni, ha üres"
+
+#: internal/admin/x-users.templ:159
+#: internal/bookmarks/routes/x-bookmark.templ:223
+#: internal/bookmarks/routes/x-collections.templ:138
+#: internal/bookmarks/routes/x-collections.templ:233
+#: internal/bookmarks/routes/x-components.templ:49
+#: internal/bookmarks/routes/x-components.templ:182
+#: internal/bookmarks/routes/x-components.templ:187
+#: internal/profile/x-profile.templ:105 internal/profile/x-security.templ:41
+#: internal/profile/x-tokens.templ:153
+msgid "Save"
+msgstr "Mentés"
+
+#: internal/admin/x-users.templ:164
+#, fuzzy, python-format
+msgid "Created on"
+msgstr "Létrehozva ekkor: %s"
+
+# | msgid "Created on: %s"
+#: internal/admin/x-users.templ:171
+#, fuzzy, python-format
+msgid "Last Login"
+msgstr "Legutoljára használva ekkor: %s"
+
+#: internal/admin/x-users.templ:179
+msgid "Last Activity"
+msgstr ""
+
+#: internal/admin/x-users.templ:190
+#, fuzzy
+msgid "Disk Usage"
+msgstr "Könyvjelző töltődik"
+
+#: internal/admin/x-users.templ:193
+msgid "User Administration"
+msgstr ""
+
+#: internal/admin/x-users.templ:199
+msgid "User will be removed in a few seconds"
+msgstr "A felhasználó néhány másodpercen belül eltávolításra kerül"
+
+#: internal/admin/x-users.templ:209
+msgid "This will sign this user out of all active sessions on the web application."
+msgstr ""
+
+#: internal/admin/x-users.templ:214
+#, fuzzy
+msgid "Sign this user out"
+msgstr "Kijelentkezés"
+
+#: internal/admin/x-users.templ:222
+msgid ""
+"\n"
+"\t\t\t\t\t\t\t\t\tThis user is attached to an external authentication provider:<br />\n"
+"\t\t\t\t\t\t\t\t\t<strong>%[1]s</strong>.<br />\n"
+"\t\t\t\t\t\t\t\t\tTherefore, some of their properties are not editable.<br />\n"
+"\t\t\t\t\t\t\t\t\tThis will detach the user <strong>%[2]s</strong>.\n"
+"\t\t\t\t\t\t\t\t"
+msgstr ""
+
+#: internal/admin/x-users.templ:235
+#, fuzzy
+msgid "Detach this user"
+msgstr "Ezen felhasználó törlése"
+
+#: internal/admin/x-users.templ:244
+#, python-format
+msgid "This will delete the user <strong>%s</strong> and all their contents."
+msgstr ""
+
+#: internal/admin/x-users.templ:252
+msgid "Delete this user"
+msgstr "Ezen felhasználó törlése"
+
+#: internal/auth/oauth2/x-oauth.templ:17 internal/auth/oauth2/x-oauth.templ:26
+#: internal/auth/oauth2/x-oauth.templ:100
+msgid "Authorization required"
+msgstr ""
+
+#: internal/auth/oauth2/x-oauth.templ:30
+msgid "This code has expired or is not valid"
+msgstr ""
+
+#: internal/auth/oauth2/x-oauth.templ:33 internal/auth/oauth2/x-oauth.templ:50
+#: internal/auth/oauth2/x-oauth.templ:58
 msgid "Connect a device"
 msgstr ""
 
-#: assets/templates/auth/oauth/device-code.jet.html:32
+#: internal/auth/oauth2/x-oauth.templ:36
 msgid "Enter the code displayed on your device"
 msgstr ""
 
-#: assets/templates/auth/oauth/device-code.jet.html:37
+#: internal/auth/oauth2/x-oauth.templ:42
 #, fuzzy
 msgid "Next"
 msgstr "Következő"
 
-#: assets/templates/auth/oauth/device-code.jet.html:49
+#: internal/auth/oauth2/x-oauth.templ:52
 msgid "Authorization request was denied."
 msgstr ""
 
-#: assets/templates/auth/oauth/device-code.jet.html:49
+#: internal/auth/oauth2/x-oauth.templ:54 internal/auth/oauth2/x-oauth.templ:76
 msgid " You can now close this page."
 msgstr ""
 
-#: assets/templates/auth/oauth/device-code.jet.html:57
+#: internal/auth/oauth2/x-oauth.templ:60
 msgid "Authorization granted. Connecting device..."
 msgstr ""
 
-#: assets/templates/auth/oauth/device-code.jet.html:61
+#: internal/auth/oauth2/x-oauth.templ:67
 #, python-format
 msgid "<a href=\"%s\">Reload this page</a> if it doesn't refresh after a few seconds."
 msgstr ""
 
-#: assets/templates/auth/oauth/device-code.jet.html:66
+#: internal/auth/oauth2/x-oauth.templ:74
 msgid "Device is connected!"
 msgstr ""
 
-#: assets/templates/auth/oauth/device-code.jet.html:66
-msgid "You can now close this page."
-msgstr ""
-
-#: assets/templates/auth/oauth/form.jet.html:12
+#: internal/auth/oauth2/x-oauth.templ:95
 #, python-format
 msgid "Signed in as: <strong>%s</strong>"
 msgstr ""
 
-#: assets/templates/auth/oauth/form.jet.html:20
+#: internal/auth/oauth2/x-oauth.templ:106
 #, python-format
 msgid ""
 "\n"
-"      <strong>%s</strong> would like permission to access your account.\n"
-"      Only approve this request if you recognize and trust this source.\n"
-"    "
+"\t\t\t\t<strong>%s</strong> would like permission to access your account.\n"
+"\t\t\t\tOnly approve this request if you recognize and trust this source.\n"
+"\t\t\t"
 msgstr ""
 
-#: assets/templates/auth/oauth/form.jet.html:26
+#: internal/auth/oauth2/x-oauth.templ:112
 #, fuzzy
 msgid "Review permissions"
 msgstr "Jogosultságok"
 
-#: assets/templates/auth/oauth/form.jet.html:33
+#: internal/auth/oauth2/x-oauth.templ:122
 #, fuzzy
 msgid "Application information"
 msgstr "Alkalmazás"
 
-#: assets/templates/auth/oauth/form.jet.html:35
-#: assets/templates/bookmarks/collection.jet.html:72
-#: assets/templates/bookmarks/collection_create.jet.html:22
-#: assets/templates/profile/token.jet.html:42
+#: internal/auth/oauth2/x-oauth.templ:124
+#: internal/bookmarks/routes/x-collections.templ:131
+#: internal/bookmarks/routes/x-collections.templ:227
+#: internal/profile/x-tokens.templ:128
 msgid "Name"
 msgstr "Név"
 
-#: assets/templates/auth/oauth/form.jet.html:36
+#: internal/auth/oauth2/x-oauth.templ:125
 #, fuzzy
 msgid "Website"
 msgstr "Fő weboldal"
 
-#: assets/templates/auth/oauth/form.jet.html:37
+#: internal/auth/oauth2/x-oauth.templ:126
 #, fuzzy
 msgid "Version"
 msgstr "Verzió:"
 
-#: assets/templates/auth/oauth/form.jet.html:42
+#: internal/auth/oauth2/x-oauth.templ:135
 #, fuzzy
 msgid "Authorize"
 msgstr "Szerző"
 
-#: assets/templates/auth/oauth/form.jet.html:44
+#: internal/auth/oauth2/x-oauth.templ:143
 msgid "Deny"
 msgstr ""
 
-#: assets/templates/auth/onboarding.jet.html:9
-#: assets/templates/bookmarks/index.jet.html:75
+#: internal/auth/onboarding/x-onboarding.templ:17
+#: internal/bookmarks/routes/x-bookmark-list.templ:234
 msgid "Welcome to Readeck!"
 msgstr "Üdvözli a Readeck!"
 
-#: assets/templates/auth/onboarding.jet.html:15
+#: internal/auth/onboarding/x-onboarding.templ:29
 msgid "We're delighted to have you on board; one more step and you're good to go."
 msgstr "Örülünk, hogy a fedélzeten van; csak még egy lépés, és már készen is áll."
 
-#: assets/templates/auth/onboarding.jet.html:31
-#: assets/templates/auth/recover.jet.html:54
-#: assets/templates/profile/password.jet.html:34
+#: internal/auth/onboarding/x-onboarding.templ:43
+#: internal/auth/signin/x-auth.templ:173 internal/profile/x-security.templ:37
 msgid "must be at least 8 characters long"
 msgstr "legalább 8 karakter hosszúnak kell lennie"
 
-#: assets/templates/auth/onboarding.jet.html:38
+#: internal/auth/onboarding/x-onboarding.templ:51
 msgid "Please note:"
 msgstr "Felhívjuk a figyelmét:"
 
-#: assets/templates/auth/onboarding.jet.html:39
+#: internal/auth/onboarding/x-onboarding.templ:52
+#, fuzzy
 msgid ""
 "\n"
-"  Your email address is optional and will never leave this installation.\n"
-"  It will never be collected, transferred or sold.\n"
-"  It will <strong>only</strong> be used, should you need it, for password recovery and internal notifications.\n"
-"  "
+"\t\t\t\t\t\tYour email address is optional and will never leave this installation.\n"
+"\t\t\t\t\t\tIt will never be collected, transferred or sold.\n"
+"\t\t\t\t\t\tIt will <strong>only</strong> be used, should you need it, for password recovery and internal notifications.\n"
+"\t\t\t\t\t"
 msgstr ""
 "\n"
 "  Az e-mail címe opcionális, és soha nem hagyja el ezt a telepítést..\n"
@@ -402,1606 +487,20 @@ msgstr ""
 "  Csak és <strong>kizárólag</strong> jelszó-visszaállításhoz és belső értesítésekhez használható, ha szükség van rá.\n"
 "  "
 
-#: assets/templates/auth/onboarding.jet.html:46
+#: internal/auth/onboarding/x-onboarding.templ:60
 msgid "Finish installation"
 msgstr "Telepítés befejezése"
 
-#: assets/templates/auth/recover.jet.html:9
-msgid "Password recovery"
-msgstr "Jelszó visszaállítás"
+#: internal/auth/signin/forms.go:19
+msgid "Invalid user and/or password"
+msgstr "Érvénytelen felhasználó és/vagy jelszó"
 
-#: assets/templates/auth/recover.jet.html:20
-msgid "No worries, it happens to anyone."
-msgstr "Ne aggódjon, ez bárkivel megtörténhet."
-
-#: assets/templates/auth/recover.jet.html:21
-msgid ""
-"\n"
-"        Please provide the email address you used to create\n"
-"        your account and we'll send you a message with a link\n"
-"        to recover your password.\n"
-"      "
-msgstr ""
-"\n"
-"        Kérjük, adja meg a fiókja létrehozásához használt e-mail címet\n"
-"        és üzenetet küldünk rá egy linkkel, amivel \n"
-"        visszaállíthatja a jelszavát.\n"
-"      "
-
-#: assets/templates/auth/recover.jet.html:31
-msgid "Send me a recovery link"
-msgstr "Küldjön egy helyreállítási linket"
-
-#: assets/templates/auth/recover.jet.html:32
-#: assets/templates/auth/recover.jet.html:56
-msgid "Cancel and go back to sign in"
-msgstr "Mégse és vissza a bejelentkezéshez"
-
-#: assets/templates/auth/recover.jet.html:36
-msgid "Almost there!"
-msgstr "Mindjárt kész!"
-
-#: assets/templates/auth/recover.jet.html:37
-#, python-format
-msgid ""
-"\n"
-"        We have sent an email to\n"
-"        <strong>%s</strong>\n"
-"        with further instructions.\n"
-"      "
-msgstr ""
-"\n"
-"        E-mailt küldtünk erre a címre:\n"
-"        <strong>%s</strong>\n"
-"        benne a további tennivalókkal.\n"
-"      "
-
-#: assets/templates/auth/recover.jet.html:52
-#: assets/templates/profile/password.jet.html:31
-msgid "New password"
-msgstr "Új jelszó"
-
-#: assets/templates/auth/recover.jet.html:55
-msgid "Update your password"
-msgstr "Jelszó frissítése"
-
-#: assets/templates/auth/recover.jet.html:60
-msgid "Your password has been changed."
-msgstr "Jelszava megváltozott."
-
-#: assets/templates/auth/recover.jet.html:61
-msgid "Go to the sign in page"
-msgstr "Tovább a bejelentkező oldalra"
-
-#: assets/templates/auth/totp.jet.html:9
+#: internal/auth/signin/http.go:180 internal/profile/forms.go:300
 #, fuzzy
-msgid "Two-factor authentication"
-msgstr "Hitelesítés"
+msgid "Invalid code"
+msgstr "érvénytelen jelszó"
 
-#: assets/templates/auth/totp.jet.html:20
-#, fuzzy
-msgid "Passcode"
-msgstr "Jelszó"
-
-#: assets/templates/auth/totp.jet.html:31
-#, fuzzy
-msgid "Verify"
-msgstr "Verzió:"
-
-#: assets/templates/bookmarks/annotation_list.jet.html:8
-msgid "Bookmark Highlights"
-msgstr "Könyvjelző kiemelések"
-
-#: assets/templates/bookmarks/annotation_list.jet.html:17
-msgid "You don't have any highlights yet."
-msgstr "Még nincsenek kiemelései."
-
-#: assets/templates/bookmarks/annotation_list.jet.html:18
-msgid ""
-"\n"
-"        Once you start highlighting parts of your saved articles, they will appear on this page\n"
-"        for you to easily find them.\n"
-"      "
-msgstr ""
-"\n"
-"        Amint elkezdi kiemelni a mentett cikkek egyes részeit, azok megjelennek ezen az oldalon,\n"
-"        hogy könnyen megtalálhassa őket.\n"
-"      "
-
-#: assets/templates/bookmarks/annotation_list.jet.html:23
-#, python-format
-msgid "Read more about highlights in the <a class=\"%s\" href=\"%s\">documentation</a>."
-msgstr "A kiemelésekről bővebben a <a class=\"%s\" href=\"%s\">dokumentációban</a> olvashat."
-
-#: assets/templates/bookmarks/base.jet.html:1
-#: assets/templates/bookmarks/components/filters.jet.html:9
-msgid "Search"
-msgstr "Keresés"
-
-#: assets/templates/bookmarks/base.jet.html:31
-msgid "All"
-msgstr "Összes"
-
-#: assets/templates/bookmarks/base.jet.html:34
-msgid "Unread"
-msgstr "Olvasatlan"
-
-#: assets/templates/bookmarks/base.jet.html:37
-msgid "Archive"
-msgstr "Archívum"
-
-#: assets/templates/bookmarks/base.jet.html:40
-msgid "Favorites"
-msgstr "Kedvencek"
-
-#: assets/templates/bookmarks/base.jet.html:48
-#: internal/bookmarks/routes/views_bookmarks.go:115
-msgid "Articles"
-msgstr "Cikkek"
-
-#: assets/templates/bookmarks/base.jet.html:54
-#: internal/bookmarks/routes/views_bookmarks.go:119
-msgid "Videos"
-msgstr "Videók"
-
-#: assets/templates/bookmarks/base.jet.html:60
-#: internal/bookmarks/routes/views_bookmarks.go:117
-msgid "Pictures"
-msgstr "Képek"
-
-#: assets/templates/bookmarks/base.jet.html:70
-#: assets/templates/bookmarks/components/sidebar.jet.html:117
-#: assets/templates/bookmarks/label.jet.html:25
-msgid "Labels"
-msgstr "Címkék"
-
-#: assets/templates/bookmarks/base.jet.html:72
-#: assets/templates/bookmarks/components/annotation_list.jet.html:9
-msgid "Highlights"
-msgstr "Kiemelések"
-
-#: assets/templates/bookmarks/base.jet.html:74
-#: assets/templates/bookmarks/collection.jet.html:11
-#: assets/templates/bookmarks/collection.jet.html:38
-msgid "Collections"
-msgstr "Gyűjtemények"
-
-#: assets/templates/bookmarks/base.jet.html:90
-msgid "Did you know?"
-msgstr "Tudtad?"
-
-#: assets/templates/bookmarks/base.jet.html:91
-#: assets/templates/bookmarks/index.jet.html:91
-msgid ""
-"\n"
-"            With the Browser Extension, you can save pages, images and selections\n"
-"            directly from your browser!"
-msgstr ""
-"\n"
-"            A Böngésző Bővítmény segítségével weboldalakat, képeket és gyűjteményeket menthetsz el\n"
-"            közvetlenül a böngészőjéből!"
-
-#: assets/templates/bookmarks/base.jet.html:98
-#: assets/templates/bookmarks/components/sidebar.jet.html:24
-#: assets/templates/bookmarks/index.jet.html:98
-msgid "Learn more"
-msgstr "Tudj meg többet"
-
-#: assets/templates/bookmarks/base.jet.html:107
-msgid "Don't remind me"
-msgstr "Ne emlékeztess"
-
-#: assets/templates/bookmarks/bookmark.jet.html:1
-#: assets/templates/bookmarks/bookmark.jet.html:90
-msgid "Close panel"
-msgstr "Panel bezárása"
-
-#: assets/templates/bookmarks/bookmark.jet.html:1
-#: assets/templates/bookmarks/bookmark.jet.html:135
-msgid "Bookmark information"
-msgstr "Könyvjelző információ"
-
-#: assets/templates/bookmarks/bookmark.jet.html:1
-#: assets/templates/bookmarks/components/title_block.jet.html:1
-#, fuzzy
-msgid "Close dialog"
-msgstr "Panel bezárása"
-
-#: assets/templates/bookmarks/bookmark.jet.html:12
-msgid "Bookmark loading"
-msgstr "Könyvjelző betöltése"
-
-#: assets/templates/bookmarks/bookmark.jet.html:43
-msgid "Bookmark is loading"
-msgstr "Könyvjelző töltődik"
-
-#: assets/templates/bookmarks/bookmark.jet.html:116
-#: assets/templates/bookmarks/collection.jet.html:47
-#: assets/templates/bookmarks/collection.jet.html:60
-msgid "Edit"
-msgstr "Szerkesztés"
-
-#: assets/templates/bookmarks/bookmark_atom.jet.html:7
-#: assets/templates/bookmarks/components/sidebar.jet.html:1
-#: assets/templates/bookmarks/components/sidebar.jet.html:66
-#: assets/templates/emails/bookmark.jet.html:16
-#: assets/templates/epub/bookmark.jet.html:34
-msgid "no site name"
-msgstr "nincs oldalnév"
-
-#: assets/templates/bookmarks/bookmark_atom.jet.html:9
-#: assets/templates/bookmarks/bookmark_public.jet.html:122
-#: assets/templates/bookmarks/components/sidebar.jet.html:82
-#: assets/templates/emails/bookmark.jet.html:20
-#: assets/templates/epub/bookmark.jet.html:37
-#, python-format
-msgid "Published on %s"
-msgstr "Közétéve %s"
-
-#: assets/templates/bookmarks/bookmark_atom.jet.html:12
-#: assets/templates/bookmarks/bookmark_public.jet.html:127
-#: assets/templates/bookmarks/components/sidebar.jet.html:87
-#: assets/templates/emails/bookmark.jet.html:23
-#: assets/templates/epub/bookmark.jet.html:40
-#, python-format
-msgid "By %s"
-msgstr "%s által"
-
-# | msgid "About %d min read"
-#: assets/templates/bookmarks/bookmark_atom.jet.html:17
-#: assets/templates/bookmarks/components/sidebar.jet.html:95
-#: assets/templates/emails/bookmark.jet.html:27
-#: assets/templates/epub/bookmark.jet.html:45
-#, python-format
-msgid "About %d minute read"
-msgid_plural "About %d minutes read"
-msgstr[0] "Hozzávetőleg %d perc elolvasni"
-msgstr[1] "Hozzávetőleg %d perc elolvasni"
-
-#: assets/templates/bookmarks/bookmark_missing.jet.html:9
-#: assets/templates/bookmarks/bookmark_missing.jet.html:14
-msgid "Bookmark not found"
-msgstr "Könyvjelző nem található"
-
-#: assets/templates/bookmarks/bookmark_public.jet.html:1
-#: assets/templates/bookmarks/bookmark_public.jet.html:101
-#: assets/templates/menu.jet.html:1
-msgid "Change theme"
-msgstr "Téma váltása"
-
-#: assets/templates/bookmarks/bookmark_public.jet.html:17
-msgid "Shared link"
-msgstr "Megosztott hivatkozás"
-
-#: assets/templates/bookmarks/bookmark_public.jet.html:83
-msgid "Page not found"
-msgstr "Az oldal nem található"
-
-#: assets/templates/bookmarks/bookmark_public.jet.html:85
-msgid "Page has expired"
-msgstr "Az oldal érvényessége lejárt"
-
-#: assets/templates/bookmarks/bookmark_public.jet.html:135
-#, python-format
-msgid "%d min"
-msgstr "%d perc"
-
-# | msgid "Shared by %s"
-#: assets/templates/bookmarks/bookmark_public.jet.html:141
-#, fuzzy
-msgid "Shared by %[1]s with %[2]s"
-msgstr "%s megosztotta vele %s"
-
-# | msgid "Saved with Readeck"
-# | msgid "Saved with"
-#: assets/templates/bookmarks/bookmark_public.jet.html:194
-#, python-format
-msgid "Saved with %s"
-msgstr "Mentve %s"
-
-# | msgid "Share by Link"
-#: assets/templates/bookmarks/bookmark_share_email.jet.html:8
-msgid "Share by email"
-msgstr "Megosztás e-mail-ben"
-
-#: assets/templates/bookmarks/bookmark_share_email.jet.html:18
-#: assets/templates/bookmarks/bookmark_share_link.jet.html:19
-#, python-format
-msgid "Share: %s"
-msgstr "Megosztás: %s"
-
-#: assets/templates/bookmarks/bookmark_share_link.jet.html:8
-msgid "Share link"
-msgstr "Hivatkozás megosztása"
-
-#: assets/templates/bookmarks/bookmark_update.jet.html:9
-#, fuzzy
-msgid "Edit bookmark"
-msgstr "Olvasatlan Könyvejlzők"
-
-# | msgid "Saved with Readeck"
-# | msgid "Saved with"
-#: assets/templates/bookmarks/bookmark_update.jet.html:14
-#, fuzzy, python-format
-msgid "Edit: %s"
-msgstr "Mentve %s"
-
-#: assets/templates/bookmarks/collection.jet.html:22
-#, python-format
-msgid "Collection %s"
-msgstr "Gyűjtemény %s"
-
-#: assets/templates/bookmarks/collection.jet.html:26
-msgid "Collection will be removed in a few seconds."
-msgstr "A gyűjtés néhány másodpercen belül megszűnik."
-
-#: assets/templates/bookmarks/collection.jet.html:62
-#: assets/templates/bookmarks/index.jet.html:133
-#: assets/templates/bookmarks/index.jet.html:167
-#: assets/templates/bookmarks/index.jet.html:170
-msgid "Filters"
-msgstr "Szűrők"
-
-#: assets/templates/bookmarks/collection.jet.html:65
-#: assets/templates/bookmarks/index.jet.html:173
-#: assets/templates/menu.jet.html:43 docs/http.go:182 docs/http.go:269
-#: docs/http.go:308
-msgid "Documentation"
-msgstr "Dokumentáció"
-
-#: assets/templates/bookmarks/collection.jet.html:84
-msgid "Delete collection"
-msgstr "Gyűjtemény törlése"
-
-#: assets/templates/bookmarks/collection_create.jet.html:9
-msgid "New Collection"
-msgstr "Új gyűjtemény"
-
-#: assets/templates/bookmarks/collection_list.jet.html:9
-#: internal/opds/http.go:75
-msgid "Bookmark Collections"
-msgstr "Könyvjelző gyűjtemények"
-
-#: assets/templates/bookmarks/collection_list.jet.html:15
-msgid "Create a new collection"
-msgstr "Új gyűjtemény létrehozása"
-
-#: assets/templates/bookmarks/collection_list.jet.html:24
-msgid ""
-"\n"
-"          Collections let you easily organize and export your bookmarks\n"
-"          by saving search requests of your choice.\n"
-"          When you create a new bookmark that matches a collection's\n"
-"          criteria, it will appear immediately.\n"
-"          Here are some examples:\n"
-"        "
-msgstr ""
-"\n"
-"          Gyűjtemények segítségével könnyedén rendszerezheti és exportálhatja könyvjelzőit.\n"
-"          az Ön által kiválasztott keresési kérések mentésével.\n"
-"          Amikor egy új könyvjelzőt hoz létre, amely megfelel egy gyűjtemény\n"
-"          kritériumainak, az azonnal megjelenik.\n"
-"          Íme néhány példa:\n"
-"        "
-
-#: assets/templates/bookmarks/collection_list.jet.html:33
-msgid "The unread articles (no photos or videos)"
-msgstr "Az olvasatlan cikkek (nincs fotó vagy videó)"
-
-#: assets/templates/bookmarks/collection_list.jet.html:34
-msgid "The archived articles from \"wikipedia.org\""
-msgstr "Archivált cikkek a \"wikipedia.org\" címről"
-
-#: assets/templates/bookmarks/collection_list.jet.html:35
-msgid "The pictures with the label \"cat\""
-msgstr "Képek a \"macska\" címkével jelölve"
-
-#: assets/templates/bookmarks/collection_list.jet.html:36
-msgid "The articles that contain \"shelter\" in their title"
-msgstr "Cikkek melyek címében ott van a \"menedék\" kifejezés"
-
-#: assets/templates/bookmarks/collection_list.jet.html:39
-#, python-format
-msgid "Read more about collections in the <a class=\"%s\" href=\"%s\">documentation</a>."
-msgstr "Tudjon meg többet a gyűjteményekről a <a class=\"%s\" href=\"%s\">dokumentációban</a>."
-
-#: assets/templates/bookmarks/components/actions.jet.html:1
-msgid "Export and Share"
-msgstr "Exportálás és Megosztás"
-
-#: assets/templates/bookmarks/components/actions.jet.html:1
-#: assets/templates/bookmarks/components/card.jet.html:1
-msgid "Delete this bookmark"
-msgstr "Könyvjelző törlése"
-
-#: assets/templates/bookmarks/components/actions.jet.html:7
-msgid "Mark as unread"
-msgstr "Olvasatlanak jelöl"
-
-#: assets/templates/bookmarks/components/actions.jet.html:7
-msgid "Mark as read"
-msgstr "Olvasottnak jelöl"
-
-#: assets/templates/bookmarks/components/actions.jet.html:8
-#: assets/templates/bookmarks/components/bottom_actions.jet.html:7
-#: assets/templates/bookmarks/components/card.jet.html:9
-msgid "Remove from archive"
-msgstr "Eltávolítás az archívumból"
-
-#: assets/templates/bookmarks/components/actions.jet.html:8
-#: assets/templates/bookmarks/components/bottom_actions.jet.html:7
-#: assets/templates/bookmarks/components/card.jet.html:9
-msgid "Move to archive"
-msgstr "Áthelyezés az archívumba"
-
-#: assets/templates/bookmarks/components/actions.jet.html:9
-#: assets/templates/bookmarks/components/bottom_actions.jet.html:8
-#: assets/templates/bookmarks/components/card.jet.html:10
-msgid "Remove from favorites"
-msgstr "Eltávolítás a kedvencek közül"
-
-#: assets/templates/bookmarks/components/actions.jet.html:9
-#: assets/templates/bookmarks/components/bottom_actions.jet.html:8
-#: assets/templates/bookmarks/components/card.jet.html:10
-msgid "Add to favorites"
-msgstr "Kedvencekhez adás"
-
-#: assets/templates/bookmarks/components/actions.jet.html:15
-#: assets/templates/bookmarks/components/card.jet.html:92
-msgid "This bookmark will be removed in a few seconds."
-msgstr "Ez a könyvjelző néhány másodpercen belül eltávolításra kerül."
-
-#: assets/templates/bookmarks/components/actions.jet.html:22
-msgid "Undo"
-msgstr "Visszavonás"
-
-#: assets/templates/bookmarks/components/actions.jet.html:55
-#: assets/templates/bookmarks/components/list_actions.jet.html:79
-msgid "Download EPUB"
-msgstr "EPUB letöltése"
-
-#: assets/templates/bookmarks/components/actions.jet.html:58
-msgid "Share by Link"
-msgstr "Megosztás Hivatkozással"
-
-#: assets/templates/bookmarks/components/actions.jet.html:61
-msgid "Send article by Email"
-msgstr "Cikk küldése e-mail-ben"
-
-#: assets/templates/bookmarks/components/actions.jet.html:63
-msgid "Send e-book by Email"
-msgstr "E-könyv küldése e-mail-ben"
-
-#: assets/templates/bookmarks/components/annotation_list.jet.html:1
-#, fuzzy
-msgid "Delete highlight"
-msgstr "Kiemelés"
-
-#: assets/templates/bookmarks/components/annotation_list.jet.html:12
-msgid "Start selecting text in the article to create a new highlight."
-msgstr "Kezdje el kijelölni a szöveget a cikkben, hogy új kiemelést hozzon létre."
-
-#: assets/templates/bookmarks/components/bookmark_qrcode.jet.html:8
-msgid "Saved with Readeck"
-msgstr "Readeckkel mentve"
-
-#: assets/templates/bookmarks/components/bookmark_update.jet.html:16
-#: assets/templates/bookmarks/components/filters.jet.html:14
-msgid "Title"
-msgstr "Cím"
-
-# | msgid "Distribution"
-#: assets/templates/bookmarks/components/bookmark_update.jet.html:21
-#: assets/templates/bookmarks/import/form-csv.jet.html:50
-msgid "Description"
-msgstr "Leírás"
-
-#: assets/templates/bookmarks/components/bookmark_update.jet.html:28
-#, fuzzy
-msgid "Site Name"
-msgstr "nincs oldalnév"
-
-#: assets/templates/bookmarks/components/bookmark_update.jet.html:34
-#, fuzzy
-msgid "Authors"
-msgstr "Szerző"
-
-#: assets/templates/bookmarks/components/bookmark_update.jet.html:35
-msgid "One value per line"
-msgstr ""
-
-#: assets/templates/bookmarks/components/bookmark_update.jet.html:41
-#, fuzzy
-msgid "Published"
-msgstr "Közétéve %s"
-
-#: assets/templates/bookmarks/components/bookmark_update.jet.html:46
-#: assets/templates/profile/index.jet.html:49
-msgid "Language"
-msgstr "Nyelv"
-
-#: assets/templates/bookmarks/components/bookmark_update.jet.html:51
-#, fuzzy
-msgid "Text Direction"
-msgstr "Hitelesítés"
-
-#: assets/templates/bookmarks/components/card.jet.html:1
-msgid "Go to original page"
-msgstr "Tovább az eredeti oldalra"
-
-#: assets/templates/bookmarks/components/card.jet.html:33
-msgctxt "bookmark"
-msgid "Loading"
-msgstr "Betöltés"
-
-# | msgid "%d min"
-#: assets/templates/bookmarks/components/card.jet.html:75
-#, python-format
-msgctxt "abbr"
-msgid "%d min"
-msgid_plural "%d min"
-msgstr[0] "%d perc"
-msgstr[1] "%d perc"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:1
-#, fuzzy
-msgid "Close"
-msgstr "Menü bezárása"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:1
-#, fuzzy
-msgid "Show image"
-msgstr "Kezdőlap"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:1
-#, fuzzy
-msgid "Play video"
-msgstr "Videó"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:46
-msgid "Yellow"
-msgstr "Sárga"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:47
-msgid "Red"
-msgstr "Piros"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:48
-msgid "Blue"
-msgstr "Kék"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:49
-msgid "Green"
-msgstr "Zöld"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:50
-msgid "Transparent"
-msgstr ""
-
-#: assets/templates/bookmarks/components/content_block.jet.html:55
-msgid "Highlight"
-msgstr "Kiemelés"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:63
-#: assets/templates/bookmarks/components/filters.jet.html:103
-#, fuzzy
-msgid "Note"
-msgstr "nem"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:78
-#: assets/templates/bookmarks/label.jet.html:43
-msgid "Delete"
-msgstr "Törlés"
-
-#: assets/templates/bookmarks/components/diagnosis.jet.html:13
-#: assets/templates/docs/about.jet.html:37
-#, fuzzy
-msgid "copy to clipboard"
-msgstr "Hivatkozás másolása"
-
-#: assets/templates/bookmarks/components/filters.jet.html:36
-msgid "Author"
-msgstr "Szerző"
-
-#: assets/templates/bookmarks/components/filters.jet.html:58
-msgid "Site"
-msgstr "Honlap"
-
-#: assets/templates/bookmarks/components/filters.jet.html:80
-#: assets/templates/bookmarks/import/options.jet.html:10
-#: assets/templates/bookmarks/label.jet.html:11
-msgid "Label"
-msgstr "Címke"
-
-#: assets/templates/bookmarks/components/filters.jet.html:108
-msgid "From date"
-msgstr "Dátumtól"
-
-#: assets/templates/bookmarks/components/filters.jet.html:114
-msgid "To date"
-msgstr "Dátumig"
-
-#: assets/templates/bookmarks/components/filters.jet.html:119
-msgid "Type"
-msgstr "Típus"
-
-#: assets/templates/bookmarks/components/filters.jet.html:124
-msgctxt "filter"
-msgid "Progress"
-msgstr "Előrehaladás"
-
-#: assets/templates/bookmarks/components/filters.jet.html:129
-msgid "Is Favorite"
-msgstr "Kedvenc"
-
-#: assets/templates/bookmarks/components/filters.jet.html:133
-#: assets/templates/bookmarks/components/filters.jet.html:142
-#: assets/templates/bookmarks/components/filters.jet.html:152
-#: assets/templates/bookmarks/components/filters.jet.html:162
-#: assets/templates/bookmarks/components/filters.jet.html:172
-#: assets/templates/bookmarks/components/reader_control.jet.html:142
-#: assets/templates/bookmarks/components/reader_control.jet.html:168
-msgid "yes"
-msgstr "igen"
-
-#: assets/templates/bookmarks/components/filters.jet.html:134
-#: assets/templates/bookmarks/components/filters.jet.html:143
-#: assets/templates/bookmarks/components/filters.jet.html:153
-#: assets/templates/bookmarks/components/filters.jet.html:163
-#: assets/templates/bookmarks/components/filters.jet.html:173
-#: assets/templates/bookmarks/components/reader_control.jet.html:142
-#: assets/templates/bookmarks/components/reader_control.jet.html:168
-msgid "no"
-msgstr "nem"
-
-#: assets/templates/bookmarks/components/filters.jet.html:138
-msgid "Is Archived"
-msgstr "Archivált"
-
-#: assets/templates/bookmarks/components/filters.jet.html:148
-msgid "Is Loaded"
-msgstr "Betöltve"
-
-#: assets/templates/bookmarks/components/filters.jet.html:158
-msgid "With Labels"
-msgstr "Címkékkel"
-
-#: assets/templates/bookmarks/components/filters.jet.html:168
-msgid "With Errors"
-msgstr "Hibákkal"
-
-#: assets/templates/bookmarks/components/labels.jet.html:1
-msgid "Remove label"
-msgstr "Címke törlése"
-
-#: assets/templates/bookmarks/components/labels_form.jet.html:1
-msgid "Add a label"
-msgstr "Címke hozzáadása"
-
-#: assets/templates/bookmarks/components/labels_form.jet.html:33
-msgid "Add label"
-msgstr "Címke hozzáadása"
-
-#: assets/templates/bookmarks/components/list_actions.jet.html:1
-msgid "Grid view"
-msgstr "Rácsnézet"
-
-#: assets/templates/bookmarks/components/list_actions.jet.html:1
-msgid "Compact view"
-msgstr "Kompakt nézet"
-
-# | msgid "Grid view"
-#: assets/templates/bookmarks/components/list_actions.jet.html:1
-msgid "Mosaic view"
-msgstr "Mozaik nézet"
-
-# | msgid "Import bookmarks"
-#: assets/templates/bookmarks/components/list_actions.jet.html:1
-msgid "Sort bookmarks"
-msgstr "Könyvjelzők rendezése"
-
-# | msgid "Options"
-#: assets/templates/bookmarks/components/list_actions.jet.html:1
-msgid "Sort options"
-msgstr "Rendezési lehetőségek"
-
-# | msgid "Import links and articles"
-#: assets/templates/bookmarks/components/list_actions.jet.html:1
-msgid "Import and export"
-msgstr "Importálás és exportálás"
-
-#: assets/templates/bookmarks/components/list_actions.jet.html:80
-msgid "Atom Feed"
-msgstr ""
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "Decrease width"
-msgstr ""
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-#, fuzzy
-msgid "Current Width"
-msgstr "Jelenlegi jelszó"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "Increase width"
-msgstr ""
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-#, fuzzy
-msgid "Decrease font size"
-msgstr "Létrehozva ekkor: %s"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "Current font size"
-msgstr ""
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-#, fuzzy
-msgid "Increase font size"
-msgstr "Létrehozva ekkor: %s"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-#, fuzzy
-msgid "Decrease line height"
-msgstr "Sormagassság"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-#, fuzzy
-msgid "Current line height"
-msgstr "Sormagassság"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-#, fuzzy
-msgid "Increase line height"
-msgstr "Sormagassság"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-#, fuzzy
-msgid "Justify text"
-msgstr "Kiegyenlítés"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "Don't justify text"
-msgstr ""
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-#, fuzzy
-msgid "With hyphenation"
-msgstr "Kötőjeles írásmód"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-#, fuzzy
-msgid "Without hyphenation"
-msgstr "Kötőjeles írásmód"
-
-# | msgid "Options"
-#: assets/templates/bookmarks/components/reader_control.jet.html:13
-#, fuzzy
-msgid "Display options"
-msgstr "Rendezési lehetőségek"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:25
-msgid "Font"
-msgstr "Betűtípus"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:56
-msgid "Width"
-msgstr "Szélesség"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:81
-msgid "Size"
-msgstr "Nagyság"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:106
-msgid "Line height"
-msgstr "Sormagassság"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:130
-msgid "Justify"
-msgstr "Kiegyenlítés"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:156
-msgid "Hyphenation"
-msgstr "Kötőjeles írásmód"
-
-#: assets/templates/bookmarks/components/share_email.jet.html:16
-msgid "Sends this bookmark's content in the message."
-msgstr "A könyvjelző tartalmának küldése üzenetben."
-
-#: assets/templates/bookmarks/components/share_email.jet.html:18
-msgid "Sends this bookmark as an attached EPUB file."
-msgstr "A könyvjelző küldése, mint csatolt EPUB fájl."
-
-# | msgid "From date"
-#: assets/templates/bookmarks/components/share_email.jet.html:29
-msgid "Format"
-msgstr "Formátum"
-
-#: assets/templates/bookmarks/components/share_email.jet.html:39
-msgid "Send To"
-msgstr "Címzett"
-
-#: assets/templates/bookmarks/components/share_email.jet.html:44
-msgid "Send message"
-msgstr "Üzenet küldése"
-
-#: assets/templates/bookmarks/components/share_email.jet.html:48
-#, python-format
-msgid "The bookmark was sent to %s"
-msgstr "A könyvjelző elküldve ide: %s"
-
-#: assets/templates/bookmarks/components/share_email.jet.html:55
-#: assets/templates/bookmarks/components/share_link.jet.html:28
-msgid "Go back to the bookmark"
-msgstr "Tovább a könyvjelzőhöz"
-
-#: assets/templates/bookmarks/components/share_link.jet.html:9
-msgid "You can share the following link with your friends."
-msgstr "Az alábbi hivatkozást megoszthatja barátaival."
-
-#: assets/templates/bookmarks/components/share_link.jet.html:10
-#, python-format
-msgid "It expires on %s"
-msgstr "Lejár ekkor %s"
-
-#: assets/templates/bookmarks/components/share_link.jet.html:24
-msgid "Copy the link"
-msgstr "Hivatkozás másolása"
-
-#: assets/templates/bookmarks/components/sidebar.jet.html:13
-msgid "Errors occurred during extraction."
-msgstr "A kivonatolás során hibák léptek fel."
-
-#: assets/templates/bookmarks/components/sidebar.jet.html:19
-msgid ""
-"\n"
-"          Depending on the error, Readeck's browser extension may provide\n"
-"          a workaround."
-msgstr ""
-
-#: assets/templates/bookmarks/components/sidebar.jet.html:31
-#, fuzzy
-msgid "View log"
-msgstr "Videó"
-
-#: assets/templates/bookmarks/components/sidebar.jet.html:127
-msgid "Links"
-msgstr "Hivatkozások"
-
-#: assets/templates/bookmarks/import/form-browser.jet.html:9
-msgid "Import your Browser's Bookmarks"
-msgstr "Importálja a Böngészője Könyvjelzőit"
-
-#: assets/templates/bookmarks/import/form-browser.jet.html:15
-msgid ""
-"\n"
-"    In your web browser, export your bookmarks as an HTML file.<br>\n"
-"    Upload this file in the form below and Readeck will create and fetch\n"
-"    every bookmark found it the file.\n"
-"  "
-msgstr ""
-"\n"
-"    A webböngészőben exportálja a könyvjelzőit HTML fájlként.<br>\n"
-"    Töltse fel ezt a fájlt az alábbi űrlapon, és a Readeck létrehozza és lekérdez.\n"
-"    minden könyvjelzőt, amely a fájlban található.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-browser.jet.html:22
-msgid "Instructions for Firefox"
-msgstr "Útmutató a Firefox-hoz"
-
-#: assets/templates/bookmarks/import/form-browser.jet.html:23
-msgid "Instructions for Chrome"
-msgstr "Útmutató a Chrome-hoz"
-
-#: assets/templates/bookmarks/import/form-browser.jet.html:33
-#: assets/templates/bookmarks/import/form-csv.jet.html:26
-#: assets/templates/bookmarks/import/form-goodlinks.jet.html:26
-#: assets/templates/bookmarks/import/form-linkwarden.jet.html:26
-#: assets/templates/bookmarks/import/form-pocket-file.jet.html:41
-#: assets/templates/bookmarks/import/form-readwise.jet.html:26
-#: assets/templates/bookmarks/import/form-text.jet.html:27
-#: assets/templates/profile/import.jet.html:24
-msgid "File"
-msgstr "Fájl"
-
-#: assets/templates/bookmarks/import/form-browser.jet.html:41
-msgid "Convert section titles to labels"
-msgstr "Szakaszcímek konvertálása címkévé"
-
-#: assets/templates/bookmarks/import/form-browser.jet.html:43
-msgid "Adds a label on links, based on their section title"
-msgstr "Címkék hivatkozásokhoz adása a szakaszcímek alapján"
-
-#: assets/templates/bookmarks/import/form-browser.jet.html:47
-#: assets/templates/bookmarks/import/form-csv.jet.html:33
-#: assets/templates/bookmarks/import/form-goodlinks.jet.html:33
-#: assets/templates/bookmarks/import/form-linkwarden.jet.html:33
-#: assets/templates/bookmarks/import/form-omnivore.jet.html:42
-#: assets/templates/bookmarks/import/form-pocket-file.jet.html:49
-#: assets/templates/bookmarks/import/form-readwise.jet.html:33
-#: assets/templates/bookmarks/import/form-text.jet.html:34
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:68
-msgid "Import Bookmarks"
-msgstr "Könyvjelzők importálása"
-
-# | msgid "Import Links from a Text File"
-#: assets/templates/bookmarks/import/form-csv.jet.html:9
-msgid "Import Links from a CSV File"
-msgstr "Hivatkozások importálása CSV fájlból"
-
-#: assets/templates/bookmarks/import/form-csv.jet.html:15
-msgid ""
-"\n"
-"    Upload a CSV file from Instapaper or any CSV that matches the format specified below.\n"
-"  "
-msgstr ""
-"\n"
-"    CSV fájl feltöltése Instapaper-ből vagy bármely más CSV, amely formátuma megfelel a következők szerint.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-csv.jet.html:40
-#, python-format
-msgid ""
-"\n"
-"    The uploaded file must contain a first row with the column names. Column names are case\n"
-"    insensitive and, except for <code>%s</code>, every column is optional.\n"
-"  "
-msgstr ""
-"\n"
-"    A feltöltött fájl első sora az oszlop fejléceket kell tartalmazza. Az oszlopfejlécek nem\n"
-"    kisbetűérzékenyek, kivéve a  <code>%s</code>, minden oszlop opcionális.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-csv.jet.html:44
-msgid "Here are the columns you can set:"
-msgstr "Ezeket az oszlopokat állíthatja be:"
-
-# | msgid "File"
-#: assets/templates/bookmarks/import/form-csv.jet.html:48
-msgid "Field"
-msgstr "Mező"
-
-# | msgid "Links"
-#: assets/templates/bookmarks/import/form-csv.jet.html:49
-msgid "Alias"
-msgstr "Alias"
-
-# | msgid "Email Address"
-#: assets/templates/bookmarks/import/form-csv.jet.html:57
-msgid "Link address"
-msgstr "Hivatkozás cím"
-
-# | msgid "Bookmark Labels"
-#: assets/templates/bookmarks/import/form-csv.jet.html:62
-msgid "Bookmark title"
-msgstr "Könyvjelző címe"
-
-#: assets/templates/bookmarks/import/form-csv.jet.html:67
-#, python-format
-msgid "Bookmark's archived state; only valid value is \"%s\""
-msgstr "Archív könyvjelző jelölése; egyedüli elfogadható érték \"%s\""
-
-#: assets/templates/bookmarks/import/form-csv.jet.html:72
-msgid "Creation date, can be a UNIX timestamp or an RFC-3339 formatted date"
-msgstr "Létrehozás dátuma, lehet UNIX időbélyeg vagy RFC-3339 formátumú dátum"
-
-#: assets/templates/bookmarks/import/form-csv.jet.html:77
-msgid "A JSON encoded list of labels"
-msgstr "JSON kódolású címke lista"
-
-#: assets/templates/bookmarks/import/form-csv.jet.html:82
-msgid "Example"
-msgstr "Példa"
-
-#: assets/templates/bookmarks/import/form-goodlinks.jet.html:9
-msgid "Import Links from a GoodLinks export file"
-msgstr "Hivatkozások importálása GoodLinks export fájlból"
-
-#: assets/templates/bookmarks/import/form-goodlinks.jet.html:15
-msgid ""
-"\n"
-"    Upload a JSON file obtained from your GoodLinks app.\n"
-"  "
-msgstr ""
-"\n"
-"    Az Ön GoodLinks alkalmazásából származó JSON fájl feltöltése\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-linkwarden.jet.html:9
-#, fuzzy
-msgid "Import Bookmarks from a Linkwarden export file"
-msgstr "Hivatkozások importálása GoodLinks export fájlból"
-
-#: assets/templates/bookmarks/import/form-linkwarden.jet.html:15
-#, fuzzy
-msgid ""
-"\n"
-"    Upload a JSON file obtained from your Linkwarden app.\n"
-"  "
-msgstr ""
-"\n"
-"    Az Ön GoodLinks alkalmazásából származó JSON fájl feltöltése\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-omnivore.jet.html:9
-#: assets/templates/bookmarks/import/index.jet.html:63
-msgid "Import your Omnivore Articles"
-msgstr "Omnivore Cikkek importálása"
-
-#: assets/templates/bookmarks/import/form-omnivore.jet.html:15
-msgid ""
-"\n"
-"    To import your articles from Omnivore, you must first create an API Key in your\n"
-"    Omnivore's settings and enter it in the the form below.\n"
-"  "
-msgstr ""
-"\n"
-"    Omnivore cikkeinek importálásához először is egy API Kulcsot kell létrehoznia\n"
-"az Omnivore beállításainál majd be kell írnia az alábbi űrlapon.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-omnivore.jet.html:27
-msgid "Omnivore URL"
-msgstr "Omnivore URL-címe"
-
-#: assets/templates/bookmarks/import/form-omnivore.jet.html:29
-msgid "URL of your Omnivore homepage"
-msgstr "Az Ön Omnivore kezdőoldalának URL címe"
-
-#: assets/templates/bookmarks/import/form-omnivore.jet.html:35
-msgid "API Key"
-msgstr "API Kulcs"
-
-#: assets/templates/bookmarks/import/form-pocket-file.jet.html:9
-#: assets/templates/bookmarks/import/index.jet.html:70
-msgid "Import your Pocket Articles"
-msgstr "Pocket Cikkek importálása"
-
-#: assets/templates/bookmarks/import/form-pocket-file.jet.html:15
-#, fuzzy
-msgid ""
-"\n"
-"    You can export your articles on Pocket by visiting:<br>\n"
-"    <a class=\"%[1]s\" href=\"%[2]s\">%[2]s</a>.\n"
-"  "
-msgstr ""
-"\n"
-"    Pocket cikkeit exportálhatja a következő oldalon:<br>\n"
-"    <a class=\"%s\" href=\"%s\">%s</a>.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-pocket-file.jet.html:21
-msgid ""
-"\n"
-"    Upload this file in the form below and Readeck will fetch and save\n"
-"    every link found it the file.\n"
-"  "
-msgstr ""
-"\n"
-"    Töltse fel ezt a fájlt az alábbi űrlapon, és a Readeck lekérdezi és elmenti\n"
-"    a fájlban található összes linket.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-pocket-file.jet.html:27
-msgid ""
-"\n"
-"    Please note that Pocket does not allow the article content to be exported.\n"
-"    This could lead to different results in Readeck than what you currently\n"
-"    see in Pocket.\n"
-"  "
-msgstr ""
-"\n"
-"    Felhívjuk figyelmét, hogy a Pocket nem teszi lehetővé a cikkek tartalmának exportálását.\n"
-"    Ez a Readeckben a jelenlegitől eltérő eredményekhez vezethet.\n"
-"    mint amit a Pocketben lát.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-pocket-file.jet.html:43
-msgid "Note: upload the ZIP file directly, not its contents"
-msgstr "Megjegyzés: közvetlenül a ZIP fájlt töltse fel, ne a tartalmát"
-
-# | msgid "Import Links from a Text File"
-# | msgid "Import Links from a CSV File"
-#: assets/templates/bookmarks/import/form-readwise.jet.html:9
-#, fuzzy
-msgid "Import Links from Readwise Reader CSV export"
-msgstr "Hivatkozások importálása CSV fájlból"
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:15
-msgid ""
-"\n"
-"    Upload a CSV file exported from your Readwise Reader account below.\n"
-"  "
-msgstr ""
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:38
-msgid "Which information is imported"
-msgstr ""
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:41
-msgid "Article title, URL, and when it was first saved,"
-msgstr ""
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:42
-msgid "The archived state of an article,"
-msgstr ""
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:43
-#, python-format
-msgid "\"%s\" as Readeck labels,"
-msgstr ""
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:44
-#, python-format
-msgid "When a document tag contains \"%s\", the bookmark will be added to Readeck Favorites."
-msgstr ""
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:46
-msgid "What is not imported:"
-msgstr ""
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:48
-msgid "Article reading progress and seen status,"
-msgstr ""
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:49
-msgid "Articles forwarded to Readwise Reader by email,"
-msgstr ""
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:50
-msgid "Uploaded documents such as PDFs or EPUB."
-msgstr ""
-
-#: assets/templates/bookmarks/import/form-text.jet.html:9
-#: assets/templates/bookmarks/import/index.jet.html:84
-msgid "Import Links from a Text File"
-msgstr "Hivatkozások importálása szöveges fájlból"
-
-#: assets/templates/bookmarks/import/form-text.jet.html:15
-msgid ""
-"\n"
-"    Upload a text file that contains one link per line and Readeck will fetch\n"
-"    all of them and save them in your bookmark list.\n"
-"  "
-msgstr ""
-"\n"
-"    Töltsön fel egy szöveges fájlt, amely soronként egy hivatkozást tartalmaz, és a Readeck lekérdezi a következőket\n"
-"    az összeset, és elmenti őket a könyvjelzőlistájába.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:9
-#: assets/templates/bookmarks/import/index.jet.html:91
-msgid "Import your Wallabag Articles"
-msgstr "Wallabag Cikkeinek importálása"
-
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:15
-msgid ""
-"\n"
-"    To import your articles from Wallabag, you must first create an API client\n"
-"    in Wallabag's <strong>API clients management</strong> menu. This will give you\n"
-"    a <strong>Client ID</strong> and <strong>Client secret</strong>.\n"
-"  "
-msgstr ""
-"\n"
-"    A cikkek Wallabagból történő importálásához először létre kell hoznia egy API klienst\n"
-"    a Wallabag <strong>API kliens menedzsment</strong> menüjében. Ez létrehoz Önnek egy\n"
-"    <strong>Kliens ID-t</strong> és <strong>Kliens titkot</strong>.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:21
-msgid ""
-"\n"
-"    You can then enter all the necessary information in the form below.\n"
-"  "
-msgstr ""
-"\n"
-"    Ezután az alábbi űrlapon megadhatja az összes szükséges információt.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:32
-msgid "Wallabag URL"
-msgstr "Wallabag URL-cím"
-
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:34
-msgid "URL of your Wallabag homepage"
-msgstr "Az Ön Wallabag kezdőoldalának URL címe"
-
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:54
-msgid "Client ID"
-msgstr "Kliens ID"
-
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:61
-msgid "Client Secret"
-msgstr "Kilens Titok"
-
-#: assets/templates/bookmarks/import/index.jet.html:9
-msgid "Import your Bookmarks"
-msgstr "Könyvjelzők importálása"
-
-#: assets/templates/bookmarks/import/index.jet.html:25
-msgid ""
-"\n"
-"    Here you can import your existing bookmark collection from various sources into Readeck.\n"
-"  "
-msgstr ""
-"\n"
-"    Itt importálhatja meglévő könyvjelzőgyűjteményét különböző forrásokból a Readeckbe.\n"
-"  "
-
-#: assets/templates/bookmarks/import/index.jet.html:34
-#: assets/templates/profile/export.jet.html:35
-#: internal/bookmarks/importer/browser.go:51
-msgid "Browser Bookmarks"
-msgstr "Böngésző Könyvjelzők"
-
-#: assets/templates/bookmarks/import/index.jet.html:35
-msgid "Import your Browser's Bookmarks, Pinboard, Instapaper"
-msgstr "Importálja a Bönégszője Könyvjelzőit, Pinboard vagy Instapaper bejegyzéseit"
-
-# | msgid "File"
-#: assets/templates/bookmarks/import/index.jet.html:41
-#: assets/templates/profile/export.jet.html:43
-#: internal/bookmarks/importer/csv.go:55
-msgid "CSV File"
-msgstr "CSV Fájl"
-
-# | msgid "Import Links from a Text File"
-#: assets/templates/bookmarks/import/index.jet.html:42
-msgid "Import Links from a CSV File and Instapaper"
-msgstr "Hivatkozások importálása CSV fájlból és Instapaper-ből"
-
-#: assets/templates/bookmarks/import/index.jet.html:49
-msgid "Import your GoodLinks Articles"
-msgstr "Importálja az Ön GoodLinks Cikkeit"
-
-#: assets/templates/bookmarks/import/index.jet.html:56
-#, fuzzy
-msgid "Import your Linkwarden Bookmarks"
-msgstr "Könyvjelzők importálása"
-
-#: assets/templates/bookmarks/import/index.jet.html:77
-msgid "Import your Readwise Reader Library"
-msgstr ""
-
-#: assets/templates/bookmarks/import/index.jet.html:83
-#: internal/bookmarks/importer/text.go:24
-msgid "Text File"
-msgstr "Szöveges fájl"
-
-#: assets/templates/bookmarks/import/options.jet.html:7
-msgid "Options"
-msgstr "Lehetőségetk"
-
-#: assets/templates/bookmarks/import/options.jet.html:12
-msgid "A label to add to all imported bookmarks"
-msgstr "Az összes importált könyvjelzőhöz hozzáadandó címke"
-
-#: assets/templates/bookmarks/import/options.jet.html:16
-msgid "Ignore links already in your bookmarks"
-msgstr "Hagyja figyelmen kívül a már könyvjelzőzött hivatkozásokat"
-
-# | msgid "Archived Bookmarks"
-#: assets/templates/bookmarks/import/options.jet.html:21
-msgid "Archive all links"
-msgstr "Minden hivatkozás archiválása"
-
-#: assets/templates/bookmarks/import/options.jet.html:23
-msgid "Moves all links to archive, regardless of their original status"
-msgstr "Minden link archiválása tekintet nélkül az eredeti státuszára"
-
-# | msgid "Mark as read"
-#: assets/templates/bookmarks/import/options.jet.html:27
-msgid "Mark all links as read"
-msgstr "Minden hivatkozás olvasottnak jelölése"
-
-#: assets/templates/bookmarks/import/options.jet.html:29
-msgid "Marks all links as read, regardless of their original status"
-msgstr "Minden link olvasottnak jelölése tekintet nélkül az eredeti státuszukra"
-
-#: assets/templates/bookmarks/import/progress.jet.html:15
-msgid "Import operation will launch momentarily."
-msgstr "Az importálási művelet azonnal elindul."
-
-#: assets/templates/bookmarks/import/progress.jet.html:17
-msgid "Import operation has started!"
-msgstr "Az importálási művelet megkezdődött!"
-
-#: assets/templates/bookmarks/import/progress.jet.html:21
-msgid "You can keep using Readeck while the import is running."
-msgstr "Az importálás közben továbbra is használhatja a Readeck-et."
-
-#: assets/templates/bookmarks/import/progress.jet.html:24
-msgid "Import is finished!"
-msgstr "Importálás véget ért!"
-
-#: assets/templates/bookmarks/import/progress.jet.html:25
-#, python-format
-msgid ""
-"\n"
-"      Your bookmarks are now available in your <a class=\"%s\" href=\"%s\">bookmark list</a>.\n"
-"      "
-msgstr ""
-"\n"
-"      A könyvjelzői most már elérhetők a <a class=\"%s\" href=\"%s\">könyvjelzőlistában</a>.\n"
-"      "
-
-# | msgid "Bookmark Labels"
-#: assets/templates/bookmarks/index.jet.html:1
-msgid "Bookmark filters"
-msgstr "Könyvjelző szűrők"
-
-#: assets/templates/bookmarks/index.jet.html:32
-msgid "Save a new link"
-msgstr "Új hivatkozás mentése"
-
-#: assets/templates/bookmarks/index.jet.html:44
-msgctxt "button"
-msgid "Save link"
-msgstr "Link mentése"
-
-#: assets/templates/bookmarks/index.jet.html:53
-#, fuzzy
-msgid "\"%[1]s\" is not a valid address. Did you mean to search your bookmarks for %[2]s?"
-msgstr "\"%s\" nem érvényes cím. Úgy értette, hogy a könyvjelzőiben a %s-t keresi?"
-
-#: assets/templates/bookmarks/index.jet.html:77
-msgid "You don't have any bookmarks yet.<br> Copy a link in the field above and start saving."
-msgstr "Még nincsenek könyvjelzői.<br> Másoljon egy hivatkzosát a fenti mezőbe, és kezdje el a mentést."
-
-#: assets/templates/bookmarks/index.jet.html:79
-#, python-format
-msgid "Read more about bookmarks in the <a class=\"%s\" href=\"%s\">documentation</a>."
-msgstr "A könyvjelzőkről bővebben a <a class=\"%s\" href=\"%s\">dokumentációban</a> olvashat."
-
-# | msgid "Readeck Bookmark Collections"
-#: assets/templates/bookmarks/index.jet.html:89
-msgid "Readeck Browser Extension"
-msgstr "Readeck Böngésző Bővítmény"
-
-# | msgid "Import bookmarks"
-#: assets/templates/bookmarks/index.jet.html:105
-msgid "Import existing bookmarks"
-msgstr "Létező könyvjelzők importálása"
-
-# | msgid "" "\n" "          Would you like to import from a similar tool or
-# | from a file with existing bookmarks?\n" "          Try Readeck's import
-# | tool.\n" "        "
-#: assets/templates/bookmarks/index.jet.html:107
-msgid ""
-"\n"
-"              Would you like to import from a similar tool or from a file with existing bookmarks?\n"
-"              Try Readeck's import tool.\n"
-"            "
-msgstr ""
-"\n"
-"              Szeretne egy hasonló eszközből vagy egy meglévő könyvjelzőket tartalmazó fájlból importálni?\n"
-"          Próbálja ki a Readeck importáló eszközét.\n"
-"            "
-
-#: assets/templates/bookmarks/index.jet.html:114
-msgid "Import links and articles"
-msgstr "Hivatkozások és cikkek importálása"
-
-#: assets/templates/bookmarks/index.jet.html:141
-msgid "Import bookmarks"
-msgstr "Könyvjelzők importálása"
-
-#: assets/templates/bookmarks/index.jet.html:150
-msgid "Your search query yielded <strong>no results</strong>."
-msgstr "A keresési lekérdezésed <strong>nem hozott eredményt</strong>."
-
-#: assets/templates/bookmarks/index.jet.html:152
-#, python-format
-msgid "Your search query yielded <strong>%d result</strong>."
-msgid_plural "Your search query yielded <strong>%d results</strong>."
-msgstr[0] "Az Ön keresési lekérdezése <strong>%d találatot </strong> eredményezett."
-msgstr[1] "Az Ön keresési lekérdezése <strong>%d találatot </strong> eredményezett."
-
-#: assets/templates/bookmarks/index.jet.html:183
-msgctxt "action"
-msgid "Search"
-msgstr "Keresés"
-
-#: assets/templates/bookmarks/index.jet.html:185
-msgid "Reset search"
-msgstr "Keresés törlése"
-
-#: assets/templates/bookmarks/index.jet.html:188
-msgid "Create a collection"
-msgstr "Gyűjtemény létrehozása"
-
-#: assets/templates/bookmarks/label.jet.html:56
-msgid "Label will be removed in a few seconds."
-msgstr "A címke néhány másodpercen belül eltávolításra kerül."
-
-#: assets/templates/bookmarks/labels.jet.html:8
-msgid "Bookmark Labels"
-msgstr "Könyvjelző Címkék"
-
-#: assets/templates/bookmarks/labels.jet.html:14
-msgid ""
-"\n"
-"  Labels let your organize your bookmarks the way you want.\n"
-"  You can set anything to a label, including emojis!\n"
-msgstr ""
-"\n"
-"  A címkék segítségével a könyvjelzőket a kívánt módon rendezheti.\n"
-"  Bármit beállíthatsz címkének, beleértve az emojikat is!\n"
-
-#: assets/templates/docs/about.jet.html:20
-#: assets/templates/docs/base.jet.html:27 docs/http.go:270
-msgid "About Readeck"
-msgstr "A Readeck-ről"
-
-#: assets/templates/docs/about.jet.html:26
-msgid "Version:"
-msgstr "Verzió:"
-
-#: assets/templates/docs/about.jet.html:27
-msgid "Built Date:"
-msgstr "Dátum:"
-
-#: assets/templates/docs/about.jet.html:30
-msgid "System Information"
-msgstr "Rendszerinformációk"
-
-#: assets/templates/docs/about.jet.html:33
-msgid "Here are your current system information. Please include them if you report a bug."
-msgstr "Itt vannak az Ön jelenlegi rendszeradatai. Kérjük, adja meg ezeket, ha hibát jelent."
-
-#: assets/templates/docs/about.jet.html:42
-msgid "Storage"
-msgstr ""
-
-#: assets/templates/docs/about.jet.html:46
-msgid "Database Size:"
-msgstr ""
-
-#: assets/templates/docs/about.jet.html:50
-#, fuzzy
-msgid "Bookmarks Disk Usage:"
-msgstr "Könyvjelző töltődik"
-
-#: assets/templates/docs/about.jet.html:56
-msgid "Project"
-msgstr "Projekt"
-
-#: assets/templates/docs/about.jet.html:59
-#, fuzzy
-msgid "Main website:"
-msgstr "Fő weboldal"
-
-#: assets/templates/docs/about.jet.html:60
-#, fuzzy
-msgid "Sources and issues:"
-msgstr "Források és hibák"
-
-#: assets/templates/docs/about.jet.html:61
-#, fuzzy
-msgid "How to contribute:"
-msgstr "Közreműködés"
-
-#: assets/templates/docs/about.jet.html:62
-#, fuzzy
-msgid "Community Forum:"
-msgstr "Közösségi Fórum"
-
-#: assets/templates/docs/about.jet.html:63
-#, fuzzy
-msgid "Matrix Chat:"
-msgstr "Matrix Chat"
-
-#: assets/templates/docs/about.jet.html:66
-msgid "License"
-msgstr "Licence"
-
-#: assets/templates/docs/about.jet.html:68
-#, python-format
-msgid "Readeck is distributed under the terms of the license \"%s\""
-msgstr "A Readeck a következő licenc feltételei szerint kerül terjesztésre \"%s\""
-
-#: assets/templates/docs/about.jet.html:72
-msgid "Here's a short summary of the license conditions:"
-msgstr "Íme egy rövid összefoglaló az engedélyezési feltételekről:"
-
-#: assets/templates/docs/about.jet.html:77
-#: assets/templates/profile/app_list.jet.html:51
-msgid "Permissions"
-msgstr "Jogosultságok"
-
-#: assets/templates/docs/about.jet.html:78
-msgid "Conditions"
-msgstr "Feltételek"
-
-#: assets/templates/docs/about.jet.html:79
-msgid "Limitations"
-msgstr "Korlátozások"
-
-#: assets/templates/docs/about.jet.html:87
-msgid "Commercial use"
-msgstr "Kereskedelmi célú felhasználás"
-
-#: assets/templates/docs/about.jet.html:90
-msgid "Distribution"
-msgstr "Forgalmazás"
-
-#: assets/templates/docs/about.jet.html:93
-msgid "Modification"
-msgstr "Módosítás"
-
-#: assets/templates/docs/about.jet.html:96
-msgid "Patent use"
-msgstr "Szabadalom felhasználása"
-
-#: assets/templates/docs/about.jet.html:99
-msgid "Private use"
-msgstr "Magáncélú felhasználás"
-
-#: assets/templates/docs/about.jet.html:106
-msgid "Disclose source"
-msgstr "A forrás közzététele"
-
-#: assets/templates/docs/about.jet.html:109
-msgid "License and copyright notice"
-msgstr "Licenc és szerzői jogi nyilatkozat"
-
-#: assets/templates/docs/about.jet.html:112
-msgid "Network use is distribution"
-msgstr "Hálózati felhasználás forgalmazás"
-
-#: assets/templates/docs/about.jet.html:115
-msgid "Same license"
-msgstr "Ugyanaz a licenc"
-
-#: assets/templates/docs/about.jet.html:118
-msgid "State changes"
-msgstr "Állami változtatások"
-
-#: assets/templates/docs/about.jet.html:125
-msgid "Liability"
-msgstr "Felelősségvállalás"
-
-#: assets/templates/docs/about.jet.html:128
-msgid "Warranty"
-msgstr "Jótállás"
-
-#: assets/templates/docs/about.jet.html:155
-msgid "Third-Party Licenses"
-msgstr "Harmadik féltől származó licencek"
-
-#: assets/templates/docs/about.jet.html:157
-msgid "Readeck includes and/or uses the following open source assets:"
-msgstr "A Readeck a következő nyílt forráskódú eszközöket tartalmazza és/vagy használja:"
-
-#: assets/templates/docs/api-docs.jet.html:8
-#: assets/templates/docs/base.jet.html:21
-msgid "API Documentation"
-msgstr "API Dokumentációs"
-
-#: assets/templates/docs/base.jet.html:9
-msgid "Readeck Help"
-msgstr "Readeck Súgó"
-
-#: assets/templates/docs/base.jet.html:28
-msgid "Changelog"
-msgstr "Változásnapló"
-
-#: assets/templates/emails/bookmark_epub.jet.md:6
-#, python-format
-msgid ""
-"\n"
-"Hi,\n"
-"\n"
-"Here is your ebook for: **%s**\n"
-msgstr ""
-"\n"
-"Szia,\n"
-"\n"
-"Itt az e-könyved ehhez: **%s**\n"
-
-#: assets/templates/emails/recover.jet.md:7
+#: internal/auth/signin/recover.go:257
 #, fuzzy
 msgid ""
 "\n"
@@ -2026,7 +525,7 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: assets/templates/emails/recover.jet.md:19
+#: internal/auth/signin/recover.go:271
 #, fuzzy
 msgid ""
 "\n"
@@ -2059,681 +558,777 @@ msgstr ""
 "\n"
 "Ha Ön nem Readeck-felhasználó, kérjük, hagyja figyelmen kívül ezt az üzenetet.\n"
 
-#: assets/templates/epub/bookmark.jet.html:62
+#: internal/auth/signin/x-auth.templ:24
+msgid "Or continue with"
+msgstr ""
+
+#: internal/auth/signin/x-auth.templ:44 internal/auth/signin/x-auth.templ:71
+msgid "Sign in"
+msgstr "Bejelentkezés"
+
+#: internal/auth/signin/x-auth.templ:45
+msgid "Sign in to Readeck"
+msgstr "Bejelentkezés a Readeck-be"
+
+#: internal/auth/signin/x-auth.templ:55
+msgid "Username or email address"
+msgstr "Felhasználónév vagy e-mail cím"
+
+#: internal/auth/signin/x-auth.templ:76
+msgid "Forgot your password?"
+msgstr "Elfelejtette a jelszavát?"
+
+#: internal/auth/signin/x-auth.templ:87
 #, fuzzy
-msgid "Notes"
-msgstr "Szerepkörök"
-
-#: assets/templates/error.jet.html:8
-msgid "Error"
-msgstr "Hiba"
-
-#: assets/templates/error.jet.html:22
-msgid "Permission denied."
-msgstr "Hozzáférés megtagadva."
-
-#: assets/templates/error.jet.html:24
-msgid "Page not found."
-msgstr "Oldal nem található."
-
-#: assets/templates/error.jet.html:26
-msgid "An error occurred."
-msgstr "Hiba történt."
-
-#: assets/templates/menu.jet.html:10
-msgid "Open menu"
-msgstr "Menü megnyitása"
-
-#: assets/templates/menu.jet.html:33
-msgid "Change color theme"
-msgstr "Színtéma módosítása"
-
-#: assets/templates/menu.jet.html:40 assets/templates/profile/base.jet.html:11
-msgid "Settings"
-msgstr "Beállítások"
-
-#: assets/templates/profile/app_list.jet.html:10
-#: assets/templates/profile/base.jet.html:23 internal/profile/views.go:244
-#, fuzzy
-msgid "Applications"
-msgstr "Alkalmazás"
-
-#: assets/templates/profile/app_list.jet.html:16
-msgid ""
-"\n"
-"  Applications are registered clients that have permissions to access your Readeck account.\n"
-"  If there are applications you do not recognize here, or an application is misbehaving,\n"
-"  you can revoke its access.\n"
-msgstr ""
-
-#: assets/templates/profile/app_list.jet.html:24
-msgid "You have no registered application at the moment."
-msgstr ""
-
-# | msgid "Created on: %s"
-#: assets/templates/profile/app_list.jet.html:46
-#, fuzzy, python-format
-msgid "Authorized on: %s"
-msgstr "Legutoljára használva ekkor: %s"
-
-# | msgid "Created on: %s"
-#: assets/templates/profile/app_list.jet.html:48
-#: assets/templates/profile/token_list.jet.html:50
-#, python-format
-msgid "Last used on: %s"
-msgstr "Legutoljára használva ekkor: %s"
-
-#: assets/templates/profile/app_list.jet.html:60
-#, fuzzy
-msgid "This client will be revoked in a few seconds."
-msgstr "Ez a token néhány másodpercen belül eltávolításra kerül."
-
-#: assets/templates/profile/app_list.jet.html:74
-#, fuzzy
-msgid "Revoke application"
-msgstr "Alkalmazás"
-
-#: assets/templates/profile/app_list.jet.html:87
-#, fuzzy
-msgid "Developer information"
-msgstr "Könyvjelző információ"
-
-#: assets/templates/profile/app_list.jet.html:88
-#, python-format
-msgid ""
-"\n"
-"    If you plan to build an application, please refer to the\n"
-"    <a href=\"%s\">API Documentation</a>.\n"
-"  "
-msgstr ""
-
-#: assets/templates/profile/base.jet.html:16 internal/profile/views.go:97
-#: internal/profile/views.go:113 internal/profile/views.go:167
-#: internal/profile/views.go:243 internal/profile/views.go:259
-#: internal/profile/views.go:319 internal/profile/views.go:370
-#: internal/profile/views.go:401
-msgid "Profile"
-msgstr "Profil"
-
-#: assets/templates/profile/base.jet.html:19
-#: assets/templates/profile/password.jet.html:9 internal/profile/views.go:114
-#: internal/profile/views.go:168
-msgid "Security"
-msgstr ""
-
-#: assets/templates/profile/base.jet.html:26 internal/profile/views.go:260
-#: internal/profile/views.go:320
-msgid "API Tokens"
-msgstr "API Tokenek"
-
-#: assets/templates/profile/base.jet.html:34
-#: assets/templates/profile/export.jet.html:10 internal/profile/views.go:371
-#, fuzzy
-msgid "Export"
-msgstr "Import"
-
-#: assets/templates/profile/base.jet.html:37
-#: assets/templates/profile/import.jet.html:9
-#: assets/templates/profile/import.jet.html:44
-#: internal/bookmarks/routes/views_import.go:29
-#: internal/bookmarks/routes/views_import.go:38
-#: internal/bookmarks/routes/views_import.go:69 internal/profile/views.go:402
-msgid "Import"
-msgstr "Import"
-
-#: assets/templates/profile/export.jet.html:15
-#, fuzzy
-msgid "Export your Readeck Profile"
-msgstr "Pocket Cikkek importálása"
-
-#: assets/templates/profile/export.jet.html:19
-msgid ""
-"\n"
-"    This lets you download a zip file containing all your profile's data, including\n"
-"    bookmarks, collections, etc.\n"
-"    "
-msgstr ""
-
-#: assets/templates/profile/export.jet.html:24
-#, fuzzy
-msgid "Export Data"
-msgstr "Exportálás és Megosztás"
-
-#: assets/templates/profile/export.jet.html:36
-msgid "Bookmark List in Browser Bookmarks Format"
-msgstr ""
-
-#: assets/templates/profile/export.jet.html:44
-msgid "Bookmark List as Comma Separated Values"
-msgstr ""
-
-#: assets/templates/profile/export.jet.html:49
-#, fuzzy
-msgid "Export Bookmarks"
-msgstr "Könyvjelzők importálása"
-
-#: assets/templates/profile/export.jet.html:51
-msgid "You can export your bookmark list in the following formats:"
-msgstr ""
-
-#: assets/templates/profile/import.jet.html:14
-msgid "Import a Readeck Profile"
-msgstr ""
-
-#: assets/templates/profile/import.jet.html:16
-msgid "Import a file obtained through a previous profile export."
-msgstr ""
-
-#: assets/templates/profile/import.jet.html:30
-msgid "Confirm your user name"
-msgstr ""
-
-#: assets/templates/profile/import.jet.html:35
-#, fuzzy
-msgid "Attention"
+msgid "Two-factor authentication"
 msgstr "Hitelesítés"
 
-#: assets/templates/profile/import.jet.html:37
+#: internal/auth/signin/x-auth.templ:94
+#, fuzzy
+msgid "Passcode"
+msgstr "Jelszó"
+
+#: internal/auth/signin/x-auth.templ:105
+#, fuzzy
+msgid "Verify"
+msgstr "Verzió:"
+
+#: internal/auth/signin/x-auth.templ:111 internal/auth/signin/x-auth.templ:147
+#: internal/auth/signin/x-auth.templ:180
+msgid "Cancel and go back to sign in"
+msgstr "Mégse és vissza a bejelentkezéshez"
+
+#: internal/auth/signin/x-auth.templ:120
+msgid "Password recovery"
+msgstr "Jelszó visszaállítás"
+
+#: internal/auth/signin/x-auth.templ:130
+msgid "No worries, it happens to anyone."
+msgstr "Ne aggódjon, ez bárkivel megtörténhet."
+
+#: internal/auth/signin/x-auth.templ:132
+#, fuzzy
 msgid ""
 "\n"
-"      This will empty your current profile and all its data will be\n"
-"      replaced with the file's content.\n"
+"\t\t\t\t\t\t\tPlease provide the email address you used to create\n"
+"\t\t\t\t\t\t\tyour account and we'll send you a message with a link\n"
+"\t\t\t\t\t\t\tto recover your password.\n"
+"\t\t\t\t\t\t"
+msgstr ""
+"\n"
+"        Kérjük, adja meg a fiókja létrehozásához használt e-mail címet\n"
+"        és üzenetet küldünk rá egy linkkel, amivel \n"
+"        visszaállíthatja a jelszavát.\n"
 "      "
-msgstr ""
 
-#: assets/templates/profile/import.jet.html:49
-#, fuzzy
-msgid "Import bookmarks from other services"
-msgstr "Könyvjelzők importálása"
+#: internal/auth/signin/x-auth.templ:143
+msgid "Send me a recovery link"
+msgstr "Küldjön egy helyreállítási linket"
 
-#: assets/templates/profile/import.jet.html:52
-#, python-format
-msgid ""
-"\n"
-"  If you have bookmarks from another service you can import them in the\n"
-"  <a href=\"%s\">dedicated section</a>.\n"
-"  "
-msgstr ""
+#: internal/auth/signin/x-auth.templ:153
+msgid "Almost there!"
+msgstr "Mindjárt kész!"
 
-#: assets/templates/profile/index.jet.html:9
-msgid "My profile"
-msgstr "Profilom"
-
-#: assets/templates/profile/index.jet.html:17
+#: internal/auth/signin/x-auth.templ:155
 #, fuzzy, python-format
-msgid "You are connected as <strong>%s</strong>"
-msgstr "Az Ön keresési lekérdezése <strong>%d találatot </strong> eredményezett."
-
-#: assets/templates/profile/index.jet.html:19
-msgid "Sign out"
-msgstr "Kijelentkezés"
-
-# | msgid "Settings"
-#: assets/templates/profile/index.jet.html:29
-msgid "Base settings"
-msgstr "Alap beállítások"
-
-#: assets/templates/profile/index.jet.html:41
-msgid "Email Address"
-msgstr "E-mail cím"
-
-# | msgid "Settings"
-#: assets/templates/profile/index.jet.html:66
-msgid "Email settings"
-msgstr "E-mail beállítások"
-
-#: assets/templates/profile/index.jet.html:67
-msgid ""
-"\n"
-"    These, optional, parameters are used when Readeck sends emails.\n"
-"    "
+msgid "We have sent an email to <strong>%s</strong> with further instructions."
 msgstr ""
 "\n"
-"    Ezek opcionális paraméterek a Readeck e-mail küldéséhez.\n"
-"    "
+"        E-mailt küldtünk erre a címre:\n"
+"        <strong>%s</strong>\n"
+"        benne a további tennivalókkal.\n"
+"      "
 
-#: assets/templates/profile/index.jet.html:73
-msgid "Reply To"
-msgstr "Válasz neki"
+#: internal/auth/signin/x-auth.templ:171 internal/profile/x-security.templ:33
+msgid "New password"
+msgstr "Új jelszó"
 
-#: assets/templates/profile/index.jet.html:74
-msgid "Add this email address in your outgoing emails so recipients can reply."
-msgstr "Adja hozzá ezt az e-mail címet a kimenő levelekhez, hogy címezettek válaszolhassanak rá."
+#: internal/auth/signin/x-auth.templ:176
+msgid "Update your password"
+msgstr "Jelszó frissítése"
 
-#: assets/templates/profile/index.jet.html:79
-msgid "Send EPUB to"
-msgstr "EPUB küldése ide"
+#: internal/auth/signin/x-auth.templ:187
+msgid "Your password has been changed."
+msgstr "Jelszava megváltozott."
 
-#: assets/templates/profile/index.jet.html:80
-msgid "This address is used to prefill the recipient when you send an e-book by email."
-msgstr "Ezt a címet használjuk hogy előtöltsük a címzett mezőt amikor e-könyvet küld e-mail-ben."
+#: internal/auth/signin/x-auth.templ:190
+msgid "Go to the sign in page"
+msgstr "Tovább a bejelentkező oldalra"
 
-#: assets/templates/profile/index.jet.html:87
+#: internal/auth/users/forms.go:18
 #, fuzzy
-msgid "Sending e-books to an Amazon Kindle"
-msgstr "E-könyv küldése e-mail-ben"
+msgid "username is not valid"
+msgstr "Felhasználónév vagy e-mail cím"
 
-#: assets/templates/profile/index.jet.html:88
-msgid ""
-"\n"
-"          If you plan to send e-books to a Kindle device, you must approve the\n"
-"          following email address within your Kindle Account:\n"
-"          "
-msgstr ""
-"\n"
-"        Ha e-könyvek Kindle eszközre való küldését tervez, előtte\n"
-"        a Kindle Fiókjában jóvá kell hagynia a következő e-mail címet:\n"
-"        "
-
-#: assets/templates/profile/password.jet.html:19
-msgid "Change my password"
-msgstr "Jelszó megváltoztatása"
-
-#: assets/templates/profile/password.jet.html:23
-msgid "Current password"
-msgstr "Jelenlegi jelszó"
-
-#: assets/templates/profile/password.jet.html:46
-msgid "Verification Code (TOTP)"
-msgstr ""
-
-#: assets/templates/profile/password.jet.html:47
-msgid "A verification code is a one time code generated by an application, such as Google Authenticator."
-msgstr ""
-
-#: assets/templates/profile/password.jet.html:52
-msgid "The verification code is enabled on this account."
-msgstr ""
-
-#: assets/templates/profile/password.jet.html:57
+#: internal/auth/users/forms.go:19
 #, fuzzy
-msgid "Remove Verification Code"
-msgstr "Módosítás"
+msgid "username is not available"
+msgstr "Felhasználónév vagy e-mail cím"
 
-#: assets/templates/profile/password.jet.html:59
-msgid "Removing your verification code will make your account less secure."
-msgstr ""
-
-#: assets/templates/profile/password.jet.html:64
+#: internal/auth/users/forms.go:34
 #, fuzzy
-msgid "Remove"
-msgstr "eltávolítás"
+msgid "password must be at least 8 character long"
+msgstr "legalább 8 karakter hosszúnak kell lennie"
 
-#: assets/templates/profile/password.jet.html:70
-#: assets/templates/profile/totp.jet.html:9
-#, fuzzy
-msgid "Setup Verification Code"
-msgstr "Módosítás"
-
-# | msgid "API Token"
-#: assets/templates/profile/token.jet.html:1
-msgid "copy token"
-msgstr "token másolása"
-
-#: assets/templates/profile/token.jet.html:1
-msgid "copy HTTP header"
-msgstr "HTTP fejléc másolása"
-
-#: assets/templates/profile/token.jet.html:9
-msgid "API Token"
-msgstr "API Token"
-
-#: assets/templates/profile/token.jet.html:18
-msgid "Token will be removed in a few seconds."
-msgstr "A token néhány másodpercen belül eltávolításra kerül."
-
-#: assets/templates/profile/token.jet.html:24
-msgid "Properties"
-msgstr "Tulajdonságok"
-
-#: assets/templates/profile/token.jet.html:30
-msgid "Token ID"
-msgstr "Token ID"
-
-# | msgid "Patent use"
-#: assets/templates/profile/token.jet.html:35
-msgid "Last used"
-msgstr "Legutoljára használt"
-
-# | msgid "New User"
-#: assets/templates/profile/token.jet.html:36
-msgid "never used"
-msgstr "sosem használt"
-
-#: assets/templates/profile/token.jet.html:48
-msgid "Enabled"
-msgstr "Engedélyezve"
-
-#: assets/templates/profile/token.jet.html:54
-msgid "Expires on"
-msgstr "Lejár ekkor"
-
-#: assets/templates/profile/token.jet.html:60
-msgid ""
-"\n"
-"    You can limit the permissions granted to this token by choosing one or more\n"
-"    group of permissions below.<br>\n"
-"    Leave all the choices blank to grant all your permissions to this token.\n"
-"  "
-msgstr ""
-"\n"
-"    Az alábbi engedélyek egy vagy több csoportjának kiválasztásával \n"
-"    korlátozhatja az erre a tokenre vonatkozó engedélyeket.<br>\n"
-"    Hagyja üresen az összes választási lehetőséget, ha minden engedélyt megad a tokennek.\n"
-"  "
-
-#: assets/templates/profile/token.jet.html:68
-msgid "Roles"
-msgstr "Szerepkörök"
-
-#: assets/templates/profile/token.jet.html:76
-msgid "Delete token"
-msgstr "Token törlése"
-
-#: assets/templates/profile/token.jet.html:81
-msgid "Authentication"
-msgstr "Hitelesítés"
-
-#: assets/templates/profile/token.jet.html:84
-msgid "Your API token"
-msgstr "Az Ön API tokenje"
-
-#: assets/templates/profile/token.jet.html:97
-msgid "Download as a text file"
-msgstr ""
-
-#: assets/templates/profile/token.jet.html:101
-msgid "How to use it"
-msgstr "Hogyan használja"
-
-#: assets/templates/profile/token.jet.html:103
-msgid "As a Bearer Token"
-msgstr "Mint hordozó token"
-
-#: assets/templates/profile/token.jet.html:105
-msgid "You can use this token by passing it as an <strong>Authorization: Bearer</strong> HTTP header."
-msgstr "Ezt a tokent úgy használhatja, hogy átadja mint <strong>Felhatalmazás: Bearer</strong> HTTP fejlécet."
-
-#: assets/templates/profile/token.jet.html:107
-msgid "HTTP Header"
-msgstr "HTTP fejléc"
-
-#: assets/templates/profile/token.jet.html:118
-msgid "As a password"
-msgstr "Mint jelszó"
-
-#: assets/templates/profile/token.jet.html:120
-msgid "Alternatively, you can use this token as a password for HTTP Basic Authentication."
-msgstr "Alternatívaként használhatja ezt a token-t mint jelszavat Alap HTTP Azonosításhoz."
-
-#: assets/templates/profile/token.jet.html:121
-msgid ""
-"For example, if an application only accepts a username and password, you can provide this token as a password.\n"
-"  The username is ignored and can be anything, including an empty value."
-msgstr ""
-"Páldául, ha egy alkalmazás csak felhasználónevet és jelszavat fogad el, használhatja ezt a tokent jelszó gyanánt.\n"
-"  A felhasználónév figyelmet kívül lesz hagyva, így bármi lehet, akár üres érték is."
-
-#: assets/templates/profile/token_list.jet.html:10
-msgid "My API Tokens"
-msgstr "API Tokenjeim"
-
-#: assets/templates/profile/token_list.jet.html:16
-#, fuzzy
-msgid "An API Token is a key that grants you access to the Readeck API."
-msgstr ""
-"\n"
-"  Az API token egy olyan kulcs, amely lehetővé teszi az Ön (vagy egy másik eszköz, például egy böngészőbővítmény) számára, hogy\n"
-"  hozzáférést biztosít a Readeck API-hoz.\n"
-
-#: assets/templates/profile/token_list.jet.html:17
-#, python-format
-msgid "Please read the <a href=\"%s\">API Documentation</a> if you plan to use it."
-msgstr "Kérjük, olvassa el a <a href=\"%s\">API dokumentációt</a>, ha használni kívánja."
-
-#: assets/templates/profile/token_list.jet.html:22
-msgid "Create a new API token"
-msgstr "Új API token létrehozása"
-
-#: assets/templates/profile/token_list.jet.html:46
-#, python-format
-msgid "Expires on: %s"
-msgstr "Lejár ekkor: : %s"
-
-#: assets/templates/profile/token_list.jet.html:58
-msgid "This token will be removed in a few seconds."
-msgstr "Ez a token néhány másodpercen belül eltávolításra kerül."
-
-#: assets/templates/profile/totp.jet.html:17
-msgid "Scan this QR code with your app"
-msgstr ""
-
-#: assets/templates/profile/totp.jet.html:18
-msgid "Scan the QR code below with a two-factor authentication app on your phone."
-msgstr ""
-
-#: assets/templates/profile/totp.jet.html:25
-msgid "If you can't use the QR code, enter the code below instead."
-msgstr ""
-
-#: assets/templates/profile/totp.jet.html:29
-msgid "Enter the code from your application."
-msgstr ""
-
-#: assets/templates/profile/totp.jet.html:30
-msgid "After scanning the QR code, the app will display a six-digit code that you need to enter below."
-msgstr ""
-
-#: assets/templates/profile/totp.jet.html:35
-msgid "Code from your device"
-msgstr ""
-
-#: assets/templates/profile/totp.jet.html:41
-msgid "Finish"
-msgstr ""
-
-#: internal/admin/views.go:77
-msgid "User created."
-msgstr "Felhasználó létrehozva."
-
-#: internal/admin/views.go:115
-msgid "User updated."
-msgstr "Felhasználó frissítve."
-
-#: internal/auth/signin/forms.go:17
-msgid "Invalid user and/or password"
-msgstr "Érvénytelen felhasználó és/vagy jelszó"
-
-#: internal/auth/signin/http.go:197 internal/profile/forms.go:296
-#, fuzzy
-msgid "Invalid code"
-msgstr "érvénytelen jelszó"
-
-#: internal/auth/users/forms.go:56 internal/auth/users/forms.go:219
+#: internal/auth/users/forms.go:89
 #, fuzzy
 msgctxt "role"
 msgid "no group"
 msgstr "Csoport"
 
-# | msgid "Password ID"
-#: internal/auth/users/forms.go:75
-msgid "password is empty"
-msgstr "üres jelszó"
-
-#: internal/auth/users/groups.go:19
+#: internal/auth/users/groups.go:14
 #, fuzzy
 msgctxt "role"
 msgid "user"
 msgstr "Felhasználók"
 
-#: internal/auth/users/groups.go:20
+#: internal/auth/users/groups.go:15
 msgctxt "role"
 msgid "staff"
 msgstr ""
 
 # | msgid "%d min"
-#: internal/auth/users/groups.go:21
+#: internal/auth/users/groups.go:16
 #, fuzzy
 msgctxt "role"
 msgid "admin"
 msgstr "%d perc"
 
-#: internal/auth/users/groups.go:23
+#: internal/auth/users/groups.go:18
 #, fuzzy
 msgctxt "role"
 msgid "Profile : Read Only"
 msgstr "Admin : Csak olvasható"
 
-#: internal/auth/users/groups.go:24
+#: internal/auth/users/groups.go:19
 #, fuzzy
 msgctxt "role"
 msgid "Bookmarks : Read Only"
 msgstr "Könyvjelzők: Csak Olvasható"
 
-#: internal/auth/users/groups.go:25
+#: internal/auth/users/groups.go:20
 #, fuzzy
 msgctxt "role"
 msgid "Bookmarks : Write Only"
 msgstr "Könyvjelzők : Csak írás"
 
-#: internal/auth/users/groups.go:26
+#: internal/auth/users/groups.go:21
 #, fuzzy
 msgctxt "role"
 msgid "Admin : Read Only"
 msgstr "Admin : Csak olvasható"
 
-#: internal/auth/users/groups.go:27
+#: internal/auth/users/groups.go:22
 #, fuzzy
 msgctxt "role"
 msgid "Admin : Write Only"
 msgstr "Admin : Csak írható"
 
-#: internal/bookmarks/importer/browser.go:75
+#: internal/bookmarks/converter/email.go:205
+#, python-format
+msgid ""
+"\n"
+"Hi,\n"
+"\n"
+"Here is your ebook for: **%s**\n"
+msgstr ""
+"\n"
+"Szia,\n"
+"\n"
+"Itt az e-könyved ehhez: **%s**\n"
+
+#: internal/bookmarks/converter/x-atom.templ:22
+#: internal/bookmarks/routes/x-sidebar.templ:262
+msgid "no site name"
+msgstr "nincs oldalnév"
+
+#: internal/bookmarks/converter/x-atom.templ:25
+#: internal/bookmarks/converter/x-email.templ:29
+#: internal/bookmarks/converter/x-epub.templ:49
+#: internal/bookmarks/routes/x-shared-public.templ:176
+#: internal/bookmarks/routes/x-sidebar.templ:285
+#, python-format
+msgid "Published on %s"
+msgstr "Közétéve %s"
+
+#: internal/bookmarks/converter/x-atom.templ:28
+#: internal/bookmarks/converter/x-email.templ:32
+#: internal/bookmarks/converter/x-epub.templ:52
+#: internal/bookmarks/routes/x-shared-public.templ:180
+#: internal/bookmarks/routes/x-sidebar.templ:290
+#, python-format
+msgid "By %s"
+msgstr "%s által"
+
+# | msgid "About %d min read"
+#: internal/bookmarks/converter/x-atom.templ:32
+#: internal/bookmarks/converter/x-email.templ:36
+#: internal/bookmarks/converter/x-epub.templ:56
+#: internal/bookmarks/routes/x-shared-public.templ:189
+#: internal/bookmarks/routes/x-sidebar.templ:298
+#, python-format
+msgid "About %d minute read"
+msgid_plural "About %d minutes read"
+msgstr[0] "Hozzávetőleg %d perc elolvasni"
+msgstr[1] "Hozzávetőleg %d perc elolvasni"
+
+#: internal/bookmarks/converter/x-epub.templ:73
+#, fuzzy
+msgid "Notes"
+msgstr "Szerepkörök"
+
+#: internal/bookmarks/importer/browser.go:56
+#: internal/bookmarks/routes/x-import.templ:36
+#: internal/profile/x-export.templ:22
+msgid "Browser Bookmarks"
+msgstr "Böngésző Könyvjelzők"
+
+#: internal/bookmarks/importer/browser.go:77
 msgid "Unable to read HTML content"
 msgstr "Nem olvasható a HTML tartalom"
 
-#: internal/bookmarks/importer/goodlinks.go:40
+# | msgid "File"
+#: internal/bookmarks/importer/csv.go:56
+#: internal/bookmarks/routes/x-import.templ:43
+#: internal/profile/x-export.templ:29
+msgid "CSV File"
+msgstr "CSV Fájl"
+
+#: internal/bookmarks/importer/goodlinks.go:41
 msgid "GoodLinks Export File"
 msgstr "GoodLinks Export Fájl"
 
-#: internal/bookmarks/importer/importer.go:47
+#: internal/bookmarks/importer/importer.go:50
 msgid "Empty or invalid import file"
 msgstr "Üres vagy érvénytelen importfájl"
 
-#: internal/bookmarks/importer/omnivore.go:248
+#: internal/bookmarks/importer/omnivore.go:246
 msgid "Invalid API Key"
 msgstr "Érvénytelen API Kulcs"
 
-#: internal/bookmarks/importer/readwise.go:61
+#: internal/bookmarks/importer/pinboard.go:44
+msgid "Pinboard JSON backup File"
+msgstr ""
+
+#: internal/bookmarks/importer/readwise.go:62
 msgid "Readwise Reader CSV"
 msgstr ""
 
-#: internal/bookmarks/importer/wallabag.go:255
+#: internal/bookmarks/importer/text.go:24
+#: internal/bookmarks/routes/x-import.templ:92
+msgid "Text File"
+msgstr "Szöveges fájl"
+
+#: internal/bookmarks/importer/wallabag.go:268
 msgid "Invalid URL"
 msgstr "Érvénytelen URL"
 
-#: internal/bookmarks/importer/wallabag.go:260
+#: internal/bookmarks/importer/wallabag.go:273
 msgid "Invalid credentials"
 msgstr "Érvénytelen hitelesítő adatok"
 
-#: internal/bookmarks/importer/wallabag.go:271
+#: internal/bookmarks/importer/wallabag.go:284
 msgid "No access token found"
 msgstr "Nem található hozzáférési token"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:191
-#: internal/bookmarks/routes/forms_bookmarks.go:210
+#: internal/bookmarks/importer/x-forms.templ:21
+msgid "Import Bookmarks"
+msgstr "Könyvjelzők importálása"
+
+#: internal/bookmarks/importer/x-forms.templ:32
+#: internal/bookmarks/importer/x-forms.templ:250
+#: internal/profile/x-import.templ:21
+msgid "File"
+msgstr "Fájl"
+
+#: internal/bookmarks/importer/x-forms.templ:42
+msgid "Options"
+msgstr "Lehetőségetk"
+
+#: internal/bookmarks/importer/x-forms.templ:44
+#: internal/bookmarks/routes/x-filters.templ:24
+#: internal/bookmarks/routes/x-labels.templ:61
+msgid "Label"
+msgstr "Címke"
+
+#: internal/bookmarks/importer/x-forms.templ:46
+msgid "A label to add to all imported bookmarks"
+msgstr "Az összes importált könyvjelzőhöz hozzáadandó címke"
+
+#: internal/bookmarks/importer/x-forms.templ:49
+msgid "Ignore links already in your bookmarks"
+msgstr "Hagyja figyelmen kívül a már könyvjelzőzött hivatkozásokat"
+
+# | msgid "Archived Bookmarks"
+#: internal/bookmarks/importer/x-forms.templ:53
+msgid "Archive all links"
+msgstr "Minden hivatkozás archiválása"
+
+#: internal/bookmarks/importer/x-forms.templ:55
+msgid "Moves all links to archive, regardless of their original status"
+msgstr "Minden link archiválása tekintet nélkül az eredeti státuszára"
+
+# | msgid "Mark as read"
+#: internal/bookmarks/importer/x-forms.templ:58
+msgid "Mark all links as read"
+msgstr "Minden hivatkozás olvasottnak jelölése"
+
+#: internal/bookmarks/importer/x-forms.templ:60
+msgid "Marks all links as read, regardless of their original status"
+msgstr "Minden link olvasottnak jelölése tekintet nélkül az eredeti státuszukra"
+
+#: internal/bookmarks/importer/x-forms.templ:65
+msgid "Import your Browser's Bookmarks"
+msgstr "Importálja a Böngészője Könyvjelzőit"
+
+#: internal/bookmarks/importer/x-forms.templ:68
+#, fuzzy
+msgid ""
+"\n"
+"\t\t\t\t\tIn your web browser, export your bookmarks as an HTML file.<br>\n"
+"\t\t\t\t\tUpload this file in the form below and Readeck will create and fetch\n"
+"\t\t\t\t\tevery bookmark found it the file.\n"
+"\t\t\t\t"
+msgstr ""
+"\n"
+"    A webböngészőben exportálja a könyvjelzőit HTML fájlként.<br>\n"
+"    Töltse fel ezt a fájlt az alábbi űrlapon, és a Readeck létrehozza és lekérdez.\n"
+"    minden könyvjelzőt, amely a fájlban található.\n"
+"  "
+
+#: internal/bookmarks/importer/x-forms.templ:77
+msgid "Instructions for Firefox"
+msgstr "Útmutató a Firefox-hoz"
+
+#: internal/bookmarks/importer/x-forms.templ:82
+msgid "Instructions for Chrome"
+msgstr "Útmutató a Chrome-hoz"
+
+#: internal/bookmarks/importer/x-forms.templ:90
+msgid "Convert section titles to labels"
+msgstr "Szakaszcímek konvertálása címkévé"
+
+#: internal/bookmarks/importer/x-forms.templ:92
+msgid "Adds a label on links, based on their section title"
+msgstr "Címkék hivatkozásokhoz adása a szakaszcímek alapján"
+
+# | msgid "Import Links from a Text File"
+#: internal/bookmarks/importer/x-forms.templ:98
+msgid "Import Links from a CSV File"
+msgstr "Hivatkozások importálása CSV fájlból"
+
+#: internal/bookmarks/importer/x-forms.templ:101
+#, fuzzy
+msgid "Upload a CSV file from Instapaper or any CSV that matches the format specified below."
+msgstr ""
+"\n"
+"    CSV fájl feltöltése Instapaper-ből vagy bármely más CSV, amely formátuma megfelel a következők szerint.\n"
+"  "
+
+# | msgid "From date"
+#: internal/bookmarks/importer/x-forms.templ:107
+#, fuzzy
+msgid "CSV Format"
+msgstr "Formátum"
+
+#: internal/bookmarks/importer/x-forms.templ:110
+#, fuzzy, python-format
+msgid ""
+"\n"
+"\t\t\t\tThe uploaded file must contain a first row with the column names. Column names are case\n"
+"\t\t\t\tinsensitive and, except for <code>%s</code>, every column is optional.\n"
+"\t\t\t"
+msgstr ""
+"\n"
+"    A feltöltött fájl első sora az oszlop fejléceket kell tartalmazza. Az oszlopfejlécek nem\n"
+"    kisbetűérzékenyek, kivéve a  <code>%s</code>, minden oszlop opcionális.\n"
+"  "
+
+#: internal/bookmarks/importer/x-forms.templ:115
+msgid "Here are the columns you can set:"
+msgstr "Ezeket az oszlopokat állíthatja be:"
+
+# | msgid "File"
+#: internal/bookmarks/importer/x-forms.templ:119
+msgid "Field"
+msgstr "Mező"
+
+# | msgid "Links"
+#: internal/bookmarks/importer/x-forms.templ:120
+msgid "Alias"
+msgstr "Alias"
+
+# | msgid "Distribution"
+#: internal/bookmarks/importer/x-forms.templ:121
+#: internal/bookmarks/routes/x-bookmark.templ:258
+msgid "Description"
+msgstr "Leírás"
+
+# | msgid "Email Address"
+#: internal/bookmarks/importer/x-forms.templ:128
+msgid "Link address"
+msgstr "Hivatkozás cím"
+
+# | msgid "Bookmark Labels"
+#: internal/bookmarks/importer/x-forms.templ:133
+msgid "Bookmark title"
+msgstr "Könyvjelző címe"
+
+#: internal/bookmarks/importer/x-forms.templ:138
+#, python-format
+msgid "Bookmark's archived state; only valid value is \"%s\""
+msgstr "Archív könyvjelző jelölése; egyedüli elfogadható érték \"%s\""
+
+#: internal/bookmarks/importer/x-forms.templ:143
+msgid "Creation date, can be a UNIX timestamp or an RFC-3339 formatted date"
+msgstr "Létrehozás dátuma, lehet UNIX időbélyeg vagy RFC-3339 formátumú dátum"
+
+#: internal/bookmarks/importer/x-forms.templ:148
+msgid "A JSON encoded list of labels"
+msgstr "JSON kódolású címke lista"
+
+#: internal/bookmarks/importer/x-forms.templ:152
+msgid "Example"
+msgstr "Példa"
+
+#: internal/bookmarks/importer/x-forms.templ:161
+msgid "Import Links from a GoodLinks export file"
+msgstr "Hivatkozások importálása GoodLinks export fájlból"
+
+#: internal/bookmarks/importer/x-forms.templ:164
+#, fuzzy
+msgid "Upload a JSON file obtained from your GoodLinks app."
+msgstr ""
+"\n"
+"    Az Ön GoodLinks alkalmazásából származó JSON fájl feltöltése\n"
+"  "
+
+#: internal/bookmarks/importer/x-forms.templ:173
+#, fuzzy
+msgid "Import Bookmarks from a Linkwarden export file"
+msgstr "Hivatkozások importálása GoodLinks export fájlból"
+
+#: internal/bookmarks/importer/x-forms.templ:176
+#, fuzzy
+msgid "Upload a JSON file obtained from your Linkwarden app."
+msgstr ""
+"\n"
+"    Az Ön GoodLinks alkalmazásából származó JSON fájl feltöltése\n"
+"  "
+
+#: internal/bookmarks/importer/x-forms.templ:185
+#: internal/bookmarks/routes/x-import.templ:65
+msgid "Import your Omnivore Articles"
+msgstr "Omnivore Cikkek importálása"
+
+#: internal/bookmarks/importer/x-forms.templ:188
+#, fuzzy
+msgid ""
+"\n"
+"\t\t\t\tTo import your articles from Omnivore, you must first create an API Key in your\n"
+"\t\t\t\tOmnivore's settings and enter it in the the form below.\n"
+"\t\t\t"
+msgstr ""
+"\n"
+"    Omnivore cikkeinek importálásához először is egy API Kulcsot kell létrehoznia\n"
+"az Omnivore beállításainál majd be kell írnia az alábbi űrlapon.\n"
+"  "
+
+#: internal/bookmarks/importer/x-forms.templ:197
+msgid "Omnivore URL"
+msgstr "Omnivore URL-címe"
+
+#: internal/bookmarks/importer/x-forms.templ:200
+msgid "URL of your Omnivore homepage"
+msgstr "Az Ön Omnivore kezdőoldalának URL címe"
+
+#: internal/bookmarks/importer/x-forms.templ:203
+msgid "API Key"
+msgstr "API Kulcs"
+
+# | msgid "Import Links from a Text File"
+#: internal/bookmarks/importer/x-forms.templ:212
+#, fuzzy
+msgid "Import Links from a Pinboard JSON backup file"
+msgstr "Hivatkozások importálása CSV fájlból"
+
+#: internal/bookmarks/importer/x-forms.templ:215
+#, fuzzy
+msgid "Upload a JSON file obtained from your Pinboard account."
+msgstr ""
+"\n"
+"    Az Ön GoodLinks alkalmazásából származó JSON fájl feltöltése\n"
+"  "
+
+#: internal/bookmarks/importer/x-forms.templ:224
+#: internal/bookmarks/routes/x-import.templ:79
+msgid "Import your Pocket Articles"
+msgstr "Pocket Cikkek importálása"
+
+#: internal/bookmarks/importer/x-forms.templ:227
+#, fuzzy
+msgid ""
+"\n"
+"\t\t\t\tYou can export your articles on Pocket by visiting:<br>\n"
+"\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">%[2]s</a>.\n"
+"\t\t\t"
+msgstr ""
+"\n"
+"    Pocket cikkeit exportálhatja a következő oldalon:<br>\n"
+"    <a class=\"%s\" href=\"%s\">%s</a>.\n"
+"  "
+
+#: internal/bookmarks/importer/x-forms.templ:234
+#, fuzzy
+msgid ""
+"\n"
+"\t\t\t\tUpload this file in the form below and Readeck will fetch and save\n"
+"\t\t\t\tevery link found it the file.\n"
+"\t\t\t"
+msgstr ""
+"\n"
+"    Töltse fel ezt a fájlt az alábbi űrlapon, és a Readeck lekérdezi és elmenti\n"
+"    a fájlban található összes linket.\n"
+"  "
+
+#: internal/bookmarks/importer/x-forms.templ:240
+#, fuzzy
+msgid ""
+"\n"
+"\t\t\t\tPlease note that Pocket does not allow the article content to be exported.\n"
+"\t\t\t\tThis could lead to different results in Readeck than what you currently\n"
+"\t\t\t\tsee in Pocket.\n"
+"\t\t\t"
+msgstr ""
+"\n"
+"    Felhívjuk figyelmét, hogy a Pocket nem teszi lehetővé a cikkek tartalmának exportálását.\n"
+"    Ez a Readeckben a jelenlegitől eltérő eredményekhez vezethet.\n"
+"    mint amit a Pocketben lát.\n"
+"  "
+
+#: internal/bookmarks/importer/x-forms.templ:253
+msgid "Note: upload the ZIP file directly, not its contents"
+msgstr "Megjegyzés: közvetlenül a ZIP fájlt töltse fel, ne a tartalmát"
+
+# | msgid "Import Links from a Text File"
+# | msgid "Import Links from a CSV File"
+#: internal/bookmarks/importer/x-forms.templ:261
+#, fuzzy
+msgid "Import Links from Readwise Reader CSV export"
+msgstr "Hivatkozások importálása CSV fájlból"
+
+#: internal/bookmarks/importer/x-forms.templ:264
+#, fuzzy
+msgid "Upload a CSV file exported from your Readwise Reader account below."
+msgstr ""
+"\n"
+"    Az Ön GoodLinks alkalmazásából származó JSON fájl feltöltése\n"
+"  "
+
+#: internal/bookmarks/importer/x-forms.templ:270
+msgid "Which information is imported"
+msgstr ""
+
+#: internal/bookmarks/importer/x-forms.templ:273
+msgid "Article title, URL, and when it was first saved,"
+msgstr ""
+
+#: internal/bookmarks/importer/x-forms.templ:274
+msgid "The archived state of an article,"
+msgstr ""
+
+#: internal/bookmarks/importer/x-forms.templ:275
+#, python-format
+msgid "\"%s\" as Readeck labels,"
+msgstr ""
+
+#: internal/bookmarks/importer/x-forms.templ:276
+#, python-format
+msgid "When a document tag contains \"%s\", the bookmark will be added to Readeck Favorites."
+msgstr ""
+
+#: internal/bookmarks/importer/x-forms.templ:278
+msgid "What is not imported:"
+msgstr ""
+
+#: internal/bookmarks/importer/x-forms.templ:280
+msgid "Article reading progress and seen status,"
+msgstr ""
+
+#: internal/bookmarks/importer/x-forms.templ:281
+msgid "Articles forwarded to Readwise Reader by email,"
+msgstr ""
+
+#: internal/bookmarks/importer/x-forms.templ:282
+msgid "Uploaded documents such as PDFs or EPUB."
+msgstr ""
+
+#: internal/bookmarks/importer/x-forms.templ:288
+#: internal/bookmarks/routes/x-import.templ:93
+msgid "Import Links from a Text File"
+msgstr "Hivatkozások importálása szöveges fájlból"
+
+#: internal/bookmarks/importer/x-forms.templ:291
+#, fuzzy
+msgid ""
+"\n"
+"\t\t\t\tUpload a text file that contains one link per line and Readeck will fetch\n"
+"\t\t\t\tall of them and save them in your bookmark list.\n"
+"\t\t\t"
+msgstr ""
+"\n"
+"    Töltsön fel egy szöveges fájlt, amely soronként egy hivatkozást tartalmaz, és a Readeck lekérdezi a következőket\n"
+"    az összeset, és elmenti őket a könyvjelzőlistájába.\n"
+"  "
+
+#: internal/bookmarks/importer/x-forms.templ:301
+#: internal/bookmarks/routes/x-import.templ:100
+msgid "Import your Wallabag Articles"
+msgstr "Wallabag Cikkeinek importálása"
+
+#: internal/bookmarks/importer/x-forms.templ:304
+#, fuzzy
+msgid ""
+"\n"
+"\t\t\t\tTo import your articles from Wallabag, you must first create an API client\n"
+"\t\t\t\tin Wallabag's <strong>API clients management</strong> menu. This will give you\n"
+"\t\t\t\ta <strong>Client ID</strong> and <strong>Client secret</strong>.\n"
+"\t\t\t"
+msgstr ""
+"\n"
+"    A cikkek Wallabagból történő importálásához először létre kell hoznia egy API klienst\n"
+"    a Wallabag <strong>API kliens menedzsment</strong> menüjében. Ez létrehoz Önnek egy\n"
+"    <strong>Kliens ID-t</strong> és <strong>Kliens titkot</strong>.\n"
+"  "
+
+#: internal/bookmarks/importer/x-forms.templ:311
+#, fuzzy
+msgid "You can then enter all the necessary information in the form below."
+msgstr ""
+"\n"
+"    Ezután az alábbi űrlapon megadhatja az összes szükséges információt.\n"
+"  "
+
+#: internal/bookmarks/importer/x-forms.templ:319
+msgid "Wallabag URL"
+msgstr "Wallabag URL-cím"
+
+#: internal/bookmarks/importer/x-forms.templ:322
+msgid "URL of your Wallabag homepage"
+msgstr "Az Ön Wallabag kezdőoldalának URL címe"
+
+#: internal/bookmarks/importer/x-forms.templ:336
+msgid "Client ID"
+msgstr "Kliens ID"
+
+#: internal/bookmarks/importer/x-forms.templ:341
+msgid "Client Secret"
+msgstr "Kilens Titok"
+
+#: internal/bookmarks/routes/forms_bookmarks.go:170
+#: internal/bookmarks/routes/forms_bookmarks.go:188
 msgid "Unable to process input data"
 msgstr "Bemenő adatok feldolgozása nem lehetséges"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:289
+#: internal/bookmarks/routes/forms_bookmarks.go:278
 #, fuzzy
 msgid "invalid language code"
 msgstr "Érvénytelen API Kulcs"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:292
+#: internal/bookmarks/routes/forms_bookmarks.go:282
 msgid "Left to right"
 msgstr ""
 
-#: internal/bookmarks/routes/forms_bookmarks.go:293
+#: internal/bookmarks/routes/forms_bookmarks.go:283
 msgid "Right to left"
 msgstr ""
 
-#: internal/bookmarks/routes/forms_bookmarks.go:632
-msgid "Article"
-msgstr "Cikk"
-
-#: internal/bookmarks/routes/forms_bookmarks.go:633
-msgid "Picture"
-msgstr "Kép"
-
-#: internal/bookmarks/routes/forms_bookmarks.go:634
-msgid "Video"
-msgstr "Videó"
-
-#: internal/bookmarks/routes/forms_bookmarks.go:642
-msgctxt "status"
-msgid "Unviewed"
-msgstr "Megtekintetlen"
-
-#: internal/bookmarks/routes/forms_bookmarks.go:643
-msgctxt "status"
-msgid "In-Progress"
-msgstr "Folyamatban"
-
-#: internal/bookmarks/routes/forms_bookmarks.go:644
-msgctxt "status"
-msgid "Completed"
-msgstr "Befejezett"
-
-#: internal/bookmarks/routes/forms_bookmarks.go:871
+#: internal/bookmarks/routes/forms_bookmarks.go:654
 msgctxt "sort"
 msgid "Added, most recent first"
 msgstr "Hozzáadott, legfrissebb először"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:872
+#: internal/bookmarks/routes/forms_bookmarks.go:655
 msgctxt "sort"
 msgid "Added, oldest first"
 msgstr "Hozzáadott, legrégebbi először"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:873
+#: internal/bookmarks/routes/forms_bookmarks.go:656
 msgctxt "sort"
 msgid "Published, most recent first"
 msgstr "Közzétett, legfrissebb először"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:874
+#: internal/bookmarks/routes/forms_bookmarks.go:657
 msgctxt "sort"
 msgid "Published, oldest first"
 msgstr "Megjelent, legrégebbi először"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:875
+#: internal/bookmarks/routes/forms_bookmarks.go:658
 msgctxt "sort"
 msgid "Title, A to Z"
 msgstr "Cím, A-Z"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:876
+#: internal/bookmarks/routes/forms_bookmarks.go:659
 msgctxt "sort"
 msgid "Title, Z to A"
 msgstr "Cím, Z-A"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:877
+#: internal/bookmarks/routes/forms_bookmarks.go:660
 msgctxt "sort"
 msgid "Site Name, A to Z"
 msgstr "Oldal neve, A-Z"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:878
+#: internal/bookmarks/routes/forms_bookmarks.go:661
 msgctxt "sort"
 msgid "Site Name, Z to A"
 msgstr "Oldal neve, Z-A"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:879
+#: internal/bookmarks/routes/forms_bookmarks.go:662
 msgctxt "sort"
 msgid "Duration, shortest first"
 msgstr "Időtartam, legrövidebb először"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:880
+#: internal/bookmarks/routes/forms_bookmarks.go:663
 msgctxt "sort"
 msgid "Duration, longest first"
 msgstr "Időtartam, leghoszabb először"
+
+#: internal/bookmarks/routes/forms_bookmarks.go:677
+#: internal/bookmarks/routes/forms_filters.go:50
+msgid "Article"
+msgstr "Cikk"
+
+#: internal/bookmarks/routes/forms_bookmarks.go:678
+msgid "E-Book"
+msgstr ""
+
+#: internal/bookmarks/routes/forms_filters.go:51
+msgid "Picture"
+msgstr "Kép"
+
+#: internal/bookmarks/routes/forms_filters.go:52
+msgid "Video"
+msgstr "Videó"
+
+#: internal/bookmarks/routes/forms_filters.go:57
+msgctxt "status"
+msgid "Unviewed"
+msgstr "Megtekintetlen"
+
+#: internal/bookmarks/routes/forms_filters.go:58
+msgctxt "status"
+msgid "In-Progress"
+msgstr "Folyamatban"
+
+#: internal/bookmarks/routes/forms_filters.go:59
+msgctxt "status"
+msgid "Completed"
+msgstr "Befejezett"
+
+#: internal/bookmarks/routes/forms_filters.go:68
+#, python-format
+msgid "\"%s\" is not a valid date value"
+msgstr ""
 
 #: internal/bookmarks/routes/opds.go:57
 msgid "Readeck Bookmarks"
@@ -2758,44 +1353,1124 @@ msgstr "E-könyv gyűjtemény - %s"
 msgid "Browse collection: %s"
 msgstr "Gyűjtemény böngészése: %s"
 
-#: internal/bookmarks/routes/views_bookmarks.go:100
+#: internal/bookmarks/routes/views_bookmarks.go:83
 msgid "All your Bookmarks"
 msgstr "Minden Könyvjelző"
 
-#: internal/bookmarks/routes/views_bookmarks.go:105
+#: internal/bookmarks/routes/views_bookmarks.go:87
 msgid "Bookmark Search"
 msgstr "Könyvjelző Keresése"
 
-#: internal/bookmarks/routes/views_bookmarks.go:109 internal/opds/http.go:59
+#: internal/bookmarks/routes/views_bookmarks.go:91 internal/opds/http.go:59
 msgid "Unread Bookmarks"
 msgstr "Olvasatlan Könyvejlzők"
 
-#: internal/bookmarks/routes/views_bookmarks.go:111 internal/opds/http.go:63
+#: internal/bookmarks/routes/views_bookmarks.go:93 internal/opds/http.go:63
 msgid "Archived Bookmarks"
 msgstr "Archivált Könyvjelzők"
 
-#: internal/bookmarks/routes/views_bookmarks.go:113 internal/opds/http.go:67
+#: internal/bookmarks/routes/views_bookmarks.go:95 internal/opds/http.go:67
 msgid "Favorite Bookmarks"
 msgstr "Kedvenc Könyvjelzők"
 
-#: internal/bookmarks/routes/views_bookmarks.go:210
-#, fuzzy
-msgid "Update"
-msgstr "Felhasználó frissítve."
+#: internal/bookmarks/routes/views_bookmarks.go:97
+#: internal/bookmarks/routes/x-base.templ:61
+msgid "Articles"
+msgstr "Cikkek"
+
+#: internal/bookmarks/routes/views_bookmarks.go:99
+#: internal/bookmarks/routes/x-base.templ:69
+msgid "Pictures"
+msgstr "Képek"
+
+#: internal/bookmarks/routes/views_bookmarks.go:101
+#: internal/bookmarks/routes/x-base.templ:65
+msgid "Videos"
+msgstr "Videók"
 
 # | msgid "Bookmark Labels"
-#: internal/bookmarks/routes/views_bookmarks.go:319
+#: internal/bookmarks/routes/views_bookmarks.go:282
 #, fuzzy
 msgid "Bookmark updated"
 msgstr "Könyvjelző címe"
 
-#: internal/bookmarks/routes/views_collections.go:70
+#: internal/bookmarks/routes/views_bookmarks.go:304
+#, fuzzy
+msgid "Update"
+msgstr "Felhasználó frissítve."
+
+#: internal/bookmarks/routes/views_bookmarks.go:324
+#: internal/bookmarks/routes/x-bookmark.templ:230
+msgid "Share link"
+msgstr "Hivatkozás megosztása"
+
+# | msgid "Share by Link"
+#: internal/bookmarks/routes/views_bookmarks.go:354
+#: internal/bookmarks/routes/x-bookmark.templ:237
+msgid "Share by email"
+msgstr "Megosztás e-mail-ben"
+
+#: internal/bookmarks/routes/views_collections.go:39
+#, fuzzy
+msgid "Collection created."
+msgstr "Gyűjtemény frissítve."
+
+#: internal/bookmarks/routes/views_collections.go:66
 msgid "Collection updated."
 msgstr "Gyűjtemény frissítve."
 
-#: internal/bookmarks/routes/views_import.go:30
+#: internal/bookmarks/routes/views_import.go:24
+#: internal/bookmarks/routes/views_import.go:37
+#: internal/bookmarks/routes/views_import.go:69
+#: internal/bookmarks/routes/x-import.templ:182 internal/profile/views.go:368
+#: internal/profile/x-base.templ:59 internal/profile/x-import.templ:13
+#: internal/profile/x-import.templ:41
+msgid "Import"
+msgstr "Import"
+
+#: internal/bookmarks/routes/views_import.go:38
 msgid "Progress"
 msgstr "Haladás"
+
+#: internal/bookmarks/routes/x-annotations.templ:14
+msgid "Bookmark Highlights"
+msgstr "Könyvjelző kiemelések"
+
+#: internal/bookmarks/routes/x-annotations.templ:20
+msgid "You don't have any highlights yet."
+msgstr "Még nincsenek kiemelései."
+
+#: internal/bookmarks/routes/x-annotations.templ:22
+#, fuzzy
+msgid ""
+"\n"
+"\t\t\t\t\t\t\tOnce you start highlighting parts of your saved articles, they will appear on this page\n"
+"\t\t\t\t\t\t\tfor you to easily find them.\n"
+"\t\t\t\t\t\t"
+msgstr ""
+"\n"
+"        Amint elkezdi kiemelni a mentett cikkek egyes részeit, azok megjelennek ezen az oldalon,\n"
+"        hogy könnyen megtalálhassa őket.\n"
+"      "
+
+#: internal/bookmarks/routes/x-annotations.templ:29
+#, python-format
+msgid "Read more about highlights in the <a class=\"%s\" href=\"%s\">documentation</a>."
+msgstr "A kiemelésekről bővebben a <a class=\"%s\" href=\"%s\">dokumentációban</a> olvashat."
+
+#: internal/bookmarks/routes/x-base.templ:27
+#, fuzzy
+msgid "search in bookmarks"
+msgstr "Archivált Könyvjelzők"
+
+#: internal/bookmarks/routes/x-base.templ:31
+#: internal/bookmarks/routes/x-filters.templ:20
+msgid "Search"
+msgstr "Keresés"
+
+#: internal/bookmarks/routes/x-base.templ:49
+msgid "All"
+msgstr "Összes"
+
+#: internal/bookmarks/routes/x-base.templ:51
+msgid "Unread"
+msgstr "Olvasatlan"
+
+#: internal/bookmarks/routes/x-base.templ:53
+msgid "Archive"
+msgstr "Archívum"
+
+#: internal/bookmarks/routes/x-base.templ:55
+msgid "Favorites"
+msgstr "Kedvencek"
+
+#: internal/bookmarks/routes/x-base.templ:76
+#: internal/bookmarks/routes/x-labels.templ:73
+#: internal/bookmarks/routes/x-sidebar.templ:313
+msgid "Labels"
+msgstr "Címkék"
+
+#: internal/bookmarks/routes/x-base.templ:78
+#: internal/bookmarks/routes/x-sidebar.templ:399
+msgid "Highlights"
+msgstr "Kiemelések"
+
+#: internal/bookmarks/routes/x-base.templ:80
+#: internal/bookmarks/routes/x-collections.templ:257
+msgid "Collections"
+msgstr "Gyűjtemények"
+
+#: internal/bookmarks/routes/x-base.templ:95
+msgid "Did you know?"
+msgstr "Tudtad?"
+
+#: internal/bookmarks/routes/x-base.templ:97
+#: internal/bookmarks/routes/x-bookmark-list.templ:255
+#, fuzzy
+msgid ""
+"\n"
+"\t\t\t\t\t\t\t\tWith the Browser Extension, you can save pages, images and selections\n"
+"\t\t\t\t\t\t\t\tdirectly from your browser!"
+msgstr ""
+"\n"
+"            A Böngésző Bővítmény segítségével weboldalakat, képeket és gyűjteményeket menthetsz el\n"
+"            közvetlenül a böngészőjéből!"
+
+#: internal/bookmarks/routes/x-base.templ:106
+#: internal/bookmarks/routes/x-bookmark-list.templ:266
+#: internal/bookmarks/routes/x-sidebar.templ:56
+msgid "Learn more"
+msgstr "Tudj meg többet"
+
+#: internal/bookmarks/routes/x-base.templ:117
+msgid "Don't remind me"
+msgstr "Ne emlékeztess"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:65
+#: internal/bookmarks/routes/x-bookmark-list.templ:111
+#: internal/bookmarks/routes/x-bookmark-list.templ:114
+#: internal/bookmarks/routes/x-collections.templ:207
+#: internal/bookmarks/routes/x-collections.templ:210
+msgid "Filters"
+msgstr "Szűrők"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:80
+msgid "Import bookmarks"
+msgstr "Könyvjelzők importálása"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:91
+msgid "Your search query yielded <strong>no results</strong>."
+msgstr "A keresési lekérdezésed <strong>nem hozott eredményt</strong>."
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:93
+#, python-format
+msgid "Your search query yielded <strong>%d result</strong>."
+msgid_plural "Your search query yielded <strong>%d results</strong>."
+msgstr[0] "Az Ön keresési lekérdezése <strong>%d találatot </strong> eredményezett."
+msgstr[1] "Az Ön keresési lekérdezése <strong>%d találatot </strong> eredményezett."
+
+# | msgid "Bookmark Labels"
+#: internal/bookmarks/routes/x-bookmark-list.templ:124
+msgid "Bookmark filters"
+msgstr "Könyvjelző szűrők"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:133
+msgctxt "action"
+msgid "Search"
+msgstr "Keresés"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:136
+msgid "Reset search"
+msgstr "Keresés törlése"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:143
+msgid "Create a collection"
+msgstr "Gyűjtemény létrehozása"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:166
+msgid "Save a new link"
+msgstr "Új hivatkozás mentése"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:187
+msgctxt "button"
+msgid "Save link"
+msgstr "Link mentése"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:203
+#, fuzzy
+msgid "\"%[1]s\" is not a valid address. Did you mean to search your bookmarks for %[2]s?"
+msgstr "\"%s\" nem érvényes cím. Úgy értette, hogy a könyvjelzőiben a %s-t keresi?"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:236
+msgid "You don't have any bookmarks yet.<br> Copy a link in the field above and start saving."
+msgstr "Még nincsenek könyvjelzői.<br> Másoljon egy hivatkzosát a fenti mezőbe, és kezdje el a mentést."
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:241
+#, python-format
+msgid "Read more about bookmarks in the <a class=\"%s\" href=\"%s\">documentation</a>."
+msgstr "A könyvjelzőkről bővebben a <a class=\"%s\" href=\"%s\">dokumentációban</a> olvashat."
+
+# | msgid "Readeck Bookmark Collections"
+#: internal/bookmarks/routes/x-bookmark-list.templ:252
+msgid "Readeck Browser Extension"
+msgstr "Readeck Böngésző Bővítmény"
+
+# | msgid "Import bookmarks"
+#: internal/bookmarks/routes/x-bookmark-list.templ:275
+msgid "Import existing bookmarks"
+msgstr "Létező könyvjelzők importálása"
+
+# | msgid "" "\n" "          Would you like to import from a similar tool or
+# | from a file with existing bookmarks?\n" "          Try Readeck's import
+# | tool.\n" "        "
+#: internal/bookmarks/routes/x-bookmark-list.templ:278
+#, fuzzy
+msgid ""
+"\n"
+"\t\t\t\t\t\t\t\t\tWould you like to import from a similar tool or from a file with existing bookmarks?\n"
+"\t\t\t\t\t\t\t\t\tTry Readeck's import tool.\n"
+"\t\t\t\t\t\t\t\t"
+msgstr ""
+"\n"
+"              Szeretne egy hasonló eszközből vagy egy meglévő könyvjelzőket tartalmazó fájlból importálni?\n"
+"          Próbálja ki a Readeck importáló eszközét.\n"
+"            "
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:288
+msgid "Import links and articles"
+msgstr "Hivatkozások és cikkek importálása"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:316
+msgid "Grid view"
+msgstr "Rácsnézet"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:317
+msgid "Compact view"
+msgstr "Kompakt nézet"
+
+# | msgid "Grid view"
+#: internal/bookmarks/routes/x-bookmark-list.templ:318
+msgid "Mosaic view"
+msgstr "Mozaik nézet"
+
+# | msgid "Import bookmarks"
+#: internal/bookmarks/routes/x-bookmark-list.templ:360
+msgid "Sort bookmarks"
+msgstr "Könyvjelzők rendezése"
+
+# | msgid "Options"
+#: internal/bookmarks/routes/x-bookmark-list.templ:364
+msgid "Sort options"
+msgstr "Rendezési lehetőségek"
+
+# | msgid "Import links and articles"
+#: internal/bookmarks/routes/x-bookmark-list.templ:393
+msgid "Import and export"
+msgstr "Importálás és exportálás"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:404
+#: internal/bookmarks/routes/x-sidebar.templ:180
+msgid "Download EPUB"
+msgstr "EPUB letöltése"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:417
+msgid "Atom Feed"
+msgstr ""
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:462
+msgctxt "bookmark"
+msgid "Loading"
+msgstr "Betöltés"
+
+# | msgid "%d min"
+#: internal/bookmarks/routes/x-bookmark-list.templ:509
+#, python-format
+msgctxt "abbr"
+msgid "%d min"
+msgid_plural "%d min"
+msgstr[0] "%d perc"
+msgstr[1] "%d perc"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:525
+#: internal/bookmarks/routes/x-sidebar.templ:115
+msgid "This bookmark will be removed in a few seconds."
+msgstr "Ez a könyvjelző néhány másodpercen belül eltávolításra kerül."
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:544
+#: internal/bookmarks/routes/x-components.templ:230
+#: internal/bookmarks/routes/x-sidebar.templ:104
+msgid "Remove from archive"
+msgstr "Eltávolítás az archívumból"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:544
+#: internal/bookmarks/routes/x-components.templ:231
+#: internal/bookmarks/routes/x-sidebar.templ:105
+msgid "Move to archive"
+msgstr "Áthelyezés az archívumba"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:545
+#: internal/bookmarks/routes/x-components.templ:218
+#: internal/bookmarks/routes/x-sidebar.templ:108
+msgid "Remove from favorites"
+msgstr "Eltávolítás a kedvencek közül"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:545
+#: internal/bookmarks/routes/x-components.templ:219
+#: internal/bookmarks/routes/x-sidebar.templ:109
+msgid "Add to favorites"
+msgstr "Kedvencekhez adás"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:570
+msgid "Go to original page"
+msgstr "Tovább az eredeti oldalra"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:580
+#: internal/bookmarks/routes/x-sidebar.templ:230
+msgid "Delete this bookmark"
+msgstr "Könyvjelző törlése"
+
+#: internal/bookmarks/routes/x-bookmark.templ:26
+msgid "Bookmark not found"
+msgstr "Könyvjelző nem található"
+
+#: internal/bookmarks/routes/x-bookmark.templ:27
+#: internal/bookmarks/routes/x-bookmark.templ:218
+#, fuzzy
+msgid "Edit bookmark"
+msgstr "Olvasatlan Könyvejlzők"
+
+#: internal/bookmarks/routes/x-bookmark.templ:41
+msgid "Bookmark loading"
+msgstr "Könyvjelző betöltése"
+
+#: internal/bookmarks/routes/x-bookmark.templ:74
+msgid "Bookmark is loading"
+msgstr "Könyvjelző töltődik"
+
+#: internal/bookmarks/routes/x-bookmark.templ:115
+#: internal/bookmarks/routes/x-bookmark.templ:127
+msgid "Close panel"
+msgstr "Panel bezárása"
+
+#: internal/bookmarks/routes/x-bookmark.templ:159
+#: internal/bookmarks/routes/x-collections.templ:188
+msgid "Edit"
+msgstr "Szerkesztés"
+
+#: internal/bookmarks/routes/x-bookmark.templ:166
+#: internal/bookmarks/routes/x-bookmark.templ:179
+msgid "Bookmark information"
+msgstr "Könyvjelző információ"
+
+#: internal/bookmarks/routes/x-bookmark.templ:208
+#: internal/bookmarks/routes/x-components.templ:36
+#, fuzzy
+msgid "Close dialog"
+msgstr "Panel bezárása"
+
+# | msgid "Saved with Readeck"
+# | msgid "Saved with"
+#: internal/bookmarks/routes/x-bookmark.templ:219
+#, fuzzy, python-format
+msgid "Edit: %s"
+msgstr "Mentve %s"
+
+#: internal/bookmarks/routes/x-bookmark.templ:231
+#: internal/bookmarks/routes/x-bookmark.templ:238
+#, python-format
+msgid "Share: %s"
+msgstr "Megosztás: %s"
+
+#: internal/bookmarks/routes/x-bookmark.templ:253
+#: internal/bookmarks/routes/x-filters.templ:21
+msgid "Title"
+msgstr "Cím"
+
+#: internal/bookmarks/routes/x-bookmark.templ:263
+#, fuzzy
+msgid "Site Name"
+msgstr "nincs oldalnév"
+
+#: internal/bookmarks/routes/x-bookmark.templ:268
+#, fuzzy
+msgid "Authors"
+msgstr "Szerző"
+
+#: internal/bookmarks/routes/x-bookmark.templ:271
+msgid "One value per line"
+msgstr ""
+
+#: internal/bookmarks/routes/x-bookmark.templ:275
+#, fuzzy
+msgid "Published"
+msgstr "Közétéve %s"
+
+#: internal/bookmarks/routes/x-bookmark.templ:279
+#: internal/profile/x-profile.templ:55
+msgid "Language"
+msgstr "Nyelv"
+
+#: internal/bookmarks/routes/x-bookmark.templ:283
+#, fuzzy
+msgid "Text Direction"
+msgstr "Hitelesítés"
+
+#: internal/bookmarks/routes/x-bookmark.templ:293
+msgid "You can share the following link with your friends."
+msgstr "Az alábbi hivatkozást megoszthatja barátaival."
+
+#: internal/bookmarks/routes/x-bookmark.templ:295
+#, python-format
+msgid "It expires on %s"
+msgstr "Lejár ekkor %s"
+
+#: internal/bookmarks/routes/x-bookmark.templ:311
+msgid "Copy the link"
+msgstr "Hivatkozás másolása"
+
+#: internal/bookmarks/routes/x-bookmark.templ:320
+#: internal/bookmarks/routes/x-bookmark.templ:380
+msgid "Go back to the bookmark"
+msgstr "Tovább a könyvjelzőhöz"
+
+#: internal/bookmarks/routes/x-bookmark.templ:345
+msgid "Sends this bookmark's content in the message."
+msgstr "A könyvjelző tartalmának küldése üzenetben."
+
+#: internal/bookmarks/routes/x-bookmark.templ:347
+msgid "Sends this bookmark as an attached EPUB file."
+msgstr "A könyvjelző küldése, mint csatolt EPUB fájl."
+
+# | msgid "From date"
+#: internal/bookmarks/routes/x-bookmark.templ:355
+msgid "Format"
+msgstr "Formátum"
+
+#: internal/bookmarks/routes/x-bookmark.templ:361
+msgid "Send To"
+msgstr "Címzett"
+
+#: internal/bookmarks/routes/x-bookmark.templ:368
+#, python-format
+msgid "The bookmark was sent to %s"
+msgstr "A könyvjelző elküldve ide: %s"
+
+#: internal/bookmarks/routes/x-bookmark.templ:373
+msgid "Send message"
+msgstr "Üzenet küldése"
+
+#: internal/bookmarks/routes/x-collections.templ:28 internal/opds/http.go:75
+msgid "Bookmark Collections"
+msgstr "Könyvjelző gyűjtemények"
+
+#: internal/bookmarks/routes/x-collections.templ:36
+msgid "Create a new collection"
+msgstr "Új gyűjtemény létrehozása"
+
+#: internal/bookmarks/routes/x-collections.templ:50
+#, fuzzy
+msgid ""
+"\n"
+"\t\t\t\t\t\t\t\tCollections let you easily organize and export your bookmarks\n"
+"\t\t\t\t\t\t\t\tby saving search requests of your choice.\n"
+"\t\t\t\t\t\t\t\tWhen you create a new bookmark that matches a collection's\n"
+"\t\t\t\t\t\t\t\tcriteria, it will appear immediately.\n"
+"\t\t\t\t\t\t\t\tHere are some examples:\n"
+"\t\t\t\t\t\t\t"
+msgstr ""
+"\n"
+"          Gyűjtemények segítségével könnyedén rendszerezheti és exportálhatja könyvjelzőit.\n"
+"          az Ön által kiválasztott keresési kérések mentésével.\n"
+"          Amikor egy új könyvjelzőt hoz létre, amely megfelel egy gyűjtemény\n"
+"          kritériumainak, az azonnal megjelenik.\n"
+"          Íme néhány példa:\n"
+"        "
+
+#: internal/bookmarks/routes/x-collections.templ:59
+msgid "The unread articles (no photos or videos)"
+msgstr "Az olvasatlan cikkek (nincs fotó vagy videó)"
+
+#: internal/bookmarks/routes/x-collections.templ:60
+msgid "The archived articles from \"wikipedia.org\""
+msgstr "Archivált cikkek a \"wikipedia.org\" címről"
+
+#: internal/bookmarks/routes/x-collections.templ:61
+msgid "The pictures with the label \"cat\""
+msgstr "Képek a \"macska\" címkével jelölve"
+
+#: internal/bookmarks/routes/x-collections.templ:62
+msgid "The articles that contain \"shelter\" in their title"
+msgstr "Cikkek melyek címében ott van a \"menedék\" kifejezés"
+
+#: internal/bookmarks/routes/x-collections.templ:66
+#, python-format
+msgid "Read more about collections in the <a class=\"%s\" href=\"%s\">documentation</a>."
+msgstr "Tudjon meg többet a gyűjteményekről a <a class=\"%s\" href=\"%s\">dokumentációban</a>."
+
+#: internal/bookmarks/routes/x-collections.templ:88
+#: internal/profile/x-tokens.templ:52
+#, python-format
+msgid "Created on: %s"
+msgstr "Létrehozva ekkor: %s"
+
+#: internal/bookmarks/routes/x-collections.templ:97
+#, fuzzy
+msgid "This collection will be removed in a few seconds."
+msgstr "A gyűjtés néhány másodpercen belül megszűnik."
+
+#: internal/bookmarks/routes/x-collections.templ:107
+#: internal/bookmarks/routes/x-sidebar.templ:129
+msgid "Undo"
+msgstr "Visszavonás"
+
+#: internal/bookmarks/routes/x-collections.templ:122
+msgid "New Collection"
+msgstr "Új gyűjtemény"
+
+#: internal/bookmarks/routes/x-collections.templ:153
+#, python-format
+msgid "Collection %s"
+msgstr "Gyűjtemény %s"
+
+#: internal/bookmarks/routes/x-collections.templ:159
+msgid "Collection will be removed in a few seconds."
+msgstr "A gyűjtés néhány másodpercen belül megszűnik."
+
+#: internal/bookmarks/routes/x-collections.templ:241
+msgid "Delete collection"
+msgstr "Gyűjtemény törlése"
+
+#: internal/bookmarks/routes/x-components.templ:141
+msgid "Yellow"
+msgstr "Sárga"
+
+#: internal/bookmarks/routes/x-components.templ:142
+msgid "Red"
+msgstr "Piros"
+
+#: internal/bookmarks/routes/x-components.templ:143
+msgid "Blue"
+msgstr "Kék"
+
+#: internal/bookmarks/routes/x-components.templ:144
+msgid "Green"
+msgstr "Zöld"
+
+#: internal/bookmarks/routes/x-components.templ:145
+msgid "Transparent"
+msgstr ""
+
+#: internal/bookmarks/routes/x-components.templ:152
+msgid "Highlight"
+msgstr "Kiemelés"
+
+#: internal/bookmarks/routes/x-components.templ:165
+#: internal/bookmarks/routes/x-filters.templ:25
+#, fuzzy
+msgid "Note"
+msgstr "nem"
+
+#: internal/bookmarks/routes/x-components.templ:194
+#: internal/bookmarks/routes/x-labels.templ:111
+msgid "Delete"
+msgstr "Törlés"
+
+#: internal/bookmarks/routes/x-components.templ:241
+#: internal/bookmarks/routes/x-components.templ:271
+#, fuzzy
+msgid "Close"
+msgstr "Menü bezárása"
+
+#: internal/bookmarks/routes/x-components.templ:253
+#, fuzzy
+msgid "Show image"
+msgstr "Kezdőlap"
+
+#: internal/bookmarks/routes/x-components.templ:283
+#, fuzzy
+msgid "Play video"
+msgstr "Videó"
+
+#: internal/bookmarks/routes/x-components.templ:310
+#, fuzzy
+msgid "Extraction log"
+msgstr "Hitelesítés"
+
+#: internal/bookmarks/routes/x-components.templ:314
+#: internal/docs/x-about.templ:69
+#, fuzzy
+msgid "copy to clipboard"
+msgstr "Hivatkozás másolása"
+
+#: internal/bookmarks/routes/x-components.templ:326
+#: internal/profile/x-tokens.templ:110
+msgid "Properties"
+msgstr "Tulajdonságok"
+
+#: internal/bookmarks/routes/x-components.templ:335
+msgid "Saved with Readeck"
+msgstr "Readeckkel mentve"
+
+#: internal/bookmarks/routes/x-filters.templ:22
+msgid "Author"
+msgstr "Szerző"
+
+#: internal/bookmarks/routes/x-filters.templ:23
+msgid "Site"
+msgstr "Honlap"
+
+#: internal/bookmarks/routes/x-filters.templ:34
+msgid "Type"
+msgstr "Típus"
+
+#: internal/bookmarks/routes/x-filters.templ:38
+msgctxt "filter"
+msgid "Progress"
+msgstr "Előrehaladás"
+
+#: internal/bookmarks/routes/x-filters.templ:41
+msgid "Is Favorite"
+msgstr "Kedvenc"
+
+#: internal/bookmarks/routes/x-filters.templ:42
+msgid "Is Archived"
+msgstr "Archivált"
+
+#: internal/bookmarks/routes/x-filters.templ:43
+msgid "Is Loaded"
+msgstr "Betöltve"
+
+#: internal/bookmarks/routes/x-filters.templ:44
+msgid "With Labels"
+msgstr "Címkékkel"
+
+#: internal/bookmarks/routes/x-filters.templ:45
+msgid "With Errors"
+msgstr "Hibákkal"
+
+#: internal/bookmarks/routes/x-filters.templ:78
+#: internal/bookmarks/routes/x-reader-control.templ:188
+msgid "yes"
+msgstr "igen"
+
+#: internal/bookmarks/routes/x-filters.templ:79
+#: internal/bookmarks/routes/x-reader-control.templ:188
+msgid "no"
+msgstr "nem"
+
+#: internal/bookmarks/routes/x-import.templ:24
+msgid "Import your Bookmarks"
+msgstr "Könyvjelzők importálása"
+
+#: internal/bookmarks/routes/x-import.templ:37
+msgid "Import your Browser's Bookmarks, Pinboard, Instapaper"
+msgstr "Importálja a Bönégszője Könyvjelzőit, Pinboard vagy Instapaper bejegyzéseit"
+
+# | msgid "Import Links from a Text File"
+#: internal/bookmarks/routes/x-import.templ:44
+msgid "Import Links from a CSV File and Instapaper"
+msgstr "Hivatkozások importálása CSV fájlból és Instapaper-ből"
+
+#: internal/bookmarks/routes/x-import.templ:51
+msgid "Import your GoodLinks Articles"
+msgstr "Importálja az Ön GoodLinks Cikkeit"
+
+#: internal/bookmarks/routes/x-import.templ:58
+#, fuzzy
+msgid "Import your Linkwarden Bookmarks"
+msgstr "Könyvjelzők importálása"
+
+#: internal/bookmarks/routes/x-import.templ:72
+#, fuzzy
+msgid "Import your Pinboard bookmarks"
+msgstr "Könyvjelzők importálása"
+
+#: internal/bookmarks/routes/x-import.templ:86
+msgid "Import your Readwise Reader Library"
+msgstr ""
+
+#: internal/bookmarks/routes/x-import.templ:107
+#, fuzzy
+msgid "Here you can import your existing bookmark collection from various sources into Readeck."
+msgstr ""
+"\n"
+"    Itt importálhatja meglévő könyvjelzőgyűjteményét különböző forrásokból a Readeckbe.\n"
+"  "
+
+#: internal/bookmarks/routes/x-import.templ:132
+#, fuzzy
+msgid "Import status"
+msgstr "Import"
+
+#: internal/bookmarks/routes/x-import.templ:152
+msgid "Import operation will launch momentarily."
+msgstr "Az importálási művelet azonnal elindul."
+
+#: internal/bookmarks/routes/x-import.templ:154
+msgid "Import operation has started!"
+msgstr "Az importálási művelet megkezdődött!"
+
+#: internal/bookmarks/routes/x-import.templ:158
+msgid "You can keep using Readeck while the import is running."
+msgstr "Az importálás közben továbbra is használhatja a Readeck-et."
+
+#: internal/bookmarks/routes/x-import.templ:169
+msgid "Import is finished!"
+msgstr "Importálás véget ért!"
+
+#: internal/bookmarks/routes/x-import.templ:172
+#, fuzzy, python-format
+msgid ""
+"\n"
+"\t\t\t\t\t\tYour bookmarks are now available in your <a class=\"%s\" href=\"%s\">bookmark list</a>.\n"
+"\t\t\t\t\t"
+msgstr ""
+"\n"
+"      A könyvjelzői most már elérhetők a <a class=\"%s\" href=\"%s\">könyvjelzőlistában</a>.\n"
+"      "
+
+#: internal/bookmarks/routes/x-labels.templ:27
+#, fuzzy
+msgid "Bookmarks Labels"
+msgstr "Könyvjelző Címkék"
+
+#: internal/bookmarks/routes/x-labels.templ:31
+#, fuzzy
+msgid ""
+"\n"
+"\t\t\t\tLabels let your organize your bookmarks the way you want.\n"
+"\t\t\t\tYou can set anything to a label, including emojis!\n"
+"\t\t\t"
+msgstr ""
+"\n"
+"  A címkék segítségével a könyvjelzőket a kívánt módon rendezheti.\n"
+"  Bármit beállíthatsz címkének, beleértve az emojikat is!\n"
+
+#: internal/bookmarks/routes/x-labels.templ:129
+msgid "Label will be removed in a few seconds."
+msgstr "A címke néhány másodpercen belül eltávolításra kerül."
+
+# | msgid "Options"
+#: internal/bookmarks/routes/x-reader-control.templ:26
+#, fuzzy
+msgid "Display options"
+msgstr "Rendezési lehetőségek"
+
+#: internal/bookmarks/routes/x-reader-control.templ:39
+msgid "Width"
+msgstr "Szélesség"
+
+#: internal/bookmarks/routes/x-reader-control.templ:40
+#, fuzzy
+msgid "Current Width"
+msgstr "Jelenlegi jelszó"
+
+#: internal/bookmarks/routes/x-reader-control.templ:41
+msgid "Decrease width"
+msgstr ""
+
+#: internal/bookmarks/routes/x-reader-control.templ:42
+msgid "Increase width"
+msgstr ""
+
+#: internal/bookmarks/routes/x-reader-control.templ:47
+msgid "Size"
+msgstr "Nagyság"
+
+#: internal/bookmarks/routes/x-reader-control.templ:48
+msgid "Current font size"
+msgstr ""
+
+#: internal/bookmarks/routes/x-reader-control.templ:49
+#, fuzzy
+msgid "Decrease font size"
+msgstr "Létrehozva ekkor: %s"
+
+#: internal/bookmarks/routes/x-reader-control.templ:50
+#, fuzzy
+msgid "Increase font size"
+msgstr "Létrehozva ekkor: %s"
+
+#: internal/bookmarks/routes/x-reader-control.templ:55
+msgid "Line height"
+msgstr "Sormagassság"
+
+#: internal/bookmarks/routes/x-reader-control.templ:56
+#, fuzzy
+msgid "Current line height"
+msgstr "Sormagassság"
+
+#: internal/bookmarks/routes/x-reader-control.templ:57
+#, fuzzy
+msgid "Decrease line height"
+msgstr "Sormagassság"
+
+#: internal/bookmarks/routes/x-reader-control.templ:58
+#, fuzzy
+msgid "Increase line height"
+msgstr "Sormagassság"
+
+#: internal/bookmarks/routes/x-reader-control.templ:63
+msgid "Justify"
+msgstr "Kiegyenlítés"
+
+#: internal/bookmarks/routes/x-reader-control.templ:64
+#, fuzzy
+msgid "Justify text"
+msgstr "Kiegyenlítés"
+
+#: internal/bookmarks/routes/x-reader-control.templ:65
+msgid "Don't justify text"
+msgstr ""
+
+#: internal/bookmarks/routes/x-reader-control.templ:70
+msgid "Hyphenation"
+msgstr "Kötőjeles írásmód"
+
+#: internal/bookmarks/routes/x-reader-control.templ:71
+#, fuzzy
+msgid "With hyphenation"
+msgstr "Kötőjeles írásmód"
+
+#: internal/bookmarks/routes/x-reader-control.templ:72
+#, fuzzy
+msgid "Without hyphenation"
+msgstr "Kötőjeles írásmód"
+
+#: internal/bookmarks/routes/x-reader-control.templ:87
+msgid "Font"
+msgstr "Betűtípus"
+
+#: internal/bookmarks/routes/x-shared-public.templ:30
+msgid "Shared link"
+msgstr "Megosztott hivatkozás"
+
+# | msgid "Saved with Readeck"
+# | msgid "Saved with"
+#: internal/bookmarks/routes/x-shared-public.templ:91
+#, python-format
+msgid "Saved with %s"
+msgstr "Mentve %s"
+
+#: internal/bookmarks/routes/x-shared-public.templ:109
+msgid "Page not found"
+msgstr "Az oldal nem található"
+
+#: internal/bookmarks/routes/x-shared-public.templ:111
+msgid "Page has expired"
+msgstr "Az oldal érvényessége lejárt"
+
+#: internal/bookmarks/routes/x-shared-public.templ:142
+msgid "Change theme"
+msgstr "Téma váltása"
+
+# | msgid "Shared by %s"
+#: internal/bookmarks/routes/x-shared-public.templ:194
+#, fuzzy
+msgid "Shared by %[1]s with %[2]s"
+msgstr "%s megosztotta vele %s"
+
+#: internal/bookmarks/routes/x-sidebar.templ:42
+msgid "Errors occurred during extraction."
+msgstr "A kivonatolás során hibák léptek fel."
+
+#: internal/bookmarks/routes/x-sidebar.templ:49
+msgid ""
+"\n"
+"\t\t\t\t\t\tDepending on the error, Readeck's browser extension may provide\n"
+"\t\t\t\t\t\ta workaround."
+msgstr ""
+
+#: internal/bookmarks/routes/x-sidebar.templ:65
+#, fuzzy
+msgid "View log"
+msgstr "Videó"
+
+#: internal/bookmarks/routes/x-sidebar.templ:100
+msgid "Mark as unread"
+msgstr "Olvasatlanak jelöl"
+
+#: internal/bookmarks/routes/x-sidebar.templ:101
+msgid "Mark as read"
+msgstr "Olvasottnak jelöl"
+
+#: internal/bookmarks/routes/x-sidebar.templ:171
+msgid "Export and Share"
+msgstr "Exportálás és Megosztás"
+
+#: internal/bookmarks/routes/x-sidebar.templ:192
+msgid "Share by Link"
+msgstr "Megosztás Hivatkozással"
+
+#: internal/bookmarks/routes/x-sidebar.templ:204
+msgid "Send article by Email"
+msgstr "Cikk küldése e-mail-ben"
+
+#: internal/bookmarks/routes/x-sidebar.templ:215
+msgid "Send e-book by Email"
+msgstr "E-könyv küldése e-mail-ben"
+
+#: internal/bookmarks/routes/x-sidebar.templ:340
+msgid "Add a label"
+msgstr "Címke hozzáadása"
+
+#: internal/bookmarks/routes/x-sidebar.templ:361
+msgid "Add label"
+msgstr "Címke hozzáadása"
+
+#: internal/bookmarks/routes/x-sidebar.templ:385
+msgid "Remove label"
+msgstr "Címke törlése"
+
+#: internal/bookmarks/routes/x-sidebar.templ:403
+msgid "Start selecting text in the article to create a new highlight."
+msgstr "Kezdje el kijelölni a szöveget a cikkben, hogy új kiemelést hozzon létre."
+
+#: internal/bookmarks/routes/x-sidebar.templ:435
+#, fuzzy
+msgid "Delete highlight"
+msgstr "Kiemelés"
+
+#: internal/bookmarks/routes/x-sidebar.templ:453
+msgid "Links"
+msgstr "Hivatkozások"
+
+#: internal/docs/http.go:257 internal/docs/x-about.templ:53
+#: internal/docs/x-base.templ:43
+msgid "About Readeck"
+msgstr "A Readeck-ről"
+
+#: internal/docs/x-about.templ:57
+msgid "Version:"
+msgstr "Verzió:"
+
+#: internal/docs/x-about.templ:58
+#, fuzzy
+msgid "Build Date:"
+msgstr "Dátum:"
+
+#: internal/docs/x-about.templ:60
+msgid "System Information"
+msgstr "Rendszerinformációk"
+
+#: internal/docs/x-about.templ:62
+msgid "Here are your current system information. Please include them if you report a bug."
+msgstr "Itt vannak az Ön jelenlegi rendszeradatai. Kérjük, adja meg ezeket, ha hibát jelent."
+
+#: internal/docs/x-about.templ:74
+msgid "Storage"
+msgstr ""
+
+#: internal/docs/x-about.templ:78
+msgid "Database Size:"
+msgstr ""
+
+#: internal/docs/x-about.templ:82
+#, fuzzy
+msgid "Bookmarks Disk Usage:"
+msgstr "Könyvjelző töltődik"
+
+#: internal/docs/x-about.templ:87
+msgid "Project"
+msgstr "Projekt"
+
+#: internal/docs/x-about.templ:90
+#, fuzzy
+msgid "Main website:"
+msgstr "Fő weboldal"
+
+#: internal/docs/x-about.templ:94
+#, fuzzy
+msgid "Sources and issues:"
+msgstr "Források és hibák"
+
+#: internal/docs/x-about.templ:98
+#, fuzzy
+msgid "How to contribute:"
+msgstr "Közreműködés"
+
+#: internal/docs/x-about.templ:102
+#, fuzzy
+msgid "Community Forum:"
+msgstr "Közösségi Fórum"
+
+#: internal/docs/x-about.templ:106
+#, fuzzy
+msgid "Matrix Chat:"
+msgstr "Matrix Chat"
+
+#: internal/docs/x-about.templ:110
+msgid "License"
+msgstr "Licence"
+
+#: internal/docs/x-about.templ:112
+#, python-format
+msgid "Readeck is distributed under the terms of the license \"%s\""
+msgstr "A Readeck a következő licenc feltételei szerint kerül terjesztésre \"%s\""
+
+#: internal/docs/x-about.templ:117
+msgid "Here's a short summary of the license conditions:"
+msgstr "Íme egy rövid összefoglaló az engedélyezési feltételekről:"
+
+#: internal/docs/x-about.templ:122 internal/profile/x-applications.templ:56
+msgid "Permissions"
+msgstr "Jogosultságok"
+
+#: internal/docs/x-about.templ:123
+msgid "Conditions"
+msgstr "Feltételek"
+
+#: internal/docs/x-about.templ:124
+msgid "Limitations"
+msgstr "Korlátozások"
+
+#: internal/docs/x-about.templ:133
+msgid "Commercial use"
+msgstr "Kereskedelmi célú felhasználás"
+
+#: internal/docs/x-about.templ:137
+msgid "Distribution"
+msgstr "Forgalmazás"
+
+#: internal/docs/x-about.templ:141
+msgid "Modification"
+msgstr "Módosítás"
+
+#: internal/docs/x-about.templ:145
+msgid "Patent use"
+msgstr "Szabadalom felhasználása"
+
+#: internal/docs/x-about.templ:149
+msgid "Private use"
+msgstr "Magáncélú felhasználás"
+
+#: internal/docs/x-about.templ:157
+msgid "Disclose source"
+msgstr "A forrás közzététele"
+
+#: internal/docs/x-about.templ:161
+msgid "License and copyright notice"
+msgstr "Licenc és szerzői jogi nyilatkozat"
+
+#: internal/docs/x-about.templ:165
+msgid "Network use is distribution"
+msgstr "Hálózati felhasználás forgalmazás"
+
+#: internal/docs/x-about.templ:169
+msgid "Same license"
+msgstr "Ugyanaz a licenc"
+
+#: internal/docs/x-about.templ:173
+msgid "State changes"
+msgstr "Állami változtatások"
+
+#: internal/docs/x-about.templ:181
+msgid "Liability"
+msgstr "Felelősségvállalás"
+
+#: internal/docs/x-about.templ:185
+msgid "Warranty"
+msgstr "Jótállás"
+
+#: internal/docs/x-about.templ:216
+msgid "Third-Party Licenses"
+msgstr "Harmadik féltől származó licencek"
+
+#: internal/docs/x-about.templ:217
+msgid "Readeck includes and/or uses the following open source assets:"
+msgstr "A Readeck a következő nyílt forráskódú eszközöket tartalmazza és/vagy használja:"
+
+#: internal/docs/x-api.templ:21 internal/docs/x-base.templ:34
+msgid "API Documentation"
+msgstr "API Dokumentációs"
+
+#: internal/docs/x-base.templ:17
+msgid "Readeck Help"
+msgstr "Readeck Súgó"
+
+#: internal/docs/x-base.templ:48
+msgid "Changelog"
+msgstr "Változásnapló"
 
 #: internal/opds/http.go:71
 msgid "All Bookmarks"
@@ -2805,55 +2480,478 @@ msgstr "Minden Könyvjelző"
 msgid "The import file must contain one user only"
 msgstr ""
 
-#: internal/profile/forms.go:41
-msgid "invalid username and/or email"
-msgstr "érvénytelen felhasználónév és/vagy e-mail cím"
-
-#: internal/profile/forms.go:42
+#: internal/profile/forms.go:31
 msgid "invalid password"
 msgstr "érvénytelen jelszó"
 
-#: internal/profile/forms.go:471
+#: internal/profile/forms.go:427
 msgid "username does not match"
 msgstr ""
 
-#: internal/profile/views.go:84
+#: internal/profile/views.go:88
 msgid "Profile updated."
 msgstr "Profil frissítve."
 
-#: internal/profile/views.go:138
+#: internal/profile/views.go:97 internal/profile/views.go:150
+#: internal/profile/views.go:186 internal/profile/views.go:226
+#: internal/profile/views.go:237 internal/profile/views.go:288
+#: internal/profile/views.go:338 internal/profile/views.go:367
+#: internal/profile/x-base.templ:20
+msgid "Profile"
+msgstr "Profil"
+
+#: internal/profile/views.go:130
 msgid "Your password was changed."
 msgstr "Megváltozott a jelszava."
 
-#: internal/profile/views.go:149
+#: internal/profile/views.go:141
 msgid "Your verification code was removed."
 msgstr ""
 
-#: internal/profile/views.go:169
+#: internal/profile/views.go:151 internal/profile/views.go:187
+#: internal/profile/x-base.templ:26
+msgid "Security"
+msgstr ""
+
+#: internal/profile/views.go:180
+msgid "Verification Code is now enabled."
+msgstr ""
+
+#: internal/profile/views.go:188
 #, fuzzy
 msgid "Verification Code"
 msgstr "Módosítás"
 
-#: internal/profile/views.go:197
-msgid "Verification Code is now enabled."
-msgstr ""
+#: internal/profile/views.go:227 internal/profile/x-applications.templ:10
+#: internal/profile/x-base.templ:33
+#, fuzzy
+msgid "Applications"
+msgstr "Alkalmazás"
 
-#: internal/profile/views.go:275
+#: internal/profile/views.go:238 internal/profile/views.go:289
+#: internal/profile/x-base.templ:39
+msgid "API Tokens"
+msgstr "API Tokenek"
+
+#: internal/profile/views.go:253
 msgid "An error occurred while creating your token."
 msgstr "Hiba történt a token létrehozása során."
 
-#: internal/profile/views.go:280
+#: internal/profile/views.go:258
 msgid "New token created."
 msgstr "Új token létrehozva."
 
-#: internal/profile/views.go:299
+#: internal/profile/views.go:273
 msgid "Token was updated."
 msgstr "Token frissítve."
 
-#: internal/profile/views.go:388
+#: internal/profile/views.go:339 internal/profile/x-base.templ:51
+#: internal/profile/x-export.templ:11
+#, fuzzy
+msgid "Export"
+msgstr "Import"
+
+#: internal/profile/views.go:357
 #, fuzzy
 msgid "Profile imported."
 msgstr "Profil frissítve."
+
+#: internal/profile/x-applications.templ:15
+msgid ""
+"\n"
+"\t\t\t\t\tApplications are registered clients that have permissions to access your Readeck account.\n"
+"\t\t\t\t\tIf there are applications you do not recognize here, or an application is misbehaving,\n"
+"\t\t\t\t\tyou can revoke its access.\n"
+"\t\t\t\t"
+msgstr ""
+
+#: internal/profile/x-applications.templ:23
+msgid "You have no registered application at the moment."
+msgstr ""
+
+# | msgid "Created on: %s"
+#: internal/profile/x-applications.templ:46
+#, fuzzy, python-format
+msgid "Authorized on: %s"
+msgstr "Legutoljára használva ekkor: %s"
+
+#: internal/profile/x-applications.templ:47 internal/profile/x-tokens.templ:53
+#: internal/profile/x-tokens.templ:58
+#, python-format
+msgctxt "datetime"
+msgid "%e %B %Y"
+msgstr ""
+
+# | msgid "Created on: %s"
+#: internal/profile/x-applications.templ:52 internal/profile/x-tokens.templ:63
+#, python-format
+msgid "Last used on: %s"
+msgstr "Legutoljára használva ekkor: %s"
+
+#: internal/profile/x-applications.templ:73
+#, fuzzy
+msgid "This client will be revoked in a few seconds."
+msgstr "Ez a token néhány másodpercen belül eltávolításra kerül."
+
+#: internal/profile/x-applications.templ:94
+#, fuzzy
+msgid "Revoke application"
+msgstr "Alkalmazás"
+
+#: internal/profile/x-applications.templ:105
+#, fuzzy
+msgid "Developer information"
+msgstr "Könyvjelző információ"
+
+#: internal/profile/x-applications.templ:107
+#, python-format
+msgid ""
+"\n"
+"\t\t\t\t\t\t\tIf you plan to build an application, please refer to the\n"
+"\t\t\t\t\t\t\t<a href=\"%s\">API Documentation</a>.\n"
+"\t\t\t\t\t\t"
+msgstr ""
+
+#: internal/profile/x-export.templ:23
+msgid "Bookmark List in Browser Bookmarks Format"
+msgstr ""
+
+#: internal/profile/x-export.templ:30
+msgid "Bookmark List as Comma Separated Values"
+msgstr ""
+
+#: internal/profile/x-export.templ:37
+#, fuzzy
+msgid "Export your Readeck Profile"
+msgstr "Pocket Cikkek importálása"
+
+#: internal/profile/x-export.templ:41
+msgid ""
+"\n"
+"\t\t\t\t\t\tThis lets you download a zip file containing all your profile's data, including\n"
+"\t\t\t\t\t\tbookmarks, collections, etc.\n"
+"\t\t\t\t\t"
+msgstr ""
+
+#: internal/profile/x-export.templ:47
+#, fuzzy
+msgid "Export Data"
+msgstr "Exportálás és Megosztás"
+
+#: internal/profile/x-export.templ:52
+#, fuzzy
+msgid "Export Bookmarks"
+msgstr "Könyvjelzők importálása"
+
+#: internal/profile/x-export.templ:53
+msgid "You can export your bookmark list in the following formats:"
+msgstr ""
+
+#: internal/profile/x-import.templ:16
+msgid "Import a Readeck Profile"
+msgstr ""
+
+#: internal/profile/x-import.templ:17
+msgid "Import a file obtained through a previous profile export."
+msgstr ""
+
+#: internal/profile/x-import.templ:26
+msgid "Confirm your user name"
+msgstr ""
+
+#: internal/profile/x-import.templ:32
+#, fuzzy
+msgid "Attention"
+msgstr "Hitelesítés"
+
+#: internal/profile/x-import.templ:34
+msgid ""
+"\n"
+"\t\t\t\t\t\t\tThis will empty your current profile and all its data will be\n"
+"\t\t\t\t\t\t\treplaced with the file's content.\n"
+"\t\t\t\t\t\t"
+msgstr ""
+
+#: internal/profile/x-import.templ:46
+#, fuzzy
+msgid "Import bookmarks from other services"
+msgstr "Könyvjelzők importálása"
+
+#: internal/profile/x-import.templ:49
+#, python-format
+msgid ""
+"\n"
+"\t\t\t\t\t\tIf you have bookmarks from another service you can import them in the\n"
+"\t\t\t\t\t\t<a href=\"%s\">dedicated section</a>.\n"
+"\t\t\t\t\t\t"
+msgstr ""
+
+#: internal/profile/x-profile.templ:17 internal/profile/x-security.templ:16
+msgid "My profile"
+msgstr "Profilom"
+
+#: internal/profile/x-profile.templ:25
+#, fuzzy, python-format
+msgid "You are connected as <strong>%s</strong>"
+msgstr "Az Ön keresési lekérdezése <strong>%d találatot </strong> eredményezett."
+
+#: internal/profile/x-profile.templ:32
+msgid "Sign out"
+msgstr "Kijelentkezés"
+
+# | msgid "Settings"
+#: internal/profile/x-profile.templ:40
+msgid "Base settings"
+msgstr "Alap beállítások"
+
+#: internal/profile/x-profile.templ:49
+msgid "Email Address"
+msgstr "E-mail cím"
+
+# | msgid "Settings"
+#: internal/profile/x-profile.templ:72
+msgid "Email settings"
+msgstr "E-mail beállítások"
+
+#: internal/profile/x-profile.templ:75
+msgid "Reply To"
+msgstr "Válasz neki"
+
+#: internal/profile/x-profile.templ:77
+msgid "Add this email address in your outgoing emails so recipients can reply."
+msgstr "Adja hozzá ezt az e-mail címet a kimenő levelekhez, hogy címezettek válaszolhassanak rá."
+
+#: internal/profile/x-profile.templ:81
+msgid "Send EPUB to"
+msgstr "EPUB küldése ide"
+
+#: internal/profile/x-profile.templ:83
+msgid "This address is used to prefill the recipient when you send an e-book by email."
+msgstr "Ezt a címet használjuk hogy előtöltsük a címzett mezőt amikor e-könyvet küld e-mail-ben."
+
+#: internal/profile/x-profile.templ:90
+#, fuzzy
+msgid "Sending e-books to an Amazon Kindle"
+msgstr "E-könyv küldése e-mail-ben"
+
+#: internal/profile/x-profile.templ:93
+#, fuzzy
+msgid ""
+"\n"
+"\t\t\t\t\t\t\t\t\t\tIf you plan to send e-books to a Kindle device, you must approve the\n"
+"\t\t\t\t\t\t\t\t\t\tfollowing email address within your Kindle Account:\n"
+"\t\t\t\t\t\t\t\t\t"
+msgstr ""
+"\n"
+"        Ha e-könyvek Kindle eszközre való küldését tervez, előtte\n"
+"        a Kindle Fiókjában jóvá kell hagynia a következő e-mail címet:\n"
+"        "
+
+#: internal/profile/x-security.templ:25
+msgid "Change my password"
+msgstr "Jelszó megváltoztatása"
+
+#: internal/profile/x-security.templ:27
+msgid "Current password"
+msgstr "Jelenlegi jelszó"
+
+#: internal/profile/x-security.templ:49
+msgid "Verification Code (TOTP)"
+msgstr ""
+
+#: internal/profile/x-security.templ:50
+msgid "A verification code is a one time code generated by an application, such as Google Authenticator."
+msgstr ""
+
+#: internal/profile/x-security.templ:55
+msgid "The verification code is enabled on this account."
+msgstr ""
+
+#: internal/profile/x-security.templ:59
+#, fuzzy
+msgid "Remove Verification Code"
+msgstr "Módosítás"
+
+#: internal/profile/x-security.templ:61
+msgid "Removing your verification code will make your account less secure."
+msgstr ""
+
+#: internal/profile/x-security.templ:67
+#, fuzzy
+msgid "Remove"
+msgstr "eltávolítás"
+
+#: internal/profile/x-security.templ:75 internal/profile/x-security.templ:85
+#, fuzzy
+msgid "Setup Verification Code"
+msgstr "Módosítás"
+
+#: internal/profile/x-security.templ:91
+msgid "Scan this QR code with your app"
+msgstr ""
+
+#: internal/profile/x-security.templ:92
+msgid "Scan the QR code below with a two-factor authentication app on your phone."
+msgstr ""
+
+#: internal/profile/x-security.templ:101
+msgid "If you can't use the QR code, enter the code below instead."
+msgstr ""
+
+#: internal/profile/x-security.templ:104
+msgid "Enter the code from your application."
+msgstr ""
+
+#: internal/profile/x-security.templ:106
+msgid "After scanning the QR code, the app will display a six-digit code that you need to enter below."
+msgstr ""
+
+#: internal/profile/x-security.templ:109
+msgid "Code from your device"
+msgstr ""
+
+#: internal/profile/x-security.templ:115
+msgid "Finish"
+msgstr ""
+
+#: internal/profile/x-tokens.templ:13
+msgid "My API Tokens"
+msgstr "API Tokenjeim"
+
+#: internal/profile/x-tokens.templ:17
+#, fuzzy
+msgid "An API Token is a key that grants you access to the Readeck API."
+msgstr ""
+"\n"
+"  Az API token egy olyan kulcs, amely lehetővé teszi az Ön (vagy egy másik eszköz, például egy böngészőbővítmény) számára, hogy\n"
+"  hozzáférést biztosít a Readeck API-hoz.\n"
+
+#: internal/profile/x-tokens.templ:19
+#, python-format
+msgid "Please read the <a href=\"%s\">API Documentation</a> if you plan to use it."
+msgstr "Kérjük, olvassa el a <a href=\"%s\">API dokumentációt</a>, ha használni kívánja."
+
+#: internal/profile/x-tokens.templ:28
+msgid "Create a new API token"
+msgstr "Új API token létrehozása"
+
+#: internal/profile/x-tokens.templ:57
+#, python-format
+msgid "Expires on: %s"
+msgstr "Lejár ekkor: : %s"
+
+#: internal/profile/x-tokens.templ:73
+msgid "This token will be removed in a few seconds."
+msgstr "Ez a token néhány másodpercen belül eltávolításra kerül."
+
+#: internal/profile/x-tokens.templ:98
+msgid "API Token"
+msgstr "API Token"
+
+#: internal/profile/x-tokens.templ:105
+msgid "Token will be removed in a few seconds."
+msgstr "A token néhány másodpercen belül eltávolításra kerül."
+
+#: internal/profile/x-tokens.templ:114
+msgid "Token ID"
+msgstr "Token ID"
+
+# | msgid "Patent use"
+#: internal/profile/x-tokens.templ:118
+msgid "Last used"
+msgstr "Legutoljára használt"
+
+# | msgid "New User"
+#: internal/profile/x-tokens.templ:123
+msgid "never used"
+msgstr "sosem használt"
+
+#: internal/profile/x-tokens.templ:133
+msgid "Enabled"
+msgstr "Engedélyezve"
+
+#: internal/profile/x-tokens.templ:137
+msgid "Expires on"
+msgstr "Lejár ekkor"
+
+#: internal/profile/x-tokens.templ:140 internal/profile/x-tokens.templ:149
+msgid "Roles"
+msgstr "Szerepkörök"
+
+#: internal/profile/x-tokens.templ:142
+#, fuzzy
+msgid ""
+"\n"
+"\t\t\t\t\tYou can limit the permissions granted to this token by choosing one or more\n"
+"\t\t\t\t\tgroup of permissions below.<br>\n"
+"\t\t\t\t\tLeave all the choices blank to grant all your permissions to this token.\n"
+"\t\t\t\t"
+msgstr ""
+"\n"
+"    Az alábbi engedélyek egy vagy több csoportjának kiválasztásával \n"
+"    korlátozhatja az erre a tokenre vonatkozó engedélyeket.<br>\n"
+"    Hagyja üresen az összes választási lehetőséget, ha minden engedélyt megad a tokennek.\n"
+"  "
+
+#: internal/profile/x-tokens.templ:158
+msgid "Delete token"
+msgstr "Token törlése"
+
+#: internal/profile/x-tokens.templ:162
+msgid "Authentication"
+msgstr "Hitelesítés"
+
+#: internal/profile/x-tokens.templ:164
+msgid "Your API token"
+msgstr "Az Ön API tokenje"
+
+# | msgid "API Token"
+#: internal/profile/x-tokens.templ:177
+msgid "copy token"
+msgstr "token másolása"
+
+#: internal/profile/x-tokens.templ:191
+msgid "Download as a text file"
+msgstr ""
+
+#: internal/profile/x-tokens.templ:194
+msgid "How to use it"
+msgstr "Hogyan használja"
+
+#: internal/profile/x-tokens.templ:195
+msgid "As a Bearer Token"
+msgstr "Mint hordozó token"
+
+#: internal/profile/x-tokens.templ:197
+msgid "You can use this token by passing it as an <strong>Authorization: Bearer</strong> HTTP header."
+msgstr "Ezt a tokent úgy használhatja, hogy átadja mint <strong>Felhatalmazás: Bearer</strong> HTTP fejlécet."
+
+#: internal/profile/x-tokens.templ:200
+msgid "HTTP Header"
+msgstr "HTTP fejléc"
+
+#: internal/profile/x-tokens.templ:213
+msgid "copy HTTP header"
+msgstr "HTTP fejléc másolása"
+
+#: internal/profile/x-tokens.templ:219
+msgid "As a password"
+msgstr "Mint jelszó"
+
+#: internal/profile/x-tokens.templ:220
+msgid "Alternatively, you can use this token as a password for HTTP Basic Authentication."
+msgstr "Alternatívaként használhatja ezt a token-t mint jelszavat Alap HTTP Azonosításhoz."
+
+#: internal/profile/x-tokens.templ:222
+#, fuzzy
+msgid ""
+"\n"
+"\t\t\t\tFor example, if an application only accepts a username and password, you can provide this token as a password.\n"
+"\t\t\t\tThe username is ignored and can be anything, including an empty value.\n"
+"\t\t\t"
+msgstr ""
+"Páldául, ha egy alkalmazás csak felhasználónevet és jelszavat fogad el, használhatja ezt a tokent jelszó gyanánt.\n"
+"  A felhasználónév figyelmet kívül lesz hagyva, így bármi lehet, akár üres érték is."
 
 #: pkg/forms/forms.go:28
 msgid "an unexpected error has occurred"
@@ -2863,40 +2961,40 @@ msgstr "váratlan hiba történt"
 msgid "field is required"
 msgstr "kötelező mező"
 
-#: pkg/forms/validators.go:20
+#: pkg/forms/validators.go:19
 msgid "not a valid email address"
 msgstr "érvénytelen e-mail cím"
 
-#: pkg/forms/validators.go:22
+#: pkg/forms/validators.go:20
 msgid "invalid URL"
 msgstr "érvénytelen URL cím"
 
-#: pkg/forms/validators.go:331
-#, python-format
-msgid "must be greater or equal than %d"
+#: pkg/forms/validators.go:290
+#, fuzzy, python-format
+msgid "must be greater or equal than %g"
 msgstr "nagyobbnak vagy egyenlőnek kell lennie, mint %d"
 
-#: pkg/forms/validators.go:339
-#, python-format
-msgid "must be lower or equal than %d"
+#: pkg/forms/validators.go:307
+#, fuzzy, python-format
+msgid "must be lower or equal than %g"
 msgstr "kisebbnek vagy egyenlőnek kell lennie, mint %d"
 
-#: pkg/forms/validators.go:347
+#: pkg/forms/validators.go:315
 #, fuzzy, python-format
 msgid "text must contain at least %d characters"
 msgstr "legalább 8 karakter hosszúnak kell lennie"
 
-#: pkg/forms/validators.go:355
+#: pkg/forms/validators.go:323
 #, fuzzy, python-format
 msgid "text must contain at most %d characters"
 msgstr "legalább 8 karakter hosszúnak kell lennie"
 
-#: pkg/forms/validators.go:363
+#: pkg/forms/validators.go:331
 #, python-format
 msgid "text must contain %d characters"
 msgstr ""
 
-#: pkg/forms/validators.go:443
+#: pkg/forms/validators.go:394
 #, python-format
 msgid "%v is not one of %s"
 msgstr "%v nem egyike ennek %s"
@@ -3252,4 +3350,91 @@ msgstr "%a %b %e %H:%M:%S %y"
 
 #~ msgid "Verification Code Setup"
 #~ msgstr ""
+
+#~ msgid "Last login"
+#~ msgstr ""
+
+#~ msgid "Disk usage"
+#~ msgstr ""
+
+#~ msgid "Last update: %s"
+#~ msgstr "Utoljára frissítve: %s"
+
+#~ msgid "You can now close this page."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "      <strong>%s</strong> would like permission to access your account.\n"
+#~ "      Only approve this request if you recognize and trust this source.\n"
+#~ "    "
+#~ msgstr ""
+
+#~ msgid "%d min"
+#~ msgstr "%d perc"
+
+#~ msgid "From date"
+#~ msgstr "Dátumtól"
+
+#~ msgid "To date"
+#~ msgstr "Dátumig"
+
+#~ msgid ""
+#~ "\n"
+#~ "          Depending on the error, Readeck's browser extension may provide\n"
+#~ "          a workaround."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "    Upload a CSV file exported from your Readwise Reader account below.\n"
+#~ "  "
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "  Applications are registered clients that have permissions to access your Readeck account.\n"
+#~ "  If there are applications you do not recognize here, or an application is misbehaving,\n"
+#~ "  you can revoke its access.\n"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "    If you plan to build an application, please refer to the\n"
+#~ "    <a href=\"%s\">API Documentation</a>.\n"
+#~ "  "
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "    This lets you download a zip file containing all your profile's data, including\n"
+#~ "    bookmarks, collections, etc.\n"
+#~ "    "
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "      This will empty your current profile and all its data will be\n"
+#~ "      replaced with the file's content.\n"
+#~ "      "
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "  If you have bookmarks from another service you can import them in the\n"
+#~ "  <a href=\"%s\">dedicated section</a>.\n"
+#~ "  "
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "    These, optional, parameters are used when Readeck sends emails.\n"
+#~ "    "
+#~ msgstr ""
+#~ "\n"
+#~ "    Ezek opcionális paraméterek a Readeck e-mail küldéséhez.\n"
+#~ "    "
+
+#~ msgid "invalid username and/or email"
+#~ msgstr "érvénytelen felhasználónév és/vagy e-mail cím"
 
