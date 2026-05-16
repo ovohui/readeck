@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-05-16 15:13+0200\n"
+"POT-Creation-Date: 2026-05-16 15:18+0200\n"
 "PO-Revision-Date: 2026-02-08 15:29+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language: uk\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: components/breadcrumbs.templ:13
+#: components/breadcrumbs.templ:13 components/layout.templ:72
 msgid "Home Page"
 msgstr "Головна"
 
@@ -96,11 +96,6 @@ msgstr "Виберіть або перетягніть файл"
 #: components/forms/forms.templ:407
 msgid "remove"
 msgstr "видалити"
-
-#: components/layout.templ:72
-#, fuzzy
-msgid "Home page"
-msgstr "Головна"
 
 #: components/layout.templ:80 internal/admin/x-users.templ:186
 #: internal/bookmarks/routes/views_bookmarks.go:302
@@ -299,7 +294,7 @@ msgid "Save"
 msgstr "Зберегти"
 
 #: internal/admin/x-users.templ:164
-#, fuzzy, python-format
+#, fuzzy
 msgid "Created on"
 msgstr "Створено: %s"
 
@@ -3275,4 +3270,7 @@ msgstr "%H:%M:%S"
 
 #~ msgid "invalid username and/or email"
 #~ msgstr "неправильне ім’я користувача і/або електронна адреса"
+
+#~ msgid "Home page"
+#~ msgstr "Головна"
 

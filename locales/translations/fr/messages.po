@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-05-16 15:13+0200\n"
+"POT-Creation-Date: 2026-05-16 15:18+0200\n"
 "PO-Revision-Date: 2026-02-04 19:07+0000\n"
 "Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
 "Language: fr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: components/breadcrumbs.templ:13
+#: components/breadcrumbs.templ:13 components/layout.templ:72
 msgid "Home Page"
 msgstr "Accueil"
 
@@ -95,11 +95,6 @@ msgstr "Sélectionnez ou déposez un fichier"
 #: components/forms/forms.templ:407
 msgid "remove"
 msgstr "supprimer"
-
-#: components/layout.templ:72
-#, fuzzy
-msgid "Home page"
-msgstr "Accueil"
 
 #: components/layout.templ:80 internal/admin/x-users.templ:186
 #: internal/bookmarks/routes/views_bookmarks.go:302
@@ -298,7 +293,7 @@ msgid "Save"
 msgstr "Enregistrer"
 
 #: internal/admin/x-users.templ:164
-#, fuzzy, python-format
+#, fuzzy
 msgid "Created on"
 msgstr "Créé le : %s"
 
@@ -3277,4 +3272,7 @@ msgstr "%H:%M:%S"
 
 #~ msgid "invalid username and/or email"
 #~ msgstr "utilisateur et/ou e-mail invalide"
+
+#~ msgid "Home page"
+#~ msgstr "Accueil"
 

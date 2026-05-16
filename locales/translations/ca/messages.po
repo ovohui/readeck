@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-05-16 15:13+0200\n"
+"POT-Creation-Date: 2026-05-16 15:18+0200\n"
 "PO-Revision-Date: 2025-11-17 20:51+0000\n"
 "Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
 "Language: ca_ES\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: components/breadcrumbs.templ:13
+#: components/breadcrumbs.templ:13 components/layout.templ:72
 msgid "Home Page"
 msgstr "Pàgina principal"
 
@@ -96,11 +96,6 @@ msgstr "Selecciona o deixa anar un arxiu"
 #: components/forms/forms.templ:407
 msgid "remove"
 msgstr "elimina"
-
-#: components/layout.templ:72
-#, fuzzy
-msgid "Home page"
-msgstr "Pàgina principal"
 
 #: components/layout.templ:80 internal/admin/x-users.templ:186
 #: internal/bookmarks/routes/views_bookmarks.go:302
@@ -301,13 +296,13 @@ msgid "Save"
 msgstr "Desa"
 
 #: internal/admin/x-users.templ:164
-#, fuzzy, python-format
+#, fuzzy
 msgid "Created on"
 msgstr "Creat el: %s"
 
 # | msgid "Created on: %s"
 #: internal/admin/x-users.templ:171
-#, fuzzy, python-format
+#, fuzzy
 msgid "Last Login"
 msgstr "Últim ús: %s"
 
@@ -3380,4 +3375,7 @@ msgstr "%H:%M:%S"
 
 #~ msgid "invalid username and/or email"
 #~ msgstr "nom d'usuari i/o contrasenya no vàlids"
+
+#~ msgid "Home page"
+#~ msgstr "Pàgina principal"
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-05-16 15:13+0200\n"
+"POT-Creation-Date: 2026-05-16 15:18+0200\n"
 "PO-Revision-Date: 2025-05-27 06:01+0000\n"
 "Last-Translator: arpad <user240803@noreply.codeberg.org>\n"
 "Language: hu_HU\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: components/breadcrumbs.templ:13
+#: components/breadcrumbs.templ:13 components/layout.templ:72
 msgid "Home Page"
 msgstr "Kezdőlap"
 
@@ -94,11 +94,6 @@ msgstr "Válassza ki vagy húzza ide a fájlt"
 #: components/forms/forms.templ:407
 msgid "remove"
 msgstr "eltávolítás"
-
-#: components/layout.templ:72
-#, fuzzy
-msgid "Home page"
-msgstr "Kezdőlap"
 
 #: components/layout.templ:80 internal/admin/x-users.templ:186
 #: internal/bookmarks/routes/views_bookmarks.go:302
@@ -300,13 +295,13 @@ msgid "Save"
 msgstr "Mentés"
 
 #: internal/admin/x-users.templ:164
-#, fuzzy, python-format
+#, fuzzy
 msgid "Created on"
 msgstr "Létrehozva ekkor: %s"
 
 # | msgid "Created on: %s"
 #: internal/admin/x-users.templ:171
-#, fuzzy, python-format
+#, fuzzy
 msgid "Last Login"
 msgstr "Legutoljára használva ekkor: %s"
 
@@ -3437,4 +3432,7 @@ msgstr "%a %b %e %H:%M:%S %y"
 
 #~ msgid "invalid username and/or email"
 #~ msgstr "érvénytelen felhasználónév és/vagy e-mail cím"
+
+#~ msgid "Home page"
+#~ msgstr "Kezdőlap"
 

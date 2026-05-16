@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-05-16 15:13+0200\n"
+"POT-Creation-Date: 2026-05-16 15:18+0200\n"
 "PO-Revision-Date: 2026-03-03 14:19+0000\n"
 "Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
 "Language: tr\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: components/breadcrumbs.templ:13
+#: components/breadcrumbs.templ:13 components/layout.templ:72
 msgid "Home Page"
 msgstr "Ana Sayfa"
 
@@ -97,11 +97,6 @@ msgstr "Dosya seç ya da bırak"
 #: components/forms/forms.templ:407
 msgid "remove"
 msgstr "kaldır"
-
-#: components/layout.templ:72
-#, fuzzy
-msgid "Home page"
-msgstr "Ana Sayfa"
 
 #: components/layout.templ:80 internal/admin/x-users.templ:186
 #: internal/bookmarks/routes/views_bookmarks.go:302
@@ -302,7 +297,7 @@ msgid "Save"
 msgstr "Kaydet"
 
 #: internal/admin/x-users.templ:164
-#, fuzzy, python-format
+#, fuzzy
 msgid "Created on"
 msgstr "Oluşturulma tarihi: %s"
 
@@ -3338,4 +3333,7 @@ msgstr "%H:%M:%S"
 
 #~ msgid "invalid username and/or email"
 #~ msgstr "geçersiz kullanıcı adı ve/veya e-posta"
+
+#~ msgid "Home page"
+#~ msgstr "Ana Sayfa"
 

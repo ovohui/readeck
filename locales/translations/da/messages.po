@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-05-16 15:13+0200\n"
+"POT-Creation-Date: 2026-05-16 15:18+0200\n"
 "PO-Revision-Date: 2025-07-30 22:07+0000\n"
 "Last-Translator: torsdag <torsdag@noreply.codeberg.org>\n"
 "Language: da_DK\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: components/breadcrumbs.templ:13
+#: components/breadcrumbs.templ:13 components/layout.templ:72
 msgid "Home Page"
 msgstr "Hjemmeside"
 
@@ -94,11 +94,6 @@ msgstr "Vælg eller drop fil"
 #: components/forms/forms.templ:407
 msgid "remove"
 msgstr "fjern"
-
-#: components/layout.templ:72
-#, fuzzy
-msgid "Home page"
-msgstr "Hjemmeside"
 
 #: components/layout.templ:80 internal/admin/x-users.templ:186
 #: internal/bookmarks/routes/views_bookmarks.go:302
@@ -301,13 +296,13 @@ msgid "Save"
 msgstr "Gem"
 
 #: internal/admin/x-users.templ:164
-#, fuzzy, python-format
+#, fuzzy
 msgid "Created on"
 msgstr "Oprettet den: %s"
 
 # | msgid "Published on %s"
 #: internal/admin/x-users.templ:171
-#, fuzzy, python-format
+#, fuzzy
 msgid "Last Login"
 msgstr "Offentliggjort den %s"
 
@@ -3452,4 +3447,7 @@ msgstr "%H:%M:%S"
 
 #~ msgid "invalid username and/or email"
 #~ msgstr "Ugyldigt brugernavn og/eller email"
+
+#~ msgid "Home page"
+#~ msgstr "Hjemmeside"
 

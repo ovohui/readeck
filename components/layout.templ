@@ -69,7 +69,7 @@ templ (c *Layout) Menu(menuBtn templ.Component) {
 			if HasCustomTemplate("layout/menu-icon.html.tmpl") {
 				@CustomTemplate("layout/menu-icon.html.tmpl", nil)
 			} else {
-				<a href={ URL(ctx, "/") } title={ L(ctx).Gettext("Home page") }>
+				<a href={ URL(ctx, "/") } title={ L(ctx).Gettext("Home Page") }>
 					@Icon("o-logo-square", WithIconClass(), WithIconSvgClass("h-11 w-11"))
 				</a>
 			}

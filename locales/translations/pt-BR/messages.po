@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-05-16 15:13+0200\n"
+"POT-Creation-Date: 2026-05-16 15:18+0200\n"
 "PO-Revision-Date: 2025-07-13 01:14+0000\n"
 "Last-Translator: afelipefernandes <afelipefernandes@noreply.codeberg.org>\n"
 "Language: pt_BR\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: components/breadcrumbs.templ:13
+#: components/breadcrumbs.templ:13 components/layout.templ:72
 msgid "Home Page"
 msgstr "Página inicial"
 
@@ -94,11 +94,6 @@ msgstr "Selecione ou araste um arquivo"
 #: components/forms/forms.templ:407
 msgid "remove"
 msgstr "Remover"
-
-#: components/layout.templ:72
-#, fuzzy
-msgid "Home page"
-msgstr "Página inicial"
 
 #: components/layout.templ:80 internal/admin/x-users.templ:186
 #: internal/bookmarks/routes/views_bookmarks.go:302
@@ -299,13 +294,13 @@ msgid "Save"
 msgstr "Salvar"
 
 #: internal/admin/x-users.templ:164
-#, fuzzy, python-format
+#, fuzzy
 msgid "Created on"
 msgstr "Criado em: %s"
 
 # | msgid "Created on: %s"
 #: internal/admin/x-users.templ:171
-#, fuzzy, python-format
+#, fuzzy
 msgid "Last Login"
 msgstr "Criado em: %s"
 
@@ -1291,7 +1286,7 @@ msgid "Share by email"
 msgstr "Compartilhar via email"
 
 #: internal/bookmarks/routes/views_collections.go:39
-#, fuzzy, python-format
+#, fuzzy
 msgid "Collection created."
 msgstr "Coleção %s"
 
@@ -3469,4 +3464,7 @@ msgstr ""
 
 #~ msgid "must be lower or equal than %d"
 #~ msgstr ""
+
+#~ msgid "Home page"
+#~ msgstr "Página inicial"
 
