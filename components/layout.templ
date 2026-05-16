@@ -233,7 +233,7 @@ templ (c *Layout) AuthError(status int) {
 	@BasePage(L(ctx).Gettext("Error")) {
 		@c.authHeader()
 		<main class="w-full max-w-sm p-8 mt-6 mx-auto text-center border border-red-800 bg-red-100 rounded-md" id="content">
-			<h2 class="title text-h3">{ L(ctx).Gettext("An error occurred") }</h2>
+			<h2 class="title text-h3">{ L(ctx).Gettext("An error occurred.") }</h2>
 			<p>{ http.StatusText(status) }</p>
 			<p class="mt-8">
 				<a class="link font-semibold" href={ URL(ctx, "/") }>{ L(ctx).Gettext("Go back to Readeck") }</a>
