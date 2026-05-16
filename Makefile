@@ -32,10 +32,7 @@ export GOARCH?=
 SITECONFIG_SRC=./ftr-site-config
 SITECONFIG_DEST=pkg/extract/contentscripts/assets/site-config
 
-TEMPL_PKG ?= github.com/a-h/templ/cmd/templ@v0.3.1020
-GOLANGCI_PKG ?= github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.9.0
-AIR_PKG ?= github.com/air-verse/air@v1.64.5
-SLOC_PKG ?= github.com/boyter/scc/v3@v3.6.0
+GOTOOL = $(GO) tool -modfile=go.tool.mod
 
 # -------------------------------------------------------------------
 # Base targets
@@ -56,7 +53,7 @@ all: generate build
 
 # Generate files (web and documentation artifacts)
 .PHONY: generate
-generate: web-build docs-build
+generate: templ web-build docs-build
 	${MAKE} -C locales compile
 	mkdir -p $(DIST)
 	touch $(DIST)/.generate
@@ -71,10 +68,10 @@ setup:
 	${MAKE} -C web setup
 
 templ:
-	$(GO) run $(TEMPL_PKG) generate
+	$(GOTOOL) templ generate
 
-templ/fmt:
-	$(GO) run $(TEMPL_PKG) fmt -fail .
+templ/fmt: templ
+	$(GOTOOL) templ fmt -fail .
 
 # Build the server
 .PHONY: build
@@ -106,7 +103,7 @@ web-build:
 
 # Launch tests
 .PHONY: test
-test: docs-build
+test: templ docs-build
 	test -f assets/www/manifest.json || echo "{}" > assets/www/manifest.json
 	GOTOOLCHAIN=$(shell go env GOVERSION) $(GO) test \
 		-tags "$(BUILD_TAGS)" \
@@ -117,10 +114,16 @@ test: docs-build
 .PHONY: clean
 clean:
 	rm -rf $(DIST)
+	${MAKE} clean/templ
 	rm -rf assets/www/*
 	make -C docs clean
 	make -C locales clean
 	make -C web clean
+
+# Clean generated templ files
+.PHONY: clean/templ
+clean/templ:
+	find -name '*_templ.go' -delete
 
 # List all the modules included by the build
 list:
@@ -131,12 +134,12 @@ list:
 
 # Run the linter and print a report
 .PHONY: lint
-lint: docs-build
+lint: templ docs-build
 	test -f assets/www/manifest.json || echo "{}" > assets/www/manifest.json
-	$(GO) run $(GOLANGCI_PKG) run
+	$(GOTOOL) golangci-lint run
 
 .PHONY: vulncheck
-vulncheck:
+vulncheck: templ
 	$(GO) run golang.org/x/vuln/cmd/govulncheck@latest \
 		-show color,verbose,version \
 		./...
@@ -144,7 +147,7 @@ vulncheck:
 # Single lines of code
 .PHONY: sloc
 sloc:
-	$(GO) run $(SLOC_PKG) -i go,js,scss,html,md
+	$(GOTOOL) scc -i go,js,scss,html,md
 
 
 # Update site-config folder with definitions from
@@ -184,7 +187,7 @@ dev:
 .PHONY: watch/server
 watch/server: SERVE_CMD ?= serve
 watch/server:
-	$(GO) run $(AIR_PKG) \
+	$(GOTOOL) air \
 		--tmp_dir "dist" \
 		--build.log "" \
 		--build.cmd "${MAKE} DATE= build" \
@@ -201,10 +204,10 @@ watch/server:
 # Rebuild components on change.
 # It runs air watching the .templ files and rebuilds them on any change.
 watch/templ:
-	$(GO) run $(AIR_PKG) \
+	$(GOTOOL) air \
 		--tmp_dir "dist" \
 		--build.log "" \
-		--build.cmd "$(GO) run $(TEMPL_PKG) generate -lazy" \
+		--build.cmd "$(GOTOOL) templ generate -lazy" \
 		--build.bin "/usr/bin/true" \
 		--build.delay 1000 \
 		--build.include_dir "components,internal" \
@@ -219,7 +222,7 @@ watch/templ:
 # on changes.
 .PHONY: watch/docs
 watch/docs:
-	$(GO) run $(AIR_PKG) \
+	$(GOTOOL) air \
 		--tmp_dir "dist" \
 		--build.log "" \
 		--build.cmd "${MAKE} docs-build" \
