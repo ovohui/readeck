@@ -19,7 +19,6 @@ import (
 
 	"github.com/coreos/go-oidc/v3/oidc"
 
-	"codeberg.org/readeck/readeck/configs"
 	"codeberg.org/readeck/readeck/internal/server/urls"
 	"codeberg.org/readeck/readeck/pkg/http/securecookie"
 )
@@ -31,13 +30,13 @@ const (
 
 var cookieHandler *securecookie.Handler
 
-// initCookieHandler prepares the [securecookie.Handler]
+// InitCookieHandler prepares the [securecookie.Handler]
 // for the OIDC tracking cookie.
-func initCookieHandler() {
+func InitCookieHandler(key []byte) {
 	cookieHandler = securecookie.NewHandler(
-		securecookie.Key(configs.Keys.OIDCKey()),
+		securecookie.Key(key),
 		securecookie.WithPath(path.Join(urls.Prefix())),
-		securecookie.WithMaxAge(configs.Config.Server.Session.MaxAge),
+		securecookie.WithMaxAge(3600),
 		securecookie.WithName(cookieName),
 	)
 }
@@ -86,7 +85,14 @@ func (c *cookie) Delete(w http.ResponseWriter, r *http.Request) {
 // providerInfo is wrapper around [configs.OIDCProvider] that contains
 // a resolved [oidc.ProviderConfig] and a [oauth2.Config].
 type providerInfo struct {
-	configs.OIDCProvider
+	loaded bool
+
+	Name                string
+	URL                 string
+	ClientID            string
+	ClientSecret        string
+	Groups              [][2]string
+	ProvisioningEnabled bool
 
 	Config providerConfig
 	OAuth  oauth2.Config
@@ -112,47 +118,31 @@ var Providers = providerList{
 	items: map[string]providerInfo{},
 }
 
-func newProvider(ctx context.Context, cf *configs.OIDCProvider) (*providerInfo, error) {
-	// XXX: handle configuration for providers without discovery route
-	p, err := oidc.NewProvider(ctx, cf.URL)
-	if err != nil {
-		return nil, err
-	}
+// Items returns the provider list.
+func (pl *providerList) Items() map[string]providerInfo {
+	return pl.items
+}
 
-	res := &providerInfo{OIDCProvider: *cf}
-	if err = p.Claims(&res.Config); err != nil {
-		return nil, err
+// Add adds a new, unloaded, provider to the list.
+func (pl *providerList) Add(id, name, url, clientID, clientSecret string, groups [][2]string, prov bool) *providerInfo {
+	pl.Lock()
+	defer pl.Unlock()
+	p := providerInfo{
+		Name:                name,
+		URL:                 url,
+		ClientID:            clientID,
+		ClientSecret:        clientSecret,
+		Groups:              groups,
+		ProvisioningEnabled: prov,
 	}
-
-	if len(res.Config.GrantTypesSupported) > 0 && !slices.Contains(res.Config.GrantTypesSupported, "authorization_code") {
-		return nil, newError(
-			errors.New("provider doesn't support authorization_code grant"),
-			withStatus(http.StatusNotImplemented),
-			withAttrs(slog.Any("grant_types", res.Config.GrantTypesSupported)),
-		)
-	}
-
-	if len(res.Config.ResponseTypesSupported) > 0 && !slices.Contains(res.Config.ResponseTypesSupported, "code") {
-		return nil, newError(
-			errors.New("provider doesn't support code response type"),
-			withStatus(http.StatusNotImplemented),
-			withAttrs(slog.Any("response_types", res.Config.ResponseTypesSupported)),
-		)
-	}
-
-	res.OAuth = oauth2.Config{
-		ClientID:     cf.ClientID,
-		ClientSecret: cf.ClientSecret,
-		RedirectURL:  urls.AbsoluteURLContext(ctx, "/login/oidc").String(),
-		Endpoint:     p.Endpoint(),
-		Scopes:       []string{oidc.ScopeOpenID, "profile", "email", "groups"},
-	}
-
-	return res, nil
+	pl.items[id] = p
+	return &p
 }
 
 // Clear removes all cached providers. Used by tests.
 func (pl *providerList) Clear() {
+	pl.Lock()
+	defer pl.Unlock()
 	pl.items = map[string]providerInfo{}
 }
 
@@ -163,22 +153,60 @@ func (pl *providerList) get(ctx context.Context, id string) (*providerInfo, erro
 	pl.Lock()
 	defer pl.Unlock()
 
-	if cf, ok := pl.items[id]; ok {
-		return &cf, nil
+	p, ok := pl.items[id]
+	if !ok {
+		return nil, errNoProvider
 	}
 
-	if cf, ok := configs.Config.Auth.OIDC.Providers[id]; ok {
-		provider, err := newProvider(ctx, &cf)
+	if err := p.load(ctx); err != nil {
+		return nil, err
+	}
+
+	return &p, nil
+}
+
+func (p *providerInfo) load(ctx context.Context) (err error) {
+	var oidcProvider *oidc.Provider
+	if !p.loaded {
+		// XXX: handle configuration for providers without discovery route
+		oidcProvider, err = oidc.NewProvider(ctx, p.URL)
 		if err != nil {
-			return nil, err
+			return err
 		}
-		provider.Groups = cf.Groups
-		pl.items[id] = *provider
-		return provider, nil
 
+		if err = oidcProvider.Claims(&p.Config); err != nil {
+			return err
+		}
+		p.loaded = true
+	} else {
+		oidcProvider = p.Config.NewProvider(ctx)
 	}
 
-	return nil, errNoProvider
+	if len(p.Config.GrantTypesSupported) > 0 && !slices.Contains(p.Config.GrantTypesSupported, "authorization_code") {
+		return newError(
+			errors.New("provider doesn't support authorization_code grant"),
+			withStatus(http.StatusNotImplemented),
+			withAttrs(slog.Any("grant_types", p.Config.GrantTypesSupported)),
+		)
+	}
+
+	if len(p.Config.ResponseTypesSupported) > 0 && !slices.Contains(p.Config.ResponseTypesSupported, "code") {
+		return newError(
+			errors.New("provider doesn't support code response type"),
+			withStatus(http.StatusNotImplemented),
+			withAttrs(slog.Any("response_types", p.Config.ResponseTypesSupported)),
+		)
+	}
+
+	p.OAuth = oauth2.Config{
+		ClientID:     p.ClientID,
+		ClientSecret: p.ClientSecret,
+		RedirectURL:  urls.AbsoluteURLContext(ctx, "/login/oidc").String(),
+		Endpoint:     oidcProvider.Endpoint(),
+		Scopes:       []string{oidc.ScopeOpenID, "profile", "email", "groups"},
+	}
+
+	return nil
 }
 
 // AuthCodeURL returns the auth code URL needed to start the OAuth dance.
@@ -189,7 +217,7 @@ func (p *providerInfo) AuthCodeURL(state, nonce, pkceVerifier string) string {
 // Exchange exchanges a code for an [oauth2.Token].
 // If the token contains an "id_token", it will check that it's
 // properly signed and have a matching nonce.
-func (p *providerInfo) Exchange(ctx context.Context, code, nonce, pkceVerifier string) (*oauth2.Token, *userInfo, error) {
+func (p *providerInfo) Exchange(ctx context.Context, code, nonce, pkceVerifier string) (*oauth2.Token, *UserInfo, error) {
 	// Fetch token
 	var options []oauth2.AuthCodeOption
 	if pkceVerifier != "" {
@@ -204,7 +232,7 @@ func (p *providerInfo) Exchange(ctx context.Context, code, nonce, pkceVerifier s
 	// Verify id_token, if any
 	rawID, ok := token.Extra("id_token").(string)
 	if !ok {
-		return token, &userInfo{provider: p}, nil
+		return token, &UserInfo{Provider: p}, nil
 	}
 
 	verifier := p.Config.NewProvider(ctx).Verifier(&oidc.Config{
@@ -223,14 +251,14 @@ func (p *providerInfo) Exchange(ctx context.Context, code, nonce, pkceVerifier s
 	}
 
 	// Retrieve the claims, it's ok to fail here.
-	userInfo := &userInfo{provider: p}
+	userInfo := &UserInfo{Provider: p}
 	_ = tokenID.Claims(userInfo)
 
 	return token, userInfo, nil
 }
 
 // GetUser returns a [userInfo] from the user info endpoint.
-func (p *providerInfo) GetUser(ctx context.Context, token *oauth2.Token) (*userInfo, error) {
+func (p *providerInfo) GetUser(ctx context.Context, token *oauth2.Token) (*UserInfo, error) {
 	pr := p.Config.NewProvider(ctx)
 
 	info, err := pr.UserInfo(ctx, p.OAuth.TokenSource(ctx, token))
@@ -238,8 +266,8 @@ func (p *providerInfo) GetUser(ctx context.Context, token *oauth2.Token) (*userI
 		return nil, err
 	}
 
-	res := &userInfo{
-		provider: p,
+	res := &UserInfo{
+		Provider: p,
 		Email:    info.Email,
 	}
 	if err = info.Claims(res); err != nil {

@@ -21,33 +21,35 @@ import (
 	"codeberg.org/readeck/readeck/pkg/forms"
 )
 
-type provisioningForm struct {
+// ProvisioningForm is the form used to provisioon a user.
+type ProvisioningForm struct {
 	forms.Form
+	userInfo *UserInfo
+
 	ID       forms.TextField `json:"id"       validate:"trim required"`
 	Username forms.TextField `json:"username" validate:"trim is_valid_username"`
 	Email    forms.TextField `json:"email"    validate:"trim is_valid_email"`
 	Group    forms.TextField `json:"group"    validate:"required_or_nil group_choices"`
 }
 
-// userInfo contains the information gathered after the token exchange.
-type userInfo struct {
-	provider     *providerInfo
-	Issuer       string   `json:"iss"`
-	Subject      string   `json:"sub"`
-	Username     string   `json:"preferred_username"`
-	Email        string   `json:"email"`
-	ReadeckUser  string   `json:"readeck_user"`
-	ReadeckEmail string   `json:"readeck_email"`
-	ReadeckGroup string   `json:"readeck_group"`
-	Groups       []string `json:"groups"`
-	Group        string   `json:"-"`
+// UserInfo contains the information gathered after the token exchange.
+type UserInfo struct {
+	Provider     *providerInfo `json:"-"`
+	Issuer       string        `json:"iss"`
+	Subject      string        `json:"sub"`
+	Username     string        `json:"preferred_username"`
+	Email        string        `json:"email"`
+	Groups       []string      `json:"groups"`
+	ReadeckUser  string        `json:"readeck_user"`
+	ReadeckEmail string        `json:"readeck_email"`
+	ReadeckGroup string        `json:"readeck_group"`
 }
 
-func (ui *userInfo) id() uuid.UUID {
+func (ui *UserInfo) id() uuid.UUID {
 	return uuid.NewSHA1(uuid.NameSpaceURL, []byte(ui.Issuer+"#"+ui.Subject))
 }
 
-func (ui *userInfo) username() string {
+func (ui *UserInfo) username() string {
 	switch {
 	case ui.ReadeckUser != "":
 		return ui.ReadeckUser
@@ -58,7 +60,7 @@ func (ui *userInfo) username() string {
 	}
 }
 
-func (ui *userInfo) email() string {
+func (ui *UserInfo) email() string {
 	switch {
 	case ui.ReadeckEmail != "":
 		return ui.ReadeckEmail
@@ -67,12 +69,12 @@ func (ui *userInfo) email() string {
 	}
 }
 
-func (ui *userInfo) group() string {
+func (ui *UserInfo) group() string {
 	if ui.ReadeckGroup != "" {
 		return ui.ReadeckGroup
 	}
 
-	for _, g := range ui.provider.Groups {
+	for _, g := range ui.Provider.Groups {
 		if slices.Contains(ui.Groups, g[0]) {
 			return g[1]
 		}
@@ -80,7 +82,8 @@ func (ui *userInfo) group() string {
 	return "user"
 }
 
-func (ui *userInfo) provisioningForm() *provisioningForm {
+// Form returns a bound [ProvisioningForm] using the struct values.
+func (ui *UserInfo) Form() *ProvisioningForm {
 	// Get some corner cases out the way first
 	username := ui.username()
 	email := ui.email()
@@ -99,13 +102,14 @@ func (ui *userInfo) provisioningForm() *provisioningForm {
 		"group":    {ui.group()},
 	}
 
-	f := forms.New[provisioningForm](context.Background())
+	f := forms.New[ProvisioningForm](context.Background())
+	f.userInfo = ui
 	forms.BindValues(q, f)
 
 	return f
 }
 
-func (f *provisioningForm) errors() error {
+func (f *ProvisioningForm) errors() error {
 	if len(f.Errors()) > 0 {
 		return f.Errors()
 	}
@@ -119,7 +123,9 @@ func (f *provisioningForm) errors() error {
 	return nil
 }
 
-func (f *provisioningForm) execute(provider *providerInfo) (*users.User, error) {
+// Execute performs the user provisioning.
+// It creates or updates a user depending on whether it exists already.
+func (f *ProvisioningForm) Execute() (*users.User, error) {
 	tx, err := db.Q().Begin()
 	if err != nil {
 		return nil, err
@@ -167,7 +173,7 @@ func (f *provisioningForm) execute(provider *providerInfo) (*users.User, error) 
 		now := time.Now().UTC()
 		if user.IsAnonymous() {
 			// Create user
-			if !provider.ProvisioningEnabled {
+			if !f.userInfo.Provider.ProvisioningEnabled {
 				return errNoProvisioning
 			}
 
@@ -184,7 +190,7 @@ func (f *provisioningForm) execute(provider *providerInfo) (*users.User, error) 
 			user.ExtID = new(f.ID.Value())
 			user.ExtInfo = &users.ExtInfo{
 				AddedOn: user.Created,
-				Issuer:  provider.URL,
+				Issuer:  f.userInfo.Issuer,
 			}
 
 			ds := tx.Insert(db.TableUser).Rows(user).Prepared(true)
@@ -207,7 +213,7 @@ func (f *provisioningForm) execute(provider *providerInfo) (*users.User, error) 
 					AddedOn: now,
 				}
 			}
-			user.ExtInfo.Issuer = provider.URL
+			user.ExtInfo.Issuer = f.userInfo.Issuer
 
 			_, err = tx.Update(db.TableUser).
 				Set(user).Where(goqu.C("id").Eq(user.ID)).

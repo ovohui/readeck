@@ -19,7 +19,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"codeberg.org/readeck/readeck/configs"
 	"codeberg.org/readeck/readeck/internal/auth/oidc"
 	. "codeberg.org/readeck/readeck/internal/testing" //revive:disable:dot-imports
 )
@@ -66,23 +65,12 @@ func (s *oidcServer) start(clientID string) func() {
 	s.clientID = clientID
 	s.nonce = ""
 
-	configs.Config.Auth.OIDC.Providers = map[string]configs.OIDCProvider{
-		"test": {
-			Name:                "OIDC Test",
-			URL:                 s.url,
-			ClientID:            s.clientID,
-			ClientSecret:        "client-secret",
-			ProvisioningEnabled: true,
-		},
-	}
-
+	oidc.Providers.Add("test", "OIDC Test", s.url, s.clientID, "client-secret", [][2]string{}, true)
 	return s.stop
 }
 
 func (s *oidcServer) stop() {
 	s.ts.Close()
-
-	configs.Config.Auth.OIDC.Providers = map[string]configs.OIDCProvider{}
 	oidc.Providers.Clear()
 }
 

@@ -26,6 +26,7 @@ import (
 
 	"codeberg.org/readeck/readeck/configs"
 	"codeberg.org/readeck/readeck/internal/acls"
+	"codeberg.org/readeck/readeck/internal/auth/oidc"
 	"codeberg.org/readeck/readeck/internal/auth/users"
 	"codeberg.org/readeck/readeck/internal/bookmarks"
 	"codeberg.org/readeck/readeck/internal/db"
@@ -158,6 +159,12 @@ func InitApp() {
 
 	// Init ACLs
 	acls.Load(configs.Config.Customize.ExtraPermissions...)
+
+	// Init OIDC
+	oidc.InitCookieHandler(configs.Keys.OIDCKey())
+	for k, v := range configs.Config.Auth.OIDC.Providers {
+		oidc.Providers.Add(k, v.Name, v.URL, v.ClientID, v.ClientSecret, v.Groups, v.ProvisioningEnabled)
+	}
 
 	// Init email sending
 	email.InitSender()

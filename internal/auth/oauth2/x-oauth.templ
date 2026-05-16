@@ -5,7 +5,6 @@
 package oauth2
 
 import (
-	"codeberg.org/readeck/readeck/internal/auth/signin"
 	"codeberg.org/readeck/readeck/internal/server"
 
 	. "codeberg.org/readeck/readeck/components"
@@ -15,7 +14,7 @@ import (
 type Views struct{}
 
 templ (v Views) authCode(client *oauthClient, scopes []string) {
-	@signin.SigninLayout(L(ctx).Gettext("Authorization required")) {
+	@AuthLayout(L(ctx).Gettext("Authorization required")) {
 		@v.form(client, scopes)
 	}
 }
@@ -24,7 +23,7 @@ templ (v Views) deviceCode(
 	step deviceCodeStep, f *deviceAuthorizationForm,
 	client *oauthClient, req *deviceAuthorizationRequest, scopes []string,
 ) {
-	@signin.SigninLayout(L(ctx).Gettext("Authorization required")) {
+	@AuthLayout(L(ctx).Gettext("Authorization required")) {
 		switch step {
 			case stepInvalid:
 				<h2 class="font-semibold">{ L(ctx).Gettext("Error") }</h2>

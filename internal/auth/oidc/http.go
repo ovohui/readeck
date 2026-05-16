@@ -15,7 +15,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"golang.org/x/oauth2"
 
-	"codeberg.org/readeck/readeck/internal/auth/signin"
+	"codeberg.org/readeck/readeck/components"
 	"codeberg.org/readeck/readeck/internal/server"
 	"codeberg.org/readeck/readeck/internal/sessions"
 	"codeberg.org/readeck/readeck/pkg/forms"
@@ -23,8 +23,6 @@ import (
 
 // SetupRoutes mounts the routes for the auth domain.
 func SetupRoutes(srv *server.Server) {
-	initCookieHandler()
-
 	srv.AddRoute("/login/oidc", newOIDCHandler())
 }
 
@@ -45,7 +43,7 @@ func newOIDCHandler() *oidcHandler {
 	r.Use(
 		server.Csrf,
 		server.WithSession(),
-		server.WithCustomErrorComponent(signin.Views{}.Error),
+		server.WithCustomErrorComponent(components.AuthError),
 	)
 
 	h := &oidcHandler{r}
@@ -155,7 +153,7 @@ func (h *oidcHandler) oidcCallback(w http.ResponseWriter, r *http.Request) {
 	tracker.Delete(w, r)
 
 	// Provisioning user
-	form := info.provisioningForm()
+	form := info.Form()
 	slog.Debug("OIDC user",
 		slog.Any("id", form.ID.Value()),
 		slog.Any("username", form.Username.Value()),
@@ -168,7 +166,7 @@ func (h *oidcHandler) oidcCallback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := form.execute(provider)
+	user, err := form.Execute()
 	if err != nil {
 		server.Err(w, r, err)
 		return
@@ -182,9 +180,9 @@ func (h *oidcHandler) oidcCallback(w http.ResponseWriter, r *http.Request) {
 	sess.Save(w, r)
 
 	if sess.Payload.RequiresMFA {
-		signin.RedirectToMFA(w, r, redir)
+		server.RedirectToMFA(w, r, redir)
 		return
 	}
 
-	signin.Redirect(w, r, redir)
+	server.RedirectNoLogin(w, r, redir)
 }

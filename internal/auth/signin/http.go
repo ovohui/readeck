@@ -7,13 +7,13 @@ package signin
 
 import (
 	"net/http"
-	"net/url"
 	"strings"
 	"time"
 
 	"github.com/doug-martin/goqu/v9"
 	"github.com/go-chi/chi/v5"
 
+	"codeberg.org/readeck/readeck/components"
 	"codeberg.org/readeck/readeck/configs"
 	"codeberg.org/readeck/readeck/internal/auth/users"
 	"codeberg.org/readeck/readeck/internal/server"
@@ -36,7 +36,7 @@ func newAuthHandler(srv *server.Server) *authHandler {
 	r.Use(
 		server.Csrf,
 		server.WithSession(),
-		server.WithCustomErrorComponent(Views{}.Error),
+		server.WithCustomErrorComponent(components.AuthError),
 	)
 
 	h := &authHandler{r}
@@ -62,24 +62,6 @@ func newAuthHandler(srv *server.Server) *authHandler {
 	return h
 }
 
-// Redirect triggers a 303 response with a redirect location, taking
-// care of not sending the user to the login page again.
-// Since it goes to [server.Redirect], it will be sanitized there
-// and can only stay within the app.
-func Redirect(w http.ResponseWriter, r *http.Request, redir string) {
-	if redir == "" || strings.HasPrefix(redir, "/login") {
-		redir = "/"
-	}
-	server.Redirect(w, r, redir)
-}
-
-// RedirectToMFA triggers a 303 response to the MFA page, keeping
-// the initial redirect value.
-func RedirectToMFA(w http.ResponseWriter, r *http.Request, redir string) {
-	v := url.Values{"r": {redir}}
-	server.Redirect(w, r, "/login/mfa?"+v.Encode())
-}
-
 func (h *authHandler) login(w http.ResponseWriter, r *http.Request) {
 	f := forms.New[loginForm](r.Context())
 
@@ -90,10 +72,10 @@ func (h *authHandler) login(w http.ResponseWriter, r *http.Request) {
 		// Do we have a session already?
 		if sess := server.GetSession(r); sess.Payload.User != 0 {
 			if sess.Payload.RequiresMFA {
-				RedirectToMFA(w, r, f.Redirect.Value())
+				server.RedirectToMFA(w, r, f.Redirect.Value())
 				return
 			}
-			Redirect(w, r, f.Redirect.Value())
+			server.RedirectNoLogin(w, r, f.Redirect.Value())
 			return
 		}
 	}
@@ -113,7 +95,7 @@ func (h *authHandler) login(w http.ResponseWriter, r *http.Request) {
 				sess.Save(w, r)
 
 				if sess.Payload.RequiresMFA {
-					RedirectToMFA(w, r, f.Redirect.Value())
+					server.RedirectToMFA(w, r, f.Redirect.Value())
 					return
 				}
 
@@ -121,7 +103,7 @@ func (h *authHandler) login(w http.ResponseWriter, r *http.Request) {
 					"last_login": time.Now().UTC(),
 				})
 
-				Redirect(w, r, f.Redirect.Value())
+				server.RedirectNoLogin(w, r, f.Redirect.Value())
 				return
 			}
 			// we must set the content type to avoid the

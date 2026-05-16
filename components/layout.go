@@ -37,3 +37,13 @@ func NewLayout() (l *Layout) {
 		Head: templ.NopComponent,
 	}
 }
+
+// AuthLayout is the layout used on all the authentication pages.
+func AuthLayout(title string) templ.Component {
+	return defaultLayout.AuthBase(title)
+}
+
+// AuthError is the component for the authentication error pages.
+func AuthError(status int) templ.Component {
+	return defaultLayout.AuthError(status)
+}
