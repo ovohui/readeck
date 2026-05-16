@@ -7,7 +7,6 @@ package configs
 import (
 	"log/slog"
 	"os"
-	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -163,6 +162,48 @@ func TestEnvVars(t *testing.T) {
 		})
 	}
 
+	t.Run("OIDC settings", func(t *testing.T) {
+		envMap := map[string]string{
+			"READECK_AUTH_OIDC_PROVIDER_1_URL":           "http://auth.example.org",
+			"READECK_AUTH_OIDC_PROVIDER_1_NAME":          "Provider 1",
+			"READECK_AUTH_OIDC_PROVIDER_1_CLIENT_ID":     "",
+			"READECK_AUTH_OIDC_PROVIDER_1_CLIENT_SECRET": "",
+			"READECK_AUTH_OIDC_PROVIDER_1_GROUPS":        "",
+			"READECK_AUTH_OIDC_PROVIDER_1_PROVISIONING":  "1",
+			"READECK_AUTH_OIDC_PROVIDER_2_URL":           "http://auth.example.com",
+			"READECK_AUTH_OIDC_PROVIDER_2_NAME":          "Provider 1",
+			"READECK_AUTH_OIDC_PROVIDER_2_CLIENT_ID":     "",
+			"READECK_AUTH_OIDC_PROVIDER_2_CLIENT_SECRET": "",
+			"READECK_AUTH_OIDC_PROVIDER_2_GROUPS":        "group1=admin group2=user",
+		}
+
+		for k, v := range envMap {
+			t.Setenv(k, v)
+		}
+		cf := config{}
+		err := cf.LoadEnv()
+		require.NoError(t, err)
+
+		require.Equal(t, map[string]OIDCProvider{
+			"PROVIDER_1": {
+				Name:                "Provider 1",
+				URL:                 "http://auth.example.org",
+				ClientID:            "",
+				ClientSecret:        "",
+				Groups:              [][2]string(nil),
+				ProvisioningEnabled: true,
+			},
+			"PROVIDER_2": {
+				Name:                "Provider 1",
+				URL:                 "http://auth.example.com",
+				ClientID:            "",
+				ClientSecret:        "",
+				Groups:              [][2]string{{"group1", "admin"}, {"group2", "user"}},
+				ProvisioningEnabled: false,
+			},
+		}, cf.Auth.OIDC.Providers)
+	})
+
 	t.Run("email settings", func(t *testing.T) {
 		envMap := map[string]string{
 			"READECK_MAIL_DEBUG":       "false",
@@ -198,71 +239,6 @@ func TestEnvVars(t *testing.T) {
 			v, exists := os.LookupEnv(k)
 			assert.Empty(v)
 			assert.False(exists)
-		}
-	})
-
-	t.Run("auth.forwarded", func(t *testing.T) {
-		tests := []struct {
-			env    map[string]string
-			expect func(assert *require.Assertions, cf config, err error)
-		}{
-			{
-				env: map[string]string{
-					"READECK_AUTH_FORWARDED_ENABLED": "true",
-				},
-				expect: func(assert *require.Assertions, cf config, err error) {
-					assert.NoError(err)
-					assert.True(cf.Auth.Forwarded.Enabled)
-					assert.False(cf.Auth.Forwarded.ProvisioningEnabled)
-				},
-			},
-			{
-				env: map[string]string{
-					"READECK_AUTH_FORWARDED_ENABLED":      "true",
-					"READECK_AUTH_FORWARDED_PROVISIONING": "true",
-				},
-				expect: func(assert *require.Assertions, cf config, err error) {
-					assert.NoError(err)
-					assert.True(cf.Auth.Forwarded.Enabled)
-					assert.True(cf.Auth.Forwarded.ProvisioningEnabled)
-				},
-			},
-			{
-				env: map[string]string{
-					"READECK_AUTH_FORWARDED_HEADER_USER":  "remote-user",
-					"READECK_AUTH_FORWARDED_HEADER_EMAIL": "remote-email",
-					"READECK_AUTH_FORWARDED_HEADER_GROUP": "remote-groups",
-				},
-				expect: func(assert *require.Assertions, cf config, err error) {
-					assert.NoError(err)
-					assert.NoError(cf.validate())
-					assert.Equal("remote-user", cf.Auth.Forwarded.HeaderUser)
-					assert.Equal("remote-email", cf.Auth.Forwarded.HeaderEmail)
-					assert.Equal("remote-groups", cf.Auth.Forwarded.HeaderGroup)
-				},
-			},
-			{
-				env: map[string]string{
-					"READECK_AUTH_FORWARDED_HEADER_USER":  "remote-user",
-					"READECK_AUTH_FORWARDED_HEADER_EMAIL": "remote-user",
-					"READECK_AUTH_FORWARDED_HEADER_GROUP": "remote-groups",
-				},
-				expect: func(assert *require.Assertions, cf config, err error) {
-					assert.NoError(err)
-					assert.Error(cf.validate(), "all header names must be different")
-				},
-			},
-		}
-
-		for i, test := range tests {
-			t.Run(strconv.Itoa(i+1), func(t *testing.T) {
-				for k, v := range test.env {
-					t.Setenv(k, v)
-				}
-				cf := config{}
-				err := cf.LoadEnv()
-				test.expect(require.New(t), cf, err)
-			})
 		}
 	})
 }

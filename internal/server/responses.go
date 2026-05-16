@@ -11,6 +11,8 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
+	"net/url"
+	"strings"
 
 	"codeberg.org/readeck/readeck/configs"
 	"codeberg.org/readeck/readeck/internal/server/urls"
@@ -146,4 +148,19 @@ func Err(w http.ResponseWriter, r *http.Request, err error) {
 func Redirect(w http.ResponseWriter, r *http.Request, ref ...string) {
 	w.Header().Set("Location", urls.AbsoluteURL(r, ref...).String())
 	w.WriteHeader(http.StatusSeeOther)
+}
+
+// RedirectNoLogin yields a 303 redirection to "redir", unless it's a
+// redirection to the login page.
+func RedirectNoLogin(w http.ResponseWriter, r *http.Request, redir string) {
+	if redir == "" || strings.HasPrefix(redir, "/login") {
+		redir = "/"
+	}
+	Redirect(w, r, redir)
+}
+
+// RedirectToMFA yields a 303 response to the MFA page, keeping
+// the initial redirect value.
+func RedirectToMFA(w http.ResponseWriter, r *http.Request, redir string) {
+	Redirect(w, r, "/login/mfa?"+url.Values{"r": {redir}}.Encode())
 }

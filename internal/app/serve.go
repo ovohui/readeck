@@ -30,6 +30,7 @@ import (
 	"codeberg.org/readeck/readeck/internal/admin"
 	"codeberg.org/readeck/readeck/internal/assets"
 	"codeberg.org/readeck/readeck/internal/auth/oauth2"
+	"codeberg.org/readeck/readeck/internal/auth/oidc"
 	"codeberg.org/readeck/readeck/internal/auth/onboarding"
 	"codeberg.org/readeck/readeck/internal/auth/signin"
 	bookmark_routes "codeberg.org/readeck/readeck/internal/bookmarks/routes"
@@ -284,15 +285,14 @@ func InitServer(s *server.Server) error {
 	server.DefaultErrorComponent = components.DefaultError
 
 	// Init session store
-	if err := server.InitSession(); err != nil {
-		return err
-	}
+	server.InitSession()
 
 	// Static asserts
 	assets.SetupRoutes(s)
 
 	// Auth routes
 	signin.SetupRoutes(s)
+	oidc.SetupRoutes(s)
 	oauth2.SetupRoutes(s)
 
 	// Onboarding routes

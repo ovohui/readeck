@@ -7,7 +7,6 @@ package configs
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log/slog"
 	"net"
@@ -80,15 +79,11 @@ type configServer struct {
 }
 
 type configAuth struct {
-	Forwarded configForwardedAuth
+	OIDC configOIDC `json:"oidc"`
 }
 
-type configForwardedAuth struct {
-	Enabled             bool   `json:"enabled"      env:"AUTH_FORWARDED_ENABLED"`
-	ProvisioningEnabled bool   `json:"provisioning" env:"AUTH_FORWARDED_PROVISIONING"`
-	HeaderUser          string `json:"header_user"  env:"AUTH_FORWARDED_HEADER_USER"`
-	HeaderEmail         string `json:"header_email" env:"AUTH_FORWARDED_HEADER_EMAIL"`
-	HeaderGroup         string `json:"header_group" env:"AUTH_FORWARDED_HEADER_GROUP"`
+type configOIDC struct {
+	Providers map[string]OIDCProvider `json:"providers"`
 }
 
 type configDB struct {
@@ -168,19 +163,33 @@ func (c *config) LoadFile(filename string) error {
 }
 
 func (c *config) LoadEnv() error {
-	return env.ParseWithOptions(c, env.Options{
+	err := env.ParseWithOptions(c, env.Options{
 		Prefix:                "READECK_",
 		UseFieldNameByDefault: false,
 	})
+	if err != nil {
+		return err
+	}
+	return c.loadOIDCProviders()
 }
 
 func (c *config) validate() error {
-	if len(map[string]struct{}{
-		c.Auth.Forwarded.HeaderUser:  {},
-		c.Auth.Forwarded.HeaderEmail: {},
-		c.Auth.Forwarded.HeaderGroup: {},
-	}) != 3 {
-		return errors.New("auth.forwarded: all header names must be different")
+	for k, v := range c.Auth.OIDC.Providers {
+		f := ""
+		switch {
+		case v.URL == "":
+			f = "url"
+		case v.Name == "":
+			f = "name"
+		case v.ClientID == "":
+			f = "client_id"
+		case v.ClientSecret == "":
+			f = "client_secret"
+		}
+
+		if f != "" {
+			return fmt.Errorf("auth.oidc.providers.%s.%s is empty", k, f)
+		}
 	}
 
 	return nil
@@ -358,15 +367,6 @@ var Config = config{
 	Database: configDB{},
 	Email: configEmail{
 		Port: 25,
-	},
-	Auth: configAuth{
-		Forwarded: configForwardedAuth{
-			Enabled:             false,
-			HeaderUser:          "Remote-User",
-			HeaderEmail:         "Remote-Email",
-			HeaderGroup:         "Remote-Groups",
-			ProvisioningEnabled: true,
-		},
 	},
 	Bookmarks: configBookmarks{
 		PublicShareTTL: 24,

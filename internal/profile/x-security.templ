@@ -18,7 +18,7 @@ templ (v Views) userPassword(f *changePasswordForm) {
 	}}
 	@v.base(title) {
 		<h1 class="title text-h2">{  title }</h1>
-		if !user.Locked() {
+		if !user.IsExternal() {
 			<form action={ URL(ctx) } method="post" class="mb-8">
 				@F.Errors(f)
 				<fieldset>

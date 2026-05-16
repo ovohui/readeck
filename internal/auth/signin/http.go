@@ -7,13 +7,13 @@ package signin
 
 import (
 	"net/http"
-	"net/url"
 	"strings"
 	"time"
 
 	"github.com/doug-martin/goqu/v9"
 	"github.com/go-chi/chi/v5"
 
+	"codeberg.org/readeck/readeck/components"
 	"codeberg.org/readeck/readeck/configs"
 	"codeberg.org/readeck/readeck/internal/auth/users"
 	"codeberg.org/readeck/readeck/internal/server"
@@ -28,19 +28,19 @@ func SetupRoutes(s *server.Server) {
 
 type authHandler struct {
 	chi.Router
-	srv *server.Server
 }
 
-func newAuthHandler(s *server.Server) *authHandler {
+func newAuthHandler(srv *server.Server) *authHandler {
 	// Non authenticated routes
 	r := chi.NewRouter()
 	r.Use(
 		server.Csrf,
 		server.WithSession(),
+		server.WithCustomErrorComponent(components.AuthError),
 	)
 
-	h := &authHandler{r, s}
-	s.AddRoute("/login", r)
+	h := &authHandler{r}
+	srv.AddRoute("/login", r)
 	r.Get("/", h.login)
 	r.Post("/", h.login)
 	r.Get("/mfa", h.mfa)
@@ -56,42 +56,26 @@ func newAuthHandler(s *server.Server) *authHandler {
 
 	// Authenticated routes
 	ar := server.AuthenticatedRouter(server.WithRedirectLogin)
-	s.AddRoute("/logout", ar)
+	srv.AddRoute("/logout", ar)
 	ar.Post("/", h.logout)
 
 	return h
 }
 
-func (h *authHandler) redirTo(w http.ResponseWriter, r *http.Request, redir string) {
-	// Get redirection from a form "redirect" parameter
-	// Since it goes to Redirect(), it will be sanitized there
-	// and can only stay within the app.
-	if redir == "" || strings.HasPrefix(redir, "/login") {
-		redir = "/"
-	}
-	server.Redirect(w, r, redir)
-}
-
-func (h *authHandler) redirToMFA(w http.ResponseWriter, r *http.Request, redir string) {
-	v := url.Values{"r": {redir}}
-	server.Redirect(w, r, "/login/mfa?"+v.Encode())
-}
-
 func (h *authHandler) login(w http.ResponseWriter, r *http.Request) {
-	// f := newLoginForm(server.Locale(r))
 	f := forms.New[loginForm](r.Context())
 
 	if r.Method == http.MethodGet {
-		// // Set the redirect value from the query string
+		// Set the redirect value from the query string
 		_ = forms.UnmarshalValues(r.URL.Query()[f.Redirect.Name()], &f.Redirect)
 
 		// Do we have a session already?
 		if sess := server.GetSession(r); sess.Payload.User != 0 {
 			if sess.Payload.RequiresMFA {
-				h.redirToMFA(w, r, f.Redirect.Value())
+				server.RedirectToMFA(w, r, f.Redirect.Value())
 				return
 			}
-			h.redirTo(w, r, f.Redirect.Value())
+			server.RedirectNoLogin(w, r, f.Redirect.Value())
 			return
 		}
 	}
@@ -111,7 +95,7 @@ func (h *authHandler) login(w http.ResponseWriter, r *http.Request) {
 				sess.Save(w, r)
 
 				if sess.Payload.RequiresMFA {
-					h.redirToMFA(w, r, f.Redirect.Value())
+					server.RedirectToMFA(w, r, f.Redirect.Value())
 					return
 				}
 
@@ -119,7 +103,7 @@ func (h *authHandler) login(w http.ResponseWriter, r *http.Request) {
 					"last_login": time.Now().UTC(),
 				})
 
-				h.redirTo(w, r, f.Redirect.Value())
+				server.RedirectNoLogin(w, r, f.Redirect.Value())
 				return
 			}
 			// we must set the content type to avoid the

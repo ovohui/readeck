@@ -123,7 +123,10 @@ func (h *authHandler) recover(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		user, err := users.Users.GetOne(goqu.C("email").Eq(f.Email.Value()))
+		user, err := users.Users.GetOne(
+			goqu.C("email").Eq(f.Email.Value()),
+			goqu.C("ext_id").IsNull(),
+		)
 
 		defer func() {
 			if err != nil {
@@ -160,7 +163,6 @@ func (h *authHandler) recover(w http.ResponseWriter, r *http.Request) {
 			email.WithMDText(body),
 		)
 		if err != nil {
-			server.Err(w, r, err)
 			return
 		}
 

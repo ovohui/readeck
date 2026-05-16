@@ -114,7 +114,7 @@ func (v *profileViews) userPassword(w http.ResponseWriter, r *http.Request) {
 
 		switch r.Form.Get("action") {
 		case "change":
-			if user.Locked() {
+			if user.IsExternal() {
 				server.Status(w, r, http.StatusForbidden)
 				return
 			}

@@ -5,12 +5,8 @@
 package users
 
 import (
-	"fmt"
-	"net/url"
 	"strings"
 	"unicode"
-
-	"github.com/doug-martin/goqu/v9"
 
 	"codeberg.org/readeck/readeck/configs"
 	"codeberg.org/readeck/readeck/pkg/forms"
@@ -105,81 +101,4 @@ func init() {
 			return nil, false
 		}
 	})
-}
-
-// ProvisioningForm is a form that can provision a new user.
-type ProvisioningForm struct {
-	forms.Form
-	Username forms.TextField `json:"username" validate:"trim is_valid_username"`
-	Email    forms.TextField `json:"email"    validate:"trim is_valid_email"`
-	Group    forms.TextField `json:"group"    validate:"required_or_nil group_choices"`
-}
-
-// LoadUser loads a user based on its username or email.
-// When it exists, there must be only one result for the tupple username + email.
-// If the user needs an update, a non empty [goqu.Record] is returned so any process
-// calling this method can perform the update.
-// When the user doesn't exist, the returned [User] has an ID 0 and can be immediately
-// created with [Users.Create]. It already contains a generated password.
-func (f *ProvisioningForm) LoadUser(username, email, group string) (*User, goqu.Record, error) {
-	values := url.Values{"username": {username}, "email": {email}}
-	if group != "" {
-		values.Set("group", group)
-	}
-
-	forms.BindValues(values, f)
-
-	if !f.IsValid() {
-		if len(f.Errors()) > 0 {
-			return nil, nil, f.Errors()
-		}
-		for name, field := range f.Fields() {
-			if len(field.Errors()) > 0 {
-				return nil, nil, forms.Errors{fmt.Errorf("%s: %s", name, field.Errors())}
-			}
-		}
-	}
-
-	username = f.Username.Value()
-	email = f.Email.Value()
-
-	res := []*User{}
-	err := Users.Query().Where(
-		goqu.Or(
-			goqu.C("username").Eq(username),
-			goqu.C("email").Eq(email),
-		),
-	).ScanStructs(&res)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	if len(res) > 1 {
-		return nil, nil, fmt.Errorf("more than one user is associated with %s and %s", username, email)
-	}
-
-	user := new(User)
-	rec := goqu.Record{}
-	if len(res) == 0 {
-		if group == "" {
-			group = "user"
-		}
-		user.Username = username
-		user.Email = email
-		user.Group = group
-		user.Password = MakePassword(64)
-	} else {
-		user = res[0]
-		if user.Username != username {
-			rec["username"] = username
-		}
-		if user.Email != email {
-			rec["email"] = email
-		}
-		if group != "" && user.Group != group {
-			rec["group"] = group
-		}
-	}
-
-	return user, rec, nil
 }

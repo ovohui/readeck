@@ -11,6 +11,7 @@ import (
 	"net/url"
 	"path"
 
+	"github.com/a-h/templ"
 	"github.com/go-chi/chi/v5"
 
 	"codeberg.org/readeck/readeck/internal/bookmarks"
@@ -185,7 +186,14 @@ func newViewsRouter(api *apiRouter) *viewsRouter {
 			).Get("/{filter:(unread|archives|favorites|articles|videos|pictures)}", h.bookmarkList)
 
 			r.With(
-				server.WithCustomErrorComponent(404, Views{}.bookmarkMissing),
+				server.WithCustomErrorComponent(func(status int) templ.Component {
+					switch status {
+					case 404:
+						return Views{}.bookmarkMissing()
+					default:
+						return nil
+					}
+				}),
 				api.withBookmark,
 			).Route("/{uid:[a-zA-Z0-9]{18,22}}", func(r chi.Router) {
 				r.Get("/", h.bookmarkInfo)
@@ -286,11 +294,7 @@ func newViewsRouter(api *apiRouter) *viewsRouter {
 func newSharedViewsRouter(api *apiRouter) *publicViewsRouter {
 	r := chi.NewRouter()
 	h := &publicViewsRouter{r, api}
-	r.Use(
-		server.WithCustomErrorComponent(http.StatusNotFound, PublicViews{}.error),
-		server.WithCustomErrorComponent(http.StatusGone, PublicViews{}.error),
-		server.WithCustomErrorComponent(http.StatusInternalServerError, PublicViews{}.error),
-	)
+	r.Use(server.WithCustomErrorComponent(PublicViews{}.error))
 
 	r.Get("/{id:[a-zA-Z0-9_-]+}", h.get)
 	return h

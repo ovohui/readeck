@@ -174,10 +174,10 @@ func CompressResponse(next http.Handler) http.Handler {
 func ErrorPages(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		wi := &responseWriterInterceptor{
-			ResponseWriter:  w,
-			r:               r,
-			accept:          accept.NegotiateContentType(r.Header, acceptOffers, "text/html"),
-			errorComponents: make(map[int]func(int) templ.Component),
+			ResponseWriter: w,
+			r:              r,
+			accept:         accept.NegotiateContentType(r.Header, acceptOffers, "text/html"),
+			errorComponent: nil,
 		}
 
 		next.ServeHTTP(wi, r)
@@ -190,11 +190,11 @@ var DefaultErrorComponent func(int) templ.Component
 
 type responseWriterInterceptor struct {
 	http.ResponseWriter
-	r               *http.Request
-	accept          string
-	contentType     string
-	statusCode      int
-	errorComponents map[int]func(int) templ.Component
+	r              *http.Request
+	accept         string
+	contentType    string
+	statusCode     int
+	errorComponent func(int) templ.Component
 }
 
 // needsOverride returns true when a content-type is text/plain and status >= 400.
@@ -242,14 +242,19 @@ func (w *responseWriterInterceptor) Write(c []byte) (int, error) {
 		})
 		return w.ResponseWriter.Write(b)
 	case "text/html":
-		c, ok := w.errorComponents[w.statusCode]
-		if !ok {
-			c = DefaultErrorComponent
+		if w.errorComponent != nil {
+			// A custom error component can return nil, in which case, we fallback
+			// to the default error component.
+			if c := w.errorComponent(w.statusCode); c != nil {
+				RenderComponent(w.ResponseWriter, w.r, 0, c)
+				return 0, nil
+			}
 		}
-		if c == nil {
+		if DefaultErrorComponent == nil {
 			return w.ResponseWriter.Write([]byte(http.StatusText(w.statusCode)))
 		}
-		RenderComponent(w.ResponseWriter, w.r, 0, c(w.statusCode))
+
+		RenderComponent(w.ResponseWriter, w.r, 0, DefaultErrorComponent(w.statusCode))
 	default:
 		return w.ResponseWriter.Write([]byte(http.StatusText(w.statusCode)))
 	}
@@ -259,11 +264,11 @@ func (w *responseWriterInterceptor) Write(c []byte) (int, error) {
 
 // WithCustomErrorComponent registers a custom template for an error rendered as HTML.
 // It must be set before any middleware that would trigger an HTTP error.
-func WithCustomErrorComponent(status int, c func(int) templ.Component) func(next http.Handler) http.Handler {
+func WithCustomErrorComponent(c func(int) templ.Component) func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			if w, ok := w.(*responseWriterInterceptor); ok {
-				w.errorComponents[status] = c
+				w.errorComponent = c
 			}
 			next.ServeHTTP(w, r)
 		})

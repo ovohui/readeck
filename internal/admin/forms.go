@@ -69,6 +69,10 @@ func (f *userForm) Validate() error {
 		goqu.C("email").Eq(f.Email.Value()),
 	)
 
+	if f.user != nil && f.user.IsExternal() {
+		return forms.Gettext("User is external and can't be updated.")
+	}
+
 	if f.user != nil {
 		userDS = userDS.Where(goqu.C("id").Neq(f.user.ID))
 		emailDS = emailDS.Where(goqu.C("id").Neq(f.user.ID))

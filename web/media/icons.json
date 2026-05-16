@@ -22,6 +22,7 @@
   "o-email":        "bx:envelope",
   "o-expand":       "bx:expand-alt",
   "o-export":       "mdi:arrow-left-bold-box-outline",
+  "o-ext-auth":     "mdi:link-variant",
   "o-extension":    "bx:extension",
   "o-error":        "bxs:bolt-circle",
   "o-favorite-off": "bx:heart",

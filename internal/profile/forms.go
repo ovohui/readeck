@@ -163,12 +163,12 @@ func (f *profileForm) update() (res map[string]any, err error) {
 			user.Settings.AddonReminder = field.V().(bool)
 			res["settings"] = user.Settings
 		case n == "email" && field.String() != user.Email:
-			if !user.Locked() {
+			if !user.IsExternal() {
 				res["email"] = field.String()
 				resetSeed = true
 			}
 		case n == "username" && field.String() != user.Username:
-			if !user.Locked() {
+			if !user.IsExternal() {
 				res["username"] = field.String()
 				resetSeed = true
 			}
