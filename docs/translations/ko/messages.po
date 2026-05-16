@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2025-12-18 21:31+0100\n"
-"PO-Revision-Date: 2026-03-17 22:29+0000\n"
+"PO-Revision-Date: 2026-04-29 05:57+0000\n"
 "Last-Translator: dewyeyed <dewyeyed@noreply.codeberg.org>\n"
 "Language-Team: Korean <https://translate.codeberg.org/projects/readeck/documentation/ko/>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 5.17\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -37,7 +37,7 @@ msgstr "마음에 드는 웹 페이지를 찾으셨나요? 좋아요! 해당 링
 
 #: en/bookmark-list.md:9
 msgid "![New Bookmark form](./img/bookmark-new.webp)"
-msgstr "![New Bookmark form](./img/bookmark-new.webp)"
+msgstr "![새 북마크 양식](./img/bookmark-new.webp)"
 
 #: en/bookmark-list.md:11
 msgid "After a few seconds, your bookmark will be ready. You can then open it to read or watch its content, add labels, highlight text or export an ebook. For more information, please read the [Bookmark View](./bookmark.md) section."
@@ -77,7 +77,7 @@ msgstr "동영상은 동영상 컨테이너(예: 유튜브 또는 비메오 링�
 
 #: en/bookmark-list.md:30
 msgid "## Bookmark List"
-msgstr "## Bookmark List"
+msgstr "## 북마크 목록"
 
 #: en/bookmark-list.md:32
 msgid "The [bookmark list](readeck-instance://bookmarks) is where you'll find all your saved bookmarks."
@@ -93,7 +93,7 @@ msgstr "사이드바에는 검색 필드와 필터링된 북마크 목록으로 
 
 #: en/bookmark-list.md:38
 msgid "![Bookmark list sidebar](./img/bookmark-sidebar.webp)"
-msgstr "![Bookmark list sidebar](./img/bookmark-sidebar.webp)"
+msgstr "![북마크 목록 사이드바](./img/bookmark-sidebar.webp)"
 
 #: en/bookmark-list.md:40
 msgid ""
@@ -161,7 +161,7 @@ msgstr ""
 
 #: en/bookmark-list.md:70
 msgid "### Bookmark Cards"
-msgstr "### Bookmark Cards"
+msgstr "### 북마크 카드"
 
 #: en/bookmark-list.md:72
 msgid "Each item on a list is called a Bookmark Card."
