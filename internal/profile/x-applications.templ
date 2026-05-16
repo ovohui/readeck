@@ -13,10 +13,10 @@ templ (v Views) applicationList(tokenList *tokenItemList) {
 		<div class="prose mb-4">
 			<p>
 				{ L(ctx).Gettext(`
-          Applications are registered clients that have permissions to access your Readeck account.
-          If there are applications you do not recognize here, or an application is misbehaving,
-          you can revoke its access.
-        `) }
+					Applications are registered clients that have permissions to access your Readeck account.
+					If there are applications you do not recognize here, or an application is misbehaving,
+					you can revoke its access.
+				`) }
 			</p>
 		</div>
 		if (len(tokenList.Items) == 0) {
@@ -44,8 +44,8 @@ templ (v Views) applicationList(tokenList *tokenItemList) {
 								<p><a class="link" href={ app.ClientURI } target="_blank">{ app.ClientURI }</a></p>
 								<p class="mt-1 text-sm">
 									{ L(ctx).Gettext("Authorized on: %s",
-                      Strftime(ctx, app.Created, L(ctx).Pgettext("datetime", "%e %B %Y")),
-                  ) }
+										Strftime(ctx, app.Created, L(ctx).Pgettext("datetime", "%e %B %Y")),
+									) }
 									if app.LastUsed != nil {
 										<br/>
 										<strong class="font-semibold">
@@ -105,9 +105,9 @@ templ (v Views) applicationList(tokenList *tokenItemList) {
 					<summary>{ L(ctx).Gettext("Developer information") }</summary>
 					<p class="prose">
 						@templ.Raw(L(ctx).Gettext(`
-                If you plan to build an application, please refer to the
-                <a href="%s">API Documentation</a>.
-              `,
+							If you plan to build an application, please refer to the
+							<a href="%s">API Documentation</a>.
+						`,
 							templ.EscapeString(URL(ctx, "/docs/api")+"#overview--authentication-with-oauth"),
 						))
 					</p>

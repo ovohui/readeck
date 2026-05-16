@@ -104,9 +104,9 @@ templ (v Views) form(client *oauthClient, scopes []string) {
 		}
 		<p class="grow">
 			@templ.Raw(L(ctx).Gettext(`
-          <strong>%s</strong> would like permission to access your account.
-          Only approve this request if you recognize and trust this source.
-        `, templ.EscapeString(client.Name)))
+				<strong>%s</strong> would like permission to access your account.
+				Only approve this request if you recognize and trust this source.
+			`, templ.EscapeString(client.Name)))
 		</p>
 	</div>
 	<h3 class="title text-lg mb-2">{ L(ctx).Gettext("Review permissions") }</h3>

@@ -104,17 +104,15 @@ templ (v importViews) main() {
 	@v.base(title) {
 		<h1 class="title text-h2">{ title }</h1>
 		<p class="mb-8">
-			{ L(ctx).Gettext(`
-      Here you can import your existing bookmark collection from various sources into Readeck.
-    `) }
+			{ L(ctx).Gettext("Here you can import your existing bookmark collection from various sources into Readeck.",) }
 		</p>
 		<div class="grid grid-cols-3 gap-6 max-lg:grid-cols-2 max-md:grid-cols-1">
 			for _, x := range adapters {
 				<a
 					class="
-            flex flex-col border rounded-lg items-center gap-4 p-4
-            link hf:shadow-sm hf:bg-gray-100/50 group
-          "
+						flex flex-col border rounded-lg items-center gap-4 p-4
+						link hf:shadow-sm hf:bg-gray-100/50 group
+					"
 					href={ URL(ctx, "/bookmarks/import", x.name) }
 				>
 					@Icon(x.iconName, WithIconSrc(x.iconSrc),

@@ -32,9 +32,9 @@ templ (v Views) importProfile(f *importForm) {
 					<h3 class="font-bold">{ L(ctx).Gettext("Attention") }</h3>
 					<p class="mt-1">
 						{ L(ctx).Gettext(`
-              This will empty your current profile and all its data will be
-              replaced with the file's content.
-            `) }
+							This will empty your current profile and all its data will be
+							replaced with the file's content.
+						`) }
 					</p>
 				</div>
 				<p>
@@ -47,9 +47,9 @@ templ (v Views) importProfile(f *importForm) {
 			<div class="prose">
 				<p>
 					@templ.Raw(L(ctx).Gettext(`
-            If you have bookmarks from another service you can import them in the
-            <a href="%s">dedicated section</a>.
-            `, templ.EscapeString(URL(ctx, "/bookmarks/import")),
+						If you have bookmarks from another service you can import them in the
+						<a href="%s">dedicated section</a>.
+						`, templ.EscapeString(URL(ctx, "/bookmarks/import")),
 					))
 				</p>
 			</div>

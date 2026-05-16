@@ -61,30 +61,30 @@ templ (v PublicViews) base(b *dataset.Bookmark) {
 			<link rel="stylesheet" href={ Asset(ctx, "bundle.css") } nonce={ CSPNonce(ctx) }/>
 			<script type="module" src={ Asset(ctx, "public.js") } nonce={ CSPNonce(ctx) }></script>
 			<script nonce={ CSPNonce(ctx) }>
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark')
-        } else {
-          document.documentElement.classList.remove('dark')
-        }
-      </script>
+				if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+					document.documentElement.classList.add('dark')
+				} else {
+					document.documentElement.classList.remove('dark')
+				}
+			</script>
 			<link rel="icon" href={ Asset(ctx, "img/fi/favicon.ico") } sizes="48x48"/>
 			<link rel="icon" href={ Asset(ctx, "img/fi/favicon.svg") } sizes="any" type="image/svg+xml"/>
 			<link rel="apple-touch-icon" href={ Asset(ctx, "img/fi/apple-touch-icon.png") }/>
 		</head>
 		<body
 			class="
-        no-js bg-app-bg text-app-fg font-sans leading-tight tracking-normal
-        relative
-        print:text-black print:bg-white
-        overscroll-y-none
-      "
+				no-js bg-app-bg text-app-fg font-sans leading-tight tracking-normal
+				relative
+				print:text-black print:bg-white
+				overscroll-y-none
+			"
 		>
 			<script nonce={ CSPNonce(ctx) }>
-        if ('noModule' in HTMLScriptElement.prototype) {
-          document.body.classList.remove("no-js")
-          document.body.classList.add("js")
-        }
-      </script>
+				if ('noModule' in HTMLScriptElement.prototype) {
+					document.body.classList.remove("no-js")
+					document.body.classList.add("js")
+				}
+			</script>
 			<div class="px-4">
 				{ children... }
 				<p class="max-w-3xl mx-auto my-8 pt-4 border-t text-right">

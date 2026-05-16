@@ -91,9 +91,9 @@ templ (v Views) userProfile(f *profileForm) {
 								</summary>
 								<p class="mt-2">
 									{ L(ctx).Gettext(`
-                  If you plan to send e-books to a Kindle device, you must approve the
-                  following email address within your Kindle Account:
-                `) }
+										If you plan to send e-books to a Kindle device, you must approve the
+										following email address within your Kindle Account:
+									`) }
 								</p>
 								<p class="mt-2"><code>{ configs.Config.Email.FromNoReply.Addr() }</code></p>
 							</details>

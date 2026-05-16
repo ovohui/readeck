@@ -21,24 +21,24 @@ templ (_ Views) player(src, embedType string, w, h int) {
 			<link rel="icon" href={ Asset(ctx, "img/fi/favicon.ico") }/>
 			@templ.Raw(S(`
 <style nonce="%s">
-  html {
-    overflow: hidden;
-  }
-  body {
-    background-color: #000;
-    color: #fff;
-    height: 100%%;
-    width: 100%%;
-    overflow: hidden;
-    position: absolute;
-    margin: 0;
-    padding: 0;
-  }
-  video, iframe {
-    width: 100%%;
-    height: auto;
-    aspect-ratio: %d/%d;
-  }
+	html {
+		overflow: hidden;
+	}
+	body {
+		background-color: #000;
+		color: #fff;
+		height: 100%%;
+		width: 100%%;
+		overflow: hidden;
+		position: absolute;
+		margin: 0;
+		padding: 0;
+	}
+	video, iframe {
+		width: 100%%;
+		height: auto;
+		aspect-ratio: %d/%d;
+	}
 </style>`, CSPNonce(ctx), w, h))
 		</head>
 		<body>
@@ -53,18 +53,18 @@ templ (_ Views) player(src, embedType string, w, h int) {
 					></video>
 					<script src={ Asset(ctx, "vendor/hls.js") } nonce={ CSPNonce(ctx) }></script>
 					<script nonce={ CSPNonce(ctx) }>
-          const video = document.getElementById('video')
-          const src = video.dataset.manifest
+						const video = document.getElementById('video')
+							const src = video.dataset.manifest
 
-          if (Hls.isSupported()) {
-            var hls = new Hls();
-            hls.on(Hls.Events.MEDIA_ATTACHED, function () {
-              video.play()
-            });
-            hls.loadSource(src)
-            hls.attachMedia(video)
-          }
-        </script>
+							if (Hls.isSupported()) {
+								var hls = new Hls();
+								hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+								video.play()
+							});
+							hls.loadSource(src)
+							hls.attachMedia(video)
+						}
+					</script>
 				case "embed":
 					<iframe
 						src={ src }

@@ -50,10 +50,10 @@ templ (_ Views) onboarding(f *onboardingForm) {
 				<p class="text-sm mb-8">
 					<strong>{ L(ctx).Gettext("Please note:") }</strong>
 					@templ.Raw(L(ctx).Gettext(`
-            Your email address is optional and will never leave this installation.
-            It will never be collected, transferred or sold.
-            It will <strong>only</strong> be used, should you need it, for password recovery and internal notifications.
-          `))
+						Your email address is optional and will never leave this installation.
+						It will never be collected, transferred or sold.
+						It will <strong>only</strong> be used, should you need it, for password recovery and internal notifications.
+					`))
 				</p>
 				<p>
 					<button class="btn btn-primary block w-full" type="submit">

@@ -91,9 +91,9 @@ templ (c ReaderControlComponent) fontChoice() {
 			for _, x := range prefs.FontList() {
 				<button
 					class="
-            capitalize py-1 px-2 text-left text-lg rounded-sm border border-transparent
-            hf:border-gray-300 data-[current]:bg-gray-200 {{ x[1] }}
-          "
+						capitalize py-1 px-2 text-left text-lg rounded-sm border border-transparent
+						hf:border-gray-300 data-[current]:bg-gray-200 {{ x[1] }}
+					"
 					value={ x[0] }
 					data-choice-value={ x[1] }
 					data-styler-option-target="choices"
@@ -181,9 +181,9 @@ templ (c ReaderControlComponent) booleanChoice(
 					data-styler-option-target="choices"
 					data-action="styler-option#setChoice"
 					{ templ.Attributes{
-            "data-current": si == currentValue,
-            "aria-current": strconv.FormatBool(si == currentValue),
-          }... }
+						"data-current": si == currentValue,
+						"aria-current": strconv.FormatBool(si == currentValue),
+					}... }
 				>
 					{ Tern(func() bool { return i == 1 }, L(ctx).Gettext("yes"), L(ctx).Gettext("no")) }
 				</button>

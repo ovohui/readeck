@@ -50,13 +50,13 @@ templ (v Views) tokenList(tokenList *tokenItemList) {
 								· { token.Application }
 								<small class="block">
 									{ L(ctx).Gettext("Created on: %s",
-                    Strftime(ctx, token.Created, L(ctx).Pgettext("datetime", "%e %B %Y")),
-                  ) }
+										Strftime(ctx, token.Created, L(ctx).Pgettext("datetime", "%e %B %Y")),
+									) }
 									if token.Expires != nil {
 										<br/>
 										{ L(ctx).Gettext("Expires on: %s",
-                      Strftime(ctx, *token.Expires, L(ctx).Pgettext("datetime", "%e %B %Y")),
-                    ) }
+											Strftime(ctx, *token.Expires, L(ctx).Pgettext("datetime", "%e %B %Y")),
+										) }
 									}
 									if token.LastUsed != nil {
 										<br/>
@@ -140,10 +140,10 @@ templ (v Views) tokenInfo(f *tokenForm, token *tokenItem, encoded string) {
 			<h2 class="title text-h3">{ L(ctx).Gettext("Roles") }</h2>
 			<p class="my-4 max-w-xl">
 				@templ.Raw(L(ctx).Gettext(`
-        You can limit the permissions granted to this token by choosing one or more
-        group of permissions below.<br>
-        Leave all the choices blank to grant all your permissions to this token.
-      `))
+					You can limit the permissions granted to this token by choosing one or more
+					group of permissions below.<br>
+					Leave all the choices blank to grant all your permissions to this token.
+				`))
 			</p>
 			@F.MultiSelectField[string](&f.Roles,
 				F.Label(L(ctx).Gettext("Roles")),
@@ -220,9 +220,9 @@ templ (v Views) tokenInfo(f *tokenForm, token *tokenItem, encoded string) {
 		<p class="mb-2">{ L(ctx).Gettext("Alternatively, you can use this token as a password for HTTP Basic Authentication.") }</p>
 		<p class="mb-2">
 			{ L(ctx).Gettext(`
-        For example, if an application only accepts a username and password, you can provide this token as a password.
-        The username is ignored and can be anything, including an empty value.
-      `) }
+				For example, if an application only accepts a username and password, you can provide this token as a password.
+				The username is ignored and can be anything, including an empty value.
+			`) }
 		</p>
 	}
 }

@@ -48,9 +48,9 @@ templ (v Views) api(schemaURL string, hideBadges []string) {
 			</div>
 		</div>
 		<script nonce={ CSPNonce(ctx) }>
-    if (window.innerWidth < 814) {
-      document.querySelector("rapi-doc").setAttribute("render-style", "view")
-    }
-    </script>
+			if (window.innerWidth < 814) {
+				document.querySelector("rapi-doc").setAttribute("render-style", "view")
+			}
+		</script>
 	}
 }

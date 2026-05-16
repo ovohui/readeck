@@ -130,10 +130,10 @@ templ (v Views) recover(f *recoverForm, err error) {
 					<p class="mt-4">{ L(ctx).Gettext("No worries, it happens to anyone.") }</p>
 					<p class="mt-2 mb-6">
 						{ L(ctx).Gettext(`
-            Please provide the email address you used to create
-            your account and we'll send you a message with a link
-            to recover your password.
-          `) }
+							Please provide the email address you used to create
+							your account and we'll send you a message with a link
+							to recover your password.
+						`) }
 					</p>
 					@F.TextField(&f.Email,
 						F.Label(L(ctx).Gettext("Email address")),
@@ -152,11 +152,10 @@ templ (v Views) recover(f *recoverForm, err error) {
 				@Message(WithMessageType("success")) {
 					<p>{ L(ctx).Gettext("Almost there!") }</p>
 					<p class="mt-2">
-						@templ.Raw(L(ctx).Gettext(`
-            We have sent an email to
-            <strong>%s</strong>
-            with further instructions.
-          `, templ.EscapeString(f.Email.Value())))
+						@templ.Raw(L(ctx).Gettext(
+							"We have sent an email to <strong>%s</strong> with further instructions.",
+							templ.EscapeString(f.Email.Value()),
+						))
 					</p>
 				}
 			case 2:

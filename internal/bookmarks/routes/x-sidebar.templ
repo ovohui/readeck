@@ -74,18 +74,18 @@ templ (c SidebarComponent) articleImage(b *dataset.Bookmark) {
 		<div class="mb-4">
 			<span
 				class="
-						block relative overflow-hidden pt-16/9
-						print:overflow-visible
-						print:pt-0 print:static
-      		"
+					block relative overflow-hidden pt-16/9
+					print:overflow-visible
+					print:pt-0 print:static
+				"
 			>
 				<img
 					src={ img.Src }
 					alt=""
 					class="
-							absolute top-0 h-full w-full object-cover object-center rounded
-          		print:w-52 print:h-auto print:static
-						"
+						absolute top-0 h-full w-full object-cover object-center rounded
+						print:w-52 print:h-auto print:static
+					"
 					width={ img.Width }
 					height={ img.Height }
 				/>
@@ -238,10 +238,10 @@ templ (c SidebarComponent) actions(b *dataset.Bookmark) {
 	</turbo-frame>
 	<div
 		class="print:hidden
-				[&>turbo-frame:not(.hidden)]:block [&>turbo-frame]:my-4 [&>turbo-frame]:p-4
-				[&>turbo-frame]:shadow-lg [&>turbo-frame]:bg-gray-100
-				[&_p]:text-sm [&_img]:my-4 [&_img]:mx-auto [&_button]:w-full
-  		"
+			[&>turbo-frame:not(.hidden)]:block [&>turbo-frame]:my-4 [&>turbo-frame]:p-4
+			[&>turbo-frame]:shadow-lg [&>turbo-frame]:bg-gray-100
+			[&_p]:text-sm [&_img]:my-4 [&_img]:mx-auto [&_button]:w-full
+		"
 	>
 		<turbo-frame id={ "bookmark-share-" + b.ID } class="hidden"></turbo-frame>
 	</div>
@@ -354,8 +354,8 @@ templ (c SidebarComponent) labelForm(b *dataset.Bookmark) {
 						type="submit"
 						class="
 							bg-gray-200 text-white text-sm whitespace-nowrap p-1 rounded
-       				border border-transparent hf:border-btn-primary-hover
-       				group-hfw:bg-btn-primary
+			 				border border-transparent hf:border-btn-primary-hover
+			 				group-hfw:bg-btn-primary
 						"
 					>
 						{ L(ctx).Gettext("Add label") }
@@ -424,10 +424,10 @@ templ (c SidebarComponent) annotationList(item *dataset.Bookmark) {
 							<span class="no-js:hidden flex-shrink-0">
 								<button
 									class="
-                    block -mt-4 -mr-4 text-gray-600 opacity-0
-                    group-hover/btn:opacity-100 group-focus-within/btn:opacity-100
-                    hf:text-red-700 touch:opacity-75 touch:active:text-red-700
-                  "
+										block -mt-4 -mr-4 text-gray-600 opacity-0
+										group-hover/btn:opacity-100 group-focus-within/btn:opacity-100
+										hf:text-red-700 touch:opacity-75 touch:active:text-red-700
+									"
 									data-action="click->request#fetch"
 									data-request-url-param={ URL(ctx, "/api/bookmarks", item.ID, "annotations", a.ID) }
 									data-request-method-param="delete"

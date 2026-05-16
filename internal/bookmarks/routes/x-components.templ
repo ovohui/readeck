@@ -215,9 +215,9 @@ templ (c Components) bookmarkInfoBottomActions(b *dataset.Bookmark) {
 				@Icon(Tern(func() bool { return b.IsMarked }, "o-favorite-on", "o-favorite-off"))
 				{ " " }
 				{ Tern(func() bool { return b.IsMarked },
-          L(ctx).Gettext("Remove from favorites"),
-          L(ctx).Gettext("Add to favorites"),
-        ) }
+					L(ctx).Gettext("Remove from favorites"),
+					L(ctx).Gettext("Add to favorites"),
+				) }
 			</button>
 			<button
 				class="btn-outlined btn-primary rounded-full whitespace-nowrap"
@@ -227,9 +227,9 @@ templ (c Components) bookmarkInfoBottomActions(b *dataset.Bookmark) {
 				@Icon(Tern(func() bool { return b.IsArchived }, "o-archive-on", "o-archive-off"))
 				{ " " }
 				{ Tern(func() bool { return b.IsArchived },
-          L(ctx).Gettext("Remove from archive"),
-          L(ctx).Gettext("Move to archive"),
-        ) }
+					L(ctx).Gettext("Remove from archive"),
+					L(ctx).Gettext("Move to archive"),
+				) }
 			</button>
 		</form>
 	</turbo-frame>
@@ -252,11 +252,11 @@ templ (c Components) imageModal() {
 				type="button"
 				title={ L(ctx).Gettext("Show image") }
 				class="
-          absolute top-0 right-0 p-2 z-10
-          text-white bg-black/30 rounded-bl rounded-tr drop-shadow
-          block opacity-0
-          group-hfw:opacity-100 hfw:bg-black/30 hfw:ring-0
-         "
+					absolute top-0 right-0 p-2 z-10
+					text-white bg-black/30 rounded-bl rounded-tr drop-shadow
+					block opacity-0
+					group-hfw:opacity-100 hfw:bg-black/30 hfw:ring-0
+				 "
 				data-action="click->scroll-progress#skip"
 			>
 				@Icon("o-expand", WithIconSvgClass("h-6"))
@@ -282,12 +282,12 @@ templ (c Components) videoModal() {
 				type="button"
 				title={ L(ctx).Gettext("Play video") }
 				class="
-          absolute w-full h-full z-10 cursor-pointer
-          decoration-none text-white bg-black/10 rounded-bl rounded-tr drop-shadow
-          flex items-center justify-center
-          opacity-0
-          group-hfw:opacity-100 hfw:bg-black/10 hfw:ring-0
-         "
+					absolute w-full h-full z-10 cursor-pointer
+					decoration-none text-white bg-black/10 rounded-bl rounded-tr drop-shadow
+					flex items-center justify-center
+					opacity-0
+					group-hfw:opacity-100 hfw:bg-black/10 hfw:ring-0
+				 "
 				data-action="click->scroll-progress#skip"
 			>
 				@Icon("o-expand", WithIconClass("p-4 rounded bg-black/50"), WithIconSvgClass("w-8 h-8"))
