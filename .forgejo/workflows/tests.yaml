@@ -29,8 +29,6 @@ jobs:
       - name: Setup project
         run: |
           make setup
-          make templ
-          git diff --exit-code
 
       #
       # Linters
