@@ -31,7 +31,6 @@ func SetupRoutes(s *server.Server) {
 	s.AddRoute("/assets", r)
 
 	r.Mount("/", serveAssets())
-	r.Get("/feed.xsl", serverFeedXsl)
 	r.Get("/rnd/{name}.svg", randomSvg)
 }
 
@@ -50,15 +49,6 @@ func serveAssets() http.HandlerFunc {
 		r2.URL.Path = p
 
 		fs.ServeHTTP(w, r2)
-	}
-}
-
-func serverFeedXsl(w http.ResponseWriter, r *http.Request) {
-	server.WriteLastModified(w, r, nil)
-	server.WriteEtag(w, r, nil)
-	w.Header().Set("Content-Type", "application/xml")
-	if !server.HandleCaching(w, r) {
-		server.RenderComponent(w, r, http.StatusOK, feedXSLT{}.component())
 	}
 }
 
