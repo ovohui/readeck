@@ -9,8 +9,10 @@ import (
 	"context"
 	"crypto/rand"
 	"errors"
+	"iter"
 	"log/slog"
 	"net/http"
+	"net/url"
 	"path"
 	"slices"
 	"sync"
@@ -123,6 +125,17 @@ var Providers = providerList{
 // Items returns the provider list.
 func (pl *providerList) Items() []providerInfo {
 	return pl.items
+}
+
+func (pl *providerList) Hosts() iter.Seq[string] {
+	return func(yield func(string) bool) {
+		for _, p := range pl.items {
+			u, _ := url.Parse(p.URL)
+			if !yield(u.Scheme + "://" + u.Host) {
+				return
+			}
+		}
+	}
 }
 
 // Add adds a new, unloaded, provider to the list.
