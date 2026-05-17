@@ -1,5 +1,20 @@
 # Changelog
 
+## [Unreleased]
+### Added
+- OIDC authentication
+
+### Improved
+- CSS only title truncation in bookmark cards, by [@mislav](https://codeberg.org/mislav)
+- Do not style <time> elements as bold text, by [@mislav](https://codeberg.org/mislav)
+
+### Changed
+- HTML rendering using Templ
+- New, type safe, form and input validation library
+
+### Removed
+- Forwarded authentication
+
 ## [0.22.3] - 2026-04-16
 ### Improved
 - New internal data exchange format (CBOR)
