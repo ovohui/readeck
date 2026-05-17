@@ -580,10 +580,18 @@ function getSelector(root, node, offset) {
     if (n == node) {
       done = true
     }
+
+    // We need to find the rune-based offset because that's how
+    // Readeck saves and renders highlights.
+    // https://codeberg.org/readeck/readeck/issues/1205
     if (!done) {
-      newOffset += n.textContent.length
+      newOffset += [...n.textContent].length
     } else {
-      newOffset += offset
+      if (n.textContent) {
+        newOffset += [...n.textContent.substring(0, offset)].length
+      } else {
+        newOffset += offset
+      }
     }
   })
 
