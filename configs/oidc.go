@@ -8,6 +8,7 @@ import (
 	"os"
 	"reflect"
 	"slices"
+	"strconv"
 	"strings"
 
 	"github.com/caarlos0/env/v11"
@@ -27,6 +28,10 @@ func (c *config) loadOIDCProviders() error {
 	const prefix = "READECK_AUTH_OIDC_"
 	funcMap := map[reflect.Type]env.ParserFunc{
 		reflect.TypeFor[[][2]string](): func(v string) (any, error) {
+			if uv, err := strconv.Unquote(v); err == nil {
+				v = uv
+			}
+
 			res := [][2]string{}
 			for x := range strings.FieldsSeq(v) {
 				if k, v, found := strings.Cut(x, "="); found {
