@@ -14,6 +14,7 @@ import (
 	"log/slog"
 	"net/url"
 	"slices"
+	"strings"
 	"time"
 
 	"github.com/a-h/templ"
@@ -310,6 +311,12 @@ func (imp importer) createBookmark(next func() (BookmarkImporter, error)) (*book
 	if imp.label != "" {
 		b.Labels = append(b.Labels, imp.label)
 	}
+
+	b.Labels = slices.DeleteFunc(b.Labels, func(s string) bool {
+		return strings.TrimSpace(s) == ""
+	})
+	slices.Sort(b.Labels)
+	b.Labels = slices.Compact(b.Labels)
 
 	if b.IsArchived || imp.markRead {
 		b.ReadProgress = 100
