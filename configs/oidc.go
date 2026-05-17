@@ -7,6 +7,7 @@ package configs
 import (
 	"os"
 	"reflect"
+	"slices"
 	"strings"
 
 	"github.com/caarlos0/env/v11"
@@ -53,15 +54,17 @@ func (c *config) loadOIDCProviders() error {
 		}
 	}
 
+	slices.Sort(ids)
+
 	// Now, we can parse each provider. It's probably not super efficient
 	// to parse the env vars so many times but that's a one time thing
 	// at startup.
 	if c.Auth.OIDC.Providers == nil {
-		c.Auth.OIDC.Providers = map[string]OIDCProvider{}
+		c.Auth.OIDC.Providers = []OIDCProvider{}
 	}
 
 	for _, k := range ids {
-		p := c.Auth.OIDC.Providers[k]
+		p := OIDCProvider{}
 		err := env.ParseWithOptions(&p, env.Options{
 			Prefix:                prefix + k + "_",
 			UseFieldNameByDefault: false,
@@ -70,7 +73,7 @@ func (c *config) loadOIDCProviders() error {
 		if err != nil {
 			return err
 		}
-		c.Auth.OIDC.Providers[k] = p
+		c.Auth.OIDC.Providers = append(c.Auth.OIDC.Providers, p)
 	}
 	return nil
 }

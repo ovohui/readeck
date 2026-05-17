@@ -83,7 +83,7 @@ type configAuth struct {
 }
 
 type configOIDC struct {
-	Providers map[string]OIDCProvider `json:"providers"`
+	Providers []OIDCProvider `json:"providers"`
 }
 
 type configDB struct {
@@ -174,7 +174,7 @@ func (c *config) LoadEnv() error {
 }
 
 func (c *config) validate() error {
-	for k, v := range c.Auth.OIDC.Providers {
+	for i, v := range c.Auth.OIDC.Providers {
 		f := ""
 		switch {
 		case v.URL == "":
@@ -188,7 +188,7 @@ func (c *config) validate() error {
 		}
 
 		if f != "" {
-			return fmt.Errorf("auth.oidc.providers.%s.%s is empty", k, f)
+			return fmt.Errorf("auth.oidc.providers.%d.%s is empty", i, f)
 		}
 	}
 

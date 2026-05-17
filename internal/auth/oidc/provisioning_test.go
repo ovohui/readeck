@@ -21,7 +21,7 @@ func TestProvisioning(t *testing.T) {
 	defer app.Close(t)
 
 	providerInfo := oidc.Providers.Add(
-		"test", "OIDC Test", "https://example.org", "client-id", "client-secret",
+		"OIDC Test", "https://example.org", "client-id", "client-secret",
 		[][2]string{
 			{"roles:admin", "admin"},
 			{"roles:user", "user"},
@@ -43,6 +43,19 @@ func TestProvisioning(t *testing.T) {
 		info   *oidc.UserInfo
 		assert func(t *testing.T, user *users.User, err error)
 	}{
+		{
+			name: "email only",
+			info: &oidc.UserInfo{
+				Subject: "alice-email",
+				Email:   "alice-email@example.org",
+			},
+			assert: func(t *testing.T, user *users.User, err error) {
+				require.NoError(t, err)
+				assert.Equal(t, "alice-email@example.org", user.Username)
+				assert.Equal(t, "alice-email@example.org", user.Email)
+				assert.Equal(t, "user", user.Group)
+			},
+		},
 		{
 			name: "new user default group",
 			info: &oidc.UserInfo{

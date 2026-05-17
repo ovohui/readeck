@@ -65,7 +65,7 @@ func (s *oidcServer) start(clientID string) func() {
 	s.clientID = clientID
 	s.nonce = ""
 
-	oidc.Providers.Add("test", "OIDC Test", s.url, s.clientID, "client-secret", [][2]string{}, true)
+	oidc.Providers.Add("OIDC Test", s.url, s.clientID, "client-secret", [][2]string{}, true)
 	return s.stop
 }
 
@@ -307,7 +307,7 @@ func TestSigninOk(t *testing.T) {
 			client.RT(t,
 				WithMethod(http.MethodPost),
 				WithTarget("/login/oidc"),
-				WithBody(url.Values{"id": {"test"}}),
+				WithBody(url.Values{"id": {oidc.Providers.Items()[0].ID}}),
 				AssertStatus(302),
 				AssertRedirect("/login/oauth/authorize"),
 			)
@@ -348,6 +348,17 @@ func TestSigninKo(t *testing.T) {
 	app := NewTestApp(t)
 	defer app.Close(t)
 
+	t.Run("unknown provider", func(t *testing.T) {
+		client := app.Client()
+
+		client.RT(t,
+			WithMethod(http.MethodPost),
+			WithTarget("/login/oidc"),
+			WithBody(url.Values{"id": {"abcd"}}),
+			AssertStatus(404),
+		)
+	})
+
 	t.Run("authorize error", func(t *testing.T) {
 		client := app.Client()
 
@@ -357,7 +368,7 @@ func TestSigninKo(t *testing.T) {
 		client.RT(t,
 			WithMethod(http.MethodPost),
 			WithTarget("/login/oidc"),
-			WithBody(url.Values{"id": {"test"}}),
+			WithBody(url.Values{"id": {oidc.Providers.Items()[0].ID}}),
 			AssertStatus(302),
 			AssertRedirect("/login/oauth/authorize"),
 		)
@@ -391,7 +402,7 @@ func TestSigninKo(t *testing.T) {
 		client.RT(t,
 			WithMethod(http.MethodPost),
 			WithTarget("/login/oidc"),
-			WithBody(url.Values{"id": {"test"}}),
+			WithBody(url.Values{"id": {oidc.Providers.Items()[0].ID}}),
 			AssertStatus(302),
 			AssertRedirect("/login/oauth/authorize"),
 		)
@@ -418,7 +429,7 @@ func TestSigninKo(t *testing.T) {
 		client.RT(t,
 			WithMethod(http.MethodPost),
 			WithTarget("/login/oidc"),
-			WithBody(url.Values{"id": {"test"}}),
+			WithBody(url.Values{"id": {oidc.Providers.Items()[0].ID}}),
 			AssertStatus(302),
 			AssertRedirect("/login/oauth/authorize"),
 		)

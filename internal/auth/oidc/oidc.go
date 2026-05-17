@@ -18,6 +18,7 @@ import (
 	"golang.org/x/oauth2"
 
 	"github.com/coreos/go-oidc/v3/oidc"
+	"github.com/google/uuid"
 
 	"codeberg.org/readeck/readeck/internal/server/urls"
 	"codeberg.org/readeck/readeck/pkg/http/securecookie"
@@ -87,6 +88,7 @@ func (c *cookie) Delete(w http.ResponseWriter, r *http.Request) {
 type providerInfo struct {
 	loaded bool
 
+	ID                  string
 	Name                string
 	URL                 string
 	ClientID            string
@@ -110,24 +112,25 @@ type providerConfig struct {
 // providerList contains a list of OIDC providers.
 type providerList struct {
 	sync.Mutex
-	items map[string]providerInfo
+	items []providerInfo
 }
 
 // Providers is the global [providerList] instance.
 var Providers = providerList{
-	items: map[string]providerInfo{},
+	items: []providerInfo{},
 }
 
 // Items returns the provider list.
-func (pl *providerList) Items() map[string]providerInfo {
+func (pl *providerList) Items() []providerInfo {
 	return pl.items
 }
 
 // Add adds a new, unloaded, provider to the list.
-func (pl *providerList) Add(id, name, url, clientID, clientSecret string, groups [][2]string, prov bool) *providerInfo {
+func (pl *providerList) Add(name, url, clientID, clientSecret string, groups [][2]string, prov bool) *providerInfo {
 	pl.Lock()
 	defer pl.Unlock()
 	p := providerInfo{
+		ID:                  uuid.NewSHA1(uuid.NameSpaceURL, []byte(url)).String(),
 		Name:                name,
 		URL:                 url,
 		ClientID:            clientID,
@@ -135,7 +138,7 @@ func (pl *providerList) Add(id, name, url, clientID, clientSecret string, groups
 		Groups:              groups,
 		ProvisioningEnabled: prov,
 	}
-	pl.items[id] = p
+	pl.items = append(pl.items, p)
 	return &p
 }
 
@@ -143,7 +146,7 @@ func (pl *providerList) Add(id, name, url, clientID, clientSecret string, groups
 func (pl *providerList) Clear() {
 	pl.Lock()
 	defer pl.Unlock()
-	pl.items = map[string]providerInfo{}
+	pl.items = []providerInfo{}
 }
 
 // get returns a [providerInfo] from an ID.
@@ -153,16 +156,23 @@ func (pl *providerList) get(ctx context.Context, id string) (*providerInfo, erro
 	pl.Lock()
 	defer pl.Unlock()
 
-	p, ok := pl.items[id]
-	if !ok {
+	var pi *providerInfo
+	for _, x := range pl.items {
+		if x.ID == id {
+			pi = &x
+			break
+		}
+	}
+
+	if pi == nil {
 		return nil, errNoProvider
 	}
 
-	if err := p.load(ctx); err != nil {
+	if err := pi.load(ctx); err != nil {
 		return nil, err
 	}
 
-	return &p, nil
+	return pi, nil
 }
 
 func (p *providerInfo) load(ctx context.Context) (err error) {
@@ -229,10 +239,12 @@ func (p *providerInfo) Exchange(ctx context.Context, code, nonce, pkceVerifier s
 		return nil, nil, err
 	}
 
+	userInfo := &UserInfo{Provider: p, Issuer: p.URL}
+
 	// Verify id_token, if any
 	rawID, ok := token.Extra("id_token").(string)
 	if !ok {
-		return token, &UserInfo{Provider: p}, nil
+		return token, userInfo, nil
 	}
 
 	verifier := p.Config.NewProvider(ctx).Verifier(&oidc.Config{
@@ -251,7 +263,6 @@ func (p *providerInfo) Exchange(ctx context.Context, code, nonce, pkceVerifier s
 	}
 
 	// Retrieve the claims, it's ok to fail here.
-	userInfo := &UserInfo{Provider: p}
 	_ = tokenID.Claims(userInfo)
 
 	return token, userInfo, nil
@@ -268,6 +279,7 @@ func (p *providerInfo) GetUser(ctx context.Context, token *oauth2.Token) (*UserI
 
 	res := &UserInfo{
 		Provider: p,
+		Issuer:   p.URL,
 		Email:    info.Email,
 	}
 	if err = info.Claims(res); err != nil {

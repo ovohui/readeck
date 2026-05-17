@@ -5,9 +5,6 @@
 package signin
 
 import (
-	"maps"
-	"slices"
-
 	. "codeberg.org/readeck/readeck/components"
 	F "codeberg.org/readeck/readeck/components/forms"
 	"codeberg.org/readeck/readeck/internal/auth/oidc"
@@ -24,14 +21,14 @@ templ (_ Components) OIDC() {
 				<legend class="mx-auto px-2">{ L(ctx).Gettext("Or continue with") }</legend>
 				{ children... }
 				<ul class="mt-4">
-					for _, id := range slices.Sorted(maps.Keys(providers)) {
+					for _, p := range providers {
 						<li>
 							<button
 								class="btn btn-outlined font-semibold w-full mb-4 rounded-md"
 								type="submit"
 								name="id"
-								value={ id }
-							>{ providers[id].Name }</button>
+								value={ p.ID }
+							>{ p.Name }</button>
 						</li>
 					}
 				</ul>

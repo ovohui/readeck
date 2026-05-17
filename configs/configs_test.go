@@ -184,8 +184,8 @@ func TestEnvVars(t *testing.T) {
 		err := cf.LoadEnv()
 		require.NoError(t, err)
 
-		require.Equal(t, map[string]OIDCProvider{
-			"PROVIDER_1": {
+		require.Equal(t, []OIDCProvider{
+			{
 				Name:                "Provider 1",
 				URL:                 "http://auth.example.org",
 				ClientID:            "",
@@ -193,7 +193,7 @@ func TestEnvVars(t *testing.T) {
 				Groups:              [][2]string(nil),
 				ProvisioningEnabled: true,
 			},
-			"PROVIDER_2": {
+			{
 				Name:                "Provider 1",
 				URL:                 "http://auth.example.com",
 				ClientID:            "",

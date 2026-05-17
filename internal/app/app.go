@@ -162,8 +162,8 @@ func InitApp() {
 
 	// Init OIDC
 	oidc.InitCookieHandler(configs.Keys.OIDCKey())
-	for k, v := range configs.Config.Auth.OIDC.Providers {
-		oidc.Providers.Add(k, v.Name, v.URL, v.ClientID, v.ClientSecret, v.Groups, v.ProvisioningEnabled)
+	for _, v := range configs.Config.Auth.OIDC.Providers {
+		oidc.Providers.Add(v.Name, v.URL, v.ClientID, v.ClientSecret, v.Groups, v.ProvisioningEnabled)
 	}
 
 	// Init email sending
