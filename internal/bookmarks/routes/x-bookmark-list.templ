@@ -381,6 +381,12 @@ templ (c Components) listActions() {
 }
 
 templ (c Components) exportMenu(q url.Values) {
+	{{
+		atomQ := maps.Clone(q)
+		if f, ok := checkOrderForm(ctx); ok {
+			delete(atomQ, f.Sort.Name())
+		}
+	}}
 	<div class="relative flex items-center">
 		<details
 			class="menu btn-group"
@@ -411,7 +417,13 @@ templ (c Components) exportMenu(q url.Values) {
 						}
 					}}
 					<li>
-						<a class="link" href={ string(URL(ctx, "/api/bookmarks/feed")) + "?" + q2.Encode() }>
+						<a
+							class="link"
+							href={ string(URL(ctx, "/api/bookmarks/feed")) + "?" + atomQ.Encode() }
+							data-controller="dialog"
+							data-dialog-select-value="#atom-feed"
+							data-action="dialog#open:prevent"
+						>
 							@Icon("o-feed")
 							{ " " }
 							{ L(ctx).Gettext("Atom Feed") }
@@ -421,6 +433,9 @@ templ (c Components) exportMenu(q url.Values) {
 			</ul>
 		</details>
 	</div>
+	if HasPermission(ctx, "api:bookmarks", "export") {
+		@Components{}.feedDialog(atomQ)
+	}
 }
 
 templ (c Components) bookmarkList(bl *dataset.BookmarkList) {

@@ -111,17 +111,10 @@ func (api *apiRouter) bookmarkListFeed(w http.ResponseWriter, r *http.Request) {
 		}
 	})
 
-	if _, ok := auth.GetRequestProvider(r).(*server.SessionAuthProvider); ok {
-		// Add an XSL stylesheet.
-		ctx = converter.WithAtomStylesheet(ctx, urls.PathOnly(urls.AbsoluteURL(r, "/assets/feed.xsl")))
-
-		// The stylesheet is considered a script by browsers,
-		// so we need to relax the CSP for it to work.
-		policy := server.GetCSPHeader(r).Clone()
-		policy.Set("style-src", csp.Self)
-		policy.Set("script-src", csp.Self)
-		policy.Write(w.Header())
-	}
+	// Chromium needs style-src unsafe-inline to show the XML tree.
+	policy := server.GetCSPHeader(r).Clone()
+	policy.Set("style-src", csp.UnsafeInline)
+	policy.Write(w.Header())
 
 	if err := converter.NewAtomExporter().Export(ctx, w, r, bl); err != nil {
 		server.Err(w, r, err)

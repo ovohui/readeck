@@ -6,9 +6,11 @@ package routes
 
 import (
 	"io"
+	"net/url"
 
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
 	"codeberg.org/readeck/readeck/internal/server"
+	"codeberg.org/readeck/readeck/internal/server/urls"
 
 	. "codeberg.org/readeck/readeck/components"
 )
@@ -339,4 +341,52 @@ templ (c Components) qrCode(item *dataset.Bookmark) {
 			<img src={ QRCodeB64(item.Href, ColorPrimary, -2) } alt="" class="rounded"/>
 		</div>
 	</div>
+}
+
+templ (c Components) feedDialog(q url.Values) {
+	<dialog class="dialog max-w-std" id="atom-feed">
+		<form class="dialog--top" method="dialog">
+			<button class="dialog--close" title={ L(ctx).Gettext("Close dialog") }>
+				@Icon("o-close", WithIconClass(""), WithIconSvgClass("h-8 w-8"))
+			</button>
+		</form>
+		<div class="dialog--content">
+			<p>{ L(ctx).Gettext("This feed provides the latest entries from this bookmark list") }</p>
+			<p class="mt-2">{ L(ctx).Gettext("Subscribe to this feed by copying the URL below:") }</p>
+			<p class="mt-2 text-sm flex gap-2 items-center" data-controller="clipboard">
+				<input
+					class="w-full form-input"
+					type="text"
+					readonly
+					value={ urls.AbsoluteURLContext(ctx, "/api/bookmarks/feed").String() + "?" + q.Encode() }
+					data-clipboard-target="content"
+				/>
+				<button
+					class="btn btn-primary btn-outlined"
+					type="button"
+					title={ L(ctx).Gettext("copy to clipboard") }
+					data-action="clipboard#copy"
+				>
+					@Icon("o-copy")
+				</button>
+				<a
+					class="btn btn-primary btn-outlined"
+					title={ L(ctx).Gettext("Open link") }
+					href={ string(URL(ctx, "/api/bookmarks/feed")) + "?" + q.Encode() }
+					target="_blank"
+				>
+					@Icon("o-link")
+				</a>
+			</p>
+			@Message() {
+				<strong>{ L(ctx).Gettext("Access to this feed is restricted.") }</strong>
+				<br/>
+				@templ.Raw(L(ctx).Gettext(`
+						You must provide your newsreader app a username and an
+						<a class="%[1]s" href="%[2]s">API Token</a> to load this feed.
+					`, "link", templ.EscapeString(URL(ctx, "/profile/tokens")),
+				))
+			}
+		</div>
+	</dialog>
 }
