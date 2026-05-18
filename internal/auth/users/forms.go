@@ -31,7 +31,7 @@ func init() {
 					}
 					return len(v) >= 8
 				},
-				forms.Gettext("password must be at least 8 character long"),
+				forms.Gettext("password must be at least 8 characters long"),
 			), true
 		case "is_valid_email":
 			return forms.ValueValidatorFunc[string](func(f forms.Binder, v string) error {
