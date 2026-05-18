@@ -5,12 +5,14 @@
 package routes
 
 import (
+	"net/url"
 	"strings"
 
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
 	"codeberg.org/readeck/readeck/pkg/utils"
 
 	. "codeberg.org/readeck/readeck/components"
+	"golang.org/x/net/publicsuffix"
 )
 
 type SidebarComponent struct{}
@@ -288,6 +290,15 @@ templ (c SidebarComponent) info(b *dataset.Bookmark) {
 		if len(b.Authors) > 0 {
 			@c.lineIcon("o-pen") {
 				{ L(ctx).Gettext("By %s", strings.Join(b.Authors, ", ")) }
+			}
+		}
+		if b.URL != b.InitialURL {
+			{{
+				u, _ := url.Parse(b.InitialURL)
+				initialDomain, _ := publicsuffix.EffectiveTLDPlusOne(u.Hostname())
+			}}
+			@c.lineIcon("o-link-ext") {
+				<a href={ b.InitialURL } class="link" target="_blank">{ initialDomain }</a>
 			}
 		}
 		@c.lineIcon("o-link-ext") {
