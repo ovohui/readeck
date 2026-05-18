@@ -34,7 +34,6 @@ const (
 	ImportGoodLinks  = "goodlinks"
 	ImportPinboard   = "pinboard"
 	ImportLinkwarden = "linkwarden"
-	ImportOmnivore   = "omnivore"
 	ImportPocketFile = "pocket-file"
 	ImportReadwise   = "readwise"
 	ImportText       = "text"
@@ -185,8 +184,6 @@ func LoadAdapter(name string) ImportLoader {
 		return newGoodlinksAdapter()
 	case ImportLinkwarden:
 		return newLinkwardenAdapter()
-	case ImportOmnivore:
-		return &omnivoreAPIAdapter{}
 	case ImportPinboard:
 		return newPinboardAdapter()
 	case ImportPocketFile:

@@ -181,33 +181,6 @@ templ (_ *linkwardenAdapter) Component(form forms.FormBinder) {
 	@formViews{}.fileForm(form.(*FileImportForm))
 }
 
-templ (_ *omnivoreAPIAdapter) Component(form forms.FormBinder) {
-	<h1 class="title text-h2">{ L(ctx).Gettext("Import your Omnivore Articles") }</h1>
-	<div class="prose mb-8">
-		<p>
-			{ L(ctx).Gettext(`
-				To import your articles from Omnivore, you must first create an API Key in your
-				Omnivore's settings and enter it in the the form below.
-			`) }
-		</p>
-	</div>
-	{{ f := form.(*omnivoreAPIAdapterForm) }}
-	@formViews{}.form(form) {
-		@F.TextField(&f.URL,
-			F.Label(L(ctx).Gettext("Omnivore URL")),
-			F.Required(true),
-			F.Classes("field-h"),
-			F.Help(L(ctx).Gettext("URL of your Omnivore homepage")),
-		)
-		@F.TextField(&f.Token,
-			F.Label(L(ctx).Gettext("API Key")),
-			F.Required(true),
-			F.Classes("field-h"),
-		)
-		@formViews{}.options(&f.BaseImportForm)
-	}
-}
-
 templ (_ *pinboardAdapter) Component(form forms.FormBinder) {
 	<h1 class="title text-h2">{ L(ctx).Gettext("Import Links from a Pinboard JSON backup file") }</h1>
 	<div class="prose mb-8">
@@ -224,25 +197,11 @@ templ (_ *pocketFileAdapter) Component(form forms.FormBinder) {
 	<h1 class="title text-h2">{ L(ctx).Gettext("Import your Pocket Articles") }</h1>
 	<div class="prose mb-8">
 		<p>
-			@templ.Raw(L(ctx).Gettext(`
-				You can export your articles on Pocket by visiting:<br>
-				<a class="%[1]s" href="%[2]s">%[2]s</a>.
-			`,
-				"link", "https://getpocket.com/export"))
-		</p>
-		<p>
 			{ L(ctx).Gettext(`
-				Upload this file in the form below and Readeck will fetch and save
-				every link found it the file.
+				Upload a Pocket export file in the form below and Readeck will fetch and save
+				every link found in the file.
 			`) }
 		</p>
-		@Message() {
-			{ L(ctx).Gettext(`
-				Please note that Pocket does not allow the article content to be exported.
-				This could lead to different results in Readeck than what you currently
-				see in Pocket.
-			`) }
-		}
 	</div>
 	{{ f := form.(*FileImportForm) }}
 	@formViews{}.form(f) {
