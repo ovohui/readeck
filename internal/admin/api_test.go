@@ -37,6 +37,7 @@ func TestAPI(t *testing.T) {
 					"username": "admin",
 					"email": "admin@localhost",
 					"group": "admin",
+					"has_totp": false,
 					"is_external": false,
 					"is_deleted": false
 				},
@@ -49,6 +50,7 @@ func TestAPI(t *testing.T) {
 					"username": "disabled",
 					"email": "disabled@localhost",
 					"group": "none",
+					"has_totp": false,
 					"is_external": false,
 					"is_deleted": false
 				},
@@ -61,6 +63,7 @@ func TestAPI(t *testing.T) {
 					"username": "staff",
 					"email": "staff@localhost",
 					"group": "staff",
+					"has_totp": false,
 					"is_external": false,
 					"is_deleted": false
 				},
@@ -73,6 +76,7 @@ func TestAPI(t *testing.T) {
 					"username": "test1",
 					"email": "test1@localhost",
 					"group": "user",
+					"has_totp": false,
 					"is_external": false,
 					"is_deleted": false
 				},
@@ -85,6 +89,7 @@ func TestAPI(t *testing.T) {
 					"username": "user",
 					"email": "user@localhost",
 					"group": "user",
+					"has_totp": false,
 					"is_external": false,
 					"is_deleted": false
 				}
@@ -106,6 +111,7 @@ func TestAPI(t *testing.T) {
 				"username": "test1",
 				"email": "test1@localhost",
 				"group": "user",
+				"has_totp": false,
 				"is_external": false,
 				"is_deleted": false,
 				"settings": "<<PRESENCE>>"
