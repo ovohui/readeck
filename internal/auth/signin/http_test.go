@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/doug-martin/goqu/v9"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 
 	"codeberg.org/readeck/readeck/internal/auth/users"
@@ -266,4 +267,20 @@ func TestSignin(t *testing.T) {
 			})
 		}
 	})
+}
+
+func TestLockedExternal(t *testing.T) {
+	app := NewTestApp(t)
+	defer app.Close(t)
+	client := app.Client()
+
+	app.Users["admin"].User.ExtID = new(uuid.New().String())
+	require.NoError(t, app.Users["admin"].User.Save())
+
+	client.RT(t,
+		WithMethod(http.MethodPost),
+		WithTarget("/login"),
+		WithBody(url.Values{"username": {"admin"}, "password": {"admin"}}),
+		AssertStatus(401),
+	)
 }

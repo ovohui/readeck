@@ -33,7 +33,10 @@ func (f *loginForm) checkUser() *users.User {
 		col = goqu.C("email")
 	}
 
-	user, err := users.Users.GetOne(col.Eq(f.Username.Value()))
+	user, err := users.Users.GetOne(
+		col.Eq(f.Username.Value()),
+		goqu.C("ext_id").IsNull(),
+	)
 	if err != nil {
 		f.AddErrors(errInvalidLogin)
 		return nil

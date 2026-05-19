@@ -37,20 +37,22 @@ func init() {
 }
 
 type userResult struct {
-	Exists  bool   `json:"exists"`
-	Status  string `json:"status"`
-	Message string `json:"message"`
+	Exists  bool       `json:"exists"`
+	Status  string     `json:"status"`
+	Message string     `json:"message"`
+	Flags   *userFlags `json:"flags"`
 }
 
 type userFlags struct {
-	appFlags
-	User       string
-	Password   string
-	Email      string
-	Group      string
-	DryRun     bool
-	RemoveTOTP bool
-	JSON       bool
+	appFlags   `json:"-"`
+	User       string `json:"user"`
+	Password   string `json:"password"`
+	Email      string `json:"email"`
+	Group      string `json:"group"`
+	DryRun     bool   `json:"dry_run"`
+	RemoveTOTP bool   `json:"remove_totp"`
+	Detach     bool   `json:"detach"`
+	JSON       bool   `json:"-"`
 }
 
 func (f *userFlags) Flags() *flag.FlagSet {
@@ -77,6 +79,7 @@ Examples:
 	fs.StringVar(&f.User, "user", "", "username")
 	fs.StringVar(&f.User, "u", "", "username (shorthand)")
 	fs.BoolVar(&f.RemoveTOTP, "remove-totp", false, "remove TOTP for this user")
+	fs.BoolVar(&f.Detach, "detach", false, "detach user from external authentication")
 
 	return fs
 }
@@ -189,6 +192,14 @@ func (f *userFlags) removeTOTP(user *users.User) {
 	user.TOTPSecret = nil
 }
 
+func (f *userFlags) detach(user *users.User) {
+	if !f.Detach || user.ID == 0 {
+		return
+	}
+
+	user.ExtID = nil
+}
+
 func (f *userFlags) passwordPrompt() (string, error) {
 	fmt.Print("Enter Password: ")
 	p1, err := term.ReadPassword(int(syscall.Stdin))
@@ -266,7 +277,7 @@ func runUser(_ context.Context, args []string) (err error) {
 		}
 	}
 
-	res := &userResult{}
+	res := &userResult{Flags: &flags}
 
 	if user.ID == 0 {
 		res.Status = "create"
@@ -284,6 +295,7 @@ func runUser(_ context.Context, args []string) (err error) {
 	flags.setGroup(user)
 	flags.setEmail(user)
 	flags.removeTOTP(user)
+	flags.detach(user)
 
 	// Check username and email address
 	type userForm struct {
