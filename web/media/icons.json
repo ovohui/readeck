@@ -67,6 +67,7 @@
   "o-theme-light":  "mdi:white-balance-sunny",
   "o-theme-dark":   "mdi:weather-night",
   "o-theme-system": "mdi:theme-light-dark",
+  "o-totp":         "bx:check-shield",
   "o-undo":         "bx:undo",
   "o-user":         "bx:user-circle",
   "o-user-admin":   "bxs:user-circle",

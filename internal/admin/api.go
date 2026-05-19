@@ -227,6 +227,7 @@ type userItem struct {
 	Updated    time.Time           `json:"updated"`
 	LastLogin  time.Time           `json:"last_login"`
 	Settings   *users.UserSettings `json:"settings,omitempty"`
+	HasTOTP    bool                `json:"has_totp"`
 	IsExternal bool                `json:"is_external"`
 	IsDeleted  bool                `json:"is_deleted"`
 }
@@ -241,6 +242,7 @@ func newUserItem(ctx context.Context, u *users.User) *userItem {
 		Created:    u.Created,
 		Updated:    u.Updated,
 		LastLogin:  u.LastLogin,
+		HasTOTP:    u.HasTOTP(),
 		IsExternal: u.IsExternal(),
 		IsDeleted:  deleteUserTask.IsRunning(u.ID),
 	}

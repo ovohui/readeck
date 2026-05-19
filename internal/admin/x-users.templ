@@ -38,6 +38,12 @@ templ (v Views) userList(ul *userList) {
 											WithIconAttrs(templ.Attributes{"title": L(ctx).Gettext("External User")}),
 										)
 									}
+									if u.HasTOTP {
+										@Icon("o-totp",
+											WithIconClass("text-blue-800"),
+											WithIconAttrs(templ.Attributes{"title": L(ctx).Gettext("TOTP is enabled")}),
+										)
+									}
 									if u.ID == server.GetUser(ctx).UID {
 										@Icon("o-user",
 											WithIconClass("text-green-700"),
@@ -116,14 +122,7 @@ templ (v Views) userInfo(f *userForm, u *extendedUserItem) {
 		user := server.GetUser(ctx)
 	}}
 	@v.base(title) {
-		<h1 class="title text-h2">
-			{ u.Username }
-			if u.ID == user.UID {
-				<span class="text-lg text-green-700">
-					({ L(ctx).Gettext("This is you!") })
-				</span>
-			}
-		</h1>
+		<h1 class="title text-h2">{ u.Username }</h1>
 		<h2 class="title text-h3">{ L(ctx).Gettext("User information") }</h2>
 		<form class="mb-8" action={ URL(ctx) } method="post">
 			@F.Errors(f)
@@ -160,36 +159,42 @@ templ (v Views) userInfo(f *userForm, u *extendedUserItem) {
 				</div>
 			}
 		</form>
-		<div class="field field-h sm:mb-0.5">
-			<label>{ L(ctx).Gettext("Created on") }</label>
-			<div class="control">
+		@List("my-6") {
+			if u.ID == user.UID {
+				@ListItem("p-4 flex gap-1 items-center text-green-700 font-semibold") {
+					@Icon("o-user")
+					{ " " }
+					{ L(ctx).Gettext("This is you!") }
+				}
+			}
+			if u.HasTOTP {
+				@ListItem("p-4 flex gap-1 items-center") {
+					@Icon("o-totp", WithIconClass("text-blue-800"))
+					{ " " }
+					{ L(ctx).Gettext("TOTP is enabled") }
+				}
+			}
+			@ListItem("p-4 flex gap-1 items-center") {
+				<span class="grow">{ L(ctx).Gettext("Created on") }</span>
 				{ Strftime(ctx, u.Created, "%e %B %Y %H:%M") }
-			</div>
-		</div>
-		if !u.LastLogin.IsZero() {
-			<div class="field field-h sm:mb-0.5">
-				<label>{ L(ctx).Gettext("Last Login") }</label>
-				<div class="control">
-					{ Strftime(ctx, u.LastLogin, "%e %B %Y %H:%M") }
-				</div>
-			</div>
+			}
+			@ListItem("p-4 flex gap-1 items-center") {
+				<span class="grow">{ L(ctx).Gettext("Last Login") }</span>
+				{ Strftime(ctx, u.LastLogin, "%e %B %Y %H:%M") }
+			}
+			@ListItem("p-4 flex gap-1 items-center") {
+				<span class="grow">{ L(ctx).Gettext("Last Activity") }</span>
+				{ Strftime(ctx, u.LastActivity, "%e %B %Y %H:%M") }
+			}
+			@ListItem("p-4 flex gap-1 items-center") {
+				<span class="grow">{ L(ctx).Gettext("Bookmarks") }</span>
+				{ u.BookmarkCount }
+			}
+			@ListItem("p-4 flex gap-1 items-center") {
+				<span class="grow">{ L(ctx).Gettext("Disk Usage") }</span>
+				{ utils.FormatBytes(u.BookmarkDiskUsage) }
+			}
 		}
-		if !u.LastActivity.IsZero() {
-			<div class="field field-h sm:mb-0.5">
-				<label>{ L(ctx).Gettext("Last Activity") }</label>
-				<div class="control">
-					{ Strftime(ctx, u.LastActivity, "%e %B %Y %H:%M") }
-				</div>
-			</div>
-		}
-		<div class="field field-h sm:mb-0.5">
-			<label>{ L(ctx).Gettext("Bookmarks") }</label>
-			<div class="control">{ u.BookmarkCount }</div>
-		</div>
-		<div class="field field-h sm:mb-0.5">
-			<label>{ L(ctx).Gettext("Disk Usage") }</label>
-			<div class="control">{ utils.FormatBytes(u.BookmarkDiskUsage) }</div>
-		</div>
 		<h2 class="title text-h3 mt-8">{ L(ctx).Gettext("User Administration") }</h2>
 		@List("my-6") {
 			if u.IsDeleted {
