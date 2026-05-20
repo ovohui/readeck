@@ -17,6 +17,27 @@ exports.setConfig = function (config) {
   config.httpHeaders = {}
 }
 
+/**
+ *
+ * @param {Node} document
+ */
+exports.documentLoaded = function (document) {
+  // on pages with timestamps, youtube doesn't send timestamps in the oembed
+  // add it here by setting the "url" parameter to the document url as given (including timestamps)
+  const videoURL = new URL($.url)
+  document
+    .querySelectorAll("link[href][type='application/json+oembed']")
+    .forEach((e) => {
+      const url = new URL(e.getAttribute("href"))
+      const innerURL = new URL(url.searchParams.get("url"))
+
+      if (innerURL) {
+        url.searchParams.set("url", videoURL.href)
+        e.setAttribute("href", url.toString())
+      }
+    })
+}
+
 exports.processMeta = function () {
   /** @type {string} */
   let videoID = ($.properties["json-ld"] || []).find(
