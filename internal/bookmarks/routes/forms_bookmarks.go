@@ -297,7 +297,7 @@ func (f *updateForm) update(b *bookmarks.Bookmark) (updated map[string]any, err 
 		deleted = new(f.IsDeleted.Value())
 	}
 
-	if f.Title.IsBound() {
+	if f.Title.IsBound() && !f.Title.IsEmpty() {
 		b.Title = utils.NormalizeSpaces(f.Title.Value())
 		updated["title"] = b.Title
 	}
@@ -307,7 +307,7 @@ func (f *updateForm) update(b *bookmarks.Bookmark) (updated map[string]any, err 
 		updated["description"] = b.Description
 	}
 
-	if f.SiteName.IsBound() {
+	if f.SiteName.IsBound() && !f.SiteName.IsEmpty() {
 		b.SiteName = utils.NormalizeSpaces(f.SiteName.Value())
 		updated["site_name"] = b.SiteName
 	}
