@@ -200,7 +200,7 @@ func (api *apiRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
 	f := forms.BindAs[updateForm](r)
 
 	if !f.IsValid() {
-		server.Render(w, r, http.StatusBadRequest, f)
+		server.Render(w, r, http.StatusUnprocessableEntity, f)
 		return
 	}
 

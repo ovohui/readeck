@@ -378,7 +378,9 @@ func (f *tokenForm) update(t *tokens.Token) error {
 		case "application":
 			t.Application = field.String()
 		case "is_enabled":
-			t.IsEnabled = field.V().(bool)
+			if !field.IsNil() {
+				t.IsEnabled = field.V().(bool)
+			}
 		case "expires":
 			if field.IsNil() || field.IsEmpty() {
 				t.Expires = nil
