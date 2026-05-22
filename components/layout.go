@@ -24,7 +24,8 @@ func SideMenuStdLayout(title string, sidemenu templ.Component) templ.Component {
 
 // Layout is our base layout for every Readeck page.
 type Layout struct {
-	Head templ.Component
+	Head       templ.Component
+	AccessMenu [][2]string
 }
 
 // defaultLayout is an instance of [Layout] that we reuse

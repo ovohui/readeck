@@ -124,14 +124,14 @@ var config = {
       height: {
         "screen": "100vh",
         "max-content": "max-content",
-        "topnav": "4rem",
+        "topnav": "3rem",
       },
       padding: {
         "16/9": "56.25%",
       },
       spacing: {
         "0.5": "0.125rem",
-        "topnav": "4rem",
+        "topnav": "3rem",
         ...[...Array(26).keys()].reduce((acc, x) => {
           acc[`col-${x+1}`] = `${(x+1) * 3.5}rem`
           return acc

@@ -61,7 +61,7 @@ templ (c *Layout) BasePage(title string) {
 }
 
 templ (c *Layout) Menu(menuBtn templ.Component) {
-	<div class="layout-topnav" id="menu">
+	<div class="topnav--grid" id="menu">
 		@menuBtn {
 			@Icon("o-menu")
 		}
@@ -77,7 +77,9 @@ templ (c *Layout) Menu(menuBtn templ.Component) {
 		<div class="mainmenu">
 			<menu class="grow">
 				if HasPermission(ctx, "bookmarks", "read") {
-					@c.mainMenuItem(L(ctx).Gettext("Bookmarks"), "/bookmarks/unread", "o-library", PathIs(ctx, "/bookmarks", "/bookmarks/*"))
+					@c.mainMenuItem(L(ctx).Gettext("Bookmarks"), "/bookmarks/unread", "o-library", PathIs(ctx, "/bookmarks", "/bookmarks/*")) {
+						<span class="max-sm:sr-only">{ L(ctx).Gettext("Bookmarks") }</span>
+					}
 				}
 			</menu>
 			if !IsAnonymous(ctx) {
@@ -105,9 +107,13 @@ templ (c *Layout) Menu(menuBtn templ.Component) {
 						</button>
 					</li>
 					if HasPermission(ctx, "profile", "read") {
-						@c.mainMenuItem(L(ctx).Gettext("Settings"), "/profile", "o-settings", PathIs(ctx, "/admin", "/admin/*", "/profile", "/profile/*"))
+						@c.mainMenuItem(L(ctx).Gettext("Settings"), "/profile", "o-settings", PathIs(ctx, "/admin", "/admin/*", "/profile", "/profile/*")) {
+							<span class="sr-only">{ L(ctx).Gettext("Settings") }</span>
+						}
 					}
-					@c.mainMenuItem(L(ctx).Gettext("Documentation"), "/docs/", "o-help", PathIs(ctx, "/docs/*"))
+					@c.mainMenuItem(L(ctx).Gettext("Documentation"), "/docs/", "o-help", PathIs(ctx, "/docs/*")) {
+						<span class="sr-only">{ L(ctx).Gettext("Documentation") }</span>
+					}
 				</menu>
 			}
 		</div>
@@ -133,7 +139,8 @@ templ (c *Layout) mainMenuItem(name, path, icon string, current bool) {
 	<li>
 		<a href={ URL(ctx, path) } title={ name } data-current={ current }>
 			@Icon(icon)
-			<span class="sr-only">{ name }</span>
+			{ " " }
+			{ children... }
 		</a>
 	</li>
 }
@@ -153,7 +160,7 @@ templ QuickAccessMenu(items [][2]string) {
 templ SideMenuTitle() {
 	<h2
 		id="sidemenu-title"
-		class="h-topnav border-b border-gray-200 uppercase flex items-center justify-center"
+		class="h-topnav border-b border-gray-200 uppercase flex items-center justify-center sm:hidden"
 	>
 		{ children... }
 	</h2>
@@ -161,48 +168,66 @@ templ SideMenuTitle() {
 
 // SideMenuLayout renders a layout with a side menu.
 templ (c *Layout) SideMenuLayout(title string, sidemenu templ.Component, contentWrapper templ.Component) {
+	{{
+		qam := c.AccessMenu
+		if len(qam) == 0 {
+			qam = [][2]string{
+				{"menu", L(ctx).Gettext("Menu")},
+				{"sidemenu", L(ctx).Gettext("Secondary Menu")},
+				{"content", L(ctx).Gettext("Main content")},
+			}
+		}
+	}}
 	@c.BasePage(title) {
-		@QuickAccessMenu([][2]string{
-			{"menu", L(ctx).Gettext("Menu")},
-			{"sidemenu", L(ctx).Gettext("Secondary Menu")},
-			{"content", L(ctx).Gettext("Main content")},
-		})
+		@QuickAccessMenu(qam)
 		<div
 			class="layout"
 			data-controller="panel"
 			data-panel-hidden-class="sidemenu--hidden"
 			data-panel-body-class="max-sm:overflow-hidden"
 		>
-			@c.Menu(c.menuButton(L(ctx).Gettext("Open Menu")))
-			<nav
-				id="sidemenu"
-				tabindex="-1"
-				data-panel-target="panel"
-				aria-labelledby="sidemenu-title"
-				data-action="keydown.esc->panel#toggle"
-				class="sidemenu sidemenu--hidden"
-			>
-				@c.menuButton(L(ctx).Gettext("Close menu")) {
-					@Icon("o-close", WithIconClass("inline-block"), WithIconSvgClass("w-8 h-8"))
+			<div class="topnav">
+				{{
+					var btn templ.Component = templ.NopComponent
+					if sidemenu != nil {
+						btn = c.menuButton(L(ctx).Gettext("Open Menu"))
+					}
+				}}
+				@c.Menu(btn)
+			</div>
+			<div class="layout--grid">
+				if sidemenu != nil {
+					<nav
+						id="sidemenu"
+						tabindex="-1"
+						data-panel-target="panel"
+						aria-labelledby="sidemenu-title"
+						data-action="keydown.esc->panel#toggle"
+						class="sidemenu sidemenu--hidden"
+					>
+						@c.menuButton(L(ctx).Gettext("Close menu")) {
+							@Icon("o-close", WithIconClass("inline-block"), WithIconSvgClass("w-8 h-8"))
+						}
+						@sidemenu
+					</nav>
 				}
-				@sidemenu
-			</nav>
-			@contentWrapper {
-				{ children... }
-			}
+				@contentWrapper {
+					{ children... }
+				}
+			</div>
 		</div>
 	}
 }
 
 templ (c *Layout) SideMenuWrapper() {
-	<div class="layout-content" id="content">
+	<div class="content" id="content">
 		@Flashes()
 		{ children... }
 	</div>
 }
 
 templ (c *Layout) SideMenuStdWrapper() {
-	<main class="layout-content max-w-std" id="content">
+	<main class="content max-w-std" id="content">
 		@Flashes()
 		@Breadcrumbs()
 		{ children... }
