@@ -2,6 +2,52 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
+.bookmark-create {
+  @apply pb-4;
+  @apply border-b border-gray-200 border-opacity-80;
+  @apply from-gray-100 to-app-bg;
+
+  @screen sm {
+    @apply -mt-4 -ml-4 pl-4 pt-9;
+    @apply bg-gradient-to-r;
+  }
+
+  @media print {
+    @apply hidden;
+  }
+
+  & > div {
+    @apply flex items-center mx-4 my-2 invisible;
+  }
+
+  &:hover,
+  &:focus-within {
+    & > div {
+      @apply visible;
+    }
+  }
+
+  & > form > div {
+    @apply flex p-1 form-input rounded-full border;
+
+    input {
+      @apply leading-tight w-full rounded-full px-4 py-2;
+      @apply bg-gray-light focus-visible:bg-gray-light text-gray-dark ring-0 ring-offset-0;
+    }
+
+    button {
+      @apply whitespace-nowrap btn btn-primary rounded-full pl-0.5 py-0 inline-flex gap-1 items-center leading-none;
+
+      .svgicon {
+        @apply h-auto static text-yellow-400 dark:text-yellow-600;
+        svg {
+          @apply w-8 h-8;
+        }
+      }
+    }
+  }
+}
+
 .bookmark-list-container {
   @apply flex gap-4;
 
