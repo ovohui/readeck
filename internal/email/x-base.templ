@@ -65,7 +65,8 @@ func (_ Components) TextFooter(ctx context.Context) string {
 	res.WriteString("\n-- \n")
 	res.WriteString("Readeck - Read-later and Bookmark manager\n")
 	if u, ok := CheckSiteURL(ctx); ok {
-		res.WriteString(u.String() + "\n")
+		res.WriteString(u.String())
+		res.WriteRune('\n')
 	}
 	res.WriteString("https://readeck.org/\n")
 
