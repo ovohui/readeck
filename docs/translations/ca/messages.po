@@ -2,19 +2,21 @@
 # SPDX-FileCopyrightText: © 2025 Readeck <translate@readeck.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-only
+# olivier <olivier@noreply.codeberg.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2025-12-18 21:31+0100\n"
-"PO-Revision-Date: 2025-08-13 16:09+0000\n"
-"Last-Translator: 0alai <0alai@noreply.codeberg.org>\n"
-"Language: ca_ES\n"
+"PO-Revision-Date: 2026-05-16 13:27+0000\n"
+"Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/readeck/documentation/ca/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.17.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -832,4 +834,3 @@ msgstr "Si necessites concedir accés al teu compte de Readeck a un servei o una
 #: en/user-profile.md:21
 msgid "Instead, you can give your username and a token of your choice as authentication credentials."
 msgstr "En comptes d'això, pots proporcionar el teu nom d'usuari i un testimoni com a credencials d'autenticació."
-
