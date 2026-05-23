@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: © 2025 Readeck <translate@readeck.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-only
-# Anonymous <anonymous@noreply.codeberg.org>, 2025.
+# Anonymous <anonymous@noreply.codeberg.org>, 2025, 2026.
 # ghose <ghose@noreply.codeberg.org>, 2025, 2026.
 # olivier <olivier@noreply.codeberg.org>, 2025, 2026.
 msgid ""
@@ -10,14 +10,15 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-05-16 15:18+0200\n"
-"PO-Revision-Date: 2026-03-03 14:19+0000\n"
-"Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
-"Language: gl\n"
+"PO-Revision-Date: 2026-05-19 05:51+0000\n"
+"Last-Translator: ghose <ghose@noreply.codeberg.org>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/readeck/application/gl/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2026.5\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:72
@@ -134,7 +135,6 @@ msgid "Secondary Menu"
 msgstr "Menú secundario"
 
 #: components/layout.templ:176
-#, fuzzy
 msgid "Open Menu"
 msgstr "Abrir menú"
 
@@ -175,15 +175,15 @@ msgstr "o contrasinal está baleiro"
 
 #: internal/admin/forms.go:73
 msgid "User is external and can't be updated."
-msgstr ""
+msgstr "A usuaria é externa e non se pode actualizar."
 
 #: internal/admin/forms.go:85 internal/profile/forms.go:104
 msgid "username is already in use"
-msgstr ""
+msgstr "xa se está usando este identificador"
 
 #: internal/admin/forms.go:92 internal/profile/forms.go:111
 msgid "email address is already in use"
-msgstr ""
+msgstr "xa se está usando este enderezo de correo"
 
 #: internal/admin/views.go:61 internal/admin/views.go:86
 #: internal/admin/views.go:127 internal/admin/x-users.templ:16
@@ -204,27 +204,24 @@ msgid "User updated."
 msgstr "Actualizouse a usuaria."
 
 #: internal/admin/views.go:163
-#, fuzzy
 msgid "User detached."
-msgstr "Actualizouse a usuaria."
+msgstr "Desconectouse a usuaria."
 
 #: internal/admin/views.go:186
-#, fuzzy
 msgid "User signed out."
-msgstr "Fechar a sesión"
+msgstr "Fechouse a sesión da usuaria."
 
 #: internal/admin/x-users.templ:19
 msgid "Add a new user"
 msgstr "Engadir unha nova usuaria"
 
 #: internal/admin/x-users.templ:38
-#, fuzzy
 msgid "External User"
-msgstr "Crear usuaria"
+msgstr "Usuaria externa"
 
 #: internal/admin/x-users.templ:44 internal/admin/x-users.templ:123
 msgid "This is you!"
-msgstr ""
+msgstr "Esta persoa es ti!"
 
 #: internal/admin/x-users.templ:50
 #, python-format
@@ -274,9 +271,8 @@ msgid "Create user"
 msgstr "Crear usuaria"
 
 #: internal/admin/x-users.templ:127
-#, fuzzy
 msgid "User information"
-msgstr "Información do Sistema"
+msgstr "Información sobre a usuaria"
 
 #: internal/admin/x-users.templ:154
 msgid "will not change if empty"
@@ -295,12 +291,10 @@ msgid "Save"
 msgstr "Gardar"
 
 #: internal/admin/x-users.templ:164
-#, fuzzy
 msgid "Created on"
-msgstr "Creada o: %s"
+msgstr "Creada o"
 
 #: internal/admin/x-users.templ:171
-#, fuzzy
 msgid "Last Login"
 msgstr "Último acceso"
 
@@ -309,13 +303,12 @@ msgid "Last Activity"
 msgstr "Última actividade"
 
 #: internal/admin/x-users.templ:190
-#, fuzzy
 msgid "Disk Usage"
 msgstr "Uso de almacenaxe"
 
 #: internal/admin/x-users.templ:193
 msgid "User Administration"
-msgstr ""
+msgstr "Administración de usuarias"
 
 #: internal/admin/x-users.templ:199
 msgid "User will be removed in a few seconds"
@@ -323,12 +316,11 @@ msgstr "Eliminarase a usuaria nuns segundos"
 
 #: internal/admin/x-users.templ:209
 msgid "This will sign this user out of all active sessions on the web application."
-msgstr ""
+msgstr "Isto vai fechar todas as sesións activas da usuaria na aplicación web."
 
 #: internal/admin/x-users.templ:214
-#, fuzzy
 msgid "Sign this user out"
-msgstr "Fechar a sesión"
+msgstr "Fechar a sesión desta usuaria"
 
 #: internal/admin/x-users.templ:222
 msgid ""
@@ -339,16 +331,21 @@ msgid ""
 "\t\t\t\t\t\t\t\t\tThis will detach the user <strong>%[2]s</strong>.\n"
 "\t\t\t\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\t\t\t\tEsta usuaria está ligada a un provedor externo de autenticación:<br />\n"
+"\t\t\t\t\t\t\t\t\t<strong>%[1]s</strong>.<br />\n"
+"\t\t\t\t\t\t\t\t\tDebido a isto algunha das súas propiedades non se poden editar.<br />\n"
+"\t\t\t\t\t\t\t\t\tIsto vai desconectar a usuaria <strong>%[2]s</strong>.\n"
+"\t\t\t\t\t\t\t\t"
 
 #: internal/admin/x-users.templ:235
-#, fuzzy
 msgid "Detach this user"
-msgstr "Eliminar esta usuaria"
+msgstr "Desconectar esta usuaria"
 
 #: internal/admin/x-users.templ:244
 #, python-format
 msgid "This will delete the user <strong>%s</strong> and all their contents."
-msgstr ""
+msgstr "Vas eliminar a usuaria <strong>%s</strong> e todos os seus contidos."
 
 #: internal/admin/x-users.templ:252
 msgid "Delete this user"
@@ -361,7 +358,7 @@ msgstr "Requírese autorización"
 
 #: internal/auth/oauth2/x-oauth.templ:30
 msgid "This code has expired or is not valid"
-msgstr ""
+msgstr "Este código caducou ou non é válido"
 
 #: internal/auth/oauth2/x-oauth.templ:33 internal/auth/oauth2/x-oauth.templ:50
 #: internal/auth/oauth2/x-oauth.templ:58
@@ -403,7 +400,7 @@ msgid "Signed in as: <strong>%s</strong>"
 msgstr "Sesión de: <strong>%s</strong>"
 
 #: internal/auth/oauth2/x-oauth.templ:106
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t<strong>%s</strong> would like permission to access your account.\n"
@@ -411,9 +408,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"      <strong>%s</strong> solicita poder acceder á túa conta.\n"
-"      Aproba esta petición só se recoñeces e confías na súa orixe.\n"
-"    "
+"\t\t\t\t<strong>%s</strong> solicita permiso para acceder á túa conta.\n"
+"\t\t\t\tSó deberías conceder este acceso se recoñeces e confías na súa orixe.\n"
+"\t\t\t"
 
 #: internal/auth/oauth2/x-oauth.templ:112
 msgid "Review permissions"
@@ -465,7 +462,6 @@ msgid "Please note:"
 msgstr "Ten en conta:"
 
 #: internal/auth/onboarding/x-onboarding.templ:52
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour email address is optional and will never leave this installation.\n"
@@ -474,10 +470,10 @@ msgid ""
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"  O enderezo de correo é optativo e non vai verse fóra desta instalación.\n"
-"  Non será almacenado, transferido ou vendido.\n"
-"  <strong>Só</strong> será utilizado, se fose preciso, para recuperar o contrasinal e as notificacións internas.\n"
-"  "
+"\t\t\t\t\t\tProporcionar un enderezo de correo é optativo.\n"
+"\t\t\t\t\t\tNon vai ser colleitado, transferido ou vendido.\n"
+"\t\t\t\t\t\t<strong>Só</strong> se utilizará, se o precisases, para recuperar o contrasinal e para notificacións internas.\n"
+"\t\t\t\t\t"
 
 #: internal/auth/onboarding/x-onboarding.templ:60
 msgid "Finish installation"
@@ -549,7 +545,7 @@ msgstr ""
 
 #: internal/auth/signin/x-auth.templ:24
 msgid "Or continue with"
-msgstr ""
+msgstr "Ou continuar con"
 
 #: internal/auth/signin/x-auth.templ:44 internal/auth/signin/x-auth.templ:71
 msgid "Sign in"
@@ -593,7 +589,6 @@ msgid "No worries, it happens to anyone."
 msgstr "Sen problema, pásalle a calquera."
 
 #: internal/auth/signin/x-auth.templ:132
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tPlease provide the email address you used to create\n"
@@ -602,10 +597,10 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"        Escribe o correo que usaches para crear a\n"
-"        conta e enviaremos unha ligazón na mensaxe\n"
-"        para recuperar o contrasinal.\n"
-"      "
+"\t\t\t\t\t\t\tPor favor escribe o enderezo de correo que usaches para crear\n"
+"\t\t\t\t\t\t\ta túa conta e enviarémosche unha mensaxe cunha ligazón\n"
+"\t\t\t\t\t\t\tpara que poidas recuperar o contrasinal.\n"
+"\t\t\t\t\t\t"
 
 #: internal/auth/signin/x-auth.templ:143
 msgid "Send me a recovery link"
@@ -616,14 +611,9 @@ msgid "Almost there!"
 msgstr "Case rematamos!"
 
 #: internal/auth/signin/x-auth.templ:155
-#, fuzzy, python-format
+#, python-format
 msgid "We have sent an email to <strong>%s</strong> with further instructions."
-msgstr ""
-"\n"
-"        Enviamos un correo a\n"
-"        <strong>%s</strong>\n"
-"        con instrucións.\n"
-"      "
+msgstr "Acabamos de enviar un correo a <strong>%s</strong> coas instruccións necesarias."
 
 #: internal/auth/signin/x-auth.templ:171 internal/profile/x-security.templ:33
 msgid "New password"
@@ -642,19 +632,16 @@ msgid "Go to the sign in page"
 msgstr "Ir á páxina para iniciar sesión"
 
 #: internal/auth/users/forms.go:18
-#, fuzzy
 msgid "username is not valid"
-msgstr "o identificador non coincide"
+msgstr "o identificador non é válido"
 
 #: internal/auth/users/forms.go:19
-#, fuzzy
 msgid "username is not available"
-msgstr "o identificador non coincide"
+msgstr "o identificador non está dispoñible"
 
 #: internal/auth/users/forms.go:34
-#, fuzzy
 msgid "password must be at least 8 character long"
-msgstr "ten que ter 8 caracteres polo menos"
+msgstr "o contrasinal ten que ter 8 caracteres polo menos"
 
 #: internal/auth/users/forms.go:89
 msgctxt "role"
@@ -782,7 +769,7 @@ msgstr "Clave API non válida"
 
 #: internal/bookmarks/importer/pinboard.go:44
 msgid "Pinboard JSON backup File"
-msgstr ""
+msgstr "Ficheiro JSON de apoio de Pinboard"
 
 #: internal/bookmarks/importer/readwise.go:62
 msgid "Readwise Reader CSV"
@@ -854,7 +841,6 @@ msgid "Import your Browser's Bookmarks"
 msgstr "Importa os marcadores do teu navegador"
 
 #: internal/bookmarks/importer/x-forms.templ:68
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tIn your web browser, export your bookmarks as an HTML file.<br>\n"
@@ -863,10 +849,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"    No teu navegador web, exporta os marcadores a un ficheiro HTML.<br>\n"
-"   Sube este ficheiro a Readeck usando o formulario inferior para descargar\n"
-"   e crear cada marcador que atope no ficheiro.\n"
-"  "
+"\t\t\t\t\tNo teu navegador, exporta os teus marcadores como un ficheiro HTML.<br>\n"
+"\t\t\t\t\tUsa o formulario inferior para subir este ficheiro e Readeck vai crear todos os\n"
+"\t\t\t\t\tmarcadores e obter cada páxina que conteña o ficheiro.\n"
+"\t\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:77
 msgid "Instructions for Firefox"
@@ -892,21 +878,16 @@ msgstr "Importa ligazóns desde un ficheiro CSV"
 # matches
 # | the format specified bellow.\n" "  "
 #: internal/bookmarks/importer/x-forms.templ:101
-#, fuzzy
 msgid "Upload a CSV file from Instapaper or any CSV that matches the format specified below."
-msgstr ""
-"\n"
-"    Sube un ficheiro CSV de Instapaper ou un CSV que teña o formato indicado máis abaixo.\n"
-"  "
+msgstr "Sube un ficheiro CSV desde Instapaper ou calquera CSV que concorde co formato indicado aquí abaixo."
 
 # | msgid "From date"
 #: internal/bookmarks/importer/x-forms.templ:107
-#, fuzzy
 msgid "CSV Format"
-msgstr "Formato"
+msgstr "Formato CSV"
 
 #: internal/bookmarks/importer/x-forms.templ:110
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\tThe uploaded file must contain a first row with the column names. Column names are case\n"
@@ -914,9 +895,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    O ficheiro a subir ten que conter unha primeira liña cos nomes das columnas. Os nomes de columna non distinguen entre\n"
-"maiúsculas e minúsculas e, excepto para <code>%s</code>, as demais son optativas.\n"
-"  "
+"\t\t\t\tO ficheiro subido ten que ter unha primeira fila co nome das columnas. Os nomes das columnas non distinguen\n"
+"\t\t\t\tentre maiúsculas e minúsculas, excepto para <code>%s</code>, as outras columnas son optativas.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:115
 msgid "Here are the columns you can set:"
@@ -965,24 +946,16 @@ msgid "Import Links from a GoodLinks export file"
 msgstr "Importar ligazóns desde un ficheiro exportado desde GoodLinks"
 
 #: internal/bookmarks/importer/x-forms.templ:164
-#, fuzzy
 msgid "Upload a JSON file obtained from your GoodLinks app."
-msgstr ""
-"\n"
-"    Subir un ficheiro JSON obtido na túa app GoodLinks.\n"
-"  "
+msgstr "Sube un ficheiro JSON obtido na app GoodLinks."
 
 #: internal/bookmarks/importer/x-forms.templ:173
 msgid "Import Bookmarks from a Linkwarden export file"
 msgstr "Importar Marcadores desde un ficheiro exportado desde Linkwarden"
 
 #: internal/bookmarks/importer/x-forms.templ:176
-#, fuzzy
 msgid "Upload a JSON file obtained from your Linkwarden app."
-msgstr ""
-"\n"
-"    Subir un ficheiro JSON obtido na túa conta Linkwarden.\n"
-"  "
+msgstr "Sube un ficheiro JSON obtido na app Linkwarden."
 
 #: internal/bookmarks/importer/x-forms.templ:185
 #: internal/bookmarks/routes/x-import.templ:65
@@ -990,7 +963,6 @@ msgid "Import your Omnivore Articles"
 msgstr "Importar artigos de Omnivore"
 
 #: internal/bookmarks/importer/x-forms.templ:188
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tTo import your articles from Omnivore, you must first create an API Key in your\n"
@@ -998,9 +970,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Para importar os artigos de Omnivore, primeiro tes que crear unha Clave API\n"
-"    nos axustes de Omnivore e escribila aquí no formulario inferior.\n"
-"  "
+"\t\t\t\tPara importar os teus artigos en Omnivore, primeiro crea unha clave da API nos\n"
+"\t\t\t\taxustes de Omnivore e escríbea aquí no formulario.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:197
 msgid "Omnivore URL"
@@ -1015,17 +987,12 @@ msgid "API Key"
 msgstr "Clave API"
 
 #: internal/bookmarks/importer/x-forms.templ:212
-#, fuzzy
 msgid "Import Links from a Pinboard JSON backup file"
-msgstr "Importa ligazóns desde un ficheiro CSV"
+msgstr "Importa ligazóns desde un ficheiro JSON de apoio de Pinboard"
 
 #: internal/bookmarks/importer/x-forms.templ:215
-#, fuzzy
 msgid "Upload a JSON file obtained from your Pinboard account."
-msgstr ""
-"\n"
-"    Subir un ficheiro JSON obtido na túa conta Linkwarden.\n"
-"  "
+msgstr "Sube un ficheiro JSON obtido desde a túa conta Pinboard."
 
 #: internal/bookmarks/importer/x-forms.templ:224
 #: internal/bookmarks/routes/x-import.templ:79
@@ -1033,7 +1000,6 @@ msgid "Import your Pocket Articles"
 msgstr "Importar artigos desde Pocket"
 
 #: internal/bookmarks/importer/x-forms.templ:227
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tYou can export your articles on Pocket by visiting:<br>\n"
@@ -1041,12 +1007,11 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Podes exportar os teus artigos desde Pocket visitando:<br>\n"
-"    <a class=\"%[1]s\" href=\"%[2]s\">%[2]s</a>.\n"
-"  "
+"\t\t\t\tPodes exportar os teus artigos de Pocket entrando en:<br>\n"
+"\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">%[2]s</a>.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:234
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload this file in the form below and Readeck will fetch and save\n"
@@ -1054,12 +1019,11 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Sube o ficheiro no formulario inferior e Readeck obterá e gardará\n"
-"    todas as ligazón que atope no ficheiro.\n"
-"  "
+"\t\t\t\tSube este ficheiro no formulario inferior e Readeck vai obter e gardar\n"
+"\t\t\t\ttodas as ligazóns que atope nel.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:240
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tPlease note that Pocket does not allow the article content to be exported.\n"
@@ -1068,9 +1032,10 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Ten en conta que Pocket non permite exportar o contido do artigo.\n"
-"    Debido a isto o contido podería verse de xeito diferente en Pocket.\n"
-"  "
+"\t\t\t\tTen en conta que Pocket non permite exportar o contido do artigo.\n"
+"\t\t\t\tIsto pode provocar que o resultado que ves en Readeck sexa diferente ao\n"
+"\t\t\t\tque ves en Pocket.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:253
 msgid "Note: upload the ZIP file directly, not its contents"
@@ -1081,12 +1046,8 @@ msgid "Import Links from Readwise Reader CSV export"
 msgstr "Importa ligazóns desde exportación CSV de Readwise Reader"
 
 #: internal/bookmarks/importer/x-forms.templ:264
-#, fuzzy
 msgid "Upload a CSV file exported from your Readwise Reader account below."
-msgstr ""
-"\n"
-"    Subir un ficheiro CSV exportado desde a conta Readwise Reader.\n"
-"  "
+msgstr "Sube un ficheiro CSV exportado desde a túa conta Readwise Reader."
 
 #: internal/bookmarks/importer/x-forms.templ:270
 msgid "Which information is imported"
@@ -1132,7 +1093,6 @@ msgid "Import Links from a Text File"
 msgstr "Importar ligazóns desde un ficheiro de texto"
 
 #: internal/bookmarks/importer/x-forms.templ:291
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a text file that contains one link per line and Readeck will fetch\n"
@@ -1140,9 +1100,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Sube un ficheiro de texto cunha ligazón por liña e Readeck vainos baixar todos\n"
-"e gardar na túa lista de marcadores.\n"
-"  "
+"\t\t\t\tSube un ficheiro de texto que conteña unha ligazón por liña e Readeck\n"
+"\t\t\t\tvainas descargar todas e gardalas na lista dos marcadores.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:301
 #: internal/bookmarks/routes/x-import.templ:100
@@ -1150,7 +1110,6 @@ msgid "Import your Wallabag Articles"
 msgstr "Importar artigos desde Wallabag"
 
 #: internal/bookmarks/importer/x-forms.templ:304
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tTo import your articles from Wallabag, you must first create an API client\n"
@@ -1159,18 +1118,14 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Para importar os teus artigos desde Wallabag primeiro debes crear un cliente API\n"
-"    no menú da <strong>xestión de clientes API</strong> de Wallabag.\n"
-"    Obterás un <strong>ID de cliente</strong> e un <strong>Secreto do cliente</strong>.\n"
-"  "
+"\t\t\t\tPara importar os teus artigos desde Wallabag, primeiro tes que crear un cliente da API\n"
+"\t\t\t\tno menú de <strong>xestión de clientes da API</strong> de Wallabag. Vas obter\n"
+"\t\t\t\tun <strong>ID do cliente</strong> e un <strong>Secreto do cliente</strong>.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:311
-#, fuzzy
 msgid "You can then enter all the necessary information in the form below."
-msgstr ""
-"\n"
-"    Poderás entón escribir aquí no formulario eses datos necesarios.\n"
-"  "
+msgstr "E poderás escribir no formulario inferior todos os datos necesarios."
 
 #: internal/bookmarks/importer/x-forms.templ:319
 msgid "Wallabag URL"
@@ -1262,7 +1217,7 @@ msgstr "Artigo"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:678
 msgid "E-Book"
-msgstr ""
+msgstr "Libro-e"
 
 #: internal/bookmarks/routes/forms_filters.go:51
 msgid "Picture"
@@ -1290,7 +1245,7 @@ msgstr "Completado"
 #: internal/bookmarks/routes/forms_filters.go:68
 #, python-format
 msgid "\"%s\" is not a valid date value"
-msgstr ""
+msgstr "\"%s\" non é un valor válido para a data"
 
 #: internal/bookmarks/routes/opds.go:57
 msgid "Readeck Bookmarks"
@@ -1370,9 +1325,8 @@ msgid "Share by email"
 msgstr "Compartir por correo"
 
 #: internal/bookmarks/routes/views_collections.go:39
-#, fuzzy
 msgid "Collection created."
-msgstr "Actualizouse a colección."
+msgstr "Creouse a colección."
 
 #: internal/bookmarks/routes/views_collections.go:66
 msgid "Collection updated."
@@ -1400,7 +1354,6 @@ msgid "You don't have any highlights yet."
 msgstr "Aínda non tes nada destacado."
 
 #: internal/bookmarks/routes/x-annotations.templ:22
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tOnce you start highlighting parts of your saved articles, they will appear on this page\n"
@@ -1408,9 +1361,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"        Cando comeces a destacar partes nos artigos gardados,  aparecerán nesta páxina\n"
-"        para que sexa doado atopalas.\n"
-"      "
+"\t\t\t\t\t\t\tUnha vez comeces a destacar partes dos teus artigos gardados, eses fragmentos van aparecer\n"
+"\t\t\t\t\t\t\tnesta páxina para que os atopes facilmente.\n"
+"\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-annotations.templ:29
 #, python-format
@@ -1418,9 +1371,8 @@ msgid "Read more about highlights in the <a class=\"%s\" href=\"%s\">documentati
 msgstr "Aprende máis sobre os destacados na <a class=\"%s\" href=\"%s\">documentación</a>."
 
 #: internal/bookmarks/routes/x-base.templ:27
-#, fuzzy
 msgid "search in bookmarks"
-msgstr "Marcadores arquivados"
+msgstr "buscar nos marcadores"
 
 #: internal/bookmarks/routes/x-base.templ:31
 #: internal/bookmarks/routes/x-filters.templ:20
@@ -1465,15 +1417,14 @@ msgstr "Sabes que?"
 
 #: internal/bookmarks/routes/x-base.templ:97
 #: internal/bookmarks/routes/x-bookmark-list.templ:255
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\tWith the Browser Extension, you can save pages, images and selections\n"
 "\t\t\t\t\t\t\t\tdirectly from your browser!"
 msgstr ""
 "\n"
-"            Co Complemento para o navegador podes gardar páxinas, imaxes e fragmentos\n"
-"            directamente desde o navegador!"
+"\t\t\t\t\t\t\t\tCo complemento para o navegador, podes gardar páxinas, imaxes e texto seleccionado\n"
+"\t\t\t\t\t\t\t\tdirectamente desde o teu navegador!"
 
 #: internal/bookmarks/routes/x-base.templ:106
 #: internal/bookmarks/routes/x-bookmark-list.templ:266
@@ -1561,7 +1512,6 @@ msgstr "Importar marcadores existentes"
 # | from a file with existing bookmarks?\n" "          Try Readeck's import
 # | tool.\n" "        "
 #: internal/bookmarks/routes/x-bookmark-list.templ:278
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\t\tWould you like to import from a similar tool or from a file with existing bookmarks?\n"
@@ -1569,9 +1519,9 @@ msgid ""
 "\t\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"              Queres importar desde un servizo equivalente ou desde un ficheiro que inclúe marcadores?\n"
-"        Proba a ferramenta de importación de Readeck.\n"
-"            "
+"\t\t\t\t\t\t\t\t\tQueres importar desde un servizo parecido ou desde un ficheiro con marcadores?\n"
+"\t\t\t\t\t\t\t\t\tProba o sistema de importación de Readeck.\n"
+"\t\t\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:288
 msgid "Import links and articles"
@@ -1795,7 +1745,6 @@ msgid "Create a new collection"
 msgstr "Crear unha nova colección"
 
 #: internal/bookmarks/routes/x-collections.templ:50
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\tCollections let you easily organize and export your bookmarks\n"
@@ -1806,12 +1755,12 @@ msgid ""
 "\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"          As coleccións permítenche organizar e exportar os teus marcadores\n"
-"          ao gardar peticións de busca da túa elección.\n"
-"          Cando creas un novo marcador coincidente co criterio\n"
-"          da colección, aparecerá alí inmediatamente.\n"
-"          Aquí tes algún exemplo:\n"
-"        "
+"\t\t\t\t\t\t\t\tAs coleccións permítenche organizar e exportar facilmente os teus marcadores\n"
+"\t\t\t\t\t\t\t\tgardando a configuración das búsquedas da túa elección.\n"
+"\t\t\t\t\t\t\t\tAo crear un novo marcador que concorda cos criterios da colección\n"
+"\t\t\t\t\t\t\t\tserá incluído automaticamente nela.\n"
+"\t\t\t\t\t\t\t\tAquí tes algúns exemplos:\n"
+"\t\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-collections.templ:59
 msgid "The unread articles (no photos or videos)"
@@ -1841,9 +1790,8 @@ msgid "Created on: %s"
 msgstr "Creada o: %s"
 
 #: internal/bookmarks/routes/x-collections.templ:97
-#, fuzzy
 msgid "This collection will be removed in a few seconds."
-msgstr "Vaise eliminar a colección nuns segundos."
+msgstr "Esta colección vaise eliminar nuns segundos."
 
 #: internal/bookmarks/routes/x-collections.templ:107
 #: internal/bookmarks/routes/x-sidebar.templ:129
@@ -1915,9 +1863,8 @@ msgid "Play video"
 msgstr "Reproducir vídeo"
 
 #: internal/bookmarks/routes/x-components.templ:310
-#, fuzzy
 msgid "Extraction log"
-msgstr "Dirección do texto"
+msgstr "Rexistro da obtención"
 
 #: internal/bookmarks/routes/x-components.templ:314
 #: internal/docs/x-about.templ:69
@@ -2001,26 +1948,20 @@ msgid "Import your Linkwarden Bookmarks"
 msgstr "Importa os teus Marcadores de Linkwarden"
 
 #: internal/bookmarks/routes/x-import.templ:72
-#, fuzzy
 msgid "Import your Pinboard bookmarks"
-msgstr "Importa os teus Marcadores de Linkwarden"
+msgstr "Importa os teus marcadores desde Pinboard"
 
 #: internal/bookmarks/routes/x-import.templ:86
 msgid "Import your Readwise Reader Library"
 msgstr "Importa a túa bliblioteca Readwise Reader"
 
 #: internal/bookmarks/routes/x-import.templ:107
-#, fuzzy
 msgid "Here you can import your existing bookmark collection from various sources into Readeck."
-msgstr ""
-"\n"
-"    Aquí podes importar en Readeck a túa colección de marcadores desde varias orixes.\n"
-"  "
+msgstr "Aquí podes importar en Readeck os teus marcadores existentes noutros servizos."
 
 #: internal/bookmarks/routes/x-import.templ:132
-#, fuzzy
 msgid "Import status"
-msgstr "Importar"
+msgstr "Estado da importación"
 
 #: internal/bookmarks/routes/x-import.templ:152
 msgid "Import operation will launch momentarily."
@@ -2039,23 +1980,21 @@ msgid "Import is finished!"
 msgstr "Rematou a importación!"
 
 #: internal/bookmarks/routes/x-import.templ:172
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour bookmarks are now available in your <a class=\"%s\" href=\"%s\">bookmark list</a>.\n"
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"      Os teus marcadores están dispoñibles na <a class=\"%s\" href=\"%s\">lista de marcadores</a>.\n"
-"      "
+"\t\t\t\t\t\tXa tes dispoñibles os teus marcadores na <a class=\"%s\" href=\"%s\">lista de marcadores</a>.\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:27
-#, fuzzy
 msgid "Bookmarks Labels"
 msgstr "Etiquetas dos marcadores"
 
 #: internal/bookmarks/routes/x-labels.templ:31
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tLabels let your organize your bookmarks the way you want.\n"
@@ -2063,8 +2002,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"  As etiquetas permítenche organizar os marcadores ao teu xeito.\n"
-"  Podes escribir o que queiras na etiqueta, incluso emojis!\n"
+"\t\t\t\tAs etiquetas permítenche organizar os marcadores ao teu xeito.\n"
+"\t\t\t\tPodes usar as etiquetas que queiras, incluíndo emojis!\n"
+"\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:129
 msgid "Label will be removed in a few seconds."
@@ -2182,15 +2122,14 @@ msgid "Errors occurred during extraction."
 msgstr "Erros ao extraer o contido."
 
 #: internal/bookmarks/routes/x-sidebar.templ:49
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tDepending on the error, Readeck's browser extension may provide\n"
 "\t\t\t\t\t\ta workaround."
 msgstr ""
 "\n"
-"          En función do erro, o complemento para navegador de Readeck\n"
-"          pode ser unha alternativa."
+"\t\t\t\t\t\tDependendo do erro, o complemento de Readeck para o navegador\n"
+"\t\t\t\t\t\tpodería ser de axuda."
 
 #: internal/bookmarks/routes/x-sidebar.templ:65
 msgid "View log"
@@ -2254,7 +2193,6 @@ msgid "Version:"
 msgstr "Versión:"
 
 #: internal/docs/x-about.templ:58
-#, fuzzy
 msgid "Build Date:"
 msgstr "Data da versión:"
 
@@ -2476,7 +2414,6 @@ msgid "Profile imported."
 msgstr "Importouse o Perfil."
 
 #: internal/profile/x-applications.templ:15
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tApplications are registered clients that have permissions to access your Readeck account.\n"
@@ -2485,9 +2422,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"  As aplicacións son clientes rexistrados que teñen acceso á túa conta en Readeck.\n"
-"  Se ves aquí aplicacións que non recoñeces, ou unha aplicación compórtase como non debe,\n"
-"  podes retirarlle aquí o acceso.\n"
+"\t\t\t\t\tAs aplicacións son clientes rexistrados que teñen permiso para acceder á túa conta Readeck.\n"
+"\t\t\t\t\tSe ves aquí algunha aplicación que non recoñeces, ou unha aplicación está a facer o que non debe,\n"
+"\t\t\t\t\tpodes revogar aquí o seu acceso.\n"
+"\t\t\t\t"
 
 #: internal/profile/x-applications.templ:23
 msgid "You have no registered application at the moment."
@@ -2503,7 +2441,7 @@ msgstr "Autorizada o: %s"
 #, python-format
 msgctxt "datetime"
 msgid "%e %B %Y"
-msgstr ""
+msgstr "%e de %B, %Y"
 
 #: internal/profile/x-applications.templ:52 internal/profile/x-tokens.templ:63
 #, python-format
@@ -2523,7 +2461,7 @@ msgid "Developer information"
 msgstr "Información de desenvolvemento"
 
 #: internal/profile/x-applications.templ:107
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tIf you plan to build an application, please refer to the\n"
@@ -2531,9 +2469,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"    Se tes pensado crear unha aplicación, por favor le a\n"
-"    <a href=\"%s\">Documentación da API</a>.\n"
-"  "
+"\t\t\t\t\t\t\tSe tes pensado crear unha aplicación, tes información na\n"
+"\t\t\t\t\t\t\t<a href=\"%s\">Documentación da API</a>.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-export.templ:23
 msgid "Bookmark List in Browser Bookmarks Format"
@@ -2548,7 +2486,6 @@ msgid "Export your Readeck Profile"
 msgstr "Exporta o teu perfil en Readeck"
 
 #: internal/profile/x-export.templ:41
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tThis lets you download a zip file containing all your profile's data, including\n"
@@ -2556,9 +2493,9 @@ msgid ""
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"    Aquí podes descargar un ficheiro zip cos datos do teu perfil, que inclúe\n"
-"    marcadores, coleccións, etc.\n"
-"    "
+"\t\t\t\t\t\tAquí podes descargar un ficheiro zip que contén todos os datos do teu perfil, incluíndo\n"
+"\t\t\t\t\t\tmarcadores, coleccións, etc.\n"
+"\t\t\t\t\t"
 
 #: internal/profile/x-export.templ:47
 msgid "Export Data"
@@ -2589,7 +2526,6 @@ msgid "Attention"
 msgstr "Atención"
 
 #: internal/profile/x-import.templ:34
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tThis will empty your current profile and all its data will be\n"
@@ -2597,16 +2533,16 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"      Isto vai baleirar o teu perfil actual e todos os datos serán\n"
-"      substituídos polo contido do ficheiro.\n"
-"      "
+"\t\t\t\t\t\t\tIsto vai baleirar o teu perfil e vanse substituír todos os teus datos\n"
+"\t\t\t\t\t\t\tco contido do ficheiro.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-import.templ:46
 msgid "Import bookmarks from other services"
 msgstr "Importar marcadores desde outros servizos"
 
 #: internal/profile/x-import.templ:49
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\tIf you have bookmarks from another service you can import them in the\n"
@@ -2614,9 +2550,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"  Se tes marcadores noutro servizo pódelos importar usando\n"
-"  a <a href=\"%s\">ferramenta dedicada</a>.\n"
-"  "
+"\t\t\t\t\t\tSe tes marcadores noutro servizo podes importalos\n"
+"\t\t\t\t\t\tna <a href=\"%s\">sección dedicada</a>.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-profile.templ:17 internal/profile/x-security.templ:16
 msgid "My profile"
@@ -2666,7 +2602,6 @@ msgid "Sending e-books to an Amazon Kindle"
 msgstr "Enviar libro-e a un Kindle de Amazon"
 
 #: internal/profile/x-profile.templ:93
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\t\t\tIf you plan to send e-books to a Kindle device, you must approve the\n"
@@ -2674,9 +2609,9 @@ msgid ""
 "\t\t\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"          Se tes pensado enviar libros electrónicos ao dispositivo Kindle, tes que autorizar\n"
-"        o seguinte enderezo de correo na túa conta Kindle:\n"
-"          "
+"\t\t\t\t\t\t\t\t\t\tSe tes pensado enviar libros electrónicos a un dispositivo Kindle, tes que\n"
+"\t\t\t\t\t\t\t\t\t\taprobar o seguinte enderezo de correo na túa conta Kindle:\n"
+"\t\t\t\t\t\t\t\t\t"
 
 #: internal/profile/x-security.templ:25
 msgid "Change my password"
@@ -2801,7 +2736,6 @@ msgid "Roles"
 msgstr "Roles"
 
 #: internal/profile/x-tokens.templ:142
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tYou can limit the permissions granted to this token by choosing one or more\n"
@@ -2810,10 +2744,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"    Podes limitar os permisos concedidos a este token elixindo un ou máis\n"
-"    dos permisos aquí indicados.<br>\n"
-"    Deixa sen marcar todas as opcións para conceder todos os permisos.\n"
-"  "
+"\t\t\t\t\tPodes limitar os permisos concedidos a este token elixindo un ou varios\n"
+"\t\t\t\t\tgrupos de permisos.<br>\n"
+"\t\t\t\t\tDeixa sen marcar todas as opcións para conceder todos os permisos a este token.\n"
+"\t\t\t\t"
 
 #: internal/profile/x-tokens.templ:158
 msgid "Delete token"
@@ -2864,15 +2798,16 @@ msgid "Alternatively, you can use this token as a password for HTTP Basic Authen
 msgstr "De xeito alternativo podes usar este token como contrasinal para Autenticación Básica HTTP."
 
 #: internal/profile/x-tokens.templ:222
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tFor example, if an application only accepts a username and password, you can provide this token as a password.\n"
 "\t\t\t\tThe username is ignored and can be anything, including an empty value.\n"
 "\t\t\t"
 msgstr ""
-"Por exemplo, se unha aplicación só acepta identificador e contrasinal, podes usar este token como contrasinal.\n"
-"  O identificador será ignorado e pode ser calquera cousa, pode mesmo quedar baleiro."
+"\n"
+"\t\t\t\tComo exemplo, se unha aplicación só acepta identificador e contrasinal, podes proporcionar este token como o seu contrasinal.\n"
+"\t\t\t\tO identificador vai ser ignorado e pode ser calquera cousa, podendo incluso quedar baleiro.\n"
+"\t\t\t"
 
 #: pkg/forms/forms.go:28
 msgid "an unexpected error has occurred"
@@ -2891,14 +2826,14 @@ msgid "invalid URL"
 msgstr "URL non válido"
 
 #: pkg/forms/validators.go:290
-#, fuzzy, python-format
+#, python-format
 msgid "must be greater or equal than %g"
-msgstr "ten que ser igual ou maior de %d"
+msgstr "ten que ser igual ou superior a %g"
 
 #: pkg/forms/validators.go:307
-#, fuzzy, python-format
+#, python-format
 msgid "must be lower or equal than %g"
-msgstr "ten que ser igual ou inferior de %d"
+msgstr "ten que ser igual ou inferior a %g"
 
 #: pkg/forms/validators.go:315
 #, python-format
@@ -3261,4 +3196,3 @@ msgstr "%H:%M:%S"
 
 #~ msgid "Home page"
 #~ msgstr "Páxina de inicio"
-
