@@ -3,20 +3,22 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 # Anonymous <anonymous@noreply.codeberg.org>, 2025.
-# Gusted <postmaster@gusted.xyz>, 2025.
+# Gusted <postmaster@gusted.xyz>, 2025, 2026.
+# olivier <olivier@noreply.codeberg.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2025-12-18 21:31+0100\n"
-"PO-Revision-Date: 2025-10-22 02:09+0000\n"
-"Last-Translator: Gusted <postmaster@gusted.xyz>\n"
-"Language: nl_NL\n"
+"PO-Revision-Date: 2026-05-16 13:27+0000\n"
+"Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/readeck/documentation/nl/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.17.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -835,4 +837,3 @@ msgstr "Als u een service of app toegang moet geven tot uw Readeck-account, kunt
 #: en/user-profile.md:21
 msgid "Instead, you can give your username and a token of your choice as authentication credentials."
 msgstr "In plaats daarvan kun u uw gebruikersnaam en een token naar keuze opgeven als authenticatiegegevens."
-
