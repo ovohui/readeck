@@ -12,14 +12,15 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-05-16 15:18+0200\n"
-"PO-Revision-Date: 2026-03-03 14:19+0000\n"
+"PO-Revision-Date: 2026-05-16 13:25+0000\n"
 "Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
-"Language: pl\n"
 "Language-Team: Polish <https://translate.codeberg.org/projects/readeck/application/pl/>\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.17.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:72
@@ -3344,4 +3345,3 @@ msgstr "%H:%M:%S"
 
 #~ msgid "Home page"
 #~ msgstr "Strona startowa"
-
