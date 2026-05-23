@@ -5,19 +5,21 @@
 # Kropotkin <kropotkin@noreply.codeberg.org>, 2025.
 # Кнⷫѧⷷ̈зⷮьⷬ Кропоткинъ <kropotkin@noreply.codeberg.org>, 2025.
 # Tirifto <tirifto@noreply.codeberg.org>, 2025.
-# olivier <olivier@noreply.codeberg.org>, 2025.
+# olivier <olivier@noreply.codeberg.org>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2025-12-18 21:31+0100\n"
-"PO-Revision-Date: 2025-12-16 09:11+0000\n"
+"PO-Revision-Date: 2026-05-16 13:28+0000\n"
 "Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
-"Language: eo_XX\n"
 "Language-Team: Esperanto <https://translate.codeberg.org/projects/readeck/documentation/eo/>\n"
+"Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.17.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -836,4 +838,3 @@ msgstr "Se vi bezonas doni aliron al via Readeck-konto al servo aŭ aplikaĵo, v
 #: en/user-profile.md:21
 msgid "Instead, you can give your username and a token of your choice as authentication credentials."
 msgstr "Anstataŭe, vi povas doni vian uzantnomon kaj elektitan ĵetonon kiel aŭtentikigajn datumojn."
-
