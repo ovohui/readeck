@@ -238,19 +238,13 @@ templ (c SidebarComponent) actions(b *dataset.Bookmark) {
 			}
 		</div>
 	</turbo-frame>
-	<div
-		class="print:hidden
-			[&>turbo-frame:not(.hidden)]:block [&>turbo-frame]:my-4 [&>turbo-frame]:p-4
-			[&>turbo-frame]:shadow-lg [&>turbo-frame]:bg-gray-100
-			[&_p]:text-sm [&_img]:my-4 [&_img]:mx-auto [&_button]:w-full
-		"
-	>
+	<div class="bookmark-share-dialog">
 		<turbo-frame id={ "bookmark-share-" + b.ID } class="hidden"></turbo-frame>
 	</div>
 }
 
 templ (c SidebarComponent) info(b *dataset.Bookmark) {
-	<ul class="mb-4">
+	<ul class="bookmark-info">
 		<li class="flex items-center gap-1 mb-2">
 			if img, ok := b.Resources["icon"]; ok {
 				<img
@@ -458,30 +452,30 @@ templ (c SidebarComponent) annotationList(item *dataset.Bookmark) {
 
 templ (c SidebarComponent) linkList(b *dataset.Bookmark) {
 	if b.HasArticle && len(b.Links) > 0 && b.Links.HasPages() {
-		<details class="group mb-4 print:hidden">
-			<summary class="block mb-2 title text-lg hf:text-primary-dark">
-				@Icon("o-link")
-				<span class="underline decoration-dotted decoration-primary">{ L(ctx).Gettext("Links") }</span>
-			</summary>
-			<ul class="mb-4 list-disc list-outside pl-4">
-				for _, x := range b.Links.Pages() {
-					<li class="list-item mb-1 leading-none">
-						<a
-							class="link text-sm"
-							href={ x.URL }
-							rel="nofollow noopener noreferrer"
-							target="_blank"
-							title={ Tern(func() bool { return x.Title != "" }, x.Title, x.URL) }
-						>
-							{ Tern(func() bool { return x.Title != ""},
+		@Message(WithMessageType(""), WithMessageIcon("o-link"), WithMessageClass("bookmark-links")) {
+			<details>
+				<summary>
+					{ L(ctx).Gettext("Links") }
+				</summary>
+				<ul>
+					for _, x := range b.Links.Pages() {
+						<li>
+							<a
+								href={ x.URL }
+								rel="nofollow noopener noreferrer"
+								target="_blank"
+								title={ Tern(func() bool { return x.Title != "" }, x.Title, x.URL) }
+							>
+								{ Tern(func() bool { return x.Title != ""},
 								utils.ShortText(x.Title, 80),
 								utils.ShortURL(x.URL, 40),
 							) }
-						</a>
-					</li>
-				}
-			</ul>
-		</details>
+							</a>
+						</li>
+					}
+				</ul>
+			</details>
+		}
 	}
 }
 

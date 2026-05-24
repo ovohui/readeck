@@ -34,16 +34,26 @@ templ (v Views) bookmarkMissing() {
 templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 	{{
 		layout := NewLayout()
-		layout.Head = templ.NopComponent
+		layout.AccessMenu = make([][2]string, 0, 3)
+		layout.AccessMenu = append(layout.AccessMenu,
+			[2]string{"menu", L(ctx).Gettext("Menu")},
+		)
 
 		title := item.Title
 		if !item.Loaded {
 			title = L(ctx).Gettext("Bookmark loading")
 			layout.Head = v.bookmarkRefreshHead()
+		} else {
+			layout.AccessMenu = append(layout.AccessMenu,
+				[2]string{"bookmark-panel", L(ctx).Gettext("Bookmark information")},
+				[2]string{"bookmark-content", L(ctx).Gettext("Bookmark content")},
+			)
+
 		}
+
 		prefs := Preferences(ctx)
 	}}
-	@SideMenuLayout(title+" "+L(ctx).Gettext("Bookmarks"), nil) {
+	@layout.SideMenuLayout(title+" "+L(ctx).Gettext("Bookmarks"), nil, layout.SideMenuWrapper()) {
 		<turbo-frame
 			id="bookmark-info"
 			class="bookmark-container"
@@ -87,6 +97,58 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 				>
 					<h1 class="px-6 py-4 text-3xl print:px-0">{ item.Title }</h1>
 				</div>
+				<progress
+					class="bookmark-scroll-progress"
+					max="100"
+					value="0"
+					if item.HasArticle {
+						value={ item.ReadProgress }
+						data-scroll-progress-target="indicator"
+					}
+				></progress>
+				// options
+				<div class="bookmark-options">
+					<div class="flex flex-col gap-4 items-center">
+						<a
+							href={ URL(ctx, "/bookmarks/unread") }
+							data-controller="history"
+							data-action="history#back"
+							class="p-2 rounded-full w-8 h-8 border border-bg-100 inline-flex items-center justify-center"
+						>
+							@Icon("o-chevron-l", WithIconClass("inline-block"), WithIconSvgClass("w-6 h-6"))
+						</a>
+						<a
+							href={ URL(ctx, "/bookmarks", item.UID, "update") }
+							data-controller="dialog"
+							data-dialog-select-value="#bookmark-update-dialog"
+							data-action="scroll-progress#skip dialog#open:prevent"
+						>
+							@Icon("o-pencil", WithIconClass("inline-block"), WithIconSvgClass("w-6 h-6"))
+							<span class="sr-only">{ L(ctx).Gettext("Edit") }</span>
+						</a>
+						if item.HasArticle {
+							@ReaderControlComponent{}.controls()
+						}
+						<button
+							type="button"
+							title={ L(ctx).Gettext("Bookmark information") }
+							name="bookmark_sidebar_hidden"
+							value={ strconv.FormatBool(!prefs.BookmarkSidebarHidden()) }
+							data-controller="request"
+							data-request-url-value={ URL(ctx, "/profile/session") }
+							data-request-method-value="post"
+							data-action="click->panel#toggle click->request#fetch"
+							data-panel-target="button"
+							aria-expanded="false"
+							aria-controls="bookmark-panel"
+							class="no-js:hidden"
+						>
+							@Icon("o-sidebar", WithIconClass("inline-block"), WithIconSvgClass("w-6 h-6"))
+							<span class="sr-only">{ L(ctx).Gettext("Bookmark information") }</span>
+						</button>
+					</div>
+				</div>
+				// sidebar
 				<div
 					id="bookmark-panel"
 					class={
@@ -98,11 +160,10 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 				>
 					<div
 						class="
-					      h-topnav border-b bg-app-bg border-b-gray-200
-					      flex px-3 items-center
-					      max-lg:sticky max-lg:top-0 max-lg:z-40
-					      print:hidden no-js:hidden
-					    "
+									bg-app-bg border-b-gray-200
+									flex px-3 items-center
+									print:hidden no-js:hidden
+								"
 					>
 						<button
 							type="button"
@@ -115,68 +176,17 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 							data-action="click->panel#toggle click->request#fetch"
 							data-panel-target="button"
 							aria-controls="bookmark-panel"
-							class="lg:hidden p-1 ml-auto border rounded text-gray-400 hf:text-gray-700"
+							class="sm:hidden p-1 ml-auto mb-2 border rounded text-gray-400 hf:text-gray-700"
 						>
-							@Icon("o-close", WithIconClass("inline-block"), WithIconSvgClass("w-8 h-8"))
+							@Icon("o-close", WithIconClass("inline-block"), WithIconSvgClass("w-6 h-6"))
 							<span class="sr-only">{ L(ctx).Gettext("Close panel") }</span>
 						</button>
 					</div>
-					<div class="pt-4 pb-8 px-6">
+					<div class="pr-4">
 						@SidebarComponent{}.sidebar(item)
 					</div>
 				</div>
-				<div class="bookmark-content" id="content">
-					// top bar
-					<div class="bookmark-topbar">
-						<div class="flex-grow flex gap-4 items-center">
-							<div>
-								<a
-									href={ URL(ctx, "/bookmarks/unread") }
-									data-controller="history"
-									data-action="history#back"
-									class="
-											p-2 rounded-full w-8 h-8 border border-bg-100 inline-flex items-center justify-center
-											hf:bg-gray-200 hf:text-gray-800
-										"
-								>
-									@Icon("o-chevron-l", WithIconClass("inline-block"), WithIconSvgClass("w-6 h-6"))
-								</a>
-							</div>
-							<div class="flex-grow"></div>
-							<a
-								href={ URL(ctx, "/bookmarks", item.UID, "update") }
-								data-controller="dialog"
-								data-dialog-select-value="#bookmark-update-dialog"
-								data-action="scroll-progress#skip dialog#open:prevent"
-							>
-								@Icon("o-pencil", WithIconClass("inline-block"), WithIconSvgClass("w-6 h-6"))
-								<span class="sr-only">{ L(ctx).Gettext("Edit") }</span>
-							</a>
-							if item.HasArticle {
-								@ReaderControlComponent{}.controls()
-							}
-							<button
-								type="button"
-								title={ L(ctx).Gettext("Bookmark information") }
-								name="bookmark_sidebar_hidden"
-								value={ strconv.FormatBool(!prefs.BookmarkSidebarHidden()) }
-								data-controller="request"
-								data-request-url-value={ URL(ctx, "/profile/session") }
-								data-request-method-value="post"
-								data-action="click->panel#toggle click->request#fetch"
-								data-panel-target="button"
-								aria-expanded="false"
-								aria-controls="bookmark-panel"
-								class="no-js:hidden hf:text-gray-700"
-							>
-								@Icon("o-sidebar", WithIconClass("inline-block"), WithIconSvgClass("w-6 h-6"))
-								<span class="sr-only">{ L(ctx).Gettext("Bookmark information") }</span>
-							</button>
-						</div>
-						if item.HasArticle {
-							<progress max="100" value={ item.ReadProgress } data-scroll-progress-target="indicator"></progress>
-						}
-					</div>
+				<div class="bookmark-content" id="bookmark-content">
 					// title and description
 					<div
 						class={

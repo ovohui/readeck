@@ -8,7 +8,7 @@
   @apply from-gray-100 to-app-bg;
 
   @screen sm {
-    @apply -mt-4 -ml-4 pl-4 pt-9;
+    @apply -mt-4 -ml-4 pl-4;
     @apply bg-gradient-to-r;
   }
 
@@ -17,7 +17,7 @@
   }
 
   & > div {
-    @apply flex items-center mx-4 my-2 invisible;
+    @apply flex items-center mx-4 pt-1 leading-none invisible;
   }
 
   &:hover,
@@ -27,7 +27,7 @@
     }
   }
 
-  & > form > div {
+  & > form > div:first-child {
     @apply flex p-1 form-input rounded-full border;
 
     input {

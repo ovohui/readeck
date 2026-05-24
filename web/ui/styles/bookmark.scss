@@ -4,111 +4,26 @@
 
 @layer components {
   .bookmark-container {
-    @apply col-start-2 col-span-2;
-    @apply flex;
+    display: grid;
+    grid-template-areas:
+      "top top top"
+      "options content panel";
+    grid-template-columns: auto 1fr auto;
 
-    @at-root body & {
-      @media print {
-        @apply block max-w-none w-full h-auto overflow-visible;
-        @apply mb-8 border-b border-l-0;
-      }
-    }
-
-    @at-root body.no-js & {
-      @screen max-lg {
-        @apply flex-col;
-      }
-    }
-  }
-
-  .bookmark-content {
-    contain: inline-size;
-
-    .bookmark-header,
-    .bookmark-article {
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    @apply max-w-full;
-    @apply grow order-first;
-    @apply px-6 pb-8;
-    @apply bg-transparent;
-
-    @screen lg {
-      @apply min-h-screen;
-    }
-
-    @screen max-lg {
-      @apply px-4 grow;
+    @screen max-sm {
+      display: block;
     }
 
     @media print {
-      @apply overflow-visible;
-      @apply max-w-none;
-      @apply px-0;
+      display: block;
     }
 
-    .bookmark-article {
-      @media print {
-        columns: 2;
-        column-gap: 2rem;
-        orphans: 5;
-        widows: 5;
-        height: 100%;
-        column-fill: auto;
+    .bookmark-scroll-progress {
+      grid-area: top;
+      position: sticky;
+      z-index: 40;
+      top: var(--topnav-h);
 
-        img {
-          width: auto;
-          display: inline;
-        }
-
-        img {
-          break-inside: avoid;
-          break-before: auto;
-          break-after: auto;
-        }
-      }
-
-      .prose {
-        p,
-        li,
-        dd {
-          @media print {
-            text-align: justify;
-          }
-        }
-
-        img,
-        svg {
-          background-color: #fff;
-        }
-
-        button > span > svg {
-          background-color: transparent;
-        }
-      }
-    }
-  }
-
-  .bookmark-topbar {
-    @apply sticky top-0 z-20 h-topnav;
-    @apply flex flex-col;
-    @apply border-b border-b-gray-200;
-    @apply bg-app-bg bg-opacity-95 text-gray-400 hfw:text-gray-600;
-    @apply print:hidden;
-
-    // When scrolling down, adapt to the topnav disapearing
-    @screen max-sm {
-      @apply top-topnav transition-all duration-500;
-
-      @at-root body.scrolled-down & {
-        @apply -top-topnav;
-        top: calc(0 - theme("space.topnav") + theme("space[1]"));
-      }
-    }
-
-    progress {
       -webkit-appearance: none;
       appearance: none;
 
@@ -125,41 +40,211 @@
       &::-webkit-progress-value {
         @apply bg-gradient-to-r from-blue-700 to-blue-500;
       }
-    }
-  }
 
-  .bookmark-sidebar {
-    @apply h-screen sticky overflow-y-auto z-30;
-    @apply border-l border-l-gray-200;
-    @apply flex-grow-0 flex-shrink-0 basis-col-6;
+      @media print {
+        display: none;
+      }
 
-    @screen lg {
-      @apply top-0;
-    }
-
-    @screen max-lg {
-      @apply fixed top-0 right-0 w-full max-w-col-10 z-50;
-      @apply bg-app-bg shadow-panel-r;
-    }
-
-    @media print {
-      @apply static max-w-none w-full h-auto overflow-visible;
-      @apply mb-8 border-b border-l-0;
-    }
-
-    .bookmark-icon {
-      @apply inline w-5 h-auto;
-      @apply rounded-sm;
-      @at-root :root.dark & {
-        filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.8));
+      @screen max-sm {
+        @apply transition-all duration-500;
+        top: calc(var(--topnav-h) * 2);
       }
     }
-  }
 
-  body.no-js .bookmark-sidebar {
-    @screen max-lg {
-      & {
-        @apply block static shadow-none w-auto max-w-none h-auto;
+    .bookmark-content {
+      grid-area: content;
+      contain: inline-size;
+
+      .bookmark-header,
+      .bookmark-article {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      @apply max-w-full;
+      @apply bg-transparent;
+
+      @media print {
+        @apply overflow-visible;
+        @apply max-w-none;
+        @apply px-0;
+      }
+
+      @screen max-sm {
+        @apply mt-8;
+      }
+
+      .bookmark-article {
+        @media print {
+          columns: 2;
+          column-gap: 2rem;
+          orphans: 5;
+          widows: 5;
+          height: 100%;
+          column-fill: auto;
+
+          img {
+            width: auto;
+            display: inline;
+          }
+
+          img {
+            break-inside: avoid;
+            break-before: auto;
+            break-after: auto;
+          }
+        }
+
+        .prose {
+          p,
+          li,
+          dd {
+            @media print {
+              text-align: justify;
+            }
+          }
+
+          img,
+          svg {
+            background-color: #fff;
+          }
+
+          button > span > svg {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+
+    .bookmark-sidebar {
+      grid-area: panel;
+      width: calc(theme("space.col-6") + 2rem);
+      padding-left: 2rem;
+
+      position: sticky;
+      top: calc(var(--topnav-h) + 2rem);
+      z-index: 20;
+      max-height: calc(100vh - (var(--topnav-h) + 3rem));
+      overflow-y: auto;
+
+      .bookmark-icon {
+        @apply inline w-5 h-auto;
+        @apply rounded-sm;
+        @at-root :root.dark & {
+          filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.8));
+        }
+      }
+
+      .bookmark-info {
+        @apply mb-4 p-2 bg-gray-100 border border-gray-200 rounded-lg;
+      }
+
+      .bookmark-share-dialog {
+        @media print {
+          display: none;
+        }
+
+        & > turbo-frame {
+          &:not(.hidden) {
+            @apply block;
+          }
+          @apply my-4 p-4 bg-gray-100 border border-gray-200 rounded-lg;
+
+          p {
+            @apply text-sm;
+          }
+          img {
+            @apply my-4 mx-auto;
+          }
+          button {
+            @apply w-full;
+          }
+        }
+      }
+
+      .bookmark-links {
+        background-image: none;
+        @apply p-2 bg-gray-100 border border-gray-200 rounded-lg;
+
+        @media print {
+          display: none;
+        }
+
+        ul {
+          @apply mt-2 list-disc list-outside;
+          li {
+            @apply list-item mb-1 leading-none;
+
+            a {
+              @apply link text-sm;
+            }
+          }
+        }
+      }
+
+      @media print {
+        @apply static max-w-none w-full h-auto overflow-visible;
+        @apply mb-8 border-b border-l-0 ml-0;
+      }
+
+      @screen max-lg {
+        @apply fixed right-0 w-full max-w-col-8;
+        top: var(--topnav-h);
+        min-height: calc(100vh - var(--topnav-h));
+        max-height: calc(100vh - var(--topnav-h));
+        @apply bg-app-bg shadow-panel-r pl-4 pt-4;
+      }
+
+      @screen max-sm {
+        @apply shadow-none z-40 max-w-full;
+      }
+    }
+
+    .bookmark-options {
+      grid-area: options;
+      height: fit-content;
+      @apply sticky z-20 mr-8;
+      top: calc(var(--topnav-h) + 2rem);
+
+      & > div {
+        @apply flex flex-col gap-4 items-center;
+        @apply text-gray-600;
+
+        & > a,
+        & > button,
+        & > details summary {
+          @apply hf:text-gray-800;
+        }
+      }
+
+      @media print {
+        display: none;
+      }
+
+      @screen max-sm {
+        @apply transition-all duration-500;
+        @apply border-b border-b-gray-200;
+        top: var(--topnav-h);
+        margin-top: calc(var(--topnav-h) * -1);
+        margin-right: 0;
+
+        & > div {
+          @apply flex-row;
+          @apply pt-0 h-12;
+          @apply bg-app-bg;
+        }
+      }
+    }
+
+    // When scrolling down, adapt to the topnav disapearing
+    @at-root body.scrolled-down & {
+      @screen max-sm {
+        .bookmark-scroll-progress {
+          transform: translateY(calc(var(--topnav-h) * -2));
+        }
+        .bookmark-options {
+          transform: translateY(calc(var(--topnav-h) * -2));
+        }
       }
     }
   }
