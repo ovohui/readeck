@@ -2,20 +2,22 @@
 # SPDX-FileCopyrightText: © 2025 Readeck <translate@readeck.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-only
-# SomeTr <sometr@noreply.codeberg.org>, 2025.
+# SomeTr <sometr@noreply.codeberg.org>, 2025, 2026.
+# olivier <olivier@noreply.codeberg.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2025-12-18 21:31+0100\n"
-"PO-Revision-Date: 2025-11-05 14:09+0000\n"
+"PO-Revision-Date: 2026-05-17 05:07+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
-"Language: uk_UA\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/readeck/documentation/uk/>\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.17.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -521,8 +523,8 @@ msgid ""
 msgstr ""
 "Колекції дають вам змогу впорядковувати та експортувати закладки,\n"
 "зберігаючи вибрані вами пошукові запити.\n"
-"Коли ви створюєте нову закладку, яка відповідає критеріям\n"
-"колекції, вона миттєво відображається в цій колекції.\n"
+"Коли ви створюєте нову закладку, яка відповідає критеріям колекції,\n"
+"вона миттєво з’являється в цій колекції.\n"
 "Ось кілька прикладів:"
 
 #: en/collections.md:9
@@ -834,4 +836,3 @@ msgstr "Якщо вам потрібно надати якому-небудь с
 #: en/user-profile.md:21
 msgid "Instead, you can give your username and a token of your choice as authentication credentials."
 msgstr "Натомість у якості облікових даних для автентифікації ви можете вказати своє ім’я користувача і токен на ваш вибір."
-

@@ -4,19 +4,22 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # imposible01 <imposible01@noreply.codeberg.org>, 2025, 2026.
 # Anonymous <anonymous@noreply.codeberg.org>, 2025.
+# olivier <olivier@noreply.codeberg.org>, 2026.
+# gallegonovato <gallegonovato@noreply.codeberg.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-05-16 15:18+0200\n"
-"PO-Revision-Date: 2026-02-20 15:29+0000\n"
-"Last-Translator: imposible01 <imposible01@noreply.codeberg.org>\n"
-"Language: es_ES\n"
+"PO-Revision-Date: 2026-05-21 10:17+0000\n"
+"Last-Translator: gallegonovato <gallegonovato@noreply.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/readeck/application/es/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: es-ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2026.5\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:72
@@ -57,7 +60,7 @@ msgstr "Errores"
 
 #: components/forms/forms.templ:28
 msgid "Please check your form for errors."
-msgstr "Verifique que no haya errores en su formulario."
+msgstr "Por favor, revise su formulario para encontrar posibles errores."
 
 #: components/forms/forms.templ:48 components/forms/forms.templ:52
 #: internal/bookmarks/importer/x-forms.templ:126
@@ -130,7 +133,7 @@ msgstr "Menú de acceso rápido"
 
 #: components/layout.templ:167
 msgid "Secondary Menu"
-msgstr "Menú Secundario"
+msgstr "Menú secundario"
 
 #: components/layout.templ:176
 #, fuzzy
@@ -1362,7 +1365,7 @@ msgstr "Imágenes"
 #: internal/bookmarks/routes/views_bookmarks.go:101
 #: internal/bookmarks/routes/x-base.templ:65
 msgid "Videos"
-msgstr "Videos"
+msgstr "Vídeos"
 
 # | msgid "Bookmark Labels"
 #: internal/bookmarks/routes/views_bookmarks.go:282
@@ -3318,4 +3321,3 @@ msgstr "%H:%M:%S"
 
 #~ msgid "Home page"
 #~ msgstr "Página de inicio"
-
