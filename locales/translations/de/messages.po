@@ -11,16 +11,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-05-16 15:18+0200\n"
+"POT-Creation-Date: 2026-05-24 08:54+0200\n"
 "PO-Revision-Date: 2026-05-16 13:24+0000\n"
 "Last-Translator: altruizine <altruizine@noreply.codeberg.org>\n"
-"Language-Team: German <https://translate.codeberg.org/projects/readeck/application/de/>\n"
 "Language: de\n"
+"Language-Team: German <https://translate.codeberg.org/projects/readeck/application/de/>\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:72
@@ -101,7 +100,7 @@ msgstr "Datei auswählen oder ablegen"
 msgid "remove"
 msgstr "Entfernen"
 
-#: components/layout.templ:80 internal/admin/x-users.templ:186
+#: components/layout.templ:80 internal/admin/x-users.templ:190
 #: internal/bookmarks/routes/views_bookmarks.go:302
 #: internal/bookmarks/routes/views_bookmarks.go:322
 #: internal/bookmarks/routes/views_bookmarks.go:352
@@ -190,7 +189,7 @@ msgstr ""
 
 #: internal/admin/views.go:61 internal/admin/views.go:86
 #: internal/admin/views.go:127 internal/admin/x-users.templ:16
-#: internal/admin/x-users.templ:115 internal/profile/x-base.templ:70
+#: internal/admin/x-users.templ:121 internal/profile/x-base.templ:70
 msgid "Users"
 msgstr "Benutzer"
 
@@ -198,7 +197,7 @@ msgstr "Benutzer"
 msgid "User created."
 msgstr "Benutzer erstellt."
 
-#: internal/admin/views.go:87 internal/admin/x-users.templ:79
+#: internal/admin/views.go:87 internal/admin/x-users.templ:85
 msgid "New User"
 msgstr "Neuer Benutzer"
 
@@ -225,22 +224,27 @@ msgstr "Einen neuen Benutzer hinzufügen"
 msgid "External User"
 msgstr "Benutzer erstellen"
 
-#: internal/admin/x-users.templ:44 internal/admin/x-users.templ:123
+#: internal/admin/x-users.templ:44 internal/admin/x-users.templ:174
+#, fuzzy
+msgid "TOTP is enabled"
+msgstr "Ermöglicht"
+
+#: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
 msgstr ""
 
-#: internal/admin/x-users.templ:50
+#: internal/admin/x-users.templ:56
 #, python-format
 msgid "Last login: %s"
 msgstr "Zuletzt angemeldet am: %s"
 
-#: internal/admin/x-users.templ:57
+#: internal/admin/x-users.templ:63
 msgid "This user will be removed in a few seconds."
 msgstr "Dieser Benutzer wird in wenigen Sekunden entfernt."
 
-#: internal/admin/x-users.templ:64 internal/admin/x-users.templ:202
+#: internal/admin/x-users.templ:70 internal/admin/x-users.templ:207
 #: internal/bookmarks/importer/x-forms.templ:23
-#: internal/bookmarks/routes/x-bookmark-list.templ:538
+#: internal/bookmarks/routes/x-bookmark-list.templ:553
 #: internal/bookmarks/routes/x-collections.templ:162
 #: internal/bookmarks/routes/x-labels.templ:132
 #: internal/profile/x-applications.templ:84 internal/profile/x-tokens.templ:83
@@ -248,92 +252,92 @@ msgstr "Dieser Benutzer wird in wenigen Sekunden entfernt."
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: internal/admin/x-users.templ:85 internal/admin/x-users.templ:131
+#: internal/admin/x-users.templ:91 internal/admin/x-users.templ:130
 #: internal/auth/onboarding/x-onboarding.templ:34
-#: internal/bookmarks/importer/x-forms.templ:325
+#: internal/bookmarks/importer/x-forms.templ:284
 #: internal/profile/x-profile.templ:42
 msgid "Username"
 msgstr "Benutzername"
 
-#: internal/admin/x-users.templ:91 internal/admin/x-users.templ:138
+#: internal/admin/x-users.templ:97 internal/admin/x-users.templ:137
 #: internal/auth/onboarding/x-onboarding.templ:47
-#: internal/auth/signin/x-auth.templ:139
+#: internal/auth/signin/x-auth.templ:136
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
-#: internal/admin/x-users.templ:96 internal/admin/x-users.templ:144
+#: internal/admin/x-users.templ:102 internal/admin/x-users.templ:143
 msgid "Group"
 msgstr "Gruppe"
 
-#: internal/admin/x-users.templ:101 internal/admin/x-users.templ:151
+#: internal/admin/x-users.templ:107 internal/admin/x-users.templ:150
 #: internal/auth/onboarding/x-onboarding.templ:39
-#: internal/auth/signin/x-auth.templ:64
-#: internal/bookmarks/importer/x-forms.templ:330
+#: internal/auth/signin/x-auth.templ:61
+#: internal/bookmarks/importer/x-forms.templ:289
 msgid "Password"
 msgstr "Passwort"
 
-#: internal/admin/x-users.templ:107
+#: internal/admin/x-users.templ:113
 msgid "Create user"
 msgstr "Benutzer erstellen"
 
-#: internal/admin/x-users.templ:127
+#: internal/admin/x-users.templ:126
 #, fuzzy
 msgid "User information"
 msgstr "Systeminformationen"
 
-#: internal/admin/x-users.templ:154
+#: internal/admin/x-users.templ:153
 msgid "will not change if empty"
 msgstr "ändert sich nicht, wenn leer"
 
-#: internal/admin/x-users.templ:159
+#: internal/admin/x-users.templ:158
 #: internal/bookmarks/routes/x-bookmark.templ:223
 #: internal/bookmarks/routes/x-collections.templ:138
 #: internal/bookmarks/routes/x-collections.templ:233
-#: internal/bookmarks/routes/x-components.templ:49
-#: internal/bookmarks/routes/x-components.templ:182
-#: internal/bookmarks/routes/x-components.templ:187
+#: internal/bookmarks/routes/x-components.templ:51
+#: internal/bookmarks/routes/x-components.templ:184
+#: internal/bookmarks/routes/x-components.templ:189
 #: internal/profile/x-profile.templ:105 internal/profile/x-security.templ:41
 #: internal/profile/x-tokens.templ:153
 msgid "Save"
 msgstr "Speichern"
 
-#: internal/admin/x-users.templ:164
+#: internal/admin/x-users.templ:178
 #, fuzzy
 msgid "Created on"
 msgstr "Erstellt am: %s"
 
-#: internal/admin/x-users.templ:171
+#: internal/admin/x-users.templ:182
 #, fuzzy
 msgid "Last Login"
 msgstr "Letzte Anmeldung"
 
-#: internal/admin/x-users.templ:179
+#: internal/admin/x-users.templ:186
 msgid "Last Activity"
 msgstr "Letzte Aktivität"
 
-#: internal/admin/x-users.templ:190
+#: internal/admin/x-users.templ:194
 #, fuzzy
 msgid "Disk Usage"
 msgstr "Festplattenspeichernutzung"
 
-#: internal/admin/x-users.templ:193
+#: internal/admin/x-users.templ:198
 msgid "User Administration"
 msgstr ""
 
-#: internal/admin/x-users.templ:199
+#: internal/admin/x-users.templ:204
 msgid "User will be removed in a few seconds"
 msgstr "Der Benutzer wird in ein paar Sekunden entfernt"
 
-#: internal/admin/x-users.templ:209
+#: internal/admin/x-users.templ:214
 msgid "This will sign this user out of all active sessions on the web application."
 msgstr ""
 
-#: internal/admin/x-users.templ:214
+#: internal/admin/x-users.templ:219
 #, fuzzy
 msgid "Sign this user out"
 msgstr "Abmelden"
 
-#: internal/admin/x-users.templ:222
+#: internal/admin/x-users.templ:227
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\t\tThis user is attached to an external authentication provider:<br />\n"
@@ -343,17 +347,17 @@ msgid ""
 "\t\t\t\t\t\t\t\t"
 msgstr ""
 
-#: internal/admin/x-users.templ:235
+#: internal/admin/x-users.templ:240
 #, fuzzy
 msgid "Detach this user"
 msgstr "Benutzer löschen"
 
-#: internal/admin/x-users.templ:244
+#: internal/admin/x-users.templ:249
 #, python-format
 msgid "This will delete the user <strong>%s</strong> and all their contents."
 msgstr ""
 
-#: internal/admin/x-users.templ:252
+#: internal/admin/x-users.templ:257
 msgid "Delete this user"
 msgstr "Benutzer löschen"
 
@@ -459,7 +463,7 @@ msgid "We're delighted to have you on board; one more step and you're good to go
 msgstr "Wir freuen uns, dich an Bord zu haben. Nur noch ein Schritt und schon kann es losgehen."
 
 #: internal/auth/onboarding/x-onboarding.templ:43
-#: internal/auth/signin/x-auth.templ:173 internal/profile/x-security.templ:37
+#: internal/auth/signin/x-auth.templ:170 internal/profile/x-security.templ:37
 msgid "must be at least 8 characters long"
 msgstr "muss mindestens 8 Zeichen lang sein"
 
@@ -490,7 +494,7 @@ msgstr "Installation beenden"
 msgid "Invalid user and/or password"
 msgstr "Ungültiger Benutzername und/oder ungültiges Passwort"
 
-#: internal/auth/signin/http.go:180 internal/profile/forms.go:300
+#: internal/auth/signin/http.go:189 internal/profile/forms.go:300
 msgid "Invalid code"
 msgstr "Ungültiger Code"
 
@@ -550,52 +554,52 @@ msgstr ""
 "\n"
 "Wenn du kein Readeck-Benutzer bist, ignoriere diese Nachricht bitte.\n"
 
-#: internal/auth/signin/x-auth.templ:24
+#: internal/auth/signin/x-auth.templ:21
 msgid "Or continue with"
 msgstr ""
 
-#: internal/auth/signin/x-auth.templ:44 internal/auth/signin/x-auth.templ:71
+#: internal/auth/signin/x-auth.templ:41 internal/auth/signin/x-auth.templ:68
 msgid "Sign in"
 msgstr "Anmelden"
 
-#: internal/auth/signin/x-auth.templ:45
+#: internal/auth/signin/x-auth.templ:42
 msgid "Sign in to Readeck"
 msgstr "Bei Readeck anmelden"
 
-#: internal/auth/signin/x-auth.templ:55
+#: internal/auth/signin/x-auth.templ:52
 msgid "Username or email address"
 msgstr "Nutzername oder E-Mail-Adresse"
 
-#: internal/auth/signin/x-auth.templ:76
+#: internal/auth/signin/x-auth.templ:73
 msgid "Forgot your password?"
 msgstr "Passwort vergessen?"
 
-#: internal/auth/signin/x-auth.templ:87
+#: internal/auth/signin/x-auth.templ:84
 msgid "Two-factor authentication"
 msgstr "Zwei-Faktor-Authentisierung"
 
-#: internal/auth/signin/x-auth.templ:94
+#: internal/auth/signin/x-auth.templ:91
 msgid "Passcode"
 msgstr "Passwort"
 
-#: internal/auth/signin/x-auth.templ:105
+#: internal/auth/signin/x-auth.templ:102
 msgid "Verify"
 msgstr "Überprüfen"
 
-#: internal/auth/signin/x-auth.templ:111 internal/auth/signin/x-auth.templ:147
-#: internal/auth/signin/x-auth.templ:180
+#: internal/auth/signin/x-auth.templ:108 internal/auth/signin/x-auth.templ:144
+#: internal/auth/signin/x-auth.templ:177
 msgid "Cancel and go back to sign in"
 msgstr "Abbrechen und zurück zum Login"
 
-#: internal/auth/signin/x-auth.templ:120
+#: internal/auth/signin/x-auth.templ:117
 msgid "Password recovery"
 msgstr "Passwort wiederherstellen"
 
-#: internal/auth/signin/x-auth.templ:130
+#: internal/auth/signin/x-auth.templ:127
 msgid "No worries, it happens to anyone."
 msgstr "Keine Sorge, das kann jedem passieren."
 
-#: internal/auth/signin/x-auth.templ:132
+#: internal/auth/signin/x-auth.templ:129
 #, fuzzy
 msgid ""
 "\n"
@@ -610,15 +614,15 @@ msgstr ""
 "        dann eine Nachricht mit einem Link zur Wiederherstellung deines Passworts.\n"
 "      "
 
-#: internal/auth/signin/x-auth.templ:143
+#: internal/auth/signin/x-auth.templ:140
 msgid "Send me a recovery link"
 msgstr "Schicke mir einen Link zur Wiederherstellung"
 
-#: internal/auth/signin/x-auth.templ:153
+#: internal/auth/signin/x-auth.templ:150
 msgid "Almost there!"
 msgstr "Gleich geschafft!"
 
-#: internal/auth/signin/x-auth.templ:155
+#: internal/auth/signin/x-auth.templ:152
 #, fuzzy, python-format
 msgid "We have sent an email to <strong>%s</strong> with further instructions."
 msgstr ""
@@ -628,19 +632,19 @@ msgstr ""
 "        gesendet.\n"
 "      "
 
-#: internal/auth/signin/x-auth.templ:171 internal/profile/x-security.templ:33
+#: internal/auth/signin/x-auth.templ:168 internal/profile/x-security.templ:33
 msgid "New password"
 msgstr "Neues Passwort"
 
-#: internal/auth/signin/x-auth.templ:176
+#: internal/auth/signin/x-auth.templ:173
 msgid "Update your password"
 msgstr "Aktualisiere dein Passwort"
 
-#: internal/auth/signin/x-auth.templ:187
+#: internal/auth/signin/x-auth.templ:184
 msgid "Your password has been changed."
 msgstr "Dein Passwort wurde geändert."
 
-#: internal/auth/signin/x-auth.templ:190
+#: internal/auth/signin/x-auth.templ:187
 msgid "Go to the sign in page"
 msgstr "Gehe zur Login-Seite"
 
@@ -656,7 +660,7 @@ msgstr "Benutzername stimmt nicht überein"
 
 #: internal/auth/users/forms.go:34
 #, fuzzy
-msgid "password must be at least 8 character long"
+msgid "password must be at least 8 characters long"
 msgstr "muss mindestens 8 Zeichen lang sein"
 
 #: internal/auth/users/forms.go:89
@@ -719,7 +723,7 @@ msgstr ""
 "Hier ist dein E-Book für: **%s**\n"
 
 #: internal/bookmarks/converter/x-atom.templ:22
-#: internal/bookmarks/routes/x-sidebar.templ:262
+#: internal/bookmarks/routes/x-sidebar.templ:264
 msgid "no site name"
 msgstr "kein Sitename"
 
@@ -727,7 +731,7 @@ msgstr "kein Sitename"
 #: internal/bookmarks/converter/x-email.templ:29
 #: internal/bookmarks/converter/x-epub.templ:49
 #: internal/bookmarks/routes/x-shared-public.templ:176
-#: internal/bookmarks/routes/x-sidebar.templ:285
+#: internal/bookmarks/routes/x-sidebar.templ:287
 #, python-format
 msgid "Published on %s"
 msgstr "Veröffentlicht am %s"
@@ -736,7 +740,7 @@ msgstr "Veröffentlicht am %s"
 #: internal/bookmarks/converter/x-email.templ:32
 #: internal/bookmarks/converter/x-epub.templ:52
 #: internal/bookmarks/routes/x-shared-public.templ:180
-#: internal/bookmarks/routes/x-sidebar.templ:290
+#: internal/bookmarks/routes/x-sidebar.templ:292
 #, python-format
 msgid "By %s"
 msgstr "Von %s"
@@ -746,7 +750,7 @@ msgstr "Von %s"
 #: internal/bookmarks/converter/x-email.templ:36
 #: internal/bookmarks/converter/x-epub.templ:56
 #: internal/bookmarks/routes/x-shared-public.templ:189
-#: internal/bookmarks/routes/x-sidebar.templ:298
+#: internal/bookmarks/routes/x-sidebar.templ:309
 #, python-format
 msgid "About %d minute read"
 msgid_plural "About %d minutes read"
@@ -781,10 +785,6 @@ msgstr "GoodLinks-Export-Datei"
 msgid "Empty or invalid import file"
 msgstr "Leere oder ungültige Importdatei"
 
-#: internal/bookmarks/importer/omnivore.go:246
-msgid "Invalid API Key"
-msgstr "Falscher API-Schlüssel"
-
 #: internal/bookmarks/importer/pinboard.go:44
 msgid "Pinboard JSON backup File"
 msgstr ""
@@ -794,7 +794,7 @@ msgid "Readwise Reader CSV"
 msgstr "Readwise-Reader-CSV-Exportdatei"
 
 #: internal/bookmarks/importer/text.go:24
-#: internal/bookmarks/routes/x-import.templ:92
+#: internal/bookmarks/routes/x-import.templ:85
 msgid "Text File"
 msgstr "Textdatei"
 
@@ -815,7 +815,7 @@ msgid "Import Bookmarks"
 msgstr "Lesezeichen importieren"
 
 #: internal/bookmarks/importer/x-forms.templ:32
-#: internal/bookmarks/importer/x-forms.templ:250
+#: internal/bookmarks/importer/x-forms.templ:209
 #: internal/profile/x-import.templ:21
 msgid "File"
 msgstr "Datei"
@@ -990,41 +990,11 @@ msgstr ""
 "  "
 
 #: internal/bookmarks/importer/x-forms.templ:185
-#: internal/bookmarks/routes/x-import.templ:65
-msgid "Import your Omnivore Articles"
-msgstr "Importiere deine Omnivore-Artikel"
-
-#: internal/bookmarks/importer/x-forms.templ:188
-#, fuzzy
-msgid ""
-"\n"
-"\t\t\t\tTo import your articles from Omnivore, you must first create an API Key in your\n"
-"\t\t\t\tOmnivore's settings and enter it in the the form below.\n"
-"\t\t\t"
-msgstr ""
-"\n"
-"    Um deine Artikel aus Omnivore zu importieren, musst du zu erst einen API-Schlüssel\n"
-"    in den Omnivore Einstellungen erstellen und unten eintragen.\n"
-"  "
-
-#: internal/bookmarks/importer/x-forms.templ:197
-msgid "Omnivore URL"
-msgstr "Omnivore-URL"
-
-#: internal/bookmarks/importer/x-forms.templ:200
-msgid "URL of your Omnivore homepage"
-msgstr "URL deiner Omnivore-Startseite"
-
-#: internal/bookmarks/importer/x-forms.templ:203
-msgid "API Key"
-msgstr "API-Schlüssel"
-
-#: internal/bookmarks/importer/x-forms.templ:212
 #, fuzzy
 msgid "Import Links from a Pinboard JSON backup file"
 msgstr "Importiere Links aus einer CSV Datei"
 
-#: internal/bookmarks/importer/x-forms.templ:215
+#: internal/bookmarks/importer/x-forms.templ:188
 #, fuzzy
 msgid "Upload a JSON file obtained from your Pinboard account."
 msgstr ""
@@ -1032,30 +1002,17 @@ msgstr ""
 "    Lade eine JSON-Datei, die du aus der Linkwarden-App erhalten hast.\n"
 "  "
 
-#: internal/bookmarks/importer/x-forms.templ:224
-#: internal/bookmarks/routes/x-import.templ:79
+#: internal/bookmarks/importer/x-forms.templ:197
+#: internal/bookmarks/routes/x-import.templ:72
 msgid "Import your Pocket Articles"
 msgstr "Importiere deine Pocket-Artikel"
 
-#: internal/bookmarks/importer/x-forms.templ:227
+#: internal/bookmarks/importer/x-forms.templ:200
 #, fuzzy
 msgid ""
 "\n"
-"\t\t\t\tYou can export your articles on Pocket by visiting:<br>\n"
-"\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">%[2]s</a>.\n"
-"\t\t\t"
-msgstr ""
-"\n"
-"    Du kannst deine Artikel aus Pocket exportieren, indem du:<br>\n"
-"    <a class=\"%[1]s\" href=\"%[2]s\">%[2]s</a>.\n"
-"  "
-
-#: internal/bookmarks/importer/x-forms.templ:234
-#, fuzzy
-msgid ""
-"\n"
-"\t\t\t\tUpload this file in the form below and Readeck will fetch and save\n"
-"\t\t\t\tevery link found it the file.\n"
+"\t\t\t\tUpload a Pocket export file in the form below and Readeck will fetch and save\n"
+"\t\t\t\tevery link found in the file.\n"
 "\t\t\t"
 msgstr ""
 "\n"
@@ -1063,30 +1020,15 @@ msgstr ""
 "    und downloadet alle darin gefundenen Lesezeichen.\n"
 "  "
 
-#: internal/bookmarks/importer/x-forms.templ:240
-#, fuzzy
-msgid ""
-"\n"
-"\t\t\t\tPlease note that Pocket does not allow the article content to be exported.\n"
-"\t\t\t\tThis could lead to different results in Readeck than what you currently\n"
-"\t\t\t\tsee in Pocket.\n"
-"\t\t\t"
-msgstr ""
-"\n"
-"    Bitte beachte, dass Pocket den Export des Artikelinhalts nicht zulässt.\n"
-"    Dies könnte in Readeck zu anderen Ergebnissen führen als dem, was du derzeit\n"
-"    in Pocket siehst.\n"
-"  "
-
-#: internal/bookmarks/importer/x-forms.templ:253
+#: internal/bookmarks/importer/x-forms.templ:212
 msgid "Note: upload the ZIP file directly, not its contents"
 msgstr "Hinweis: Lade die ZIP-Datei direkt hoch, nicht deren Inhalt"
 
-#: internal/bookmarks/importer/x-forms.templ:261
+#: internal/bookmarks/importer/x-forms.templ:220
 msgid "Import Links from Readwise Reader CSV export"
 msgstr "Importiere Links aus einer CSV-Exportdatei von Readwise Reader"
 
-#: internal/bookmarks/importer/x-forms.templ:264
+#: internal/bookmarks/importer/x-forms.templ:223
 #, fuzzy
 msgid "Upload a CSV file exported from your Readwise Reader account below."
 msgstr ""
@@ -1094,50 +1036,50 @@ msgstr ""
 "    Lade hier eine CSV-Exportdatei hoch, die du aus deinem Readwise-Reader-Konto exportiert hast.\n"
 "  "
 
-#: internal/bookmarks/importer/x-forms.templ:270
+#: internal/bookmarks/importer/x-forms.templ:229
 msgid "Which information is imported"
 msgstr "Welche Informationen importiert werden"
 
-#: internal/bookmarks/importer/x-forms.templ:273
+#: internal/bookmarks/importer/x-forms.templ:232
 msgid "Article title, URL, and when it was first saved,"
 msgstr "Artikel-Überschrift, URL, sowie wann der Artikel zuerst gespeichert wurde,"
 
-#: internal/bookmarks/importer/x-forms.templ:274
+#: internal/bookmarks/importer/x-forms.templ:233
 msgid "The archived state of an article,"
 msgstr "der Archiviert-Status eines Artikels,"
 
-#: internal/bookmarks/importer/x-forms.templ:275
+#: internal/bookmarks/importer/x-forms.templ:234
 #, python-format
 msgid "\"%s\" as Readeck labels,"
 msgstr "\"%s\" als Readeck- Tags,"
 
-#: internal/bookmarks/importer/x-forms.templ:276
+#: internal/bookmarks/importer/x-forms.templ:235
 #, python-format
 msgid "When a document tag contains \"%s\", the bookmark will be added to Readeck Favorites."
 msgstr "Wenn ein Dokumenten-Tag \"%s\" enthält, wird das Lesezeichen zu den Readeck-Favoriten hinzugefügt."
 
-#: internal/bookmarks/importer/x-forms.templ:278
+#: internal/bookmarks/importer/x-forms.templ:237
 msgid "What is not imported:"
 msgstr "Was nicht importiert wird:"
 
-#: internal/bookmarks/importer/x-forms.templ:280
+#: internal/bookmarks/importer/x-forms.templ:239
 msgid "Article reading progress and seen status,"
 msgstr "Artikel-Lesefortschritt und Angeschaut-Status,"
 
-#: internal/bookmarks/importer/x-forms.templ:281
+#: internal/bookmarks/importer/x-forms.templ:240
 msgid "Articles forwarded to Readwise Reader by email,"
 msgstr "Artikel, die per E-Mail an Readwise Reader weitergeleitet wurden,"
 
-#: internal/bookmarks/importer/x-forms.templ:282
+#: internal/bookmarks/importer/x-forms.templ:241
 msgid "Uploaded documents such as PDFs or EPUB."
 msgstr "Hochgeladene Dokumente wie PDFs und EPUBs."
 
-#: internal/bookmarks/importer/x-forms.templ:288
-#: internal/bookmarks/routes/x-import.templ:93
+#: internal/bookmarks/importer/x-forms.templ:247
+#: internal/bookmarks/routes/x-import.templ:86
 msgid "Import Links from a Text File"
 msgstr "Importiere Links aus einer Textdatei"
 
-#: internal/bookmarks/importer/x-forms.templ:291
+#: internal/bookmarks/importer/x-forms.templ:250
 #, fuzzy
 msgid ""
 "\n"
@@ -1150,12 +1092,12 @@ msgstr ""
 "    und in Ihrer Lesezeichenliste speichern.\n"
 "  "
 
-#: internal/bookmarks/importer/x-forms.templ:301
-#: internal/bookmarks/routes/x-import.templ:100
+#: internal/bookmarks/importer/x-forms.templ:260
+#: internal/bookmarks/routes/x-import.templ:93
 msgid "Import your Wallabag Articles"
 msgstr "Importiere deine Wallabag-Artikel"
 
-#: internal/bookmarks/importer/x-forms.templ:304
+#: internal/bookmarks/importer/x-forms.templ:263
 #, fuzzy
 msgid ""
 "\n"
@@ -1170,7 +1112,7 @@ msgstr ""
 "\teine <strong>Client-ID</strong> und ein <strong>Client-Geheimnis</strong>.\n"
 "  "
 
-#: internal/bookmarks/importer/x-forms.templ:311
+#: internal/bookmarks/importer/x-forms.templ:270
 #, fuzzy
 msgid "You can then enter all the necessary information in the form below."
 msgstr ""
@@ -1178,19 +1120,19 @@ msgstr ""
 "    Anschließend kannst du alle notwendigen Angaben in das untenstehende Formular eintragen.\n"
 "  "
 
-#: internal/bookmarks/importer/x-forms.templ:319
+#: internal/bookmarks/importer/x-forms.templ:278
 msgid "Wallabag URL"
 msgstr "Wallabag-URL"
 
-#: internal/bookmarks/importer/x-forms.templ:322
+#: internal/bookmarks/importer/x-forms.templ:281
 msgid "URL of your Wallabag homepage"
 msgstr "URL deiner Wallabag-Seite"
 
-#: internal/bookmarks/importer/x-forms.templ:336
+#: internal/bookmarks/importer/x-forms.templ:295
 msgid "Client ID"
 msgstr "Client-ID"
 
-#: internal/bookmarks/importer/x-forms.templ:341
+#: internal/bookmarks/importer/x-forms.templ:300
 msgid "Client Secret"
 msgstr "Client-Geheimnis"
 
@@ -1387,7 +1329,7 @@ msgstr "Sammlung aktualisiert."
 #: internal/bookmarks/routes/views_import.go:24
 #: internal/bookmarks/routes/views_import.go:37
 #: internal/bookmarks/routes/views_import.go:69
-#: internal/bookmarks/routes/x-import.templ:182 internal/profile/views.go:368
+#: internal/bookmarks/routes/x-import.templ:175 internal/profile/views.go:368
 #: internal/profile/x-base.templ:59 internal/profile/x-import.templ:13
 #: internal/profile/x-import.templ:41
 msgid "Import"
@@ -1451,12 +1393,12 @@ msgstr "Favoriten"
 
 #: internal/bookmarks/routes/x-base.templ:76
 #: internal/bookmarks/routes/x-labels.templ:73
-#: internal/bookmarks/routes/x-sidebar.templ:313
+#: internal/bookmarks/routes/x-sidebar.templ:324
 msgid "Labels"
 msgstr "Tags"
 
 #: internal/bookmarks/routes/x-base.templ:78
-#: internal/bookmarks/routes/x-sidebar.templ:399
+#: internal/bookmarks/routes/x-sidebar.templ:410
 msgid "Highlights"
 msgstr "Markierungen"
 
@@ -1483,7 +1425,7 @@ msgstr ""
 
 #: internal/bookmarks/routes/x-base.templ:106
 #: internal/bookmarks/routes/x-bookmark-list.templ:266
-#: internal/bookmarks/routes/x-sidebar.templ:56
+#: internal/bookmarks/routes/x-sidebar.templ:58
 msgid "Learn more"
 msgstr "Lerne mehr"
 
@@ -1604,26 +1546,26 @@ msgstr "Lesezeichen sortieren"
 msgid "Sort options"
 msgstr "Sortier-Optionen"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:393
+#: internal/bookmarks/routes/x-bookmark-list.templ:399
 msgid "Import and export"
 msgstr "Import und Export"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:404
-#: internal/bookmarks/routes/x-sidebar.templ:180
+#: internal/bookmarks/routes/x-bookmark-list.templ:410
+#: internal/bookmarks/routes/x-sidebar.templ:182
 msgid "Download EPUB"
 msgstr "EPUB herunterladen"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:417
+#: internal/bookmarks/routes/x-bookmark-list.templ:429
 msgid "Atom Feed"
 msgstr "Atom-Feed"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:462
+#: internal/bookmarks/routes/x-bookmark-list.templ:477
 msgctxt "bookmark"
 msgid "Loading"
 msgstr "Laden"
 
 # | msgid "%d min"
-#: internal/bookmarks/routes/x-bookmark-list.templ:509
+#: internal/bookmarks/routes/x-bookmark-list.templ:524
 #, python-format
 msgctxt "abbr"
 msgid "%d min"
@@ -1631,41 +1573,41 @@ msgid_plural "%d min"
 msgstr[0] "%d min"
 msgstr[1] "%d min"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:525
-#: internal/bookmarks/routes/x-sidebar.templ:115
+#: internal/bookmarks/routes/x-bookmark-list.templ:540
+#: internal/bookmarks/routes/x-sidebar.templ:117
 msgid "This bookmark will be removed in a few seconds."
 msgstr "Das Lesezeichen wird in ein paar Sekunden entfernt."
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:544
-#: internal/bookmarks/routes/x-components.templ:230
-#: internal/bookmarks/routes/x-sidebar.templ:104
+#: internal/bookmarks/routes/x-bookmark-list.templ:559
+#: internal/bookmarks/routes/x-components.templ:232
+#: internal/bookmarks/routes/x-sidebar.templ:106
 msgid "Remove from archive"
 msgstr "Aus dem Archiv entfernen"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:544
-#: internal/bookmarks/routes/x-components.templ:231
-#: internal/bookmarks/routes/x-sidebar.templ:105
+#: internal/bookmarks/routes/x-bookmark-list.templ:559
+#: internal/bookmarks/routes/x-components.templ:233
+#: internal/bookmarks/routes/x-sidebar.templ:107
 msgid "Move to archive"
 msgstr "Ins Archiv verschieben"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:545
-#: internal/bookmarks/routes/x-components.templ:218
-#: internal/bookmarks/routes/x-sidebar.templ:108
+#: internal/bookmarks/routes/x-bookmark-list.templ:560
+#: internal/bookmarks/routes/x-components.templ:220
+#: internal/bookmarks/routes/x-sidebar.templ:110
 msgid "Remove from favorites"
 msgstr "Aus den Favoriten entfernen"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:545
-#: internal/bookmarks/routes/x-components.templ:219
-#: internal/bookmarks/routes/x-sidebar.templ:109
+#: internal/bookmarks/routes/x-bookmark-list.templ:560
+#: internal/bookmarks/routes/x-components.templ:221
+#: internal/bookmarks/routes/x-sidebar.templ:111
 msgid "Add to favorites"
 msgstr "Zu den Favoriten hinzufügen"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:570
+#: internal/bookmarks/routes/x-bookmark-list.templ:585
 msgid "Go to original page"
 msgstr "Zur Originalseite gehen"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:580
-#: internal/bookmarks/routes/x-sidebar.templ:230
+#: internal/bookmarks/routes/x-bookmark-list.templ:595
+#: internal/bookmarks/routes/x-sidebar.templ:232
 msgid "Delete this bookmark"
 msgstr "Lösche dieses Lesezeichen"
 
@@ -1702,7 +1644,8 @@ msgid "Bookmark information"
 msgstr "Information zum Lesezeichen"
 
 #: internal/bookmarks/routes/x-bookmark.templ:208
-#: internal/bookmarks/routes/x-components.templ:36
+#: internal/bookmarks/routes/x-components.templ:38
+#: internal/bookmarks/routes/x-components.templ:349
 msgid "Close dialog"
 msgstr "Dialog schließen"
 
@@ -1852,7 +1795,7 @@ msgid "This collection will be removed in a few seconds."
 msgstr "Die Sammlung wird in ein paar Sekunden entfernt."
 
 #: internal/bookmarks/routes/x-collections.templ:107
-#: internal/bookmarks/routes/x-sidebar.templ:129
+#: internal/bookmarks/routes/x-sidebar.templ:131
 msgid "Undo"
 msgstr "Rückgängig machen"
 
@@ -1873,71 +1816,97 @@ msgstr "Die Sammlung wird in ein paar Sekunden entfernt."
 msgid "Delete collection"
 msgstr "Sammlung löschen"
 
-#: internal/bookmarks/routes/x-components.templ:141
+#: internal/bookmarks/routes/x-components.templ:143
 msgid "Yellow"
 msgstr "Gelb"
 
-#: internal/bookmarks/routes/x-components.templ:142
+#: internal/bookmarks/routes/x-components.templ:144
 msgid "Red"
 msgstr "Rot"
 
-#: internal/bookmarks/routes/x-components.templ:143
+#: internal/bookmarks/routes/x-components.templ:145
 msgid "Blue"
 msgstr "Blau"
 
-#: internal/bookmarks/routes/x-components.templ:144
+#: internal/bookmarks/routes/x-components.templ:146
 msgid "Green"
 msgstr "Grün"
 
-#: internal/bookmarks/routes/x-components.templ:145
+#: internal/bookmarks/routes/x-components.templ:147
 msgid "Transparent"
 msgstr "transparent"
 
-#: internal/bookmarks/routes/x-components.templ:152
+#: internal/bookmarks/routes/x-components.templ:154
 msgid "Highlight"
 msgstr "Markierung"
 
-#: internal/bookmarks/routes/x-components.templ:165
+#: internal/bookmarks/routes/x-components.templ:167
 #: internal/bookmarks/routes/x-filters.templ:25
 msgid "Note"
 msgstr "Notiz"
 
-#: internal/bookmarks/routes/x-components.templ:194
+#: internal/bookmarks/routes/x-components.templ:196
 #: internal/bookmarks/routes/x-labels.templ:111
 msgid "Delete"
 msgstr "Löschen"
 
-#: internal/bookmarks/routes/x-components.templ:241
-#: internal/bookmarks/routes/x-components.templ:271
+#: internal/bookmarks/routes/x-components.templ:243
+#: internal/bookmarks/routes/x-components.templ:273
 msgid "Close"
 msgstr "Schließen"
 
-#: internal/bookmarks/routes/x-components.templ:253
+#: internal/bookmarks/routes/x-components.templ:255
 msgid "Show image"
 msgstr "Bild anzeigen"
 
-#: internal/bookmarks/routes/x-components.templ:283
+#: internal/bookmarks/routes/x-components.templ:285
 msgid "Play video"
 msgstr "Video abspielen"
 
-#: internal/bookmarks/routes/x-components.templ:310
+#: internal/bookmarks/routes/x-components.templ:312
 #, fuzzy
 msgid "Extraction log"
 msgstr "Textausrichtung"
 
-#: internal/bookmarks/routes/x-components.templ:314
+#: internal/bookmarks/routes/x-components.templ:316
+#: internal/bookmarks/routes/x-components.templ:367
 #: internal/docs/x-about.templ:69
 msgid "copy to clipboard"
 msgstr "in Zwischenablage kopieren"
 
-#: internal/bookmarks/routes/x-components.templ:326
+#: internal/bookmarks/routes/x-components.templ:328
 #: internal/profile/x-tokens.templ:110
 msgid "Properties"
 msgstr "Merkmale"
 
-#: internal/bookmarks/routes/x-components.templ:335
+#: internal/bookmarks/routes/x-components.templ:337
 msgid "Saved with Readeck"
 msgstr "Gespeichert mit Readeck"
+
+#: internal/bookmarks/routes/x-components.templ:354
+msgid "This feed provides the latest entries from this bookmark list"
+msgstr ""
+
+#: internal/bookmarks/routes/x-components.templ:355
+msgid "Subscribe to this feed by copying the URL below:"
+msgstr ""
+
+#: internal/bookmarks/routes/x-components.templ:374
+#, fuzzy
+msgid "Open link"
+msgstr "Link kopieren"
+
+#: internal/bookmarks/routes/x-components.templ:382
+msgid "Access to this feed is restricted."
+msgstr ""
+
+#: internal/bookmarks/routes/x-components.templ:384
+msgid ""
+"\n"
+"\t\t\t\t\t\tYou must provide your newsreader app a username and an\n"
+"\t\t\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">API Token</a> to load this feed.\n"
+"\t\t\t\t\t"
+msgstr ""
 
 #: internal/bookmarks/routes/x-filters.templ:22
 msgid "Author"
@@ -2006,16 +1975,16 @@ msgstr "Importiere deine GoodLinks-Artikel"
 msgid "Import your Linkwarden Bookmarks"
 msgstr "Importiere deine Linkwarden-Lesezeichen"
 
-#: internal/bookmarks/routes/x-import.templ:72
+#: internal/bookmarks/routes/x-import.templ:65
 #, fuzzy
 msgid "Import your Pinboard bookmarks"
 msgstr "Importiere deine Linkwarden-Lesezeichen"
 
-#: internal/bookmarks/routes/x-import.templ:86
+#: internal/bookmarks/routes/x-import.templ:79
 msgid "Import your Readwise Reader Library"
 msgstr "Importiere deine Readwise-Reader-Bibliothek"
 
-#: internal/bookmarks/routes/x-import.templ:107
+#: internal/bookmarks/routes/x-import.templ:100
 #, fuzzy
 msgid "Here you can import your existing bookmark collection from various sources into Readeck."
 msgstr ""
@@ -2023,28 +1992,28 @@ msgstr ""
 "    Hier kannst du deine bestehenden Lesezeichen-Sammlungen aus verschiedenen Quellen in Readeck importieren.\n"
 "  "
 
-#: internal/bookmarks/routes/x-import.templ:132
+#: internal/bookmarks/routes/x-import.templ:125
 #, fuzzy
 msgid "Import status"
 msgstr "Importieren"
 
-#: internal/bookmarks/routes/x-import.templ:152
+#: internal/bookmarks/routes/x-import.templ:145
 msgid "Import operation will launch momentarily."
 msgstr "Der Importvorgang wird in Kürze gestartet."
 
-#: internal/bookmarks/routes/x-import.templ:154
+#: internal/bookmarks/routes/x-import.templ:147
 msgid "Import operation has started!"
 msgstr "Der Importvorgang wurde gestartet!"
 
-#: internal/bookmarks/routes/x-import.templ:158
+#: internal/bookmarks/routes/x-import.templ:151
 msgid "You can keep using Readeck while the import is running."
 msgstr "Du kannst Readeck verwenden, während der Import ausgeführt wird."
 
-#: internal/bookmarks/routes/x-import.templ:169
+#: internal/bookmarks/routes/x-import.templ:162
 msgid "Import is finished!"
 msgstr "Der Import ist abgeschlossen!"
 
-#: internal/bookmarks/routes/x-import.templ:172
+#: internal/bookmarks/routes/x-import.templ:165
 #, fuzzy, python-format
 msgid ""
 "\n"
@@ -2181,11 +2150,11 @@ msgstr "Design ändern"
 msgid "Shared by %[1]s with %[2]s"
 msgstr "Geteilt von %[1]s mit %[2]s"
 
-#: internal/bookmarks/routes/x-sidebar.templ:42
+#: internal/bookmarks/routes/x-sidebar.templ:44
 msgid "Errors occurred during extraction."
 msgstr "Während der Extraktion sind Fehler aufgetreten."
 
-#: internal/bookmarks/routes/x-sidebar.templ:49
+#: internal/bookmarks/routes/x-sidebar.templ:51
 #, fuzzy
 msgid ""
 "\n"
@@ -2195,55 +2164,55 @@ msgstr ""
 "\n"
 "          Je nach Fehler kann Readecks Browser-Erweiterung ggf. Abhilfe anbieten."
 
-#: internal/bookmarks/routes/x-sidebar.templ:65
+#: internal/bookmarks/routes/x-sidebar.templ:67
 msgid "View log"
 msgstr "Protokoll ansehen"
 
-#: internal/bookmarks/routes/x-sidebar.templ:100
+#: internal/bookmarks/routes/x-sidebar.templ:102
 msgid "Mark as unread"
 msgstr "Als ungelesen markieren"
 
-#: internal/bookmarks/routes/x-sidebar.templ:101
+#: internal/bookmarks/routes/x-sidebar.templ:103
 msgid "Mark as read"
 msgstr "Als gelesen markieren"
 
-#: internal/bookmarks/routes/x-sidebar.templ:171
+#: internal/bookmarks/routes/x-sidebar.templ:173
 msgid "Export and Share"
 msgstr "Exportiere und Teile"
 
-#: internal/bookmarks/routes/x-sidebar.templ:192
+#: internal/bookmarks/routes/x-sidebar.templ:194
 msgid "Share by Link"
 msgstr "Per Link teilen"
 
-#: internal/bookmarks/routes/x-sidebar.templ:204
+#: internal/bookmarks/routes/x-sidebar.templ:206
 msgid "Send article by Email"
 msgstr "Artikel per E-Mail versenden"
 
-#: internal/bookmarks/routes/x-sidebar.templ:215
+#: internal/bookmarks/routes/x-sidebar.templ:217
 msgid "Send e-book by Email"
 msgstr "E-Book per E-Mail versenden"
 
-#: internal/bookmarks/routes/x-sidebar.templ:340
+#: internal/bookmarks/routes/x-sidebar.templ:351
 msgid "Add a label"
 msgstr "Füge einen Tag hinzu"
 
-#: internal/bookmarks/routes/x-sidebar.templ:361
+#: internal/bookmarks/routes/x-sidebar.templ:372
 msgid "Add label"
 msgstr "Tag hinzufügen"
 
-#: internal/bookmarks/routes/x-sidebar.templ:385
+#: internal/bookmarks/routes/x-sidebar.templ:396
 msgid "Remove label"
 msgstr "Tag entfernen"
 
-#: internal/bookmarks/routes/x-sidebar.templ:403
+#: internal/bookmarks/routes/x-sidebar.templ:414
 msgid "Start selecting text in the article to create a new highlight."
 msgstr "Beginne mit der Textauswahl im Artikel, um eine neue Markierung zu erstellen."
 
-#: internal/bookmarks/routes/x-sidebar.templ:435
+#: internal/bookmarks/routes/x-sidebar.templ:446
 msgid "Delete highlight"
 msgstr "Markierung löschen"
 
-#: internal/bookmarks/routes/x-sidebar.templ:453
+#: internal/bookmarks/routes/x-sidebar.templ:464
 msgid "Links"
 msgstr "Links"
 
@@ -2410,7 +2379,7 @@ msgstr "Die Import-Datei darf nur einen Benutzer enthalten"
 msgid "invalid password"
 msgstr "ungültiges Passwort"
 
-#: internal/profile/forms.go:427
+#: internal/profile/forms.go:429
 msgid "username does not match"
 msgstr "Benutzername stimmt nicht überein"
 
@@ -3297,3 +3266,54 @@ msgstr "%H:%M:%S"
 
 #~ msgid "Home page"
 #~ msgstr "Homepage"
+
+#~ msgid "Invalid API Key"
+#~ msgstr "Falscher API-Schlüssel"
+
+#~ msgid "Import your Omnivore Articles"
+#~ msgstr "Importiere deine Omnivore-Artikel"
+
+#~ msgid ""
+#~ "\n"
+#~ "\t\t\t\tTo import your articles from Omnivore, you must first create an API Key in your\n"
+#~ "\t\t\t\tOmnivore's settings and enter it in the the form below.\n"
+#~ "\t\t\t"
+#~ msgstr ""
+#~ "\n"
+#~ "    Um deine Artikel aus Omnivore zu importieren, musst du zu erst einen API-Schlüssel\n"
+#~ "    in den Omnivore Einstellungen erstellen und unten eintragen.\n"
+#~ "  "
+
+#~ msgid "Omnivore URL"
+#~ msgstr "Omnivore-URL"
+
+#~ msgid "URL of your Omnivore homepage"
+#~ msgstr "URL deiner Omnivore-Startseite"
+
+#~ msgid "API Key"
+#~ msgstr "API-Schlüssel"
+
+#~ msgid ""
+#~ "\n"
+#~ "\t\t\t\tYou can export your articles on Pocket by visiting:<br>\n"
+#~ "\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">%[2]s</a>.\n"
+#~ "\t\t\t"
+#~ msgstr ""
+#~ "\n"
+#~ "    Du kannst deine Artikel aus Pocket exportieren, indem du:<br>\n"
+#~ "    <a class=\"%[1]s\" href=\"%[2]s\">%[2]s</a>.\n"
+#~ "  "
+
+#~ msgid ""
+#~ "\n"
+#~ "\t\t\t\tPlease note that Pocket does not allow the article content to be exported.\n"
+#~ "\t\t\t\tThis could lead to different results in Readeck than what you currently\n"
+#~ "\t\t\t\tsee in Pocket.\n"
+#~ "\t\t\t"
+#~ msgstr ""
+#~ "\n"
+#~ "    Bitte beachte, dass Pocket den Export des Artikelinhalts nicht zulässt.\n"
+#~ "    Dies könnte in Readeck zu anderen Ergebnissen führen als dem, was du derzeit\n"
+#~ "    in Pocket siehst.\n"
+#~ "  "
+
