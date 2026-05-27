@@ -51,10 +51,11 @@ func NewEPUBExporter() EPUBExporter {
 // IterExport implements [IterExporter].
 // It writes an EPUB file on the provided [io.Writer].
 func (e EPUBExporter) IterExport(ctx context.Context, w io.Writer, r *http.Request, bookmarkSeq *dataset.BookmarkIterator) error {
-	// Define a title, date, siteName and filename
+	// Define a title, date, siteName, language and filename
 	title := "Readeck Bookmarks"
 	date := time.Now().UTC()
 	siteName := "Readeck"
+	language := "en"
 	if e.Collection != nil {
 		title = e.Collection.Name
 		siteName = "Readeck Collection"
@@ -71,6 +72,7 @@ func (e EPUBExporter) IterExport(ctx context.Context, w io.Writer, r *http.Reque
 		if err == nil {
 			m.SetTitle(title)
 			m.SetCreator(siteName)
+			m.SetLanguage(language)
 			err = m.WritePackage()
 		}
 		m.Close() //nolint:errcheck
@@ -97,6 +99,7 @@ func (e EPUBExporter) IterExport(ctx context.Context, w io.Writer, r *http.Reque
 			title = b.Title
 			date = b.Created
 			siteName = b.SiteName
+			language = b.Lang
 		}
 
 		// Send header before first item
