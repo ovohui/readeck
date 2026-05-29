@@ -45,6 +45,13 @@
 
 @layer components {
   rapi-doc {
+    @apply max-w-layout mx-auto;
+    height: calc(100vh - var(--topnav-h));
+
+    @screen md {
+      @apply overflow-y-auto;
+    }
+
     --font-regular: theme("fontFamily.sans");
     --font-mono: theme("fontFamily.mono");
 
@@ -129,10 +136,19 @@
       --purple: #a8a2f7;
     }
 
+    .breadcrumbs {
+      max-width: 70rem;
+    }
+
     &::part(section-navbar) {
-      background: linear-gradient(to right, rgb(var(--color-gray-50)), rgb(var(--color-gray-100)));
-      box-shadow: theme("boxShadow.sidebar-l");
-      width: theme("spacing.col-5");
+      background-color: var(--layout-bg);
+      width: calc(var(--sidemenu-w) + 1rem);
+      border-right: 1px solid rgb(var(--color-gray-200));
+      padding-top: 1rem;
+    }
+
+    &::part(section-navbar-search) {
+      padding-top: 0;
     }
 
     &::part(section-navbar-operations-top) {
@@ -164,7 +180,7 @@
     }
 
     &::part(section-main-content) {
-      padding: 2rem 1.5rem;
+      padding: 1rem;
       scrollbar-width: auto;
     }
 
