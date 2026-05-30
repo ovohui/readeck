@@ -236,6 +236,31 @@
       }
     }
 
+    .bookmark-reader-control {
+      & > summary {
+        @apply list-none;
+      }
+
+      & > div {
+        @apply absolute w-72 overflow-y-auto;
+        top: 0;
+        left: 3rem;
+        max-height: calc(100vh - 2rem - (var(--topnav-h) * 2));
+        @apply overscroll-y-contain;
+        @apply shadow-lg text-gray-900 bg-gray-50 border border-gray-300 rounded-md p-4;
+      }
+
+      @screen max-sm {
+        @apply static;
+
+        & > div {
+          @apply w-full;
+          left: 0;
+          top: var(--topnav-h);
+        }
+      }
+    }
+
     // When scrolling down, adapt to the topnav disapearing
     @at-root body.scrolled-down & {
       @screen max-sm {
