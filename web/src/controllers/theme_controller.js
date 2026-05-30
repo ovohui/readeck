@@ -8,6 +8,13 @@ export default class extends Controller {
   static targets = ["icon", "iconLight", "iconDark", "iconSystem"]
 
   connect() {
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", () => {
+        if (this.currentTheme == "system") {
+          this.setTheme()
+        }
+      })
     this.setIcon()
     window.addEventListener("storage", () => {
       this.setTheme()
