@@ -8,6 +8,9 @@ export default class extends Controller {
   static targets = ["icon", "iconLight", "iconDark", "iconSystem"]
 
   connect() {
+    this.setIcon()
+
+    // Listen to syrtem theme change
     window
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", () => {
@@ -15,7 +18,8 @@ export default class extends Controller {
           this.setTheme()
         }
       })
-    this.setIcon()
+
+    // Listen to user theme change
     window.addEventListener("storage", () => {
       this.setTheme()
       this.setIcon()
