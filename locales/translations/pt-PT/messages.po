@@ -11,14 +11,15 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-05-24 08:54+0200\n"
-"PO-Revision-Date: 2026-05-18 14:45+0000\n"
+"PO-Revision-Date: 2026-05-26 18:07+0000\n"
 "Last-Translator: henriquetguedes <henriquetguedes@noreply.codeberg.org>\n"
-"Language: pt_PT\n"
 "Language-Team: Portuguese (Portugal) <https://translate.codeberg.org/projects/readeck/application/pt_PT/>\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"Language: pt-PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 2026.5\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:72
@@ -221,9 +222,8 @@ msgid "External User"
 msgstr "Utilizador externo"
 
 #: internal/admin/x-users.templ:44 internal/admin/x-users.templ:174
-#, fuzzy
 msgid "TOTP is enabled"
-msgstr "Habilitado"
+msgstr "TOTP está ativado"
 
 #: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
@@ -647,7 +647,6 @@ msgid "username is not available"
 msgstr "o nome de utilizador não está disponível"
 
 #: internal/auth/users/forms.go:34
-#, fuzzy
 msgid "password must be at least 8 characters long"
 msgstr "a palavra-passe deve ter pelo menos 8 caracteres"
 
@@ -984,7 +983,6 @@ msgid "Import your Pocket Articles"
 msgstr "Importe os seus artigos do Pocket"
 
 #: internal/bookmarks/importer/x-forms.templ:200
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a Pocket export file in the form below and Readeck will fetch and save\n"
@@ -1850,20 +1848,19 @@ msgstr "Guardado com Readeck"
 
 #: internal/bookmarks/routes/x-components.templ:354
 msgid "This feed provides the latest entries from this bookmark list"
-msgstr ""
+msgstr "Este feed oferece as últimas entradas desta lista de marcadores"
 
 #: internal/bookmarks/routes/x-components.templ:355
 msgid "Subscribe to this feed by copying the URL below:"
-msgstr ""
+msgstr "Assine este feed copiando a ligação abaixo:"
 
 #: internal/bookmarks/routes/x-components.templ:374
-#, fuzzy
 msgid "Open link"
-msgstr "Copiar o link"
+msgstr "Abrir a ligação"
 
 #: internal/bookmarks/routes/x-components.templ:382
 msgid "Access to this feed is restricted."
-msgstr ""
+msgstr "O acesso a este feed é reservado."
 
 #: internal/bookmarks/routes/x-components.templ:384
 msgid ""
@@ -1872,6 +1869,10 @@ msgid ""
 "\t\t\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">API Token</a> to load this feed.\n"
 "\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\tPrecisa de indicar à sua aplicação de leitura de notícias um nome de utilizador e um\n"
+"\t\t\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">Token API</a> para carregar este feed.\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-filters.templ:22
 msgid "Author"
@@ -3272,4 +3273,3 @@ msgstr "%H:%M:%S"
 #~ "\t\t\t\tIsto pode levar a resultados diferentes no Readeck daqueles\n"
 #~ "\t\t\t\tque vê atualmente no Pocket.\n"
 #~ "\t\t\t"
-
