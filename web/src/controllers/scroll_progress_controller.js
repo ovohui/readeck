@@ -172,7 +172,7 @@ export default class extends Controller {
    */
   updatePositionTargets(notify = true) {
     this.valueTargets.forEach((t) => {
-      t.value = this.current.p
+      t.value = Math.round(this.current.p)
     })
     this.anchorTargets.forEach((t) => {
       t.value = this.current.s
@@ -323,7 +323,7 @@ export default class extends Controller {
  * @returns
  */
 function toPercent(value) {
-  return Math.round(Math.min(value, 1) * 100)
+  return Math.min(value, 1) * 100
 }
 
 /**
