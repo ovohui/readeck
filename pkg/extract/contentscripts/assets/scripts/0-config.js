@@ -41,6 +41,9 @@ exports.setConfig = function (config) {
       )
       break
 
+    case $.domain == "interestingengineering.com":
+      config.bodySelectors = []
+
     case $.domain == "newyorker.com":
       // 2023-12-18: the new site-config is too restrictive
       config.replaceStrings = []
