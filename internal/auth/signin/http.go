@@ -7,6 +7,7 @@ package signin
 
 import (
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 
@@ -195,9 +196,16 @@ func (h *authHandler) mfa(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *authHandler) logout(w http.ResponseWriter, r *http.Request) {
+	redir := "/login"
+	f := forms.BindAs[logoutForm](r)
+
+	if f.IsValid() {
+		redir += "?" + url.Values{"r": {f.Redirect.Value()}}.Encode()
+	}
+
 	// Clear session
 	sess := server.GetSession(r)
 	sess.Clear(w, r)
 
-	server.Redirect(w, r, "/login")
+	server.Redirect(w, r, redir)
 }

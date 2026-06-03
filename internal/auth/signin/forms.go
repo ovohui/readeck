@@ -50,6 +50,11 @@ func (f *loginForm) checkUser() *users.User {
 	return user
 }
 
+type logoutForm struct {
+	forms.Form
+	Redirect forms.TextField `json:"r" validate:"trim max_len:512"`
+}
+
 type totpForm struct {
 	forms.Form
 	Code     forms.TextField `json:"code" validate:"required len:6"`

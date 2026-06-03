@@ -91,12 +91,22 @@ templ (v Views) backBtn() {
 
 templ (v Views) form(client *oauthClient, scopes []string) {
 	{{ user := server.GetUser(ctx) }}
-	<p class="mb-8 text-green-700 text-center">
-		@templ.Raw(L(ctx).Gettext(
-			"Signed in as: <strong>%s</strong>",
-			templ.EscapeString(user.Username),
-		))
-	</p>
+	<form action={ URL(ctx, "/logout") } method="post">
+		<input type="hidden" name="r" value={ CurrentPath(ctx) }/>
+		<p class="mb-8 text-green-700 flex flex-wrap">
+			<span class="grow break-all">
+				@templ.Raw(L(ctx).Gettext(
+					"Signed in as: <strong>%s</strong>",
+					templ.EscapeString(user.Username),
+				))
+			</span>
+			<button type="submit" class="link">
+				@Icon("o-logout")
+				{ " " }
+				<span>{ L(ctx).Gettext("Sign out") }</span>
+			</button>
+		</p>
+	</form>
 	<h2 class="text-h3 mb-8 text-center">{ L(ctx).Gettext("Authorization required") }</h2>
 	<div class="flex gap-4 items-center mb-4">
 		if client.Logo != "" {
