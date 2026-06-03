@@ -1,13 +1,15 @@
 {
   "title_selectors": null,
   "body_selectors": [
+    "//article/div[contains(concat(' ',normalize-space(@class),' '),' entry ')]",
     "//div[@class='entry-inner']"
   ],
   "date_selectors": null,
   "author_selectors": null,
   "strip_selectors": [
     "//img[contains(concat(\" \", normalize-space(@class), \" \"), \" jetpack-lazy-image \")]",
-    "//div[@class='aawp']"
+    "//div[@class='aawp']",
+    "//a[contains(@href, 'google.com/preferences/')]"
   ],
   "strip_id_or_class": [
     "aawp-disclaimer",

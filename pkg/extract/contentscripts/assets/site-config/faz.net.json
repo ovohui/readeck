@@ -33,6 +33,7 @@
     "//button",
     "//div[contains(@style, 'background-image')]",
     "//img[@width='1']",
+    "//a[contains(@href, '//google.com/preferences/')]/parent::div",
     "//div[@data-module=\"teaser\"]",
     "//footer[@class='tsr-Base_ContentMeta']",
     "//div[contains(concat(' ',normalize-space(@class),' '),' intro ')]"

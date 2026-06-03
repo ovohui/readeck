@@ -16,6 +16,9 @@
     "//aside[contains(@class, 'dontPrint')]",
     "//blockquote[contains(@class, 'dontPrint')]",
     "//div[contains(@x-data, 'socialSharing')]",
+    "//a[contains(@href, 'google.com/preferences/')]/parent::p/parent::div",
+    "//a[contains(@href, '/podcast/hessenschau-hoeren/')]/ancestor::div[contains(@class, 'relative')][1]",
+    "//a[contains(@href, '/die-hessenschau-app-des-hessischen-rundfunks')]/ancestor::div[1]",
     "//picture/source[contains(@media, '47.')]",
     "//picture/img[contains(@media, '47.')]",
     "//a[@href='https://whatsapp.com/channel/0029VaDcqVJAu3aJgJtKhX25']/parent::aside",
@@ -133,11 +136,7 @@
       "contains": []
     },
     {
-      "url": "https://www.hessenschau.de/panorama/weltkriegsbombe-im-frankfurter-osthafen-entschaerft,bombenfund-frankfurt-ostend-100.html",
-      "contains": []
-    },
-    {
-      "url": "https://www.hessenschau.de/panorama/beschaedigte-bahn-bruecke-in-frankfurt-bleibt-noch-weitere-zwei-monate-dicht-v1,bahn-bruecke-reparatur-100.html",
+      "url": "https://www.hessenschau.de/sport/fussball/eintracht-frankfurt/eintracht-vorstand-spricht-ueber-umdenken-nach-pyro-eskalation-wir-haben-unsere-unschuld-verloren-v1,reschke-randale-100.html",
       "contains": []
     }
   ]

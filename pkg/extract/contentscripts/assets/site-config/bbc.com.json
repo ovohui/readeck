@@ -54,6 +54,8 @@
     "//div[contains(concat(' ',normalize-space(@class),' '),' drop-capped ')]",
     "//section[@data-component=\"tag-list\"]",
     "//section[@data-component=\"see-alsos\"]",
+    "//div[@data-component=\"tag-list-block\"]",
+    "//div[@data-component=\"links-block\"]",
     "//figcaption",
     "//aside[contains(@class, 'sp-pullout')]",
     "//section[contains(@class, 'LinksWrapper')]"
