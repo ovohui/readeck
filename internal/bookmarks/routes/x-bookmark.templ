@@ -179,15 +179,9 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 									<span class="sr-only">{ L(ctx).Gettext("Bookmark information") }</span>
 								</button>
 							</div>
-							<progress
-                                max="100"
-                                if item.HasArticle {
-                                    value={ item.ReadProgress }
-                                    data-scroll-progress-target="indicator"
-                                } else {
-                                    value="0"
-                                }
-                            ></progress>
+							if item.HasArticle {
+								<progress max="100" value={ item.ReadProgress } data-scroll-progress-target="indicator"></progress>
+							}
 						</div>
 						// title and description
 						<div
