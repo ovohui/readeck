@@ -52,7 +52,7 @@
         height: inherit;
         max-width: var(--max-w);
         margin: 0 auto;
-        padding: 0 theme("size.4");
+        padding: 0 theme("size.8");
         display: flex;
         gap: theme("size.4");
         align-items: center;
@@ -82,7 +82,7 @@
       grid-template-columns: auto 1fr;
       max-width: var(--max-w);
       margin: 0 auto;
-      padding: 0 theme("size.4");
+      padding: 0 theme("size.8");
 
       @media print {
         display: block;
@@ -146,6 +146,7 @@
       .layout--grid {
         display: flex;
         flex-direction: column;
+        padding: 0 theme("size.4");
       }
 
       .sidemenu {

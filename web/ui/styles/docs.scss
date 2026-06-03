@@ -45,8 +45,12 @@
 
 @layer components {
   rapi-doc {
-    @apply max-w-layout mx-auto;
+    @apply max-w-layout mx-auto bg-transparent;
     height: calc(100vh - var(--topnav-h));
+
+    @screen sm {
+      @apply pl-8;
+    }
 
     @screen md {
       @apply overflow-y-auto;
@@ -138,17 +142,22 @@
 
     .breadcrumbs {
       max-width: 70rem;
+      margin-right: 2rem;
+
+      @screen max-sm {
+        margin-right: 1rem;
+      }
     }
 
     &::part(section-navbar) {
       background-color: var(--layout-bg);
-      width: calc(var(--sidemenu-w) + 1rem);
+      width: var(--sidemenu-w);
       border-right: 1px solid rgb(var(--color-gray-200));
       padding-top: 1rem;
     }
 
     &::part(section-navbar-search) {
-      padding-top: 0;
+      padding: 0 theme("spacing.4") theme("spacing.4") 0;
     }
 
     &::part(section-navbar-operations-top) {
@@ -156,7 +165,7 @@
     }
 
     &::part(section-navbar-scroll) {
-      padding: 0 theme("padding.4");
+      padding-right: theme("padding.4");
     }
 
     &::part(section-navbar-item) {
@@ -180,12 +189,19 @@
     }
 
     &::part(section-main-content) {
-      padding: 1rem;
+      padding: 1rem 0 1rem 1rem;
       scrollbar-width: auto;
+      background-color: var(--bg);
     }
 
     &::part(section-inner-content) {
       max-width: 70rem;
+      margin-right: 2rem;
+
+      @screen max-sm {
+        margin-right: 1rem;
+        padding: 0;
+      }
     }
 
     &::part(label-operation-method) {
