@@ -11,7 +11,7 @@ const require = createRequire(import.meta.url)
 
 import gulp from "gulp"
 import gulpHash from "gulp-hash-filename"
-import gulpEsbuild from "gulp-esbuild"
+import {gulpEsbuild} from "gulp-esbuild"
 import gulpPostcss from "gulp-postcss"
 import gulpRename from "gulp-rename"
 import gulpSass from "gulp-sass"
@@ -139,6 +139,7 @@ function js_bundle() {
       .src("src/main.js")
       .pipe(
         gulpEsbuild({
+          entryPoints: ["src/main.js"],
           sourcemap: "inline",
           outfile: "bundle.js",
           bundle: true,
@@ -161,6 +162,7 @@ function js_bundle() {
       .src("src/public.js")
       .pipe(
         gulpEsbuild({
+          entryPoints: ["src/public.js"],
           sourcemap: "inline",
           outfile: "public.js",
           bundle: true,

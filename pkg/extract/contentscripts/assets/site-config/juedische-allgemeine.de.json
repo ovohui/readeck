@@ -1,46 +1,35 @@
 {
   "title_selectors": [
-    "//h1"
+    "//h2[@class=\"headline\"]"
   ],
   "body_selectors": [
-    "//div[@id='article_container']"
+    "//main"
   ],
   "date_selectors": null,
   "author_selectors": [
-    "//h4//a[@class='author']"
+    "//meta[@name='author']/@content"
   ],
-  "strip_selectors": [
-    "//img[@src='']",
-    "//h4[@id='author']"
-  ],
+  "strip_selectors": null,
   "strip_id_or_class": [
-    "share_toolbox",
-    "article_header",
-    "phototext"
+    "kicker",
+    "matadaten-autor",
+    "u-teaser-list",
+    "teaserbox-wrapper",
+    "button-wrapper",
+    "social-box-wrapper"
   ],
-  "strip_image_src": [
-    "icon_author.gif"
-  ],
+  "strip_image_src": null,
   "native_ad_selectors": null,
   "tidy": false,
   "prune": false,
   "autodetect_on_failure": true,
   "single_page_link_selectors": null,
   "next_page_link_selectors": null,
-  "replace_strings": [
-    [
-      "lang=\"en\"",
-      "lang=\"de\""
-    ],
-    [
-      "/\u003e1\u003c/a\u003e",
-      "/\u003e\u003c/a\u003e"
-    ]
-  ],
+  "replace_strings": null,
   "http_headers": null,
   "tests": [
     {
-      "url": "http://www.juedische-allgemeine.de/article/view/id/13366",
+      "url": "https://www.juedische-allgemeine.de/kultur/bob-dylan-der-geniale-sonderling/",
       "contains": []
     }
   ]
