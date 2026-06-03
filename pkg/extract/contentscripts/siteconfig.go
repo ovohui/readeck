@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
+	"iter"
 	"maps"
 	"net/url"
 	"strings"
@@ -56,25 +57,27 @@ func NewSiteconfigDiscovery(root fs.FS) *SiteConfigDiscovery {
 }
 
 // FindConfigHostFile finds the files matching the given name.
-func (d *SiteConfigDiscovery) FindConfigHostFile(name string) []string {
-	res := []string{}
-
-	s, _ := fs.Stat(d, name+".json")
-	if s != nil && !s.IsDir() {
-		res = append(res, s.Name())
-	}
-
-	// Find wildcard files
-	parts := strings.Split(name, ".")
-	for i := range parts {
-		n := fmt.Sprintf(".%s.json", strings.Join(parts[i:], "."))
-		s, _ = fs.Stat(d, n)
+func (d *SiteConfigDiscovery) FindConfigHostFile(name string) iter.Seq[string] {
+	return func(yield func(string) bool) {
+		s, _ := fs.Stat(d, name+".json")
 		if s != nil && !s.IsDir() {
-			res = append(res, s.Name())
+			if !yield(s.Name()) {
+				return
+			}
+		}
+
+		// Find wildcard files
+		parts := strings.Split(name, ".")
+		for i := range parts {
+			n := fmt.Sprintf(".%s.json", strings.Join(parts[i:], "."))
+			s, _ = fs.Stat(d, n)
+			if s != nil && !s.IsDir() {
+				if !yield(s.Name()) {
+					return
+				}
+			}
 		}
 	}
-
-	return res
 }
 
 // NewSiteConfig loads a configuration file from an io.Reader.
@@ -99,10 +102,7 @@ func NewConfigForURL(discovery *SiteConfigDiscovery, src *url.URL) (*SiteConfig,
 	hostname := strings.TrimPrefix(src.Hostname(), "www.")
 	hostname, _ = idna.ToASCII(hostname)
 
-	files := discovery.FindConfigHostFile(hostname)
-	files = append(files, discovery.FindConfigHostFile("global")...)
-
-	for _, x := range files {
+	for x := range discovery.FindConfigHostFile(hostname) {
 		fd, err := discovery.Open(x)
 		if err != nil {
 			return nil, err
