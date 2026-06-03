@@ -42,12 +42,12 @@ func TestSiteConfig(t *testing.T) {
 			host  string
 			files []string
 		}{
-			{"example.net", []string{"example.net.json", ".example.net.json", ".net.json", "global.json"}},
-			{"test.example.net", []string{"test.example.net.json", ".example.net.json", ".net.json", "global.json"}},
-			{"site.net", []string{".net.json", "global.json"}},
-			{"example.com", []string{"global.json"}},
-			{"pérotin.com", []string{"xn--protin-bva.com.json", "global.json"}},
-			{"xn--protin-bva.com", []string{"xn--protin-bva.com.json", "global.json"}},
+			{"example.net", []string{"example.net.json", ".example.net.json", ".net.json"}},
+			{"test.example.net", []string{"test.example.net.json", ".example.net.json", ".net.json"}},
+			{"site.net", []string{".net.json"}},
+			{"example.com", nil},
+			{"pérotin.com", []string{"xn--protin-bva.com.json"}},
+			{"xn--protin-bva.com", []string{"xn--protin-bva.com.json"}},
 		}
 
 		for _, test := range tests {
@@ -92,9 +92,6 @@ func TestSiteConfig(t *testing.T) {
 
 	t.Run("autodetect_on_failure", func(t *testing.T) {
 		root := fstest.MapFS{
-			"global.json": &fstest.MapFile{
-				Data: []byte("{}"),
-			},
 			".example.net.json": &fstest.MapFile{
 				Data: []byte("{}"),
 			},
@@ -111,7 +108,7 @@ func TestSiteConfig(t *testing.T) {
 			host  string
 			files []string
 		}{
-			{"test1.example.net", []string{"test1.example.net.json", ".example.net.json", "global.json"}},
+			{"test1.example.net", []string{"test1.example.net.json", ".example.net.json"}},
 			{"test2.example.net", []string{"test2.example.net.json"}},
 		}
 
