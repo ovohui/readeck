@@ -210,6 +210,10 @@ $line-height: 1.5;
         font-size: 0.9em;
       }
 
+      &:has(img) p {
+        margin-bottom: 0;
+      }
+
       *:last-child {
         margin-bottom: 0;
       }
