@@ -52,6 +52,15 @@
       }
     }
 
+    .bookmark-loading {
+      @apply flex flex-col items-center justify-center w-full;
+      @apply pt-24;
+      grid-row-start: 1;
+      grid-row-end: 2;
+      grid-column-start: 1;
+      grid-column-end: 3;
+    }
+
     .bookmark-content {
       grid-area: content;
       contain: inline-size;

@@ -70,8 +70,7 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 			}
 		>
 			if !item.Loaded {
-				// TODO: center on page
-				<div class="text-center mt-8" id="content">
+				<div class="bookmark-loading">
 					<span class="text-3xl">
 						@Spinner()
 					</span>
