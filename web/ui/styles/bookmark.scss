@@ -9,6 +9,7 @@
       "top top top"
       "options content panel";
     grid-template-columns: auto 1fr auto;
+    margin-top: -1rem;
 
     @screen max-sm {
       display: block;
@@ -54,6 +55,7 @@
     .bookmark-content {
       grid-area: content;
       contain: inline-size;
+      padding-top: 1rem;
 
       .bookmark-header,
       .bookmark-article {
@@ -118,6 +120,7 @@
 
     .bookmark-sidebar {
       grid-area: panel;
+      height: fit-content;
       width: calc(theme("space.col-6") + 2rem);
       padding-left: 2rem;
 
