@@ -582,7 +582,7 @@ func (m *domModule) createNodePrototype() *goja.Object { //nolint:gocognit,gocyc
 
 		matcher, err := cascadia.ParseGroup(arg)
 		if err != nil {
-			panic(m.r.ToValue(fmt.Sprintf("error parsing CSS selector: %s", err.Error())))
+			panic(m.r.ToValue("error parsing CSS selector: " + err.Error()))
 		}
 
 		for n := np.node; n != nil; n = n.Parent {
