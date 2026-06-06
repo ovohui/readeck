@@ -21,7 +21,7 @@
 
     .bookmark-scroll-progress {
       grid-area: top;
-      position: sticky;
+      position: fixed;
       z-index: 40;
       top: var(--topnav-h);
 
