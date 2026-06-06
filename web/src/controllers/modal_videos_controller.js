@@ -33,6 +33,16 @@ export default class extends Controller {
     })
   }
 
+  /**
+   * @param {Event} evt turbo:morph-element event
+   */
+  reload(evt) {
+    if (evt.target == this.element) {
+      this.disconnect()
+      this.connect()
+    }
+  }
+
   get #iframe() {
     return this.dialogTarget.querySelector("iframe")
   }

@@ -19,9 +19,12 @@ templ (v Views) api(schemaURL string, hideBadges []string) {
 		layout.Head = v.apiScript()
 	}}
 	@layout.BasePage(L(ctx).Gettext("API Documentation")) {
-		<div class="max-w-full flex h-screen max-sm:flex-col">
-			@layout.Menu(templ.NopComponent)
-			<div class="grow md:overflow-y-auto" id="content" lang="en-US">
+		<div class="layout">
+			<div class="sidemenu hidden"></div> // make the CSS think there's a sidemenu
+			<div class="topnav">
+				@layout.Menu(templ.NopComponent)
+			</div>
+			<div lang="en-US">
 				<rapi-doc
 					spec-url={ schemaURL }
 					allow-server-selection="false"

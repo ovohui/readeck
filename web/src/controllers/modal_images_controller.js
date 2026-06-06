@@ -22,6 +22,16 @@ export default class extends Controller {
     })
   }
 
+  /**
+   * @param {Event} evt turbo:morph-element event
+   */
+  reload(evt) {
+    if (evt.target == this.element) {
+      this.disconnect()
+      this.connect()
+    }
+  }
+
   addTrigger(e) {
     if (e == this.imgTarget) {
       return

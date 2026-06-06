@@ -20,7 +20,7 @@ templ (v Views) menu() {
 	@SideMenuTitle() {
 		{ L(ctx).Gettext("Bookmarks") }
 	}
-	<form class="mt-2 ml-0.5 mr-1 flex" action={ URL(ctx, "/bookmarks") } method="get">
+	<form class="mt-2  flex" action={ URL(ctx, "/bookmarks") } method="get">
 		<input type="hidden" name="bf" value="1"/>
 		<div class="flex p-1 form-input rounded-full w-full">
 			<input

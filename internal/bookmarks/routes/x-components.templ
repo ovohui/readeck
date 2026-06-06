@@ -125,6 +125,7 @@ templ (c Components) articleContent(item *dataset.Bookmark, html io.Reader) {
 					data-modal-videos-base-url-value={ URL(ctx, "/videoplayer") + "?type=embed" }
 					data-annotations-target="root"
 					data-scroll-progress-target="tracked"
+					data-action="turbo:morph-element->modal-images#reload turbo:morph-element->modal-videos#reload"
 				>
 					@HTML(html)
 					@c.imageModal()
@@ -135,8 +136,6 @@ templ (c Components) articleContent(item *dataset.Bookmark, html io.Reader) {
 	}
 }
 
-// FIXME: image & video dialogs not showing after update -> due to morph when loading the turbo stream
-// See: https://github.com/hotwired/stimulus/issues/829
 templ (c Components) articleAnnotator() {
 	{{
 		colors := [][2]string{
@@ -249,7 +248,7 @@ templ (c Components) imageModal() {
 		</div>
 	</dialog>
 	<template data-modal-images-target="trigger">
-		<span class="block relative group">
+		<span class="block w-fit relative group">
 			<button
 				type="button"
 				title={ L(ctx).Gettext("Show image") }

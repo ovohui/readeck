@@ -76,25 +76,28 @@ body.js {
 
 // Scrollbar
 @layer base {
-  * {
-    scrollbar-color: rgb(var(--color-gray-400)) rgb(var(--color-gray-100));
-    scrollbar-width: auto;
-  }
+  @supports (scrollbar-width: thin) {
+    html,
+    body {
+      --scrollbar-track: var(--color-gray-100);
+      --scrollbar-handle: var(--color-gray-400);
+      scrollbar-color: rgb(var(--scrollbar-handle)) rgb(var(--scrollbar-track));
+      scrollbar-width: auto;
 
-  *::-webkit-scrollbar,
-  *::-webkit-scrollbar:xr-overlay {
-    width: 4px;
-  }
+      * {
+        --scrollbar-opacity: 0;
+        scrollbar-color: rgb(var(--scrollbar-handle) / var(--scrollbar-opacity))
+          rgb(var(--scrollbar-track) / var(--scrollbar-opacity));
+        scrollbar-width: thin;
+        transition: scrollbar-color 1s;
 
-  *::-webkit-scrollbar-track {
-    width: 4px;
-    background: rgb(var(--color-gray-100));
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: rgb(var(--color-gray-400));
-    width: 2px;
-    border-radius: 3px;
+        &:hover {
+          --scrollbar-opacity: 1;
+          scrollbar-color: inherit;
+          transition-duration: 0s;
+        }
+      }
+    }
   }
 }
 
