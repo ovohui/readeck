@@ -10,14 +10,15 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-05-24 08:54+0200\n"
-"PO-Revision-Date: 2026-05-17 05:07+0000\n"
+"PO-Revision-Date: 2026-05-25 00:33+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
-"Language: uk\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/readeck/application/uk/>\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2026.5\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:72
@@ -219,9 +220,8 @@ msgid "External User"
 msgstr "Зовнішній користувач"
 
 #: internal/admin/x-users.templ:44 internal/admin/x-users.templ:174
-#, fuzzy
 msgid "TOTP is enabled"
-msgstr "Увімкнено"
+msgstr "TOTP увімкнено"
 
 #: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
@@ -644,7 +644,6 @@ msgid "username is not available"
 msgstr "ім’я користувача недоступне"
 
 #: internal/auth/users/forms.go:34
-#, fuzzy
 msgid "password must be at least 8 characters long"
 msgstr "пароль повинен містити мінімум 8 символів"
 
@@ -972,7 +971,6 @@ msgid "Import your Pocket Articles"
 msgstr "Імпортувати ваші статті з Pocket"
 
 #: internal/bookmarks/importer/x-forms.templ:200
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a Pocket export file in the form below and Readeck will fetch and save\n"
@@ -980,7 +978,7 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"\t\t\t\tЗавантажте цей файл у форму нижче, і Readeck витягне та збереже\n"
+"\t\t\t\tЗавантажте файл експорту Pocket у форму нижче, і Readeck витягне та збереже\n"
 "\t\t\t\tкожне посилання, знайдене у файлі.\n"
 "\t\t\t"
 
@@ -1834,20 +1832,19 @@ msgstr "Збережено Readeck"
 
 #: internal/bookmarks/routes/x-components.templ:354
 msgid "This feed provides the latest entries from this bookmark list"
-msgstr ""
+msgstr "Ця стрічка містить останні записи з цього списку закладок"
 
 #: internal/bookmarks/routes/x-components.templ:355
 msgid "Subscribe to this feed by copying the URL below:"
-msgstr ""
+msgstr "Підпишіться на цю стрічку, скопіювавши наведену нижче URL-адресу:"
 
 #: internal/bookmarks/routes/x-components.templ:374
-#, fuzzy
 msgid "Open link"
-msgstr "Скопіювати посилання"
+msgstr "Відкрити посилання"
 
 #: internal/bookmarks/routes/x-components.templ:382
 msgid "Access to this feed is restricted."
-msgstr ""
+msgstr "Доступ до цієї стрічки обмежений."
 
 #: internal/bookmarks/routes/x-components.templ:384
 msgid ""
@@ -1856,6 +1853,10 @@ msgid ""
 "\t\t\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">API Token</a> to load this feed.\n"
 "\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\tЩоб завантажити цю стрічку, вам потрібно вказати у своєму додатку для читання новин\n"
+"\t\t\t\t\t\tім’я користувача і <a class=\"%[1]s\" href=\"%[2]s\">токен API</a>.\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-filters.templ:22
 msgid "Author"
@@ -3232,4 +3233,3 @@ msgstr "%H:%M:%S"
 #~ "\t\t\t\tЦе може призвести до того, що результати в Readeck будуть відрізнятися від тих,\n"
 #~ "\t\t\t\tякі ви зараз бачите в Pocket.\n"
 #~ "\t\t\t"
-
