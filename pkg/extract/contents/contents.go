@@ -15,11 +15,13 @@ import (
 	"strings"
 
 	"golang.org/x/net/html"
+	"golang.org/x/net/html/atom"
 
 	"github.com/go-shiori/dom"
 
 	"codeberg.org/readeck/go-readability/v2"
 	readabilityRender "codeberg.org/readeck/go-readability/v2/render"
+	"codeberg.org/readeck/readeck/pkg/domutils"
 	"codeberg.org/readeck/readeck/pkg/extract"
 )
 
@@ -292,7 +294,7 @@ func removeEmbeds(top *html.Node) {
 // fixShadowDOMHosts unwraps all <template shadowrootmode="open"> elements, allowing their contents
 // to become normal part of the DOM and to survive the readability and sanitization process.
 func fixShadowDOMHosts(top *html.Node) {
-	for tpl := range eachElementByTag(top, "template") {
+	for tpl := range domutils.EachElementByTag(top, atom.Template) {
 		if dom.GetAttribute(tpl, "shadowrootmode") != "open" {
 			continue
 		}
@@ -350,7 +352,7 @@ func isSingleImage(node *html.Node) bool {
 
 // convertObjectImageEmbeds converts <object> tags to <img>.
 func convertObjectImageEmbeds(top *html.Node) {
-	for el := range eachElementByTag(top, "object") {
+	for el := range domutils.EachElementByTag(top, atom.Object) {
 		img := &html.Node{
 			Type: html.ElementNode,
 			Data: "img",
