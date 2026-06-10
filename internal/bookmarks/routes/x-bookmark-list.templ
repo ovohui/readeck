@@ -174,7 +174,7 @@ templ (c Components) createForm(f *createForm) {
 					value={ f.URL.Value() }
 					placeholder="https://"
 				/>
-				<button type="submit" class="">
+				<button autofocus?={ f.URL.Value() != "" } type="submit" class="">
 					@Icon("o-create")
 					<span>{ L(ctx).Pgettext("button", "Save link") }</span>
 				</button>
