@@ -63,7 +63,7 @@ templ (c *Layout) BasePage(title string) {
 templ (c *Layout) Menu(menuBtn templ.Component) {
 	<div class="topnav--grid" id="menu">
 		@menuBtn {
-			@Icon("o-menu")
+			@Icon("o-menu", WithIconClass("w-6 h-6"), WithIconSvgClass("w-6 h-6"))
 		}
 		<div class="logo">
 			if HasCustomTemplate("layout/menu-icon.html.tmpl") {
@@ -158,10 +158,7 @@ templ QuickAccessMenu(items [][2]string) {
 
 // SideMenuTitle renders a title used in side menus.
 templ SideMenuTitle() {
-	<h2
-		id="sidemenu-title"
-		class="h-topnav border-b border-gray-200 uppercase flex items-center justify-center sm:hidden"
-	>
+	<h2 id="sidemenu--title" class="sidemenu--title">
 		{ children... }
 	</h2>
 }
@@ -245,7 +242,7 @@ templ (c *Layout) authHeader() {
 }
 
 templ (c *Layout) AuthBase(title string) {
-	@BasePage(title) {
+	@c.BasePage(title) {
 		@c.authHeader()
 		<main class="w-full max-w-sm p-8 mt-6 mx-auto bg-gray-100 text-gray-dark rounded-md shadow-md" id="content">
 			{ children... }
@@ -255,7 +252,7 @@ templ (c *Layout) AuthBase(title string) {
 }
 
 templ (c *Layout) AuthError(status int) {
-	@BasePage(L(ctx).Gettext("Error")) {
+	@c.BasePage(L(ctx).Gettext("Error")) {
 		@c.authHeader()
 		<main class="w-full max-w-sm p-8 mt-6 mx-auto text-center border border-red-800 bg-red-100 rounded-md" id="content">
 			<h2 class="title text-h3">{ L(ctx).Gettext("An error occurred.") }</h2>
