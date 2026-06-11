@@ -63,7 +63,7 @@ templ (c *Layout) BasePage(title string) {
 templ (c *Layout) Menu(menuBtn templ.Component) {
 	<div class="topnav--grid" id="menu">
 		@menuBtn {
-			@Icon("o-menu")
+			@Icon("o-menu", WithIconClass("w-6 h-6"), WithIconSvgClass("w-6 h-6"))
 		}
 		<div class="logo">
 			if HasCustomTemplate("layout/menu-icon.html.tmpl") {
@@ -158,10 +158,7 @@ templ QuickAccessMenu(items [][2]string) {
 
 // SideMenuTitle renders a title used in side menus.
 templ SideMenuTitle() {
-	<h2
-		id="sidemenu-title"
-		class="h-topnav border-b border-gray-200 uppercase flex items-center justify-center sm:hidden"
-	>
+	<h2 id="sidemenu--title" class="sidemenu--title">
 		{ children... }
 	</h2>
 }

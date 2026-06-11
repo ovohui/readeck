@@ -30,11 +30,6 @@
       display: none;
     }
 
-    // without sidemenu, we don't need to align the first column
-    &:not(:has(.sidemenu)) .topnav .logo {
-      width: auto;
-    }
-
     // top navigation
     .topnav {
       height: var(--topnav-h);
@@ -56,10 +51,6 @@
         display: flex;
         gap: theme("size.4");
         align-items: center;
-      }
-
-      .logo {
-        width: var(--sidemenu-w);
       }
 
       .mainmenu {
@@ -133,7 +124,7 @@
         }
 
         .logo {
-          width: auto;
+          @apply order-first;
         }
 
         @apply translate-y-0 transition-transform duration-500;
@@ -151,7 +142,15 @@
 
       .sidemenu {
         width: 100%;
+        max-width: var(--sidemenu-w);
         background: var(--layout-main-bg);
+        box-shadow: 5vh 0 100px rgba(0, 0, 0, 0.5);
+
+        .sidemenu--title {
+          @apply flex items-center;
+          @apply h-topnav mb-4;
+          @apply border-b border-b-gray-200 uppercase;
+        }
       }
 
       .sidemenu + .content {
@@ -168,20 +167,23 @@
         left: 0;
         top: 0;
         z-index: 50;
-        padding: theme("size.4");
+        padding: 0 theme("size.4") theme("size.4") theme("size.4");
         transform: translateX(0);
-        @apply transition-transform delay-100;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 200ms;
 
         button[aria-controls="sidemenu"] {
           position: fixed;
-          top: theme("spacing.2");
+          top: theme("spacing.3");
           right: theme("spacing.4");
         }
       }
-
       .sidemenu--hidden {
+        transform: translateX(calc(-105% - 100px));
         visibility: hidden;
-        transform: translateX(-105%);
+        transition:
+          transform 150ms,
+          visibility 150ms;
       }
     }
 
@@ -246,8 +248,9 @@
       }
 
       button.sidemenu--button {
-        @apply p-2 leading-none rounded-md text-gray-900;
+        @apply p-1 leading-none rounded-md text-gray-900;
         @apply cursor-pointer;
+        @apply border-2 rounded-md;
         @apply hf:bg-gray-300/75;
       }
     }
@@ -280,6 +283,10 @@
           }
         }
       }
+    }
+
+    .sidemenu--title {
+      @apply hidden;
     }
   }
 }
