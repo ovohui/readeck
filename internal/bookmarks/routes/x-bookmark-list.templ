@@ -173,6 +173,8 @@ templ (c Components) createForm(f *createForm) {
 					size="15"
 					value={ f.URL.Value() }
 					placeholder="https://"
+					inputmode="url"
+					autocomplete="url"
 				/>
 				<button autofocus?={ f.URL.Value() != "" } type="submit" class="">
 					@Icon("o-create")
