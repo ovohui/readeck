@@ -39,7 +39,7 @@ templ (_ Components) OIDC() {
 
 templ (v Views) signIn(f *loginForm) {
 	@AuthLayout(L(ctx).Gettext("Sign in")) {
-		<h2 class="text-h3 mb-8 text-center">{ L(ctx).Gettext("Sign in to Readeck") }</h2>
+		<h1 class="text-h3 mb-8 text-center">{ L(ctx).Gettext("Sign in to Readeck") }</h1>
 		<form
 			action={ URL(ctx, "/login") }
 			method="post"

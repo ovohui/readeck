@@ -6,11 +6,6 @@ package components
 
 import "github.com/a-h/templ"
 
-// BasePage renders an empty page with default and required head elements.
-func BasePage(title string) templ.Component {
-	return defaultLayout.BasePage(title)
-}
-
 // SideMenuLayout renders a page with a side menu.
 func SideMenuLayout(title string, sidemenu templ.Component) templ.Component {
 	return defaultLayout.SideMenuLayout(title, sidemenu, defaultLayout.SideMenuWrapper())
