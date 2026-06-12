@@ -20,7 +20,7 @@ templ (v Views) menu() {
 	@SideMenuTitle() {
 		{ L(ctx).Gettext("Bookmarks") }
 	}
-	<form class="mt-2  flex" action={ URL(ctx, "/bookmarks") } method="get">
+	<form class="mt-2 mb-4 flex" action={ URL(ctx, "/bookmarks") } method="get">
 		<input type="hidden" name="bf" value="1"/>
 		<div class="flex p-1 form-input rounded-full w-full">
 			<input
@@ -45,7 +45,7 @@ templ (v Views) menu() {
 templ (v Views) sideMenu() {
 	{{ counters, hasCounters := checkCounters(ctx) }}
 	<turbo-frame id="bookmarks-sidemenu">
-		<menu class="my-4">
+		<menu>
 			@v.sideMenuItem(L(ctx).Gettext("All"), "o-library",
 				"/bookmarks", PathIs(ctx, "/bookmarks"), counters.Total)
 			@v.sideMenuItem(L(ctx).Gettext("Unread"), "o-check-off",
@@ -56,7 +56,7 @@ templ (v Views) sideMenu() {
 				"/bookmarks/favorites", PathIs(ctx, "/bookmarks/favorites"), counters.Marked)
 		</menu>
 		if hasCounters {
-			<menu class="my-4">
+			<menu>
 				if counters.ByType["article"] > 0 {
 					@v.sideMenuItem(L(ctx).Gettext("Articles"), "o-file",
 						"/bookmarks/articles", PathIs(ctx, "/bookmarks/articles"), counters.ByType["article"])
@@ -71,7 +71,7 @@ templ (v Views) sideMenu() {
 				}
 			</menu>
 		}
-		<hr class="w-[25%] border-gray-200 mx-auto"/>
+		<hr/>
 		<menu class="mt-4">
 			@v.sideMenuItem(L(ctx).Gettext("Labels"), "o-label",
 				"/bookmarks/labels", PathIs(ctx, "/bookmarks/labels"), 0)

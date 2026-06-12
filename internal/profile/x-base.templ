@@ -13,7 +13,7 @@ templ (_ Views) Menu() {
 	@SideMenuTitle() {
 		{ L(ctx).Gettext("Settings") }
 	}
-	<menu class="my-4">
+	<menu>
 		<li>
 			<a href={ URL(ctx, "/profile") } data-current={ PathIs(ctx, "/profile") }>
 				@Icon("o-user")
@@ -42,8 +42,8 @@ templ (_ Views) Menu() {
 		}
 	</menu>
 	if HasPermission(ctx, "profile", "export") || HasPermission(ctx, "profile", "import") {
-		<hr class="w-[25%] border-gray-200 mx-auto"/>
-		<menu class="my-4">
+		<hr/>
+		<menu>
 			if HasPermission(ctx, "profile", "export") {
 				<li>
 					<a href={ URL(ctx, "/profile/export") } data-current={ PathIs(ctx, "/profile/export") }>
@@ -62,8 +62,8 @@ templ (_ Views) Menu() {
 			}
 		</menu>
 		if HasPermission(ctx, "admin:users", "read") {
-			<hr class="w-[25%] border-gray-200 mx-auto"/>
-			<menu class="my-4">
+			<hr/>
+			<menu>
 				<li>
 					<a href={ URL(ctx, "/admin/users") } data-current={ PathIs(ctx, "/admin/users", "/admin/users/*") }>
 						@Icon("o-user-admin")
