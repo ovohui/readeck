@@ -6,8 +6,8 @@ package components
 
 import "net/http"
 
-// BasePage renders the layout's base page with head elements.
-templ (c *Layout) BasePage(title string) {
+// Base renders the layout's base page with head elements.
+templ (c *Layout) Base(title string) {
 	<!DOCTYPE html>
 	<html
 		lang={ L(ctx).Tag.String() }
@@ -150,7 +150,9 @@ templ QuickAccessMenu(items [][2]string) {
 	if len(items) > 0 {
 		<ul label={ L(ctx).Gettext("Quick access menu") } class="a11y-nav">
 			for _, item := range items {
-				<li><a href={ "#" + item[0] } class="link">{ item[1] }</a></li>
+				if item[0] != "" {
+					<li><a href={ "#" + item[0] } class="link">{ item[1] }</a></li>
+				}
 			}
 		</ul>
 	}
@@ -163,8 +165,8 @@ templ SideMenuTitle() {
 	</h2>
 }
 
-// SideMenuLayout renders a layout with a side menu.
-templ (c *Layout) SideMenuLayout(title string, sidemenu templ.Component, contentWrapper templ.Component) {
+// page renders a layout with an optional side menu.
+templ (c *Layout) page(title string, sidemenu templ.Component, contentWrapper templ.Component) {
 	{{
 		qam := c.AccessMenu
 		if len(qam) == 0 {
@@ -173,9 +175,12 @@ templ (c *Layout) SideMenuLayout(title string, sidemenu templ.Component, content
 				{"sidemenu", L(ctx).Gettext("Secondary Menu")},
 				{"content", L(ctx).Gettext("Main content")},
 			}
+			if sidemenu == nil {
+				qam[1] = [2]string{}
+			}
 		}
 	}}
-	@c.BasePage(title) {
+	@c.Base(title) {
 		@QuickAccessMenu(qam)
 		<div
 			class="layout"
@@ -216,6 +221,21 @@ templ (c *Layout) SideMenuLayout(title string, sidemenu templ.Component, content
 	}
 }
 
+// Page renders a page with an optional side menu.
+templ (c *Layout) Page(title string, sidemenu templ.Component) {
+	@c.page(title, sidemenu, c.SideMenuWrapper()) {
+		{ children... }
+	}
+}
+
+// PageStd renders a page with an optional side menu.
+// The content has a standard maximum width.
+templ (c *Layout) PageStd(title string, sidemenu templ.Component) {
+	@c.page(title, sidemenu, c.SideMenuStdWrapper()) {
+		{ children... }
+	}
+}
+
 templ (c *Layout) SideMenuWrapper() {
 	<div class="content" id="content">
 		@Flashes()
@@ -242,7 +262,7 @@ templ (c *Layout) authHeader() {
 }
 
 templ (c *Layout) AuthBase(title string) {
-	@c.BasePage(title) {
+	@c.Base(title) {
 		@c.authHeader()
 		<main class="w-full max-w-sm p-8 mt-6 mx-auto bg-gray-100 text-gray-dark rounded-md shadow-md" id="content">
 			{ children... }
@@ -252,7 +272,7 @@ templ (c *Layout) AuthBase(title string) {
 }
 
 templ (c *Layout) AuthError(status int) {
-	@c.BasePage(L(ctx).Gettext("Error")) {
+	@c.Base(L(ctx).Gettext("Error")) {
 		@c.authHeader()
 		<main class="w-full max-w-sm p-8 mt-6 mx-auto text-center border border-red-800 bg-red-100 rounded-md" id="content">
 			<h2 class="title text-h3">{ L(ctx).Gettext("An error occurred.") }</h2>

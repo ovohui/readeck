@@ -53,7 +53,7 @@ templ (_ Views) menu(toc [][2]string, lang string) {
 }
 
 templ (v Views) base(title string, toc [][2]string, lang string) {
-	@SideMenuStdLayout(title, v.menu(toc, lang)) {
+	@PageStd(title, v.menu(toc, lang)) {
 		{ children... }
 	}
 }

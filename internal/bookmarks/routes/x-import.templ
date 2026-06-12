@@ -14,7 +14,7 @@ import (
 type importViews struct{}
 
 templ (v importViews) base(title string) {
-	@SideMenuStdLayout(title, Views{}.menu()) {
+	@PageStd(title, Views{}.menu()) {
 		{ children... }
 	}
 }

@@ -12,7 +12,7 @@ import (
 
 templ (v Views) annotationList(annotations *dataset.AnnotationList) {
 	{{ title := L(ctx).Gettext("Bookmark Highlights") }}
-	@SideMenuLayout(title, v.menu()) {
+	@Page(title, v.menu()) {
 		<h1 class="title text-h2">{ title }</h1>
 		if annotations.Pagination.TotalCount == 0 {
 			<div class="max-w-std">

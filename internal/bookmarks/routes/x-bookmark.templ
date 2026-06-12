@@ -24,7 +24,7 @@ templ (v Views) bookmarkRefreshHead() {
 
 templ (v Views) bookmarkMissing() {
 	{{ title := L(ctx).Gettext("Bookmark not found") }}
-	@SideMenuStdLayout(L(ctx).Gettext("Edit bookmark"), v.menu()) {
+	@PageStd(L(ctx).Gettext("Edit bookmark"), v.menu()) {
 		<turbo-frame id="bookmark-info">
 			<h1 class="m-4 title text-h2">{ title }</h1>
 		</turbo-frame>
@@ -53,7 +53,7 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 
 		prefs := Preferences(ctx)
 	}}
-	@layout.SideMenuLayout(title+" "+L(ctx).Gettext("Bookmarks"), nil, layout.SideMenuWrapper()) {
+	@layout.Page(title+" "+L(ctx).Gettext("Bookmarks"), nil) {
 		<turbo-frame
 			id="bookmark-info"
 			class="bookmark-container"
@@ -217,7 +217,7 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 }
 
 templ (v Views) bookmarkUpdate(b *bookmarks.Bookmark, f *updateForm) {
-	@SideMenuStdLayout(L(ctx).Gettext("Edit bookmark"), v.menu()) {
+	@PageStd(L(ctx).Gettext("Edit bookmark"), v.menu()) {
 		<h1 class="text-h2 title">{ L(ctx).Gettext("Edit: %s", b.Title) }</h1>
 		@Components{}.bookmarkUpdate(b, f)
 		<p class="btn-block">
@@ -229,14 +229,14 @@ templ (v Views) bookmarkUpdate(b *bookmarks.Bookmark, f *updateForm) {
 }
 
 templ (v Views) shareByLink(link dataset.SharedLink) {
-	@SideMenuStdLayout(L(ctx).Gettext("Share link"), v.menu()) {
+	@PageStd(L(ctx).Gettext("Share link"), v.menu()) {
 		<h1 class="title text-h2">{ L(ctx).Gettext("Share: %s", link.Title) }</h1>
 		@Components{}.shareByLink(link)
 	}
 }
 
 templ (v Views) shareByEmail(info dataset.SharedEmail) {
-	@SideMenuStdLayout(L(ctx).Gettext("Share by email"), v.menu()) {
+	@PageStd(L(ctx).Gettext("Share by email"), v.menu()) {
 		<h1 class="title text-h2">{ L(ctx).Gettext("Share: %s", info.Title) }</h1>
 		@Components{}.shareByEmail(info)
 	}

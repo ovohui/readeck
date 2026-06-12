@@ -33,7 +33,7 @@ templ (v Views) bookmarkList(title string, bl *dataset.BookmarkList, f *createFo
 		layout := NewLayout()
 		layout.Head = v.bookmarkListHead(filters)
 	}}
-	@layout.SideMenuLayout(title, v.menu(), layout.SideMenuWrapper()) {
+	@layout.Page(title, v.menu()) {
 		<turbo-frame
 			id="bookmark-list"
 			data-controller="turbo-refresh"

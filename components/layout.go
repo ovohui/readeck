@@ -6,15 +6,15 @@ package components
 
 import "github.com/a-h/templ"
 
-// SideMenuLayout renders a page with a side menu.
-func SideMenuLayout(title string, sidemenu templ.Component) templ.Component {
-	return defaultLayout.SideMenuLayout(title, sidemenu, defaultLayout.SideMenuWrapper())
+// Page renders a page with a side menu.
+func Page(title string, sidemenu templ.Component) templ.Component {
+	return defaultLayout.Page(title, sidemenu)
 }
 
-// SideMenuStdLayout renders a page with a side menu.
+// PageStd renders a page with an optional side menu.
 // The content has a standard maximum width.
-func SideMenuStdLayout(title string, sidemenu templ.Component) templ.Component {
-	return defaultLayout.SideMenuLayout(title, sidemenu, defaultLayout.SideMenuStdWrapper())
+func PageStd(title string, sidemenu templ.Component) templ.Component {
+	return defaultLayout.PageStd(title, sidemenu)
 }
 
 // Layout is our base layout for every Readeck page.

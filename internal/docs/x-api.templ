@@ -18,7 +18,7 @@ templ (v Views) api(schemaURL string, hideBadges []string) {
 		layout := NewLayout()
 		layout.Head = v.apiScript()
 	}}
-	@layout.BasePage(L(ctx).Gettext("API Documentation")) {
+	@layout.Base(L(ctx).Gettext("API Documentation")) {
 		<div class="layout">
 			<div class="sidemenu hidden"></div> // make the CSS think there's a sidemenu
 			<div class="topnav">

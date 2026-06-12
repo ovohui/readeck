@@ -77,7 +77,7 @@ templ (_ Views) Menu() {
 }
 
 templ (v Views) base(title string) {
-	@SideMenuStdLayout(title, v.Menu()) {
+	@PageStd(title, v.Menu()) {
 		{ children... }
 	}
 }
