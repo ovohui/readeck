@@ -175,7 +175,7 @@ func (t *Transport) RoundTrip(r *http.Request) (*http.Response, error) {
 			slog.Any("headers", rsp.Header),
 		))
 	}
-	attrs = append(attrs, slog.Duration("time", time.Since(now)))
+	attrs = append(attrs, slog.Duration("duration", time.Since(now)))
 	t.Log().LogAttrs(context.Background(), slog.LevelDebug-10, "request", attrs...)
 
 	return rsp, err

@@ -142,7 +142,7 @@ func TestCodeURL(t *testing.T) {
 		expected string
 	}{
 		{
-			Code{
+			Code{ //nolint:gosec
 				Secret:    "ETBZKJG2XXN4XY4IRV3AETV6IGICCO35",
 				Algorithm: SHA1,
 				Digits:    6,
@@ -153,7 +153,7 @@ func TestCodeURL(t *testing.T) {
 			"otpauth://totp/issuer:user?algorithm=SHA1&digits=6&issuer=issuer&period=30&secret=ETBZKJG2XXN4XY4IRV3AETV6IGICCO35",
 		},
 		{
-			Code{
+			Code{ //nolint:gosec
 				Secret:    "ETBZKJG2XXN4XY4IRV3AETV6IGICCO35",
 				Algorithm: SHA1,
 				Digits:    8,
@@ -162,7 +162,7 @@ func TestCodeURL(t *testing.T) {
 			"otpauth://totp?algorithm=SHA1&digits=8&period=30&secret=ETBZKJG2XXN4XY4IRV3AETV6IGICCO35",
 		},
 		{
-			Code{
+			Code{ //nolint:gosec
 				Secret:    "ETBZKJG2XXN4XY4IRV3AETV6IGICCO35",
 				Algorithm: SHA512,
 				Digits:    8,

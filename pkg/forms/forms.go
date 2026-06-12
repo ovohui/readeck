@@ -337,7 +337,7 @@ func BindAs[T any](r *http.Request, options ...func(FormBinder)) *T {
 
 func unmarshalMultipart(r *http.Request, v any) (err error) {
 	if r.MultipartForm == nil {
-		if err = r.ParseMultipartForm(16 << 20); err != nil {
+		if err = r.ParseMultipartForm(16 << 20); err != nil { // nolint:gosec
 			return err
 		}
 	}

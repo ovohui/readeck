@@ -191,8 +191,7 @@ watch/server:
 		--tmp_dir "dist" \
 		--build.log "" \
 		--build.cmd "${MAKE} DATE= build" \
-		--build.bin "dist/readeck" \
-		--build.args_bin "$(SERVE_CMD)" \
+		--build.full_bin "dist/readeck $(SERVE_CMD)" \
 		--build.delay 2000 \
 		--build.exclude_dir "" \
 		--build.include_dir "assets,components,configs,docs/assets,locales,internal,pkg" \
@@ -208,7 +207,7 @@ watch/templ:
 		--tmp_dir "dist" \
 		--build.log "" \
 		--build.cmd "$(GOTOOL) templ generate -lazy" \
-		--build.bin "/usr/bin/true" \
+		--build.full_bin "/usr/bin/true" \
 		--build.delay 1000 \
 		--build.include_dir "components,internal" \
 		--build.include_ext "templ" \
@@ -226,7 +225,7 @@ watch/docs:
 		--tmp_dir "dist" \
 		--build.log "" \
 		--build.cmd "${MAKE} docs-build" \
-		--build.bin "/usr/bin/true" \
+		--build.full_bin "/usr/bin/true" \
 		--build.exclude_dir "" \
 		--build.include_file "CHANGELOG.md" \
 		--build.include_dir "docs/src/en,docs/translations,docs/api" \

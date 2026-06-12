@@ -84,7 +84,10 @@ linters:
       excludes:
         - G104
         - G115
+        - G124
         - G304
+        - G710
+        - G704
       config:
         G304: null
     misspell:
