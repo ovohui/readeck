@@ -5,10 +5,16 @@
 package routes
 
 import (
+	"context"
+	"encoding/binary"
+	"encoding/hex"
 	"errors"
+	"hash/adler32"
 	"maps"
+	"math"
 	"net/url"
 
+	"codeberg.org/readeck/readeck/internal/bookmarks"
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
 	"codeberg.org/readeck/readeck/internal/server"
 	"codeberg.org/readeck/readeck/internal/server/urls"
@@ -464,7 +470,7 @@ templ (c Components) card(b *dataset.Bookmark) {
 		<div class="bookmark-card" data-deleted={ b.IsDeleted } data-loading={ !b.Loaded }>
 			if !b.Loaded {
 				<div class="bookmark-card--img">
-					@c.cardImage(string(URL(ctx, "/assets/rnd", Checksum(b.URL)))+".svg", 256, 144)
+					@c.cardImage(string(c.rndSVG(ctx, b)), 256, 144)
 				</div>
 				<div class="bookmark-card--spinner">
 					@Spinner()
@@ -481,7 +487,7 @@ templ (c Components) card(b *dataset.Bookmark) {
 					if img, ok := b.Resources["thumbnail"]; ok {
 						@c.cardImage(img.Src, img.Width, img.Height)
 					} else {
-						@c.cardImage(string(URL(ctx, "/assets/rnd", Checksum(b.URL)))+".svg", 256, 144)
+						@c.cardImage(string(c.rndSVG(ctx, b)), 256, 144)
 					}
 				</span>
 				if b.ReadProgress > 0 {
@@ -597,6 +603,24 @@ templ (c Components) card(b *dataset.Bookmark) {
 	</turbo-frame>
 }
 
+func (_ Components) rndSVG(ctx context.Context, b *dataset.Bookmark) templ.SafeURL {
+	q := url.Values{}
+	switch {
+	case b.State == bookmarks.StateLoading:
+	case b.SiteName != "" && b.SiteName != b.Site:
+		q.Set("n", string([]rune(b.SiteName)[0]))
+	case b.Domain != "":
+		q.Set("n", string([]rune(b.Domain)[0]))
+	}
+
+	h := adler32.New()
+	h.Write([]byte(b.Domain + b.SiteName))
+	c := make([]byte, 4)
+	binary.LittleEndian.PutUint32(c, h.Sum32())
+
+	return URL(ctx, "/assets/rnd/"+hex.EncodeToString(c)+".svg?"+q.Encode())
+}
+
 templ (c Components) cardImage(src string, w, h int) {
 	<img loading="lazy" alt="" src={ src } width={ w } height={ h }/>
 }
@@ -604,7 +628,7 @@ templ (c Components) cardImage(src string, w, h int) {
 templ (c Components) progressCircle(value int) {
 	{{
 		r := float64(65)
-		c := 2 * 3.1416 * r
+		c := 2 * math.Pi * r
 		o := c * (100 - float64(value)) / 100
 	}}
 	<svg

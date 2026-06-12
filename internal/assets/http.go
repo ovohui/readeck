@@ -31,7 +31,7 @@ func SetupRoutes(s *server.Server) {
 	s.AddRoute("/assets", r)
 
 	r.Mount("/", serveAssets())
-	r.Get("/rnd/{name}.svg", randomSvg)
+	r.Get("/rnd/{seed:[a-f0-9]{8}}.svg", randomSvg)
 }
 
 func serveAssets() http.HandlerFunc {
