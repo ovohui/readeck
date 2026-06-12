@@ -1,33 +1,44 @@
 {
-  "title_selectors": null,
+  "title_selectors": [
+    "//meta[@property=\"og:title\"]/@content",
+    "//h1[contains(@class,'article-headers-standard__title')]"
+  ],
   "body_selectors": [
-    "//div[contains(concat(' ',normalize-space(@class),' '),' article-content ')]"
+    "//article[contains(@class,'article-article__main')]"
   ],
   "date_selectors": null,
   "author_selectors": null,
-  "strip_selectors": null,
+  "strip_selectors": [
+    "//section[contains(@class,'article-share-url')]",
+    "//div[contains(@class,'article-tabbed-content__tab-row')]",
+    "//section[contains(@class,'article-headers-shared-metrics')]",
+    "//section[contains(@class,'article-tabbed-content__author')]",
+    "//article[contains(@class,'article-tabbed-content__listening-content')]",
+    "//article[contains(@class,'article-audio-player-component')]",
+    "//nav[contains(@class,'article-table-of-contents')]",
+    "//svg",
+    "//button"
+  ],
   "strip_id_or_class": null,
   "strip_image_src": null,
   "native_ad_selectors": null,
   "tidy": false,
   "prune": false,
-  "autodetect_on_failure": true,
+  "autodetect_on_failure": false,
   "single_page_link_selectors": null,
   "next_page_link_selectors": null,
   "replace_strings": [
     [
-      "\u003cimg src=",
-      "\u003cimg notused="
-    ],
-    [
-      "ix-path='",
-      "src='https://krautreporter.imgix.net"
+      "property=\"og:image\"",
+      "property=\"og:image-ignored\""
     ]
   ],
-  "http_headers": null,
+  "http_headers": {
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+  },
   "tests": [
     {
-      "url": "https://krautreporter.de/2244-stell-dir-vor-du-erbst-nazi-geld-was-machst-du?shared=c30432e7-4d96-42c5-85d3-354e1f90482d",
+      "url": "https://krautreporter.de/politik-und-macht/6268-7-schritte-wie-du-die-perfekte-verschworungserzahlung-erfindest",
       "contains": []
     }
   ]
