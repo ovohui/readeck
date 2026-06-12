@@ -151,6 +151,21 @@ func TestMeta(t *testing.T) {
 			}, ex.Drop().Meta)
 		})
 
+		t.Run("process fediverse meta", func(t *testing.T) {
+			ex, _ := extract.New("http://example.com", nil)
+			pm := ex.NewProcessMessage(extract.StepDom)
+
+			pm.Dom, _ = html.Parse(strings.NewReader(`
+				<meta name="fediverse:creator" content="Monkey One" />
+				<meta name="fediverse:creator" content="Ape Two" />
+				<meta property="fediverse:creator" content="Primate Ignored" />
+			`))
+
+			ExtractMeta(pm, nil)
+
+			assert.Equal(t, []string{"Ape Two", "Monkey One"}, ex.Drop().Authors)
+		})
+
 		t.Run("text direction", func(t *testing.T) {
 			tests := []struct {
 				dir      string

@@ -7,7 +7,6 @@
 package meta
 
 import (
-	"fmt"
 	"iter"
 	"log/slog"
 	"maps"
@@ -16,12 +15,13 @@ import (
 	"sync"
 
 	"golang.org/x/net/html"
+	"golang.org/x/net/html/atom"
 
-	"github.com/antchfx/htmlquery"
 	"github.com/araddon/dateparse"
 	"github.com/go-shiori/dom"
 	"github.com/gobwas/glob"
 
+	"codeberg.org/readeck/readeck/pkg/domutils"
 	"codeberg.org/readeck/readeck/pkg/extract"
 	"codeberg.org/readeck/readeck/pkg/extract/microdata"
 )
@@ -204,95 +204,88 @@ func SetDropProperties(m *extract.ProcessMessage, next extract.Processor) extrac
 	return next
 }
 
-func extMeta(k, v, sep string) func(*html.Node) (string, string) {
-	return func(n *html.Node) (string, string) {
-		_, k, _ := strings.Cut(strings.TrimSpace(dom.GetAttribute(n, k)), sep)
-		return k, strings.TrimSpace(dom.GetAttribute(n, v))
-	}
-}
-
-var specList = []struct {
-	name     string
-	selector string
-	fn       func(*html.Node) (string, string)
-}{
-	{"html", "//title", func(n *html.Node) (string, string) {
-		return "title", dom.TextContent(n)
-	}},
-	{"html", "/html[@lang]/@lang", func(n *html.Node) (string, string) {
-		return "lang", dom.TextContent(n)
-	}},
-	{"html", "/*[self::html or self::body][@dir]/@dir", func(n *html.Node) (string, string) {
-		if c := strings.ToLower(strings.TrimSpace(dom.TextContent(n))); c == "rtl" || c == "ltr" {
-			return "dir", c
-		}
-		return "dir", ""
-	}},
-
-	// Common HTML meta tags
-	{"html", `//meta[@content][
-		@name='author' or
-		@name='byl' or
-		@name='copyright' or
-		@name='date' or
-		@name='description' or
-		@name='keywords' or
-		@name='language' or
-		@name='subtitle'
-	]`, extMeta("name", "content", "")},
-
-	// Dublin Core
-	{"dc", `//meta[@content][
-		starts-with(@name, 'DC.') or
-		starts-with(@name, 'dc.')
-	]`, extMeta("name", "content", ".")},
-
-	// Facebook opengraph
-	{
-		"graph", "//meta[@content][starts-with(@property, 'og:')]",
-		extMeta("property", "content", ":"),
-	},
-	{
-		"graph", "//meta[@content][starts-with(@name, 'og:')]",
-		extMeta("name", "content", ":"),
-	},
-
-	// Twitter cards
-	{
-		"twitter", "//meta[@content][starts-with(@name, 'twitter:')]",
-		extMeta("name", "content", ":"),
-	},
-
-	// Fediverse meta tags
-	{
-		"fediverse", "//meta[@content][starts-with(@name, 'fediverse:')]",
-		extMeta("name", "content", ":"),
-	},
-
-	// Header links (excluding icons and stylesheets)
-	{"link", `//link[@href][@rel][
-		not(contains(translate(@rel, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'icon')) and
-		not(contains(@rel, 'stylesheet'))
-	]`, extMeta("rel", "href", "")},
-}
-
 // ParseMeta parses page metadata.
 func ParseMeta(doc *html.Node) extract.DropMeta {
 	res := extract.DropMeta{}
 
-	for _, x := range specList {
-		nodes, _ := htmlquery.QueryAll(doc, x.selector)
-
-		for _, node := range nodes {
-			name, value := x.fn(node)
-			name = strings.TrimSpace(name)
-			value = strings.TrimSpace(value)
-			if name == "" || value == "" {
+	for node := range domutils.EachElement(doc) {
+		switch node.DataAtom {
+		case atom.Html, atom.Body:
+			// Extract "dir" and "lang" attributes from <html> and <body>
+			for _, attr := range node.Attr {
+				switch attr.Key {
+				case "dir":
+					dir := strings.ToLower(strings.TrimSpace(attr.Val))
+					switch dir {
+					case "rtl", "ltr":
+						res.Set("html.dir", dir)
+					}
+				case "lang":
+					res.Set("html.lang", strings.TrimSpace(attr.Val))
+				}
+			}
+		case atom.Title:
+			// Extract the document <title>
+			res.Set("html.title", strings.TrimSpace(dom.TextContent(node)))
+		case atom.Link:
+			// Extract "rel" and "href" attributes from <link> other than stylesheets and favicon
+			var href string
+			var rel string
+			for _, attr := range node.Attr {
+				switch attr.Key {
+				case "href":
+					href = strings.TrimSpace(attr.Val)
+				case "rel":
+					rel = strings.TrimSpace(attr.Val)
+				}
+			}
+			if href != "" && rel != "" && !strings.Contains(rel, "stylesheet") && !strings.Contains(strings.ToLower(rel), "icon") {
+				res.Add("link."+rel, href)
+			}
+		case atom.Meta:
+			// Extract "content" value from <meta> tags according to:
+			// - old HTML document conventions,
+			// - Open Graph protocol,
+			// - Twitter cards,
+			// - Mastodon "fediverse:creator" convention,
+			// - Dublin Core
+			var content string
+			var name string
+			var nameOrProperty string
+			for _, attr := range node.Attr {
+				switch attr.Key {
+				case "content":
+					content = strings.TrimSpace(attr.Val)
+				case "name":
+					name = strings.TrimSpace(attr.Val)
+					fallthrough
+				case "property":
+					nameOrProperty = strings.TrimSpace(attr.Val)
+				}
+			}
+			if content == "" {
 				continue
 			}
-
-			name = fmt.Sprintf("%s.%s", x.name, name)
-			res.Add(name, value)
+			switch name {
+			case "author", "byl", "copyright", "date", "description", "keywords", "language", "subtitle":
+				// e.g. "html.author", "html.description"
+				res.Add("html."+name, content)
+			default:
+				switch {
+				case strings.HasPrefix(name, "dc.") || strings.HasPrefix(name, "DC."):
+					// e.g. "dc.creator"
+					res.Add("dc."+name[3:], content)
+				case strings.HasPrefix(name, "twitter:"):
+					// e.g. "twitter:title" → "twitter.title"
+					res.Add(strings.Replace(name, ":", ".", 1), content)
+				case strings.HasPrefix(name, "fediverse:"):
+					// e.g. "fediverse:creator" → "fediverse.creator"
+					res.Add(strings.Replace(name, ":", ".", 1), content)
+				case strings.HasPrefix(nameOrProperty, "og:"):
+					// e.g. "og:image" → "graph.image"
+					res.Add("graph."+nameOrProperty[3:], content)
+				}
+			}
 		}
 	}
 
