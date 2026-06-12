@@ -1,0 +1,46 @@
+{
+  "title_selectors": [
+    "substring-before(//meta[@property=\"og:title\"]/@content, ' — Forum Geldpolitik')",
+    "//h1[contains(@class,'entry-title')]"
+  ],
+  "body_selectors": [
+    "//div[contains(@class,'blog-wrapper')]"
+  ],
+  "date_selectors": null,
+  "author_selectors": null,
+  "strip_selectors": [
+    "//footer[contains(@class,'blog-item-footer')]",
+    "//div[contains(@class,'blog-item-actions')]",
+    "//div[contains(@class,'blog-item-author-profile')]",
+    "//section[contains(@class,'blog-item-pagination')]",
+    "//aside[contains(@class,'blog-item-sidebar')]",
+    "//section[contains(@class,'blog-item-comments')]"
+  ],
+  "strip_id_or_class": null,
+  "strip_image_src": null,
+  "native_ad_selectors": null,
+  "tidy": false,
+  "prune": false,
+  "autodetect_on_failure": false,
+  "single_page_link_selectors": null,
+  "next_page_link_selectors": null,
+  "replace_strings": [
+    [
+      "property=\"og:image\"",
+      "property=\"og:image-ignored\""
+    ],
+    [
+      "data-src=\"https://",
+      "src=\"https://"
+    ]
+  ],
+  "http_headers": {
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+  },
+  "tests": [
+    {
+      "url": "https://forum-geldpolitik.ch/themen/2026/39-wertspeicher",
+      "contains": []
+    }
+  ]
+}

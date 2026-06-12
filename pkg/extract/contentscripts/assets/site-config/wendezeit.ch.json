@@ -1,0 +1,39 @@
+{
+  "title_selectors": [
+    "//h1[contains(@class,'entry-title')]",
+    "//meta[@property=\"og:title\"]/@content"
+  ],
+  "body_selectors": [
+    "//article[contains(@class,'nv-single-post-wrap')]"
+  ],
+  "date_selectors": null,
+  "author_selectors": null,
+  "strip_selectors": [
+    "//div[contains(@class,'yarpp')]",
+    "//div[contains(@class,'entry-header')]",
+    "//aside",
+    "//div[contains(@id,'block-')]",
+    "//img[contains(@src,'Buch-1x1-Bewusstsein-Sidebar')]",
+    "//img[contains(@src,'UTD-Logo')]",
+    "//img[contains(@src,'Weltkugel')]",
+    "//img[contains(@src,'gravatar.com')]"
+  ],
+  "strip_id_or_class": null,
+  "strip_image_src": null,
+  "native_ad_selectors": null,
+  "tidy": false,
+  "prune": false,
+  "autodetect_on_failure": false,
+  "single_page_link_selectors": null,
+  "next_page_link_selectors": null,
+  "replace_strings": null,
+  "http_headers": {
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+  },
+  "tests": [
+    {
+      "url": "https://wendezeit.ch/eigenverantwortung-oder-gesellschaftliche-regeln/",
+      "contains": []
+    }
+  ]
+}

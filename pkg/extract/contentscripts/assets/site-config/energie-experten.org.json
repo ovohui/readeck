@@ -1,0 +1,54 @@
+{
+  "title_selectors": [
+    "//meta[@property=\"og:title\"]/@content",
+    "//h1[@itemprop=\"headline\"]"
+  ],
+  "body_selectors": [
+    "//div[contains(@class, 'news news-single')]//div[contains(@class, 'article')] | //*[contains(@class, 'ce-')]"
+  ],
+  "date_selectors": null,
+  "author_selectors": null,
+  "strip_selectors": [
+    "//script",
+    "//footer",
+    "//h1[@itemprop=\"headline\"]",
+    "//div[contains(@class, 'news-authorprofile')]",
+    "//div[contains(@class, 'expert_ads')]",
+    "//div[contains(@class, 'news-related')]",
+    "//div[contains(@class, 'news-related-wrap')]",
+    "//div[contains(@class, 'content_nav')]",
+    "//div[contains(@class, 'ce_newsletter_link')]",
+    "//span[contains(@class, 'ads_text')]",
+    "//ins[contains(@class, 'adsbygoogle')]"
+  ],
+  "strip_id_or_class": [
+    "ads",
+    "expert_ads_row",
+    "angebote-anfordern",
+    "interressen-menue"
+  ],
+  "strip_image_src": null,
+  "native_ad_selectors": null,
+  "tidy": false,
+  "prune": false,
+  "autodetect_on_failure": true,
+  "single_page_link_selectors": null,
+  "next_page_link_selectors": null,
+  "replace_strings": [
+    [
+      "\u003cpicture\u003e",
+      "\u003cdiv class=\"ce-image-wrap\"\u003e"
+    ],
+    [
+      "\u003c/picture\u003e",
+      "\u003c/div\u003e"
+    ]
+  ],
+  "http_headers": null,
+  "tests": [
+    {
+      "url": "https://www.energie-experten.org/news/weltweit-groesster-redox-flow-speicher-soll-stern-von-laufenburg-stabilisieren",
+      "contains": []
+    }
+  ]
+}
