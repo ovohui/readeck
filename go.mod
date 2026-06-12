@@ -2,6 +2,12 @@ module codeberg.org/readeck/readeck
 
 go 1.26.4
 
+// NOTE: this is used by tools/update-dependencies, don't remove it
+//tool: github.com/a-h/templ/cmd/templ@latest
+//tool: github.com/air-verse/air@latest
+//tool: github.com/boyter/scc/v3@latest
+//tool: github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.12.2
+
 require (
 	codeberg.org/readeck/go-readability/v2 v2.1.1
 	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.2
