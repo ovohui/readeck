@@ -14,7 +14,7 @@ import (
 type Views struct{}
 
 templ (v Views) authCode(client *oauthClient, scopes []string) {
-	@AuthLayout(L(ctx).Gettext("Authorization required")) {
+	@AuthPage(L(ctx).Gettext("Authorization required")) {
 		@v.form(client, scopes)
 	}
 }
@@ -23,7 +23,7 @@ templ (v Views) deviceCode(
 	step deviceCodeStep, f *deviceAuthorizationForm,
 	client *oauthClient, req *deviceAuthorizationRequest, scopes []string,
 ) {
-	@AuthLayout(L(ctx).Gettext("Authorization required")) {
+	@AuthPage(L(ctx).Gettext("Authorization required")) {
 		switch step {
 			case stepInvalid:
 				<h2 class="font-semibold">{ L(ctx).Gettext("Error") }</h2>

@@ -13,7 +13,7 @@ import (
 type Views struct{}
 
 templ (v Views) base(title string) {
-	@PageStd(title, profile.Views{}.Menu()) {
+	@PageStd(title, WithSideMenu(profile.Views{}.Menu())) {
 		{ children... }
 	}
 }

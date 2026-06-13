@@ -21,7 +21,7 @@ templ (_ Views) menu() {
 }
 
 templ (v Views) base(title string) {
-	@Page(title, v.menu()) {
+	@Page(title, WithSideMenu(v.menu())) {
 		{ children... }
 	}
 }

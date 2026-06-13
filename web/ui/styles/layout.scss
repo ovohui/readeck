@@ -15,6 +15,15 @@
     }
   }
 
+  body.body-base {
+    @apply bg-app-bg text-app-fg font-sans leading-tight tracking-normal relative;
+    @apply overscroll-y-none;
+
+    @media print {
+      @apply text-black bg-white;
+    }
+  }
+
   // layout scaffolding
   .layout {
     --topnav-h: theme("height.topnav");

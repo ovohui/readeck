@@ -25,7 +25,7 @@ templ (v Views) labelInfoHead(label string) {
 
 templ (v Views) labelList(labels dataset.LabelList) {
 	{{ title := L(ctx).Gettext("Bookmarks Labels") }}
-	@Page(title, v.menu()) {
+	@Page(title, WithSideMenu(v.menu())) {
 		<h1 class="title text-h2">{ title }</h1>
 		<p class="mb-4">
 			{ L(ctx).Gettext(`
@@ -54,11 +54,10 @@ templ (v Views) labelList(labels dataset.LabelList) {
 }
 
 templ (v Views) labelInfo(label string, bl *dataset.BookmarkList, isDeleted bool) {
-	{{
-		layout := NewLayout()
-		layout.Head = v.labelInfoHead(label)
-	}}
-	@layout.Page(L(ctx).Gettext("Label")+" - "+label, v.menu()) {
+	@Page(L(ctx).Gettext("Label")+" - "+label,
+		WithSideMenu(v.menu()),
+		WithHead(v.labelInfoHead(label)),
+	) {
 		<form
 			action={ URL(ctx) }
 			method="post"

@@ -34,16 +34,13 @@ templ (c *Layout) Base(title string) {
 			<link rel="apple-touch-icon" href={ Asset(ctx, `img/fi/apple-touch-icon.png`) }/>
 			<link rel="manifest" href={ URL(ctx, "/manifest.webmanifest") }/>
 			<meta name="theme-color" content="#064c5c"/>
-			@c.Head
+			if c.head != nil {
+				@c.head
+			}
 			@CustomTemplate("layout/head.html.tmpl", nil)
 		</head>
 		<body
-			class="
-				no-js bg-app-bg text-app-fg font-sans leading-tight tracking-normal
-				relative
-				print:text-black print:bg-white
-				overscroll-y-none
-			"
+			class={ "no-js", "body-base", c.bodyClasses }
 			data-turbo="false"
 			data-turbo-prefetch="false"
 			data-controller="scroll-tracker"
@@ -60,10 +57,12 @@ templ (c *Layout) Base(title string) {
 	</html>
 }
 
-templ (c *Layout) Menu(menuBtn templ.Component) {
+templ (c *Layout) Menu() {
 	<div class="topnav--grid" id="menu">
-		@menuBtn {
-			@Icon("o-menu", WithIconClass("w-6 h-6"), WithIconSvgClass("w-6 h-6"))
+		if c.sideMenu != nil {
+			@c.menuButton(L(ctx).Gettext("Open Menu")) {
+				@Icon("o-menu", WithIconClass("w-6 h-6"), WithIconSvgClass("w-6 h-6"))
+			}
 		}
 		<div class="logo">
 			if HasCustomTemplate("layout/menu-icon.html.tmpl") {
@@ -165,17 +164,17 @@ templ SideMenuTitle() {
 	</h2>
 }
 
-// page renders a layout with an optional side menu.
-templ (c *Layout) page(title string, sidemenu templ.Component, contentWrapper templ.Component) {
+// Page renders a layout with an optional side menu.
+templ (c *Layout) Page(title string) {
 	{{
-		qam := c.AccessMenu
+		qam := c.accessMenu
 		if len(qam) == 0 {
 			qam = [][2]string{
 				{"menu", L(ctx).Gettext("Menu")},
 				{"sidemenu", L(ctx).Gettext("Secondary Menu")},
 				{"content", L(ctx).Gettext("Main content")},
 			}
-			if sidemenu == nil {
+			if c.sideMenu == nil {
 				qam[1] = [2]string{}
 			}
 		}
@@ -189,16 +188,10 @@ templ (c *Layout) page(title string, sidemenu templ.Component, contentWrapper te
 			data-panel-body-class="max-sm:overflow-hidden"
 		>
 			<div class="topnav">
-				{{
-					var btn templ.Component = templ.NopComponent
-					if sidemenu != nil {
-						btn = c.menuButton(L(ctx).Gettext("Open Menu"))
-					}
-				}}
-				@c.Menu(btn)
+				@c.Menu()
 			</div>
 			<div class="layout--grid">
-				if sidemenu != nil {
+				if c.sideMenu != nil {
 					<nav
 						id="sidemenu"
 						tabindex="-1"
@@ -210,45 +203,17 @@ templ (c *Layout) page(title string, sidemenu templ.Component, contentWrapper te
 						@c.menuButton(L(ctx).Gettext("Close menu")) {
 							@Icon("o-close", WithIconClass("inline-block"), WithIconSvgClass("w-8 h-8"))
 						}
-						@sidemenu
+						@c.sideMenu
 					</nav>
 				}
-				@contentWrapper {
+				<div id="content" class={ "content", c.contentClasses }>
+					@Flashes()
+					@Breadcrumbs()
 					{ children... }
-				}
+				</div>
 			</div>
 		</div>
 	}
-}
-
-// Page renders a page with an optional side menu.
-templ (c *Layout) Page(title string, sidemenu templ.Component) {
-	@c.page(title, sidemenu, c.SideMenuWrapper()) {
-		{ children... }
-	}
-}
-
-// PageStd renders a page with an optional side menu.
-// The content has a standard maximum width.
-templ (c *Layout) PageStd(title string, sidemenu templ.Component) {
-	@c.page(title, sidemenu, c.SideMenuStdWrapper()) {
-		{ children... }
-	}
-}
-
-templ (c *Layout) SideMenuWrapper() {
-	<div class="content" id="content">
-		@Flashes()
-		{ children... }
-	</div>
-}
-
-templ (c *Layout) SideMenuStdWrapper() {
-	<main class="content max-w-std" id="content">
-		@Flashes()
-		@Breadcrumbs()
-		{ children... }
-	</main>
 }
 
 templ (c *Layout) authHeader() {
@@ -261,7 +226,7 @@ templ (c *Layout) authHeader() {
 	</h1>
 }
 
-templ (c *Layout) AuthBase(title string) {
+templ (c *Layout) AuthPage(title string) {
 	@c.Base(title) {
 		@c.authHeader()
 		<main class="w-full max-w-sm p-8 mt-6 mx-auto bg-gray-100 text-gray-dark rounded-md shadow-md" id="content">
