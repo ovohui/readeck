@@ -66,6 +66,7 @@ templ (v Views) about(toc [][2]string, lang string, info aboutInfo) {
 			<p class="mt-1">
 				<button type="button" class="link" data-action="clipboard#copy">
 					@Icon("o-copy")
+					{ " " }
 					{ L(ctx).Gettext("copy to clipboard") }
 				</button>
 			</p>
@@ -130,22 +131,27 @@ templ (v Views) about(toc [][2]string, lang string, info aboutInfo) {
 						<ul>
 							<li title="The licensed material and derivatives may be used for commercial purposes.">
 								@Icon("o-circle", WithIconClass("svgicon text-green-700"))
+								{ " " }
 								{ L(ctx).Gettext("Commercial use") }
 							</li>
 							<li title="The licensed material may be distributed.">
 								@Icon("o-circle", WithIconClass("svgicon text-green-700"))
+								{ " " }
 								{ L(ctx).Gettext("Distribution") }
 							</li>
 							<li title="The licensed material may be modified.">
 								@Icon("o-circle", WithIconClass("svgicon text-green-700"))
+								{ " " }
 								{ L(ctx).Gettext("Modification") }
 							</li>
 							<li title="This license provides an express grant of patent rights from contributors.">
 								@Icon("o-circle", WithIconClass("svgicon text-green-700"))
+								{ " " }
 								{ L(ctx).Gettext("Patent use") }
 							</li>
 							<li title="The licensed material may be used and modified in private.">
 								@Icon("o-circle", WithIconClass("svgicon text-green-700"))
+								{ " " }
 								{ L(ctx).Gettext("Private use") }
 							</li>
 						</ul>
@@ -154,22 +160,27 @@ templ (v Views) about(toc [][2]string, lang string, info aboutInfo) {
 						<ul>
 							<li title="Source code must be made available when the licensed material is distributed.">
 								@Icon("o-circle", WithIconClass("svgicon text-blue-700"))
+								{ " " }
 								{ L(ctx).Gettext("Disclose source") }
 							</li>
 							<li title="A copy of the license and copyright notice must be included with the licensed material.">
 								@Icon("o-circle", WithIconClass("svgicon text-blue-700"))
+								{ " " }
 								{ L(ctx).Gettext("License and copyright notice") }
 							</li>
 							<li title="Users who interact with the licensed material via network are given the right to receive a copy of the source code.">
 								@Icon("o-circle", WithIconClass("svgicon text-blue-700"))
+								{ " " }
 								{ L(ctx).Gettext("Network use is distribution") }
 							</li>
 							<li title="Modifications must be released under the same license when distributing the licensed material. In some cases a similar or related license may be used.">
 								@Icon("o-circle", WithIconClass("svgicon text-blue-700"))
+								{ " " }
 								{ L(ctx).Gettext("Same license") }
 							</li>
 							<li title="Changes made to the licensed material must be documented.">
 								@Icon("o-circle", WithIconClass("svgicon text-blue-700"))
+								{ " " }
 								{ L(ctx).Gettext("State changes") }
 							</li>
 						</ul>
@@ -178,10 +189,12 @@ templ (v Views) about(toc [][2]string, lang string, info aboutInfo) {
 						<ul>
 							<li title="This license includes a limitation of liability.">
 								@Icon("o-circle", WithIconClass("svgicon text-red-700"))
+								{ " " }
 								{ L(ctx).Gettext("Liability") }
 							</li>
 							<li title="This license explicitly states that it does NOT provide any warranty.">
 								@Icon("o-circle", WithIconClass("svgicon text-red-700"))
+								{ " " }
 								{ L(ctx).Gettext("Warranty") }
 							</li>
 						</ul>
