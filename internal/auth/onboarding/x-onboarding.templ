@@ -15,7 +15,7 @@ type Views struct{}
 
 templ (_ Views) onboarding(f *onboardingForm) {
 	{{ title := L(ctx).Gettext("Welcome to Readeck!") }}
-	@AuthLayout(title) {
+	@AuthPage(title) {
 		<h1 class="text-h3 text-center">{ title }</h1>
 		<p class="my-4">
 			{ L(ctx).Gettext("We're delighted to have you on board; one more step and you're good to go.") }

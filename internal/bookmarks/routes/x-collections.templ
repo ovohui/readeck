@@ -26,7 +26,7 @@ templ (v Views) collectionInfoHead(item *dataset.Collection) {
 
 templ (v Views) collectionList(cl *dataset.CollectionList) {
 	{{ title := L(ctx).Gettext("Bookmark Collections") }}
-	@Page(title, v.menu()) {
+	@Page(title, WithSideMenu(v.menu())) {
 		<h1 class="title text-h2">{ title }</h1>
 		<p class="my-4">
 			<a
@@ -120,7 +120,7 @@ templ (v Views) collectionList(cl *dataset.CollectionList) {
 
 templ (v Views) collectionCreate(f *collectionForm, bl *dataset.BookmarkList) {
 	{{ title := L(ctx).Gettext("New Collection") }}
-	@Page(title, v.menu()) {
+	@Page(title, WithSideMenu(v.menu())) {
 		<h1 class="title text-h2">{ title }</h1>
 		<div class="bookmark-list">
 			<div class="bookmark-list-container">
@@ -146,11 +146,10 @@ templ (v Views) collectionCreate(f *collectionForm, bl *dataset.BookmarkList) {
 }
 
 templ (v Views) collectionInfo(item *dataset.Collection, f *collectionForm, bl *dataset.BookmarkList) {
-	{{
-		layout := NewLayout()
-		layout.Head = v.collectionInfoHead(item)
-	}}
-	@layout.Page(L(ctx).Gettext("Collection %s", item.Title), v.menu()) {
+	@Page(L(ctx).Gettext("Collection %s", item.Title),
+		WithSideMenu(v.menu()),
+		WithHead(v.collectionInfoHead(item)),
+	) {
 		if item.IsDeleted {
 			@Components{}.collectionTitle(item)
 			<form action={ URL(ctx, "./delete") } method="post">

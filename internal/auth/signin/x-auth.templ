@@ -38,7 +38,7 @@ templ (_ Components) OIDC() {
 }
 
 templ (v Views) signIn(f *loginForm) {
-	@AuthLayout(L(ctx).Gettext("Sign in")) {
+	@AuthPage(L(ctx).Gettext("Sign in")) {
 		<h1 class="text-h3 mb-8 text-center">{ L(ctx).Gettext("Sign in to Readeck") }</h1>
 		<form
 			action={ URL(ctx, "/login") }
@@ -82,7 +82,7 @@ templ (v Views) signIn(f *loginForm) {
 
 templ (v Views) mfa(f *totpForm) {
 	{{ title := L(ctx).Gettext("Two-factor authentication") }}
-	@AuthLayout(title) {
+	@AuthPage(title) {
 		<h2 class="text-h3 mb-8 text-center">{ title }</h2>
 		<form action={ URL(ctx, "/login/mfa") } method="post">
 			@F.Errors(f)
@@ -117,7 +117,7 @@ templ (v Views) recover(f *recoverForm, err error) {
 		title := L(ctx).Gettext("Password recovery")
 		step := f.Step.Value()
 	}}
-	@AuthLayout(title) {
+	@AuthPage(title) {
 		<h2 class="text-h3 mb-8 text-center">{ title }</h2>
 		switch step {
 			case 0:

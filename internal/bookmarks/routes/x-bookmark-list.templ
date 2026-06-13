@@ -35,11 +35,10 @@ templ (v Views) bookmarkListHead(f *FilterForm) {
 }
 
 templ (v Views) bookmarkList(title string, bl *dataset.BookmarkList, f *createForm, filters *FilterForm) {
-	{{
-		layout := NewLayout()
-		layout.Head = v.bookmarkListHead(filters)
-	}}
-	@layout.Page(title, v.menu()) {
+	@Page(title,
+		WithSideMenu(v.menu()),
+		WithHead(v.bookmarkListHead(filters)),
+	) {
 		<turbo-frame
 			id="bookmark-list"
 			data-controller="turbo-refresh"

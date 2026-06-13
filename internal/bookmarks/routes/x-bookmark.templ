@@ -24,7 +24,7 @@ templ (v Views) bookmarkRefreshHead() {
 
 templ (v Views) bookmarkMissing() {
 	{{ title := L(ctx).Gettext("Bookmark not found") }}
-	@PageStd(L(ctx).Gettext("Edit bookmark"), v.menu()) {
+	@PageStd(L(ctx).Gettext("Edit bookmark"), WithSideMenu(v.menu())) {
 		<turbo-frame id="bookmark-info">
 			<h1 class="m-4 title text-h2">{ title }</h1>
 		</turbo-frame>
@@ -33,27 +33,29 @@ templ (v Views) bookmarkMissing() {
 
 templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 	{{
-		layout := NewLayout()
-		layout.AccessMenu = make([][2]string, 0, 3)
-		layout.AccessMenu = append(layout.AccessMenu,
+		accessMenu := make([][2]string, 0, 3)
+		accessMenu = append(accessMenu,
 			[2]string{"menu", L(ctx).Gettext("Menu")},
 		)
+		var head templ.Component
 
 		title := item.Title
 		if !item.Loaded {
 			title = L(ctx).Gettext("Bookmark loading")
-			layout.Head = v.bookmarkRefreshHead()
+			head = v.bookmarkRefreshHead()
 		} else {
-			layout.AccessMenu = append(layout.AccessMenu,
+			accessMenu = append(accessMenu,
 				[2]string{"bookmark-panel", L(ctx).Gettext("Bookmark information")},
 				[2]string{"bookmark-content", L(ctx).Gettext("Bookmark content")},
 			)
-
 		}
 
 		prefs := Preferences(ctx)
 	}}
-	@layout.Page(title+" "+L(ctx).Gettext("Bookmarks"), nil) {
+	@Page(title+" "+L(ctx).Gettext("Bookmarks"),
+		WithAccessMenu(accessMenu),
+		WithHead(head),
+	) {
 		<turbo-frame
 			id="bookmark-info"
 			class="bookmark-container"
@@ -217,8 +219,8 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 }
 
 templ (v Views) bookmarkUpdate(b *bookmarks.Bookmark, f *updateForm) {
-	@PageStd(L(ctx).Gettext("Edit bookmark"), v.menu()) {
-		<h1 class="text-h2 title">{ L(ctx).Gettext("Edit: %s", b.Title) }</h1>
+	@PageStd(L(ctx).Gettext("Edit bookmark"), WithSideMenu(v.menu())) {
+		<h1 class="title text-h2">{ L(ctx).Gettext("Edit: %s", b.Title) }</h1>
 		@Components{}.bookmarkUpdate(b, f)
 		<p class="btn-block">
 			<button class="btn btn-primary" type="submit" form="bookmark-update-form">
@@ -229,14 +231,14 @@ templ (v Views) bookmarkUpdate(b *bookmarks.Bookmark, f *updateForm) {
 }
 
 templ (v Views) shareByLink(link dataset.SharedLink) {
-	@PageStd(L(ctx).Gettext("Share link"), v.menu()) {
+	@PageStd(L(ctx).Gettext("Share link"), WithSideMenu(v.menu())) {
 		<h1 class="title text-h2">{ L(ctx).Gettext("Share: %s", link.Title) }</h1>
 		@Components{}.shareByLink(link)
 	}
 }
 
 templ (v Views) shareByEmail(info dataset.SharedEmail) {
-	@PageStd(L(ctx).Gettext("Share by email"), v.menu()) {
+	@PageStd(L(ctx).Gettext("Share by email"), WithSideMenu(v.menu())) {
 		<h1 class="title text-h2">{ L(ctx).Gettext("Share: %s", info.Title) }</h1>
 		@Components{}.shareByEmail(info)
 	}
