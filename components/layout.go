@@ -75,7 +75,7 @@ func PageStd(title string, options ...LayoutOption) templ.Component {
 	return l.Page(title)
 }
 
-// AuthLayout is the layout used on all the authentication pages.
+// AuthPage is the layout used on all the authentication pages.
 func AuthPage(title string) templ.Component {
 	return NewLayout().AuthPage(title)
 }
