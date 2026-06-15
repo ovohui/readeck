@@ -542,6 +542,11 @@ type DropProperties map[string]any
 // collected metadata.
 type DropMeta map[string][]string
 
+// Set sets a key-value pair in the raw metadata list, overriding any previous value for that key.
+func (m DropMeta) Set(name, value string) {
+	m[name] = []string{value}
+}
+
 // Add adds a value to the raw metadata list.
 func (m DropMeta) Add(name, value string) {
 	_, ok := m[name]

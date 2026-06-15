@@ -11,10 +11,12 @@ import (
 	"strings"
 
 	"golang.org/x/net/html"
+	"golang.org/x/net/html/atom"
 
 	"github.com/go-shiori/dom"
 	"github.com/wyatt915/treeblood"
 
+	"codeberg.org/readeck/readeck/pkg/domutils"
 	"codeberg.org/readeck/readeck/pkg/extract"
 )
 
@@ -94,7 +96,7 @@ func isMathjaxSpan(el *html.Node) bool {
 
 func convertMathjaxBlock(mjx *html.Node) (*html.Node, error) {
 	isBlock := dom.GetAttribute(mjx, "display") == "true"
-	for mathEl := range eachElement(mjx) {
+	for mathEl := range domutils.EachElement(mjx) {
 		// The first element with the "data-latex" attribute will be either the "mjx-math"
 		// element (for CHTML output) or a component of the "svg" element (for SVG output).
 		tex := dom.GetAttribute(mathEl, "data-latex")
@@ -112,7 +114,7 @@ func convertMathjaxBlock(mjx *html.Node) (*html.Node, error) {
 		if len(mmlNodes) == 0 {
 			return nil, errors.New("no nodes found in MathML")
 		}
-		for mmlNode := range eachElementByTag(mmlNodes[0], "math") {
+		for mmlNode := range domutils.EachElementByTag(mmlNodes[0], atom.Math) {
 			return mmlNode, nil
 		}
 	}
