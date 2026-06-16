@@ -1,0 +1,232 @@
+// SPDX-FileCopyrightText: © 2026 Olivier Meunier <olivier@neokraft.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@layer components {
+  body.body-base.body-dashboard {
+    --bg-height: 4px;
+
+    background-image: linear-gradient(
+      90deg,
+      #000,
+      #945516,
+      #ea392f,
+      #f28917,
+      #eecb12,
+      #78b82a,
+      #4375ca,
+      #c346e3,
+      #7bcce5,
+      #eaeaea,
+      #f4aec8
+    );
+    background-color: rgb(var(--color-gray-100));
+    background-size: calc(100% - var(--bg-height) * 2) var(--bg-height);
+    background-position: center calc(100% - var(--bg-height));
+    background-repeat: no-repeat;
+
+    .layout,
+    .layout .content {
+      background: transparent;
+      padding-bottom: 1rem;
+    }
+
+    @screen max-sm {
+      --bg-height: 2px;
+    }
+  }
+
+  .dashboard {
+    @apply mt-4;
+    @apply gap-8;
+    display: grid;
+    grid-template-areas:
+      "title new-bookmark"
+      "boxes cards"
+      "menu cards";
+    grid-template-columns: theme("spacing.col-6") 1fr;
+    grid-template-rows: auto auto 1fr;
+
+    @screen max-lg {
+      grid-template-columns: theme("spacing.col-4") 1fr;
+    }
+
+    @screen max-sm {
+      grid-template-areas:
+        "title"
+        "new-bookmark"
+        "cards"
+        "boxes"
+        "menu";
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+    }
+
+    &--title {
+      grid-area: title;
+      @apply text-xl sm:pl-4;
+    }
+
+    &--new-bookmark {
+      grid-area: new-bookmark;
+    }
+
+    &--boxes {
+      grid-area: boxes;
+    }
+
+    &--menu {
+      grid-area: menu;
+    }
+
+    &--box {
+      @apply p-4 mb-8 border rounded-lg;
+      @apply bg-app-bg/85;
+
+      &:last-of-type {
+        @apply mb-0;
+      }
+      & > *:last-child {
+        @apply mb-0;
+      }
+
+      h2 {
+        @apply font-semibold text-lg mb-2;
+      }
+
+      menu {
+        @apply mb-4;
+
+        li {
+          @apply mb-1.5;
+
+          a {
+            @apply inline-flex gap-2 items-baseline link;
+
+            .svgicon {
+              @apply h-4 w-auto text-gray-700;
+            }
+          }
+        }
+      }
+    }
+
+    &--cards {
+      --num-columns: 1;
+      grid-area: cards;
+      container-name: dasboard-cards;
+      container-type: inline-size;
+
+      & > div {
+        display: grid;
+        grid-template-columns: repeat(var(--num-columns), minmax(0, 1fr));
+        gap: theme("spacing.8");
+
+        @container (width>50rem) {
+          --num-columns: 2;
+        }
+        @container (width>75rem) {
+          --num-columns: 3;
+        }
+      }
+
+      .dashboard--cta {
+        @apply p-4 bg-blue-800/70 text-gray-light rounded-lg;
+
+        & > div {
+          @apply h-full flex flex-col gap-2;
+
+          h2 {
+            @apply text-xl font-semibold;
+          }
+
+          & > p:first-of-type {
+            @apply grow;
+          }
+
+          .link {
+            @apply inline-block p-2 rounded bg-blue-50 hf:bg-blue-100;
+          }
+        }
+      }
+    }
+
+    &--card {
+      display: grid;
+      grid-template-rows: subgrid;
+      grid-row: span 3;
+      gap: theme("spacing.4");
+      @apply pb-4;
+      @apply rounded-lg border;
+      @apply bg-app-bg/85;
+
+      & > h2 {
+        @apply flex items-center gap-2;
+        @apply py-2 px-4 rounded-t-lg bg-gray-100/85 text-gray-950 border-b;
+
+        & > span:nth-of-type(2) {
+          @apply grow font-semibold;
+        }
+
+        & > span:nth-of-type(3) {
+          @apply text-xs text-yellow-900 bg-yellow-200 py-1 px-2 rounded;
+        }
+      }
+
+      & > ul {
+        @apply mx-4;
+
+        li {
+          &:not(:last-of-type) {
+            @apply mb-2;
+          }
+
+          a {
+            @apply inline-flex items-center gap-2;
+            @apply text-gray-800;
+            @apply hf:text-primary-dark active:text-primary-dark;
+
+            img,
+            .svgicon {
+              @apply block w-4 h-auto;
+              @apply rounded-sm;
+              @apply filter grayscale opacity-75;
+              @at-root :root.dark & {
+                --tw-drop-shadow: drop-shadow(0 0 1px rgba(255, 255, 255, 0.8));
+                --tw-grayscale: grayscale(90%);
+              }
+            }
+
+            strong {
+              font-weight: 500;
+              @apply line-clamp-1 text-ellipsis;
+            }
+
+            &:hover,
+            &:focus-within {
+              img,
+              .svgicon {
+                @apply grayscale-0 opacity-100 dark:grayscale-0 dark:opacity-100;
+              }
+            }
+          }
+        }
+      }
+
+      & > div {
+        @apply mx-4;
+      }
+    }
+
+    &--cta {
+      @apply flex gap-1 items-baseline mb-4;
+    }
+
+    .bookmark-create {
+      background-image: none;
+      border-bottom: none;
+      margin: -2rem 0 0 0;
+      padding: 0;
+    }
+  }
+}

@@ -65,6 +65,7 @@
       grid-area: content;
       contain: inline-size;
       padding-top: 1rem;
+      min-height: calc(50vh);
 
       .bookmark-header,
       .bookmark-article {
@@ -152,6 +153,12 @@
 
         @media print {
           @apply mb-0 p-0 border-none bg-transparent;
+        }
+      }
+
+      & > div > turbo-frame {
+        .message {
+          @apply mt-0;
         }
       }
 

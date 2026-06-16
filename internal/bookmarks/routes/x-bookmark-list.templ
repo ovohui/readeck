@@ -177,6 +177,7 @@ templ (c Components) createForm(f *createForm) {
 					id="create-url"
 					size="15"
 					value={ f.URL.Value() }
+					required
 					placeholder="https://"
 					inputmode="url"
 					autocomplete="url"
@@ -232,16 +233,10 @@ templ (c Components) welcomeInfo(bl *dataset.BookmarkList) {
 			<div class="flex-grow-0">
 				<h1 class="title text-h3">{ L(ctx).Gettext("Welcome to Readeck!") }</h1>
 				<p class="text-xl mb-4 p-4 text-blue-800 bg-yellow-100 border border-blue-800 rounded">
-					@templ.Raw(L(ctx).Gettext(
-						"You don't have any bookmarks yet.<br> Copy a link in the field above and start saving.",
-					))
+					@c.TextWelcome()
 				</p>
 				<p class="mb-8">
-					@templ.Raw(L(ctx).Gettext(
-						`Read more about bookmarks in the <a class="%s" href="%s">documentation</a>.`,
-						"link",
-						URL(ctx, "/docs"),
-					))
+					@c.TextWelcomeDocs()
 				</p>
 				<div class="grid grid-cols-2 gap-4">
 					<div class="hidden chrome:flex firefox:flex flex-col">
@@ -251,10 +246,7 @@ templ (c Components) welcomeInfo(bl *dataset.BookmarkList) {
 							{ L(ctx).Gettext("Readeck Browser Extension") }
 						</h3>
 						<p class="mb-1 grow">
-							{ L(ctx).Gettext(`
-								With the Browser Extension, you can save pages, images and selections
-								directly from your browser!`,
-						  ) }
+							@c.TextExtension()
 						</p>
 						<p class="flex justify-start">
 							<a
@@ -274,10 +266,7 @@ templ (c Components) welcomeInfo(bl *dataset.BookmarkList) {
 								{ L(ctx).Gettext("Import existing bookmarks") }
 							</h3>
 							<p class="mb-4 grow">
-								{ L(ctx).Gettext(`
-									Would you like to import from a similar tool or from a file with existing bookmarks?
-									Try Readeck's import tool.
-								`) }
+								@c.TextImport()
 							</p>
 							<p class="flex justify-start">
 								<a
@@ -508,16 +497,17 @@ templ (c Components) card(b *dataset.Bookmark) {
 							href={ bURL }
 							data-turbo-frame="_top"
 						>
-							{ utils.ShortText(Tern(func() bool { return b.Title != ""}, b.Title, "untitled"), 90) }
+							{ utils.ShortText(Tern(func() bool { return b.Title != ""}, b.Title, L(ctx).Gettext("untitled")), 90) }
 						</a>
 					</h3>
 				</div>
 				<div class="bookmark-card--meta">
+					{{ siteName := Tern(func() bool { return b.SiteName != "" }, b.SiteName, L(ctx).Gettext("no site name")) }}
 					<strong
-						title={ b.SiteName }
+						title={ siteName }
 						dir={ Tern(func() bool { return b.TextDirection != "" }, b.TextDirection, "ltr") }
 					>
-						{ utils.ShortText(b.SiteName, 50) }
+						{ utils.ShortText(siteName, 50) }
 					</strong>
 					if b.ReadingTime > 0 {
 						<span>{ " " }•&nbsp;{ L(ctx).Npgettext("abbr", "%d min", "%d min", b.ReadingTime, b.ReadingTime) }</span>

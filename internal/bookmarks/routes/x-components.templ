@@ -389,3 +389,31 @@ templ (c Components) feedDialog(q url.Values) {
 		</div>
 	</dialog>
 }
+
+templ (c Components) TextWelcome() {
+	@templ.Raw(L(ctx).Gettext(
+		"You don't have any bookmarks yet.<br> Copy a link in the field above and start saving.",
+	))
+}
+
+templ (c Components) TextWelcomeDocs() {
+	@templ.Raw(L(ctx).Gettext(
+		`Read more about bookmarks in the <a class="%s" href="%s">documentation</a>.`,
+		"link",
+		URL(ctx, "/docs"),
+	))
+}
+
+templ (c Components) TextExtension() {
+	{ L(ctx).Gettext(`
+		With the Browser Extension, you can save pages, images and selections
+		directly from your browser!`,
+	) }
+}
+
+templ (c Components) TextImport() {
+	{ L(ctx).Gettext(`
+		Would you like to import from a similar tool or from a file with existing bookmarks?
+		Try Readeck's import tool.
+	`) }
+}

@@ -145,6 +145,7 @@ type createForm struct {
 	FindMain  forms.BooleanField  `json:"feature_find_main"`
 	HTML      forms.FileField     `json:"html"`
 	Resources forms.FileListField `json:"resource"`
+	To        forms.TextField     `json:"_to"               validate:"trim max_len:512"`
 
 	resources []tasks.MultipartResource
 }

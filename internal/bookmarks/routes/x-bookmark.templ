@@ -17,11 +17,6 @@ import (
 	F "codeberg.org/readeck/readeck/components/forms"
 )
 
-templ (v Views) bookmarkRefreshHead() {
-	// TODO: not sure about noscript here
-	<noscript><meta http-equiv="refresh" content="5"/></noscript>
-}
-
 templ (v Views) bookmarkMissing() {
 	{{ title := L(ctx).Gettext("Bookmark not found") }}
 	@PageStd(L(ctx).Gettext("Edit bookmark"), WithSideMenu(v.menu())) {
@@ -42,7 +37,6 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 		title := item.Title
 		if !item.Loaded {
 			title = L(ctx).Gettext("Bookmark loading")
-			head = v.bookmarkRefreshHead()
 		} else {
 			accessMenu = append(accessMenu,
 				[2]string{"bookmark-panel", L(ctx).Gettext("Bookmark information")},
