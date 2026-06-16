@@ -13,8 +13,8 @@ import (
 	"strings"
 
 	"github.com/antchfx/htmlquery"
-	"github.com/araddon/dateparse"
 	"github.com/go-shiori/dom"
+	"github.com/itlightning/dateparse"
 	"golang.org/x/net/html"
 
 	"codeberg.org/readeck/readeck/pkg/extract"

@@ -17,9 +17,9 @@ import (
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
 
-	"github.com/araddon/dateparse"
 	"github.com/go-shiori/dom"
 	"github.com/gobwas/glob"
+	"github.com/itlightning/dateparse"
 
 	"codeberg.org/readeck/readeck/pkg/domutils"
 	"codeberg.org/readeck/readeck/pkg/extract"

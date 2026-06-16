@@ -20,6 +20,7 @@
 ### Changed
 - HTML rendering using Templ
 - New, type safe, form and input validation library
+- Timestamp parsing now done with `github.com/itlightning/dateparse`, by [@mislav](https://codeberg.org/mislav)
 
 ### Fixed
 - Generated EPUB embedded security policy for web based engines

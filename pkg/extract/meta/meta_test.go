@@ -116,7 +116,7 @@ func TestMeta(t *testing.T) {
 			assert.Equal(t, "When Amazon Web Services went offline, people lost control of their cloud-connected smart beds, getting stuck in reclined positions or roasting with the heat turned all the way up.", ex.Drop().Description)
 			assert.Equal(t, []string{"Matthew Gault", "Samantha Cole"}, ex.Drop().Authors)
 			assert.Equal(t, "404 Media", ex.Drop().Site)
-			assert.Equal(t, time.Date(2025, time.October, 22, 13, 40, 3, 0, time.Local).UTC(), ex.Drop().Date)
+			assert.Equal(t, time.Date(2025, time.October, 22, 13, 40, 3, 0, time.UTC), ex.Drop().Date)
 			assert.Equal(t, "en", ex.Drop().Lang)
 
 			assert.Equal(t, extract.DropMeta{

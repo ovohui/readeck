@@ -15,7 +15,6 @@ require (
 	github.com/antchfx/htmlquery v1.3.6
 	github.com/antchfx/xmlquery v1.5.1
 	github.com/anthonynsimon/bild v0.15.0
-	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de
 	github.com/aymerick/douceur v0.2.0
 	github.com/caarlos0/env/v11 v11.4.1
 	github.com/coreos/go-oidc/v3 v3.18.0
@@ -31,6 +30,7 @@ require (
 	github.com/gobwas/glob v0.2.3
 	github.com/google/uuid v1.6.0
 	github.com/hlandau/passlib v1.0.11
+	github.com/itlightning/dateparse v0.2.1
 	github.com/jackc/pgx/v5 v5.10.0
 	github.com/jarcoal/httpmock v1.4.1
 	github.com/kinbiko/jsonassert v1.2.0
@@ -67,6 +67,7 @@ require (
 	github.com/PuerkitoBio/goquery v1.12.0 // indirect
 	github.com/andybalholm/cascadia v1.3.4 // indirect
 	github.com/antchfx/xpath v1.3.6 // indirect
+	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
