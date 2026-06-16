@@ -69,6 +69,9 @@ func (h *viewsRouter) bookmarkList(w http.ResponseWriter, r *http.Request) {
 				} else {
 					redir = append(redir, b.UID)
 				}
+				if f.To.Value() != "" {
+					redir = []string{f.To.Value()}
+				}
 				server.Redirect(w, r, redir...)
 				return
 			}
@@ -132,6 +135,11 @@ func (h *viewsRouter) bookmarkInfo(w http.ResponseWriter, r *http.Request) {
 		policy := server.GetCSPHeader(r).Clone()
 		policy.Add("frame-src", item.EmbedHostname)
 		policy.Write(w.Header())
+	}
+
+	// Auto refresh when bookmark is not loaded
+	if !item.Loaded {
+		w.Header().Set("Refresh", "3")
 	}
 
 	server.RenderComponent(w, r, http.StatusOK, Views{}.bookmarkInfo(item, html))
