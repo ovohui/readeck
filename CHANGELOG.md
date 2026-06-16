@@ -9,6 +9,7 @@
 - Refreshed user interface
 - CSS only title truncation in bookmark cards, by [@mislav](https://codeberg.org/mislav)
 - Do not style <time> elements as bold text, by [@mislav](https://codeberg.org/mislav)
+- Support for Open Graph article metadata, by [@mislav](https://codeberg.org/mislav)
 - Set language on single article EPUBs, by [@billieb](https://codeberg.org/billieb)
 - Follow system when theme is automatic, by [@billieb](https://codeberg.org/billieb)
 - Keep timestamp when saving a Youtube video, by [@voidlily](https://codeberg.org/voidlily)

@@ -105,6 +105,7 @@ func ExtractMeta(m *extract.ProcessMessage, next extract.Processor) extract.Proc
 
 	d.AddAuthors(d.Meta.Lookup(
 		"ld.author",
+		"graph.author",
 		"dc.creator",
 		"html.author",
 		"html.byl",
@@ -145,7 +146,7 @@ func SetDropProperties(m *extract.ProcessMessage, next extract.Processor) extrac
 	d := m.Extractor.Drop()
 
 	// Set publication date
-	for _, htmlDate := range d.Meta.Lookup("ld.published", "html.date") {
+	for _, htmlDate := range d.Meta.Lookup("ld.published", "graph.published_time", "html.date") {
 		if dt, err := dateparse.ParseLocal(htmlDate); err == nil && !dt.IsZero() {
 			d.Date = dt.UTC()
 			break
@@ -284,6 +285,9 @@ func ParseMeta(doc *html.Node) extract.DropMeta {
 				case strings.HasPrefix(nameOrProperty, "og:"):
 					// e.g. "og:image" → "graph.image"
 					res.Add("graph."+nameOrProperty[3:], content)
+				case strings.HasPrefix(nameOrProperty, "article:"):
+					// e.g. "article:published_time" → "graph.published_time"
+					res.Add("graph."+nameOrProperty[8:], content)
 				}
 			}
 		}
