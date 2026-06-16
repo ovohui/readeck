@@ -266,22 +266,6 @@ main.content {
     padding: 0;
   }
 
-  &.bookmark-display--align-justify {
-    p,
-    li,
-    dd {
-      text-align: justify;
-    }
-  }
-
-  &.bookmark-display--hyphen-auto {
-    p,
-    li,
-    dd {
-      hyphens: auto;
-    }
-  }
-
   strong,
   b {
     font-weight: bold;
@@ -336,6 +320,17 @@ main.content {
     content: close-quote;
   }
 
+  code,
+  kbd,
+  samp,
+  var {
+    font-size: 0.875em;
+    line-height: 1;
+    padding: 1px 3px;
+    border-radius: $radius;
+    background-color: $gray-light;
+  }
+
   pre {
     @flow-block;
     padding: math.div($line-height, 0.9) * 1em;
@@ -352,17 +347,6 @@ main.content {
       background-color: transparent;
       color: inherit;
     }
-  }
-
-  code,
-  kbd,
-  samp,
-  var {
-    font-size: 0.875em;
-    line-height: 1;
-    padding: 1px 3px;
-    border-radius: $radius;
-    background-color: $gray-light;
   }
 
   mark {
@@ -487,14 +471,30 @@ main.content {
     background-color: $gray-light;
   }
 
-  thead tr:last-child th {
-    border-bottom-color: #000;
-  }
-
   tfoot {
     td,
     th {
       font-style: italic;
+    }
+  }
+
+  thead tr:last-child th {
+    border-bottom-color: #000;
+  }
+
+  &.bookmark-display--align-justify {
+    p,
+    li,
+    dd {
+      text-align: justify;
+    }
+  }
+
+  &.bookmark-display--hyphen-auto {
+    p,
+    li,
+    dd {
+      hyphens: auto;
     }
   }
 }
