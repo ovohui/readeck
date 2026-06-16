@@ -191,6 +191,24 @@ func TestMeta(t *testing.T) {
 			assert.Equal(t, []string{"Ape Two", "Monkey One"}, ex.Drop().Authors)
 		})
 
+		t.Run("ignore SVG title", func(t *testing.T) {
+			ex, _ := extract.New("http://example.com", nil)
+			pm := ex.NewProcessMessage(extract.StepDom)
+
+			pm.Dom, _ = html.Parse(strings.NewReader(`
+				<title>Actual document title</title>
+				<svg>
+					<title>The title of the SVG, do not be fooled</title>
+				</svg>
+			`))
+
+			ExtractMeta(pm, nil)
+			SetDropProperties(pm, nil)
+
+			assert.Equal(t, "article", ex.Drop().DocumentType)
+			assert.Equal(t, "Actual document title", ex.Drop().Title)
+		})
+
 		t.Run("text direction", func(t *testing.T) {
 			tests := []struct {
 				dir      string

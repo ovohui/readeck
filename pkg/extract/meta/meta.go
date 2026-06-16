@@ -21,7 +21,6 @@ import (
 	"github.com/gobwas/glob"
 	"github.com/itlightning/dateparse"
 
-	"codeberg.org/readeck/readeck/pkg/domutils"
 	"codeberg.org/readeck/readeck/pkg/extract"
 	"codeberg.org/readeck/readeck/pkg/extract/microdata"
 )
@@ -209,7 +208,7 @@ func SetDropProperties(m *extract.ProcessMessage, next extract.Processor) extrac
 func ParseMeta(doc *html.Node) extract.DropMeta {
 	res := extract.DropMeta{}
 
-	for node := range domutils.EachElement(doc) {
+	for node := range eachElement(doc) {
 		switch node.DataAtom {
 		case atom.Html, atom.Body:
 			// Extract "dir" and "lang" attributes from <html> and <body>
@@ -294,6 +293,33 @@ func ParseMeta(doc *html.Node) extract.DropMeta {
 	}
 
 	return res
+}
+
+// eachElement iterates over all elements contained in doc, with the exception of the descendants of
+// SVG and MATH elements which are skipped.
+func eachElement(doc *html.Node) iter.Seq[*html.Node] {
+	return func(yield func(*html.Node) bool) {
+		var traverse func(*html.Node) bool
+		traverse = func(parent *html.Node) bool {
+			for node := parent.FirstChild; node != nil; node = node.NextSibling {
+				if node.Type != html.ElementNode {
+					continue
+				}
+				if !yield(node) {
+					return false
+				}
+				switch node.DataAtom {
+				case atom.Svg, atom.Math:
+					continue
+				}
+				if !traverse(node) {
+					return false
+				}
+			}
+			return true
+		}
+		traverse(doc)
+	}
 }
 
 var mdGlobCache sync.Map
