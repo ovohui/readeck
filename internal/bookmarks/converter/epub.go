@@ -80,7 +80,7 @@ func (e EPUBExporter) IterExport(ctx context.Context, w io.Writer, r *http.Reque
 
 	ctx = dataset.WithURLReplacer(ctx, func(_ *bookmarks.Bookmark) func(name string) string {
 		return func(name string) string {
-			return "./Images/" + path.Base(name)
+			return "../Images/" + path.Base(name)
 		}
 	})
 
@@ -160,7 +160,7 @@ func (m *epubMaker) addStylesheet() error {
 		return err
 	}
 	defer f.Close()
-	return m.AddFile("stylesheet", "styles/stylesheet.css", "text/css", f)
+	return m.AddFile("stylesheet", "Styles/stylesheet.css", "text/css", f)
 }
 
 // addBookmark adds a bookmark, with all its resources, to the epub file.
@@ -253,7 +253,7 @@ func (m *epubMaker) addBookmark(ctx context.Context, _ *http.Request, e EPUBExpo
 	return m.AddChapter(
 		"page-"+b.UID,
 		b.Title,
-		b.UID+".html",
+		path.Join("Text", b.UID+".html"),
 		buf,
 	)
 }

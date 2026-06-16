@@ -13,22 +13,24 @@ import (
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
 
 	. "codeberg.org/readeck/readeck/components"
+	"encoding/xml"
 )
 
 type epubViews struct{}
 
 templ (v epubViews) bookmark(b *dataset.Bookmark, resources bookmarks.BookmarkFiles, notes []string, html io.Reader) {
+	@templ.Raw(xml.Header)
 	@templ.Raw(`<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">` + "\n")
 	<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang={ b.Lang }>
 		<head>
 			<title>{ b.Title }</title>
-			@templ.Raw(`<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data:;"/>`)
+			@templ.Raw(`<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob:;"/>`)
 			@templ.Raw(`<meta http-equiv="Content-Security-Policy" content="connect-src 'none';"/>`)
 			@templ.Raw(`<meta http-equiv="Content-Security-Policy" content="script-src 'none';"/>`)
-			@templ.Raw(`<meta http-equiv="Content-Security-Policy" content="style-src 'self';"/>`)
+			@templ.Raw(`<meta http-equiv="Content-Security-Policy" content="style-src 'self' blob:;"/>`)
 			@templ.Raw(`<meta http-equiv="Content-Security-Policy" content="frame-src 'none'; child-src 'none';"/>`)
 			@templ.Raw(`<meta http-equiv="Content-Security-Policy" content="media-src 'none';"/>`)
-			@templ.Raw(`<link rel="stylesheet" type="text/css" href="./styles/stylesheet.css"/>`)
+			@templ.Raw(`<link rel="stylesheet" type="text/css" href="../Styles/stylesheet.css"/>`)
 		</head>
 		<body>
 			<h1 class="title">{ b.Title }</h1>
@@ -39,7 +41,7 @@ templ (v epubViews) bookmark(b *dataset.Bookmark, resources bookmarks.BookmarkFi
 				<li>
 					if img, ok := resources["icon"]; ok {
 						@templ.Raw(S(
-							`<img class="icon" alt="" src="%s" width="%d" height="%d" />`,
+							`<img class="icon" alt="" src="../%s" width="%d" height="%d" />`,
 							img.Name, img.Size[0], img.Size[1],
 						))
 					}
@@ -59,7 +61,7 @@ templ (v epubViews) bookmark(b *dataset.Bookmark, resources bookmarks.BookmarkFi
 			if img, ok := resources["image"]; ok && (b.DocumentType == "photo" || b.DocumentType == "video") {
 				<main class="photo">
 					@templ.Raw(S(
-						`<img alt="" src="%s" width="%d" height="%d" />`,
+						`<img alt="" src="../%s" width="%d" height="%d" />`,
 						img.Name, img.Size[0], img.Size[1],
 					))
 				</main>
