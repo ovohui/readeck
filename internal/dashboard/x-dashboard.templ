@@ -1,0 +1,245 @@
+// SPDX-FileCopyrightText: © 2026 Olivier Meunier <olivier@neokraft.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
+package dashboard
+
+import (
+	"log/slog"
+
+	"codeberg.org/readeck/readeck/internal/auth"
+	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
+	"codeberg.org/readeck/readeck/internal/bookmarks/routes"
+	"codeberg.org/readeck/readeck/internal/server"
+
+	. "codeberg.org/readeck/readeck/components"
+)
+
+type Views struct{}
+
+templ (v Views) dashboard(items *dashboardItems) {
+	@Page(L(ctx).Gettext("Dashboard"),
+		WithBodyClasses("body-dashboard"),
+	) {
+		<div class="dashboard">
+			<h1 class="dashboard--title">
+				{ L(ctx).Gettext("Hi %s!", auth.GetUser(ctx).Username) }
+			</h1>
+			<div class="dashboard--new-bookmark">
+				<div class="bookmark-create">
+					<div>
+						<label for="create-url" class="text-sm leading-normal font-semibold cursor-pointer">
+							{ L(ctx).Gettext("Save a new link") }
+						</label>
+					</div>
+					<form action={ URL(ctx, "/bookmarks") } method="post">
+						<div>
+							<input type="hidden" name="_to" value="/bookmarks/unread"/>
+							<input
+								type="text"
+								name="url"
+								id="create-url"
+								size="15"
+								required
+								placeholder="https://"
+								inputmode="url"
+								autocomplete="url"
+							/>
+							<button type="submit" class="">
+								@Icon("o-create")
+								<span>{ L(ctx).Pgettext("button", "Save link") }</span>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="dashboard--boxes">
+				<div class="dashboard--box">
+					<h2>Bookmarks</h2>
+					<menu>
+						@v.menuItem(L(ctx).Gettext("All Bookmarks"), "o-library", "/bookmarks")
+						if items.Total > 0 {
+							@v.menuItem(L(ctx).Gettext("Labels"), "o-label", "/bookmarks/labels")
+							@v.menuItem(L(ctx).Gettext("Highlights"), "o-highlight", "/bookmarks/highlights")
+							@v.menuItem(L(ctx).Gettext("Collections"), "o-collection", "/bookmarks/collections")
+						}
+						@v.menuItem(L(ctx).Gettext("Import Bookmarks"), "o-import", "/bookmarks/import")
+					</menu>
+				</div>
+			</div>
+			<div class="dashboard--menu">
+				<div class="dashboard--box">
+					<h2>{ L(ctx).Gettext("Readeck") }</h2>
+					<menu>
+						@v.menuItem(L(ctx).Gettext("Profile"), "o-user", "/profile")
+						if HasPermission(ctx, "admin:users", "read") {
+							@v.menuItem(L(ctx).Gettext("Users"), "o-user-admin", "/admin/users")
+						}
+						@v.menuItem(L(ctx).Gettext("Help"), "o-help", "/docs")
+					</menu>
+				</div>
+				if items.Total > 0 {
+					<div class="dashboard--box">
+						@v.ctaBrowserAddon()
+						@v.ctaApps()
+					</div>
+				}
+				<div class="dashboard--box bg-gray-50/20 flex gap-1 items-center flex-wrap">
+					<strong class="grow overflow-hidden text-ellipsis">
+						@Icon("o-user")
+						{ " " }
+						{ auth.GetUser(ctx).Username }
+					</strong>
+					<form action={ URL(ctx, "/logout") } method="post">
+						<button type="submit" class="btn-outlined">
+							@Icon("o-logout")
+							{ " " }
+							<span>{ L(ctx).Gettext("Sign out") }</span>
+						</button>
+					</form>
+				</div>
+			</div>
+			<div class="dashboard--cards">
+				<section></section>
+				if items.Total == 0 {
+					<section class="mb-6 flex gap-4 max-w-std">
+						<div class="-mt-6">
+							@Icon("o-big-arrow",
+								WithIconClass("inline-block h-36 text-yellow-500"), WithIconSvgClass("h-36"),
+								WithIconSize(50, 250),
+							)
+						</div>
+						<div class="flex-grow-0">
+							<h2 class="title text-h3">{ L(ctx).Gettext("Welcome to Readeck!") }</h2>
+							<p class="text-xl mt-8 mb-4 text-blue-800">
+								@routes.Components{}.TextWelcome()
+							</p>
+							<p class="mb-8">
+								@routes.Components{}.TextWelcomeDocs()
+							</p>
+						</div>
+					</section>
+					<div>
+						@v.ctaApps()
+						@v.ctaBrowserAddon()
+						if HasPermission(ctx, "bookmarks", "import") {
+							@v.cta(L(ctx).Gettext("Import existing bookmarks"), "o-import", "text-yellow-600") {
+								<p class="mb-2">
+									@routes.Components{}.TextImport()
+								</p>
+								<p class="flex justify-start">
+									<a class="link font-semibold" href={ URL(ctx, "/bookmarks/import") }>
+										{ L(ctx).Gettext("Import links and articles") }
+									</a>
+								</p>
+							}
+						}
+					</div>
+				} else {
+					<div>
+						@v.bookmarkList(L(ctx).Gettext("New bookmarks"), "o-check-off",
+							URL(ctx, "/bookmarks/unread"), items.NewBookmarks)
+						@v.bookmarkList(L(ctx).Gettext("Favorites"), "o-favorite-off",
+							URL(ctx, "/bookmarks/favorites"), items.FavoriteBookmarks)
+						@v.bookmarkList(L(ctx).Gettext("Archived"), "o-archive-off",
+							URL(ctx, "/bookmarks/archives"), items.ArchivedBookmarks)
+						@v.bookmarkList(L(ctx).Gettext("Articles"), "o-file",
+							URL(ctx, "/bookmarks/articles"), items.Articles)
+						@v.bookmarkList(L(ctx).Gettext("Videos"), "o-video",
+							URL(ctx, "/bookmarks/videos"), items.Videos)
+						@v.bookmarkList(L(ctx).Gettext("Pictures"), "o-photo",
+							URL(ctx, "/bookmarks/pictures"), items.Pictures)
+					</div>
+				}
+			</div>
+		</div>
+	}
+}
+
+templ (_ Views) menuItem(name, icon, path string) {
+	<li>
+		<a href={ URL(ctx, path) }>
+			@Icon(icon)
+			<span class="grow">{ name }</span>
+		</a>
+	</li>
+}
+
+templ (v Views) bookmarkList(title, icon string, href templ.SafeURL, itemList *dataset.BookmarkIterator) {
+	if count, err := itemList.Count(); count > 0 {
+		if err != nil {
+			<p class="text-red-700 font-semibold">Unexpected error</p>
+			{{ server.Log(server.GetRequest(ctx)).Error("dashboard", slog.Any("err", err)) }}
+		} else {
+			<div class="dashboard--card">
+				<h2>
+					@Icon(icon)
+					<span>{ title }</span>
+					<span>{ count }</span>
+				</h2>
+				<ul>
+					for b, _ := range itemList.Items {
+						{{ bTitle := Tern(func() bool { return b.Title != "" }, b.Title, L(ctx).Gettext("untitled")) }}
+						<li>
+							<a href={ URL(ctx, "/bookmarks", b.UID) } title={ bTitle }>
+								if img, ok := b.Resources["icon"]; ok {
+									@v.cardImage(img.Src, img.Width, img.Height)
+								} else {
+									@Icon("o-circle", WithIconClass("svgicon text-gray-600"))
+								}
+								<strong>{ bTitle } </strong>
+							</a>
+						</li>
+					}
+				</ul>
+				<div>
+					<a class="link font-semibold" href={ href }>{ L(ctx).Gettext("See all") }</a>
+				</div>
+			</div>
+		}
+	}
+}
+
+templ (_ Views) cardImage(src string, w, h int) {
+	<img loading="lazy" alt="" src={ src } width={ w } height={ h }/>
+}
+
+templ (_ Views) cta(title, icon, iconClass string) {
+	<div class="dashboard--cta">
+		@Icon(icon, WithIconClass("svgicon h-6", iconClass), WithIconSvgClass("w-6"))
+		<div>
+			<h2>{ title }</h2>
+			{ children... }
+		</div>
+	</div>
+}
+
+templ (v Views) ctaApps() {
+	@v.cta(L(ctx).Gettext("Applications for Readeck"), "o-applications", "text-green-600") {
+		<p class="mb-2">
+			{ L(ctx).Gettext(`
+									You can not only use Readeck in your browser but also on
+									your smartphone, your e-book reader or in other apps through
+									plugins.`,
+								) }
+		</p>
+		<p>
+			<a class="link font-semibold" target="_blank" href="https://readeck.org/en/apps">
+				{ L(ctx).Gettext("Discover applications") }
+			</a>
+		</p>
+	}
+}
+
+templ (v Views) ctaBrowserAddon() {
+	@v.cta(L(ctx).Gettext("Readeck in your Browser"), "o-extension", "text-green-600") {
+		<p class="mb-2">
+			@routes.Components{}.TextExtension()
+		</p>
+		<p>
+			<a class="link font-semibold" target="_blank" href="https://readeck.org/en/extension">
+				{ L(ctx).Gettext("Learn more") }
+			</a>
+		</p>
+	}
+}

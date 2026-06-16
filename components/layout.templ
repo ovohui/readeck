@@ -75,6 +75,9 @@ templ (c *Layout) Menu() {
 		</div>
 		<div class="mainmenu">
 			<menu class="grow">
+				@c.mainMenuItem(L(ctx).Gettext("Dashboard"), "/dashboard", "o-home", PathIs(ctx, "/dashboard")) {
+					<span class="sr-only">{ L(ctx).Gettext("Dashboard") }</span>
+				}
 				if HasPermission(ctx, "bookmarks", "read") {
 					@c.mainMenuItem(L(ctx).Gettext("Bookmarks"), "/bookmarks/unread", "o-library", PathIs(ctx, "/bookmarks", "/bookmarks/*")) {
 						<span class="max-sm:sr-only">{ L(ctx).Gettext("Bookmarks") }</span>
