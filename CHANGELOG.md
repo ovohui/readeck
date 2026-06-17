@@ -3,20 +3,30 @@
 ## [Unreleased]
 ### Added
 - OIDC authentication
+- Dashboard view
 
 ### Improved
+- Refreshed user interface
 - CSS only title truncation in bookmark cards, by [@mislav](https://codeberg.org/mislav)
 - Do not style <time> elements as bold text, by [@mislav](https://codeberg.org/mislav)
 - Set language on single article EPUBs, by [@billieb](https://codeberg.org/billieb)
 - Follow system when theme is automatic, by [@billieb](https://codeberg.org/billieb)
 - Keep timestamp when saving a Youtube video, by [@voidlily](https://codeberg.org/voidlily)
+- Smoother progress bar, by [@billieb](https://codeberg.org/billieb)
+- Autofocus on form submit button when the bookmark list has an "url" query parameter, by [@billieb](https://codeberg.org/billieb)
+- Bookmark placeholder images (with better colors and a letter)
+- Optimized metadata discovery, by [@mislav](https://codeberg.org/mislav)
 
 ### Changed
 - HTML rendering using Templ
 - New, type safe, form and input validation library
 
+### Fixed
+- Generated EPUB embedded security policy for web based engines
+
 ### Removed
 - Forwarded authentication
+- Global FiveFilters rule
 
 ## [0.22.3] - 2026-04-16
 ### Improved
