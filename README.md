@@ -34,11 +34,15 @@ Move bookmarks to archives or favorites and add as many labels as you want.
 
 ### 🖍️ Highlights
 
-Highlight the important content of your bookmarks to easily find it later.
+Highlight and annotate the important content of your bookmarks to easily find it later.
 
 ### 🗃️ Collections
 
 If you need a dedicated section with all your bookmarks from the past 2 weeks labeled with "cat", Readeck lets you save this search query into a collection so you can access it later.
+
+### 📱 Smartphone applications
+
+Synchronize your bookmark collection on your phone with the [dedicated applications](https://readeck.org/en/apps).
 
 ### 🧩 Browser Extension
 
@@ -109,9 +113,19 @@ Once Readeck has started, it is accessible at: \
 
 Installing from source can be useful to try out unreleased Readeck versions, or to set up a development environment for contributing code. For more information, see the [development documentation](https://readeck.org/en/docs/dev).
 
+### Build your own container image
+
+If you'd like to build your own container image so you can get the most recent changes and/or help with testing, we provide a simple procedure.
+
+Clone this repository and run the following command:
+
+```shell
+docker build -t readeck -f tools/Containerfile .
+```
+
 ### Installation for production
 
-If you already know how to deploy containers on a server, installing Readeck for production should be quite straightforward. As for deploying to Linux servers with systemd and NGINX reverse proxy, see the [deployment guide](https://readeck.org/en/docs/deploy).
+If you already know how to deploy containers on a server, installing Readeck for production should be quite straightforward. As for deploying to Linux servers with systemd and a reverse proxy, see the [deployment guide](https://readeck.org/en/docs/deploy).
 
 ## FAQ
 
