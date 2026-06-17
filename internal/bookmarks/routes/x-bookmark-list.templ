@@ -458,7 +458,7 @@ templ (c Components) card(b *dataset.Bookmark) {
 		<div class="bookmark-card" data-deleted={ b.IsDeleted } data-loading={ !b.Loaded }>
 			if !b.Loaded {
 				<div class="bookmark-card--img">
-					@c.cardImage(string(c.rndSVG(ctx, b)), 256, 144)
+					@c.rndSVG(ctx, b)
 				</div>
 				<div class="bookmark-card--spinner">
 					@Spinner()
@@ -475,7 +475,7 @@ templ (c Components) card(b *dataset.Bookmark) {
 					if img, ok := b.Resources["thumbnail"]; ok {
 						@c.cardImage(img.Src, img.Width, img.Height)
 					} else {
-						@c.cardImage(string(c.rndSVG(ctx, b)), 256, 144)
+						@c.rndSVG(ctx, b)
 					}
 				</span>
 				if b.ReadProgress > 0 {
@@ -592,7 +592,7 @@ templ (c Components) card(b *dataset.Bookmark) {
 	</turbo-frame>
 }
 
-func (_ Components) rndSVG(ctx context.Context, b *dataset.Bookmark) templ.SafeURL {
+func (c Components) rndSVG(ctx context.Context, b *dataset.Bookmark) templ.Component {
 	q := url.Values{}
 	switch {
 	case b.State == bookmarks.StateLoading:
@@ -604,10 +604,13 @@ func (_ Components) rndSVG(ctx context.Context, b *dataset.Bookmark) templ.SafeU
 
 	h := adler32.New()
 	h.Write([]byte(b.Domain + b.SiteName))
-	c := make([]byte, 4)
-	binary.LittleEndian.PutUint32(c, h.Sum32())
+	cs := make([]byte, 4)
+	binary.LittleEndian.PutUint32(cs, h.Sum32())
 
-	return URL(ctx, "/assets/rnd/"+hex.EncodeToString(c)+".svg?"+q.Encode())
+	return c.cardImage(
+		string(URL(ctx, "/assets/rnd/"+hex.EncodeToString(cs)+".svg?"+q.Encode())),
+		256, 144,
+	)
 }
 
 templ (c Components) cardImage(src string, w, h int) {
