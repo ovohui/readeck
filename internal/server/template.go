@@ -81,7 +81,7 @@ func RenderTurboStreamComponent(
 ) {
 	extraAttrs := new(strings.Builder)
 	for k, v := range attrs {
-		extraAttrs.WriteString(k + `="` + html.EscapeString(v) + `" `)
+		fmt.Fprint(extraAttrs, k, `="`, html.EscapeString(v), `" `)
 	}
 
 	log := Log(r).With(
@@ -91,9 +91,9 @@ func RenderTurboStreamComponent(
 	)
 
 	w.Header().Set("Content-Type", "text/vnd.turbo-stream.html; charset=utf-8")
-	fmt.Fprintf(w, `<turbo-stream action="%s" %starget="%s"><template>%s`, action, extraAttrs, target, "\n")
+	fmt.Fprint(w, `<turbo-stream action="`, action, `" `, extraAttrs, `target="`, target, `"><template>`, "\n")
 	err := component.Render(componentContext(r), w)
-	fmt.Fprint(w, "</template></turbo-stream>\n\n")
+	fmt.Fprint(w, "\n</template></turbo-stream>\n\n")
 	if err != nil {
 		log.Error("turbo stream", slog.Any("err", err))
 		return
