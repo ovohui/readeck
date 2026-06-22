@@ -217,6 +217,63 @@ func TestEnvVars(t *testing.T) {
 		}, cf.Auth.OIDC.Providers)
 	})
 
+	t.Run("OIDC extend settings", func(t *testing.T) {
+		envMap := map[string]string{
+			"READECK_AUTH_OIDC_1_CLIENT_SECRET": "secret 1",
+			"READECK_AUTH_OIDC_1_PROVISIONING":  "1",
+		}
+
+		for k, v := range envMap {
+			t.Setenv(k, v)
+		}
+		cf := config{
+			Auth: configAuth{
+				OIDC: configOIDC{
+					Providers: []OIDCProvider{
+						{
+							Name:                "Provider 1",
+							URL:                 "http://auth1.example.org",
+							ClientID:            "",
+							ClientSecret:        "",
+							Groups:              [][2]string(nil),
+							ProvisioningEnabled: true,
+						},
+						{
+							Name:                "Provider 2",
+							URL:                 "http://auth2.example.org",
+							ClientID:            "",
+							ClientSecret:        "",
+							Groups:              [][2]string(nil),
+							ProvisioningEnabled: false,
+						},
+					},
+				},
+			},
+		}
+		err := cf.LoadEnv()
+		require.NoError(t, err)
+
+		t.Logf("%#v\n", cf.Auth.OIDC.Providers)
+		require.Equal(t, []OIDCProvider{
+			{
+				Name:                "Provider 1",
+				URL:                 "http://auth1.example.org",
+				ClientID:            "",
+				ClientSecret:        "",
+				Groups:              [][2]string(nil),
+				ProvisioningEnabled: true,
+			},
+			{
+				Name:                "Provider 2",
+				URL:                 "http://auth2.example.org",
+				ClientID:            "",
+				ClientSecret:        "secret 1",
+				Groups:              [][2]string(nil),
+				ProvisioningEnabled: true,
+			},
+		}, cf.Auth.OIDC.Providers)
+	})
+
 	t.Run("email settings", func(t *testing.T) {
 		envMap := map[string]string{
 			"READECK_MAIL_DEBUG":       "false",

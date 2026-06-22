@@ -45,8 +45,26 @@ func (c *config) loadOIDCProviders() error {
 	var ids []string
 	var found bool
 
+	suffixes := []string{
+		"_NAME",
+		"_URL",
+		"_CLIENT_ID",
+		"_CLIENT_SECRET",
+		"_GROUPS",
+		"_PROVISIONING",
+	}
+	cutSuffixes := func(s string) (before string, found bool) {
+		for _, suffix := range suffixes {
+			if before, found = strings.CutSuffix(s, suffix); found {
+				return before, found
+			}
+		}
+
+		return "", false
+	}
+
 	for _, entry := range os.Environ() {
-		// Looking for all the "READECK_AUTH_OIDC_{id}_URL" env vars.
+		// Looking for all the "READECK_AUTH_OIDC_{id}_{prop}" env vars.
 		// They inform us about the existing keys.
 		entry = strings.TrimPrefix(entry, "=")
 		entry, found = strings.CutPrefix(entry, prefix)
@@ -54,7 +72,7 @@ func (c *config) loadOIDCProviders() error {
 			continue
 		}
 		entry, _, _ = strings.Cut(entry, "=")
-		if entry, found = strings.CutSuffix(entry, "_URL"); found {
+		if entry, found = cutSuffixes(entry); found && !slices.Contains(ids, entry) {
 			ids = append(ids, entry)
 		}
 	}
@@ -69,8 +87,16 @@ func (c *config) loadOIDCProviders() error {
 	}
 
 	for _, k := range ids {
-		p := OIDCProvider{}
-		err := env.ParseWithOptions(&p, env.Options{
+		p := &OIDCProvider{}
+
+		// If the entry is an integer, check if we're merging an existing entry.
+		idx, err := strconv.Atoi(k)
+		merge := err == nil && idx < len(c.Auth.OIDC.Providers)
+		if merge {
+			p = &(c.Auth.OIDC.Providers[idx])
+		}
+
+		err = env.ParseWithOptions(p, env.Options{
 			Prefix:                prefix + k + "_",
 			UseFieldNameByDefault: false,
 			FuncMap:               funcMap,
@@ -78,7 +104,10 @@ func (c *config) loadOIDCProviders() error {
 		if err != nil {
 			return err
 		}
-		c.Auth.OIDC.Providers = append(c.Auth.OIDC.Providers, p)
+
+		if !merge {
+			c.Auth.OIDC.Providers = append(c.Auth.OIDC.Providers, *p)
+		}
 	}
 	return nil
 }
