@@ -206,6 +206,23 @@ func enforceChecks(flags *appFlags) error {
 }
 
 func appPreRun(flags *appFlags) error {
+	if err := loadConfig(flags); err != nil {
+		return err
+	}
+
+	InitApp()
+	return nil
+}
+
+func appPostRun() {
+	if err := db.Close(); err != nil {
+		slog.Error("closing database", slog.Any("err", err))
+	} else {
+		slog.Debug("database is closed")
+	}
+}
+
+func loadConfig(flags *appFlags) error {
 	if flags.ConfigFile == "" {
 		flags.ConfigFile = "config.toml"
 	}
@@ -217,21 +234,7 @@ func appPreRun(flags *appFlags) error {
 		return fmt.Errorf("error loading configuration: %w", err)
 	}
 
-	if err := initConfig(flags.ConfigFile); err != nil {
-		return err
-	}
-
-	InitApp()
-
-	return nil
-}
-
-func appPostRun() {
-	if err := db.Close(); err != nil {
-		slog.Error("closing database", slog.Any("err", err))
-	} else {
-		slog.Debug("database is closed")
-	}
+	return initConfig(flags.ConfigFile)
 }
 
 func createConfigFile(filename string) error {

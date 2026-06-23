@@ -213,7 +213,7 @@ func (a *configEmailAddr) Addr() string {
 	return a.Address.Address
 }
 
-// UnmarshalJSON implements [encoding.json.Unmarshaler].
+// UnmarshalJSON implements [json.Unmarshaler].
 func (a *configEmailAddr) UnmarshalJSON(d []byte) (err error) {
 	var s string
 	if err = json.Unmarshal(d, &s); err != nil {
@@ -227,7 +227,16 @@ func (a *configEmailAddr) UnmarshalText(text []byte) (err error) {
 	return a.parse(string(text))
 }
 
-// UnmarshalJSON implements [encoding.json.Unmarshaler].
+// MarshalJSON implements [json.Marshaler].
+func (a configEmailAddr) MarshalJSON() ([]byte, error) {
+	s := a.Addr()
+	if a.Name != "" {
+		s += " (" + a.Name + ")"
+	}
+	return json.Marshal(s)
+}
+
+// UnmarshalJSON implements [json.Unmarshaler].
 func (cu *configURL) UnmarshalJSON(d []byte) (err error) {
 	var s string
 	if err = json.Unmarshal(d, &s); err != nil {
@@ -284,7 +293,7 @@ func (ci *configIPNet) parse(s string) error {
 	return nil
 }
 
-// UnmarshalJSON implements [encoding.json.Unmarshaler].
+// UnmarshalJSON implements [json.Unmarshaler].
 func (ci *configIPNet) UnmarshalJSON(d []byte) error {
 	var s string
 	err := json.Unmarshal(d, &s)
@@ -298,6 +307,11 @@ func (ci *configIPNet) UnmarshalJSON(d []byte) error {
 // UnmarshalText implements [encoding.TextUnmarshaler].
 func (ci *configIPNet) UnmarshalText(text []byte) error {
 	return ci.parse(string(text))
+}
+
+// MarshalJSON implements [json.Marshaler].
+func (ci *configIPNet) MarshalJSON() ([]byte, error) {
+	return json.Marshal(ci.String())
 }
 
 type configProxyMatch struct {
