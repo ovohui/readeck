@@ -104,18 +104,18 @@ templ (c Components) articleContent(item *dataset.Bookmark, html io.Reader) {
 			data-annotations-hidden-class="hidden"
 		>
 			<div
-				class={ "bookmark-article print:max-w-none relative", prefs.ReaderWidth().Class }
+				class={ "bookmark-article print:max-w-none relative", prefs.Bookmark.ReaderWidth.Class() }
 				data-controller="styler"
 			>
 				@c.articleAnnotator()
 				<div
 					class={
 						"prose", "overflow-x-auto",
-						prefs.ReaderFont().Class,
-						prefs.ReaderFontSize().Class,
-						prefs.ReaderLineHeight().Class,
-						prefs.ReaderJustify().Class,
-						prefs.ReaderHyphenation().Class,
+						prefs.Bookmark.FontFamily.Class(),
+						prefs.Bookmark.FontSize.Class(),
+						prefs.Bookmark.LineHeight.Class(),
+						prefs.Bookmark.Justified.Class(),
+						prefs.Bookmark.Hyphenated.Class(),
 					}
 					lang={ item.Lang }
 					dir={ Tern(func() bool { return item.TextDirection != "" }, item.TextDirection, "ltr") }

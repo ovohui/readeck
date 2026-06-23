@@ -110,12 +110,6 @@ func TestAPI(t *testing.T) {
 				},
 				"settings_lang": "<<PRESENCE>>",
 				"settings_addon_reminder": "<<PRESENCE>>",
-				"settings_reader_width": "<<PRESENCE>>",
-				"settings_reader_font": "<<PRESENCE>>",
-				"settings_reader_font_size": "<<PRESENCE>>",
-				"settings_reader_line_height": "<<PRESENCE>>",
-				"settings_reader_justify": "<<PRESENCE>>",
-				"settings_reader_hyphenation": "<<PRESENCE>>",
 				"settings_email_epub_to": "<<PRESENCE>>",
 				"settings_email_reply_to": "<<PRESENCE>>"
 			}
@@ -149,12 +143,6 @@ func TestAPI(t *testing.T) {
 				},
 				"settings_lang": "<<PRESENCE>>",
 				"settings_addon_reminder": "<<PRESENCE>>",
-				"settings_reader_width": "<<PRESENCE>>",
-				"settings_reader_font": "<<PRESENCE>>",
-				"settings_reader_font_size": "<<PRESENCE>>",
-				"settings_reader_line_height": "<<PRESENCE>>",
-				"settings_reader_justify": "<<PRESENCE>>",
-				"settings_reader_hyphenation": "<<PRESENCE>>",
 				"settings_email_epub_to": "<<PRESENCE>>",
 				"settings_email_reply_to": "<<PRESENCE>>"
 			}
@@ -191,12 +179,6 @@ func TestAPI(t *testing.T) {
 				},
 				"settings_lang": "<<PRESENCE>>",
 				"settings_addon_reminder": "<<PRESENCE>>",
-				"settings_reader_width": "<<PRESENCE>>",
-				"settings_reader_font": "<<PRESENCE>>",
-				"settings_reader_font_size": "<<PRESENCE>>",
-				"settings_reader_line_height": "<<PRESENCE>>",
-				"settings_reader_justify": "<<PRESENCE>>",
-				"settings_reader_hyphenation": "<<PRESENCE>>",
 				"settings_email_epub_to": "<<PRESENCE>>",
 				"settings_email_reply_to": "<<PRESENCE>>"
 			}

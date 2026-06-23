@@ -54,6 +54,9 @@ func WriteEtag(w http.ResponseWriter, r *http.Request, taggers ...Etagger) {
 	if sess := GetSession(r); sess != nil {
 		taggers = append(taggers, sess)
 	}
+	if p := GetPreferences(r.Context()); p != nil {
+		taggers = append(taggers, p)
+	}
 
 	for _, tagger := range taggers {
 		if tagger == nil {
@@ -86,6 +89,9 @@ func WriteLastModified(w http.ResponseWriter, r *http.Request, moders ...LastMod
 	}
 	if sess := GetSession(r); sess != nil {
 		mtimes = append(mtimes, sess.GetLastModified()...)
+	}
+	if p := GetPreferences(r.Context()); p != nil {
+		mtimes = append(mtimes, p.GetLastModified()...)
 	}
 
 	sort.Slice(mtimes, func(i, j int) bool {

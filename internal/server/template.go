@@ -16,14 +16,12 @@ import (
 
 	"codeberg.org/readeck/readeck/internal/auth"
 	"codeberg.org/readeck/readeck/internal/auth/users"
-	"codeberg.org/readeck/readeck/internal/profile/preferences"
 	"codeberg.org/readeck/readeck/pkg/ctxr"
 )
 
 type (
-	ctxRequestKey     struct{}
-	ctxUserKey        struct{}
-	ctxPreferencesKey struct{}
+	ctxRequestKey struct{}
+	ctxUserKey    struct{}
 )
 
 var (
@@ -34,10 +32,6 @@ var (
 	withUser = ctxr.Setter[*users.User](ctxUserKey{})
 	// GetUser returns a [users.User].
 	GetUser = ctxr.Getter[*users.User](ctxUserKey{})
-
-	withPreferences = ctxr.Setter[*preferences.Preferences](ctxPreferencesKey{})
-	// GetPreferences returns the user's [preferences.Preferences].
-	GetPreferences = ctxr.Getter[*preferences.Preferences](ctxPreferencesKey{})
 )
 
 // componentContext returns a [context.Context] with some values
@@ -47,7 +41,6 @@ func componentContext(r *http.Request) context.Context {
 	ctx := r.Context()
 	ctx = withUser(ctx, auth.GetRequestUser(r))
 	ctx = withRequest(ctx, r)
-	ctx = withPreferences(ctx, &preferences.Preferences{}) // lazy loaded
 	return ctx
 }
 

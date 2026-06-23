@@ -5,6 +5,7 @@
 package server
 
 import (
+	"context"
 	"errors"
 	"log/slog"
 	"net/http"
@@ -13,6 +14,7 @@ import (
 
 	"codeberg.org/readeck/readeck/configs"
 	"codeberg.org/readeck/readeck/internal/auth"
+	"codeberg.org/readeck/readeck/internal/profile/preferences"
 	"codeberg.org/readeck/readeck/internal/server/urls"
 	"codeberg.org/readeck/readeck/internal/sessions"
 	"codeberg.org/readeck/readeck/pkg/ctxr"
@@ -20,13 +22,15 @@ import (
 )
 
 type (
-	ctxSessionKey struct{}
-	ctxFlashKey   struct{}
+	ctxSessionKey     struct{}
+	ctxFlashKey       struct{}
+	ctxPreferencesKey struct{}
 )
 
 var (
 	withSession, checkSession             = ctxr.WithChecker[*sessions.Session](ctxSessionKey{})
 	withFlashMessages, checkFlashMessages = ctxr.WithChecker[[]sessions.FlashMessage](ctxFlashKey{})
+	withPreferences, checkPreferences     = ctxr.WithChecker[*preferences.Data](ctxPreferencesKey{})
 )
 
 var sessionHandler *securecookie.Handler
@@ -72,16 +76,20 @@ func WithSession() func(next http.Handler) http.Handler {
 			// New session, we set the [Payload.LastUpdate] to now
 			// in order to invalidate the HTTP cache.
 			if session.IsNew {
-				session.Payload.LastUpdate = time.Now().UTC()
+				session.Payload.LastUpdate = time.Now().UTC().UnixMilli()
 			}
 
-			// Pop messages and store then. We must do it before
+			// Pop messages and store them. We must do this before
 			// anything is sent to the client.
 			flashes := session.Flashes()
 			ctx = withFlashMessages(ctx, flashes)
 			if len(flashes) > 0 {
 				session.Save(w, r)
 			}
+
+			// Load preferences
+			prefs := preferences.Load(r)
+			ctx = withPreferences(ctx, prefs)
 
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
@@ -112,4 +120,13 @@ func Flashes(r *http.Request) []sessions.FlashMessage {
 		return msgs
 	}
 	return make([]sessions.FlashMessage, 0)
+}
+
+// GetPreferences returns the context's [preferences.Data] or nil
+// if it wasn't set. It's always set on a request using [SessionAuthProvider].
+func GetPreferences(ctx context.Context) *preferences.Data {
+	if p, ok := checkPreferences(ctx); ok {
+		return p
+	}
+	return nil
 }
