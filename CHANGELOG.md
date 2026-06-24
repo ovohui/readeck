@@ -4,6 +4,8 @@
 ### Added
 - OIDC authentication
 - Dashboard view
+- "config" command for diagnosis
+- drop capabilities on Linux when running as root, by [@claudio4](https://codeberg.org/claudio4)
 
 ### Improved
 - Refreshed user interface
@@ -22,6 +24,7 @@
 - HTML rendering using Templ
 - New, type safe, form and input validation library
 - Timestamp parsing now done with `github.com/itlightning/dateparse`, by [@mislav](https://codeberg.org/mislav)
+- client-bound UI preferences (bookmark font, list layout, etc.)
 
 ### Fixed
 - Generated EPUB embedded security policy for web based engines
