@@ -98,7 +98,8 @@
       top: var(--topnav-h);
       background-color: var(--layout-bg);
       border-right: 1px solid rgb(var(--color-gray-200));
-      padding: theme("size.4") theme("size.4") theme("size.4") 0;
+      padding: theme("size.4") theme("size.4") theme("size.4") theme("size.1");
+      margin-left: -theme("size.1");
 
       @media print {
         display: none;
@@ -180,6 +181,9 @@
         transform: translateX(0);
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         transition: transform 200ms;
+        width: calc(100% - 10rem);
+        min-width: var(--sidemenu-w);
+        max-width: unset;
 
         button[aria-controls="sidemenu"] {
           position: fixed;
@@ -257,6 +261,7 @@
       }
 
       button.sidemenu--button {
+        @apply order-last;
         @apply p-1 leading-none rounded-md text-gray-900;
         @apply cursor-pointer;
         @apply border-2 rounded-md;
