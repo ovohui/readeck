@@ -65,7 +65,10 @@
       grid-area: content;
       contain: inline-size;
       padding-top: 1rem;
-      min-height: calc(50vh);
+
+      @screen md {
+        min-height: calc(100vh - 1rem - var(--topnav-h));
+      }
 
       .bookmark-header,
       .bookmark-article {
