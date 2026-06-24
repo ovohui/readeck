@@ -23,7 +23,7 @@
   "replace_strings": null,
   "http_headers": {
     "Cookie": "pwv=2; pws=functional|analytics|content_recommendation|targeted_advertising|social_media",
-    "User-Agent": "PHP/7.4"
+    "User-Agent": "curl/7.83.1"
   },
   "tests": [
     {
