@@ -137,7 +137,7 @@ templ (v Views) dashboard(items *dashboardItems) {
 					</div>
 				} else {
 					<div>
-						@v.bookmarkList(L(ctx).Gettext("New bookmarks"), "o-check-off",
+						@v.bookmarkList(L(ctx).Gettext("Unread Bookmarks"), "o-check-off",
 							URL(ctx, "/bookmarks/unread"), items.NewBookmarks)
 						@v.bookmarkList(L(ctx).Gettext("Favorites"), "o-favorite-off",
 							URL(ctx, "/bookmarks/favorites"), items.FavoriteBookmarks)

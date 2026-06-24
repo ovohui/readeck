@@ -98,7 +98,9 @@
         @apply mb-4;
 
         li {
-          @apply mb-1.5;
+          &:not(:last-of-type) {
+            @apply mb-2;
+          }
 
           a {
             @apply inline-flex gap-2 items-baseline link;
@@ -124,9 +126,6 @@
 
         @container (width>50rem) {
           --num-columns: 2;
-        }
-        @container (width>75rem) {
-          --num-columns: 3;
         }
       }
 
