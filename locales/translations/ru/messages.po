@@ -12,14 +12,15 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-06-17 18:00+0200\n"
-"PO-Revision-Date: 2026-06-11 15:07+0000\n"
+"PO-Revision-Date: 2026-06-18 03:31+0000\n"
 "Last-Translator: Кнⷫѧⷷ̈зⷮьⷬ Кропоткинъ <kropotkin@noreply.codeberg.org>\n"
-"Language: ru\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/readeck/application/ru/>\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -47,9 +48,8 @@ msgid "An error occurred."
 msgstr "Произошла ошибка."
 
 #: components/errors.templ:24
-#, fuzzy
 msgid "Back to home page"
-msgstr "Начальная страница"
+msgstr "К главной странице"
 
 #: components/forms/forms.templ:21
 msgid "Errors"
@@ -1530,9 +1530,8 @@ msgstr "Грузим"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:500
 #: internal/dashboard/x-dashboard.templ:182
-#, fuzzy
 msgid "untitled"
-msgstr "Заголовок"
+msgstr "без имени"
 
 # | msgid "%d min"
 #: internal/bookmarks/routes/x-bookmark-list.templ:513
@@ -1603,9 +1602,8 @@ msgstr "О закладке"
 
 # | msgid "Bookmark Labels"
 #: internal/bookmarks/routes/x-bookmark.templ:43
-#, fuzzy
 msgid "Bookmark content"
-msgstr "Имя закладки"
+msgstr "Содержимое закладки"
 
 #: internal/bookmarks/routes/x-bookmark.templ:73
 msgid "Bookmark is loading"
@@ -1898,21 +1896,19 @@ msgid "Read more about bookmarks in the <a class=\"%s\" href=\"%s\">documentatio
 msgstr "О закладках можно ещё прочесть в <a class=\"%s\" href=\"%s\">документации</a>."
 
 #: internal/bookmarks/routes/x-components.templ:408
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWith the Browser Extension, you can save pages, images and selections\n"
 "\t\tdirectly from your browser!"
 msgstr ""
 "\n"
-"\t\t\t\t\t\t\t\tС браузерным расширением можно сохранять страницы, картинки и вырезки\n"
-"\t\t\t\t\t\t\t\tпрям из браузера!"
+"\t\tС браузерным расширением можно сохранять страницы, картинки и вырезки\n"
+"\t\tпрям из браузера!"
 
 # | msgid "" "\n" "          Would you like to import from a similar tool or
 # | from a file with existing bookmarks?\n" "          Try Readeck's import
 # | tool.\n" "        "
 #: internal/bookmarks/routes/x-components.templ:415
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWould you like to import from a similar tool or from a file with existing bookmarks?\n"
@@ -1920,9 +1916,9 @@ msgid ""
 "\t"
 msgstr ""
 "\n"
-"\t\t\t\t\t\t\t\t\tНадо импортировать уже сохранёные закладки из другого места или файла?\n"
-"\t\t\t\t\t\t\t\t\tПопробуйте импорт Readeck.\n"
-"\t\t\t\t\t\t\t\t"
+"\t\tНадо импортировать уже сохранёные закладки из другого места или файла?\n"
+"\t\tПопробуйте импорт Readeck.\n"
+"\t"
 
 #: internal/bookmarks/routes/x-filters.templ:22
 msgid "Author"
@@ -2233,16 +2229,15 @@ msgstr "Ссылки"
 #: internal/dashboard/x-dashboard.templ:26
 #, python-format
 msgid "Hi %s!"
-msgstr ""
+msgstr "Привет, %s!"
 
 #: internal/dashboard/x-dashboard.templ:60 internal/opds/http.go:71
 msgid "All Bookmarks"
 msgstr "Все закладки"
 
 #: internal/dashboard/x-dashboard.templ:72
-#, fuzzy
 msgid "Readeck"
-msgstr "Помощь Readeck"
+msgstr "Readeck"
 
 #: internal/dashboard/x-dashboard.templ:74 internal/profile/views.go:97
 #: internal/profile/views.go:150 internal/profile/views.go:186
@@ -2254,27 +2249,23 @@ msgstr "Профиль"
 
 #: internal/dashboard/x-dashboard.templ:78
 msgid "Help"
-msgstr ""
+msgstr "Помощь"
 
 #: internal/dashboard/x-dashboard.templ:140
-#, fuzzy
 msgid "New bookmarks"
-msgstr "Непрочитанные закладки"
+msgstr "Новые закладки"
 
 #: internal/dashboard/x-dashboard.templ:144
-#, fuzzy
 msgid "Archived"
-msgstr "Архив"
+msgstr "В архиве"
 
 #: internal/dashboard/x-dashboard.templ:196
-#, fuzzy
 msgid "See all"
-msgstr "Все"
+msgstr "Смотреть все"
 
 #: internal/dashboard/x-dashboard.templ:218
-#, fuzzy
 msgid "Applications for Readeck"
-msgstr "Информация приложения"
+msgstr "Приложения Readeck"
 
 #: internal/dashboard/x-dashboard.templ:220
 msgid ""
@@ -2283,17 +2274,19 @@ msgid ""
 "\t\t\t\t\t\t\t\t\tyour smartphone, your e-book reader or in other apps through\n"
 "\t\t\t\t\t\t\t\t\tplugins."
 msgstr ""
+"\n"
+"\t\t\t\t\t\t\t\t\tИспользовать Readeck можно не только в браузере, но и на\n"
+"\t\t\t\t\t\t\t\t\tвашем смартфоне, в устройстве для чтения эл. книг или в других\n"
+"\t\t\t\t\t\t\t\t\tпрограммах с помощью плагинов."
 
 #: internal/dashboard/x-dashboard.templ:228
-#, fuzzy
 msgid "Discover applications"
-msgstr "Приложения"
+msgstr "Обзор приложений"
 
 # | msgid "Readeck Bookmark Collections"
 #: internal/dashboard/x-dashboard.templ:235
-#, fuzzy
 msgid "Readeck in your Browser"
-msgstr "Расширение браузера Readeck"
+msgstr "Readeck в вашем браузере"
 
 #: internal/docs/http.go:257 internal/docs/x-about.templ:53
 #: internal/docs/x-base.templ:43
@@ -3379,4 +3372,3 @@ msgstr "%H:%M:%S"
 #~ "    Поэтому он может отличаться от, того что вы видите сейчас\n"
 #~ "    там.\n"
 #~ "  "
-
