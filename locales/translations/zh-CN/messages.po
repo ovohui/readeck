@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck CN 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-06-24 14:48+0200\n"
+"POT-Creation-Date: 2026-06-24 14:54+0200\n"
 "PO-Revision-Date: 2026-05-16 13:25+0000\n"
 "Last-Translator: linsui <user-4173@noreply.codeberg.org>\n"
 "Language: zh_CN\n"
@@ -2294,9 +2294,9 @@ msgstr "应用程序信息"
 #: internal/dashboard/x-dashboard.templ:220
 msgid ""
 "\n"
-"\t\t\t\t\t\t\t\t\tYou can not only use Readeck in your browser but also on\n"
-"\t\t\t\t\t\t\t\t\tyour smartphone, your e-book reader or in other apps through\n"
-"\t\t\t\t\t\t\t\t\tplugins."
+"\t\t\t\tYou can use Readeck, not only in your browser, but also\n"
+"\t\t\t\ton your smartphone, your e-book reader or\n"
+"\t\t\t\tin other apps through\tplugins."
 msgstr ""
 
 #: internal/dashboard/x-dashboard.templ:228
@@ -3395,4 +3395,11 @@ msgstr "%H:%M:%S"
 
 #~ msgid "New bookmarks"
 #~ msgstr "未读书签"
+
+#~ msgid ""
+#~ "\n"
+#~ "\t\t\t\t\t\t\t\t\tYou can not only use Readeck in your browser but also on\n"
+#~ "\t\t\t\t\t\t\t\t\tyour smartphone, your e-book reader or in other apps through\n"
+#~ "\t\t\t\t\t\t\t\t\tplugins."
+#~ msgstr ""
 
