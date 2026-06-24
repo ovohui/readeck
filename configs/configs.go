@@ -19,8 +19,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/araddon/dateparse"
 	"github.com/caarlos0/env/v11"
+	"github.com/itlightning/dateparse"
 	"github.com/komkom/toml"
 
 	"codeberg.org/readeck/readeck/internal/acls"

@@ -17,11 +17,10 @@ import (
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
 
-	"github.com/araddon/dateparse"
 	"github.com/go-shiori/dom"
 	"github.com/gobwas/glob"
+	"github.com/itlightning/dateparse"
 
-	"codeberg.org/readeck/readeck/pkg/domutils"
 	"codeberg.org/readeck/readeck/pkg/extract"
 	"codeberg.org/readeck/readeck/pkg/extract/microdata"
 )
@@ -105,6 +104,7 @@ func ExtractMeta(m *extract.ProcessMessage, next extract.Processor) extract.Proc
 
 	d.AddAuthors(d.Meta.Lookup(
 		"ld.author",
+		"graph.author",
 		"dc.creator",
 		"html.author",
 		"html.byl",
@@ -145,7 +145,7 @@ func SetDropProperties(m *extract.ProcessMessage, next extract.Processor) extrac
 	d := m.Extractor.Drop()
 
 	// Set publication date
-	for _, htmlDate := range d.Meta.Lookup("ld.published", "html.date") {
+	for _, htmlDate := range d.Meta.Lookup("ld.published", "graph.published_time", "html.date") {
 		if dt, err := dateparse.ParseLocal(htmlDate); err == nil && !dt.IsZero() {
 			d.Date = dt.UTC()
 			break
@@ -208,7 +208,7 @@ func SetDropProperties(m *extract.ProcessMessage, next extract.Processor) extrac
 func ParseMeta(doc *html.Node) extract.DropMeta {
 	res := extract.DropMeta{}
 
-	for node := range domutils.EachElement(doc) {
+	for node := range eachElement(doc) {
 		switch node.DataAtom {
 		case atom.Html, atom.Body:
 			// Extract "dir" and "lang" attributes from <html> and <body>
@@ -284,12 +284,42 @@ func ParseMeta(doc *html.Node) extract.DropMeta {
 				case strings.HasPrefix(nameOrProperty, "og:"):
 					// e.g. "og:image" → "graph.image"
 					res.Add("graph."+nameOrProperty[3:], content)
+				case strings.HasPrefix(nameOrProperty, "article:"):
+					// e.g. "article:published_time" → "graph.published_time"
+					res.Add("graph."+nameOrProperty[8:], content)
 				}
 			}
 		}
 	}
 
 	return res
+}
+
+// eachElement iterates over all elements contained in doc, with the exception of the descendants of
+// SVG and MATH elements which are skipped.
+func eachElement(doc *html.Node) iter.Seq[*html.Node] {
+	return func(yield func(*html.Node) bool) {
+		var traverse func(*html.Node) bool
+		traverse = func(parent *html.Node) bool {
+			for node := parent.FirstChild; node != nil; node = node.NextSibling {
+				if node.Type != html.ElementNode {
+					continue
+				}
+				if !yield(node) {
+					return false
+				}
+				switch node.DataAtom {
+				case atom.Svg, atom.Math:
+					continue
+				}
+				if !traverse(node) {
+					return false
+				}
+			}
+			return true
+		}
+		traverse(doc)
+	}
 }
 
 var mdGlobCache sync.Map

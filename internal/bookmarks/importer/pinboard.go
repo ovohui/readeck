@@ -8,7 +8,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/araddon/dateparse"
+	"github.com/itlightning/dateparse"
 
 	"codeberg.org/readeck/readeck/internal/db/types"
 	"codeberg.org/readeck/readeck/pkg/forms"

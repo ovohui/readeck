@@ -9,13 +9,12 @@ go 1.26.4
 //tool: github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.12.2
 
 require (
-	codeberg.org/readeck/go-readability/v2 v2.1.1
+	codeberg.org/readeck/go-readability/v2 v2.1.2
 	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.2
 	github.com/a-h/templ v0.3.1020
 	github.com/antchfx/htmlquery v1.3.6
 	github.com/antchfx/xmlquery v1.5.1
 	github.com/anthonynsimon/bild v0.15.0
-	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de
 	github.com/aymerick/douceur v0.2.0
 	github.com/caarlos0/env/v11 v11.4.1
 	github.com/coreos/go-oidc/v3 v3.18.0
@@ -31,6 +30,7 @@ require (
 	github.com/gobwas/glob v0.2.3
 	github.com/google/uuid v1.6.0
 	github.com/hlandau/passlib v1.0.11
+	github.com/itlightning/dateparse v0.2.1
 	github.com/jackc/pgx/v5 v5.10.0
 	github.com/jarcoal/httpmock v1.4.1
 	github.com/kinbiko/jsonassert v1.2.0

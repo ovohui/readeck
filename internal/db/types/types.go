@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/araddon/dateparse"
+	"github.com/itlightning/dateparse"
 )
 
 // JSONBytes converts a string or a []uint8 to a []byte value.

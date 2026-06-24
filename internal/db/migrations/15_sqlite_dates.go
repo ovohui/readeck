@@ -8,9 +8,9 @@ import (
 	"io/fs"
 	"time"
 
-	"github.com/araddon/dateparse"
 	"github.com/doug-martin/goqu/v9"
 	"github.com/doug-martin/goqu/v9/exp"
+	"github.com/itlightning/dateparse"
 )
 
 // M15sqliteDates performs a migration to update all datetime

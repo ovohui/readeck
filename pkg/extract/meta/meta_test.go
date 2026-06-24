@@ -116,7 +116,7 @@ func TestMeta(t *testing.T) {
 			assert.Equal(t, "When Amazon Web Services went offline, people lost control of their cloud-connected smart beds, getting stuck in reclined positions or roasting with the heat turned all the way up.", ex.Drop().Description)
 			assert.Equal(t, []string{"Matthew Gault", "Samantha Cole"}, ex.Drop().Authors)
 			assert.Equal(t, "404 Media", ex.Drop().Site)
-			assert.Equal(t, time.Date(2025, time.October, 22, 13, 40, 3, 0, time.Local).UTC(), ex.Drop().Date)
+			assert.Equal(t, time.Date(2025, time.October, 22, 13, 40, 3, 0, time.UTC), ex.Drop().Date)
 			assert.Equal(t, "en", ex.Drop().Lang)
 
 			assert.Equal(t, extract.DropMeta{
@@ -137,6 +137,7 @@ func TestMeta(t *testing.T) {
 			pm.Dom, _ = html.Parse(bytes.NewReader(getFileContents("meta/meta4.html")))
 
 			ExtractMeta(pm, nil)
+			SetDropProperties(pm, nil)
 
 			assert.Equal(t, "Issues list such as unescaped </script> or -->", ex.Drop().Title)
 			assert.Empty(t, ex.Drop().Description)
@@ -162,8 +163,50 @@ func TestMeta(t *testing.T) {
 			`))
 
 			ExtractMeta(pm, nil)
+			SetDropProperties(pm, nil)
 
 			assert.Equal(t, []string{"Ape Two", "Monkey One"}, ex.Drop().Authors)
+		})
+
+		t.Run("process Open Graph article", func(t *testing.T) {
+			ex, _ := extract.New("http://example.com", nil)
+			pm := ex.NewProcessMessage(extract.StepDom)
+
+			pm.Dom, _ = html.Parse(strings.NewReader(`
+				<meta property="og:type" content="article">
+				<meta property="og:title" content="My Open Graph example">
+				<meta property="og:description" content="Article description goes here">
+				<meta property="article:published_time" content="2026-06-16T10:16:46.123Z">
+				<meta property="article:author" content="Monkey One">
+				<meta property="article:author" content="Ape Two">
+			`))
+
+			ExtractMeta(pm, nil)
+			SetDropProperties(pm, nil)
+
+			assert.Equal(t, "article", ex.Drop().DocumentType)
+			assert.Equal(t, "My Open Graph example", ex.Drop().Title)
+			assert.Equal(t, "Article description goes here", ex.Drop().Description)
+			assert.Equal(t, time.Date(2026, 6, 16, 10, 16, 46, 123000000, time.UTC), ex.Drop().Date)
+			assert.Equal(t, []string{"Ape Two", "Monkey One"}, ex.Drop().Authors)
+		})
+
+		t.Run("ignore SVG title", func(t *testing.T) {
+			ex, _ := extract.New("http://example.com", nil)
+			pm := ex.NewProcessMessage(extract.StepDom)
+
+			pm.Dom, _ = html.Parse(strings.NewReader(`
+				<title>Actual document title</title>
+				<svg>
+					<title>The title of the SVG, do not be fooled</title>
+				</svg>
+			`))
+
+			ExtractMeta(pm, nil)
+			SetDropProperties(pm, nil)
+
+			assert.Equal(t, "article", ex.Drop().DocumentType)
+			assert.Equal(t, "Actual document title", ex.Drop().Title)
 		})
 
 		t.Run("text direction", func(t *testing.T) {

@@ -17,9 +17,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/araddon/dateparse"
 	"github.com/doug-martin/goqu/v9"
 	"github.com/hlandau/passlib"
+	"github.com/itlightning/dateparse"
 
 	"codeberg.org/readeck/readeck/configs"
 	"codeberg.org/readeck/readeck/internal/acls"

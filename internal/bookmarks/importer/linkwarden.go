@@ -10,7 +10,7 @@ import (
 
 	"golang.org/x/net/html"
 
-	"github.com/araddon/dateparse"
+	"github.com/itlightning/dateparse"
 
 	"codeberg.org/readeck/readeck/internal/db/types"
 )
