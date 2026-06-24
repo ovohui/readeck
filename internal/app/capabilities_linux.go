@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2026 Claudio Yanes <me@claudio4.com>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 package app
 
 import (
@@ -6,10 +10,10 @@ import (
 	"kernel.org/pub/linux/libs/security/libcap/cap"
 )
 
-// dropLinuxCapabilities removes all Linux capabilities unnecessary for normal
+// dropCapabilities removes all Linux capabilities unnecessary for normal
 // operation. While this improves security a bit, it can be a major source of
 // permission denied errors.
-func dropCapabilites() error {
+func dropCapabilities() error {
 	currentCaps := cap.GetProc()
 
 	// we need to preserve net_bind_service otherwise we will never be able to bind
@@ -28,7 +32,7 @@ func dropCapabilites() error {
 	}
 
 	if err = newCaps.SetProc(); err != nil {
-		return fmt.Errorf("failed to set process capabilites: %w", err)
+		return fmt.Errorf("failed to set process capabilities: %w", err)
 	}
 
 	return nil

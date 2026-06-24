@@ -206,7 +206,7 @@ func enforceChecks(flags *appFlags) error {
 }
 
 func appPreRun(flags *appFlags) error {
-	if err := dropCapabilites(); err != nil {
+	if err := dropCapabilities(); err != nil {
 		slog.Warn("Failed to drop capabilities. Running as-is", slog.Any("err", err))
 	}
 

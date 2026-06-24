@@ -251,6 +251,15 @@ All rights reserved.
 """
 
 [[licenses]]
+name = "libcap"
+license = "BSD-3-Clause"
+author = "Andrew G. Morgan"
+url = "https://sites.google.com/site/fullycapable/"
+copyright = """
+Copyright (c) 2019-21 Andrew G. Morgan <morgan@kernel.org>
+"""
+
+[[licenses]]
 name = "x/image"
 license = "BSD-3-Clause"
 author = "Google Inc."
