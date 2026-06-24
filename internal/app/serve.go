@@ -41,6 +41,7 @@ import (
 	"codeberg.org/readeck/readeck/internal/metrics"
 	"codeberg.org/readeck/readeck/internal/opds"
 	"codeberg.org/readeck/readeck/internal/profile"
+	"codeberg.org/readeck/readeck/internal/profile/preferences"
 	"codeberg.org/readeck/readeck/internal/server"
 	"codeberg.org/readeck/readeck/internal/server/urls"
 	"codeberg.org/readeck/readeck/internal/videoplayer"
@@ -286,6 +287,9 @@ func InitServer(s *server.Server) error {
 
 	// Init session store
 	server.InitSession()
+
+	// Init preferences store
+	preferences.InitHandler()
 
 	// Static asserts
 	assets.SetupRoutes(s)

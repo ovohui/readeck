@@ -222,11 +222,10 @@ func (tu *TestUser) APIToken() string {
 func (tu *TestUser) sessionCookie() *http.Cookie {
 	// Create and encoded a session cookie
 	encoded, err := server.SessionHandler().Encode(&sessions.Payload{
-		Seed:        tu.User.Seed,
-		User:        tu.User.ID,
-		LastUpdate:  time.Now().UTC(),
-		Flashes:     []sessions.FlashMessage{},
-		Preferences: sessions.Preferences{},
+		Seed:       tu.User.Seed,
+		User:       tu.User.ID,
+		LastUpdate: time.Now().UTC().UnixMilli(),
+		Flashes:    []sessions.FlashMessage{},
 	})
 	if err != nil {
 		panic(err)

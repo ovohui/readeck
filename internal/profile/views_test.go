@@ -14,9 +14,11 @@ import (
 
 	"github.com/doug-martin/goqu/v9"
 	"github.com/go-shiori/dom"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	"codeberg.org/readeck/readeck/internal/auth/tokens"
+	"codeberg.org/readeck/readeck/internal/profile/preferences"
 	"codeberg.org/readeck/readeck/pkg/superbus"
 	"codeberg.org/readeck/readeck/pkg/totp"
 
@@ -99,15 +101,24 @@ func TestViews(t *testing.T) {
 		)
 
 		client.RT(t,
-			WithMethod(http.MethodPost),
+			WithMethod(http.MethodPatch),
 			WithTarget("/profile/session"),
 			WithBody(url.Values{
-				"bookmark_list_display": {"grid"},
+				"bookmark_list.layout": {"1"},
+				"bookmark.font_family": {"2"},
 			}),
 			AssertStatus(200),
-			AssertJSON(`{
-				"bookmark_list_display":"grid"
-			}`),
+		)
+
+		client.RT(t,
+			WithMethod(http.MethodGet),
+			WithTarget("/profile"),
+			AssertStatus(200),
+			WithAssert(func(t *testing.T, rsp *Response) {
+				p := preferences.Load(rsp.Request)
+				assert.Equal(t, preferences.ListCompact, p.BookmarkList.Layout)
+				assert.Equal(t, preferences.FontMerriweather, p.Bookmark.FontFamily)
+			}),
 		)
 	})
 

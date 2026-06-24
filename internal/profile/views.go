@@ -17,6 +17,7 @@ import (
 	"codeberg.org/readeck/readeck/internal/auth"
 	"codeberg.org/readeck/readeck/internal/auth/tokens"
 	"codeberg.org/readeck/readeck/internal/portability"
+	"codeberg.org/readeck/readeck/internal/profile/preferences"
 	"codeberg.org/readeck/readeck/internal/server"
 	"codeberg.org/readeck/readeck/internal/server/urls"
 	"codeberg.org/readeck/readeck/pkg/forms"
@@ -36,6 +37,7 @@ func newProfileViews(api *profileAPI) *profileViews {
 	r.With(server.WithPermission("profile", "read")).Group(func(r chi.Router) {
 		r.Get("/", v.userProfile)
 		r.Get("/password", v.userPassword)
+		r.Patch("/session", v.userSession)
 	})
 	r.With(server.WithPermission("profile", "export")).Group(func(r chi.Router) {
 		r.Get("/export", v.exportData)
@@ -47,7 +49,6 @@ func newProfileViews(api *profileAPI) *profileViews {
 		r.Post("/password", v.userPassword)
 		r.Get("/otp", v.userTOTP)
 		r.Post("/otp", v.userTOTP)
-		r.Post("/session", v.userSession)
 	})
 	r.With(server.WithPermission("profile", "import")).Group(func(r chi.Router) {
 		r.Get("/import", v.importData)
@@ -192,8 +193,9 @@ func (v *profileViews) userTOTP(w http.ResponseWriter, r *http.Request) {
 }
 
 // userSession handles changes of user session preferences.
-// This returns an API response but since it only works with a SessionAuthProvider
+// This is an API request but since it only works with a SessionAuthProvider
 // it makes more sense to have it in the views.
+// The response's body is always empty.
 func (v *profileViews) userSession(w http.ResponseWriter, r *http.Request) {
 	_, ok := auth.GetRequestProvider(r).(*server.SessionAuthProvider)
 	if !ok {
@@ -201,22 +203,22 @@ func (v *profileViews) userSession(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	f := forms.BindAs[sessionPrefForm](r)
+	prefs := server.GetPreferences(r.Context())
+	f := preferences.NewForm(r.Context(), prefs)
+	forms.Bind(r, f)
 
 	if !f.IsValid() {
 		server.Render(w, r, http.StatusUnprocessableEntity, f)
 		return
 	}
 
-	sess := server.GetSession(r)
-	updated, err := f.update(sess.Payload)
-	if err != nil {
+	f.Update(prefs)
+	if err := prefs.Save(w, r); err != nil {
 		server.Err(w, r, err)
 		return
 	}
 
-	sess.Save(w, r)
-	server.Render(w, r, http.StatusOK, updated)
+	w.WriteHeader(http.StatusOK)
 }
 
 func (v *profileViews) applicationList(w http.ResponseWriter, r *http.Request) {

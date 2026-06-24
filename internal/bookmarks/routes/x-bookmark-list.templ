@@ -16,6 +16,7 @@ import (
 
 	"codeberg.org/readeck/readeck/internal/bookmarks"
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
+	"codeberg.org/readeck/readeck/internal/profile/preferences"
 	"codeberg.org/readeck/readeck/internal/server"
 	"codeberg.org/readeck/readeck/internal/server/urls"
 	"codeberg.org/readeck/readeck/pkg/forms"
@@ -292,18 +293,18 @@ templ (c Components) listActions() {
 			data-controller="styler-option request"
 			data-styler-option-styler-outlet="[data-controller~='styler']"
 			data-request-url-value={ URL(ctx, "/profile/session") }
-			data-request-method-value="post"
+			data-request-method-value="patch"
 		>
 			{{
 				layouts := []struct {
-					value string
-					icon  string
+					value uint8
 					class string
+					icon  string
 					title string
 				}{
-					{"grid", "o-grid", "bookmark-list--grid", L(ctx).Gettext("Grid view")},
-					{"compact", "o-list", "bookmark-list--compact", L(ctx).Gettext("Compact view")},
-					{"mosaic", "o-mosaic", "bookmark-list--mosaic", L(ctx).Gettext("Mosaic view")},
+					{uint8(preferences.ListGrid), preferences.ListGrid.Class(), "o-grid", L(ctx).Gettext("Grid view")},
+					{uint8(preferences.ListCompact), preferences.ListCompact.Class(), "o-list", L(ctx).Gettext("Compact view")},
+					{uint8(preferences.ListMosaic), preferences.ListMosaic.Class(), "o-mosaic", L(ctx).Gettext("Mosaic view")},
 				}
 			}}
 			for _, x := range layouts {
@@ -321,8 +322,8 @@ templ (c Components) listActions() {
 			}
 			<input
 				type="hidden"
-				name="bookmark_list_display"
-				value={ prefs.BookmarkListLayout().Value }
+				name="bookmark_list.layout"
+				value={ prefs.BookmarkList.Layout }
 				data-styler-option-target="value"
 				data-action="styler-option:setValue->request#fetch"
 			/>
@@ -430,7 +431,7 @@ templ (c Components) bookmarkList(bl *dataset.BookmarkList) {
 	<div class="bookmark-list">
 		@Pagination(&bl.Pagination)
 		<div
-			class={ "my-4", Preferences(ctx).BookmarkListLayout().Class }
+			class={ "my-4", Preferences(ctx).BookmarkList.Layout.Class() }
 			data-controller="styler"
 		>
 			for _, b := range bl.Items {

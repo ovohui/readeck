@@ -22,21 +22,14 @@ type Payload struct {
 	Seed        int            `json:"s"`
 	User        int            `json:"u"`
 	RequiresMFA bool           `json:"mfa"`
-	LastUpdate  time.Time      `json:"lu"`
+	LastUpdate  int64          `json:"lu"`
 	Flashes     []FlashMessage `json:"f"`
-	Preferences Preferences    `json:"p"`
 }
 
 // FlashMessage is a message stored in the session.
 type FlashMessage struct {
 	Type    string `json:"t"`
 	Message string `json:"m"`
-}
-
-// Preferences contains the user session preferences.
-type Preferences struct {
-	BookmarkListDisplay   string `json:"bld"`
-	BookmarkSidebarHidden bool   `json:"bsh"`
 }
 
 // Session is a unique session.
@@ -81,12 +74,12 @@ func (s *Session) AddFlash(typ, msg string) {
 
 // UpdateEtag implements [server.Etagger] interface.
 func (s *Session) UpdateEtag(h hash.Hash) {
-	io.WriteString(h, strconv.FormatInt(s.Payload.LastUpdate.UTC().UnixNano(), 10))
+	io.WriteString(h, strconv.Itoa(int(s.Payload.LastUpdate)))
 }
 
 // GetLastModified implement LastModer interface.
 func (s *Session) GetLastModified() []time.Time {
-	return []time.Time{s.Payload.LastUpdate}
+	return []time.Time{time.UnixMilli(s.Payload.LastUpdate).UTC()}
 }
 
 // Flashes retrieves the flash messages from the session

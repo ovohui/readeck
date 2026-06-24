@@ -86,7 +86,7 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 					<input type="hidden" name="read_anchor" value={ item.ReadAnchor } data-scroll-progress-target="anchor"/>
 				</form>
 				<div
-					class={ "hidden print:block", prefs.ReaderFont().Class }
+					class={ "hidden print:block", prefs.Bookmark.FontFamily.Class() }
 					data-controller="styler"
 					dir={ Tern(func() bool { return item.TextDirection != "" }, item.TextDirection, "ltr") }
 				>
@@ -127,11 +127,11 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 						<button
 							type="button"
 							title={ L(ctx).Gettext("Bookmark information") }
-							name="bookmark_sidebar_hidden"
-							value={ strconv.FormatBool(!prefs.BookmarkSidebarHidden()) }
+							name="bookmark.hide_sidebar"
+							value={ strconv.FormatBool(!prefs.Bookmark.HideSidebar) }
 							data-controller="request"
 							data-request-url-value={ URL(ctx, "/profile/session") }
-							data-request-method-value="post"
+							data-request-method-value="patch"
 							data-action="click->panel#toggle click->request#fetch"
 							data-panel-target="button"
 							aria-expanded="false"
@@ -148,7 +148,7 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 					id="bookmark-panel"
 					class={
 						"bookmark-sidebar max-lg:hidden",
-						templ.KV("hidden", prefs.BookmarkSidebarHidden()),
+						templ.KV("hidden", prefs.Bookmark.HideSidebar),
 					}
 					data-panel-target="panel"
 					tabindex="-1"
@@ -167,7 +167,7 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 							value="true"
 							data-controller="request"
 							data-request-url-value={ URL(ctx, "/profile/session") }
-							data-request-method-value="post"
+							data-request-method-value="patch"
 							data-action="click->panel#toggle click->request#fetch"
 							data-panel-target="button"
 							aria-controls="bookmark-panel"
@@ -186,8 +186,8 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 					<div
 						class={
 							"bookmark-header mt-4 print:mt-2 print:max-w-none mb-8",
-							prefs.ReaderWidth().Class,
-							prefs.ReaderFont().Class,
+							prefs.Bookmark.ReaderWidth.Class(),
+							prefs.Bookmark.FontFamily.Class(),
 						}
 						data-controller="styler"
 					>

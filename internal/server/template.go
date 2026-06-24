@@ -16,14 +16,12 @@ import (
 
 	"codeberg.org/readeck/readeck/internal/auth"
 	"codeberg.org/readeck/readeck/internal/auth/users"
-	"codeberg.org/readeck/readeck/internal/profile/preferences"
 	"codeberg.org/readeck/readeck/pkg/ctxr"
 )
 
 type (
-	ctxRequestKey     struct{}
-	ctxUserKey        struct{}
-	ctxPreferencesKey struct{}
+	ctxRequestKey struct{}
+	ctxUserKey    struct{}
 )
 
 var (
@@ -34,10 +32,6 @@ var (
 	withUser = ctxr.Setter[*users.User](ctxUserKey{})
 	// GetUser returns a [users.User].
 	GetUser = ctxr.Getter[*users.User](ctxUserKey{})
-
-	withPreferences = ctxr.Setter[*preferences.Preferences](ctxPreferencesKey{})
-	// GetPreferences returns the user's [preferences.Preferences].
-	GetPreferences = ctxr.Getter[*preferences.Preferences](ctxPreferencesKey{})
 )
 
 // componentContext returns a [context.Context] with some values
@@ -47,7 +41,6 @@ func componentContext(r *http.Request) context.Context {
 	ctx := r.Context()
 	ctx = withUser(ctx, auth.GetRequestUser(r))
 	ctx = withRequest(ctx, r)
-	ctx = withPreferences(ctx, &preferences.Preferences{}) // lazy loaded
 	return ctx
 }
 
@@ -81,7 +74,7 @@ func RenderTurboStreamComponent(
 ) {
 	extraAttrs := new(strings.Builder)
 	for k, v := range attrs {
-		extraAttrs.WriteString(k + `="` + html.EscapeString(v) + `" `)
+		fmt.Fprint(extraAttrs, k, `="`, html.EscapeString(v), `" `)
 	}
 
 	log := Log(r).With(
@@ -91,9 +84,9 @@ func RenderTurboStreamComponent(
 	)
 
 	w.Header().Set("Content-Type", "text/vnd.turbo-stream.html; charset=utf-8")
-	fmt.Fprintf(w, `<turbo-stream action="%s" %starget="%s"><template>%s`, action, extraAttrs, target, "\n")
+	fmt.Fprint(w, `<turbo-stream action="`, action, `" `, extraAttrs, `target="`, target, `"><template>`, "\n")
 	err := component.Render(componentContext(r), w)
-	fmt.Fprint(w, "</template></turbo-stream>\n\n")
+	fmt.Fprint(w, "\n</template></turbo-stream>\n\n")
 	if err != nil {
 		log.Error("turbo stream", slog.Any("err", err))
 		return

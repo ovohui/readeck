@@ -22,7 +22,6 @@ import (
 	"codeberg.org/readeck/readeck/internal/auth/users"
 	"codeberg.org/readeck/readeck/internal/portability"
 	"codeberg.org/readeck/readeck/internal/server"
-	"codeberg.org/readeck/readeck/internal/sessions"
 	"codeberg.org/readeck/readeck/locales"
 	"codeberg.org/readeck/readeck/pkg/forms"
 	"codeberg.org/readeck/readeck/pkg/totp"
@@ -33,18 +32,12 @@ var errInvalidPassword = forms.Gettext("invalid password")
 type profileForm struct {
 	// TODO: move settings to a nested struct
 	forms.Form
-	Username                  forms.TextField    `json:"username"                    validate:"trim required_or_nil max_len:128 is_valid_username"`
-	Email                     forms.TextField    `json:"email"                       validate:"trim required_or_nil max_len:128 is_valid_email"`
-	SettingsLang              forms.TextField    `json:"settings_lang"               validate:"trim lang_choices"`
-	SettingsAddonReminder     forms.BooleanField `json:"settings_addon_reminder"`
-	SettingsEmailReplyTo      forms.TextField    `json:"settings_email_reply_to"     validate:"trim skip is_email"`
-	SettingsEmailEpubTo       forms.TextField    `json:"settings_email_epub_to"      validate:"trim skip is_email"`
-	SettingsReaderWidth       forms.IntegerField `json:"settings_reader_width"       validate:"required_or_nil gte:1 lte:3"`
-	SettingsReaderFont        forms.TextField    `json:"settings_reader_font"        validate:"required_or_nil max_len:64"`
-	SettingsReaderFontSize    forms.IntegerField `json:"settings_reader_font_size"   validate:"required_or_nil gte:1 lte:6"`
-	SettingsReaderLineHeight  forms.IntegerField `json:"settings_reader_line_height" validate:"required_or_nil gte:1 lte:6"`
-	SettingsReaderJustify     forms.IntegerField `json:"settings_reader_justify"`
-	SettingsReaderHyphenation forms.IntegerField `json:"settings_reader_hyphenation"`
+	Username              forms.TextField    `json:"username"                validate:"trim required_or_nil max_len:128 is_valid_username"`
+	Email                 forms.TextField    `json:"email"                   validate:"trim required_or_nil max_len:128 is_valid_email"`
+	SettingsLang          forms.TextField    `json:"settings_lang"           validate:"trim lang_choices"`
+	SettingsAddonReminder forms.BooleanField `json:"settings_addon_reminder"`
+	SettingsEmailReplyTo  forms.TextField    `json:"settings_email_reply_to" validate:"trim skip is_email"`
+	SettingsEmailEpubTo   forms.TextField    `json:"settings_email_epub_to"  validate:"trim skip is_email"`
 }
 
 func (f *profileForm) GetTaggedValidator(name, _ string, tc *forms.TagContext) (forms.Validator, bool) {
@@ -130,23 +123,6 @@ func (f *profileForm) update() (res map[string]any, err error) {
 		}
 
 		switch n := name; {
-		case strings.HasPrefix(n, "settings_reader_"):
-			name := strings.TrimPrefix(n, "settings_reader_")
-			switch name {
-			case "width":
-				user.Settings.ReaderSettings.Width = field.V().(int)
-			case "font":
-				user.Settings.ReaderSettings.Font = field.String()
-			case "font_size":
-				user.Settings.ReaderSettings.FontSize = field.V().(int)
-			case "line_height":
-				user.Settings.ReaderSettings.LineHeight = field.V().(int)
-			case "justify":
-				user.Settings.ReaderSettings.Justify = field.V().(int)
-			case "hyphenation":
-				user.Settings.ReaderSettings.Hyphenation = field.V().(int)
-			}
-			res["settings"] = user.Settings
 		case strings.HasPrefix(n, "settings_email_"):
 			name := strings.TrimPrefix(n, "settings_email_")
 			switch name {
@@ -191,55 +167,6 @@ func (f *profileForm) update() (res map[string]any, err error) {
 	res["id"] = user.UID
 	delete(res, "seed")
 	return res, err
-}
-
-type sessionPrefForm struct {
-	forms.Form
-	BookmarkListDisplay   forms.TextField    `json:"bookmark_list_display"   validate:"skip display_choices"`
-	BookmarkSidebarHidden forms.BooleanField `json:"bookmark_sidebar_hidden"`
-}
-
-func (f *sessionPrefForm) GetTaggedValidator(name, _ string, tc *forms.TagContext) (forms.Validator, bool) {
-	switch name {
-	case "display_choices":
-		forms.Choices(tc.Field,
-			forms.Choice("grid", "grid"),
-			forms.Choice("compact", "compact"),
-			forms.Choice("mosaic", "mosaic"),
-		)
-		return nil, true
-	default:
-		return nil, false
-	}
-}
-
-func (f sessionPrefForm) update(payload *sessions.Payload) (res map[string]any, err error) {
-	if !f.IsBound() {
-		err = errors.New("form is not bound")
-		return
-	}
-
-	res = make(map[string]any)
-	for name, field := range f.Fields() {
-		if !field.IsBound() || field.IsNil() {
-			continue
-		}
-
-		switch name {
-		case "bookmark_list_display":
-			payload.Preferences.BookmarkListDisplay = field.String()
-			res[name] = field.String()
-		case "bookmark_sidebar_hidden":
-			payload.Preferences.BookmarkSidebarHidden = field.V().(bool)
-			res[name] = payload.Preferences.BookmarkSidebarHidden
-		}
-	}
-
-	if len(res) > 0 {
-		payload.LastUpdate = time.Now().UTC()
-	}
-
-	return
 }
 
 type changePasswordForm struct {

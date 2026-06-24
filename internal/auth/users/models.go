@@ -318,11 +318,10 @@ func MakePassword(n int) string {
 
 // UserSettings contains some user settings.
 type UserSettings struct {
-	DebugInfo      bool           `json:"debug_info"`
-	Lang           string         `json:"lang"`
-	AddonReminder  bool           `json:"addon_reminder"`
-	EmailSettings  EmailSettings  `json:"email_settings"`
-	ReaderSettings ReaderSettings `json:"reader_settings"`
+	DebugInfo     bool          `json:"debug_info"`
+	Lang          string        `json:"lang"`
+	AddonReminder bool          `json:"addon_reminder"`
+	EmailSettings EmailSettings `json:"email_settings"`
 }
 
 // EmailSettings contains the user's email settings.
@@ -349,9 +348,6 @@ func (s *UserSettings) Scan(value any) error {
 
 	// Default values
 	s.AddonReminder = true
-	s.ReaderSettings.Font = "lora"
-	s.ReaderSettings.FontSize = 3
-	s.ReaderSettings.LineHeight = 3
 
 	v, err := types.JSONBytes(value)
 	if err != nil {

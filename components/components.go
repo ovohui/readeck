@@ -80,16 +80,9 @@ func Strftime(ctx context.Context, t time.Time, f string) string {
 	return strftime.New(L(ctx)).Strftime(f, t)
 }
 
-// Preferences returns the user's preferences.
-// Preferences are loaded only once, the first time they are needed.
-func Preferences(ctx context.Context) *preferences.Preferences {
-	p := server.GetPreferences(ctx)
-	if !p.IsLoaded() {
-		p2 := preferences.New(server.GetUser(ctx), server.GetSession(server.GetRequest(ctx)))
-		*p = *p2
-	}
-
-	return p
+// Preferences returns the session-bound preferences.
+func Preferences(ctx context.Context) *preferences.Data {
+	return server.GetPreferences(ctx)
 }
 
 // Tern is a poor man's ternary operator.
