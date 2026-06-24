@@ -10,14 +10,15 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-06-17 18:00+0200\n"
-"PO-Revision-Date: 2026-06-13 23:07+0000\n"
+"PO-Revision-Date: 2026-06-23 05:34+0000\n"
 "Last-Translator: dewyeyed <dewyeyed@noreply.codeberg.org>\n"
-"Language: ko\n"
 "Language-Team: Korean <https://translate.codeberg.org/projects/readeck/application/ko/>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -45,9 +46,8 @@ msgid "An error occurred."
 msgstr "오류가 발생했습니다."
 
 #: components/errors.templ:24
-#, fuzzy
 msgid "Back to home page"
-msgstr "홈페이지"
+msgstr "홈페이지로 돌아가기"
 
 #: components/forms/forms.templ:21
 msgid "Errors"
@@ -1494,9 +1494,8 @@ msgstr "불러오는 중"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:500
 #: internal/dashboard/x-dashboard.templ:182
-#, fuzzy
 msgid "untitled"
-msgstr "제목"
+msgstr "무제"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:513
 #, python-format
@@ -1563,9 +1562,8 @@ msgid "Bookmark information"
 msgstr "북마크 정보"
 
 #: internal/bookmarks/routes/x-bookmark.templ:43
-#, fuzzy
 msgid "Bookmark content"
-msgstr "북마크 제목"
+msgstr "북마크 콘텐츠"
 
 #: internal/bookmarks/routes/x-bookmark.templ:73
 msgid "Bookmark is loading"
@@ -1854,18 +1852,16 @@ msgid "Read more about bookmarks in the <a class=\"%s\" href=\"%s\">documentatio
 msgstr "북마크에 대한 자세한 내용은 <a class=\"%s\" href=\"%s\">문서</a>에서 확인하세요."
 
 #: internal/bookmarks/routes/x-components.templ:408
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWith the Browser Extension, you can save pages, images and selections\n"
 "\t\tdirectly from your browser!"
 msgstr ""
 "\n"
-"\t\t\t\t\t\t\t\t웹브라우저 확장프로그램을 이용하시면, 웹페이지 전체 저장 및\n"
+"\t\t웹브라우저 확장프로그램을 이용하시면, 웹페이지 전체 저장 및\n"
 "\t\t\t\t\t\t\t\t선택 영역(문서 일부 또는 사진등)을 바로 저장 할 수 있습니다!"
 
 #: internal/bookmarks/routes/x-components.templ:415
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWould you like to import from a similar tool or from a file with existing bookmarks?\n"
@@ -1873,9 +1869,9 @@ msgid ""
 "\t"
 msgstr ""
 "\n"
-"\t\t\t\t\t\t\t\t\t기존 북마크가 있는 파일이나 유사한 도구에서 가져오기를 원하시나요?\n"
+"\t\t기존 북마크가 있는 파일이나 유사한 도구에서 가져오기를 원하시나요?\n"
 "\t\t\t\t\t\t\t\t\tReadeck의 가져오기 도구를 사용해 보세요.\n"
-"\t\t\t\t\t\t\t\t"
+"\t"
 
 #: internal/bookmarks/routes/x-filters.templ:22
 msgid "Author"
@@ -2181,14 +2177,13 @@ msgstr "Links"
 #: internal/dashboard/x-dashboard.templ:26
 #, python-format
 msgid "Hi %s!"
-msgstr ""
+msgstr "안녕하세요 %s님!"
 
 #: internal/dashboard/x-dashboard.templ:60 internal/opds/http.go:71
 msgid "All Bookmarks"
 msgstr "모든 북마크"
 
 #: internal/dashboard/x-dashboard.templ:72
-#, fuzzy
 msgid "Readeck"
 msgstr "Readeck 도움말"
 
@@ -2202,25 +2197,21 @@ msgstr "프로필"
 
 #: internal/dashboard/x-dashboard.templ:78
 msgid "Help"
-msgstr ""
+msgstr "도움말"
 
 #: internal/dashboard/x-dashboard.templ:140
-#, fuzzy
 msgid "New bookmarks"
-msgstr "읽지 않은 북마크"
+msgstr "새로운 북마크"
 
 #: internal/dashboard/x-dashboard.templ:144
-#, fuzzy
 msgid "Archived"
 msgstr "보관함"
 
 #: internal/dashboard/x-dashboard.templ:196
-#, fuzzy
 msgid "See all"
-msgstr "모든 북마크"
+msgstr "모두 보기"
 
 #: internal/dashboard/x-dashboard.templ:218
-#, fuzzy
 msgid "Applications for Readeck"
 msgstr "애플리케이션 정보"
 
@@ -2231,16 +2222,18 @@ msgid ""
 "\t\t\t\t\t\t\t\t\tyour smartphone, your e-book reader or in other apps through\n"
 "\t\t\t\t\t\t\t\t\tplugins."
 msgstr ""
+"\n"
+"\t\t\t\t\t\t\t\t\tReadeck은 웹브라우저 뿐만이 아니라, 스마트폰, \n"
+"\t\t\t\t\t\t\t\t\tE-Book리더기, 또는 확장기능을 통해 다른 앱등에서도 \n"
+"\t\t\t\t\t\t\t\t\t사용할 수 있습니다."
 
 #: internal/dashboard/x-dashboard.templ:228
-#, fuzzy
 msgid "Discover applications"
-msgstr "애플리케이션"
+msgstr "애플리케이션 탐색"
 
 #: internal/dashboard/x-dashboard.templ:235
-#, fuzzy
 msgid "Readeck in your Browser"
-msgstr "Readeck 브라우저 확장 프로그램"
+msgstr "브라우저에서 Readeck 사용"
 
 #: internal/docs/http.go:257 internal/docs/x-about.templ:53
 #: internal/docs/x-base.templ:43
@@ -3317,4 +3310,3 @@ msgstr "%H:%M:%S"
 #~ "\t\t\t\tPocket은 저장된 기사의 \"있는 그대로\" 내보내기를 지원하지 않습니다.\n"
 #~ "\t\t\t\t이로인해, Readeck과 Pocket의 내용/레이아웃이 달라질 수 있습니다.\n"
 #~ "\t\t\t"
-
