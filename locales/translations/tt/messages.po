@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-06-17 18:00+0200\n"
+"POT-Creation-Date: 2026-06-24 14:48+0200\n"
 "PO-Revision-Date: 2026-05-16 13:28+0000\n"
 "Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
 "Language: tt\n"
@@ -123,7 +123,7 @@ msgid "Settings"
 msgstr ""
 
 #: components/layout.templ:116 components/layout.templ:117
-#: internal/bookmarks/routes/x-bookmark-list.templ:126
+#: internal/bookmarks/routes/x-bookmark-list.templ:127
 #: internal/bookmarks/routes/x-collections.templ:216 internal/docs/http.go:179
 #: internal/docs/http.go:256 internal/docs/http.go:307
 msgid "Documentation"
@@ -184,11 +184,11 @@ msgstr "серсүз буш"
 msgid "User is external and can't be updated."
 msgstr ""
 
-#: internal/admin/forms.go:85 internal/profile/forms.go:104
+#: internal/admin/forms.go:85 internal/profile/forms.go:97
 msgid "username is already in use"
 msgstr ""
 
-#: internal/admin/forms.go:92 internal/profile/forms.go:111
+#: internal/admin/forms.go:92 internal/profile/forms.go:104
 msgid "email address is already in use"
 msgstr ""
 
@@ -248,7 +248,7 @@ msgstr "Бу кулланучы берничә секундтан соң бет�
 
 #: internal/admin/x-users.templ:70 internal/admin/x-users.templ:207
 #: internal/bookmarks/importer/x-forms.templ:23
-#: internal/bookmarks/routes/x-bookmark-list.templ:542
+#: internal/bookmarks/routes/x-bookmark-list.templ:543
 #: internal/bookmarks/routes/x-collections.templ:161
 #: internal/bookmarks/routes/x-labels.templ:131
 #: internal/profile/x-applications.templ:84 internal/profile/x-tokens.templ:83
@@ -462,7 +462,7 @@ msgid "Deny"
 msgstr "Тыйып куярга"
 
 #: internal/auth/onboarding/x-onboarding.templ:17
-#: internal/bookmarks/routes/x-bookmark-list.templ:234
+#: internal/bookmarks/routes/x-bookmark-list.templ:235
 #: internal/dashboard/x-dashboard.templ:113
 msgid "Welcome to Readeck!"
 msgstr "Readeckка рәхим итегез!"
@@ -503,7 +503,7 @@ msgstr "Установка тәмамлау"
 msgid "Invalid user and/or password"
 msgstr "Яраксыз кулланучы һәм/яки серсүз"
 
-#: internal/auth/signin/http.go:190 internal/profile/forms.go:300
+#: internal/auth/signin/http.go:190 internal/profile/forms.go:227
 #, fuzzy
 msgid "Invalid code"
 msgstr "яраксыз серсүз"
@@ -694,7 +694,7 @@ msgid ""
 msgstr ""
 
 #: internal/bookmarks/converter/x-atom.templ:22
-#: internal/bookmarks/routes/x-bookmark-list.templ:505
+#: internal/bookmarks/routes/x-bookmark-list.templ:506
 #: internal/bookmarks/routes/x-sidebar.templ:258
 msgid "no site name"
 msgstr "сайт исеме юк"
@@ -1189,7 +1189,8 @@ msgstr "Барлык билгеләрегез"
 msgid "Bookmark Search"
 msgstr "Билгеләрне эзләү"
 
-#: internal/bookmarks/routes/views_bookmarks.go:94 internal/opds/http.go:59
+#: internal/bookmarks/routes/views_bookmarks.go:94
+#: internal/dashboard/x-dashboard.templ:140 internal/opds/http.go:59
 msgid "Unread Bookmarks"
 msgstr "Укылмаган билгеләр"
 
@@ -1251,7 +1252,7 @@ msgstr "Коллекция яңартылды."
 #: internal/bookmarks/routes/views_import.go:24
 #: internal/bookmarks/routes/views_import.go:37
 #: internal/bookmarks/routes/views_import.go:69
-#: internal/bookmarks/routes/x-import.templ:175 internal/profile/views.go:368
+#: internal/bookmarks/routes/x-import.templ:175 internal/profile/views.go:370
 #: internal/profile/x-base.templ:59 internal/profile/x-import.templ:13
 #: internal/profile/x-import.templ:41
 msgid "Import"
@@ -1333,7 +1334,7 @@ msgid "Did you know?"
 msgstr "Билгеле ме?"
 
 #: internal/bookmarks/routes/x-base.templ:103
-#: internal/bookmarks/routes/x-bookmark-list.templ:257
+#: internal/bookmarks/routes/x-bookmark-list.templ:258
 #: internal/bookmarks/routes/x-sidebar.templ:58
 #: internal/dashboard/x-dashboard.templ:241
 msgid "Learn more"
@@ -1343,159 +1344,159 @@ msgstr "Күбрәк белергә"
 msgid "Don't remind me"
 msgstr "Минән искә төшермә"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:70
-#: internal/bookmarks/routes/x-bookmark-list.templ:116
-#: internal/bookmarks/routes/x-bookmark-list.templ:119
+#: internal/bookmarks/routes/x-bookmark-list.templ:71
+#: internal/bookmarks/routes/x-bookmark-list.templ:117
+#: internal/bookmarks/routes/x-bookmark-list.templ:120
 #: internal/bookmarks/routes/x-collections.templ:206
 #: internal/bookmarks/routes/x-collections.templ:209
 msgid "Filters"
 msgstr "Фильтрлар"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:85
+#: internal/bookmarks/routes/x-bookmark-list.templ:86
 msgid "Import bookmarks"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:96
+#: internal/bookmarks/routes/x-bookmark-list.templ:97
 msgid "Your search query yielded <strong>no results</strong>."
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:98
+#: internal/bookmarks/routes/x-bookmark-list.templ:99
 #, python-format
 msgid "Your search query yielded <strong>%d result</strong>."
 msgid_plural "Your search query yielded <strong>%d results</strong>."
 msgstr[0] ""
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:129
+#: internal/bookmarks/routes/x-bookmark-list.templ:130
 msgid "Bookmark filters"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:138
+#: internal/bookmarks/routes/x-bookmark-list.templ:139
 msgctxt "action"
 msgid "Search"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:141
+#: internal/bookmarks/routes/x-bookmark-list.templ:142
 msgid "Reset search"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:148
+#: internal/bookmarks/routes/x-bookmark-list.templ:149
 msgid "Create a collection"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:164
+#: internal/bookmarks/routes/x-bookmark-list.templ:165
 #: internal/dashboard/x-dashboard.templ:32
 msgid "Save a new link"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:187
+#: internal/bookmarks/routes/x-bookmark-list.templ:188
 #: internal/dashboard/x-dashboard.templ:50
 msgctxt "button"
 msgid "Save link"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:203
+#: internal/bookmarks/routes/x-bookmark-list.templ:204
 msgid "\"%[1]s\" is not a valid address. Did you mean to search your bookmarks for %[2]s?"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:246
+#: internal/bookmarks/routes/x-bookmark-list.templ:247
 msgid "Readeck Browser Extension"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:266
+#: internal/bookmarks/routes/x-bookmark-list.templ:267
 #: internal/dashboard/x-dashboard.templ:126
 msgid "Import existing bookmarks"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:276
+#: internal/bookmarks/routes/x-bookmark-list.templ:277
 #: internal/dashboard/x-dashboard.templ:132
 msgid "Import links and articles"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:304
+#: internal/bookmarks/routes/x-bookmark-list.templ:305
 msgid "Grid view"
 msgstr "Торак күренеш"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:305
+#: internal/bookmarks/routes/x-bookmark-list.templ:306
 msgid "Compact view"
 msgstr "Тыгыз күренеш"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:306
+#: internal/bookmarks/routes/x-bookmark-list.templ:307
 msgid "Mosaic view"
 msgstr "Мозаика күренеш"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:348
+#: internal/bookmarks/routes/x-bookmark-list.templ:349
 msgid "Sort bookmarks"
 msgstr "Билгеләр сортларга"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:352
+#: internal/bookmarks/routes/x-bookmark-list.templ:353
 msgid "Sort options"
 msgstr "Соралу өчен вариантлар"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:387
+#: internal/bookmarks/routes/x-bookmark-list.templ:388
 msgid "Import and export"
 msgstr "Импорт һәм экспорт"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:398
+#: internal/bookmarks/routes/x-bookmark-list.templ:399
 #: internal/bookmarks/routes/x-sidebar.templ:182
 msgid "Download EPUB"
 msgstr "EPUB өчен үткәрү"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:417
+#: internal/bookmarks/routes/x-bookmark-list.templ:418
 msgid "Atom Feed"
 msgstr "Atom Feed"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:465
+#: internal/bookmarks/routes/x-bookmark-list.templ:466
 msgctxt "bookmark"
 msgid "Loading"
 msgstr "Йөкләнү"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:500
+#: internal/bookmarks/routes/x-bookmark-list.templ:501
 #: internal/dashboard/x-dashboard.templ:182
 #, fuzzy
 msgid "untitled"
 msgstr "Башлык"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:513
+#: internal/bookmarks/routes/x-bookmark-list.templ:514
 #, python-format
 msgctxt "abbr"
 msgid "%d min"
 msgid_plural "%d min"
 msgstr[0] "%d мин"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:529
+#: internal/bookmarks/routes/x-bookmark-list.templ:530
 #: internal/bookmarks/routes/x-sidebar.templ:117
 msgid "This bookmark will be removed in a few seconds."
 msgstr "Бу вакытлы булышма берничә секундтан соң бетереләчәк."
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:548
+#: internal/bookmarks/routes/x-bookmark-list.templ:549
 #: internal/bookmarks/routes/x-components.templ:231
 #: internal/bookmarks/routes/x-sidebar.templ:106
 msgid "Remove from archive"
 msgstr "Архивтан чыгару"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:548
+#: internal/bookmarks/routes/x-bookmark-list.templ:549
 #: internal/bookmarks/routes/x-components.templ:232
 #: internal/bookmarks/routes/x-sidebar.templ:107
 msgid "Move to archive"
 msgstr "Архивка күчерү"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:549
+#: internal/bookmarks/routes/x-bookmark-list.templ:550
 #: internal/bookmarks/routes/x-components.templ:219
 #: internal/bookmarks/routes/x-sidebar.templ:110
 msgid "Remove from favorites"
 msgstr "Төп тәртипкән чыгару"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:549
+#: internal/bookmarks/routes/x-bookmark-list.templ:550
 #: internal/bookmarks/routes/x-components.templ:220
 #: internal/bookmarks/routes/x-sidebar.templ:111
 msgid "Add to favorites"
 msgstr "Төп тәртипкә өстәү"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:574
+#: internal/bookmarks/routes/x-bookmark-list.templ:575
 msgid "Go to original page"
 msgstr "Оригиналь биткә күчү"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:584
+#: internal/bookmarks/routes/x-bookmark-list.templ:585
 #: internal/bookmarks/routes/x-sidebar.templ:232
 msgid "Delete this bookmark"
 msgstr "Бу вакытлы булышманы бетерү"
@@ -1861,12 +1862,12 @@ msgid "With Errors"
 msgstr "Хаталар белән"
 
 #: internal/bookmarks/routes/x-filters.templ:78
-#: internal/bookmarks/routes/x-reader-control.templ:182
+#: internal/bookmarks/routes/x-reader-control.templ:180
 msgid "yes"
 msgstr "әйе"
 
 #: internal/bookmarks/routes/x-filters.templ:79
-#: internal/bookmarks/routes/x-reader-control.templ:182
+#: internal/bookmarks/routes/x-reader-control.templ:180
 msgid "no"
 msgstr "юк"
 
@@ -1949,92 +1950,92 @@ msgstr ""
 msgid "Label will be removed in a few seconds."
 msgstr ""
 
-#: internal/bookmarks/routes/x-reader-control.templ:26
+#: internal/bookmarks/routes/x-reader-control.templ:27
 #, fuzzy
 msgid "Display options"
 msgstr "Соралу өчен вариантлар"
 
-#: internal/bookmarks/routes/x-reader-control.templ:33
+#: internal/bookmarks/routes/x-reader-control.templ:34
 msgid "Width"
 msgstr "Киңлек"
 
-#: internal/bookmarks/routes/x-reader-control.templ:34
+#: internal/bookmarks/routes/x-reader-control.templ:35
 msgid "Current Width"
 msgstr ""
 
-#: internal/bookmarks/routes/x-reader-control.templ:35
+#: internal/bookmarks/routes/x-reader-control.templ:36
 msgid "Decrease width"
 msgstr ""
 
-#: internal/bookmarks/routes/x-reader-control.templ:36
+#: internal/bookmarks/routes/x-reader-control.templ:37
 msgid "Increase width"
 msgstr ""
 
-#: internal/bookmarks/routes/x-reader-control.templ:41
+#: internal/bookmarks/routes/x-reader-control.templ:42
 msgid "Size"
 msgstr "Зурлык"
 
-#: internal/bookmarks/routes/x-reader-control.templ:42
+#: internal/bookmarks/routes/x-reader-control.templ:43
 msgid "Current font size"
 msgstr ""
 
-#: internal/bookmarks/routes/x-reader-control.templ:43
+#: internal/bookmarks/routes/x-reader-control.templ:44
 #, fuzzy
 msgid "Decrease font size"
 msgstr "Төзелгән: %s"
 
-#: internal/bookmarks/routes/x-reader-control.templ:44
+#: internal/bookmarks/routes/x-reader-control.templ:45
 #, fuzzy
 msgid "Increase font size"
 msgstr "Төзелгән: %s"
 
-#: internal/bookmarks/routes/x-reader-control.templ:49
-msgid "Line height"
-msgstr "Сызыклар арасы"
-
 #: internal/bookmarks/routes/x-reader-control.templ:50
-#, fuzzy
-msgid "Current line height"
+msgid "Line height"
 msgstr "Сызыклар арасы"
 
 #: internal/bookmarks/routes/x-reader-control.templ:51
 #, fuzzy
-msgid "Decrease line height"
+msgid "Current line height"
 msgstr "Сызыклар арасы"
 
 #: internal/bookmarks/routes/x-reader-control.templ:52
 #, fuzzy
+msgid "Decrease line height"
+msgstr "Сызыклар арасы"
+
+#: internal/bookmarks/routes/x-reader-control.templ:53
+#, fuzzy
 msgid "Increase line height"
 msgstr "Сызыклар арасы"
 
-#: internal/bookmarks/routes/x-reader-control.templ:57
+#: internal/bookmarks/routes/x-reader-control.templ:58
 msgid "Justify"
 msgstr "Тигезләү"
 
-#: internal/bookmarks/routes/x-reader-control.templ:58
+#: internal/bookmarks/routes/x-reader-control.templ:59
 #, fuzzy
 msgid "Justify text"
 msgstr "Тигезләү"
 
-#: internal/bookmarks/routes/x-reader-control.templ:59
+#: internal/bookmarks/routes/x-reader-control.templ:60
 msgid "Don't justify text"
 msgstr ""
 
-#: internal/bookmarks/routes/x-reader-control.templ:64
-msgid "Hyphenation"
-msgstr "Сүзләрне бүлү"
-
 #: internal/bookmarks/routes/x-reader-control.templ:65
-#, fuzzy
-msgid "With hyphenation"
+msgid "Hyphenation"
 msgstr "Сүзләрне бүлү"
 
 #: internal/bookmarks/routes/x-reader-control.templ:66
 #, fuzzy
+msgid "With hyphenation"
+msgstr "Сүзләрне бүлү"
+
+#: internal/bookmarks/routes/x-reader-control.templ:67
+#, fuzzy
 msgid "Without hyphenation"
 msgstr "Сүзләрне бүлү"
 
-#: internal/bookmarks/routes/x-reader-control.templ:81
+#: internal/bookmarks/routes/x-reader-control.templ:82
 msgid "Font"
 msgstr "Шрифт"
 
@@ -2142,22 +2143,17 @@ msgstr "Барлык билгеләр"
 msgid "Readeck"
 msgstr "Readeck турында"
 
-#: internal/dashboard/x-dashboard.templ:74 internal/profile/views.go:97
-#: internal/profile/views.go:150 internal/profile/views.go:186
-#: internal/profile/views.go:226 internal/profile/views.go:237
-#: internal/profile/views.go:288 internal/profile/views.go:338
-#: internal/profile/views.go:367 internal/profile/x-base.templ:20
+#: internal/dashboard/x-dashboard.templ:74 internal/profile/views.go:98
+#: internal/profile/views.go:151 internal/profile/views.go:187
+#: internal/profile/views.go:228 internal/profile/views.go:239
+#: internal/profile/views.go:290 internal/profile/views.go:340
+#: internal/profile/views.go:369 internal/profile/x-base.templ:20
 msgid "Profile"
 msgstr "Профиль"
 
 #: internal/dashboard/x-dashboard.templ:78
 msgid "Help"
 msgstr ""
-
-#: internal/dashboard/x-dashboard.templ:140
-#, fuzzy
-msgid "New bookmarks"
-msgstr "Укылмаган билгеләр"
 
 #: internal/dashboard/x-dashboard.templ:144
 #, fuzzy
@@ -2347,67 +2343,67 @@ msgstr ""
 msgid "The import file must contain one user only"
 msgstr "Импорт файлында бер генә кулланучы булырга тиеш"
 
-#: internal/profile/forms.go:31
+#: internal/profile/forms.go:30
 msgid "invalid password"
 msgstr "яраксыз серсүз"
 
-#: internal/profile/forms.go:429
+#: internal/profile/forms.go:356
 msgid "username does not match"
 msgstr "кулланучы исеме туры килми"
 
-#: internal/profile/views.go:88
+#: internal/profile/views.go:89
 msgid "Profile updated."
 msgstr "Профиль яңартылды."
 
-#: internal/profile/views.go:130
+#: internal/profile/views.go:131
 msgid "Your password was changed."
 msgstr "Сезнең серсүз үзгәртелде."
 
-#: internal/profile/views.go:141
+#: internal/profile/views.go:142
 msgid "Your verification code was removed."
 msgstr ""
 
-#: internal/profile/views.go:151 internal/profile/views.go:187
+#: internal/profile/views.go:152 internal/profile/views.go:188
 #: internal/profile/x-base.templ:26
 msgid "Security"
 msgstr ""
 
-#: internal/profile/views.go:180
+#: internal/profile/views.go:181
 msgid "Verification Code is now enabled."
 msgstr ""
 
-#: internal/profile/views.go:188
+#: internal/profile/views.go:189
 msgid "Verification Code"
 msgstr ""
 
-#: internal/profile/views.go:227 internal/profile/x-applications.templ:10
+#: internal/profile/views.go:229 internal/profile/x-applications.templ:10
 #: internal/profile/x-base.templ:33
 msgid "Applications"
 msgstr "Кушымталар"
 
-#: internal/profile/views.go:238 internal/profile/views.go:289
+#: internal/profile/views.go:240 internal/profile/views.go:291
 #: internal/profile/x-base.templ:39
 msgid "API Tokens"
 msgstr "API Токеннар"
 
-#: internal/profile/views.go:253
+#: internal/profile/views.go:255
 msgid "An error occurred while creating your token."
 msgstr "Сезнең токеныгызны булдырганда хата килеп чыкты."
 
-#: internal/profile/views.go:258
+#: internal/profile/views.go:260
 msgid "New token created."
 msgstr "Яңа токен булдырылды."
 
-#: internal/profile/views.go:273
+#: internal/profile/views.go:275
 msgid "Token was updated."
 msgstr "Токен яңартылды."
 
-#: internal/profile/views.go:339 internal/profile/x-base.templ:51
+#: internal/profile/views.go:341 internal/profile/x-base.templ:51
 #: internal/profile/x-export.templ:11
 msgid "Export"
 msgstr "Экспорт"
 
-#: internal/profile/views.go:357
+#: internal/profile/views.go:359
 msgid "Profile imported."
 msgstr "Профиль импортланды."
 
@@ -3406,4 +3402,7 @@ msgstr "%H:%M:%S"
 #~ "\t\t\t\t\t\t\t\t\tTry Readeck's import tool.\n"
 #~ "\t\t\t\t\t\t\t\t"
 #~ msgstr ""
+
+#~ msgid "New bookmarks"
+#~ msgstr "Укылмаган билгеләр"
 
