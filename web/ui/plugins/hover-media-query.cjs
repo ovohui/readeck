@@ -12,10 +12,10 @@ const selectorProcessor = selectorParser((selectors) => {
 
   selectors.walk((selector) => {
     if (
-      selector.type === "pseudo" &&
-      selector.toString() === ":hover" &&
-      selector.parent.value !== ":not" &&
-      selector.parent.toString() !== ":hover"
+      selector.type === "pseudo"
+      && selector.toString() === ":hover"
+      && selector.parent.value !== ":not"
+      && selector.parent.toString() !== ":hover"
     ) {
       hoverSelectors.push(selector.parent.toString())
     }
@@ -37,8 +37,8 @@ function isAlreadyNested(rule) {
 
   while (container !== null && container.type !== "root") {
     if (
-      container.type === "atrule" &&
-      container.params.includes("hover: hover")
+      container.type === "atrule"
+      && container.params.includes("hover: hover")
     ) {
       return true
     }
@@ -68,8 +68,8 @@ const plugin = () => {
         return
       }
 
-      let {hoverSelectors = [], nonHoverSelectors = []} =
-        selectorProcessor.transformSync(rule.selector, {lossless: false})
+      let {hoverSelectors = [], nonHoverSelectors = []}
+        = selectorProcessor.transformSync(rule.selector, {lossless: false})
 
       if (hoverSelectors.length === 0) {
         return

@@ -16,6 +16,7 @@ export default class extends Controller {
     "whenOne",
     "whenMany",
   ]
+
   static classes = ["hidden"]
   static values = {
     apiUrl: String,
@@ -40,8 +41,8 @@ export default class extends Controller {
     // Hide the controls when a click took place outside the controls.
     document.addEventListener("click", (evt) => {
       if (
-        this.controlsTarget.classList.contains(this.hiddenClass) ||
-        this.controlsTarget.contains(evt.target)
+        this.controlsTarget.classList.contains(this.hiddenClass)
+        || this.controlsTarget.contains(evt.target)
       ) {
         return
       }
@@ -82,8 +83,8 @@ export default class extends Controller {
     this.annotation = new Annotation(this.rootTarget, selection)
 
     if (
-      this.annotation.isValid() ||
-      this.annotation.coveredAnnotations().length > 0
+      this.annotation.isValid()
+      || this.annotation.coveredAnnotations().length > 0
     ) {
       this.showControls()
     }
@@ -150,7 +151,7 @@ export default class extends Controller {
       case 0:
         this.noteTarget.value = ""
         break
-      case 1:
+      case 1: {
         // One selected annotation, check if it has a note
         const e = Array.from(
           this.rootTarget.querySelectorAll(
@@ -160,6 +161,8 @@ export default class extends Controller {
 
         // set the note and fall through the next case (sets color)
         this.noteTarget.value = e !== undefined ? e.getAttribute("title") : ""
+        break
+      }
       default:
         this.colorTargets.forEach((e) => {
           if (e.value == covered[0].dataset.annotationColor) {
@@ -179,7 +182,7 @@ export default class extends Controller {
     const rootRect = this.findRelativeRoot().getBoundingClientRect()
 
     switch (getComputedStyle(this.controlsTarget).position) {
-      case "absolute":
+      case "absolute": {
         // Controlls dimension
         const h = this.controlsTarget.clientHeight
         const w = this.controlsTarget.clientWidth
@@ -192,8 +195,8 @@ export default class extends Controller {
         this.controlsTarget.dataset.position = position
 
         // Range position relative to its root element
-        const rangeTop =
-          position == "top"
+        const rangeTop
+          = position == "top"
             ? Math.round(rangeRect.top - rootRect.top)
             : Math.round(rangeRect.top + rangeRect.height - rootRect.top)
         const rangeLeft = Math.round(rangeRect.left - rootRect.left)
@@ -230,6 +233,7 @@ export default class extends Controller {
         )
         this.arrowTarget.style.marginLeft = `${arrowX}px`
         break
+      }
       case "fixed":
         // On a fixed position, try not to cover the selection
         this.controlsTarget.style.bottom = "0"
@@ -417,8 +421,8 @@ class Annotation {
   init() {
     // Selection must be a range and contains something
     if (
-      this.selection.type.toLowerCase() != "range" ||
-      !this.selection.toString().trim()
+      this.selection.type.toLowerCase() != "range"
+      || !this.selection.toString().trim()
     ) {
       return
     }
@@ -437,9 +441,9 @@ class Annotation {
     // start and/or end container nodes may be elements. We normalize the range to always start and
     // stop on text nodes.
     if (
-      range.startContainer.nodeType == Node.ELEMENT_NODE &&
-      range.endContainer.nodeType == Node.ELEMENT_NODE &&
-      range.endOffset > 0
+      range.startContainer.nodeType == Node.ELEMENT_NODE
+      && range.endContainer.nodeType == Node.ELEMENT_NODE
+      && range.endOffset > 0
     ) {
       // This is meant to detect behavior seemingly exclusive to Firefox/Gecko where the start and
       // end container are both elements and startOffset/endOffset values count child nodes
@@ -470,8 +474,8 @@ class Annotation {
     // the article root element. This normalizes the selection to end at the last text node that is
     // contained in root.
     if (
-      range.endContainer.nodeType != Node.TEXT_NODE ||
-      !this.root.contains(range.endContainer)
+      range.endContainer.nodeType != Node.TEXT_NODE
+      || !this.root.contains(range.endContainer)
     ) {
       const tw = textNodeWalker(
         range.commonAncestorContainer,
@@ -674,8 +678,8 @@ function selectionendObserver(node, callback) {
 
   node.addEventListener("selectionchange", (evt) => {
     if (
-      evt.target instanceof HTMLTextAreaElement ||
-      evt.target instanceof HTMLInputElement
+      evt.target instanceof HTMLTextAreaElement
+      || evt.target instanceof HTMLInputElement
     ) {
       return
     }

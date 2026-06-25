@@ -31,6 +31,7 @@ class stylerOption extends Controller {
       default: [],
     },
   }
+
   static targets = ["choices", "value"]
 
   constructor() {
@@ -108,7 +109,7 @@ class stylerOption extends Controller {
   }
 
   getAllClasses() {
-    let res = []
+    let res
     if (this.valuesValue.length > 0) {
       res = this.valuesValue
     } else {
@@ -121,14 +122,14 @@ class stylerOption extends Controller {
 
   getCurrentClasses() {
     const idx = parseInt(this.currentValue)
-    let res = ""
+    let res
     if (this.valuesValue.length > 0 && !isNaN(idx)) {
       res = this.valuesValue[idx - 1]
     } else {
       res = this.choices[this.currentValue]
     }
 
-    if (!!res) {
+    if (res) {
       return res.split(/\s+/)
     }
     return []

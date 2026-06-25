@@ -14,14 +14,12 @@ export default class extends Controller {
   }
 
   async fetch(event) {
-    const src = !!event.params.url ? event.params.url : this.urlValue
+    const src = event.params.url ? event.params.url : this.urlValue
     if (!src) {
       throw new Error("url param is not set")
     }
 
-    const method = !!event.params.method
-      ? event.params.method
-      : this.methodValue
+    const method = event.params.method ? event.params.method : this.methodValue
     const options = {
       method: method || "get",
       headers: {},
@@ -42,13 +40,13 @@ export default class extends Controller {
       const form = event.currentTarget
       options.body = new FormData()
       for (let e of form.elements) {
-        if (!!e.name) {
+        if (e.name) {
           options.body.set(e.name, e.value)
         }
       }
     } else if (
-      event.currentTarget.name !== undefined &&
-      event.currentTarget.value !== undefined
+      event.currentTarget.name !== undefined
+      && event.currentTarget.value !== undefined
     ) {
       // Otherwise, anything with a name and value attribute does the job.
       options.body = new FormData()
@@ -59,13 +57,14 @@ export default class extends Controller {
 
     // Mark any unsafe request for refresh on back/forward navigation.
     if (
-      rsp.ok &&
-      !["GET", "HEAD", "OPTIONS"].includes(options.method.toUpperCase())
+      rsp.ok
+      && !["GET", "HEAD", "OPTIONS"].includes(options.method.toUpperCase())
     ) {
       markStaleRefresh()
     }
 
     if (this.turboValue) {
+      // eslint-disable-next-line no-undef
       Turbo.renderStreamMessage(await rsp.text())
     }
 

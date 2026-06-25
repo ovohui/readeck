@@ -44,8 +44,8 @@ var config = {
       },
       gray: {
         ...varPalette("gray"),
-        "light": colorVar("gray-light"),
-        "dark": colorVar("gray-dark"),
+        light: colorVar("gray-light"),
+        dark: colorVar("gray-dark"),
       },
       red: varPalette("red"),
       green: varPalette("green"),
@@ -54,8 +54,8 @@ var config = {
       primary: {
         ...varPalette("blue"),
         DEFAULT: colorVar("primary"),
-        "light": colorVar("primary-light"),
-        "dark": colorVar("primary-dark"),
+        light: colorVar("primary-light"),
+        dark: colorVar("primary-dark"),
       },
 
       // button colors
@@ -73,13 +73,13 @@ var config = {
 
       // highlight colors
       hl: {
-        yellow: colorVar("hl-yellow"),
+        "yellow": colorVar("hl-yellow"),
         "yellow-dark": colorVar("hl-yellow-dark"),
-        red: colorVar("hl-red"),
+        "red": colorVar("hl-red"),
         "red-dark": colorVar("hl-red-dark"),
-        blue: colorVar("hl-blue"),
+        "blue": colorVar("hl-blue"),
         "blue-dark": colorVar("hl-blue-dark"),
-        green: colorVar("hl-green"),
+        "green": colorVar("hl-green"),
         "green-dark": colorVar("hl-green-dark"),
       },
     },
@@ -103,21 +103,21 @@ var config = {
         "panel-r": "0 4px 6px 6px var(--default-shadow)",
       },
       boxShadowColor: {
-        DEFAULT: "var(--default-shadow)",
-        sm: "var(--default-shadow)",
-        md: "var(--default-shadow)",
-        lg: "var(--default-shadow)",
-        xl: "var(--default-shadow)",
+        "DEFAULT": "var(--default-shadow)",
+        "sm": "var(--default-shadow)",
+        "md": "var(--default-shadow)",
+        "lg": "var(--default-shadow)",
+        "xl": "var(--default-shadow)",
         "2xl": "var(--default-shadow)",
-        inner: "var(--default-shadow)",
+        "inner": "var(--default-shadow)",
       },
       contrast: {
-        "105": "1.05",
+        105: "1.05",
       },
       fontSize: {
-        "h1": "2.5rem",
-        "h2": "2rem",
-        "h3": "1.5rem",
+        h1: "2.5rem",
+        h2: "2rem",
+        h3: "1.5rem",
       },
       gridTemplateColumns: {
         "bk-tools": "2fr auto auto",
@@ -131,18 +131,18 @@ var config = {
         "16/9": "56.25%",
       },
       spacing: {
-        "0.5": "0.125rem",
-        "topnav": "3.5rem",
+        0.5: "0.125rem",
+        topnav: "3.5rem",
         ...[...Array(26).keys()].reduce((acc, x) => {
-          acc[`col-${x+1}`] = `${(x+1) * 3.5}rem`
+          acc[`col-${x + 1}`] = `${(x + 1) * 3.5}rem`
           return acc
         }, {}),
       },
       width: {
       },
       maxWidth: {
-        "layout": "1920px",
-        "std": "49rem",
+        layout: "1920px",
+        std: "49rem",
       },
     },
   },

@@ -50,8 +50,8 @@ window.addEventListener("pageshow", (event) => {
   window.localStorage.removeItem(staleRefreshKey)
 
   if (
-    event.persisted ||
-    window.performance.getEntriesByType("navigation")[0].type == "back_forward"
+    event.persisted
+    || window.performance.getEntriesByType("navigation")[0].type == "back_forward"
   ) {
     window.location.reload()
   }
@@ -75,8 +75,8 @@ document.addEventListener("turbo:submit-end", (evt) => {
 
   // Mark any unsafe request for refresh on back/forward navigation.
   if (
-    evt.detail.success &&
-    !["GET", "HEAD", "OPTIONS"].includes(
+    evt.detail.success
+    && !["GET", "HEAD", "OPTIONS"].includes(
       evt.detail.formSubmission.method.toUpperCase(),
     )
   ) {

@@ -23,8 +23,8 @@ function filterFontTypes(node) {
     let isWoff2 = false
     parsed.walk((n) => {
       if (n.type == "function" && n.value == "format") {
-        isWoff2 =
-          n.nodes.find((n) => {
+        isWoff2
+          = n.nodes.find((n) => {
             return n.type == "string" && n.value.startsWith("woff2")
           }) !== undefined
       }

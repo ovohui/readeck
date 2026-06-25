@@ -17,9 +17,9 @@ async function request(path, options) {
     // Automatic body serialization only when content-type is not set
     // or body is not a FormData
     if (
-      typeof body == "object" &&
-      !(body instanceof FormData) &&
-      !reqOptions.headers.has("content-type")
+      typeof body == "object"
+      && !(body instanceof FormData)
+      && !reqOptions.headers.has("content-type")
     ) {
       reqOptions.body = JSON.stringify(body)
       reqOptions.headers.set("Content-Type", "application/json")

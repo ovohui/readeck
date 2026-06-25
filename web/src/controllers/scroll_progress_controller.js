@@ -58,9 +58,9 @@ export default class extends Controller {
     // No tracked element. If autoMarkAfter is > 0 we mark as read after
     // a delay.
     if (
-      !this.hasTrackedTarget &&
-      this.autoMarkAfterValue > 0 &&
-      this.current.p != 100
+      !this.hasTrackedTarget
+      && this.autoMarkAfterValue > 0
+      && this.current.p != 100
     ) {
       setTimeout(() => {
         if (this.current.p != 100) {
@@ -242,7 +242,9 @@ export default class extends Controller {
         behavior: "instant",
         block: "center",
       })
-    } catch (_) {}
+    } catch (_) {
+      //
+    }
   }
 
   /**
@@ -293,8 +295,8 @@ export default class extends Controller {
     )
     for (let e of this.trackedTarget.getElementsByTagName("*")) {
       if (
-        e.children.length == 0 &&
-        e.tagName.toLowerCase() !== "rd-annotation"
+        e.children.length == 0
+        && e.tagName.toLowerCase() !== "rd-annotation"
       ) {
         observer.observe(e)
       }

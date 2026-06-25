@@ -141,9 +141,7 @@ export default class extends Controller {
       return
     }
 
-    const textValue =
-      selected.getAttribute("data-autocomplete-label") ||
-      selected.textContent.trim()
+    const textValue = selected.getAttribute("data-autocomplete-label") || selected.textContent.trim()
     let value = selected.getAttribute("data-autocomplete-value") || textValue
     if (this.quotesValue && /[ "\\]/.test(value)) {
       value = `"${value.replace(/("|\\)/g, "\\$1")}"`

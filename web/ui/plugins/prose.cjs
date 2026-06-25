@@ -150,7 +150,7 @@ const plugin = () => {
   return {
     postcssPlugin: "prose",
     AtRule: {
-      prose: (decl) => {
+      "prose": (decl) => {
         prose.setParams(decl)
       },
 

@@ -28,8 +28,7 @@ export default class extends Controller {
               ticking = false
 
               const y = window.scrollY
-              const ymax =
-                document.documentElement.scrollHeight - window.innerHeight
+              const ymax = document.documentElement.scrollHeight - window.innerHeight
               const cur = Math.min(Math.max(y, 0), ymax)
               const delta = cur - prevScroll
 

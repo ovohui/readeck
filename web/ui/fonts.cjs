@@ -18,7 +18,7 @@ const fontCatalog = {
     fontFiles: "files",
     css: ["wght.css", "wght-italic.css"],
   },
-  lora: {
+  "lora": {
     name: "Lora Variable",
     family: "serif",
     path: path.dirname(
@@ -54,7 +54,7 @@ const fontCatalog = {
     fontFiles: "files",
     css: ["400.css", "400-italic.css", "700.css", "700-italic.css"],
   },
-  inter: {
+  "inter": {
     name: "Inter Variable",
     family: "sans-serif",
     path: path.dirname(
@@ -63,7 +63,7 @@ const fontCatalog = {
     fontFiles: "files",
     css: ["wght.css", "wght-italic.css"],
   },
-  literata: {
+  "literata": {
     name: "Literata Variable",
     family: "serif",
     path: path.dirname(
@@ -72,14 +72,14 @@ const fontCatalog = {
     fontFiles: "files",
     css: ["wght.css", "wght-italic.css"],
   },
-  luciole: {
+  "luciole": {
     name: "Luciole",
     family: "sans-serif",
     path: path.join(__dirname, "fonts/luciole"),
     fontFiles: "",
     css: ["index.css"],
   },
-  merriweather: {
+  "merriweather": {
     name: "Merriweather",
     family: "serif",
     path: path.dirname(

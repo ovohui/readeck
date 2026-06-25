@@ -51,9 +51,9 @@ function toPosixPath(p) {
 function destCompress(format) {
   return through.obj(function (file, _, done) {
     if (
-      file.isNull() ||
-      file._isCompressed ||
-      path.extname(file.basename) == ".map"
+      file.isNull()
+      || file._isCompressed
+      || path.extname(file.basename) == ".map"
     ) {
       return done(null, file)
     }
@@ -125,7 +125,7 @@ function clean_vendor() {
 // clean delete files in the destination folder
 function clean_all(done) {
   return gulp.series(
-    clean_js, //
+    clean_js,
     clean_css,
     clean_media,
     clean_vendor,
@@ -210,7 +210,7 @@ function css_bundle() {
 
   return gulp
     .src([
-      "ui/index.scss", //
+      "ui/index.scss",
     ])
     .pipe(
       through.obj(function (file, _, done) {
@@ -349,8 +349,8 @@ function icon_sprite() {
 
     // render sprite
     let res = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    res +=
-      '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n'
+    res
+      += '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n'
     res += icons.join("\n")
     res += "\n</svg>\n"
 
@@ -444,7 +444,7 @@ function buildManifest() {
     }
 
     const m = f.match(rxFilename)
-    if (!!m) {
+    if (m) {
       manifest[`${m[1]}.${m[3]}`] = f
     } else {
       manifest[f] = f
@@ -470,7 +470,7 @@ function buildManifest() {
 const full_build = gulp.series(
   clean_all,
   gulp.parallel(
-    js_bundle, //
+    js_bundle,
     icon_bundle,
     copy_files,
     css_bundle,
@@ -483,7 +483,7 @@ function watch_js() {
   gulp.watch(
     ["src/**/*"],
     gulp.series(
-      clean_js, //
+      clean_js,
       js_bundle,
       write_manifest,
     ),
@@ -493,12 +493,12 @@ function watch_js() {
 function watch_css() {
   gulp.watch(
     [
-      "tailwind.config.js", //
+      "tailwind.config.js",
       "ui/**/*",
       "../**/*.templ",
     ],
     gulp.series(
-      clean_css, //
+      clean_css,
       css_bundle,
       css_extra,
       write_manifest,
@@ -510,7 +510,7 @@ function watch_media() {
   gulp.watch(
     ["media/**/*"],
     gulp.series(
-      clean_media, //
+      clean_media,
       icon_bundle,
       copy_files,
       write_manifest,
@@ -545,7 +545,7 @@ export {watch_js as "watch:js"}
 export const dev = gulp.series(
   full_build,
   gulp.parallel(
-    watch_js, //
+    watch_js,
     watch_css,
     watch_media,
   ),

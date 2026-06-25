@@ -20,6 +20,7 @@ const clamp = (value) => Math.max(0, Math.min(1, value || 0))
 const fixup = (value) => Math.round(clamp(value) * 255)
 
 function getScale(
+  // eslint-disable-next-line no-undef
   options = {base, from, to, gamma, inoutsine, smoothstep, reversed},
 ) {
   options = {
@@ -35,10 +36,10 @@ function getScale(
   let to = okhsl(options.to || "#000")
 
   const helpers = []
-  if (!!options.inoutsine) {
+  if (options.inoutsine) {
     helpers.push(easingInOutSine)
   }
-  if (!!options.smoothstep) {
+  if (options.smoothstep) {
     helpers.push(easingSmoothstep)
   }
   if (options.gamma !== null) {
@@ -49,7 +50,7 @@ function getScale(
 
   let res = twScale.map((x) => x / 1000).map(inpterpolator)
 
-  if (!!options.reversed) {
+  if (options.reversed) {
     res.reverse()
   }
 
