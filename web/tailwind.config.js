@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const fontCatalog = require("./ui/fonts.js")
+import fontCatalog from "./ui/fonts.cjs"
+import twInteractions from "./ui/plugins/tw-interactions.cjs"
 
 const colorVar = (name) => {
   return ({opacityValue}) => {
@@ -146,7 +147,7 @@ var config = {
     },
   },
   plugins: [
-    require("./ui/plugins/tw-interactions"),
+    twInteractions,
   ],
 }
 

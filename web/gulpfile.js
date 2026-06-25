@@ -26,7 +26,7 @@ import {IconSet, SVG, cleanupSVG, runSVGO, scaleSVG} from "@iconify/tools"
 import {deleteAsync as del} from "del"
 import {stimulusPlugin} from "esbuild-plugin-stimulus"
 
-import fontCatalog from "./ui/fonts.js"
+import fontCatalog from "./ui/fonts.cjs"
 
 const sassCompiler = gulpSass(sass)
 
@@ -188,12 +188,12 @@ function js_bundle() {
 function css_bundle() {
   const processors = [
     require("postcss-import"),
-    require("./ui/plugins/prose"),
-    require("./ui/plugins/palettes.js"),
+    require("./ui/plugins/prose.cjs"),
+    require("./ui/plugins/palettes.cjs"),
     require("tailwindcss"),
-    require("./ui/plugins/responsive-units.js"),
-    require("./ui/plugins/trim-fonts.js"),
-    require("./ui/plugins/hover-media-query.js"),
+    require("./ui/plugins/responsive-units.cjs"),
+    require("./ui/plugins/trim-fonts.cjs"),
+    require("./ui/plugins/hover-media-query.cjs"),
     require("postcss-copy")({
       basePath: fontCatalog.basePath(),
       dest: DEST,
@@ -248,7 +248,7 @@ function css_bundle() {
 function css_extra() {
   const processors = [
     require("postcss-import"),
-    require("./ui/plugins/prose"),
+    require("./ui/plugins/prose.cjs"),
     require("autoprefixer"),
   ]
 

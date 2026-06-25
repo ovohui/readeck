@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const recommended = require("eslint-plugin-prettier/recommended")
+import recommended from "eslint-plugin-prettier/recommended"
 
-module.exports = [
+export default [
   recommended,
   {
     languageOptions: {
