@@ -116,12 +116,7 @@ func (h *authHandler) login(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnprocessableEntity)
 	}
 
-	// Add OIDC hosts to form-action (needed by Chrome browsers)
-	// https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/form-action
-	policy := server.GetCSPHeader(r).Clone()
-	for host := range oidc.Providers.Hosts() {
-		policy.Add("form-action", host)
-	}
+	policy := oidc.Providers.CSP(server.GetCSPHeader(r))
 	policy.Write(w.Header())
 
 	server.RenderComponent(w, r, http.StatusOK, Views{}.signIn(f))

@@ -9,7 +9,6 @@ import (
 	"context"
 	"crypto/rand"
 	"errors"
-	"iter"
 	"log/slog"
 	"net/http"
 	"net/url"
@@ -23,6 +22,7 @@ import (
 	"github.com/google/uuid"
 
 	"codeberg.org/readeck/readeck/internal/server/urls"
+	"codeberg.org/readeck/readeck/pkg/http/csp"
 	"codeberg.org/readeck/readeck/pkg/http/securecookie"
 )
 
@@ -127,15 +127,16 @@ func (pl *providerList) Items() []providerInfo {
 	return pl.items
 }
 
-func (pl *providerList) Hosts() iter.Seq[string] {
-	return func(yield func(string) bool) {
-		for _, p := range pl.items {
-			u, _ := url.Parse(p.URL)
-			if !yield(u.Scheme + "://" + u.Host) {
-				return
-			}
-		}
+// CSP returns a policy with every host in form-action.
+// Chrome based browsers need this, see:
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/form-action
+func (pl *providerList) CSP(p csp.Policy) csp.Policy {
+	res := p.Clone()
+	for _, p := range pl.items {
+		u, _ := url.Parse(p.URL)
+		res.Add("form-action", u.Scheme+"://"+u.Host)
 	}
+	return res
 }
 
 // Add adds a new, unloaded, provider to the list.

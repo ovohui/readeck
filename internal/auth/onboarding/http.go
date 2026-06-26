@@ -13,6 +13,7 @@ import (
 	"github.com/go-chi/chi/v5"
 
 	"codeberg.org/readeck/readeck/configs"
+	"codeberg.org/readeck/readeck/internal/auth/oidc"
 	"codeberg.org/readeck/readeck/internal/auth/users"
 	"codeberg.org/readeck/readeck/internal/server"
 	"codeberg.org/readeck/readeck/pkg/forms"
@@ -77,6 +78,9 @@ func (h *viewHandler) onboarding(w http.ResponseWriter, r *http.Request) {
 		}
 		w.WriteHeader(http.StatusUnprocessableEntity)
 	}
+
+	policy := oidc.Providers.CSP(server.GetCSPHeader(r))
+	policy.Write(w.Header())
 
 	server.RenderComponent(w, r, http.StatusOK, Views{}.onboarding(f))
 }
