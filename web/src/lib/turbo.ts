@@ -2,7 +2,30 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import {session} from "@hotwired/turbo"
+import {session as _session} from "@hotwired/turbo"
+import type {TurboSession} from "@hotwired/turbo"
+
+interface turboModule {
+  start(): void
+}
+
+interface turboSession extends Omit<TurboSession, "history"> {
+  cacheObserver: turboModule
+  linkPrefetchObserver: turboModule
+  formLinkClickObserver: turboModule
+  linkClickObserver: turboModule
+  formSubmitObserver: turboModule
+  scrollObserver: turboModule
+  streamObserver: turboModule
+  frameRedirector: turboModule
+  preloader: turboModule
+  history: turboModule
+
+  started: boolean
+  enabled: boolean
+}
+
+const session = <unknown>_session as turboSession
 
 // The disableTurboStart esbuild plugin in this project prevents Turbo from auto-starting on import.
 // Instead, start it manually by only enabling components that we use.
@@ -22,9 +45,9 @@ session.preloader.start()
 session.started = true
 session.enabled = true
 
-const cspNonce = document.querySelector(
+const cspNonce = document.querySelector<HTMLMetaElement>(
   'html>head>meta[name="csp-nonce"]',
-).content
+)!.content
 
 const staleRefreshKey = "stale-refresh"
 
@@ -32,11 +55,7 @@ function markStaleRefresh() {
   window.localStorage.setItem(staleRefreshKey, requestUri(window.location))
 }
 
-/**
- * @param {Location} location
- * @returns {string}
- */
-function requestUri(location) {
+function requestUri(location: Location): string {
   return location.pathname + location.search
 }
 
@@ -50,8 +69,9 @@ window.addEventListener("pageshow", (event) => {
   window.localStorage.removeItem(staleRefreshKey)
 
   if (
-    event.persisted
-    || window.performance.getEntriesByType("navigation")[0].type == "back_forward"
+    event.persisted || (
+      window.performance.getEntriesByType("navigation") as PerformanceNavigationTiming[]
+    )[0]?.type == "back_forward"
   ) {
     window.location.reload()
   }
@@ -59,7 +79,7 @@ window.addEventListener("pageshow", (event) => {
 
 document.addEventListener("turbo:before-fetch-request", (evt) => {
   // Method MUST be uppercase
-  evt.detail.fetchOptions.method = evt.detail.fetchOptions.method.toUpperCase()
+  evt.detail.fetchOptions.method = evt.detail.fetchOptions.method?.toUpperCase()
 
   // Mark the request for turbo rendering
   evt.detail.fetchOptions.headers["X-Turbo"] = "1"
@@ -69,9 +89,13 @@ document.addEventListener("turbo:before-fetch-request", (evt) => {
 document.addEventListener("turbo:submit-end", (evt) => {
   // Empty children with data-turbo-empty-submit-end
   // attribute after form submission.
-  evt.target
-    .querySelectorAll("[data-turbo-empty-submit-end]")
-    .forEach((x) => (x.value = ""))
+  if (evt.target instanceof Element) {
+    evt.target.querySelectorAll("[data-turbo-empty-submit-end]").forEach((x) => {
+      if ("value" in x) {
+        x.value = ""
+      }
+    })
+  }
 
   // Mark any unsafe request for refresh on back/forward navigation.
   if (
