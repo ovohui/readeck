@@ -3,10 +3,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {Controller} from "@hotwired/stimulus"
+import {FrameElement} from "@hotwired/turbo"
+
 import {request} from "../lib/request"
 
+interface selectionPayload {
+  start_selector: string | null
+  start_offset: number | null
+  end_selector: string | null
+  end_offset: number | null
+}
+
 export default class extends Controller {
-  static targets = [
+  static override targets = [
     "root",
     "controls",
     "color",
@@ -18,19 +27,40 @@ export default class extends Controller {
   ]
 
   static classes = ["hidden"]
-  static values = {
+  static override values = {
     apiUrl: String,
     color: String,
   }
 
-  connect() {
+  declare readonly hasNoteTarget: boolean
+  declare readonly hasArrowTarget: boolean
+
+  declare readonly rootTarget: HTMLElement
+  declare readonly controlsTarget: HTMLElement
+  declare readonly colorTargets: HTMLInputElement[]
+  declare readonly noteTarget: HTMLTextAreaElement
+  declare readonly arrowTarget: HTMLElement
+  declare readonly whenNewTargets: HTMLElement[]
+  declare readonly whenOneTargets: HTMLElement[]
+  declare readonly whenManyTargets: HTMLElement[]
+
+  declare apiUrlValue: string
+  declare colorValue: string
+
+  declare hiddenClass: string
+
+  declare annotation: Annotation | null
+  declare payload: selectionPayload | null
+  declare currentIDs: string[]
+
+  override connect() {
     this.annotation = null
     this.payload = null
     this.currentIDs = []
 
-    this.colorTargets.forEach((e, i) => {
+    this.colorTargets.forEach((e) => {
       e.addEventListener("click", (evt) => {
-        this.colorValue = evt.target.value
+        this.colorValue = (evt.target as HTMLButtonElement).value
       })
     })
 
@@ -42,19 +72,19 @@ export default class extends Controller {
     document.addEventListener("click", (evt) => {
       if (
         this.controlsTarget.classList.contains(this.hiddenClass)
-        || this.controlsTarget.contains(evt.target)
+        || ((evt.target instanceof Element) && this.controlsTarget.contains(evt.target))
       ) {
         return
       }
       setTimeout(() => {
-        if (document.getSelection().isCollapsed) {
+        if (document.getSelection()?.isCollapsed) {
           this.controlsTarget.classList.add(this.hiddenClass)
         }
       }, 0)
     })
   }
 
-  colorValueChanged(value, previous) {
+  colorValueChanged(value: string, previous: string) {
     // Initial value
     if (value === "" && previous === undefined) {
       this.colorTargets[0].checked = true
@@ -80,6 +110,10 @@ export default class extends Controller {
    */
   onSelectText() {
     const selection = document.getSelection()
+    if (!selection) {
+      return
+    }
+
     this.annotation = new Annotation(this.rootTarget, selection)
 
     if (
@@ -101,7 +135,7 @@ export default class extends Controller {
 
   showControls() {
     this.currentIDs = []
-    this.iterCoveredAnnotations((id) => {
+    this.iterCoveredAnnotations((id: string) => {
       this.currentIDs.push(id)
     })
 
@@ -113,19 +147,19 @@ export default class extends Controller {
      *
      * @param {KeyboardEvent} evt
      */
-    const onEsc = (evt) => {
+    const onEsc = (evt: KeyboardEvent) => {
       if (evt.key == "Escape") {
         this.controlsTarget.classList.add(this.hiddenClass)
-        document.getSelection().removeAllRanges()
+        document.getSelection()?.removeAllRanges()
         document.removeEventListener("keyup", onEsc)
       }
     }
 
     document.addEventListener("keyup", onEsc)
 
-    const covered = this.annotation.coveredAnnotations()
+    const covered = this.annotation?.coveredAnnotations()
     const selected = [
-      ...new Set(covered.map((e) => e.dataset.annotationIdValue)),
+      ...new Set(covered?.map((e) => e!.dataset.annotationIdValue)),
     ]
 
     // Show/hide sub controls
@@ -151,21 +185,22 @@ export default class extends Controller {
       case 0:
         this.noteTarget.value = ""
         break
+      // @ts-expect-error: we need to fall through
       case 1: {
         // One selected annotation, check if it has a note
         const e = Array.from(
-          this.rootTarget.querySelectorAll(
+          this.rootTarget.querySelectorAll<HTMLElement>(
             "rd-annotation[data-annotation-note][title]",
           ),
         ).find((e) => e.dataset.annotationIdValue == selected[0])
 
         // set the note and fall through the next case (sets color)
-        this.noteTarget.value = e !== undefined ? e.getAttribute("title") : ""
-        break
+        this.noteTarget.value = e?.getAttribute("title") || ""
       }
+      // eslint-disable-next-line no-fallthrough
       default:
         this.colorTargets.forEach((e) => {
-          if (e.value == covered[0].dataset.annotationColor) {
+          if (e.value == covered?.[0].dataset.annotationColor) {
             e.checked = true
             this.colorValue = e.value
             return
@@ -178,8 +213,12 @@ export default class extends Controller {
 
   #positionControls() {
     // Get root, range and controlls coordinates
-    const rangeRect = this.annotation.range.getBoundingClientRect()
+    const rangeRect = this.annotation?.range?.getBoundingClientRect()
     const rootRect = this.findRelativeRoot().getBoundingClientRect()
+
+    if (!rangeRect) {
+      return
+    }
 
     switch (getComputedStyle(this.controlsTarget).position) {
       case "absolute": {
@@ -245,19 +284,13 @@ export default class extends Controller {
     }
   }
 
-  /**
-   * @param {NodeListOf<Element>} nodes
-   */
-  #hide(nodes) {
+  #hide(nodes: Element[]) {
     nodes.forEach((e) => {
       e.classList.add(this.hiddenClass)
     })
   }
 
-  /**
-   * @param {NodeListOf<Element>} nodes
-   */
-  #show(nodes) {
+  #show(nodes: Element[]) {
     nodes.forEach((e) => {
       e.classList.remove(this.hiddenClass)
     })
@@ -285,13 +318,13 @@ export default class extends Controller {
    * reload loads and replace the turbo frame content
    */
   reload = async () => {
-    if (!this.element.src) {
-      throw new Error("controller element must have an src attribute")
+    if (!(this.element instanceof FrameElement)) {
+      throw new Error("controller element must be a turbo-frame")
     }
 
     // Enable turbo frame and wait for it to be reloaded.
     this.element.disabled = false
-    window.getSelection().removeAllRanges()
+    window.getSelection()?.removeAllRanges()
     await this.element.loaded
   }
 
@@ -311,7 +344,8 @@ export default class extends Controller {
 
     await request(this.apiUrlValue, {
       method: "POST",
-      body: body,
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(body),
     })
     await this.reload()
   }
@@ -325,7 +359,10 @@ export default class extends Controller {
     }
 
     // Common body
-    const body = {color: this.colorValue}
+    const body: {
+      color: string
+      note?: string
+    } = {color: this.colorValue}
 
     // Can only change the note when there's one updated item
     if (this.currentIDs.length == 1) {
@@ -334,10 +371,11 @@ export default class extends Controller {
 
     const baseURL = new URL(`${this.apiUrlValue}/`, document.URL)
 
-    for (let id of this.currentIDs) {
-      await request(new URL(id, baseURL), {
+    for (const id of this.currentIDs) {
+      await request(new URL(id, baseURL).toString(), {
         method: "PATCH",
-        body: body,
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(body),
       })
     }
     await this.reload()
@@ -349,8 +387,8 @@ export default class extends Controller {
   async delete() {
     const baseURL = new URL(`${this.apiUrlValue}/`, document.URL)
 
-    for (let id of this.currentIDs) {
-      await request(new URL(id, baseURL), {method: "DELETE"})
+    for (const id of this.currentIDs) {
+      await request(new URL(id, baseURL).toString(), {method: "DELETE"})
     }
     await this.reload()
   }
@@ -358,17 +396,14 @@ export default class extends Controller {
   /**
    * iterCoveredAnnotations executes a function on each annotation in the
    * current selection.
-   *
-   * @param {function(string): void} fn
    */
-  iterCoveredAnnotations(fn) {
-    const ids = new Set()
-    this.annotation.coveredAnnotations().forEach((n) => {
-      ids.add(n.dataset.annotationIdValue)
+  iterCoveredAnnotations(fn: (s: string) => void) {
+    const ids: Set<string> = new Set()
+    this.annotation?.coveredAnnotations().forEach((n) => {
+      if (n && n.dataset.annotationIdValue) {
+        ids.add(n.dataset.annotationIdValue)
+      }
     })
-    if (ids.length == 0) {
-      return
-    }
 
     for (const id of ids) {
       fn(id)
@@ -380,39 +415,28 @@ class Annotation {
   /**
    * Annotation holds raw information about an annotation. It contains only text with
    * selectors and offsets providing needed information to find an annotation.
-   *
-   * @param {Node} root
-   * @param {Selection} selection
    */
-  constructor(root, selection) {
-    /** @type {Node} */
+  root: Node
+  selection: Selection
+  range: Range | null
+  textNodes: Node[]
+  ancestor: Node | null
+  startSelector: string | null
+  startOffset: number | null
+  endSelector: string | null
+  endOffset: number | null
+  color: string | null
+
+  constructor(root: Node, selection: Selection) {
     this.root = root
-
-    /** @type {Selection} */
     this.selection = selection
-
-    /** @type {Range} */
     this.range = null
-
-    /** @type {Node[]} */
     this.textNodes = []
-
-    /** @type {Node} */
     this.ancestor = null
-
-    /** @type {string} */
     this.startSelector = null
-
-    /** @type {Number} */
     this.startOffset = null
-
-    /** @type {string} */
     this.endSelector = null
-
-    /** @type {Number} */
     this.endOffset = null
-
-    /** @type {String} */
     this.color = null
 
     this.init()
@@ -452,7 +476,7 @@ class Annotation {
       const tw = textNodeWalker(endNode)
       while (tw.nextNode());
       if (tw.currentNode.nodeType == Node.TEXT_NODE) {
-        range.setEnd(tw.currentNode, tw.currentNode.textContent.length)
+        range.setEnd(tw.currentNode, tw.currentNode?.textContent?.length || 0)
       } else {
         // No text nodes were found at the node where the selection ends.
         range.setEnd(endNode, 0)
@@ -466,7 +490,9 @@ class Annotation {
         range.commonAncestorContainer,
         range.startContainer,
       ).nextNode()
-      range.setStart(n, 0)
+      if (n) {
+        range.setStart(n, 0)
+      }
     }
 
     // In Chromium and WebKit, triple-clicking the final element in the article creates a selection
@@ -485,7 +511,9 @@ class Annotation {
       while (n && !this.root.contains(n)) {
         n = tw.previousNode()
       }
-      range.setEnd(n, n.textContent.length)
+      if (n) {
+        range.setEnd(n, n.textContent?.length || 0)
+      }
     }
 
     this.range = range
@@ -514,29 +542,28 @@ class Annotation {
     // Collect included text nodes
     let started = false
     let done = false
-    walkTextNodes(this.ancestor, (n) => {
-      if (done) {
-        return
-      }
-      if (n == this.range.startContainer) {
-        started = true
-      }
-      if (started) {
-        this.textNodes.push(n)
-      }
-      if (n == this.range.endContainer) {
-        done = true
-      }
-    })
+    if (this.ancestor) {
+      walkTextNodes(this.ancestor, (n) => {
+        if (done) {
+          return
+        }
+        if (n == this.range?.startContainer) {
+          started = true
+        }
+        if (started) {
+          this.textNodes.push(n)
+        }
+        if (n == this.range?.endContainer) {
+          done = true
+        }
+      })
+    }
   }
 
-  /**
-   * @returns {Node[]}
-   */
-  coveredAnnotations() {
+  coveredAnnotations(): HTMLElement[] {
     return this.textNodes
-      .filter((n) => n.parentElement.tagName.toLowerCase() == "rd-annotation")
-      .map((n) => n.parentElement)
+      .filter((n) => n.parentElement && n.parentElement.tagName.toLowerCase() == "rd-annotation")
+      .map((n) => n.parentElement!)
   }
 
   /**
@@ -549,21 +576,16 @@ class Annotation {
 
 /**
  * getSelector returns a CSS selector for a text node at the given offset.
- *
- * @param {Node} root
- * @param {Node} node
- * @param {Number} offset
- * @returns {{selector: string, offset: Number}}
  */
-function getSelector(root, node, offset) {
+function getSelector(root: Node, node: Node, offset: number): {selector: string, offset: number} {
   let p = node.parentElement
   const names = []
 
   // Get selector
-  while (p.parentElement && p != root) {
+  while (p?.parentElement && p != root) {
     let i = 1
-    let s = p
-    while (s.previousElementSibling) {
+    let s = p as Element
+    while (s?.previousElementSibling) {
       s = s.previousElementSibling
       if (s.tagName.toLowerCase() == p.tagName.toLowerCase()) {
         i++
@@ -577,7 +599,7 @@ function getSelector(root, node, offset) {
   // Get offset
   let done = false
   let newOffset = 0
-  walkTextNodes(node.parentElement, (n, i) => {
+  walkTextNodes(node.parentElement, (n) => {
     if (done) {
       return
     }
@@ -589,7 +611,7 @@ function getSelector(root, node, offset) {
     // Readeck saves and renders highlights.
     // https://codeberg.org/readeck/readeck/issues/1205
     if (!done) {
-      newOffset += [...n.textContent].length
+      newOffset += [...n.textContent || ""].length
     } else {
       if (n.textContent) {
         newOffset += [...n.textContent.substring(0, offset)].length
@@ -605,12 +627,12 @@ function getSelector(root, node, offset) {
 /**
  * walkTextNodes calls a callback function on each text node
  * found in a given node and its descendants.
- *
- * @param {Node} node
- * @param {function(Node, Number)} callback
- * @param {Number} [index]
  */
-function walkTextNodes(node, callback, index) {
+function walkTextNodes(node: Node | null, callback: (n: Node, i: number) => void, index?: number) {
+  if (node === null) {
+    return
+  }
+
   index = index === undefined ? 0 : index
   for (let child = node.firstChild; child; child = child.nextSibling) {
     if (child.nodeType == Node.TEXT_NODE) {
@@ -624,14 +646,10 @@ function walkTextNodes(node, callback, index) {
 /**
  * textNodeWalker creates a TreeWalker scoped to root, starting at currentNode, and configured to
  * yield only text nodes that aren't whitespace-only.
- *
- * @param {Node} root
- * @param {Node | null} currentNode
- * @returns {TreeWalker}
  */
-function textNodeWalker(root, currentNode = null) {
+function textNodeWalker(root: Node, currentNode: Node | null = null): TreeWalker {
   const tw = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, (node) =>
-    node.textContent.trim().length > 0
+    (node.textContent?.trim().length || 0) > 0
       ? NodeFilter.FILTER_ACCEPT
       : NodeFilter.FILTER_SKIP,
   )
@@ -645,15 +663,12 @@ function textNodeWalker(root, currentNode = null) {
  * selectionendObserver reacts to the "selectionchange" event by triggering the
  * callback function only after the pointer device is not pressed anymore, at
  * which point the user has likely completed their text selection.
- *
- * @param {Node} node
- * @param {function(): void} callback
  */
-function selectionendObserver(node, callback) {
+function selectionendObserver(node: Node, callback: () => void) {
   /**
    * @type {function(any): void | null}
    */
-  let selectionResolve
+  let selectionResolve: ((value?: unknown) => void) | null
   let pointerIsPressed = false
 
   node.addEventListener("pointerdown", () => {
