@@ -5,15 +5,11 @@
 import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
-  /**
-   *
-   * @param {Event} event
-   * @returns
-   */
-  scroll(event) {
-    if (event.currentTarget.tagName.toLowerCase() != "a") {
+  scroll(event: Event) {
+    if (!(event.currentTarget instanceof HTMLAnchorElement)) {
       return
     }
+
     let url
     try {
       url = new URL(event.currentTarget.href)

@@ -5,10 +5,20 @@
 import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["zone", "placeholder", "fileinfo", "clearbtn"]
+  static override targets = ["zone", "placeholder", "fileinfo", "clearbtn"]
   static classes = ["hidden", "focus"]
 
-  connect() {
+  declare readonly zoneTargets: HTMLElement[]
+  declare readonly placeholderTargets: HTMLElement[]
+  declare readonly fileinfoTargets: HTMLElement[]
+  declare readonly clearbtnTargets: HTMLButtonElement[]
+
+  declare readonly hiddenClass: string
+  declare readonly focusClass: string
+
+  declare actions: [Node, string, (e: Event) => void][]
+
+  override connect() {
     this.actions = []
 
     if (!this.input) {
@@ -18,12 +28,12 @@ export default class extends Controller {
     this.input.removeAttribute("required")
     this.actions = [
       [this.input, "change", () => this.setFileInfo()],
-      [this.element, "dragenter", (e) => this.enter(e)],
-      [this.element, "dragleave", (e) => this.leave(e)],
-      [this.element, "drop", (e) => this.drop(e)],
-      [document, "dragover", (e) => this.noop(e)],
-      [document, "dragleave", (e) => this.noop(e)],
-      [document, "drop", (e) => this.noop(e)],
+      [this.element, "dragenter", (e) => this.enter(e as DragEvent)],
+      [this.element, "dragleave", (e) => this.leave(e as DragEvent)],
+      [this.element, "drop", (e) => this.drop(e as DragEvent)],
+      [document, "dragover", (e) => this.noop(e as DragEvent)],
+      [document, "dragleave", (e) => this.noop(e as DragEvent)],
+      [document, "drop", (e) => this.noop(e as DragEvent)],
     ]
 
     this.actions.forEach((a) => {
@@ -32,17 +42,14 @@ export default class extends Controller {
     this.setFileInfo()
   }
 
-  disconnect() {
+  override disconnect() {
     this.actions.forEach((a) => {
       a[0].removeEventListener(a[1], a[2])
     })
   }
 
-  /**
-   * @returns {HTMLInputElement}
-   */
   get input() {
-    return this.scope.findElement("input[type=file]")
+    return this.scope.findElement("input[type=file]") as HTMLInputElement
   }
 
   setFileInfo() {
@@ -51,7 +58,7 @@ export default class extends Controller {
     })
 
     const files = this.input.files
-    if (files.length == 1) {
+    if (files?.length == 1) {
       this.placeholderTargets.forEach((e) => e.classList.add(this.hiddenClass))
       this.clearbtnTargets.forEach((e) => e.classList.remove(this.hiddenClass))
 
@@ -69,7 +76,7 @@ export default class extends Controller {
   }
 
   clear() {
-    this.input.value = null
+    this.input.value = ""
     this.input.dispatchEvent(
       new Event("input", {bubbles: true, cancelable: true}),
     )
@@ -78,44 +85,32 @@ export default class extends Controller {
     )
   }
 
-  select(_) {
+  select() {
     this.input.click()
   }
 
-  /**
-   *
-   * @param {Event} evt
-   */
-  enter(evt) {
+  enter(evt: DragEvent) {
     evt.preventDefault()
     this.zoneTargets.forEach((e) => {
       e.classList.add(this.focusClass)
     })
   }
 
-  /**
-   *
-   * @param {Event} evt
-   */
-  leave(evt) {
+  leave(evt: DragEvent) {
     evt.preventDefault()
     this.zoneTargets.forEach((e) => {
-      if (!e.contains(evt.relatedTarget)) {
+      if (evt.relatedTarget instanceof Node && !e.contains(evt.relatedTarget)) {
         e.classList.remove(this.focusClass)
       }
     })
   }
 
-  /**
-   *
-   * @param {Event} evt
-   */
-  drop(evt) {
+  drop(evt: DragEvent) {
     evt.preventDefault()
-    if (evt.dataTransfer.files.length != 1) {
+    if (evt.dataTransfer?.files.length != 1) {
       return
     }
-    let input = this.input
+    const input = this.input
     if (input) {
       input.files = evt.dataTransfer.files
       input.dispatchEvent(new Event("input", {bubbles: true, cancelable: true}))
@@ -125,16 +120,12 @@ export default class extends Controller {
     }
   }
 
-  /**
-   *
-   * @param {Event} evt
-   */
-  noop(evt) {
+  noop(evt: Event) {
     evt.preventDefault()
   }
 }
 
-function formatBytes(bytes, decimals = 2) {
+function formatBytes(bytes: number, decimals = 2) {
   if (!+bytes) return "0 Bytes"
 
   const k = 1024

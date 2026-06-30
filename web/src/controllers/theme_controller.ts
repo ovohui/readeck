@@ -5,12 +5,17 @@
 import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["icon", "iconLight", "iconDark", "iconSystem"]
+  static override targets = ["icon", "iconLight", "iconDark", "iconSystem"]
 
-  connect() {
+  declare readonly iconTarget: HTMLTemplateElement
+  declare readonly iconLightTarget: HTMLTemplateElement
+  declare readonly iconDarkTarget: HTMLTemplateElement
+  declare readonly iconSystemTarget: HTMLTemplateElement
+
+  override connect() {
     this.setIcon()
 
-    // Listen to syrtem theme change
+    // Listen to system theme change
     window
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", () => {
@@ -26,9 +31,9 @@ export default class extends Controller {
     })
   }
 
-  get currentTheme() {
+  get currentTheme(): string {
     if (localStorage.getItem("theme") !== null) {
-      return localStorage.theme
+      return localStorage.theme as string
     }
     return "system"
   }
@@ -70,7 +75,7 @@ export default class extends Controller {
     }
   }
 
-  changeIcon(tpl) {
+  changeIcon(tpl: HTMLTemplateElement) {
     this.iconTarget.replaceChildren(tpl.content.cloneNode(true))
   }
 

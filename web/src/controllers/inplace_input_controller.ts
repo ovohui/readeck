@@ -5,10 +5,18 @@
 import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["editable", "value", "button", "iconOff", "iconOn"]
+  static override targets = ["editable", "value", "button", "iconOff", "iconOn"]
   static classes = ["hidden"]
 
-  connect() {
+  declare readonly editableTarget: HTMLElement
+  declare readonly valueTarget: HTMLInputElement
+  declare readonly buttonTarget: HTMLButtonElement
+  declare readonly iconOffTarget: HTMLElement
+  declare readonly iconOnTarget: HTMLElement
+
+  declare readonly hiddenClass: string
+
+  override connect() {
     this.editableTarget.tabIndex = 0
     this.editableTarget.setAttribute("spellcheck", "false")
 
@@ -35,7 +43,7 @@ export default class extends Controller {
     this.iconOnTarget.classList.add(this.hiddenClass)
   }
 
-  onKeyUp = (evt) => {
+  onKeyUp = (evt: KeyboardEvent) => {
     switch (evt.key) {
       case "Enter":
         evt.preventDefault()
@@ -47,19 +55,19 @@ export default class extends Controller {
     }
   }
 
-  onKeyDown = (evt) => {
+  onKeyDown = (evt: KeyboardEvent) => {
     if (evt.key == "Enter") {
       evt.preventDefault()
     }
   }
 
-  onFocus = (evt) => {
+  onFocus = () => {
     if (this.editableTarget.contentEditable !== "true") {
       this.startEditable()
     }
   }
 
-  onButtonClick = (evt) => {
+  onButtonClick = (evt: PointerEvent) => {
     // Enable contenteditable on first click
     if (this.editableTarget.contentEditable !== "true") {
       evt.preventDefault()

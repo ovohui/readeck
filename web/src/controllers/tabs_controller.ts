@@ -7,11 +7,17 @@ import {Controller} from "@hotwired/stimulus"
 export default class extends Controller {
   static classes = ["hidden"]
 
-  connect() {
+  declare readonly hiddenClasses: string[]
+
+  override connect() {
     this.updateTabs()
   }
 
-  toggle(evt) {
+  toggle(evt: Event) {
+    if (!(evt.target instanceof HTMLElement)) {
+      return
+    }
+
     const id = evt.target.id
     this.element.querySelectorAll("[role=tab]").forEach((t) => {
       if (id == t.id) {

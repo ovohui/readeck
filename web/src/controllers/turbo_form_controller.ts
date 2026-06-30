@@ -5,13 +5,18 @@
 import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static values = {
+  static override values = {
     action: String,
     method: String,
   }
 
-  connect() {
-    let tagName = this.element.tagName.toLowerCase()
+  declare hasActionValue: boolean
+  declare hasMethodValue: boolean
+  declare actionValue: string
+  declare methodValue: string
+
+  override connect() {
+    const tagName = this.element.tagName.toLowerCase()
     switch (tagName) {
       case "form":
         this.element.setAttribute("data-turbo", "true")
@@ -19,17 +24,9 @@ export default class extends Controller {
         this.conditionnalAttr("method", this.methodValue, this.hasMethodValue)
         break
       case "button":
-        this.element.closest("form").setAttribute("data-turbo", "true")
-        this.conditionnalAttr(
-          "formaction",
-          this.actionValue,
-          this.hasActionValue,
-        )
-        this.conditionnalAttr(
-          "formmethod",
-          this.methodValue,
-          this.hasMethodValue,
-        )
+        this.element.closest("form")?.setAttribute("data-turbo", "true")
+        this.conditionnalAttr("formaction", this.actionValue, this.hasActionValue)
+        this.conditionnalAttr("formmethod", this.methodValue, this.hasMethodValue)
         break
       default:
         throw new Error(
@@ -38,13 +35,13 @@ export default class extends Controller {
     }
   }
 
-  conditionnalAttr(name, value, condition) {
+  conditionnalAttr(name: string, value: string, condition: boolean) {
     if (condition) {
       this.element.setAttribute(name, value)
     }
   }
 
-  stopSubmit(evt) {
+  stopSubmit(evt: Event) {
     evt.stopPropagation()
   }
 }

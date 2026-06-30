@@ -6,15 +6,20 @@ import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
   static classes = ["down"]
-  static values = {
+  static override values = {
     delay: {type: Number, default: 250},
     delta: {type: Number, default: 30},
   }
 
-  connect() {
+  declare delayValue: number
+  declare deltaValue: number
+
+  declare readonly downClass: string
+
+  override connect() {
     let prevScroll = window.scrollY
     let ticking = false
-    let t = null
+    let t: number | null = null
 
     window.addEventListener(
       "scroll",

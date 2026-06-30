@@ -3,10 +3,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {Controller} from "@hotwired/stimulus"
+import type {ActionEvent, Context} from "@hotwired/stimulus"
 
 // Controller "styler" is only an outlet for the "styler-option" controller.
 export default class extends Controller {
-  initialize() {
+  override initialize() {
     // only add the styler-option controller the first time
     // the controller is initialized.
     if (
@@ -20,8 +21,8 @@ export default class extends Controller {
 }
 
 class stylerOption extends Controller {
-  static outlets = ["styler"]
-  static values = {
+  static override outlets = ["styler"]
+  static override values = {
     current: {
       type: String,
       default: "",
@@ -32,14 +33,26 @@ class stylerOption extends Controller {
     },
   }
 
-  static targets = ["choices", "value"]
+  static override targets = ["choices", "value"]
 
-  constructor() {
-    super(...arguments)
+  declare readonly stylerOutletElements: HTMLElement[]
+
+  declare readonly hasChoicesTarget: boolean
+  declare readonly choicesTarget: HTMLInputElement
+  declare readonly choicesTargets: HTMLInputElement[]
+  declare readonly valueTargets: HTMLInputElement[]
+
+  declare currentValue: string
+  declare valuesValue: string[]
+
+  declare choices: Record<string, string | undefined>
+
+  constructor(context: Context) {
+    super(context)
     this.choices = {}
   }
 
-  connect() {
+  override connect() {
     this.valueTargets.forEach((e) => {
       this.currentValue = e.value
     })
@@ -78,8 +91,10 @@ class stylerOption extends Controller {
     this.valueTargets.forEach((e) => this.dispatch("setValue", {target: e}))
   }
 
-  setChoice(evt) {
-    this.currentValue = evt.target.value
+  setChoice(evt: ActionEvent) {
+    if (evt.target && "value" in evt.target) {
+      this.currentValue = <string>evt.target.value
+    }
   }
 
   increaseValue() {
@@ -87,7 +102,7 @@ class stylerOption extends Controller {
     if (!isNaN(value) && value == this.valuesValue.length) {
       return
     }
-    this.currentValue = value + 1
+    this.currentValue = `${value + 1}`
   }
 
   decreaseValue() {
@@ -95,10 +110,10 @@ class stylerOption extends Controller {
     if (!isNaN(value) && value == 1) {
       return
     }
-    this.currentValue = value - 1
+    this.currentValue = `${value - 1}`
   }
 
-  currentValueChanged(value, prev) {
+  currentValueChanged(value: string, prev: string) {
     if (!prev) {
       return
     }
@@ -115,8 +130,11 @@ class stylerOption extends Controller {
     } else {
       res = Object.values(this.choices)
     }
-    return res.reduce((acc, cur) => {
-      return acc.concat(cur.split(/\s+/))
+    return res.reduce<string[]>((acc, cur) => {
+      if (cur !== undefined) {
+        return acc.concat(cur!.split(/\s+/))
+      }
+      return acc
     }, [])
   }
 

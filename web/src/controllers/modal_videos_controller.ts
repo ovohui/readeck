@@ -5,8 +5,8 @@
 import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["dialog", "trigger", "template"]
-  static values = {
+  static override targets = ["dialog", "trigger", "template"]
+  static override values = {
     selector: {
       type: String,
       default: "",
@@ -17,14 +17,21 @@ export default class extends Controller {
     },
   }
 
-  connect() {
+  declare readonly dialogTarget: HTMLDialogElement
+  declare readonly imgTarget: HTMLImageElement
+  declare readonly triggerTarget: HTMLTemplateElement
+
+  declare selectorValue: string
+  declare baseUrlValue: string
+
+  override connect() {
     if (!this.selectorValue) {
       return
     }
 
     this.element
       .querySelectorAll(this.selectorValue)
-      .forEach((e) => this.#addTrigger(e))
+      .forEach((e) => this.#addTrigger(e as HTMLElement))
     this.dialogTarget.addEventListener("close", () => {
       this.#clearModal()
     })
@@ -33,10 +40,8 @@ export default class extends Controller {
     })
   }
 
-  /**
-   * @param {Event} evt turbo:morph-element event
-   */
-  reload(evt) {
+  // turbo:morph-element event handler
+  reload(evt: Event) {
     if (evt.target == this.element) {
       this.disconnect()
       this.connect()
@@ -48,12 +53,13 @@ export default class extends Controller {
   }
 
   #clearModal() {
-    this.#iframe.removeAttribute("src")
-    this.#iframe.removeAttribute("width")
-    this.#iframe.removeAttribute("height")
+    const el = this.#iframe
+    el?.removeAttribute("src")
+    el?.removeAttribute("width")
+    el?.removeAttribute("height")
   }
 
-  #addTrigger(e) {
+  #addTrigger(e: HTMLElement) {
     const params = new URLSearchParams(e.dataset.iframeParams)
     const w = params.get("w") || 0
     const h = params.get("h") || 0
@@ -61,26 +67,27 @@ export default class extends Controller {
       return
     }
 
-    const wrapper = this.triggerTarget.content.cloneNode(true).firstElementChild
-    const b = wrapper.firstElementChild
+    const node = this.triggerTarget.content.cloneNode(true) as DocumentFragment
+    const wrapper = node.firstElementChild!
 
-    e.parentNode.insertBefore(wrapper, e)
+    e.parentNode?.insertBefore(wrapper, e)
     wrapper.appendChild(e)
 
-    b.addEventListener("click", (evt) => {
+    wrapper.querySelector("button")?.addEventListener("click", () => {
       const params = new URLSearchParams(e.dataset.iframeParams)
 
-      const w = params.get("w") || 0
-      const h = params.get("h") || 0
+      const w = params.get("w") || "0"
+      const h = params.get("h") || "0"
 
-      const src = new URL(this.baseUrlValue, document.location)
+      const src = new URL(this.baseUrlValue, document.location.toString())
       params.forEach((v, k) => {
         src.searchParams.set(k, v)
       })
 
-      this.#iframe.setAttribute("src", src.toString())
-      this.#iframe.setAttribute("width", w)
-      this.#iframe.setAttribute("height", h)
+      const ifr = this.#iframe
+      ifr?.setAttribute("src", src.toString())
+      ifr?.setAttribute("width", w)
+      ifr?.setAttribute("height", h)
 
       this.dialogTarget.showModal()
       this.dialogTarget.style.aspectRatio = `${w}/${h}`

@@ -5,13 +5,13 @@
 import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
-  async back(evt) {
+  async back(evt: Event) {
     evt.preventDefault()
     history.back()
 
     setTimeout(() => {
       // this is called only when we can't go back in history.
-      window.location.href = this.element.getAttribute("href")
+      window.location.assign(this.element.getAttribute("href") as string)
     }, 200)
   }
 }

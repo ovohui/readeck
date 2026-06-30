@@ -5,8 +5,15 @@
 import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["panel", "button"]
+  static override targets = ["panel", "button"]
   static classes = ["hidden", "forceHidden", "body"]
+
+  declare readonly panelTarget: HTMLElement
+  declare readonly buttonTarget: HTMLButtonElement
+
+  declare readonly hiddenClasses: string[]
+  declare readonly forceHiddenClasses: string[]
+  declare readonly bodyClasses: string[]
 
   toggle() {
     if (this.isVisible()) {
@@ -20,10 +27,10 @@ export default class extends Controller {
     document.body.classList.add(...this.bodyClasses)
     this.panelTarget.classList.remove(...this.hiddenClasses)
     this.panelTarget.focus()
-    this.buttonTarget.setAttribute("aria-expanded", this.isVisible())
+    this.buttonTarget.setAttribute("aria-expanded", String(this.isVisible()))
   }
 
-  close(evt) {
+  close(evt?: Event) {
     document.body.classList.remove(...this.bodyClasses)
     if (evt === undefined) {
       this.panelTarget.classList.add(...this.hiddenClasses)
@@ -31,13 +38,11 @@ export default class extends Controller {
     } else {
       this.panelTarget.classList.add(...this.forceHiddenClasses)
     }
-    this.buttonTarget.setAttribute("aria-expanded", this.isVisible())
+    this.buttonTarget.setAttribute("aria-expanded", String(this.isVisible()))
   }
 
   /**
    * isVisible returns true when the menu/panel is visible
-   *
-   * @returns boolean
    */
   isVisible() {
     const cs = getComputedStyle(this.panelTarget)

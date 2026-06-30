@@ -5,14 +5,17 @@
 import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["username", "password"]
+  static override targets = ["username", "password"]
 
-  connect() {
+  declare readonly usernameTarget: HTMLInputElement
+  declare readonly passwordTarget: HTMLInputElement
+
+  override connect() {
     this.usernameTarget.focus()
   }
 
-  validate(evt) {
-    let u = this.usernameTarget.value.trim(),
+  validate(evt: Event) {
+    const u = this.usernameTarget.value.trim(),
       p = this.passwordTarget.value.trim()
     if (u == "" || p == "") {
       evt.preventDefault()

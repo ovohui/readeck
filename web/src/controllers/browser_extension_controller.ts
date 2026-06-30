@@ -6,14 +6,17 @@ import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
   static classes = ["installed"]
-  static values = {
+  static override values = {
     ready: {
       type: Boolean,
       default: undefined, // start with undefined so we don't trigger any change
     },
   }
 
-  async connect() {
+  declare readyValue?: boolean
+  declare readonly installedClasses: string[]
+
+  override async connect() {
     window.addEventListener("message", (evt) => {
       // The message coming from the extension sets "ready" to true.
       if (evt.origin == window.location.origin) {
@@ -32,7 +35,7 @@ export default class extends Controller {
     }, 300)
   }
 
-  readyValueChanged(value) {
+  readyValueChanged(value: boolean) {
     if (value === false) {
       this.element.classList.remove(...this.installedClasses)
       return

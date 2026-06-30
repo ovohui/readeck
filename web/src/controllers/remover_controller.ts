@@ -4,16 +4,17 @@
 
 import {Controller} from "@hotwired/stimulus"
 
-export default class extends Controller {
-  // static targets = ["close"]
-  static values = {
+export default class extends Controller<HTMLElement> {
+  static override values = {
     delay: {
       type: Number,
       default: 0,
     },
   }
 
-  connect() {
+  declare delayValue: number
+
+  override connect() {
     if (this.delayValue > 0) {
       window.setTimeout(() => this.remove(), this.delayValue * 1000)
     }
@@ -21,6 +22,6 @@ export default class extends Controller {
 
   remove() {
     this.element.addEventListener("transitionend", () => this.element.remove())
-    this.element.style.opacity = 0
+    this.element.style.opacity = "0"
   }
 }

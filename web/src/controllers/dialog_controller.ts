@@ -5,15 +5,21 @@
 import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static values = {
+  static override values = {
     select: String,
   }
+
+  declare hasSelectValue: boolean
+  declare selectValue: string
 
   open() {
     if (!this.hasSelectValue) {
       return
     }
 
-    document.querySelector(this.selectValue).showModal()
+    const el = document.querySelector(this.selectValue)
+    if (el instanceof HTMLDialogElement) {
+      el.showModal()
+    }
   }
 }

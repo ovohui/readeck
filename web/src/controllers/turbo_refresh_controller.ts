@@ -3,13 +3,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {Controller} from "@hotwired/stimulus"
+import type {FrameElement} from "@hotwired/turbo"
 
 // This controller reload a given turbo-frame at a given interval
 // until it find a target named "loaded" in its content.
 // This replaces a meta refresh of the full page and can be used on
 // several frames on the same page.
-export default class extends Controller {
-  static values = {
+export default class extends Controller<FrameElement> {
+  static override values = {
     // A CSS selector that triggers the refresh when present
     on: String,
     // The page source to load, uses window.location if none
@@ -18,7 +19,15 @@ export default class extends Controller {
     interval: Number,
   }
 
-  connect() {
+  declare hasSrcValue: boolean
+  declare onValue: string
+  declare srcValue: string
+  declare intervalValue: number
+
+  declare observer: MutationObserver | null
+  declare timeout: number | null
+
+  override connect() {
     if (!this.onValue) {
       throw new Error(
         `you must set data-${this.identifier}-on-value on the component`,
@@ -44,8 +53,8 @@ export default class extends Controller {
     })
   }
 
-  disconnect() {
-    this.observer.disconnect()
+  override disconnect() {
+    this.observer?.disconnect()
   }
 
   async check() {
@@ -61,7 +70,7 @@ export default class extends Controller {
       this.element.src = this.srcValue
       await this.element.loaded
 
-      this.element.src = null
+      this.element.src = ""
       this.timeout = null
     }, this.intervalValue * 1000)
   }

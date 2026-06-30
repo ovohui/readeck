@@ -5,9 +5,14 @@
 import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["field", "btn", "show", "hide"]
+  static override targets = ["field", "btn", "show", "hide"]
 
-  connect() {
+  declare readonly fieldTarget: HTMLInputElement
+  declare readonly btnTarget: HTMLButtonElement
+  declare readonly showTarget: HTMLTemplateElement
+  declare readonly hideTarget: HTMLTemplateElement
+
+  override connect() {
     this.btnTarget.appendChild(this.showTarget.content.cloneNode(true))
   }
 

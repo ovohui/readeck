@@ -4,13 +4,15 @@
 
 import {Controller} from "@hotwired/stimulus"
 
-export default class extends Controller {
-  static values = {
-    offset: String,
+export default class extends Controller<HTMLDetailsElement> {
+  static override values = {
+    offset: "left",
   }
 
-  connect() {
-    if (this.element.tagName.toLowerCase() != "details") {
+  declare offsetValue: "left" | "right"
+
+  override connect() {
+    if (!(this.element instanceof HTMLDetailsElement)) {
       return
     }
 
@@ -34,14 +36,14 @@ export default class extends Controller {
     this.element.open = !this.element.open
   }
 
-  closeDetails = (evt) => {
-    if (evt.type == "keyup") {
+  closeDetails = (evt: PointerEvent | KeyboardEvent) => {
+    if (evt instanceof KeyboardEvent) {
       if (evt.key == "Escape") {
         this.element.open = false
       }
       return
     }
-    if (!this.element.contains(evt.target)) {
+    if (!this.element.contains(evt.target as Node)) {
       this.element.open = false
     }
   }
@@ -51,7 +53,7 @@ export default class extends Controller {
       return
     }
 
-    const el = this.element.querySelector("ul:first-of-type")
+    const el = this.element.querySelector<HTMLUListElement>("ul:first-of-type")
     if (!el) {
       return
     }

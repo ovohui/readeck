@@ -4,12 +4,25 @@
 
 import {Controller} from "@hotwired/stimulus"
 
+import type {ActionEvent} from "@hotwired/stimulus"
+
 export default class extends Controller {
-  static targets = ["field", "btn", "template", "value", "unit", "absolute"]
+  static override targets = ["field", "btn", "template", "value", "unit", "absolute"]
   static classes = ["hidden"]
 
-  connect() {
-    this.form = this.templateTarget.content.querySelector("div")
+  declare readonly fieldTarget: HTMLInputElement
+  declare readonly btnTarget: HTMLButtonElement
+  declare readonly templateTarget: HTMLTemplateElement
+  declare readonly valueTarget: HTMLSelectElement
+  declare readonly unitTarget: HTMLSelectElement
+  declare readonly absoluteTarget: HTMLInputElement
+
+  declare readonly hiddenClass: string
+
+  declare form: HTMLDivElement
+
+  override connect() {
+    this.form = this.templateTarget.content.querySelector("div")!
     this.form.classList.add(this.hiddenClass)
     this.element.appendChild(this.form)
     this.loadToken()
@@ -45,22 +58,25 @@ export default class extends Controller {
     }
   }
 
-  onOuterClick = (evt) => {
-    if (!this.element.contains(evt.target) || evt.target == this.fieldTarget) {
+  onOuterClick = (evt: PointerEvent) => {
+    if (!this.element.contains(<HTMLElement>evt.target) || evt.target == this.fieldTarget) {
       this.hideForm()
     }
   }
 
   loadToken() {
     const token = new timeToken(this.fieldTarget.value)
-    this.valueTarget.value = token.value
+    this.valueTarget.value = token.value.toString()
     this.unitTarget.value = token.unit
     this.absoluteTarget.value = token.absolute
   }
 
-  update(evt) {
+  update(evt: ActionEvent) {
     if (evt.target == this.valueTarget || evt.target == this.unitTarget) {
-      const value = this.valueTarget.value || 1
+      let value = parseInt(this.valueTarget.value || "")
+      if (isNaN(value)) {
+        value = 1
+      }
       const unit = this.unitTarget.value
       if (value == 0) {
         this.fieldTarget.value = "now"
@@ -77,7 +93,12 @@ export default class extends Controller {
 class timeToken {
   tokenRx = RegExp("^([+-])(\\d+)([dwmy])")
 
-  constructor(text) {
+  factor: number
+  value: number
+  unit: string
+  absolute: string
+
+  constructor(text: string) {
     text = text.toLowerCase().trim()
 
     this.factor = 1
@@ -102,7 +123,7 @@ class timeToken {
 
     // try to parse the string as a date for absolute values
     const d = new Date(text)
-    if (isNaN(d.valueOf)) {
+    if (isNaN(d.valueOf())) {
       return
     }
 
