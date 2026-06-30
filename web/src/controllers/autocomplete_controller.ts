@@ -11,10 +11,10 @@ import {Controller} from "@hotwired/stimulus"
 const optionSelector = "[role='option']:not([aria-disabled])"
 const activeSelector = "[aria-selected='true']"
 
-export default class extends Controller {
-  static targets = ["input", "hidden", "results"]
+export default class extends Controller<HTMLElement> {
+  static override targets = ["input", "hidden", "results"]
   static classes = ["item", "selected"]
-  static values = {
+  static override values = {
     ready: Boolean,
     submitOnEnter: Boolean,
     url: String,
@@ -24,7 +24,32 @@ export default class extends Controller {
     quotes: Boolean,
   }
 
-  connect() {
+  declare readonly hasInputTarget: boolean
+  declare readonly hasHiddenTarget: boolean
+  declare readonly hasResultsTarget: boolean
+
+  declare readonly inputTarget: HTMLInputElement
+  declare readonly hiddenTarget: HTMLInputElement
+  declare readonly resultsTarget: HTMLElement
+
+  declare readonly hasSubmitOnEnterValue: boolean
+  declare readonly hasUrlValue: boolean
+
+  declare readonly hasSelectedClass: boolean
+  declare readonly itemClasses: string[]
+  declare readonly selectedClasses: string[]
+
+  declare readyValue: boolean
+  declare submitOnEnterValue: boolean
+  declare urlValue: string
+  declare minLengthValue: number
+  declare delayValue: number
+  declare multipleValue: boolean
+  declare quotesValue: boolean
+
+  declare mouseDown: boolean
+
+  override connect() {
     this.close()
 
     if (!this.inputTarget.hasAttribute("autocomplete"))
@@ -49,7 +74,7 @@ export default class extends Controller {
     this.readyValue = true
   }
 
-  disconnect() {
+  override disconnect() {
     if (this.hasInputTarget) {
       this.inputTarget.removeEventListener("keydown", this.onKeydown)
       this.inputTarget.removeEventListener("blur", this.onInputBlur)
@@ -65,16 +90,16 @@ export default class extends Controller {
     }
   }
 
-  sibling(next) {
+  sibling(next: boolean): Element | undefined {
     const options = this.options
     const selected = this.selectedOption
-    const index = options.indexOf(selected)
+    const index: number = selected ? options.indexOf(selected) : -1
     const sibling = next ? options[index + 1] : options[index - 1]
     const def = next ? options[0] : options[options.length - 1]
     return sibling || def
   }
 
-  select(target) {
+  select(target: Element) {
     const previouslySelected = this.selectedOption
     if (previouslySelected) {
       previouslySelected.removeAttribute("aria-selected")
@@ -87,42 +112,41 @@ export default class extends Controller {
     target.scrollIntoView({behavior: "smooth", block: "nearest"})
   }
 
-  onKeydown = (event) => {
-    const handler = this[`on${event.key}Keydown`]
-    if (handler) handler(event)
-  }
+  onKeydown = (event: KeyboardEvent) => {
+    switch (event.key) {
+      case "Escape":
+        if (!this.resultsShown) return
 
-  onEscapeKeydown = (event) => {
-    if (!this.resultsShown) return
-
-    this.hideAndRemoveOptions()
-    event.stopPropagation()
-    event.preventDefault()
-  }
-
-  onArrowDownKeydown = (event) => {
-    const item = this.sibling(true)
-    if (item) this.select(item)
-    event.preventDefault()
-  }
-
-  onArrowUpKeydown = (event) => {
-    const item = this.sibling(false)
-    if (item) this.select(item)
-    event.preventDefault()
-  }
-
-  onTabKeydown = (event) => {
-    const selected = this.selectedOption
-    if (selected) this.commit(selected)
-  }
-
-  onEnterKeydown = (event) => {
-    const selected = this.selectedOption
-    if (selected && this.resultsShown) {
-      this.commit(selected)
-      if (!this.hasSubmitOnEnterValue) {
+        this.hideAndRemoveOptions()
+        event.stopPropagation()
         event.preventDefault()
+        return
+      case "ArrowDown": {
+        const item = this.sibling(true)
+        if (item) this.select(item)
+        event.preventDefault()
+        return
+      }
+      case "ArrowUp": {
+        const item = this.sibling(false)
+        if (item) this.select(item)
+        event.preventDefault()
+        return
+      }
+      case "Tab": {
+        const selected = this.selectedOption
+        if (selected) this.commit(selected)
+        return
+      }
+      case "Enter": {
+        const selected = this.selectedOption
+        if (selected && this.resultsShown) {
+          this.commit(selected)
+          if (!this.hasSubmitOnEnterValue) {
+            event.preventDefault()
+          }
+        }
+        return
       }
     }
   }
@@ -132,7 +156,7 @@ export default class extends Controller {
     this.close()
   }
 
-  commit(selected) {
+  commit(selected: Element) {
     if (selected.getAttribute("aria-disabled") === "true") return
 
     if (selected instanceof HTMLAnchorElement) {
@@ -177,7 +201,7 @@ export default class extends Controller {
     if (this.hasHiddenTarget) this.hiddenTarget.value = ""
   }
 
-  onResultsClick = (event) => {
+  onResultsClick = (event: PointerEvent) => {
     if (!(event.target instanceof Element)) return
     const selected = event.target.closest(optionSelector)
     if (selected) this.commit(selected)
@@ -199,14 +223,14 @@ export default class extends Controller {
     if (this.hasHiddenTarget) this.hiddenTarget.value = ""
     let query = this.inputTarget.value.trim()
 
-    if (query.length < this.element.dataset.initial.length) {
+    if (query.length < (this.element.dataset.initial || "").length) {
       // When removing characters, change initial value
       this.element.dataset.initial = query
     }
 
     if (this.multipleValue) {
-      if (query.startsWith(this.element.dataset.initial)) {
-        query = query.substring(this.element.dataset.initial.length)
+      if (query.startsWith(this.element.dataset.initial || "")) {
+        query = query.substring((this.element.dataset.initial || "").length)
         query = query.trim()
       }
     }
@@ -233,10 +257,10 @@ export default class extends Controller {
 
   hideAndRemoveOptions() {
     this.close()
-    this.resultsTarget.innerHTML = null
+    this.resultsTarget.innerHTML = ""
   }
 
-  fetchResults = async (query) => {
+  fetchResults = async (query: string) => {
     if (!this.hasUrlValue) return
 
     const url = this.buildURL(query)
@@ -244,7 +268,7 @@ export default class extends Controller {
       this.element.dispatchEvent(new CustomEvent("loadstart"))
 
       const rsp = await fetch(url)
-      const items = await rsp.json()
+      const items = await rsp.json() as string[]
       this.replaceResults(items)
 
       this.element.dispatchEvent(new CustomEvent("load"))
@@ -256,7 +280,7 @@ export default class extends Controller {
     }
   }
 
-  buildURL(query) {
+  buildURL(query: string) {
     const url = new URL(this.urlValue, window.location.href)
     const params = new URLSearchParams(url.search.slice(1))
     params.append("q", `*${query}*`)
@@ -265,9 +289,9 @@ export default class extends Controller {
     return url.toString()
   }
 
-  replaceResults = async (items) => {
+  replaceResults = async (items: string[]) => {
     while (this.resultsTarget.firstChild) {
-      this.resultsTarget.removeChild(this.resultsTarget.lastChild)
+      this.resultsTarget.removeChild(this.resultsTarget.lastChild!)
     }
 
     if (items.length == 0) {
@@ -276,7 +300,7 @@ export default class extends Controller {
     }
 
     this.open()
-    for (let x of items) {
+    for (const x of items) {
       const e = document.createElement("li")
       e.setAttribute("role", "option")
       e.appendChild(document.createTextNode(x))
@@ -339,11 +363,13 @@ export default class extends Controller {
   }
 }
 
-const debounce = (fn, delay = 10) => {
-  let timeoutId = null
+const debounce = (fn: () => void, delay = 10) => {
+  let timeoutId: number | null = null
 
-  return (...args) => {
-    clearTimeout(timeoutId)
+  return () => {
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId)
+    }
     timeoutId = setTimeout(fn, delay)
   }
 }
