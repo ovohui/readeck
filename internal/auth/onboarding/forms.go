@@ -23,7 +23,8 @@ func (f *onboardingForm) createUser(language string) (*users.User, error) {
 		Password: f.Password.Value(),
 		Group:    "admin",
 		Settings: &users.UserSettings{
-			Lang: language,
+			Lang:          language,
+			AddonReminder: true,
 		},
 	}
 

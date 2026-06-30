@@ -342,12 +342,12 @@ type ReaderSettings struct {
 
 // Scan loads a UserSettings instance from a column.
 func (s *UserSettings) Scan(value any) error {
+	// Default values
+	s.AddonReminder = true
+
 	if value == nil {
 		return nil
 	}
-
-	// Default values
-	s.AddonReminder = true
 
 	v, err := types.JSONBytes(value)
 	if err != nil {
