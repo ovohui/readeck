@@ -3,10 +3,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {Controller} from "@hotwired/stimulus"
+import type {ActionEvent} from "@hotwired/stimulus"
+
+interface currentPosition {
+  p: number
+  s: string
+}
 
 export default class extends Controller {
-  static targets = ["tracked", "indicator", "trigger", "value", "anchor"]
-  static values = {
+  static override targets = ["tracked", "indicator", "trigger", "value", "anchor"]
+  static override values = {
     autoMarkAfter: {
       type: Number,
       default: 0,
@@ -21,7 +27,28 @@ export default class extends Controller {
     },
   }
 
-  connect() {
+  declare readonly hasTrackedTarget: boolean
+  declare readonly hasAnchorTarget: boolean
+  declare readonly hasIndicatorTarget: boolean
+  declare readonly hasValueTarget: boolean
+
+  declare readonly trackedTarget: HTMLElement
+  declare readonly indicatorTarget: HTMLProgressElement
+  declare readonly triggerTargets: HTMLFormElement[]
+  declare readonly valueTarget: HTMLInputElement
+  declare readonly valueTargets: HTMLInputElement[]
+  declare readonly anchorTarget: HTMLInputElement
+  declare readonly anchorTargets: HTMLInputElement[]
+
+  declare autoMarkAfterValue: number
+  declare notifyIntervalValue: number
+  declare trackIntervalValue: number
+
+  declare current: currentPosition | undefined
+  declare notifyEnabled: boolean
+  declare skipEvent: boolean
+
+  override connect() {
     this.notifyEnabled = true
     this.current = undefined
     if (this.hasValueTarget && this.hasAnchorTarget) {
@@ -29,7 +56,7 @@ export default class extends Controller {
         p: parseInt(this.valueTarget.value, 10) || 0,
         s: String(this.anchorTarget.value),
       }
-      this.notifyEnabled = this.current.p < 100
+      this.notifyEnabled = this.current.p! < 100
     }
 
     // skipEvent holds a boolean that is reset to false the first time
@@ -60,10 +87,10 @@ export default class extends Controller {
     if (
       !this.hasTrackedTarget
       && this.autoMarkAfterValue > 0
-      && this.current.p != 100
+      && this.current?.p != 100
     ) {
       setTimeout(() => {
-        if (this.current.p != 100) {
+        if (this.current?.p != 100) {
           this.current = {p: 100, s: ""}
           this.updatePositionTargets()
         }
@@ -84,8 +111,8 @@ export default class extends Controller {
     }
 
     // Start the progress tracker
-    let scrollTimeout = null
-    let notifyTimeout = null
+    let scrollTimeout: number | null = null
+    let notifyTimeout: number | null = null
 
     this.progressTracker((el) => {
       if (el === undefined) {
@@ -114,7 +141,7 @@ export default class extends Controller {
           value.s = getSelector(this.trackedTarget, el)
         }
 
-        if (this.current.p == value.p && this.current.s == value.s) {
+        if (this.current?.p == value.p && this.current.s == value.s) {
           // Stop when no change
           return
         }
@@ -138,10 +165,11 @@ export default class extends Controller {
    * setPosition is an event handler that sets the scroll value.
    * It can receive a param "position" and "notify". The later, if false
    * prevents sending the "progress" event.
-   *
-   * @param {Event} evt Event
    */
-  setPosition(evt) {
+  setPosition(evt: ActionEvent) {
+    if (this.current === undefined) {
+      this.current = {p: 0, s: ""}
+    }
     const data = {...this.current}
     if (evt.params.position !== undefined) {
       data.p = parseInt(evt.params.position) || 0
@@ -158,12 +186,10 @@ export default class extends Controller {
   /**
    * scroll is an event handler that scrolls the document to
    * the currently set position, whithout triggering the observer.
-   *
-   * @param {Event} evt Event
    */
-  scroll(evt) {
+  scroll() {
     this.skipEvent = true
-    this.scrollTo(this.current.p, this.current.s)
+    this.scrollTo(this.current?.p || 0, this.current?.s || "")
   }
 
   /**
@@ -172,16 +198,16 @@ export default class extends Controller {
    */
   updatePositionTargets(notify = true) {
     this.valueTargets.forEach((t) => {
-      t.value = Math.round(this.current.p)
+      t.value = `${Math.round(this.current?.p || 0)}`
     })
     this.anchorTargets.forEach((t) => {
-      t.value = this.current.s
+      t.value = this.current?.s || ""
     })
 
     if (!notify) {
       // no notification means it's called from another component
       // and we can update the notifyEnabled value.
-      this.notifyEnabled = this.current.p < 100
+      this.notifyEnabled = (this.current?.p || 0) < 100
       return
     }
 
@@ -194,7 +220,7 @@ export default class extends Controller {
     })
 
     // update the notifyEnabled value after dispatch.
-    this.notifyEnabled = this.current.p < 100
+    this.notifyEnabled = (this.current?.p || 0) < 100
   }
 
   /**
@@ -203,16 +229,12 @@ export default class extends Controller {
    * and bypasses any anchor value.
    * anchor is a CSS selector, if the element is found in the "tracked"
    * target, we scroll it into the viewport.
-   *
-   * @param {number} position scrolled percentage
-   * @param {string} anchor CSS selector
    */
-  scrollTo(position, anchor) {
+  scrollTo(position: number, anchor: string) {
     if (!this.hasTrackedTarget) {
       return
     }
 
-    position = parseInt(position, 10)
     if (isNaN(position)) {
       position = 0
     }
@@ -226,7 +248,7 @@ export default class extends Controller {
     // 100%, scroll to the end
     if (position == 100) {
       window.scroll({
-        top: document.body.parentNode.scrollHeight,
+        top: (document.body.parentNode as Element).scrollHeight,
         behavior: "instant",
       })
       return
@@ -281,7 +303,7 @@ export default class extends Controller {
    *
    * @param {function(Element)} callback Tracking callback
    */
-  progressTracker(callback) {
+  progressTracker(callback: (e: Element | undefined) => void) {
     // Get elements has they enter a small window a bit after the middle of the screen.
     const observer = new IntersectionObserver(
       (entries) => {
@@ -293,7 +315,7 @@ export default class extends Controller {
         rootMargin: "-65% 0px -25% 0px",
       },
     )
-    for (let e of this.trackedTarget.getElementsByTagName("*")) {
+    for (const e of this.trackedTarget.getElementsByTagName("*")) {
       if (
         e.children.length == 0
         && e.tagName.toLowerCase() !== "rd-annotation"
@@ -305,14 +327,12 @@ export default class extends Controller {
 
   /**
    * position returns the current scrolled position.
-   *
-   * @returns {number} position (from 0 to 100)
    */
-  get viewedPercentage() {
-    const p = document.body.parentNode
+  get viewedPercentage(): string {
+    const p = document.body.parentNode as Element
 
     if (p.scrollHeight - p.clientHeight <= 0) {
-      return 100
+      return "100"
     }
     return (p.scrollTop / (p.scrollHeight - p.clientHeight)).toFixed(3)
   }
@@ -320,22 +340,15 @@ export default class extends Controller {
 
 /**
  * toPercent convert a floating value to a percentage.
- *
- * @param {number} value value to convert
- * @returns
  */
-function toPercent(value) {
-  return Math.min(value, 1) * 100
+function toPercent(value: string): number {
+  return Math.min(parseFloat(value) || 0, 1) * 100
 }
 
 /**
  * getSelector returns a CSS selector for an element.
- *
- * @param {Node} root
- * @param {Node} node
- * @returns {string} CSS selector
  */
-function getSelector(root, node) {
+function getSelector(root: Element, node: Element): string {
   let p = node
   const names = []
 
