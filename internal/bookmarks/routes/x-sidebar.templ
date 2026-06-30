@@ -421,10 +421,10 @@ templ (c SidebarComponent) annotationList(item *dataset.Bookmark) {
 								if a.Note != "" {
 									<p class="flex items-baseline gap-1 border-b pb-2 mb-2 font-semibold">
 										@Icon("o-note")
-										<span class="grow">{ a.Note }</span>
+										<span class="grow wrap-anywhere">{ a.Note }</span>
 									</p>
 								}
-								<blockquote class="text-sm italic">{ utils.ShortText(a.Text, 100) }</blockquote>
+								<blockquote class="wrap-anywhere text-sm italic">{ utils.ShortText(a.Text, 100) }</blockquote>
 							</a>
 							<span class="no-js:hidden flex-shrink-0">
 								<button
