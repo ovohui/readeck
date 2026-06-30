@@ -52,8 +52,9 @@ export default class extends Controller<HTMLElement> {
   override connect() {
     this.close()
 
-    if (!this.inputTarget.hasAttribute("autocomplete"))
+    if (!this.inputTarget.hasAttribute("autocomplete")) {
       this.inputTarget.setAttribute("autocomplete", "off")
+    }
     this.inputTarget.setAttribute("spellcheck", "false")
 
     this.mouseDown = false
@@ -115,7 +116,9 @@ export default class extends Controller<HTMLElement> {
   onKeydown = (event: KeyboardEvent) => {
     switch (event.key) {
       case "Escape":
-        if (!this.resultsShown) return
+        if (!this.resultsShown) {
+          return
+        }
 
         this.hideAndRemoveOptions()
         event.stopPropagation()
@@ -123,19 +126,25 @@ export default class extends Controller<HTMLElement> {
         return
       case "ArrowDown": {
         const item = this.sibling(true)
-        if (item) this.select(item)
+        if (item) {
+          this.select(item)
+        }
         event.preventDefault()
         return
       }
       case "ArrowUp": {
         const item = this.sibling(false)
-        if (item) this.select(item)
+        if (item) {
+          this.select(item)
+        }
         event.preventDefault()
         return
       }
       case "Tab": {
         const selected = this.selectedOption
-        if (selected) this.commit(selected)
+        if (selected) {
+          this.commit(selected)
+        }
         return
       }
       case "Enter": {
@@ -152,12 +161,16 @@ export default class extends Controller<HTMLElement> {
   }
 
   onInputBlur = () => {
-    if (this.mouseDown) return
+    if (this.mouseDown) {
+      return
+    }
     this.close()
   }
 
   commit(selected: Element) {
-    if (selected.getAttribute("aria-disabled") === "true") return
+    if (selected.getAttribute("aria-disabled") === "true") {
+      return
+    }
 
     if (selected instanceof HTMLAnchorElement) {
       selected.click()
@@ -175,13 +188,12 @@ export default class extends Controller<HTMLElement> {
       this.hiddenTarget.value = value
       this.hiddenTarget.dispatchEvent(new Event("input"))
       this.hiddenTarget.dispatchEvent(new Event("change"))
-    } else {
-      if (this.multipleValue) {
-        value = [this.element.dataset.initial, value]
-          .filter((x) => !!x)
-          .join(" ")
-      }
+    } else if (this.multipleValue) {
+      value = [this.element.dataset.initial, value]
+        .filter((x) => !!x)
+        .join(" ")
     }
+
     this.inputTarget.value = value
     this.element.dataset.initial = value
 
@@ -198,13 +210,19 @@ export default class extends Controller<HTMLElement> {
 
   clear() {
     this.inputTarget.value = ""
-    if (this.hasHiddenTarget) this.hiddenTarget.value = ""
+    if (this.hasHiddenTarget) {
+      this.hiddenTarget.value = ""
+    }
   }
 
   onResultsClick = (event: PointerEvent) => {
-    if (!(event.target instanceof Element)) return
+    if (!(event.target instanceof Element)) {
+      return
+    }
     const selected = event.target.closest(optionSelector)
-    if (selected) this.commit(selected)
+    if (selected) {
+      this.commit(selected)
+    }
   }
 
   onResultsMouseDown = () => {
@@ -220,7 +238,9 @@ export default class extends Controller<HTMLElement> {
 
   onInputChange = () => {
     this.element.removeAttribute("value")
-    if (this.hasHiddenTarget) this.hiddenTarget.value = ""
+    if (this.hasHiddenTarget) {
+      this.hiddenTarget.value = ""
+    }
     let query = this.inputTarget.value.trim()
 
     if (query.length < (this.element.dataset.initial || "").length) {
@@ -261,7 +281,9 @@ export default class extends Controller<HTMLElement> {
   }
 
   fetchResults = async (query: string) => {
-    if (!this.hasUrlValue) return
+    if (!this.hasUrlValue) {
+      return
+    }
 
     const url = this.buildURL(query)
     try {
@@ -310,7 +332,9 @@ export default class extends Controller<HTMLElement> {
   }
 
   open() {
-    if (this.resultsShown) return
+    if (this.resultsShown) {
+      return
+    }
 
     this.resultsShown = true
     this.element.setAttribute("aria-expanded", "true")
@@ -326,7 +350,9 @@ export default class extends Controller<HTMLElement> {
   }
 
   close() {
-    if (!this.resultsShown) return
+    if (!this.resultsShown) {
+      return
+    }
 
     this.resultsShown = false
     this.inputTarget.removeAttribute("aria-activedescendant")

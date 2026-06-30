@@ -23,12 +23,11 @@ export default defineConfig([
       "@stylistic": stylistic,
     },
     rules: {
+      "no-lonely-if": "error",
       "no-undef": "error",
       "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
       "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
 
-      "quotes": ["error", "double", {avoidEscape: true}],
-      "semi": ["error", "never"],
       "comma-dangle": [
         "error",
         {
@@ -40,6 +39,9 @@ export default defineConfig([
         },
       ],
       "comma-spacing": ["error", {before: false, after: true}],
+      "curly": ["error", "all"],
+      "quotes": ["error", "double", {avoidEscape: true}],
+      "semi": ["error", "never"],
 
       "@typescript-eslint/no-unused-vars": ["off"],
       "@typescript-eslint/no-require-imports": ["off"],

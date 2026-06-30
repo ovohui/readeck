@@ -474,7 +474,9 @@ class Annotation {
       // instead of characters. https://bugzilla.mozilla.org/show_bug.cgi?id=516782
       const endNode = range.endContainer.childNodes[range.endOffset - 1]
       const tw = textNodeWalker(endNode)
-      while (tw.nextNode());
+      while (tw.nextNode()) {
+        //
+      }
       if (tw.currentNode.nodeType == Node.TEXT_NODE) {
         range.setEnd(tw.currentNode, tw.currentNode?.textContent?.length || 0)
       } else {
@@ -612,12 +614,10 @@ function getSelector(root: Node, node: Node, offset: number): {selector: string,
     // https://codeberg.org/readeck/readeck/issues/1205
     if (!done) {
       newOffset += [...n.textContent || ""].length
+    } else if (n.textContent) {
+      newOffset += [...n.textContent.substring(0, offset)].length
     } else {
-      if (n.textContent) {
-        newOffset += [...n.textContent.substring(0, offset)].length
-      } else {
-        newOffset += offset
-      }
+      newOffset += offset
     }
   })
 
