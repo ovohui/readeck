@@ -5,21 +5,21 @@
 import {session as _session} from "@hotwired/turbo"
 import type {TurboSession} from "@hotwired/turbo"
 
-interface turboModule {
+interface turboObserver {
   start(): void
 }
 
 interface turboSession extends Omit<TurboSession, "history"> {
-  cacheObserver: turboModule
-  linkPrefetchObserver: turboModule
-  formLinkClickObserver: turboModule
-  linkClickObserver: turboModule
-  formSubmitObserver: turboModule
-  scrollObserver: turboModule
-  streamObserver: turboModule
-  frameRedirector: turboModule
-  preloader: turboModule
-  history: turboModule
+  cacheObserver: turboObserver
+  linkPrefetchObserver: turboObserver
+  formLinkClickObserver: turboObserver
+  linkClickObserver: turboObserver
+  formSubmitObserver: turboObserver
+  scrollObserver: turboObserver
+  streamObserver: turboObserver
+  frameRedirector: turboObserver
+  preloader: turboObserver
+  history: turboObserver
 
   started: boolean
   enabled: boolean
@@ -32,16 +32,16 @@ const session = <unknown>_session as turboSession
 // https://github.com/hotwired/turbo/blob/v8.0.23/src/core/session.js#L52
 //
 // session.pageObserver.start() // avoid setting history.scrollRestoration = "manual"
+// session.linkPrefetchObserver.start()
+// session.history.start()
+// session.preloader.start()
 session.cacheObserver.start()
-session.linkPrefetchObserver.start()
 session.formLinkClickObserver.start()
 session.linkClickObserver.start()
 session.formSubmitObserver.start()
 session.scrollObserver.start()
 session.streamObserver.start()
 session.frameRedirector.start()
-session.history.start()
-session.preloader.start()
 session.started = true
 session.enabled = true
 
