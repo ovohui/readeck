@@ -27,6 +27,25 @@ async function request(path: string, options: requestOptions) {
     body: body || null,
   }
 
+  // Convert FormData to a shorter url-encoded value
+  if (body instanceof FormData) {
+    let params: URLSearchParams | null = new URLSearchParams()
+    for (const e of body) {
+      if (e[1] instanceof Blob) { // only if no blob is present
+        params = null
+        break
+      }
+      if (typeof e[1] == "string") {
+        params.append(e[0], e[1])
+      }
+    }
+
+    if (params !== null) {
+      reqOptions.body = params.toString()
+      reqOptions.headers.set("Content-Type", "application/x-www-form-urlencoded")
+    }
+  }
+
   // Prep URL
   let qs = ""
   if (query) {
