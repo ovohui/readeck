@@ -164,22 +164,22 @@ func TestEnvVars(t *testing.T) {
 
 	t.Run("OIDC settings", func(t *testing.T) {
 		envMap := map[string]string{
-			"READECK_AUTH_OIDC_PROVIDER_1_URL":           "http://auth1.example.org",
-			"READECK_AUTH_OIDC_PROVIDER_1_NAME":          "Provider 1",
-			"READECK_AUTH_OIDC_PROVIDER_1_CLIENT_ID":     "",
-			"READECK_AUTH_OIDC_PROVIDER_1_CLIENT_SECRET": "",
-			"READECK_AUTH_OIDC_PROVIDER_1_GROUPS":        "",
-			"READECK_AUTH_OIDC_PROVIDER_1_PROVISIONING":  "1",
-			"READECK_AUTH_OIDC_PROVIDER_2_URL":           "http://auth2.example.org",
-			"READECK_AUTH_OIDC_PROVIDER_2_NAME":          "Provider 2",
-			"READECK_AUTH_OIDC_PROVIDER_2_CLIENT_ID":     "",
-			"READECK_AUTH_OIDC_PROVIDER_2_CLIENT_SECRET": "",
-			"READECK_AUTH_OIDC_PROVIDER_2_GROUPS":        "group1=admin group2=user",
-			"READECK_AUTH_OIDC_PROVIDER_3_URL":           "http://auth3.example.org",
-			"READECK_AUTH_OIDC_PROVIDER_3_NAME":          "Provider 3",
-			"READECK_AUTH_OIDC_PROVIDER_3_CLIENT_ID":     "",
-			"READECK_AUTH_OIDC_PROVIDER_3_CLIENT_SECRET": "",
-			"READECK_AUTH_OIDC_PROVIDER_3_GROUPS":        `"group1=admin group2=user"`,
+			"READECK_AUTH_OIDC_PROVIDERS_1_URL":           "http://auth1.example.org",
+			"READECK_AUTH_OIDC_PROVIDERS_1_NAME":          "Provider 1",
+			"READECK_AUTH_OIDC_PROVIDERS_1_CLIENT_ID":     "",
+			"READECK_AUTH_OIDC_PROVIDERS_1_CLIENT_SECRET": "",
+			"READECK_AUTH_OIDC_PROVIDERS_1_GROUPS":        "",
+			"READECK_AUTH_OIDC_PROVIDERS_1_PROVISIONING":  "1",
+			"READECK_AUTH_OIDC_PROVIDERS_2_URL":           "http://auth2.example.org",
+			"READECK_AUTH_OIDC_PROVIDERS_2_NAME":          "Provider 2",
+			"READECK_AUTH_OIDC_PROVIDERS_2_CLIENT_ID":     "",
+			"READECK_AUTH_OIDC_PROVIDERS_2_CLIENT_SECRET": "",
+			"READECK_AUTH_OIDC_PROVIDERS_2_GROUPS":        "group1=admin group2=user",
+			"READECK_AUTH_OIDC_PROVIDERS_3_URL":           "http://auth3.example.org",
+			"READECK_AUTH_OIDC_PROVIDERS_3_NAME":          "Provider 3",
+			"READECK_AUTH_OIDC_PROVIDERS_3_CLIENT_ID":     "",
+			"READECK_AUTH_OIDC_PROVIDERS_3_CLIENT_SECRET": "",
+			"READECK_AUTH_OIDC_PROVIDERS_3_GROUPS":        `"group1=admin group2=user"`,
 		}
 
 		for k, v := range envMap {
@@ -219,8 +219,8 @@ func TestEnvVars(t *testing.T) {
 
 	t.Run("OIDC extend settings", func(t *testing.T) {
 		envMap := map[string]string{
-			"READECK_AUTH_OIDC_1_CLIENT_SECRET": "secret 1",
-			"READECK_AUTH_OIDC_1_PROVISIONING":  "1",
+			"READECK_AUTH_OIDC_PROVIDERS_1_CLIENT_SECRET": "secret 1",
+			"READECK_AUTH_OIDC_PROVIDERS_1_PROVISIONING":  "1",
 		}
 
 		for k, v := range envMap {

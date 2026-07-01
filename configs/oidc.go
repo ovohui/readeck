@@ -25,7 +25,7 @@ type OIDCProvider struct {
 }
 
 func (c *config) loadOIDCProviders() error {
-	const prefix = "READECK_AUTH_OIDC_"
+	const prefix = "READECK_AUTH_OIDC_PROVIDERS_"
 	funcMap := map[reflect.Type]env.ParserFunc{
 		reflect.TypeFor[[][2]string](): func(v string) (any, error) {
 			if uv, err := strconv.Unquote(v); err == nil {
