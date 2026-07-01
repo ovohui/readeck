@@ -124,12 +124,14 @@ export default class extends Controller {
     }
 
     if (this.annotation.isValid()) {
+      /* eslint-disable camelcase -- request JSON payload */
       this.payload = {
         start_selector: this.annotation.startSelector,
         start_offset: this.annotation.startOffset,
         end_selector: this.annotation.endSelector,
         end_offset: this.annotation.endOffset,
       }
+      /* eslint-enable */
     }
   }
 
