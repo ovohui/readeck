@@ -2,24 +2,26 @@
 # SPDX-FileCopyrightText: © 2024 Readeck <translate@readeck.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-only
-# Anonymous <anonymous@noreply.codeberg.org>, 2025.
+# Anonymous <anonymous@noreply.codeberg.org>, 2025, 2026.
 # altruizine <altruizine@noreply.codeberg.org>, 2025, 2026.
 # olivier <olivier@noreply.codeberg.org>, 2025, 2026.
 # AstragoDE <astragode@noreply.codeberg.org>, 2026.
 # nblock <nblock@noreply.codeberg.org>, 2026.
+# γλωσσολαλιά <glossolalia@noreply.codeberg.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-06-24 15:09+0200\n"
-"PO-Revision-Date: 2026-05-16 13:24+0000\n"
-"Last-Translator: altruizine <altruizine@noreply.codeberg.org>\n"
-"Language: de\n"
+"PO-Revision-Date: 2026-06-26 12:34+0000\n"
+"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/readeck/application/de/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -47,9 +49,8 @@ msgid "An error occurred."
 msgstr "Ein Fehler ist aufgetreten."
 
 #: components/errors.templ:24
-#, fuzzy
 msgid "Back to home page"
-msgstr "Homepage"
+msgstr "Zurück zur Startseite"
 
 #: components/forms/forms.templ:21
 msgid "Errors"
@@ -98,7 +99,6 @@ msgid "remove"
 msgstr "Entfernen"
 
 #: components/layout.templ:63
-#, fuzzy
 msgid "Open Menu"
 msgstr "Menü öffnen"
 
@@ -184,15 +184,15 @@ msgstr "Passwort ist leer"
 
 #: internal/admin/forms.go:73
 msgid "User is external and can't be updated."
-msgstr ""
+msgstr "Der Benutzer ist extern und kann nicht aktualisiert werden."
 
 #: internal/admin/forms.go:85 internal/profile/forms.go:97
 msgid "username is already in use"
-msgstr ""
+msgstr "Der Benutzername wird bereits verwendet"
 
 #: internal/admin/forms.go:92 internal/profile/forms.go:104
 msgid "email address is already in use"
-msgstr ""
+msgstr "Die E-Mail-Adresse wird bereits verwendet"
 
 #: internal/admin/views.go:61 internal/admin/views.go:86
 #: internal/admin/views.go:127 internal/admin/x-users.templ:16
@@ -214,32 +214,28 @@ msgid "User updated."
 msgstr "Benutzer aktualisiert."
 
 #: internal/admin/views.go:163
-#, fuzzy
 msgid "User detached."
-msgstr "Benutzer aktualisiert."
+msgstr "Benutzer getrennt."
 
 #: internal/admin/views.go:186
-#, fuzzy
 msgid "User signed out."
-msgstr "Abmelden"
+msgstr "Der Benutzer wurde abgemeldet."
 
 #: internal/admin/x-users.templ:19
 msgid "Add a new user"
 msgstr "Einen neuen Benutzer hinzufügen"
 
 #: internal/admin/x-users.templ:38
-#, fuzzy
 msgid "External User"
-msgstr "Benutzer erstellen"
+msgstr "Externer Benutzer"
 
 #: internal/admin/x-users.templ:44 internal/admin/x-users.templ:174
-#, fuzzy
 msgid "TOTP is enabled"
-msgstr "Ermöglicht"
+msgstr "TOTP ist aktiviert"
 
 #: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
-msgstr ""
+msgstr "Das bist du!"
 
 #: internal/admin/x-users.templ:56
 #, python-format
@@ -637,14 +633,9 @@ msgid "Almost there!"
 msgstr "Gleich geschafft!"
 
 #: internal/auth/signin/x-auth.templ:152
-#, fuzzy, python-format
+#, python-format
 msgid "We have sent an email to <strong>%s</strong> with further instructions."
-msgstr ""
-"\n"
-"        Wir haben eine E-Mail mit den nächsten Schritten an\n"
-"        <strong>%s</strong>\n"
-"        gesendet.\n"
-"      "
+msgstr "Wir haben eine E-Mail mit den nächsten Schritten an <strong>%s</strong> gesendet."
 
 #: internal/auth/signin/x-auth.templ:168 internal/profile/x-security.templ:33
 msgid "New password"
@@ -913,18 +904,13 @@ msgstr "Importiere Links aus einer CSV Datei"
 # matches
 # | the format specified bellow.\n" "  "
 #: internal/bookmarks/importer/x-forms.templ:101
-#, fuzzy
 msgid "Upload a CSV file from Instapaper or any CSV that matches the format specified below."
-msgstr ""
-"\n"
-"    Laden Sie eine CSV-Datei von Instapaper oder eine beliebige CSV-Datei hoch, die dem unten angegebenen Format entspricht.\n"
-"  "
+msgstr "Laden Sie eine CSV-Datei von Instapaper oder eine beliebige CSV-Datei hoch, die dem unten angegebenen Format entspricht."
 
 # | msgid "From date"
 #: internal/bookmarks/importer/x-forms.templ:107
-#, fuzzy
 msgid "CSV Format"
-msgstr "Format"
+msgstr "CSV Format"
 
 #: internal/bookmarks/importer/x-forms.templ:110
 #, fuzzy, python-format
@@ -986,24 +972,16 @@ msgid "Import Links from a GoodLinks export file"
 msgstr "Importiere Links aus GoodLinks-Exportdatei"
 
 #: internal/bookmarks/importer/x-forms.templ:164
-#, fuzzy
 msgid "Upload a JSON file obtained from your GoodLinks app."
-msgstr ""
-"\n"
-"    Lade eine JSON-Datei, die du aus der GoodLinks-App erhalten hast.\n"
-"  "
+msgstr "Lade eine JSON-Datei, die du aus der GoodLinks-App erhalten hast."
 
 #: internal/bookmarks/importer/x-forms.templ:173
 msgid "Import Bookmarks from a Linkwarden export file"
 msgstr "Importiere Lesezeichen aus Linkwarden-Exportdatei"
 
 #: internal/bookmarks/importer/x-forms.templ:176
-#, fuzzy
 msgid "Upload a JSON file obtained from your Linkwarden app."
-msgstr ""
-"\n"
-"    Lade eine JSON-Datei, die du aus der Linkwarden-App erhalten hast.\n"
-"  "
+msgstr "Lade eine JSON-Datei, die du aus der Linkwarden-App erhalten hast."
 
 #: internal/bookmarks/importer/x-forms.templ:185
 #, fuzzy
@@ -1011,12 +989,8 @@ msgid "Import Links from a Pinboard JSON backup file"
 msgstr "Importiere Links aus einer CSV Datei"
 
 #: internal/bookmarks/importer/x-forms.templ:188
-#, fuzzy
 msgid "Upload a JSON file obtained from your Pinboard account."
-msgstr ""
-"\n"
-"    Lade eine JSON-Datei, die du aus der Linkwarden-App erhalten hast.\n"
-"  "
+msgstr "Lade eine JSON-Datei, die du aus der Pinboard erhalten hast."
 
 #: internal/bookmarks/importer/x-forms.templ:197
 #: internal/bookmarks/routes/x-import.templ:72
@@ -1045,12 +1019,8 @@ msgid "Import Links from Readwise Reader CSV export"
 msgstr "Importiere Links aus einer CSV-Exportdatei von Readwise Reader"
 
 #: internal/bookmarks/importer/x-forms.templ:223
-#, fuzzy
 msgid "Upload a CSV file exported from your Readwise Reader account below."
-msgstr ""
-"\n"
-"    Lade hier eine CSV-Exportdatei hoch, die du aus deinem Readwise-Reader-Konto exportiert hast.\n"
-"  "
+msgstr "Lade hier eine CSV-Exportdatei hoch, die du aus deinem Readwise-Reader-Konto exportiert hast."
 
 #: internal/bookmarks/importer/x-forms.templ:229
 msgid "Which information is imported"
@@ -1129,12 +1099,8 @@ msgstr ""
 "  "
 
 #: internal/bookmarks/importer/x-forms.templ:270
-#, fuzzy
 msgid "You can then enter all the necessary information in the form below."
-msgstr ""
-"\n"
-"    Anschließend kannst du alle notwendigen Angaben in das untenstehende Formular eintragen.\n"
-"  "
+msgstr "Anschließend kannst du alle notwendigen Angaben in das untenstehende Formular eintragen."
 
 #: internal/bookmarks/importer/x-forms.templ:278
 msgid "Wallabag URL"
@@ -2016,21 +1982,16 @@ msgid "Import your Linkwarden Bookmarks"
 msgstr "Importiere deine Linkwarden-Lesezeichen"
 
 #: internal/bookmarks/routes/x-import.templ:65
-#, fuzzy
 msgid "Import your Pinboard bookmarks"
-msgstr "Importiere deine Linkwarden-Lesezeichen"
+msgstr "Importiere deine Pinboard-Lesezeichen"
 
 #: internal/bookmarks/routes/x-import.templ:79
 msgid "Import your Readwise Reader Library"
 msgstr "Importiere deine Readwise-Reader-Bibliothek"
 
 #: internal/bookmarks/routes/x-import.templ:100
-#, fuzzy
 msgid "Here you can import your existing bookmark collection from various sources into Readeck."
-msgstr ""
-"\n"
-"    Hier kannst du deine bestehenden Lesezeichen-Sammlungen aus verschiedenen Quellen in Readeck importieren.\n"
-"  "
+msgstr "Hier kannst du deine bestehenden Lesezeichen-Sammlungen aus verschiedenen Quellen in Readeck importieren."
 
 #: internal/bookmarks/routes/x-import.templ:125
 #, fuzzy
@@ -2054,15 +2015,15 @@ msgid "Import is finished!"
 msgstr "Der Import ist abgeschlossen!"
 
 #: internal/bookmarks/routes/x-import.templ:165
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour bookmarks are now available in your <a class=\"%s\" href=\"%s\">bookmark list</a>.\n"
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"      Deine Lesezeichen sind jetzt in deiner <a class=\"%s\" href=\"%s\">Lesezeichenliste</a> verfügbar.\n"
-"      "
+"\t\t\t\t\t\tDeine Lesezeichen sind jetzt in deiner <a class=\"%s\" href=\"%s\">Lesezeichenliste</a> verfügbar.\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:27
 #, fuzzy
@@ -3417,4 +3378,3 @@ msgstr "%H:%M:%S"
 #~ "\t\t\t\ton your smartphone, your e-book reader or\n"
 #~ "\t\t\t\tin other apps through\tplugins."
 #~ msgstr ""
-
