@@ -3,19 +3,24 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 # olivier <olivier@noreply.codeberg.org>, 2026.
+# tashima42 <tashima42@noreply.codeberg.org>, 2026.
+# SomeTr <sometr@noreply.codeberg.org>, 2026.
+# Anonymous <anonymous@noreply.codeberg.org>, 2026.
+# γλωσσολαλιά <glossolalia@noreply.codeberg.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-06-24 15:09+0200\n"
-"PO-Revision-Date: 2026-05-16 13:26+0000\n"
-"Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
-"Language: pt_BR\n"
+"PO-Revision-Date: 2026-06-26 07:08+0000\n"
+"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.codeberg.org/projects/readeck/application/pt_BR/>\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"Language: pt-BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -148,9 +153,8 @@ msgid "Close menu"
 msgstr "Fechar menu"
 
 #: components/layout.templ:249 internal/auth/oauth2/x-oauth.templ:87
-#, fuzzy
 msgid "Go back to Readeck"
-msgstr "Faça login no Readeck"
+msgstr "Voltar ao Readeck"
 
 #: components/pagination.templ:15
 msgctxt "page"
@@ -239,9 +243,9 @@ msgstr ""
 
 # | msgid "Created on: %s"
 #: internal/admin/x-users.templ:56
-#, fuzzy, python-format
+#, python-format
 msgid "Last login: %s"
-msgstr "Criado em: %s"
+msgstr "Último login: %s"
 
 #: internal/admin/x-users.templ:63
 msgid "This user will be removed in a few seconds."
@@ -319,7 +323,7 @@ msgstr "Criado em: %s"
 
 #: internal/admin/x-users.templ:186
 msgid "Last Activity"
-msgstr ""
+msgstr "Última atividade"
 
 #: internal/admin/x-users.templ:194
 #, fuzzy
@@ -369,7 +373,7 @@ msgstr "Excluir este usuário"
 #: internal/auth/oauth2/x-oauth.templ:17 internal/auth/oauth2/x-oauth.templ:26
 #: internal/auth/oauth2/x-oauth.templ:110
 msgid "Authorization required"
-msgstr ""
+msgstr "Autorização necessária"
 
 #: internal/auth/oauth2/x-oauth.templ:30
 msgid "This code has expired or is not valid"
@@ -378,42 +382,41 @@ msgstr ""
 #: internal/auth/oauth2/x-oauth.templ:33 internal/auth/oauth2/x-oauth.templ:50
 #: internal/auth/oauth2/x-oauth.templ:58
 msgid "Connect a device"
-msgstr ""
+msgstr "Conectar um dispositivo"
 
 #: internal/auth/oauth2/x-oauth.templ:36
 msgid "Enter the code displayed on your device"
-msgstr ""
+msgstr "Digite o código recebido em seu dispositivo"
 
 #: internal/auth/oauth2/x-oauth.templ:42
-#, fuzzy
 msgid "Next"
-msgstr "Próxima"
+msgstr "Seguinte"
 
 #: internal/auth/oauth2/x-oauth.templ:52
 msgid "Authorization request was denied."
-msgstr ""
+msgstr "O pedido de autorização foi negado."
 
 #: internal/auth/oauth2/x-oauth.templ:54 internal/auth/oauth2/x-oauth.templ:76
 msgid " You can now close this page."
-msgstr ""
+msgstr " Agora você pode fechar esta página."
 
 #: internal/auth/oauth2/x-oauth.templ:60
 msgid "Authorization granted. Connecting device..."
-msgstr ""
+msgstr "Autorização concedida. Conectando o dispositivo..."
 
 #: internal/auth/oauth2/x-oauth.templ:67
 #, python-format
 msgid "<a href=\"%s\">Reload this page</a> if it doesn't refresh after a few seconds."
-msgstr ""
+msgstr "<a href=\"%s\">Atualize esta página</a> caso ela não seja atualizada automaticamente após alguns segundos."
 
 #: internal/auth/oauth2/x-oauth.templ:74
 msgid "Device is connected!"
-msgstr ""
+msgstr "Dispositivo conectado!"
 
 #: internal/auth/oauth2/x-oauth.templ:98
 #, python-format
 msgid "Signed in as: <strong>%s</strong>"
-msgstr ""
+msgstr "Conectado como: <strong>%s</strong>"
 
 #: internal/auth/oauth2/x-oauth.templ:106
 #: internal/dashboard/x-dashboard.templ:97 internal/profile/x-profile.templ:32
@@ -886,7 +889,7 @@ msgstr ""
 
 #: internal/bookmarks/importer/x-forms.templ:107
 msgid "CSV Format"
-msgstr ""
+msgstr "Formato CSV"
 
 #: internal/bookmarks/importer/x-forms.templ:110
 #, python-format
@@ -916,7 +919,6 @@ msgstr ""
 
 # | msgid "Email address"
 #: internal/bookmarks/importer/x-forms.templ:128
-#, fuzzy
 msgid "Link address"
 msgstr "Endereço de e-mail"
 
@@ -2604,7 +2606,7 @@ msgid "My profile"
 msgstr ""
 
 #: internal/profile/x-profile.templ:25
-#, fuzzy, python-format
+#, python-format
 msgid "You are connected as <strong>%s</strong>"
 msgstr ""
 
@@ -3605,4 +3607,3 @@ msgstr ""
 #~ "\t\t\t\ton your smartphone, your e-book reader or\n"
 #~ "\t\t\t\tin other apps through\tplugins."
 #~ msgstr ""
-

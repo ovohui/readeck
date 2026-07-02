@@ -2,23 +2,26 @@
 # SPDX-FileCopyrightText: © 2024 Readeck <translate@readeck.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-only
-# Anonymous <anonymous@noreply.codeberg.org>, 2025.
+# Anonymous <anonymous@noreply.codeberg.org>, 2025, 2026.
 # Gusted <postmaster@gusted.xyz>, 2025, 2026.
-# γλωσσολαλιά <glossolalia@noreply.codeberg.org>, 2025.
+# γλωσσολαλιά <glossolalia@noreply.codeberg.org>, 2025, 2026.
 # olivier <olivier@noreply.codeberg.org>, 2025, 2026.
+# Кнⷫѧⷷ̈зⷮьⷬ Кропоткинъ <kropotkin@noreply.codeberg.org>, 2026.
+# billieb <billieb@noreply.codeberg.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-06-24 15:09+0200\n"
-"PO-Revision-Date: 2026-05-16 13:25+0000\n"
-"Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
-"Language: nl\n"
+"PO-Revision-Date: 2026-06-26 12:34+0000\n"
+"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/readeck/application/nl/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -184,15 +187,15 @@ msgstr "Geen wachtwoord ingevoerd"
 
 #: internal/admin/forms.go:73
 msgid "User is external and can't be updated."
-msgstr ""
+msgstr "Gebruiker is extern en kan niet worden bijgewerkt."
 
 #: internal/admin/forms.go:85 internal/profile/forms.go:97
 msgid "username is already in use"
-msgstr ""
+msgstr "gebruikersnaam is al in gebruik"
 
 #: internal/admin/forms.go:92 internal/profile/forms.go:104
 msgid "email address is already in use"
-msgstr ""
+msgstr "e-mailadres is al in gebruik"
 
 #: internal/admin/views.go:61 internal/admin/views.go:86
 #: internal/admin/views.go:127 internal/admin/x-users.templ:16
@@ -214,32 +217,28 @@ msgid "User updated."
 msgstr "De gebruiker is bijgewerkt."
 
 #: internal/admin/views.go:163
-#, fuzzy
 msgid "User detached."
-msgstr "De gebruiker is bijgewerkt."
+msgstr "Gebruiker losgekoppeld."
 
 #: internal/admin/views.go:186
-#, fuzzy
 msgid "User signed out."
-msgstr "Uitloggen"
+msgstr "Gebruiker uitgelogd."
 
 #: internal/admin/x-users.templ:19
 msgid "Add a new user"
 msgstr "Gebruiker toevoegen"
 
 #: internal/admin/x-users.templ:38
-#, fuzzy
 msgid "External User"
-msgstr "Gebruiker aanmaken"
+msgstr "Externe gebruiker"
 
 #: internal/admin/x-users.templ:44 internal/admin/x-users.templ:174
-#, fuzzy
 msgid "TOTP is enabled"
-msgstr "Ingeschakeld"
+msgstr "TOTP is ingeschakeld"
 
 #: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
-msgstr ""
+msgstr "Dit ben jij!"
 
 #: internal/admin/x-users.templ:56
 #, python-format
@@ -289,9 +288,8 @@ msgid "Create user"
 msgstr "Gebruiker aanmaken"
 
 #: internal/admin/x-users.templ:126
-#, fuzzy
 msgid "User information"
-msgstr "Systeeminformatie"
+msgstr "Gebruikersinformatie"
 
 #: internal/admin/x-users.templ:153
 msgid "will not change if empty"
@@ -310,9 +308,8 @@ msgid "Save"
 msgstr "Opslaan"
 
 #: internal/admin/x-users.templ:178
-#, fuzzy
 msgid "Created on"
-msgstr "Aangemaakt op %s"
+msgstr "Aangemaakt op"
 
 #: internal/admin/x-users.templ:182
 #, fuzzy
@@ -330,7 +327,7 @@ msgstr "Schijfgebruik"
 
 #: internal/admin/x-users.templ:198
 msgid "User Administration"
-msgstr ""
+msgstr "Gebruikersadministratie"
 
 #: internal/admin/x-users.templ:204
 msgid "User will be removed in a few seconds"
@@ -338,12 +335,11 @@ msgstr "De gebruiker wordt over enkele seconden verwijderd"
 
 #: internal/admin/x-users.templ:214
 msgid "This will sign this user out of all active sessions on the web application."
-msgstr ""
+msgstr "Dit zal deze gebruiker uitloggen van alle actieve sessies op de webapplicatie."
 
 #: internal/admin/x-users.templ:219
-#, fuzzy
 msgid "Sign this user out"
-msgstr "Uitloggen"
+msgstr "Deze gebruiker uitloggen"
 
 #: internal/admin/x-users.templ:227
 msgid ""
@@ -354,16 +350,21 @@ msgid ""
 "\t\t\t\t\t\t\t\t\tThis will detach the user <strong>%[2]s</strong>.\n"
 "\t\t\t\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\t\t\t\tDeze gebruiker zit vast aan een externe authenticatieprovider:<br />\n"
+"\t\t\t\t\t\t\t\t\t<strong>%[1]s</strong>.<br />\n"
+"\t\t\t\t\t\t\t\t\tDaarom zijn sommige eigenschappen niet bewerkbaar.<br />\n"
+"\t\t\t\t\t\t\t\t\tDit zal de gebruiker <strong>%[2]s</strong> loskoppelen.\n"
+"\t\t\t\t\t\t\t\t"
 
 #: internal/admin/x-users.templ:240
-#, fuzzy
 msgid "Detach this user"
-msgstr "Gebruiker verwijderen"
+msgstr "Gebruiker loskoppelen"
 
 #: internal/admin/x-users.templ:249
 #, python-format
 msgid "This will delete the user <strong>%s</strong> and all their contents."
-msgstr ""
+msgstr "Dit zal de gebruiker <strong>%s</strong> en al hun inhoud verwijderen."
 
 #: internal/admin/x-users.templ:257
 msgid "Delete this user"
@@ -376,7 +377,7 @@ msgstr "Autorisatie vereist"
 
 #: internal/auth/oauth2/x-oauth.templ:30
 msgid "This code has expired or is not valid"
-msgstr ""
+msgstr "Deze code is verlopen of is niet geldig"
 
 #: internal/auth/oauth2/x-oauth.templ:33 internal/auth/oauth2/x-oauth.templ:50
 #: internal/auth/oauth2/x-oauth.templ:58
@@ -423,7 +424,7 @@ msgid "Sign out"
 msgstr "Uitloggen"
 
 #: internal/auth/oauth2/x-oauth.templ:116
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t<strong>%s</strong> would like permission to access your account.\n"
@@ -431,9 +432,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"      <strong>%s</strong> wil graag toegang tot uw account.\n"
-"      Keur dit verzoek alleen goed als u deze bron herkent en vertrouwt.\n"
-"    "
+"\t\t\t\t<strong>%s</strong> wil graag toegang tot uw account.\n"
+"\t\t\t\tKeur dit verzoek alleen goed als u deze bron herkent en vertrouwt.\n"
+"\t\t\t"
 
 #: internal/auth/oauth2/x-oauth.templ:122
 msgid "Review permissions"
@@ -570,7 +571,7 @@ msgstr ""
 
 #: internal/auth/signin/x-auth.templ:21
 msgid "Or continue with"
-msgstr ""
+msgstr "Of ga door met"
 
 #: internal/auth/signin/x-auth.templ:41 internal/auth/signin/x-auth.templ:68
 msgid "Sign in"
@@ -637,14 +638,9 @@ msgid "Almost there!"
 msgstr "Bijna klaar!"
 
 #: internal/auth/signin/x-auth.templ:152
-#, fuzzy, python-format
+#, python-format
 msgid "We have sent an email to <strong>%s</strong> with further instructions."
-msgstr ""
-"\n"
-"        We hebben een e-mail gestuurd naar\n"
-"        <strong>%s</strong>\n"
-"        met instructies.\n"
-"      "
+msgstr "We hebben een e-mail naar <strong>%s</strong> gestuurd met verdere instructies."
 
 #: internal/auth/signin/x-auth.templ:168 internal/profile/x-security.templ:33
 msgid "New password"
@@ -663,19 +659,16 @@ msgid "Go to the sign in page"
 msgstr "Ga naar inlogpagina"
 
 #: internal/auth/users/forms.go:18
-#, fuzzy
 msgid "username is not valid"
-msgstr "De gebruikersnaam komt niet overeen"
+msgstr "gebruikersnaam is niet geldig"
 
 #: internal/auth/users/forms.go:19
-#, fuzzy
 msgid "username is not available"
-msgstr "De gebruikersnaam komt niet overeen"
+msgstr "gebruikersnaam is niet beschikbaar"
 
 #: internal/auth/users/forms.go:34
-#, fuzzy
 msgid "password must be at least 8 characters long"
-msgstr "dient minimaal 8 tekens te bevatten"
+msgstr "moet minimaal 8 tekens bevatten"
 
 #: internal/auth/users/forms.go:89
 msgctxt "role"
@@ -915,18 +908,13 @@ msgstr "Links importeren uit csv-bestand"
 # matches
 # | the format specified bellow.\n" "  "
 #: internal/bookmarks/importer/x-forms.templ:101
-#, fuzzy
 msgid "Upload a CSV file from Instapaper or any CSV that matches the format specified below."
-msgstr ""
-"\n"
-"    Upload een csv-bestand vanuit Instapaper of elders dat overeenkomt met onderstaande opmaak.\n"
-"  "
+msgstr "Upload een CSV-bestand vanuit Instapaper of elders dat overeenkomt met onderstaande opmaak."
 
 # | msgid "From date"
 #: internal/bookmarks/importer/x-forms.templ:107
-#, fuzzy
 msgid "CSV Format"
-msgstr "Formaat"
+msgstr "CSV Formaat"
 
 #: internal/bookmarks/importer/x-forms.templ:110
 #, fuzzy, python-format
@@ -993,12 +981,8 @@ msgid "Import Links from a GoodLinks export file"
 msgstr "Links importeren uit GoodLinks-bestand"
 
 #: internal/bookmarks/importer/x-forms.templ:164
-#, fuzzy
 msgid "Upload a JSON file obtained from your GoodLinks app."
-msgstr ""
-"\n"
-"    Upload een door de GoodLinks-app samengesteld json-bestand.\n"
-"  "
+msgstr "Upload een JSON bestand verkregen van uw GoodLinks app."
 
 #: internal/bookmarks/importer/x-forms.templ:173
 msgid "Import Bookmarks from a Linkwarden export file"
@@ -1019,12 +1003,8 @@ msgid "Import Links from a Pinboard JSON backup file"
 msgstr "Links importeren uit csv-bestand"
 
 #: internal/bookmarks/importer/x-forms.templ:188
-#, fuzzy
 msgid "Upload a JSON file obtained from your Pinboard account."
-msgstr ""
-"\n"
-"    Upload een door de Linkwarden-app samengesteld json-bestand.\n"
-"  "
+msgstr "Upload een door de Linkwarden-app samengesteld json-bestand."
 
 #: internal/bookmarks/importer/x-forms.templ:197
 #: internal/bookmarks/routes/x-import.templ:72
@@ -1054,12 +1034,8 @@ msgid "Import Links from Readwise Reader CSV export"
 msgstr "Links importeren uit Readwise Reader-csv-bestand"
 
 #: internal/bookmarks/importer/x-forms.templ:223
-#, fuzzy
 msgid "Upload a CSV file exported from your Readwise Reader account below."
-msgstr ""
-"\n"
-"    Upload hieronder een csv-bestand uit Readwise Reader.\n"
-"  "
+msgstr "Upload hieronder een csv-bestand uit Readwise Reader."
 
 #: internal/bookmarks/importer/x-forms.templ:229
 msgid "Which information is imported"
@@ -1138,12 +1114,8 @@ msgstr ""
 "  "
 
 #: internal/bookmarks/importer/x-forms.templ:270
-#, fuzzy
 msgid "You can then enter all the necessary information in the form below."
-msgstr ""
-"\n"
-"    Voer nadien alle benodigde informatie hieronder in.\n"
-"  "
+msgstr "Voer nadien alle benodigde informatie hieronder in."
 
 #: internal/bookmarks/importer/x-forms.templ:278
 msgid "Wallabag URL"
@@ -2032,9 +2004,8 @@ msgid "Import your Linkwarden Bookmarks"
 msgstr "Linkwarden-bladwijzers importeren"
 
 #: internal/bookmarks/routes/x-import.templ:65
-#, fuzzy
 msgid "Import your Pinboard bookmarks"
-msgstr "Linkwarden-bladwijzers importeren"
+msgstr "Pinboard-bladwijzers importeren"
 
 #: internal/bookmarks/routes/x-import.templ:79
 msgid "Import your Readwise Reader Library"
@@ -2967,14 +2938,14 @@ msgid "invalid URL"
 msgstr "Ongeldige url"
 
 #: pkg/forms/validators.go:290
-#, fuzzy, python-format
+#, python-format
 msgid "must be greater or equal than %g"
-msgstr "Moet meer zijn dan of gelijk aan %d"
+msgstr "Moet meer zijn dan of gelijk aan %g"
 
 #: pkg/forms/validators.go:307
-#, fuzzy, python-format
+#, python-format
 msgid "must be lower or equal than %g"
-msgstr "Moet minder zijn dan of gelijk aan %d"
+msgstr "Moet minder zijn dan of gelijk aan %g"
 
 #: pkg/forms/validators.go:315
 #, python-format
@@ -3433,4 +3404,3 @@ msgstr "%H:%M:%S"
 #~ "\t\t\t\ton your smartphone, your e-book reader or\n"
 #~ "\t\t\t\tin other apps through\tplugins."
 #~ msgstr ""
-

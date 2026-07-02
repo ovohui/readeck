@@ -2,22 +2,25 @@
 # SPDX-FileCopyrightText: © 2025 Readeck <translate@readeck.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-only
-# γλωσσολαλιά <glossolalia@noreply.codeberg.org>, 2025.
+# γλωσσολαλιά <glossolalia@noreply.codeberg.org>, 2025, 2026.
 # olivier <olivier@noreply.codeberg.org>, 2025, 2026.
 # liilliil <liilliil@noreply.codeberg.org>, 2026.
+# Anonymous <anonymous@noreply.codeberg.org>, 2026.
+# Кнⷫѧⷷ̈зⷮьⷬ Кропоткинъ <kropotkin@noreply.codeberg.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-06-24 15:09+0200\n"
-"PO-Revision-Date: 2026-05-16 13:28+0000\n"
-"Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
-"Language: tt\n"
+"PO-Revision-Date: 2026-06-26 12:34+0000\n"
+"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Tatar <https://translate.codeberg.org/projects/readeck/application/tt/>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: tt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -29,25 +32,24 @@ msgstr "Төп бит"
 #: components/errors.templ:10 components/errors.templ:12
 #: components/layout.templ:243 internal/auth/oauth2/x-oauth.templ:29
 msgid "Error"
-msgstr ""
+msgstr "Хата"
 
 #: components/errors.templ:16
 msgid "Permission denied."
-msgstr ""
+msgstr "Рөхсәт бирмәделәр."
 
 #: components/errors.templ:18
 msgid "Page not found."
-msgstr ""
+msgstr "Бит табылмаган."
 
 #: components/errors.templ:20 components/layout.templ:246
 #: internal/bookmarks/routes/x-shared-public.templ:113
 msgid "An error occurred."
-msgstr ""
+msgstr "Хата килеп чыкты."
 
 #: components/errors.templ:24
-#, fuzzy
 msgid "Back to home page"
-msgstr "Төп бит"
+msgstr "Баш биткә кайтырга"
 
 #: components/forms/forms.templ:21
 msgid "Errors"
@@ -96,9 +98,8 @@ msgid "remove"
 msgstr "бетерү"
 
 #: components/layout.templ:63
-#, fuzzy
 msgid "Open Menu"
-msgstr "Менюне ябу"
+msgstr "Менюне ачу"
 
 #: components/layout.templ:82 components/layout.templ:83
 #: internal/admin/x-users.templ:190
@@ -115,12 +116,12 @@ msgstr "Билгеләр"
 
 #: components/layout.templ:94 components/layout.templ:99
 msgid "Change color theme"
-msgstr ""
+msgstr "Төсләр темасын үзгәртергә"
 
 #: components/layout.templ:112 components/layout.templ:113
 #: internal/profile/x-base.templ:14
 msgid "Settings"
-msgstr ""
+msgstr "Көйләнеш"
 
 #: components/layout.templ:116 components/layout.templ:117
 #: internal/bookmarks/routes/x-bookmark-list.templ:127
@@ -182,15 +183,15 @@ msgstr "серсүз буш"
 
 #: internal/admin/forms.go:73
 msgid "User is external and can't be updated."
-msgstr ""
+msgstr "Кулланучы тышкы һәм яңартыла алмый."
 
 #: internal/admin/forms.go:85 internal/profile/forms.go:97
 msgid "username is already in use"
-msgstr ""
+msgstr "кулланучы исеме инде кулланышта"
 
 #: internal/admin/forms.go:92 internal/profile/forms.go:104
 msgid "email address is already in use"
-msgstr ""
+msgstr "э-почта адресы инде кулланышта"
 
 #: internal/admin/views.go:61 internal/admin/views.go:86
 #: internal/admin/views.go:127 internal/admin/x-users.templ:16
@@ -212,35 +213,33 @@ msgid "User updated."
 msgstr "Кулланучы яңартылган."
 
 #: internal/admin/views.go:163
-#, fuzzy
 msgid "User detached."
-msgstr "Кулланучы яңартылган."
+msgstr "Кулланучы аерылды."
 
 #: internal/admin/views.go:186
 msgid "User signed out."
-msgstr ""
+msgstr "Кулланучы сеансын тәмамлады."
 
 #: internal/admin/x-users.templ:19
 msgid "Add a new user"
 msgstr "Яңа кулланучы өстәү"
 
 #: internal/admin/x-users.templ:38
-#, fuzzy
 msgid "External User"
-msgstr "Кулланучы төзү"
+msgstr "Тышкы кулланучы"
 
 #: internal/admin/x-users.templ:44 internal/admin/x-users.templ:174
 msgid "TOTP is enabled"
-msgstr ""
+msgstr "TOTP активлаштырылган"
 
 #: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
-msgstr ""
+msgstr "Бу син!"
 
 #: internal/admin/x-users.templ:56
-#, fuzzy, python-format
+#, python-format
 msgid "Last login: %s"
-msgstr "Төзелгән: %s"
+msgstr "Соңгы керү: %s"
 
 #: internal/admin/x-users.templ:63
 msgid "This user will be removed in a few seconds."
@@ -285,9 +284,8 @@ msgid "Create user"
 msgstr "Кулланучы төзү"
 
 #: internal/admin/x-users.templ:126
-#, fuzzy
 msgid "User information"
-msgstr "Вакытлык белешмә"
+msgstr "Кулланучы турында мәгълүмат"
 
 #: internal/admin/x-users.templ:153
 msgid "will not change if empty"
@@ -306,27 +304,24 @@ msgid "Save"
 msgstr "Сакларга"
 
 #: internal/admin/x-users.templ:178
-#, fuzzy
 msgid "Created on"
-msgstr "Төзелгән: %s"
+msgstr "Төзелгән"
 
 #: internal/admin/x-users.templ:182
-#, fuzzy
 msgid "Last Login"
-msgstr "Төзелгән: %s"
+msgstr "Соңгы керү"
 
 #: internal/admin/x-users.templ:186
 msgid "Last Activity"
-msgstr ""
+msgstr "Соңгы гамәл"
 
 #: internal/admin/x-users.templ:194
-#, fuzzy
 msgid "Disk Usage"
-msgstr "Вакытлык йөкләнә"
+msgstr "Дискны куллану"
 
 #: internal/admin/x-users.templ:198
 msgid "User Administration"
-msgstr ""
+msgstr "Кулланучыларны идарә итү"
 
 #: internal/admin/x-users.templ:204
 msgid "User will be removed in a few seconds"
@@ -334,11 +329,11 @@ msgstr "Кулланучы берничә секундтан соң бетере
 
 #: internal/admin/x-users.templ:214
 msgid "This will sign this user out of all active sessions on the web application."
-msgstr ""
+msgstr "Бу веб-кушымтадагы барлык актив сессияләрдән әлеге кулланучыны чыгарачак."
 
 #: internal/admin/x-users.templ:219
 msgid "Sign this user out"
-msgstr ""
+msgstr "Бу кулланучыдан чыгу"
 
 #: internal/admin/x-users.templ:227
 msgid ""
@@ -351,14 +346,13 @@ msgid ""
 msgstr ""
 
 #: internal/admin/x-users.templ:240
-#, fuzzy
 msgid "Detach this user"
-msgstr "Бу кулланучыны бетерү"
+msgstr "Бу кулланучыны аерып куярга"
 
 #: internal/admin/x-users.templ:249
 #, python-format
 msgid "This will delete the user <strong>%s</strong> and all their contents."
-msgstr ""
+msgstr "Бу кулланучы <strong>%s</strong> ны һәм аның барлык эчтәлекләрен бетерәчәк."
 
 #: internal/admin/x-users.templ:257
 msgid "Delete this user"
@@ -371,7 +365,7 @@ msgstr "Рөхсәт таләп ителә"
 
 #: internal/auth/oauth2/x-oauth.templ:30
 msgid "This code has expired or is not valid"
-msgstr ""
+msgstr "Бу код вакыты чыккан яки гамәлдә түгел"
 
 #: internal/auth/oauth2/x-oauth.templ:33 internal/auth/oauth2/x-oauth.templ:50
 #: internal/auth/oauth2/x-oauth.templ:58
@@ -415,10 +409,10 @@ msgstr "Керде: <strong>%s</strong>"
 #: internal/auth/oauth2/x-oauth.templ:106
 #: internal/dashboard/x-dashboard.templ:97 internal/profile/x-profile.templ:32
 msgid "Sign out"
-msgstr ""
+msgstr "Китәргә"
 
 #: internal/auth/oauth2/x-oauth.templ:116
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t<strong>%s</strong> would like permission to access your account.\n"
@@ -426,9 +420,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"      <strong>%s</strong> сизнең хисабыгызга керергә рөхсәт сорый.\n"
-"      Бу соравны танып, һәм бу чыганакка ишәнеп гына рөхсәт бирегез.\n"
-"    "
+"\t\t\t\t<strong>%s</strong> сизнең хисабыгызга керергә рөхсәт сорый.\n"
+"\t\t\t\tБу соравны танып, һәм бу чыганакка ишәнеп гына рөхсәт бирегез.\n"
+"\t\t\t"
 
 #: internal/auth/oauth2/x-oauth.templ:122
 msgid "Review permissions"
@@ -481,7 +475,6 @@ msgid "Please note:"
 msgstr "Искәрмә:"
 
 #: internal/auth/onboarding/x-onboarding.templ:44
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour email address is optional and will never leave this installation.\n"
@@ -490,10 +483,10 @@ msgid ""
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"  Сезнең e-mail җиңел һәм бу инсталляциядән чыгарылмаячак.\n"
-"  Ул җыю, күчерү яки сатылмаячак.\n"
-"  Ул <strong>гына</strong> кулланылыр, әгәр кирәк булса, парольне калгызарга һәм эчке хәбәрләр өчен.\n"
-"  "
+"\t\t\t\t\t\tСезнең e-mail җиңел һәм бу инсталляциядән чыгарылмаячак.\n"
+"\t\t\t\t\t\tУл җыю, күчерү яки сатылмаячак.\n"
+"\t\t\t\t\t\tУл <strong>гына</strong> кулланылыр, әгәр кирәк булса, парольне калгызарга һәм эчке хәбәрләр өчен.\n"
+"\t\t\t\t\t"
 
 #: internal/auth/onboarding/x-onboarding.templ:52
 msgid "Finish installation"
@@ -504,9 +497,8 @@ msgid "Invalid user and/or password"
 msgstr "Яраксыз кулланучы һәм/яки серсүз"
 
 #: internal/auth/signin/http.go:190 internal/profile/forms.go:227
-#, fuzzy
 msgid "Invalid code"
-msgstr "яраксыз серсүз"
+msgstr "Дөрес булмаган код"
 
 #: internal/auth/signin/recover.go:257
 msgid ""
@@ -521,6 +513,16 @@ msgid ""
 "\n"
 "%[2]s\n"
 msgstr ""
+"\n"
+"Сәлам,\n"
+"\n"
+"Сез (яки башка берәү) Readeck аккаунтының паролен үзгәртергә тырышканда бу\n"
+"э-почта адресын керттегез (%[1]s).\n"
+"\n"
+"Әгәр сез бу хатны көтәсез икән, Readeck аккаунтыгыз\n"
+"өчен яңа пароль кую өчен бу сылтамага үтегез.\n"
+"\n"
+"%[2]s\n"
 
 #: internal/auth/signin/recover.go:271
 msgid ""
@@ -542,7 +544,7 @@ msgstr ""
 
 #: internal/auth/signin/x-auth.templ:21
 msgid "Or continue with"
-msgstr ""
+msgstr "Яки дәвам итәргә"
 
 #: internal/auth/signin/x-auth.templ:41 internal/auth/signin/x-auth.templ:68
 msgid "Sign in"
@@ -562,10 +564,9 @@ msgstr "Паролеңны оныттыңмы?"
 
 #: internal/auth/signin/x-auth.templ:84
 msgid "Two-factor authentication"
-msgstr ""
+msgstr "Ике факторлы аутентификация"
 
 #: internal/auth/signin/x-auth.templ:91
-#, fuzzy
 msgid "Passcode"
 msgstr "Серсүз"
 
@@ -606,7 +607,7 @@ msgstr "Якында!"
 #: internal/auth/signin/x-auth.templ:152
 #, python-format
 msgid "We have sent an email to <strong>%s</strong> with further instructions."
-msgstr ""
+msgstr "Без <strong>%s</strong> адресына алдагы инструкцияләр белән э-хат җибәрдек."
 
 #: internal/auth/signin/x-auth.templ:168 internal/profile/x-security.templ:33
 msgid "New password"
@@ -625,9 +626,8 @@ msgid "Go to the sign in page"
 msgstr "Керү битенә күчү"
 
 #: internal/auth/users/forms.go:18
-#, fuzzy
 msgid "username is not valid"
-msgstr "кулланучы исеме туры килми"
+msgstr "дөрес булмаган кулланучы исеме"
 
 #: internal/auth/users/forms.go:19
 #, fuzzy
@@ -692,6 +692,10 @@ msgid ""
 "\n"
 "Here is your ebook for: **%s**\n"
 msgstr ""
+"\n"
+"Сәлам,\n"
+"\n"
+"Менә сезнең **%s** өчен электрон китабыгыз.\n"
 
 #: internal/bookmarks/converter/x-atom.templ:22
 #: internal/bookmarks/routes/x-bookmark-list.templ:506
@@ -729,7 +733,7 @@ msgstr[0] "Якынча %d минут укыу"
 
 #: internal/bookmarks/converter/x-epub.templ:75
 msgid "Notes"
-msgstr ""
+msgstr "Язма"
 
 #: internal/bookmarks/importer/browser.go:56
 #: internal/bookmarks/routes/x-import.templ:36
@@ -757,7 +761,7 @@ msgstr "Буш яки яраксыз импорт файлы"
 
 #: internal/bookmarks/importer/pinboard.go:44
 msgid "Pinboard JSON backup File"
-msgstr ""
+msgstr "Pinboard JSON резерв күчермәсе файлы"
 
 #: internal/bookmarks/importer/readwise.go:62
 msgid "Readwise Reader CSV"
@@ -793,17 +797,17 @@ msgstr "Файл"
 
 #: internal/bookmarks/importer/x-forms.templ:42
 msgid "Options"
-msgstr ""
+msgstr "Опцияләр"
 
 #: internal/bookmarks/importer/x-forms.templ:44
 #: internal/bookmarks/routes/x-filters.templ:24
 #: internal/bookmarks/routes/x-labels.templ:57
 msgid "Label"
-msgstr ""
+msgstr "Ярлык"
 
 #: internal/bookmarks/importer/x-forms.templ:46
 msgid "A label to add to all imported bookmarks"
-msgstr ""
+msgstr "Ярлык импортланган закладкаларга өстәргә билгеләр"
 
 #: internal/bookmarks/importer/x-forms.templ:49
 msgid "Ignore links already in your bookmarks"
@@ -863,9 +867,8 @@ msgid "Upload a CSV file from Instapaper or any CSV that matches the format spec
 msgstr ""
 
 #: internal/bookmarks/importer/x-forms.templ:107
-#, fuzzy
 msgid "CSV Format"
-msgstr "Формат"
+msgstr "CSV формат"
 
 #: internal/bookmarks/importer/x-forms.templ:110
 #, python-format
@@ -935,9 +938,8 @@ msgid "Upload a JSON file obtained from your Linkwarden app."
 msgstr ""
 
 #: internal/bookmarks/importer/x-forms.templ:185
-#, fuzzy
 msgid "Import Links from a Pinboard JSON backup file"
-msgstr "CSV файлыннан сылтамаларны импортлау"
+msgstr "Pinboard JSON файлыннан сылтамаларны импортлау"
 
 #: internal/bookmarks/importer/x-forms.templ:188
 msgid "Upload a JSON file obtained from your Pinboard account."
@@ -1059,9 +1061,8 @@ msgid "Unable to process input data"
 msgstr "Кертелгән мәгълүматны эшкәртеп булмый"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:279
-#, fuzzy
 msgid "invalid language code"
-msgstr "Яраксыз API ачкычы"
+msgstr "тел коды дөрес түгел"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:283
 msgid "Left to right"
@@ -1226,9 +1227,8 @@ msgid "Bookmark updated"
 msgstr "Китап билгесе исеме"
 
 #: internal/bookmarks/routes/views_bookmarks.go:312
-#, fuzzy
 msgid "Update"
-msgstr "Кулланучы яңартылган."
+msgstr "Яңарту"
 
 #: internal/bookmarks/routes/views_bookmarks.go:332
 #: internal/bookmarks/routes/x-bookmark.templ:228
@@ -2217,18 +2217,16 @@ msgid "Database Size:"
 msgstr ""
 
 #: internal/docs/x-about.templ:83
-#, fuzzy
 msgid "Bookmarks Disk Usage:"
-msgstr "Вакытлык йөкләнә"
+msgstr "Билгеләре диск кулланылышы:"
 
 #: internal/docs/x-about.templ:88
 msgid "Project"
 msgstr ""
 
 #: internal/docs/x-about.templ:91
-#, fuzzy
 msgid "Main website:"
-msgstr "Веб-сайт"
+msgstr "Төп веб-сайт:"
 
 #: internal/docs/x-about.templ:95
 msgid "Sources and issues:"
@@ -2626,9 +2624,8 @@ msgid "If you can't use the QR code, enter the code below instead."
 msgstr ""
 
 #: internal/profile/x-security.templ:104
-#, fuzzy
 msgid "Enter the code from your application."
-msgstr "Кулайламада күрсәтелгән кодны кертегез"
+msgstr "Кушымтагыздан кодны кертегез."
 
 #: internal/profile/x-security.templ:106
 msgid "After scanning the QR code, the app will display a six-digit code that you need to enter below."
@@ -2645,7 +2642,7 @@ msgstr ""
 
 #: internal/profile/x-tokens.templ:13
 msgid "My API Tokens"
-msgstr ""
+msgstr "Минем API токеннарым"
 
 #: internal/profile/x-tokens.templ:17
 msgid "An API Token is a key that grants you access to the Readeck API."
@@ -2671,7 +2668,7 @@ msgstr ""
 
 #: internal/profile/x-tokens.templ:98
 msgid "API Token"
-msgstr ""
+msgstr "API токены"
 
 #: internal/profile/x-tokens.templ:105
 msgid "Token will be removed in a few seconds."
@@ -2783,29 +2780,29 @@ msgid "invalid URL"
 msgstr "яраксыз URL"
 
 #: pkg/forms/validators.go:290
-#, fuzzy, python-format
+#, python-format
 msgid "must be greater or equal than %g"
-msgstr "%d зуррак яки тигез булырга тиеш"
+msgstr "%g зуррак яки тигез булырга тиеш"
 
 #: pkg/forms/validators.go:307
-#, fuzzy, python-format
+#, python-format
 msgid "must be lower or equal than %g"
-msgstr "%d кечерәк яки тигез булырга тиеш"
+msgstr "%g кечерәк яки тигез булырга тиеш"
 
 #: pkg/forms/validators.go:315
-#, fuzzy, python-format
+#, python-format
 msgid "text must contain at least %d characters"
-msgstr "текст %d һәм %d символ арасында булырга тиеш"
+msgstr "текстта кимендә %d хәреф булырга тиеш"
 
 #: pkg/forms/validators.go:323
-#, fuzzy, python-format
+#, python-format
 msgid "text must contain at most %d characters"
-msgstr "текст %d һәм %d символ арасында булырга тиеш"
+msgstr "текстта иң күбе %d хәреф булырга тиеш"
 
 #: pkg/forms/validators.go:331
-#, fuzzy, python-format
+#, python-format
 msgid "text must contain %d characters"
-msgstr "текст %d һәм %d символ арасында булырга тиеш"
+msgstr "текстта %d хәреф булырга тиеш"
 
 #: pkg/forms/validators.go:394
 #, python-format
@@ -3419,4 +3416,3 @@ msgstr "%H:%M:%S"
 #~ "\t\t\t\ton your smartphone, your e-book reader or\n"
 #~ "\t\t\t\tin other apps through\tplugins."
 #~ msgstr ""
-

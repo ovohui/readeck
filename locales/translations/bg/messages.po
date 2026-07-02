@@ -10,14 +10,15 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-06-24 15:09+0200\n"
-"PO-Revision-Date: 2026-05-16 13:28+0000\n"
-"Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
-"Language: bg\n"
+"PO-Revision-Date: 2026-06-26 07:10+0000\n"
+"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Bulgarian <https://translate.codeberg.org/projects/readeck/application/bg/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -45,9 +46,8 @@ msgid "An error occurred."
 msgstr "Възникна грешка."
 
 #: components/errors.templ:24
-#, fuzzy
 msgid "Back to home page"
-msgstr "Начална страница"
+msgstr "Към началната страница"
 
 #: components/forms/forms.templ:21
 msgid "Errors"
@@ -96,7 +96,6 @@ msgid "remove"
 msgstr "премахване"
 
 #: components/layout.templ:63
-#, fuzzy
 msgid "Open Menu"
 msgstr "Отваряне на менюто"
 
@@ -182,15 +181,15 @@ msgstr "паролата е празна"
 
 #: internal/admin/forms.go:73
 msgid "User is external and can't be updated."
-msgstr ""
+msgstr "Потребителят е външен и не може да бъде актуализиран."
 
 #: internal/admin/forms.go:85 internal/profile/forms.go:97
 msgid "username is already in use"
-msgstr ""
+msgstr "потребителското име вече се използва"
 
 #: internal/admin/forms.go:92 internal/profile/forms.go:104
 msgid "email address is already in use"
-msgstr ""
+msgstr "имейл адресът вече се използва"
 
 #: internal/admin/views.go:61 internal/admin/views.go:86
 #: internal/admin/views.go:127 internal/admin/x-users.templ:16
@@ -212,32 +211,28 @@ msgid "User updated."
 msgstr "Потребител актуализиран."
 
 #: internal/admin/views.go:163
-#, fuzzy
 msgid "User detached."
-msgstr "Потребител актуализиран."
+msgstr "Потребителят е изключен."
 
 #: internal/admin/views.go:186
-#, fuzzy
 msgid "User signed out."
-msgstr "Изход"
+msgstr "Потребителят излезе."
 
 #: internal/admin/x-users.templ:19
 msgid "Add a new user"
 msgstr "Добавяне на нов потребител"
 
 #: internal/admin/x-users.templ:38
-#, fuzzy
 msgid "External User"
-msgstr "Създаване на потребител"
+msgstr "Външен Потребител"
 
 #: internal/admin/x-users.templ:44 internal/admin/x-users.templ:174
-#, fuzzy
 msgid "TOTP is enabled"
-msgstr "Активиран"
+msgstr "TOTP активиран"
 
 #: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
-msgstr ""
+msgstr "Това си ти!"
 
 #: internal/admin/x-users.templ:56
 #, python-format
@@ -287,9 +282,8 @@ msgid "Create user"
 msgstr "Създаване на потребител"
 
 #: internal/admin/x-users.templ:126
-#, fuzzy
 msgid "User information"
-msgstr "Системна информация"
+msgstr "Информация за потребителя"
 
 #: internal/admin/x-users.templ:153
 msgid "will not change if empty"
@@ -308,12 +302,10 @@ msgid "Save"
 msgstr "Запазване"
 
 #: internal/admin/x-users.templ:178
-#, fuzzy
 msgid "Created on"
-msgstr "Създадено на: %s"
+msgstr "Създадено на"
 
 #: internal/admin/x-users.templ:182
-#, fuzzy
 msgid "Last Login"
 msgstr "Последно влизане"
 
@@ -322,13 +314,12 @@ msgid "Last Activity"
 msgstr "Последна активност"
 
 #: internal/admin/x-users.templ:194
-#, fuzzy
 msgid "Disk Usage"
 msgstr "Използване на диска"
 
 #: internal/admin/x-users.templ:198
 msgid "User Administration"
-msgstr ""
+msgstr "Администриране на потребители"
 
 #: internal/admin/x-users.templ:204
 msgid "User will be removed in a few seconds"
@@ -336,12 +327,11 @@ msgstr "Потребителят ще бъде премахнат след ня�
 
 #: internal/admin/x-users.templ:214
 msgid "This will sign this user out of all active sessions on the web application."
-msgstr ""
+msgstr "Това ще отпише този потребител от всички активни сесии на уеб приложението."
 
 #: internal/admin/x-users.templ:219
-#, fuzzy
 msgid "Sign this user out"
-msgstr "Изход"
+msgstr "Излезте от този потребител"
 
 #: internal/admin/x-users.templ:227
 msgid ""
@@ -352,16 +342,21 @@ msgid ""
 "\t\t\t\t\t\t\t\t\tThis will detach the user <strong>%[2]s</strong>.\n"
 "\t\t\t\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\t\t\t\tТози потребител е свързан с външен доставчик на услуги за удостоверяване:<br />\n"
+"\t\t\t\t\t\t\t\t\t<strong>%[1]s</strong>.<br />\n"
+"\t\t\t\t\t\t\t\t\tПоради това някои от неговите свойства не могат да бъдат редактирани.<br />\n"
+"\t\t\t\t\t\t\t\t\tТова ще отдели потребителя <strong>%[2]s</strong>.\n"
+"\t\t\t\t\t\t\t\t"
 
 #: internal/admin/x-users.templ:240
-#, fuzzy
 msgid "Detach this user"
-msgstr "Изтриване на този потребител"
+msgstr "Отстранете този потребител"
 
 #: internal/admin/x-users.templ:249
 #, python-format
 msgid "This will delete the user <strong>%s</strong> and all their contents."
-msgstr ""
+msgstr "Това ще изтрие потребителя <strong>%s</strong> и цялото му съдържание."
 
 #: internal/admin/x-users.templ:257
 msgid "Delete this user"
@@ -374,7 +369,7 @@ msgstr "Изисква се удостоверяване"
 
 #: internal/auth/oauth2/x-oauth.templ:30
 msgid "This code has expired or is not valid"
-msgstr ""
+msgstr "Този код е изтекъл или е невалиден"
 
 #: internal/auth/oauth2/x-oauth.templ:33 internal/auth/oauth2/x-oauth.templ:50
 #: internal/auth/oauth2/x-oauth.templ:58
@@ -421,7 +416,7 @@ msgid "Sign out"
 msgstr "Изход"
 
 #: internal/auth/oauth2/x-oauth.templ:116
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t<strong>%s</strong> would like permission to access your account.\n"
@@ -429,9 +424,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"      <strong>%s</strong> искаразрешение за достъп до вашия акаунт.\n"
-"      Одобрете тази заявка само ако познавате и имате доверие на този източник.\n"
-"    "
+"\t\t\t\t<strong>%s</strong> иска разрешение за достъп до вашия акаунт.\n"
+"\t\t\t\tОдобрете тази заявка само ако познавате и имате доверие на този източник.\n"
+"\t\t\t"
 
 #: internal/auth/oauth2/x-oauth.templ:122
 msgid "Review permissions"
@@ -484,7 +479,6 @@ msgid "Please note:"
 msgstr "Обърнете внимание:"
 
 #: internal/auth/onboarding/x-onboarding.templ:44
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour email address is optional and will never leave this installation.\n"
@@ -493,10 +487,10 @@ msgid ""
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"  Вашият имейл адрес е опционален и никога няма да напусне тази инсталация.\n"
-"  Той никога няма да бъде събиран, прехвърлян или продаван.\n"
-"  Ще бъде използван <strong>само</strong> при нужда от възстановяване на паролата и вътрешни уведомления.\n"
-"  "
+"\t\t\t\t\t\tВашият имейл адрес е опционален и никога няма да напусне тази инсталация.\n"
+"\t\t\t\t\t\tТой никога няма да бъде събиран, прехвърлян или продаван.\n"
+"\t\t\t\t\t\tЩе бъде използван <strong>само</strong> при нужда от възстановяване на паролата и вътрешни уведомления.\n"
+"\t\t\t\t\t"
 
 #: internal/auth/onboarding/x-onboarding.templ:52
 msgid "Finish installation"
@@ -568,7 +562,7 @@ msgstr ""
 
 #: internal/auth/signin/x-auth.templ:21
 msgid "Or continue with"
-msgstr ""
+msgstr "Или продължи с"
 
 #: internal/auth/signin/x-auth.templ:41 internal/auth/signin/x-auth.templ:68
 msgid "Sign in"
@@ -612,7 +606,6 @@ msgid "No worries, it happens to anyone."
 msgstr "Няма проблем, случва се на всеки."
 
 #: internal/auth/signin/x-auth.templ:129
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tPlease provide the email address you used to create\n"
@@ -621,10 +614,10 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"        Моля, предоставете имейл адреса, който сте използвали за създаване\n"
-"        на вашия акаунт, и ще ви изпратим съобщение с връзка\n"
-"        за възстановяване на паролата.\n"
-"      "
+"\t\t\t\t\t\t\tМоля, предоставете имейл адреса, който сте използвали за създаване\n"
+"\t\t\t\t\t\t\tна вашия акаунт, и ще ви изпратим съобщение с връзка\n"
+"\t\t\t\t\t\t\tза възстановяване на паролата.\n"
+"\t\t\t\t\t\t"
 
 #: internal/auth/signin/x-auth.templ:140
 msgid "Send me a recovery link"
@@ -635,14 +628,9 @@ msgid "Almost there!"
 msgstr "Почти сте там!"
 
 #: internal/auth/signin/x-auth.templ:152
-#, fuzzy, python-format
+#, python-format
 msgid "We have sent an email to <strong>%s</strong> with further instructions."
-msgstr ""
-"\n"
-"        Изпратихме имейл до\n"
-"        <strong>%s</strong>\n"
-"        с допълнителни инструкции.\n"
-"      "
+msgstr "Изпратихме имейл до <strong>%s</strong> с допълнителни инструкции."
 
 #: internal/auth/signin/x-auth.templ:168 internal/profile/x-security.templ:33
 msgid "New password"
@@ -661,19 +649,16 @@ msgid "Go to the sign in page"
 msgstr "Отидете на страницата за вход"
 
 #: internal/auth/users/forms.go:18
-#, fuzzy
 msgid "username is not valid"
-msgstr "потребителското име не съвпада"
+msgstr "потребителското име не е валидно"
 
 #: internal/auth/users/forms.go:19
-#, fuzzy
 msgid "username is not available"
-msgstr "потребителското име не съвпада"
+msgstr "потребителското име вече е заето"
 
 #: internal/auth/users/forms.go:34
-#, fuzzy
 msgid "password must be at least 8 characters long"
-msgstr "трябва да е с дължина поне 8 символа"
+msgstr "паролата трябва да е с дължина поне 8 символа"
 
 #: internal/auth/users/forms.go:89
 msgctxt "role"
@@ -798,7 +783,7 @@ msgstr "Празен или невалиден файл за импортира�
 
 #: internal/bookmarks/importer/pinboard.go:44
 msgid "Pinboard JSON backup File"
-msgstr ""
+msgstr "JSON файл на Pinboard"
 
 #: internal/bookmarks/importer/readwise.go:62
 msgid "Readwise Reader CSV"
@@ -871,7 +856,6 @@ msgid "Import your Browser's Bookmarks"
 msgstr "Импортирайте отметките на вашия браузър"
 
 #: internal/bookmarks/importer/x-forms.templ:68
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tIn your web browser, export your bookmarks as an HTML file.<br>\n"
@@ -880,10 +864,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"    Във вашия уеб браузър експортирайте отметките си като HTML файл.<br>\n"
-"    Качете този файл във формата по-долу и Readeck ще създаде и изтегли\n"
-"    всяка открита отметка във файла.\n"
-"  "
+"\t\t\t\t\tВъв вашия уеб браузър експортирайте отметките си като HTML файл.<br>\n"
+"\t\t\t\t\tКачете този файл във формата по-долу и Readeck ще създаде и изтегли\n"
+"\t\t\t\t\tвсяка открита отметка във файла.\n"
+"\t\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:77
 msgid "Instructions for Firefox"
@@ -906,20 +890,15 @@ msgid "Import Links from a CSV File"
 msgstr "Импортиране на връзки от CSV файл"
 
 #: internal/bookmarks/importer/x-forms.templ:101
-#, fuzzy
 msgid "Upload a CSV file from Instapaper or any CSV that matches the format specified below."
-msgstr ""
-"\n"
-"    Качете CSV файл от Instapaper или който и да е CSV файл, който отговаря на посочения по-долу формат.\n"
-"  "
+msgstr "Качете CSV файл от Instapaper или който и да е CSV файл, който отговаря на посочения по-долу формат."
 
 #: internal/bookmarks/importer/x-forms.templ:107
-#, fuzzy
 msgid "CSV Format"
-msgstr "Формат"
+msgstr "CSV формат"
 
 #: internal/bookmarks/importer/x-forms.templ:110
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\tThe uploaded file must contain a first row with the column names. Column names are case\n"
@@ -927,9 +906,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Каченият файл трябва да съдържа първи ред с имената на колоните. Имената на колоните не се\n"
-"    различават по малки и главни букви и, с изключение на <code>%s</code>, всяка колона е незадължителна.\n"
-"  "
+"\t\t\t\tКаченият файл трябва да съдържа първи ред с имената на колоните. Имената на колоните не се\n"
+"\t\t\t\tразличават по малки и главни букви и, с изключение на <code>%s</code>, всяка колона е незадължителна.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:115
 msgid "Here are the columns you can set:"
@@ -978,37 +957,24 @@ msgid "Import Links from a GoodLinks export file"
 msgstr "Импортиране на връзки от експортен файл на GoodLinks"
 
 #: internal/bookmarks/importer/x-forms.templ:164
-#, fuzzy
 msgid "Upload a JSON file obtained from your GoodLinks app."
-msgstr ""
-"\n"
-"    Качете JSON файл, получен от приложението ви GoodLinks.\n"
-"  "
+msgstr "Качете JSON файл, получен от приложението ви GoodLinks."
 
 #: internal/bookmarks/importer/x-forms.templ:173
 msgid "Import Bookmarks from a Linkwarden export file"
 msgstr "Импортиране на отметки от файл за експорт на Linkwarden"
 
 #: internal/bookmarks/importer/x-forms.templ:176
-#, fuzzy
 msgid "Upload a JSON file obtained from your Linkwarden app."
-msgstr ""
-"\n"
-"    Качете JSON файл, получен от вашето приложение Linkwarden.\n"
-"  "
+msgstr "Качете JSON файл, получен от вашето приложение Linkwarden."
 
 #: internal/bookmarks/importer/x-forms.templ:185
-#, fuzzy
 msgid "Import Links from a Pinboard JSON backup file"
-msgstr "Импортиране на връзки от CSV файл"
+msgstr "Импортиране на връзки от Pinboard JSON файл"
 
 #: internal/bookmarks/importer/x-forms.templ:188
-#, fuzzy
 msgid "Upload a JSON file obtained from your Pinboard account."
-msgstr ""
-"\n"
-"    Качете JSON файл, получен от вашето приложение Linkwarden.\n"
-"  "
+msgstr "Качете JSON файл, получен от вашето приложение Pinboard."
 
 #: internal/bookmarks/importer/x-forms.templ:197
 #: internal/bookmarks/routes/x-import.templ:72
@@ -1016,7 +982,6 @@ msgid "Import your Pocket Articles"
 msgstr "Импортиране на вашите статии от Pocket"
 
 #: internal/bookmarks/importer/x-forms.templ:200
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a Pocket export file in the form below and Readeck will fetch and save\n"
@@ -1024,9 +989,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Качете този файл във формата по-долу и Readeck ще извлече и запази\n"
-"    всяка връзка, намерена във файла.\n"
-"  "
+"\t\t\t\tКачете този файл във формата по-долу и Readeck ще извлече и запази\n"
+"\t\t\t\tвсяка връзка, намерена във файла.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:212
 msgid "Note: upload the ZIP file directly, not its contents"
@@ -1037,12 +1002,8 @@ msgid "Import Links from Readwise Reader CSV export"
 msgstr "Импортиране на връзки от CSV експорт на Readwise Reader"
 
 #: internal/bookmarks/importer/x-forms.templ:223
-#, fuzzy
 msgid "Upload a CSV file exported from your Readwise Reader account below."
-msgstr ""
-"\n"
-"    Качете CSV файл, експортиран от вашия акаунт в Readwise Reader, по-долу.\n"
-"  "
+msgstr "Качете CSV файл, експортиран от вашия акаунт в Readwise Reader, по-долу."
 
 #: internal/bookmarks/importer/x-forms.templ:229
 msgid "Which information is imported"
@@ -1088,7 +1049,6 @@ msgid "Import Links from a Text File"
 msgstr "Импортиране на връзки от текстов файл"
 
 #: internal/bookmarks/importer/x-forms.templ:250
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a text file that contains one link per line and Readeck will fetch\n"
@@ -1096,9 +1056,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Качете текстов файл, който съдържа по една връзка на ред, и Readeck\n"
-"    ще ги извлече всички и ще ги запази във вашия списък с отметки.\n"
-"  "
+"\t\t\t\tКачете текстов файл, който съдържа по една връзка на ред, и Readeck\n"
+"\t\t\t\tще ги извлече всички и ще ги запази във вашия списък с отметки.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:260
 #: internal/bookmarks/routes/x-import.templ:93
@@ -1106,7 +1066,6 @@ msgid "Import your Wallabag Articles"
 msgstr "Импортирайте вашите статии от Wallabag"
 
 #: internal/bookmarks/importer/x-forms.templ:263
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tTo import your articles from Wallabag, you must first create an API client\n"
@@ -1115,18 +1074,14 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    За да импортирате статиите си от Wallabag, първо трябва да създадете API клиент в менюто\n"
-"    за <strong>управление на API клиенти</strong> на Wallabag. Това ще ви предостави\n"
-"    <strong>Идентификатор на клиент</strong> и <strong>Тайна на клиент</strong>.\n"
-"  "
+"\t\t\t\tЗа да импортирате статиите си от Wallabag, първо трябва да създадете API клиент в менюто\n"
+"\t\t\t\tза <strong>управление на API клиенти</strong> на Wallabag. Това ще ви предостави\n"
+"\t\t\t\t<strong>Идентификатор на клиент</strong> и <strong>Тайна на клиент</strong>.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:270
-#, fuzzy
 msgid "You can then enter all the necessary information in the form below."
-msgstr ""
-"\n"
-"    След това можете да въведете цялата необходима информация във формуляра по-долу.\n"
-"  "
+msgstr "След това можете да въведете цялата необходима информация във формуляра по-долу."
 
 #: internal/bookmarks/importer/x-forms.templ:278
 msgid "Wallabag URL"
@@ -1218,7 +1173,7 @@ msgstr "Статия"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:679
 msgid "E-Book"
-msgstr ""
+msgstr "Е-книга"
 
 #: internal/bookmarks/routes/forms_filters.go:51
 msgid "Picture"
@@ -1246,7 +1201,7 @@ msgstr "Завършени"
 #: internal/bookmarks/routes/forms_filters.go:68
 #, python-format
 msgid "\"%s\" is not a valid date value"
-msgstr ""
+msgstr "\"%s\" не е валидна дата"
 
 #: internal/bookmarks/routes/opds.go:57
 msgid "Readeck Bookmarks"
@@ -1329,9 +1284,8 @@ msgid "Share by email"
 msgstr "Споделяне по имейл"
 
 #: internal/bookmarks/routes/views_collections.go:39
-#, fuzzy
 msgid "Collection created."
-msgstr "Колекцията е актуализирана."
+msgstr "Колекцията е създадена."
 
 #: internal/bookmarks/routes/views_collections.go:66
 msgid "Collection updated."
@@ -1359,7 +1313,6 @@ msgid "You don't have any highlights yet."
 msgstr "Все още нямате тезиси."
 
 #: internal/bookmarks/routes/x-annotations.templ:22
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tOnce you start highlighting parts of your saved articles, they will appear on this page\n"
@@ -1367,9 +1320,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"        След като започнете да маркирате части от запазените си статии, те ще се\n"
-"        появят на тази страница, за да можете лесно да ги намерите.\n"
-"      "
+"\t\t\t\t\t\t\tСлед като започнете да маркирате части от запазените си статии, те ще се\n"
+"\t\t\t\t\t\t\tпоявят на тази страница, за да можете лесно да ги намерите.\n"
+"\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-annotations.templ:29
 #, python-format
@@ -1377,9 +1330,8 @@ msgid "Read more about highlights in the <a class=\"%s\" href=\"%s\">documentati
 msgstr "Прочетете повече за тезиси в <a class=\"%s\" href=\"%s\">документацията</a>."
 
 #: internal/bookmarks/routes/x-base.templ:27
-#, fuzzy
 msgid "search in bookmarks"
-msgstr "Архивирани отметки"
+msgstr "търсене в отметките"
 
 #: internal/bookmarks/routes/x-base.templ:31
 #: internal/bookmarks/routes/x-filters.templ:20
@@ -1546,9 +1498,8 @@ msgstr "Зареждане"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:501
 #: internal/dashboard/x-dashboard.templ:182
-#, fuzzy
 msgid "untitled"
-msgstr "Заглавие"
+msgstr "неозаглавено"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:514
 #, python-format
@@ -1616,9 +1567,8 @@ msgid "Bookmark information"
 msgstr "Информация за отметката"
 
 #: internal/bookmarks/routes/x-bookmark.templ:43
-#, fuzzy
 msgid "Bookmark content"
-msgstr "Заглавие на отметката"
+msgstr "Съдържание на отметките"
 
 #: internal/bookmarks/routes/x-bookmark.templ:73
 msgid "Bookmark is loading"
@@ -1733,7 +1683,6 @@ msgid "Create a new collection"
 msgstr "Създаване на нова колекция"
 
 #: internal/bookmarks/routes/x-collections.templ:50
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\tCollections let you easily organize and export your bookmarks\n"
@@ -1744,12 +1693,12 @@ msgid ""
 "\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"          Колекциите ви позволяват лесно да организирате и експортирате отметките си,\n"
-"          като запазвате избрани от вас търсещи заявки.\n"
-"          Когато създадете нова отметка, която отговаря на критериите\n"
-"          на дадена колекция, тя ще се появи незабавно.\n"
-"          Ето няколко примера:\n"
-"        "
+"\t\t\t\t\t\t\t\tКолекциите ви позволяват лесно да организирате и експортирате\n"
+"\t\t\t\t\t\t\t\tотметките си, като запазвате избрани от вас търсещи заявки.\n"
+"\t\t\t\t\t\t\t\tКогато създадете нова отметка, която отговаря на критериите\n"
+"\t\t\t\t\t\t\t\tна дадена колекция, тя ще се появи незабавно.\n"
+"\t\t\t\t\t\t\t\tЕто няколко примера:\n"
+"\t\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-collections.templ:59
 msgid "The unread articles (no photos or videos)"
@@ -1779,9 +1728,8 @@ msgid "Created on: %s"
 msgstr "Създадено на: %s"
 
 #: internal/bookmarks/routes/x-collections.templ:97
-#, fuzzy
 msgid "This collection will be removed in a few seconds."
-msgstr "Колекцията ще бъде премахната след няколко секунди."
+msgstr "Тази колекция ще бъде премахната след няколко секунди."
 
 #: internal/bookmarks/routes/x-collections.templ:107
 #: internal/bookmarks/routes/x-sidebar.templ:131
@@ -1853,9 +1801,8 @@ msgid "Play video"
 msgstr "Възпроизвеждане на видео"
 
 #: internal/bookmarks/routes/x-components.templ:311
-#, fuzzy
 msgid "Extraction log"
-msgstr "Посока на текста"
+msgstr "Журнал за извличане"
 
 #: internal/bookmarks/routes/x-components.templ:315
 #: internal/bookmarks/routes/x-components.templ:366
@@ -1874,20 +1821,19 @@ msgstr "Запазено с Readeck"
 
 #: internal/bookmarks/routes/x-components.templ:353
 msgid "This feed provides the latest entries from this bookmark list"
-msgstr ""
+msgstr "Този канал предоставя най-новите записи от този списък с отметки"
 
 #: internal/bookmarks/routes/x-components.templ:354
 msgid "Subscribe to this feed by copying the URL below:"
-msgstr ""
+msgstr "Абонирайте се за този канал, като копирате URL адреса по-долу:"
 
 #: internal/bookmarks/routes/x-components.templ:373
-#, fuzzy
 msgid "Open link"
-msgstr "Копиране на връзката"
+msgstr "Отвори връзката"
 
 #: internal/bookmarks/routes/x-components.templ:381
 msgid "Access to this feed is restricted."
-msgstr ""
+msgstr "Достъпът до този канал е ограничен."
 
 #: internal/bookmarks/routes/x-components.templ:383
 msgid ""
@@ -1896,6 +1842,10 @@ msgid ""
 "\t\t\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">API Token</a> to load this feed.\n"
 "\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\tЗа да заредите този канал, трябва да въведете в приложението си за четене на\n"
+"\t\t\t\t\t\tновини потребителско име и <a class=\"%[1]s\" href=\"%[2]s\">API токен</a>.\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-components.templ:394
 msgid "You don't have any bookmarks yet.<br> Copy a link in the field above and start saving."
@@ -1907,18 +1857,16 @@ msgid "Read more about bookmarks in the <a class=\"%s\" href=\"%s\">documentatio
 msgstr "Научете повече за отметките в <a class=\"%s\" href=\"%s\">документацията</a>."
 
 #: internal/bookmarks/routes/x-components.templ:408
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWith the Browser Extension, you can save pages, images and selections\n"
 "\t\tdirectly from your browser!"
 msgstr ""
 "\n"
-"            С разширението за браузър можете да запазвате страници, изображения и селекции\n"
-"            директно от браузъра си!"
+"\t\tС разширението за браузър можете да запазвате страници, изображения и селекции\n"
+"\t\tдиректно от браузъра си!"
 
 #: internal/bookmarks/routes/x-components.templ:415
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWould you like to import from a similar tool or from a file with existing bookmarks?\n"
@@ -1926,9 +1874,9 @@ msgid ""
 "\t"
 msgstr ""
 "\n"
-"              Искате ли да импортирате от подобен инструмент или от файл със съществуващи отметки?\n"
-"              Опитайте инструмента за импортиране на Readeck.\n"
-"            "
+"\t\tИскате ли да импортирате от подобен инструмент или от файл със съществуващи отметки?\n"
+"\t\tОпитайте инструмента за импортиране на Readeck.\n"
+"\t"
 
 #: internal/bookmarks/routes/x-filters.templ:22
 msgid "Author"
@@ -1998,26 +1946,20 @@ msgid "Import your Linkwarden Bookmarks"
 msgstr "Импортирайте отметките си от Linkwarden"
 
 #: internal/bookmarks/routes/x-import.templ:65
-#, fuzzy
 msgid "Import your Pinboard bookmarks"
-msgstr "Импортирайте отметките си от Linkwarden"
+msgstr "Импортирайте отметките си от Pinboard"
 
 #: internal/bookmarks/routes/x-import.templ:79
 msgid "Import your Readwise Reader Library"
 msgstr "Импортирайте библиотеката си от Readwise Reader"
 
 #: internal/bookmarks/routes/x-import.templ:100
-#, fuzzy
 msgid "Here you can import your existing bookmark collection from various sources into Readeck."
-msgstr ""
-"\n"
-"    Тук можете да импортирате съществуващата си колекция от отметки от различни източници в Readeck.\n"
-"  "
+msgstr "Тук можете да импортирате съществуващата си колекция от отметки от различни източници в Readeck."
 
 #: internal/bookmarks/routes/x-import.templ:125
-#, fuzzy
 msgid "Import status"
-msgstr "Импорт"
+msgstr "Статус на импорта"
 
 #: internal/bookmarks/routes/x-import.templ:145
 msgid "Import operation will launch momentarily."
@@ -2036,23 +1978,21 @@ msgid "Import is finished!"
 msgstr "Импортирането приключи!"
 
 #: internal/bookmarks/routes/x-import.templ:165
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour bookmarks are now available in your <a class=\"%s\" href=\"%s\">bookmark list</a>.\n"
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"      Вашите отметки вече са достъпни във вашия <a class=\"%s\" href=\"%s\">списък с отметки</a>.\n"
-"      "
+"\t\t\t\t\t\tВашите отметки вече са достъпни във вашия <a class=\"%s\" href=\"%s\">списък с отметки</a>.\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:27
-#, fuzzy
 msgid "Bookmarks Labels"
 msgstr "Етикети на отметки"
 
 #: internal/bookmarks/routes/x-labels.templ:31
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tLabels let your organize your bookmarks the way you want.\n"
@@ -2060,8 +2000,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"  Етикетите ви позволяват да организирате отметките си както пожелаете.\n"
-"  Можете да зададете всякакъв етикет, включително и емоджита!\n"
+"\t\t\t\tЕтикетите ви позволяват да организирате отметките си както пожелаете.\n"
+"\t\t\t\tМожете да зададете всякакъв етикет, включително и емоджита!\n"
+"\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:128
 msgid "Label will be removed in a few seconds."
@@ -2177,15 +2118,14 @@ msgid "Errors occurred during extraction."
 msgstr "Възникнаха грешки по време на екстракцията."
 
 #: internal/bookmarks/routes/x-sidebar.templ:51
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tDepending on the error, Readeck's browser extension may provide\n"
 "\t\t\t\t\t\ta workaround."
 msgstr ""
 "\n"
-"          В зависимост от грешката, браузърното разширение на Readeck може да\n"
-"          предостави решение."
+"\t\t\t\t\t\tВ зависимост от грешката, браузърното разширение на Readeck може да\n"
+"\t\t\t\t\t\tпредостави решение."
 
 #: internal/bookmarks/routes/x-sidebar.templ:67
 msgid "View log"
@@ -2242,16 +2182,15 @@ msgstr "Връзки"
 #: internal/dashboard/x-dashboard.templ:26
 #, python-format
 msgid "Hi %s!"
-msgstr ""
+msgstr "Здравейте, %s!"
 
 #: internal/dashboard/x-dashboard.templ:60 internal/opds/http.go:71
 msgid "All Bookmarks"
 msgstr "Всички отметки"
 
 #: internal/dashboard/x-dashboard.templ:72
-#, fuzzy
 msgid "Readeck"
-msgstr "Помощ за Readeck"
+msgstr "Readeck"
 
 #: internal/dashboard/x-dashboard.templ:74 internal/profile/views.go:98
 #: internal/profile/views.go:151 internal/profile/views.go:187
@@ -2263,22 +2202,19 @@ msgstr "Профил"
 
 #: internal/dashboard/x-dashboard.templ:78
 msgid "Help"
-msgstr ""
+msgstr "Помощ"
 
 #: internal/dashboard/x-dashboard.templ:144
-#, fuzzy
 msgid "Archived"
-msgstr "Архив"
+msgstr "Архивирани"
 
 #: internal/dashboard/x-dashboard.templ:196
-#, fuzzy
 msgid "See all"
-msgstr "Всички"
+msgstr "Виж всички"
 
 #: internal/dashboard/x-dashboard.templ:218
-#, fuzzy
 msgid "Applications for Readeck"
-msgstr "Информация за приложението"
+msgstr "Приложения за Readeck"
 
 #: internal/dashboard/x-dashboard.templ:220
 msgid ""
@@ -2287,16 +2223,18 @@ msgid ""
 "\t\t\t\ton your smartphone, your e-book reader or\n"
 "\t\t\t\tin other apps through plugins."
 msgstr ""
+"\n"
+"\t\t\t\tМожете да използвате Readeck не само в браузъра си, но и\n"
+"\t\t\t\tна смартфона си, на четеца си за е-книги или\n"
+"\t\t\t\tв други приложения чрез плъгини.."
 
 #: internal/dashboard/x-dashboard.templ:228
-#, fuzzy
 msgid "Discover applications"
-msgstr "Приложения"
+msgstr "Открийте приложения"
 
 #: internal/dashboard/x-dashboard.templ:235
-#, fuzzy
 msgid "Readeck in your Browser"
-msgstr "Разширение за браузър Readeck"
+msgstr "Readeck на вашия браузър"
 
 #: internal/docs/http.go:257 internal/docs/x-about.templ:53
 #: internal/docs/x-base.templ:43
@@ -2308,7 +2246,6 @@ msgid "Version:"
 msgstr "Версия:"
 
 #: internal/docs/x-about.templ:58
-#, fuzzy
 msgid "Build Date:"
 msgstr "Дата на компилиране:"
 
@@ -2518,7 +2455,6 @@ msgid "Profile imported."
 msgstr "Профилът е импортиран."
 
 #: internal/profile/x-applications.templ:15
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tApplications are registered clients that have permissions to access your Readeck account.\n"
@@ -2527,9 +2463,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"  Приложенията са регистрирани клиенти, които имат разрешения за достъп до вашия акаунт в Readeck.\n"
-"  Ако тук има приложения, които не разпознавате, или някое приложение се държи\n"
-"  неподходящо, можете да оттеглите достъпа му.\n"
+"\t\t\t\t\tПриложенията са регистрирани клиенти, които имат разрешения за достъп до вашия акаунт в Readeck.\n"
+"\t\t\t\t\tАко тук има приложения, които не разпознавате, или някое приложение се държи\n"
+"\t\t\t\t\tнеподходящо, можете да оттеглите достъпа му.\n"
+"\t\t\t\t"
 
 #: internal/profile/x-applications.templ:23
 msgid "You have no registered application at the moment."
@@ -2545,7 +2482,7 @@ msgstr "Оторизирано на: %s"
 #, python-format
 msgctxt "datetime"
 msgid "%e %B %Y"
-msgstr ""
+msgstr "%e %B %Y"
 
 #: internal/profile/x-applications.templ:52 internal/profile/x-tokens.templ:63
 #, python-format
@@ -2565,7 +2502,7 @@ msgid "Developer information"
 msgstr "Информация за разработчика"
 
 #: internal/profile/x-applications.templ:107
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tIf you plan to build an application, please refer to the\n"
@@ -2573,9 +2510,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"    Ако планирате да създадете приложение, моля, обърнете се към\n"
-"    <a href=\"%s\">Документацията за API</a>.\n"
-"  "
+"\t\t\t\t\t\t\tАко планирате да създадете приложение, моля, обърнете се към\n"
+"\t\t\t\t\t\t\t<a href=\"%s\">Документацията за API</a>.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-export.templ:23
 msgid "Bookmark List in Browser Bookmarks Format"
@@ -2590,7 +2527,6 @@ msgid "Export your Readeck Profile"
 msgstr "Експортирайте профила си в Readeck"
 
 #: internal/profile/x-export.templ:41
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tThis lets you download a zip file containing all your profile's data, including\n"
@@ -2598,9 +2534,9 @@ msgid ""
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"    Това ви позволява да изтеглите zip файл, съдържащ всички данни на вашия профил,\n"
-"    включително отметки, колекции и др.\n"
-"    "
+"\t\t\t\t\t\tТова ви позволява да изтеглите zip файл, съдържащ всички данни на вашия профил,\n"
+"\t\t\t\t\t\tвключително отметки, колекции и др.\n"
+"\t\t\t\t\t"
 
 #: internal/profile/x-export.templ:47
 msgid "Export Data"
@@ -2631,7 +2567,6 @@ msgid "Attention"
 msgstr "Внимание"
 
 #: internal/profile/x-import.templ:34
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tThis will empty your current profile and all its data will be\n"
@@ -2639,16 +2574,16 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"      Това ще изчисти текущия ви профил и всичките му данни\n"
-"      ще бъдат заменени със съдържанието на файла.\n"
-"      "
+"\t\t\t\t\t\t\tТова ще изчисти текущия ви профил и всичките му данни\n"
+"\t\t\t\t\t\t\tще бъдат заменени със съдържанието на файла.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-import.templ:46
 msgid "Import bookmarks from other services"
 msgstr "Импортиране на отметки от други услуги"
 
 #: internal/profile/x-import.templ:49
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\tIf you have bookmarks from another service you can import them in the\n"
@@ -2656,9 +2591,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"  Ако имате отметки от друга услуга, можете да ги импортирате в\n"
-"  <a href=\"%s\">специалния раздел</a>.\n"
-"  "
+"\t\t\t\t\t\tАко имате отметки от друга услуга, можете да ги импортирате в\n"
+"\t\t\t\t\t\t<a href=\"%s\">специалния раздел</a>.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-profile.templ:17 internal/profile/x-security.templ:16
 msgid "My profile"
@@ -2702,7 +2637,6 @@ msgid "Sending e-books to an Amazon Kindle"
 msgstr "Изпращане на електронни книги към Amazon Kindle"
 
 #: internal/profile/x-profile.templ:93
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\t\t\tIf you plan to send e-books to a Kindle device, you must approve the\n"
@@ -2710,9 +2644,9 @@ msgid ""
 "\t\t\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"          Ако планирате да изпращате електронни книги към устройство Kindle,\n"
-"          трябва да одобрите следния имейл адрес в профила си в Kindle:\n"
-"          "
+"\t\t\t\t\t\t\t\t\t\tАко планирате да изпращате електронни книги към устройство Kindle,\n"
+"\t\t\t\t\t\t\t\t\t\tтрябва да одобрите следния имейл адрес в профила си в Kindle:\n"
+"\t\t\t\t\t\t\t\t\t"
 
 #: internal/profile/x-security.templ:25
 msgid "Change my password"
@@ -2837,7 +2771,6 @@ msgid "Roles"
 msgstr "Роли"
 
 #: internal/profile/x-tokens.templ:142
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tYou can limit the permissions granted to this token by choosing one or more\n"
@@ -2846,10 +2779,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"    Можете да ограничите разрешенията, дадени на този токен, като изберете една или повече\n"
-"    групи от разрешения по-долу.<br>\n"
-"    Оставете всички избори празни, за да предоставите всичките си разрешения на този токен.\n"
-"  "
+"\t\t\t\t\tМожете да ограничите разрешенията, дадени на този токен, като изберете една или повече\n"
+"\t\t\t\t\tгрупи от разрешения по-долу.<br>\n"
+"\t\t\t\t\tОставете всички избори празни, за да предоставите всичките си разрешения на този токен.\n"
+"\t\t\t\t"
 
 #: internal/profile/x-tokens.templ:158
 msgid "Delete token"
@@ -2900,15 +2833,16 @@ msgid "Alternatively, you can use this token as a password for HTTP Basic Authen
 msgstr "Като алтернатива, можете да използвате този токен като парола за HTTP Basic Authentication."
 
 #: internal/profile/x-tokens.templ:222
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tFor example, if an application only accepts a username and password, you can provide this token as a password.\n"
 "\t\t\t\tThe username is ignored and can be anything, including an empty value.\n"
 "\t\t\t"
 msgstr ""
-"Например, ако едно приложение приема само потребителско име и парола, можете да предоставите този токен като парола.\n"
-"  Потребителското име се игнорира и може да бъде всякакъв, включително празна стойност."
+"\n"
+"\t\t\t\tНапример, ако едно приложение приема само потребителско име и парола, можете да предоставите този токен като парола.\n"
+"\t\t\t\tПотребителското име се игнорира и може да бъде всякакъв, включително празна стойност.\n"
+"\t\t\t"
 
 #: pkg/forms/forms.go:28
 msgid "an unexpected error has occurred"
@@ -2927,14 +2861,14 @@ msgid "invalid URL"
 msgstr "невалиден URL адрес"
 
 #: pkg/forms/validators.go:290
-#, fuzzy, python-format
+#, python-format
 msgid "must be greater or equal than %g"
-msgstr "трябва да е по-голямо или равно на %d"
+msgstr "трябва да е по-голямо или равно на %g"
 
 #: pkg/forms/validators.go:307
-#, fuzzy, python-format
+#, python-format
 msgid "must be lower or equal than %g"
-msgstr "трябва да е по-малко или равно на %d"
+msgstr "трябва да е по-малко или равно на %g"
 
 #: pkg/forms/validators.go:315
 #, python-format
@@ -3275,4 +3209,3 @@ msgstr "%H:%M:%S"
 #~ "\t\t\t\ton your smartphone, your e-book reader or\n"
 #~ "\t\t\t\tin other apps through\tplugins."
 #~ msgstr ""
-

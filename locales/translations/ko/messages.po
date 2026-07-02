@@ -5,19 +5,21 @@
 # dewyeyed <dewyeyed@noreply.codeberg.org>, 2025, 2026.
 # olivier <olivier@noreply.codeberg.org>, 2025, 2026.
 # Anonymous <anonymous@noreply.codeberg.org>, 2026.
+# γλωσσολαλιά <glossolalia@noreply.codeberg.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-06-24 15:09+0200\n"
-"PO-Revision-Date: 2026-06-23 05:34+0000\n"
+"PO-Revision-Date: 2026-06-30 03:07+0000\n"
 "Last-Translator: dewyeyed <dewyeyed@noreply.codeberg.org>\n"
-"Language: ko\n"
 "Language-Team: Korean <https://translate.codeberg.org/projects/readeck/application/ko/>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -2212,7 +2214,6 @@ msgid "Applications for Readeck"
 msgstr "애플리케이션 정보"
 
 #: internal/dashboard/x-dashboard.templ:220
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tYou can use Readeck, not only in your browser, but also\n"
@@ -2220,9 +2221,9 @@ msgid ""
 "\t\t\t\tin other apps through plugins."
 msgstr ""
 "\n"
-"\t\t\t\t\t\t\t\t\tReadeck은 웹브라우저 뿐만이 아니라, 스마트폰, \n"
-"\t\t\t\t\t\t\t\t\tE-Book리더기, 또는 확장기능을 통해 다른 앱등에서도 \n"
-"\t\t\t\t\t\t\t\t\t사용할 수 있습니다."
+"\t\t\t\tReadeck은 웹브라우저 뿐만이 아니라, 스마트폰, \n"
+"\t\t\t\tE-Book리더, 또는 확장기능을 통해 다른 앱등에서도 \n"
+"\t\t\t\t사용할 수 있습니다."
 
 #: internal/dashboard/x-dashboard.templ:228
 msgid "Discover applications"
@@ -3310,4 +3311,3 @@ msgstr "%H:%M:%S"
 
 #~ msgid "New bookmarks"
 #~ msgstr "새로운 북마크"
-

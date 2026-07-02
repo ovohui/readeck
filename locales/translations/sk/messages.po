@@ -4,19 +4,21 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # γλωσσολαλιά <glossolalia@noreply.codeberg.org>, 2025, 2026.
 # olivier <olivier@noreply.codeberg.org>, 2025, 2026.
+# Кнⷫѧⷷ̈зⷮьⷬ Кропоткинъ <kropotkin@noreply.codeberg.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-06-24 15:09+0200\n"
-"PO-Revision-Date: 2026-05-16 13:28+0000\n"
-"Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
-"Language: sk\n"
+"PO-Revision-Date: 2026-06-26 07:10+0000\n"
+"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Slovak <https://translate.codeberg.org/projects/readeck/application/sk/>\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -44,9 +46,8 @@ msgid "An error occurred."
 msgstr "Vyskytla sa chyba."
 
 #: components/errors.templ:24
-#, fuzzy
 msgid "Back to home page"
-msgstr "Domovská stránka"
+msgstr "Na úvodnú stránku"
 
 #: components/forms/forms.templ:21
 msgid "Errors"
@@ -95,7 +96,6 @@ msgid "remove"
 msgstr "odstrániť"
 
 #: components/layout.templ:63
-#, fuzzy
 msgid "Open Menu"
 msgstr "Otvoriť menu"
 
@@ -181,15 +181,15 @@ msgstr "heslo je prázdne"
 
 #: internal/admin/forms.go:73
 msgid "User is external and can't be updated."
-msgstr ""
+msgstr "Používateľ je externý a nedá sa aktualizovať."
 
 #: internal/admin/forms.go:85 internal/profile/forms.go:97
 msgid "username is already in use"
-msgstr ""
+msgstr "používateľské meno sa už používa"
 
 #: internal/admin/forms.go:92 internal/profile/forms.go:104
 msgid "email address is already in use"
-msgstr ""
+msgstr "e-mailová adresa sa už používa"
 
 #: internal/admin/views.go:61 internal/admin/views.go:86
 #: internal/admin/views.go:127 internal/admin/x-users.templ:16
@@ -211,32 +211,28 @@ msgid "User updated."
 msgstr "Používateľ aktualizovaný."
 
 #: internal/admin/views.go:163
-#, fuzzy
 msgid "User detached."
-msgstr "Používateľ aktualizovaný."
+msgstr "Užívateľ odpojený."
 
 #: internal/admin/views.go:186
-#, fuzzy
 msgid "User signed out."
-msgstr "Odhlásiť sa"
+msgstr "Používateľ sa odhlásil."
 
 #: internal/admin/x-users.templ:19
 msgid "Add a new user"
 msgstr "Pridať nového používateľa"
 
 #: internal/admin/x-users.templ:38
-#, fuzzy
 msgid "External User"
-msgstr "Vytvoriť používateľa"
+msgstr "Externý Používateľ"
 
 #: internal/admin/x-users.templ:44 internal/admin/x-users.templ:174
-#, fuzzy
 msgid "TOTP is enabled"
-msgstr "Povolené"
+msgstr "TOTP je povolený"
 
 #: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
-msgstr ""
+msgstr "To si ty!"
 
 #: internal/admin/x-users.templ:56
 #, python-format
@@ -286,9 +282,8 @@ msgid "Create user"
 msgstr "Vytvoriť používateľa"
 
 #: internal/admin/x-users.templ:126
-#, fuzzy
 msgid "User information"
-msgstr "Systémové informácie"
+msgstr "Informácie o užívateľovi"
 
 #: internal/admin/x-users.templ:153
 msgid "will not change if empty"
@@ -307,12 +302,10 @@ msgid "Save"
 msgstr "Uložiť"
 
 #: internal/admin/x-users.templ:178
-#, fuzzy
 msgid "Created on"
-msgstr "Vytvorené: %s"
+msgstr "Vytvorené"
 
 #: internal/admin/x-users.templ:182
-#, fuzzy
 msgid "Last Login"
 msgstr "Posledné prihlásenie"
 
@@ -321,13 +314,12 @@ msgid "Last Activity"
 msgstr "Posledná aktivita"
 
 #: internal/admin/x-users.templ:194
-#, fuzzy
 msgid "Disk Usage"
 msgstr "Využitie disku"
 
 #: internal/admin/x-users.templ:198
 msgid "User Administration"
-msgstr ""
+msgstr "Administrácia Užívateľa"
 
 #: internal/admin/x-users.templ:204
 msgid "User will be removed in a few seconds"
@@ -335,12 +327,11 @@ msgstr "Používateľ bude odstránený o niekoľko sekúnd"
 
 #: internal/admin/x-users.templ:214
 msgid "This will sign this user out of all active sessions on the web application."
-msgstr ""
+msgstr "Týmto sa tento používateľ odhlási zo všetkých aktívnych relácií vo webovej aplikácii."
 
 #: internal/admin/x-users.templ:219
-#, fuzzy
 msgid "Sign this user out"
-msgstr "Odhlásiť sa"
+msgstr "Odhlásiť tohto používateľa"
 
 #: internal/admin/x-users.templ:227
 msgid ""
@@ -351,16 +342,21 @@ msgid ""
 "\t\t\t\t\t\t\t\t\tThis will detach the user <strong>%[2]s</strong>.\n"
 "\t\t\t\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\t\t\t\tTento používateľ je priradený k externému poskytovateľovi overovania:<br />\n"
+"\t\t\t\t\t\t\t\t\t<strong>%[1]s</strong>.<br />\n"
+"\t\t\t\t\t\t\t\t\tPreto niektoré z jeho vlastností nie je možné upravovať.<br />\n"
+"\t\t\t\t\t\t\t\t\tTýmto sa odpojí používateľ <strong>%[2]s</strong>.\n"
+"\t\t\t\t\t\t\t\t"
 
 #: internal/admin/x-users.templ:240
-#, fuzzy
 msgid "Detach this user"
-msgstr "Odstrániť tohto používateľa"
+msgstr "Odpojte tohto používateľa"
 
 #: internal/admin/x-users.templ:249
 #, python-format
 msgid "This will delete the user <strong>%s</strong> and all their contents."
-msgstr ""
+msgstr "Týmto sa vymaže používateľ <strong>%s</strong> spolu so všetkým jeho obsahom."
 
 #: internal/admin/x-users.templ:257
 msgid "Delete this user"
@@ -373,7 +369,7 @@ msgstr "Vyžaduje sa autorizácia"
 
 #: internal/auth/oauth2/x-oauth.templ:30
 msgid "This code has expired or is not valid"
-msgstr ""
+msgstr "Tento kód vypršal alebo je neplatný"
 
 #: internal/auth/oauth2/x-oauth.templ:33 internal/auth/oauth2/x-oauth.templ:50
 #: internal/auth/oauth2/x-oauth.templ:58
@@ -420,7 +416,7 @@ msgid "Sign out"
 msgstr "Odhlásiť sa"
 
 #: internal/auth/oauth2/x-oauth.templ:116
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t<strong>%s</strong> would like permission to access your account.\n"
@@ -428,9 +424,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"      <strong>%s</strong> by chcel(a) povolenie na prístup k vášmu účtu.\n"
-"      Schváľte túto žiadosť iba v prípade, že tento zdroj poznáte a dôverujete mu.\n"
-"    "
+"\t\t\t\t<strong>%s</strong> by chcel(a) povolenie na prístup k vášmu účtu.\n"
+"\t\t\t\tSchváľte túto žiadosť iba v prípade, že tento zdroj poznáte a dôverujete mu.\n"
+"\t\t\t"
 
 #: internal/auth/oauth2/x-oauth.templ:122
 msgid "Review permissions"
@@ -483,7 +479,6 @@ msgid "Please note:"
 msgstr "Poznámka:"
 
 #: internal/auth/onboarding/x-onboarding.templ:44
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour email address is optional and will never leave this installation.\n"
@@ -492,10 +487,10 @@ msgid ""
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"  Vaša e-mailová adresa je voliteľná a nikdy neopustí túto inštaláciu.\n"
-"  Nikdy nebude zbieraná, prenášaná ani predávaná.\n"
-"  Bude <strong>iba</strong> použitá, ak ju budete potrebovať, na obnovenie hesla a vnútorné oznámenia.\n"
-"  "
+"\t\t\t\t\t\tVaša e-mailová adresa je voliteľná a nikdy neopustí túto inštaláciu.\n"
+"\t\t\t\t\t\tNikdy nebude zbieraná, prenášaná ani predávaná.\n"
+"\t\t\t\t\t\tBude <strong>iba</strong> použitá, ak ju budete potrebovať, na obnovenie hesla a vnútorné oznámenia.\n"
+"\t\t\t\t\t"
 
 #: internal/auth/onboarding/x-onboarding.templ:52
 msgid "Finish installation"
@@ -567,7 +562,7 @@ msgstr ""
 
 #: internal/auth/signin/x-auth.templ:21
 msgid "Or continue with"
-msgstr ""
+msgstr "Alebo pokračujte v"
 
 #: internal/auth/signin/x-auth.templ:41 internal/auth/signin/x-auth.templ:68
 msgid "Sign in"
@@ -611,7 +606,6 @@ msgid "No worries, it happens to anyone."
 msgstr "Nemáte sa čoho obávať, stáva sa to každému."
 
 #: internal/auth/signin/x-auth.templ:129
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tPlease provide the email address you used to create\n"
@@ -620,10 +614,10 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"        Zadajte prosím e-mailovú adresu, ktorú ste použili pri vytvorení\n"
-"        svojho účtu, a my vám pošleme správu s odkazom\n"
-"        na obnovenie hesla.\n"
-"      "
+"\t\t\t\t\t\t\tZadajte prosím e-mailovú adresu, ktorú ste použili pri vytvorení\n"
+"\t\t\t\t\t\t\tsvojho účtu, a my vám pošleme správu s odkazom\n"
+"\t\t\t\t\t\t\tna obnovenie hesla.\n"
+"\t\t\t\t\t\t"
 
 #: internal/auth/signin/x-auth.templ:140
 msgid "Send me a recovery link"
@@ -634,14 +628,9 @@ msgid "Almost there!"
 msgstr "Už ste takmer tam!"
 
 #: internal/auth/signin/x-auth.templ:152
-#, fuzzy, python-format
+#, python-format
 msgid "We have sent an email to <strong>%s</strong> with further instructions."
-msgstr ""
-"\n"
-"        Na e-mailovú adresu\n"
-"        <strong>%s</strong>\n"
-"        sme vám odoslali ďalšie pokyny.\n"
-"      "
+msgstr "Na e-mailovú adresu <strong>%s</strong> sme vám odoslali ďalšie pokyny."
 
 #: internal/auth/signin/x-auth.templ:168 internal/profile/x-security.templ:33
 msgid "New password"
@@ -660,19 +649,16 @@ msgid "Go to the sign in page"
 msgstr "Prejsť na stránku prihlásenia"
 
 #: internal/auth/users/forms.go:18
-#, fuzzy
 msgid "username is not valid"
-msgstr "používateľské meno sa nezhoduje"
+msgstr "používateľské meno nie je platné"
 
 #: internal/auth/users/forms.go:19
-#, fuzzy
 msgid "username is not available"
-msgstr "používateľské meno sa nezhoduje"
+msgstr "používateľské meno nie je k dispozícii"
 
 #: internal/auth/users/forms.go:34
-#, fuzzy
 msgid "password must be at least 8 characters long"
-msgstr "musí mať aspoň 8 znakov"
+msgstr "heslo musí mať aspoň 8 znakov"
 
 #: internal/auth/users/forms.go:89
 msgctxt "role"
@@ -798,7 +784,7 @@ msgstr "Prázdny alebo neplatný importný súbor"
 
 #: internal/bookmarks/importer/pinboard.go:44
 msgid "Pinboard JSON backup File"
-msgstr ""
+msgstr "Záložný súbor JSON z Pinboard"
 
 #: internal/bookmarks/importer/readwise.go:62
 msgid "Readwise Reader CSV"
@@ -871,7 +857,6 @@ msgid "Import your Browser's Bookmarks"
 msgstr "Importujte záložky svojho prehliadača"
 
 #: internal/bookmarks/importer/x-forms.templ:68
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tIn your web browser, export your bookmarks as an HTML file.<br>\n"
@@ -880,10 +865,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"    Vo svojom webovom prehliadači exportujte záložky ako súbor HTML.<br>\n"
-"    Nahrajte tento súbor do formulára nižšie a Readeck vytvorí a načíta\n"
-"    každú záložku, ktorú v súbore nájde.\n"
-"  "
+"\t\t\t\t\tVo svojom webovom prehliadači exportujte záložky ako súbor HTML.<br>\n"
+"\t\t\t\t\tNahrajte tento súbor do formulára nižšie a Readeck vytvorí a načíta\n"
+"\t\t\t\t\tkaždú záložku, ktorú v súbore nájde.\n"
+"\t\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:77
 msgid "Instructions for Firefox"
@@ -906,20 +891,15 @@ msgid "Import Links from a CSV File"
 msgstr "Importovať odkazy zo súboru CSV"
 
 #: internal/bookmarks/importer/x-forms.templ:101
-#, fuzzy
 msgid "Upload a CSV file from Instapaper or any CSV that matches the format specified below."
-msgstr ""
-"\n"
-"    Nahrajte súbor CSV z Instapaper alebo akýkoľvek súbor CSV, ktorý zodpovedá nižšie uvedenému formátu.\n"
-"  "
+msgstr "Nahrajte súbor CSV z Instapaper alebo akýkoľvek súbor CSV, ktorý zodpovedá nižšie uvedenému formátu."
 
 #: internal/bookmarks/importer/x-forms.templ:107
-#, fuzzy
 msgid "CSV Format"
-msgstr "Formát"
+msgstr "CSV Formát"
 
 #: internal/bookmarks/importer/x-forms.templ:110
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\tThe uploaded file must contain a first row with the column names. Column names are case\n"
@@ -927,9 +907,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Nahraný súbor musí v prvom riadku obsahovať názvy stĺpcov. Názvy stĺpcov nerozlišujú malé a\n"
-"    veľké písmená a s výnimkou <code>%s</code> je každý stĺpec voliteľný.\n"
-"  "
+"\t\t\t\tNahraný súbor musí v prvom riadku obsahovať názvy stĺpcov. Názvy stĺpcov nerozlišujú malé a\n"
+"\t\t\t\tveľké písmená a s výnimkou <code>%s</code> je každý stĺpec voliteľný.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:115
 msgid "Here are the columns you can set:"
@@ -978,37 +958,24 @@ msgid "Import Links from a GoodLinks export file"
 msgstr "Importovať odkazy zo súboru exportu GoodLinks"
 
 #: internal/bookmarks/importer/x-forms.templ:164
-#, fuzzy
 msgid "Upload a JSON file obtained from your GoodLinks app."
-msgstr ""
-"\n"
-"    Nahrajte súbor JSON získaný z vašej aplikácie GoodLinks.\n"
-"  "
+msgstr "Nahrajte súbor JSON získaný z vašej aplikácie GoodLinks."
 
 #: internal/bookmarks/importer/x-forms.templ:173
 msgid "Import Bookmarks from a Linkwarden export file"
 msgstr "Importovať záložky zo súboru exportu Linkwarden"
 
 #: internal/bookmarks/importer/x-forms.templ:176
-#, fuzzy
 msgid "Upload a JSON file obtained from your Linkwarden app."
-msgstr ""
-"\n"
-"    Nahrajte súbor JSON získaný z vašej aplikácie Linkwarden.\n"
-"  "
+msgstr "Nahrajte súbor JSON získaný z vašej aplikácie Linkwarden."
 
 #: internal/bookmarks/importer/x-forms.templ:185
-#, fuzzy
 msgid "Import Links from a Pinboard JSON backup file"
-msgstr "Importovať odkazy zo súboru CSV"
+msgstr "Importovať odkazy zo Pinboard JSON súboru"
 
 #: internal/bookmarks/importer/x-forms.templ:188
-#, fuzzy
 msgid "Upload a JSON file obtained from your Pinboard account."
-msgstr ""
-"\n"
-"    Nahrajte súbor JSON získaný z vašej aplikácie Linkwarden.\n"
-"  "
+msgstr "Nahrajte súbor JSON získaný z vašej aplikácie Pinboard."
 
 #: internal/bookmarks/importer/x-forms.templ:197
 #: internal/bookmarks/routes/x-import.templ:72
@@ -1016,7 +983,6 @@ msgid "Import your Pocket Articles"
 msgstr "Importovať vaše články z Pocket"
 
 #: internal/bookmarks/importer/x-forms.templ:200
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a Pocket export file in the form below and Readeck will fetch and save\n"
@@ -1024,9 +990,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Nahrajte tento súbor do formulára nižšie a Readeck načíta a uloží\n"
-"    každý odkaz, ktorý sa v ňom nachádza.\n"
-"  "
+"\t\t\t\tNahrajte tento súbor do formulára nižšie a Readeck načíta a uloží\n"
+"\t\t\t\tkaždý odkaz, ktorý sa v ňom nachádza.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:212
 msgid "Note: upload the ZIP file directly, not its contents"
@@ -1037,12 +1003,8 @@ msgid "Import Links from Readwise Reader CSV export"
 msgstr "Importovať odkazy z exportu Readwise Reader CSV"
 
 #: internal/bookmarks/importer/x-forms.templ:223
-#, fuzzy
 msgid "Upload a CSV file exported from your Readwise Reader account below."
-msgstr ""
-"\n"
-"    Nižšie nahrajte súbor CSV exportovaný z vášho účtu Readwise Reader.\n"
-"  "
+msgstr "Nižšie nahrajte súbor CSV exportovaný z vášho účtu Readwise Reader."
 
 #: internal/bookmarks/importer/x-forms.templ:229
 msgid "Which information is imported"
@@ -1088,7 +1050,6 @@ msgid "Import Links from a Text File"
 msgstr "Importovať odkazy z textového súboru"
 
 #: internal/bookmarks/importer/x-forms.templ:250
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a text file that contains one link per line and Readeck will fetch\n"
@@ -1096,9 +1057,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Nahrajte textový súbor, ktorý obsahuje jeden odkaz na riadok, a Readeck\n"
-"    všetky načíta a uloží ich do vášho zoznamu záložiek.\n"
-"  "
+"\t\t\t\tNahrajte textový súbor, ktorý obsahuje jeden odkaz na riadok, a Readeck\n"
+"\t\t\t\tvšetky načíta a uloží ich do vášho zoznamu záložiek.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:260
 #: internal/bookmarks/routes/x-import.templ:93
@@ -1106,7 +1067,6 @@ msgid "Import your Wallabag Articles"
 msgstr "Importujte svoje články z Wallabagu"
 
 #: internal/bookmarks/importer/x-forms.templ:263
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tTo import your articles from Wallabag, you must first create an API client\n"
@@ -1115,18 +1075,14 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Ak chcete importovať svoje články z Wallabagu, musíte si najprv vytvoriť API klienta\n"
-"    v menu Wallabagu <strong>Správa API klientov</strong>. Tým získate\n"
-"    <strong>Client ID</strong> a <strong>Client secret</strong>.\n"
-"  "
+"\t\t\t\tAk chcete importovať svoje články z Wallabagu, musíte si najprv vytvoriť API klienta\n"
+"\t\t\t\tv menu Wallabagu <strong>Správa API klientov</strong>. Tým získate\n"
+"\t\t\t\t<strong>Client ID</strong> a <strong>Client secret</strong>.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:270
-#, fuzzy
 msgid "You can then enter all the necessary information in the form below."
-msgstr ""
-"\n"
-"    Všetky potrebné informácie môžete následne zadať do formulára nižšie.\n"
-"  "
+msgstr "Všetky potrebné informácie môžete následne zadať do formulára nižšie."
 
 #: internal/bookmarks/importer/x-forms.templ:278
 msgid "Wallabag URL"
@@ -1218,7 +1174,7 @@ msgstr "Článok"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:679
 msgid "E-Book"
-msgstr ""
+msgstr "E-kniha"
 
 #: internal/bookmarks/routes/forms_filters.go:51
 msgid "Picture"
@@ -1246,7 +1202,7 @@ msgstr "Dokončené"
 #: internal/bookmarks/routes/forms_filters.go:68
 #, python-format
 msgid "\"%s\" is not a valid date value"
-msgstr ""
+msgstr "\"%s\" nie je platná hodnota dátumu"
 
 #: internal/bookmarks/routes/opds.go:57
 msgid "Readeck Bookmarks"
@@ -1329,9 +1285,8 @@ msgid "Share by email"
 msgstr "Zdieľať e-mailom"
 
 #: internal/bookmarks/routes/views_collections.go:39
-#, fuzzy
 msgid "Collection created."
-msgstr "Kolekcia aktualizovaná."
+msgstr "Kolekcia vytvorená."
 
 #: internal/bookmarks/routes/views_collections.go:66
 msgid "Collection updated."
@@ -1359,7 +1314,6 @@ msgid "You don't have any highlights yet."
 msgstr "Zatiaľ nemáte žiadne významné body."
 
 #: internal/bookmarks/routes/x-annotations.templ:22
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tOnce you start highlighting parts of your saved articles, they will appear on this page\n"
@@ -1367,9 +1321,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"        Akonáhle začnete v uložených článkoch zvýrazňovať text, zobrazí sa na tejto stránke,\n"
-"        aby ste ho mohli ľahko nájsť.\n"
-"      "
+"\t\t\t\t\t\t\tAkonáhle začnete v uložených článkoch zvýrazňovať text, zobrazí sa na tejto stránke,\n"
+"\t\t\t\t\t\t\taby ste ho mohli ľahko nájsť.\n"
+"\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-annotations.templ:29
 #, python-format
@@ -1377,9 +1331,8 @@ msgid "Read more about highlights in the <a class=\"%s\" href=\"%s\">documentati
 msgstr "Prečítajte si viac o výrazných častiach v <a class=\"%s\" href=\"%s\">dokumentácii</a>."
 
 #: internal/bookmarks/routes/x-base.templ:27
-#, fuzzy
 msgid "search in bookmarks"
-msgstr "Archivované záložky"
+msgstr "vyhľadávať v záložkách"
 
 #: internal/bookmarks/routes/x-base.templ:31
 #: internal/bookmarks/routes/x-filters.templ:20
@@ -1547,9 +1500,8 @@ msgstr "Načítavanie"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:501
 #: internal/dashboard/x-dashboard.templ:182
-#, fuzzy
 msgid "untitled"
-msgstr "Nadpis"
+msgstr "bez názvu"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:514
 #, python-format
@@ -1618,9 +1570,8 @@ msgid "Bookmark information"
 msgstr "Informácie o záložke"
 
 #: internal/bookmarks/routes/x-bookmark.templ:43
-#, fuzzy
 msgid "Bookmark content"
-msgstr "Názov záložky"
+msgstr "Obsah záložky"
 
 #: internal/bookmarks/routes/x-bookmark.templ:73
 msgid "Bookmark is loading"
@@ -1735,7 +1686,6 @@ msgid "Create a new collection"
 msgstr "Vytvoriť novú kolekciu"
 
 #: internal/bookmarks/routes/x-collections.templ:50
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\tCollections let you easily organize and export your bookmarks\n"
@@ -1746,12 +1696,12 @@ msgid ""
 "\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"          Zbierky vám umožňujú jednoducho organizovať a exportovať vaše záložky\n"
-"          ukladaním vami zvolených vyhľadávacích dopytov.\n"
-"          Keď vytvoríte novú záložku, ktorá spĺňa kritériá zbierky,\n"
-"          okamžite sa v nej zobrazí.\n"
-"          Tu je niekoľko príkladov:\n"
-"        "
+"\t\t\t\t\t\t\t\tZbierky vám umožňujú jednoducho organizovať a exportovať vaše záložky\n"
+"\t\t\t\t\t\t\t\tukladaním vami zvolených vyhľadávacích dopytov.\n"
+"\t\t\t\t\t\t\t\tKeď vytvoríte novú záložku, ktorá spĺňa kritériá zbierky,\n"
+"\t\t\t\t\t\t\t\tokamžite sa v nej zobrazí.\n"
+"\t\t\t\t\t\t\t\tTu je niekoľko príkladov:\n"
+"\t\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-collections.templ:59
 msgid "The unread articles (no photos or videos)"
@@ -1781,9 +1731,8 @@ msgid "Created on: %s"
 msgstr "Vytvorené: %s"
 
 #: internal/bookmarks/routes/x-collections.templ:97
-#, fuzzy
 msgid "This collection will be removed in a few seconds."
-msgstr "Zoznam bude odstránený o niekoľko sekúnd."
+msgstr "Táto kolekcia bude odstránená o niekoľko sekúnd."
 
 #: internal/bookmarks/routes/x-collections.templ:107
 #: internal/bookmarks/routes/x-sidebar.templ:131
@@ -1855,9 +1804,8 @@ msgid "Play video"
 msgstr "Prehrať video"
 
 #: internal/bookmarks/routes/x-components.templ:311
-#, fuzzy
 msgid "Extraction log"
-msgstr "Smer textu"
+msgstr "Protokol extrakcie"
 
 #: internal/bookmarks/routes/x-components.templ:315
 #: internal/bookmarks/routes/x-components.templ:366
@@ -1876,20 +1824,19 @@ msgstr "Uložené s Readeck"
 
 #: internal/bookmarks/routes/x-components.templ:353
 msgid "This feed provides the latest entries from this bookmark list"
-msgstr ""
+msgstr "Tento kanál obsahuje najnovšie záznamy z tohto zoznamu záložiek"
 
 #: internal/bookmarks/routes/x-components.templ:354
 msgid "Subscribe to this feed by copying the URL below:"
-msgstr ""
+msgstr "Prihláste sa na odber tohto kanála skopírovaním nižšie uvedenej URL adresy:"
 
 #: internal/bookmarks/routes/x-components.templ:373
-#, fuzzy
 msgid "Open link"
-msgstr "Skopírovať odkaz"
+msgstr "Otvoriť odkaz"
 
 #: internal/bookmarks/routes/x-components.templ:381
 msgid "Access to this feed is restricted."
-msgstr ""
+msgstr "Prístup k tomuto kanálu je obmedzený."
 
 #: internal/bookmarks/routes/x-components.templ:383
 msgid ""
@@ -1898,6 +1845,10 @@ msgid ""
 "\t\t\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">API Token</a> to load this feed.\n"
 "\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\tNa načítanie tohto kanála musíte vo svojej aplikácii na čítanie správ\n"
+"\t\t\t\t\t\tzadať používateľské meno a <a class=\"%[1]s\" href=\"%[2]s\">API Token</a>.\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-components.templ:394
 msgid "You don't have any bookmarks yet.<br> Copy a link in the field above and start saving."
@@ -1909,18 +1860,16 @@ msgid "Read more about bookmarks in the <a class=\"%s\" href=\"%s\">documentatio
 msgstr "Prečítajte si viac o záložkách v <a class=\"%s\" href=\"%s\">dokumentácii</a>."
 
 #: internal/bookmarks/routes/x-components.templ:408
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWith the Browser Extension, you can save pages, images and selections\n"
 "\t\tdirectly from your browser!"
 msgstr ""
 "\n"
-"            S rozšírením pre prehliadač si môžete ukladať stránky, obrázky a výbery\n"
-"            priamo z vášho prehliadača!"
+"\t\tS rozšírením pre prehliadač si môžete ukladať stránky, obrázky a výbery\n"
+"\t\tpriamo z vášho prehliadača!"
 
 #: internal/bookmarks/routes/x-components.templ:415
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWould you like to import from a similar tool or from a file with existing bookmarks?\n"
@@ -1928,9 +1877,9 @@ msgid ""
 "\t"
 msgstr ""
 "\n"
-"              Chceli by ste importovať z podobného nástroja alebo zo súboru s existujúcimi záložkami?\n"
-"              Vyskúšajte nástroj na import Readeck.\n"
-"            "
+"\t\tChceli by ste importovať z podobného nástroja alebo zo súboru s existujúcimi záložkami?\n"
+"\t\t Vyskúšajte nástroj na import Readeck.\n"
+"\t"
 
 #: internal/bookmarks/routes/x-filters.templ:22
 msgid "Author"
@@ -2000,26 +1949,20 @@ msgid "Import your Linkwarden Bookmarks"
 msgstr "Importujte svoje záložky z Linkwarden"
 
 #: internal/bookmarks/routes/x-import.templ:65
-#, fuzzy
 msgid "Import your Pinboard bookmarks"
-msgstr "Importujte svoje záložky z Linkwarden"
+msgstr "Importujte svoje záložky z Pinboard"
 
 #: internal/bookmarks/routes/x-import.templ:79
 msgid "Import your Readwise Reader Library"
 msgstr "Importujte svoju knižnicu z Readwise Reader"
 
 #: internal/bookmarks/routes/x-import.templ:100
-#, fuzzy
 msgid "Here you can import your existing bookmark collection from various sources into Readeck."
-msgstr ""
-"\n"
-"    Tu môžete do Readecku importovať svoju existujúcu zbierku záložiek z rôznych zdrojov.\n"
-"  "
+msgstr "Tu môžete do Readecku importovať svoju existujúcu zbierku záložiek z rôznych zdrojov."
 
 #: internal/bookmarks/routes/x-import.templ:125
-#, fuzzy
 msgid "Import status"
-msgstr "Import"
+msgstr "Stav importu"
 
 #: internal/bookmarks/routes/x-import.templ:145
 msgid "Import operation will launch momentarily."
@@ -2038,23 +1981,21 @@ msgid "Import is finished!"
 msgstr "Import je dokončený!"
 
 #: internal/bookmarks/routes/x-import.templ:165
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour bookmarks are now available in your <a class=\"%s\" href=\"%s\">bookmark list</a>.\n"
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"      Vaše záložky sú teraz k dispozícii vo vašom <a class=\"%s\" href=\"%s\">zozname záložiek</a>.\n"
-"      "
+"\t\t\t\t\t\tVaše záložky sú teraz k dispozícii vo vašom <a class=\"%s\" href=\"%s\">zozname záložiek</a>.\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:27
-#, fuzzy
 msgid "Bookmarks Labels"
 msgstr "Štítky záložiek"
 
 #: internal/bookmarks/routes/x-labels.templ:31
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tLabels let your organize your bookmarks the way you want.\n"
@@ -2062,8 +2003,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"  Štítky vám umožňujú usporiadať si záložky presne podľa vašich predstáv.\n"
-"  Ako štítok môžete nastaviť čokoľvek, vrátane emoji!\n"
+"\t\t\t\tŠtítky vám umožňujú usporiadať si záložky presne podľa vašich predstáv.\n"
+"\t\t\t\tAko štítok môžete nastaviť čokoľvek, vrátane emoji!\n"
+"\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:128
 msgid "Label will be removed in a few seconds."
@@ -2179,15 +2121,14 @@ msgid "Errors occurred during extraction."
 msgstr "Počas extrakcie sa vyskytli chyby."
 
 #: internal/bookmarks/routes/x-sidebar.templ:51
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tDepending on the error, Readeck's browser extension may provide\n"
 "\t\t\t\t\t\ta workaround."
 msgstr ""
 "\n"
-"          V závislosti od chyby môže rozšírenie prehliadača Readeck\n"
-"          poskytnúť náhradné riešenie."
+"\t\t\t\t\t\tV závislosti od chyby môže rozšírenie prehliadača Readeck\n"
+"\t\t\t\t\t\tposkytnúť náhradné riešenie."
 
 #: internal/bookmarks/routes/x-sidebar.templ:67
 msgid "View log"
@@ -2244,16 +2185,15 @@ msgstr "Odkazy"
 #: internal/dashboard/x-dashboard.templ:26
 #, python-format
 msgid "Hi %s!"
-msgstr ""
+msgstr "Ahoj %s!"
 
 #: internal/dashboard/x-dashboard.templ:60 internal/opds/http.go:71
 msgid "All Bookmarks"
 msgstr "Všetky záložky"
 
 #: internal/dashboard/x-dashboard.templ:72
-#, fuzzy
 msgid "Readeck"
-msgstr "Pomocník Readeck"
+msgstr "Readeck"
 
 #: internal/dashboard/x-dashboard.templ:74 internal/profile/views.go:98
 #: internal/profile/views.go:151 internal/profile/views.go:187
@@ -2265,22 +2205,19 @@ msgstr "Profil"
 
 #: internal/dashboard/x-dashboard.templ:78
 msgid "Help"
-msgstr ""
+msgstr "Pomôcť"
 
 #: internal/dashboard/x-dashboard.templ:144
-#, fuzzy
 msgid "Archived"
-msgstr "Archív"
+msgstr "Archivovaný"
 
 #: internal/dashboard/x-dashboard.templ:196
-#, fuzzy
 msgid "See all"
-msgstr "Všetko"
+msgstr "Zobraziť všetko"
 
 #: internal/dashboard/x-dashboard.templ:218
-#, fuzzy
 msgid "Applications for Readeck"
-msgstr "Informácie o aplikácii"
+msgstr "Aplikácie pre Readeck"
 
 #: internal/dashboard/x-dashboard.templ:220
 msgid ""
@@ -2289,16 +2226,18 @@ msgid ""
 "\t\t\t\ton your smartphone, your e-book reader or\n"
 "\t\t\t\tin other apps through plugins."
 msgstr ""
+"\n"
+"\t\t\t\tReadeck môžete používať nielen v prehliadači, ale aj\n"
+"\t\t\t\tna smartfóne, čítačke e-kníh alebo\n"
+"\t\t\t\tv iných aplikáciách prostredníctvom doplnkov."
 
 #: internal/dashboard/x-dashboard.templ:228
-#, fuzzy
 msgid "Discover applications"
-msgstr "Aplikácie"
+msgstr "Objavte aplikácie"
 
 #: internal/dashboard/x-dashboard.templ:235
-#, fuzzy
 msgid "Readeck in your Browser"
-msgstr "Prehliadačové rozšírenie Readeck"
+msgstr "Readeck vo Vašom prehliadači"
 
 #: internal/docs/http.go:257 internal/docs/x-about.templ:53
 #: internal/docs/x-base.templ:43
@@ -2310,7 +2249,6 @@ msgid "Version:"
 msgstr "Verzia:"
 
 #: internal/docs/x-about.templ:58
-#, fuzzy
 msgid "Build Date:"
 msgstr "Dátum zostavenia:"
 
@@ -2520,7 +2458,6 @@ msgid "Profile imported."
 msgstr "Profil bol importovaný."
 
 #: internal/profile/x-applications.templ:15
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tApplications are registered clients that have permissions to access your Readeck account.\n"
@@ -2529,9 +2466,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"  Aplikácie sú registrovaní klienti, ktorí majú povolenie na prístup k vášmu účtu Readeck.\n"
-"  Ak tu nájdete aplikácie, ktoré nespoznávate, alebo ak sa niektorá aplikácia správa podozrivo,\n"
-"  môžete jej prístup zrušiť.\n"
+"\t\t\t\t\tAplikácie sú registrovaní klienti, ktorí majú povolenie na prístup k vášmu účtu Readeck.\n"
+"\t\t\t\t\tAk tu nájdete aplikácie, ktoré nespoznávate, alebo ak sa niektorá aplikácia správa podozrivo,\n"
+"\t\t\t\t\tmôžete jej prístup zrušiť.\n"
+"\t\t\t\t"
 
 #: internal/profile/x-applications.templ:23
 msgid "You have no registered application at the moment."
@@ -2547,7 +2485,7 @@ msgstr "Autorizované dňa: %s"
 #, python-format
 msgctxt "datetime"
 msgid "%e %B %Y"
-msgstr ""
+msgstr "%e %B %Y"
 
 #: internal/profile/x-applications.templ:52 internal/profile/x-tokens.templ:63
 #, python-format
@@ -2567,7 +2505,7 @@ msgid "Developer information"
 msgstr "Informácie pre vývojárov"
 
 #: internal/profile/x-applications.templ:107
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tIf you plan to build an application, please refer to the\n"
@@ -2575,9 +2513,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"    Ak plánujete vytvoriť aplikáciu, pozrite si, prosím,\n"
-"    <a href=\"%s\">API dokumentáciu</a>.\n"
-"  "
+"\t\t\t\t\t\t\tAk plánujete vytvoriť aplikáciu, pozrite si, prosím,\n"
+"\t\t\t\t\t\t\t<a href=\"%s\">API dokumentáciu</a>.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-export.templ:23
 msgid "Bookmark List in Browser Bookmarks Format"
@@ -2592,7 +2530,6 @@ msgid "Export your Readeck Profile"
 msgstr "Exportovať váš profil Readeck"
 
 #: internal/profile/x-export.templ:41
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tThis lets you download a zip file containing all your profile's data, including\n"
@@ -2600,9 +2537,9 @@ msgid ""
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"    To vám umožní stiahnuť si súbor zip obsahujúci všetky údaje vášho profilu, vrátane\n"
-"    záložiek, zbierok atď.\n"
-"    "
+"\t\t\t\t\t\tTo vám umožní stiahnuť si súbor zip obsahujúci všetky údaje vášho profilu, vrátane\n"
+"\t\t\t\t\t\tzáložiek, zbierok atď.\n"
+"\t\t\t\t\t"
 
 #: internal/profile/x-export.templ:47
 msgid "Export Data"
@@ -2633,7 +2570,6 @@ msgid "Attention"
 msgstr "Upozornenie"
 
 #: internal/profile/x-import.templ:34
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tThis will empty your current profile and all its data will be\n"
@@ -2641,16 +2577,16 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"      Týmto sa vymaže váš aktuálny profil a všetky jeho údaje budú\n"
-"      nahradené obsahom súboru.\n"
-"      "
+"\t\t\t\t\t\t\tTýmto sa vymaže váš aktuálny profil a všetky jeho údaje budú\n"
+"\t\t\t\t\t\t\tnahradené obsahom súboru.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-import.templ:46
 msgid "Import bookmarks from other services"
 msgstr "Importovať záložky z iných služieb"
 
 #: internal/profile/x-import.templ:49
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\tIf you have bookmarks from another service you can import them in the\n"
@@ -2658,9 +2594,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"  Ak máte záložky z inej služby, môžete si ich importovať v\n"
-"  <a href=\"%s\">vyhradenej sekcii</a>.\n"
-"  "
+"\t\t\t\t\t\tAk máte záložky z inej služby, môžete si ich importovať v\n"
+"\t\t\t\t\t\t<a href=\"%s\">vyhradenej sekcii</a>.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-profile.templ:17 internal/profile/x-security.templ:16
 msgid "My profile"
@@ -2704,7 +2640,6 @@ msgid "Sending e-books to an Amazon Kindle"
 msgstr "Odosielanie e-kníh do čítačky Amazon Kindle"
 
 #: internal/profile/x-profile.templ:93
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\t\t\tIf you plan to send e-books to a Kindle device, you must approve the\n"
@@ -2712,9 +2647,9 @@ msgid ""
 "\t\t\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"          Ak plánujete posielať e-knihy do zariadenia Kindle, musíte vo svojom\n"
-"          účte Kindle schváliť nasledujúcu e-mailovú adresu:\n"
-"          "
+"\t\t\t\t\t\t\t\t\t\tAk plánujete posielať e-knihy do zariadenia Kindle, musíte vo svojom\n"
+"\t\t\t\t\t\t\t\t\t\túčte Kindle schváliť nasledujúcu e-mailovú adresu:\n"
+"\t\t\t\t\t\t\t\t\t"
 
 #: internal/profile/x-security.templ:25
 msgid "Change my password"
@@ -2839,7 +2774,6 @@ msgid "Roles"
 msgstr "Roly"
 
 #: internal/profile/x-tokens.templ:142
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tYou can limit the permissions granted to this token by choosing one or more\n"
@@ -2848,10 +2782,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"    Povolenia udelené tomuto tokenu môžete obmedziť výberom jednej alebo viacerých\n"
-"    skupín povolení nižšie.<br>\n"
-"    Ak ponecháte všetky možnosti nevybraté, tokenu budú udelené všetky vaše povolenia.\n"
-"  "
+"\t\t\t\t\tPovolenia udelené tomuto tokenu môžete obmedziť výberom jednej alebo viacerých\n"
+"\t\t\t\t\tskupín povolení nižšie.<br>\n"
+"\t\t\t\t\tAk ponecháte všetky možnosti nevybraté, tokenu budú udelené všetky vaše povolenia.\n"
+"\t\t\t\t"
 
 #: internal/profile/x-tokens.templ:158
 msgid "Delete token"
@@ -2902,15 +2836,16 @@ msgid "Alternatively, you can use this token as a password for HTTP Basic Authen
 msgstr "Prípadne môžete tento token použiť ako heslo pre základnú HTTP autentifikáciu (Basic Authentication)."
 
 #: internal/profile/x-tokens.templ:222
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tFor example, if an application only accepts a username and password, you can provide this token as a password.\n"
 "\t\t\t\tThe username is ignored and can be anything, including an empty value.\n"
 "\t\t\t"
 msgstr ""
-"Napríklad, ak aplikácia vyžaduje iba používateľské meno a heslo, môžete tento token zadať ako heslo.\n"
-"  Používateľské meno sa ignoruje a môže byť akékoľvek, vrátane prázdnej hodnoty."
+"\n"
+"\t\t\t\tNapríklad, ak aplikácia vyžaduje iba používateľské meno a heslo, môžete tento token zadať ako heslo.\n"
+"\t\t\t\tPoužívateľské meno sa ignoruje a môže byť akékoľvek, vrátane prázdnej hodnoty.\n"
+"\t\t\t"
 
 #: pkg/forms/forms.go:28
 msgid "an unexpected error has occurred"
@@ -2929,14 +2864,14 @@ msgid "invalid URL"
 msgstr "neplatná URL adresa"
 
 #: pkg/forms/validators.go:290
-#, fuzzy, python-format
+#, python-format
 msgid "must be greater or equal than %g"
-msgstr "musí byť väčšie alebo rovné ako %d"
+msgstr "musí byť väčšie alebo rovné ako %g"
 
 #: pkg/forms/validators.go:307
-#, fuzzy, python-format
+#, python-format
 msgid "must be lower or equal than %g"
-msgstr "musí byť menšie alebo rovné ako %d"
+msgstr "musí byť menšie alebo rovné ako %g"
 
 #: pkg/forms/validators.go:315
 #, python-format
@@ -3332,4 +3267,3 @@ msgstr "%H:%M:%S"
 #~ "\t\t\t\ton your smartphone, your e-book reader or\n"
 #~ "\t\t\t\tin other apps through\tplugins."
 #~ msgstr ""
-

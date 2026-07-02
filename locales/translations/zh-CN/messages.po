@@ -11,14 +11,15 @@ msgstr ""
 "Project-Id-Version: Readeck CN 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-06-24 15:09+0200\n"
-"PO-Revision-Date: 2026-05-16 13:25+0000\n"
-"Last-Translator: linsui <user-4173@noreply.codeberg.org>\n"
-"Language: zh_CN\n"
+"PO-Revision-Date: 2026-06-26 07:08+0000\n"
+"Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/readeck/application/zh_Hans/>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh-CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -46,9 +47,8 @@ msgid "An error occurred."
 msgstr "发生错误。"
 
 #: components/errors.templ:24
-#, fuzzy
 msgid "Back to home page"
-msgstr "主页"
+msgstr "返回主页"
 
 #: components/forms/forms.templ:21
 msgid "Errors"
@@ -97,7 +97,6 @@ msgid "remove"
 msgstr "移除"
 
 #: components/layout.templ:63
-#, fuzzy
 msgid "Open Menu"
 msgstr "打开菜单"
 
@@ -183,15 +182,15 @@ msgstr "密码为空"
 
 #: internal/admin/forms.go:73
 msgid "User is external and can't be updated."
-msgstr ""
+msgstr "用户是外部用户，无法更新。"
 
 #: internal/admin/forms.go:85 internal/profile/forms.go:97
 msgid "username is already in use"
-msgstr ""
+msgstr "用户名已被使用"
 
 #: internal/admin/forms.go:92 internal/profile/forms.go:104
 msgid "email address is already in use"
-msgstr ""
+msgstr "电子邮件地址已被使用"
 
 #: internal/admin/views.go:61 internal/admin/views.go:86
 #: internal/admin/views.go:127 internal/admin/x-users.templ:16
@@ -213,32 +212,28 @@ msgid "User updated."
 msgstr "用户已更新。"
 
 #: internal/admin/views.go:163
-#, fuzzy
 msgid "User detached."
-msgstr "用户已更新。"
+msgstr "用户已解除关联。"
 
 #: internal/admin/views.go:186
-#, fuzzy
 msgid "User signed out."
-msgstr "登出"
+msgstr "用户已登出。"
 
 #: internal/admin/x-users.templ:19
 msgid "Add a new user"
 msgstr "添加新用户"
 
 #: internal/admin/x-users.templ:38
-#, fuzzy
 msgid "External User"
-msgstr "创建用户"
+msgstr "外部用户"
 
 #: internal/admin/x-users.templ:44 internal/admin/x-users.templ:174
-#, fuzzy
 msgid "TOTP is enabled"
-msgstr "已启用"
+msgstr "TOTP 已启用"
 
 #: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
-msgstr ""
+msgstr "这是您！"
 
 #: internal/admin/x-users.templ:56
 #, python-format
@@ -288,9 +283,8 @@ msgid "Create user"
 msgstr "创建用户"
 
 #: internal/admin/x-users.templ:126
-#, fuzzy
 msgid "User information"
-msgstr "系统信息"
+msgstr "用户信息"
 
 #: internal/admin/x-users.templ:153
 msgid "will not change if empty"
@@ -309,12 +303,10 @@ msgid "Save"
 msgstr "保存"
 
 #: internal/admin/x-users.templ:178
-#, fuzzy
 msgid "Created on"
-msgstr "创建时间：%s"
+msgstr "创建于"
 
 #: internal/admin/x-users.templ:182
-#, fuzzy
 msgid "Last Login"
 msgstr "上次登录"
 
@@ -323,13 +315,12 @@ msgid "Last Activity"
 msgstr "上次活动"
 
 #: internal/admin/x-users.templ:194
-#, fuzzy
 msgid "Disk Usage"
-msgstr "存储用量"
+msgstr "磁盘用量"
 
 #: internal/admin/x-users.templ:198
 msgid "User Administration"
-msgstr ""
+msgstr "用户管理"
 
 #: internal/admin/x-users.templ:204
 msgid "User will be removed in a few seconds"
@@ -337,12 +328,11 @@ msgstr "将在几秒钟内移除用户"
 
 #: internal/admin/x-users.templ:214
 msgid "This will sign this user out of all active sessions on the web application."
-msgstr ""
+msgstr "这将使此用户登出 web 应用程序上的所有活动会话。"
 
 #: internal/admin/x-users.templ:219
-#, fuzzy
 msgid "Sign this user out"
-msgstr "登出"
+msgstr "登出此用户"
 
 #: internal/admin/x-users.templ:227
 msgid ""
@@ -353,16 +343,21 @@ msgid ""
 "\t\t\t\t\t\t\t\t\tThis will detach the user <strong>%[2]s</strong>.\n"
 "\t\t\t\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\t\t\t\t此用户已关联到外部身份验证提供者：<br />\n"
+"\t\t\t\t\t\t\t\t\t<strong>%[1]s</strong>。<br />\n"
+"\t\t\t\t\t\t\t\t\t因此，其部分属性无法编辑。<br />\n"
+"\t\t\t\t\t\t\t\t\t这将解除用户 <strong>%[2]s</strong> 的关联。\n"
+"\t\t\t\t\t\t\t\t"
 
 #: internal/admin/x-users.templ:240
-#, fuzzy
 msgid "Detach this user"
-msgstr "删除此用户"
+msgstr "解除此用户的关联"
 
 #: internal/admin/x-users.templ:249
 #, python-format
 msgid "This will delete the user <strong>%s</strong> and all their contents."
-msgstr ""
+msgstr "这将删除用户 <strong>%s</strong> 及其所有内容。"
 
 #: internal/admin/x-users.templ:257
 msgid "Delete this user"
@@ -375,7 +370,7 @@ msgstr "需要授权"
 
 #: internal/auth/oauth2/x-oauth.templ:30
 msgid "This code has expired or is not valid"
-msgstr ""
+msgstr "此代码已过期或无效"
 
 #: internal/auth/oauth2/x-oauth.templ:33 internal/auth/oauth2/x-oauth.templ:50
 #: internal/auth/oauth2/x-oauth.templ:58
@@ -422,7 +417,7 @@ msgid "Sign out"
 msgstr "登出"
 
 #: internal/auth/oauth2/x-oauth.templ:116
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t<strong>%s</strong> would like permission to access your account.\n"
@@ -430,9 +425,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"      <strong>%s</strong> 请求获得访问您账号的权限。\n"
-"      仅当您认可并信任此来源时才批准此请求。\n"
-"    "
+"\t\t\t\t<strong>%s</strong> 请求获得访问您账号的权限。\n"
+"\t\t\t\t仅当您认识并信任此来源时才批准此请求。\n"
+"\t\t\t"
 
 #: internal/auth/oauth2/x-oauth.templ:122
 msgid "Review permissions"
@@ -485,7 +480,6 @@ msgid "Please note:"
 msgstr "请注意："
 
 #: internal/auth/onboarding/x-onboarding.templ:44
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour email address is optional and will never leave this installation.\n"
@@ -494,10 +488,10 @@ msgid ""
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"  您可以选填电子邮件地址，该地址仅用于本次安装。\n"
-"  电子邮件地址永远不会被第三方收集、转移或出售。\n"
-"  它<strong>只会</strong>在您需要时用于密码恢复和内部通知。\n"
-"  "
+"\t\t\t\t\t\t您可以选填电子邮件地址，该地址仅用于本次安装。\n"
+"\t\t\t\t\t\t电子邮件地址永远不会被第三方收集、转移或出售。\n"
+"\t\t\t\t\t\t它<strong>仅会</strong>在您需要时用于密码恢复和内部通知。\n"
+"\t\t\t\t\t"
 
 #: internal/auth/onboarding/x-onboarding.templ:52
 msgid "Finish installation"
@@ -569,7 +563,7 @@ msgstr ""
 
 #: internal/auth/signin/x-auth.templ:21
 msgid "Or continue with"
-msgstr ""
+msgstr "或继续"
 
 #: internal/auth/signin/x-auth.templ:41 internal/auth/signin/x-auth.templ:68
 msgid "Sign in"
@@ -613,7 +607,6 @@ msgid "No worries, it happens to anyone."
 msgstr "别担心，任何人都会遇到这种情况。"
 
 #: internal/auth/signin/x-auth.templ:129
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tPlease provide the email address you used to create\n"
@@ -622,10 +615,10 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"        请提供您创建账号时使用的电子邮件地址\n"
-"        我们将向您发送一封带有链接的邮件\n"
-"        以便恢复您的密码。\n"
-"      "
+"\t\t\t\t\t\t\t请提供您创建账号时使用的电子邮件地址\n"
+"\t\t\t\t\t\t\t我们将向您发送一封包含链接的邮件\n"
+"\t\t\t\t\t\t\t以便恢复您的密码。\n"
+"\t\t\t\t\t\t"
 
 #: internal/auth/signin/x-auth.templ:140
 msgid "Send me a recovery link"
@@ -636,14 +629,9 @@ msgid "Almost there!"
 msgstr "差不多了！"
 
 #: internal/auth/signin/x-auth.templ:152
-#, fuzzy, python-format
+#, python-format
 msgid "We have sent an email to <strong>%s</strong> with further instructions."
-msgstr ""
-"\n"
-"        我们已发送一封邮件至\n"
-"        <strong>%s</strong>\n"
-"        其中包含进一步的说明。\n"
-"      "
+msgstr "我们已向 <strong>%s</strong> 发送了一封包含更多说明的邮件。"
 
 #: internal/auth/signin/x-auth.templ:168 internal/profile/x-security.templ:33
 msgid "New password"
@@ -662,19 +650,16 @@ msgid "Go to the sign in page"
 msgstr "转到登录页面"
 
 #: internal/auth/users/forms.go:18
-#, fuzzy
 msgid "username is not valid"
-msgstr "用户名不匹配"
+msgstr "用户名无效"
 
 #: internal/auth/users/forms.go:19
-#, fuzzy
 msgid "username is not available"
-msgstr "用户名不匹配"
+msgstr "用户名不可用"
 
 #: internal/auth/users/forms.go:34
-#, fuzzy
 msgid "password must be at least 8 characters long"
-msgstr "长度不得少于 8 个字符"
+msgstr "密码长度必须至少为 8 个字符"
 
 #: internal/auth/users/forms.go:89
 msgctxt "role"
@@ -798,7 +783,7 @@ msgstr "导入文件为空或无效"
 
 #: internal/bookmarks/importer/pinboard.go:44
 msgid "Pinboard JSON backup File"
-msgstr ""
+msgstr "Pinboard JSON 备份文件"
 
 #: internal/bookmarks/importer/readwise.go:62
 msgid "Readwise Reader CSV"
@@ -871,7 +856,6 @@ msgid "Import your Browser's Bookmarks"
 msgstr "导入浏览器的书签"
 
 #: internal/bookmarks/importer/x-forms.templ:68
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tIn your web browser, export your bookmarks as an HTML file.<br>\n"
@@ -880,10 +864,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"    在浏览器中，将书签导出为 HTML 文件。<br>\n"
-"    将此文件上传到下表中，Readeck 将\n"
-"    创建并获取文件中找到的每个书签。\n"
-"  "
+"\t\t\t\t\t在网络浏览器中，将书签导出为 HTML 文件。<br>\n"
+"\t\t\t\t\t在下面的表单中上传此文件，Readeck\n"
+"\t\t\t\t\t将创建并获取文件中找到的每个书签。\n"
+"\t\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:77
 msgid "Instructions for Firefox"
@@ -909,21 +893,16 @@ msgstr "从 CSV 文件导入链接"
 # matches
 # | the format specified bellow.\n" "  "
 #: internal/bookmarks/importer/x-forms.templ:101
-#, fuzzy
 msgid "Upload a CSV file from Instapaper or any CSV that matches the format specified below."
-msgstr ""
-"\n"
-"    上传来自 Instapaper 的 CSV 文件或任何符合以下指定格式的 CSV 文件。\n"
-"  "
+msgstr "上传来自 Instapaper 的 CSV 文件或任何符合以下指定格式的 CSV 文件。"
 
 # | msgid "From date"
 #: internal/bookmarks/importer/x-forms.templ:107
-#, fuzzy
 msgid "CSV Format"
-msgstr "格式"
+msgstr "CSV 格式"
 
 #: internal/bookmarks/importer/x-forms.templ:110
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\tThe uploaded file must contain a first row with the column names. Column names are case\n"
@@ -931,9 +910,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    上传的文件必须包含带有列名的第一行。列名不区分\n"
-"    大小写，除 <code>%s</code> 外，每一列都是可选的。\n"
-"  "
+"\t\t\t\t上传的文件必须包含第一行，其中包含列名。列名不区分大小写，\n"
+"\t\t\t\t除 <code>%s</code> 外，每一列都是可选的。\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:115
 msgid "Here are the columns you can set:"
@@ -982,37 +961,24 @@ msgid "Import Links from a GoodLinks export file"
 msgstr "从 GoodLinks 导出的文件中导入链接"
 
 #: internal/bookmarks/importer/x-forms.templ:164
-#, fuzzy
 msgid "Upload a JSON file obtained from your GoodLinks app."
-msgstr ""
-"\n"
-"    上传从 GoodLinks 应用获得的 JSON 文件。\n"
-"  "
+msgstr "上传从 GoodLinks 应用获得的 JSON 文件。"
 
 #: internal/bookmarks/importer/x-forms.templ:173
 msgid "Import Bookmarks from a Linkwarden export file"
 msgstr "从 Linkwarden 导出的文件中导入链接"
 
 #: internal/bookmarks/importer/x-forms.templ:176
-#, fuzzy
 msgid "Upload a JSON file obtained from your Linkwarden app."
-msgstr ""
-"\n"
-"    上传从 Linkwarden 应用获得的 JSON 文件。\n"
-"  "
+msgstr "上传从 Linkwarden 应用获得的 JSON 文件。"
 
 #: internal/bookmarks/importer/x-forms.templ:185
-#, fuzzy
 msgid "Import Links from a Pinboard JSON backup file"
-msgstr "从 CSV 文件导入链接"
+msgstr "从 Pinboard JSON 备份文件导入链接"
 
 #: internal/bookmarks/importer/x-forms.templ:188
-#, fuzzy
 msgid "Upload a JSON file obtained from your Pinboard account."
-msgstr ""
-"\n"
-"    上传从 Linkwarden 应用获得的 JSON 文件。\n"
-"  "
+msgstr "上传从 Pinboard 账号获得的 JSON 文件。"
 
 #: internal/bookmarks/importer/x-forms.templ:197
 #: internal/bookmarks/routes/x-import.templ:72
@@ -1020,7 +986,6 @@ msgid "Import your Pocket Articles"
 msgstr "导入 Pocket 文章"
 
 #: internal/bookmarks/importer/x-forms.templ:200
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a Pocket export file in the form below and Readeck will fetch and save\n"
@@ -1028,9 +993,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    将此文件上传到下表中，Readeck 将\n"
-"    获取并保存文件中找到的每个链接。\n"
-"  "
+"\t\t\t\t在下面的表单中上传一个 Pocket 导出文件，Readeck\n"
+"\t\t\t\t将获取并保存文件中找到的每个链接。\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:212
 msgid "Note: upload the ZIP file directly, not its contents"
@@ -1041,12 +1006,8 @@ msgid "Import Links from Readwise Reader CSV export"
 msgstr "从 Readwise Reader 导出的 CSV 文件导入链接"
 
 #: internal/bookmarks/importer/x-forms.templ:223
-#, fuzzy
 msgid "Upload a CSV file exported from your Readwise Reader account below."
-msgstr ""
-"\n"
-"    请在下方上传从您的 Readwise Reader 账号导出的 CSV 文件。\n"
-"  "
+msgstr "请在下方上传从 Readwise Reader 账号导出的 CSV 文件。"
 
 #: internal/bookmarks/importer/x-forms.templ:229
 msgid "Which information is imported"
@@ -1092,7 +1053,6 @@ msgid "Import Links from a Text File"
 msgstr "从文本文件导入链接"
 
 #: internal/bookmarks/importer/x-forms.templ:250
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a text file that contains one link per line and Readeck will fetch\n"
@@ -1100,9 +1060,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    上传一个每行包含一个链接的文本文件，\n"
-"    Readeck 将获取所有链接并将其保存在书签列表中。\n"
-"  "
+"\t\t\t\t上传一个文本文件，其中每行包含一个链接，Readeck\n"
+"\t\t\t\t将获取所有链接并将其保存在书签列表中。\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:260
 #: internal/bookmarks/routes/x-import.templ:93
@@ -1110,7 +1070,6 @@ msgid "Import your Wallabag Articles"
 msgstr "导入 Wallabag 文章"
 
 #: internal/bookmarks/importer/x-forms.templ:263
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tTo import your articles from Wallabag, you must first create an API client\n"
@@ -1119,18 +1078,14 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    要从 Wallabag 导入您的文章，您必须首先\n"
-"    在 Wallabag 的 <strong>API 客户端管理</strong>菜单中创建 API 客户端。\n"
-"    这将为您提供<strong>客户端 ID</strong> 和<strong>客户端密钥</strong>。\n"
-"  "
+"\t\t\t\t要从 Wallabag 导入您的文章，您必须首先在 Wallabag\n"
+"\t\t\t\t的 <strong>API 客户端管理</strong>菜单中创建一个 API 客户端。这将\n"
+"\t\t\t\t为您提供一个<strong>客户端 ID</strong> 和<strong>客户端密钥</strong>。\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:270
-#, fuzzy
 msgid "You can then enter all the necessary information in the form below."
-msgstr ""
-"\n"
-"    然后，您可以在下表中输入所有必要的信息。\n"
-"  "
+msgstr "然后，您可以在下面的表单中输入所有必要的信息。"
 
 #: internal/bookmarks/importer/x-forms.templ:278
 msgid "Wallabag URL"
@@ -1222,7 +1177,7 @@ msgstr "文章"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:679
 msgid "E-Book"
-msgstr ""
+msgstr "电子书"
 
 #: internal/bookmarks/routes/forms_filters.go:51
 msgid "Picture"
@@ -1250,7 +1205,7 @@ msgstr "已完成"
 #: internal/bookmarks/routes/forms_filters.go:68
 #, python-format
 msgid "\"%s\" is not a valid date value"
-msgstr ""
+msgstr "“%s”不是有效的日期值"
 
 #: internal/bookmarks/routes/opds.go:57
 msgid "Readeck Bookmarks"
@@ -1334,9 +1289,8 @@ msgid "Share by email"
 msgstr "通过电子邮件分享"
 
 #: internal/bookmarks/routes/views_collections.go:39
-#, fuzzy
 msgid "Collection created."
-msgstr "收藏集已更新。"
+msgstr "收藏集已创建。"
 
 #: internal/bookmarks/routes/views_collections.go:66
 msgid "Collection updated."
@@ -1364,7 +1318,6 @@ msgid "You don't have any highlights yet."
 msgstr "您还没有任何高亮。"
 
 #: internal/bookmarks/routes/x-annotations.templ:22
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tOnce you start highlighting parts of your saved articles, they will appear on this page\n"
@@ -1372,9 +1325,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"        您可以保存文章的高亮部分，它们将出现在此页面上\n"
-"        以便您轻松找到它们。\n"
-"      "
+"\t\t\t\t\t\t\t一旦您开始对已保存的文章进行高亮标注，这些\n"
+"\t\t\t\t\t\t\t标注内容就会出现在此页面上，以便您轻松找到它们。\n"
+"\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-annotations.templ:29
 #, python-format
@@ -1382,9 +1335,8 @@ msgid "Read more about highlights in the <a class=\"%s\" href=\"%s\">documentati
 msgstr "阅读<a class=\"%s\" href=\"%s\">文档</a>中有关高亮的更多信息。"
 
 #: internal/bookmarks/routes/x-base.templ:27
-#, fuzzy
 msgid "search in bookmarks"
-msgstr "已归档书签"
+msgstr "在书签中搜索"
 
 #: internal/bookmarks/routes/x-base.templ:31
 #: internal/bookmarks/routes/x-filters.templ:20
@@ -1553,9 +1505,8 @@ msgstr "加载"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:501
 #: internal/dashboard/x-dashboard.templ:182
-#, fuzzy
 msgid "untitled"
-msgstr "标题"
+msgstr "未命名"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:514
 #, python-format
@@ -1622,9 +1573,8 @@ msgid "Bookmark information"
 msgstr "书签信息"
 
 #: internal/bookmarks/routes/x-bookmark.templ:43
-#, fuzzy
 msgid "Bookmark content"
-msgstr "书签标题"
+msgstr "书签内容"
 
 #: internal/bookmarks/routes/x-bookmark.templ:73
 msgid "Bookmark is loading"
@@ -1741,7 +1691,6 @@ msgid "Create a new collection"
 msgstr "创建新收藏集"
 
 #: internal/bookmarks/routes/x-collections.templ:50
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\tCollections let you easily organize and export your bookmarks\n"
@@ -1752,12 +1701,12 @@ msgid ""
 "\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"          收藏集可让您通过保存自己选择的搜索请求，\n"
-"          轻松整理和导出书签。\n"
-"          当您创建的新书签符合某个收藏集的标准时，\n"
-"          它就会立即出现。\n"
-"          以下是一些示例：\n"
-"        "
+"\t\t\t\t\t\t\t\t收藏集可让您通过保存自己选择的搜索请求，\n"
+"\t\t\t\t\t\t\t\t轻松整理和导出书签。\n"
+"\t\t\t\t\t\t\t\t当您创建的新书签符合某个收藏集的标准时，\n"
+"\t\t\t\t\t\t\t\t它就会立即出现。\n"
+"\t\t\t\t\t\t\t\t以下是一些示例：\n"
+"\t\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-collections.templ:59
 msgid "The unread articles (no photos or videos)"
@@ -1787,9 +1736,8 @@ msgid "Created on: %s"
 msgstr "创建时间：%s"
 
 #: internal/bookmarks/routes/x-collections.templ:97
-#, fuzzy
 msgid "This collection will be removed in a few seconds."
-msgstr "将在几秒钟内移除收藏集。"
+msgstr "此收藏集将在几秒钟后被移除。"
 
 #: internal/bookmarks/routes/x-collections.templ:107
 #: internal/bookmarks/routes/x-sidebar.templ:131
@@ -1861,9 +1809,8 @@ msgid "Play video"
 msgstr "播放视频"
 
 #: internal/bookmarks/routes/x-components.templ:311
-#, fuzzy
 msgid "Extraction log"
-msgstr "文本方向"
+msgstr "提取日志"
 
 #: internal/bookmarks/routes/x-components.templ:315
 #: internal/bookmarks/routes/x-components.templ:366
@@ -1882,20 +1829,19 @@ msgstr "用 Readeck 保存"
 
 #: internal/bookmarks/routes/x-components.templ:353
 msgid "This feed provides the latest entries from this bookmark list"
-msgstr ""
+msgstr "此订阅源提供来自此书签列表的最新条目"
 
 #: internal/bookmarks/routes/x-components.templ:354
 msgid "Subscribe to this feed by copying the URL below:"
-msgstr ""
+msgstr "通过复制以下 URL 订阅此订阅源："
 
 #: internal/bookmarks/routes/x-components.templ:373
-#, fuzzy
 msgid "Open link"
-msgstr "复制链接"
+msgstr "打开链接"
 
 #: internal/bookmarks/routes/x-components.templ:381
 msgid "Access to this feed is restricted."
-msgstr ""
+msgstr "此订阅源访问权限受限。"
 
 #: internal/bookmarks/routes/x-components.templ:383
 msgid ""
@@ -1904,6 +1850,10 @@ msgid ""
 "\t\t\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">API Token</a> to load this feed.\n"
 "\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\t您必须向您的新闻阅读器应用提供用户名和\n"
+"\t\t\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">API 令牌</a>才能加载此订阅源。\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-components.templ:394
 msgid "You don't have any bookmarks yet.<br> Copy a link in the field above and start saving."
@@ -1915,21 +1865,19 @@ msgid "Read more about bookmarks in the <a class=\"%s\" href=\"%s\">documentatio
 msgstr "阅读<a class=\"%s\" href=\"%s\">文档</a>中有关书签的更多信息。"
 
 #: internal/bookmarks/routes/x-components.templ:408
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWith the Browser Extension, you can save pages, images and selections\n"
 "\t\tdirectly from your browser!"
 msgstr ""
 "\n"
-"            使用浏览器扩展程序，您可以直接\n"
-"            从浏览器中保存页面、图片和选定内容！"
+"\t\t使用浏览器扩展，您可以直接从\n"
+"\t\t浏览器保存页面、图片和选定内容！"
 
 # | msgid "" "\n" "          Would you like to import from a similar tool or
 # | from a file with existing bookmarks?\n" "          Try Readeck's import
 # | tool.\n" "        "
 #: internal/bookmarks/routes/x-components.templ:415
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWould you like to import from a similar tool or from a file with existing bookmarks?\n"
@@ -1937,9 +1885,9 @@ msgid ""
 "\t"
 msgstr ""
 "\n"
-"              您想从类似工具或现有书签文件中导入吗？\n"
-"              试试 Readeck 的导入工具。\n"
-"            "
+"\t\t您想从类似工具还是从包含现有书签的文件导入？\n"
+"\t\t试试 Readeck 的导入工具。\n"
+"\t"
 
 #: internal/bookmarks/routes/x-filters.templ:22
 msgid "Author"
@@ -2009,26 +1957,20 @@ msgid "Import your Linkwarden Bookmarks"
 msgstr "导入您的 Linkwarden 书签"
 
 #: internal/bookmarks/routes/x-import.templ:65
-#, fuzzy
 msgid "Import your Pinboard bookmarks"
-msgstr "导入您的 Linkwarden 书签"
+msgstr "导入您的 Pinboard 书签"
 
 #: internal/bookmarks/routes/x-import.templ:79
 msgid "Import your Readwise Reader Library"
 msgstr "导入您的 Readwise Reader 库"
 
 #: internal/bookmarks/routes/x-import.templ:100
-#, fuzzy
 msgid "Here you can import your existing bookmark collection from various sources into Readeck."
-msgstr ""
-"\n"
-"    在这里，您可以将现有的书签收藏集从各种来源导入 Readeck。\n"
-"  "
+msgstr "您可以在此处将来自各种来源的现有书签收藏集导入 Readeck。"
 
 #: internal/bookmarks/routes/x-import.templ:125
-#, fuzzy
 msgid "Import status"
-msgstr "导入"
+msgstr "导入状态"
 
 #: internal/bookmarks/routes/x-import.templ:145
 msgid "Import operation will launch momentarily."
@@ -2047,23 +1989,21 @@ msgid "Import is finished!"
 msgstr "导入完成！"
 
 #: internal/bookmarks/routes/x-import.templ:165
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour bookmarks are now available in your <a class=\"%s\" href=\"%s\">bookmark list</a>.\n"
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"      您的书签现在可以在您的<a class=\"%s\" href=\"%s\">书签列表</a>中找到。\n"
-"      "
+"\t\t\t\t\t\t您的书签现在可以在您的<a class=\"%s\" href=\"%s\">书签列表</a>中找到。\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:27
-#, fuzzy
 msgid "Bookmarks Labels"
 msgstr "书签标签"
 
 #: internal/bookmarks/routes/x-labels.templ:31
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tLabels let your organize your bookmarks the way you want.\n"
@@ -2071,8 +2011,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"  标签可让您按自己的方式整理书签。\n"
-"  您可以将任何内容设置为标签，包括表情符号！\n"
+"\t\t\t\t标签可让您按自己喜欢的方式整理书签。\n"
+"\t\t\t\t您可以将任何内容设置为标签，包括表情符号！\n"
+"\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:128
 msgid "Label will be removed in a few seconds."
@@ -2188,15 +2129,14 @@ msgid "Errors occurred during extraction."
 msgstr "提取过程中出错。"
 
 #: internal/bookmarks/routes/x-sidebar.templ:51
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tDepending on the error, Readeck's browser extension may provide\n"
 "\t\t\t\t\t\ta workaround."
 msgstr ""
 "\n"
-"          根据错误情况，Readeck 的浏览器\n"
-"          扩展程序可能会提供解决方法。"
+"\t\t\t\t\t\t根据错误情况，Readeck 的\n"
+"\t\t\t\t\t\t浏览器扩展可能会提供解决方法。"
 
 #: internal/bookmarks/routes/x-sidebar.templ:67
 msgid "View log"
@@ -2253,16 +2193,15 @@ msgstr "链接"
 #: internal/dashboard/x-dashboard.templ:26
 #, python-format
 msgid "Hi %s!"
-msgstr ""
+msgstr "您好 %s！"
 
 #: internal/dashboard/x-dashboard.templ:60 internal/opds/http.go:71
 msgid "All Bookmarks"
 msgstr "全部书签"
 
 #: internal/dashboard/x-dashboard.templ:72
-#, fuzzy
 msgid "Readeck"
-msgstr "Readeck 帮助"
+msgstr "Readeck"
 
 #: internal/dashboard/x-dashboard.templ:74 internal/profile/views.go:98
 #: internal/profile/views.go:151 internal/profile/views.go:187
@@ -2274,22 +2213,19 @@ msgstr "个人资料"
 
 #: internal/dashboard/x-dashboard.templ:78
 msgid "Help"
-msgstr ""
+msgstr "帮助"
 
 #: internal/dashboard/x-dashboard.templ:144
-#, fuzzy
 msgid "Archived"
-msgstr "归档"
+msgstr "已归档"
 
 #: internal/dashboard/x-dashboard.templ:196
-#, fuzzy
 msgid "See all"
-msgstr "全部"
+msgstr "查看全部"
 
 #: internal/dashboard/x-dashboard.templ:218
-#, fuzzy
 msgid "Applications for Readeck"
-msgstr "应用程序信息"
+msgstr "Readeck 的应用程序"
 
 #: internal/dashboard/x-dashboard.templ:220
 msgid ""
@@ -2298,17 +2234,19 @@ msgid ""
 "\t\t\t\ton your smartphone, your e-book reader or\n"
 "\t\t\t\tin other apps through plugins."
 msgstr ""
+"\n"
+"\t\t\t\t您不仅可以在浏览器中使用 Readeck，\n"
+"\t\t\t\t还可以通过插件在智能手机、电子书\n"
+"\t\t\t\t阅读器或其他应用中使用 Readeck。"
 
 #: internal/dashboard/x-dashboard.templ:228
-#, fuzzy
 msgid "Discover applications"
-msgstr "应用程序"
+msgstr "发现应用程序"
 
 # | msgid "Readeck Bookmark Collections"
 #: internal/dashboard/x-dashboard.templ:235
-#, fuzzy
 msgid "Readeck in your Browser"
-msgstr "Readeck 浏览器扩展程序"
+msgstr "浏览器中的 Readeck"
 
 #: internal/docs/http.go:257 internal/docs/x-about.templ:53
 #: internal/docs/x-base.templ:43
@@ -2320,7 +2258,6 @@ msgid "Version:"
 msgstr "版本："
 
 #: internal/docs/x-about.templ:58
-#, fuzzy
 msgid "Build Date:"
 msgstr "构建日期："
 
@@ -2530,7 +2467,6 @@ msgid "Profile imported."
 msgstr "个人资料已导入。"
 
 #: internal/profile/x-applications.templ:15
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tApplications are registered clients that have permissions to access your Readeck account.\n"
@@ -2539,9 +2475,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"  应用程序是已注册并获得访问您 Readeck 账号权限的客户端。\n"
-"  如果您在此处发现不认识的应用程序，或某个应用程序\n"
-"  行为异常，您可以撤销其访问权限。‌\n"
+"\t\t\t\t\t应用程序是指已注册并获得访问您 Readeck 账号权限的客户端。\n"
+"\t\t\t\t\t如果您在此处发现不认识的应用程序，或者某个应用程序行为异常，\n"
+"\t\t\t\t\t您可以撤销其访问权限。\n"
+"\t\t\t\t"
 
 #: internal/profile/x-applications.templ:23
 msgid "You have no registered application at the moment."
@@ -2557,7 +2494,7 @@ msgstr "授权日期：%s"
 #, python-format
 msgctxt "datetime"
 msgid "%e %B %Y"
-msgstr ""
+msgstr "%e %B %Y"
 
 #: internal/profile/x-applications.templ:52 internal/profile/x-tokens.templ:63
 #, python-format
@@ -2577,7 +2514,7 @@ msgid "Developer information"
 msgstr "开发者信息"
 
 #: internal/profile/x-applications.templ:107
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tIf you plan to build an application, please refer to the\n"
@@ -2585,9 +2522,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"    如果您计划开发应用程序，请参阅\n"
-"    <a href=\"%s\">API 文档</a>。\n"
-"  "
+"\t\t\t\t\t\t\t如果您计划开发应用程序，请参阅\n"
+"\t\t\t\t\t\t\t<a href=\"%s\">API 文档</a>。\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-export.templ:23
 msgid "Bookmark List in Browser Bookmarks Format"
@@ -2602,7 +2539,6 @@ msgid "Export your Readeck Profile"
 msgstr "导出您的 Readeck 个人资料"
 
 #: internal/profile/x-export.templ:41
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tThis lets you download a zip file containing all your profile's data, including\n"
@@ -2610,9 +2546,9 @@ msgid ""
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"    这允许您下载一个包含您个人资料所有\n"
-"    数据的 ZIP 文件，包括书签、收藏集等。\n"
-"    "
+"\t\t\t\t\t\t这允许您下载一个包含您个人资料所有\n"
+"\t\t\t\t\t\t数据的 ZIP 文件，包括书签、收藏集等。\n"
+"\t\t\t\t\t"
 
 #: internal/profile/x-export.templ:47
 msgid "Export Data"
@@ -2643,7 +2579,6 @@ msgid "Attention"
 msgstr "注意"
 
 #: internal/profile/x-import.templ:34
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tThis will empty your current profile and all its data will be\n"
@@ -2651,16 +2586,16 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"      这将清空您当前的个人资料，\n"
-"      文件的内容会替换所有数据。\n"
-"      "
+"\t\t\t\t\t\t\t这将清空您当前的个人资料，\n"
+"\t\t\t\t\t\t\t所有数据会被文件内容替换。\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-import.templ:46
 msgid "Import bookmarks from other services"
 msgstr "从其他服务导入书签"
 
 #: internal/profile/x-import.templ:49
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\tIf you have bookmarks from another service you can import them in the\n"
@@ -2668,9 +2603,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"  如果您有来自其他服务的书签，\n"
-"  您可以在<a href=\"%s\">专门功能区域</a>导入。\n"
-"  "
+"\t\t\t\t\t\t如果您有来自其他服务的书签，\n"
+"\t\t\t\t\t\t您可以在<a href=\"%s\">专门功能区域</a>导入。\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-profile.templ:17 internal/profile/x-security.templ:16
 msgid "My profile"
@@ -2716,7 +2651,6 @@ msgid "Sending e-books to an Amazon Kindle"
 msgstr "正在将电子书发送至 Amazon Kindle"
 
 #: internal/profile/x-profile.templ:93
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\t\t\tIf you plan to send e-books to a Kindle device, you must approve the\n"
@@ -2724,9 +2658,9 @@ msgid ""
 "\t\t\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"          如果您打算向 Kindle 设备发送电子书，您必须\n"
-"          在您的 Kindle 账号中批准以下电子邮件地址：\n"
-"          "
+"\t\t\t\t\t\t\t\t\t\t如果您计划将电子书发送到 Kindle 设备，您\n"
+"\t\t\t\t\t\t\t\t\t\t必须在您的 Kindle 账号中批准以下电子邮件地址：\n"
+"\t\t\t\t\t\t\t\t\t"
 
 #: internal/profile/x-security.templ:25
 msgid "Change my password"
@@ -2851,7 +2785,6 @@ msgid "Roles"
 msgstr "角色"
 
 #: internal/profile/x-tokens.templ:142
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tYou can limit the permissions granted to this token by choosing one or more\n"
@@ -2860,10 +2793,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"    您可以通过选择以下一组或多组权限\n"
-"    来限制授予此令牌的权限。<br>\n"
-"    将所有选项留空，以授予您对此令牌的全部权限。\n"
-"  "
+"\t\t\t\t\t您可以通过选择以下一组或多组权限\n"
+"\t\t\t\t\t来限制授予此令牌的权限。<br>\n"
+"\t\t\t\t\t将所有选项留空，以授予您对此令牌的所有权限。\n"
+"\t\t\t\t"
 
 #: internal/profile/x-tokens.templ:158
 msgid "Delete token"
@@ -2914,15 +2847,16 @@ msgid "Alternatively, you can use this token as a password for HTTP Basic Authen
 msgstr "或者，您可以将此令牌用作 HTTP 基本身份验证的密码。"
 
 #: internal/profile/x-tokens.templ:222
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tFor example, if an application only accepts a username and password, you can provide this token as a password.\n"
 "\t\t\t\tThe username is ignored and can be anything, including an empty value.\n"
 "\t\t\t"
 msgstr ""
-"例如，如果应用程序仅接受用户名和密码，您可以将此令牌作为密码提供。\n"
-"  用户名被忽略，可以是任何值，包括空值。"
+"\n"
+"\t\t\t\t例如，如果某个应用程序仅接受用户名和密码，您可以将此令牌作为密码提供。\n"
+"\t\t\t\t用户名将被忽略，可以是任何内容，包括空值。\n"
+"\t\t\t"
 
 #: pkg/forms/forms.go:28
 msgid "an unexpected error has occurred"
@@ -2941,14 +2875,14 @@ msgid "invalid URL"
 msgstr "无效的 URL"
 
 #: pkg/forms/validators.go:290
-#, fuzzy, python-format
+#, python-format
 msgid "must be greater or equal than %g"
-msgstr "必须大于或等于 %d"
+msgstr "必须大于或等于 %g"
 
 #: pkg/forms/validators.go:307
-#, fuzzy, python-format
+#, python-format
 msgid "must be lower or equal than %g"
-msgstr "必须小于或等于 %d"
+msgstr "必须小于或等于 %g"
 
 #: pkg/forms/validators.go:315
 #, python-format
@@ -3409,4 +3343,3 @@ msgstr "%H:%M:%S"
 #~ "\t\t\t\ton your smartphone, your e-book reader or\n"
 #~ "\t\t\t\tin other apps through\tplugins."
 #~ msgstr ""
-
