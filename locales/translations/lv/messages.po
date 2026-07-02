@@ -2,38 +2,41 @@
 # SPDX-FileCopyrightText: © 2025 Readeck <translate@readeck.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-only
-# "ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝)" <coool@noreply.codeberg.org>, 2025.
+# "ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝)" <coool@noreply.codeberg.org>, 2025, 2026.
 # Кнⷫѧⷷ̈зⷮьⷬ Кропоткинъ <kropotkin@noreply.codeberg.org>, 2025, 2026.
 # olivier <olivier@noreply.codeberg.org>, 2025, 2026.
+# Anonymous <anonymous@noreply.codeberg.org>, 2026.
+# γλωσσολαλιά <glossolalia@noreply.codeberg.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-06-24 15:09+0200\n"
-"PO-Revision-Date: 2026-05-16 13:28+0000\n"
-"Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
-"Language: lv\n"
+"PO-Revision-Date: 2026-07-02 14:58+0000\n"
+"Last-Translator: \"ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝)\" <coool@noreply.codeberg.org>\n"
 "Language-Team: Latvian <https://translate.codeberg.org/projects/readeck/application/lv/>\n"
-"Plural-Forms: nplurals=3; plural=(n % 10 == 0 || n % 100 >= 11 && n % 100 <= 19) ? 0 : ((n % 10 == 1 && n % 100 != 11) ? 1 : 2);\n"
+"Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 0 || n % 100 >= 11 && n % 100 <= 19) ? 0 : ((n % 10 == 1 && n % 100 != 11) ? 1 : 2);\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
 #: components/layout.templ:78 components/layout.templ:79
 #: internal/dashboard/x-dashboard.templ:21
 msgid "Home Page"
-msgstr ""
+msgstr "Sākumlapa"
 
 #: components/errors.templ:10 components/errors.templ:12
 #: components/layout.templ:243 internal/auth/oauth2/x-oauth.templ:29
 msgid "Error"
-msgstr ""
+msgstr "Kļūda"
 
 #: components/errors.templ:16
 msgid "Permission denied."
-msgstr ""
+msgstr "Atļauja liegta."
 
 #: components/errors.templ:18
 msgid "Page not found."
@@ -95,9 +98,8 @@ msgid "remove"
 msgstr "noņemt"
 
 #: components/layout.templ:63
-#, fuzzy
 msgid "Open Menu"
-msgstr "Aizvērt izvēlni"
+msgstr "Atvērt izvēlni"
 
 #: components/layout.templ:82 components/layout.templ:83
 #: internal/admin/x-users.templ:190
@@ -227,9 +229,8 @@ msgid "External User"
 msgstr ""
 
 #: internal/admin/x-users.templ:44 internal/admin/x-users.templ:174
-#, fuzzy
 msgid "TOTP is enabled"
-msgstr "Iespējots"
+msgstr "TOTP iespējots"
 
 #: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
@@ -616,9 +617,8 @@ msgid "username is not available"
 msgstr ""
 
 #: internal/auth/users/forms.go:34
-#, fuzzy
 msgid "password must be at least 8 characters long"
-msgstr "tekstam jābūt no %d līdz %d rakstzīmēm"
+msgstr "parolei jābūt vismaz 8 rakstzīmes garai"
 
 #: internal/auth/users/forms.go:89
 msgctxt "role"
@@ -711,9 +711,8 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: internal/bookmarks/converter/x-epub.templ:75
-#, fuzzy
 msgid "Notes"
-msgstr "Tiesības"
+msgstr "Piezīmes"
 
 #: internal/bookmarks/importer/browser.go:56
 #: internal/bookmarks/routes/x-import.templ:36
@@ -847,9 +846,8 @@ msgid "Upload a CSV file from Instapaper or any CSV that matches the format spec
 msgstr ""
 
 #: internal/bookmarks/importer/x-forms.templ:107
-#, fuzzy
 msgid "CSV Format"
-msgstr "Formāts"
+msgstr "CSV Formāts"
 
 #: internal/bookmarks/importer/x-forms.templ:110
 #, python-format
@@ -1203,9 +1201,8 @@ msgid "Videos"
 msgstr "Video"
 
 #: internal/bookmarks/routes/views_bookmarks.go:290
-#, fuzzy
 msgid "Bookmark updated"
-msgstr "Grāmatzīmes"
+msgstr "Grāmatzīme atjaunināta"
 
 #: internal/bookmarks/routes/views_bookmarks.go:312
 msgid "Update"
@@ -1222,9 +1219,8 @@ msgid "Share by email"
 msgstr ""
 
 #: internal/bookmarks/routes/views_collections.go:39
-#, fuzzy
 msgid "Collection created."
-msgstr "Kolekcijas"
+msgstr "Kolekcija izveidota."
 
 #: internal/bookmarks/routes/views_collections.go:66
 msgid "Collection updated."
@@ -1265,9 +1261,8 @@ msgid "Read more about highlights in the <a class=\"%s\" href=\"%s\">documentati
 msgstr ""
 
 #: internal/bookmarks/routes/x-base.templ:27
-#, fuzzy
 msgid "search in bookmarks"
-msgstr "Grāmatzīmes"
+msgstr "meklēt grāmatzīmēs"
 
 #: internal/bookmarks/routes/x-base.templ:31
 #: internal/bookmarks/routes/x-filters.templ:20
@@ -1435,9 +1430,8 @@ msgstr "Ielādē"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:501
 #: internal/dashboard/x-dashboard.templ:182
-#, fuzzy
 msgid "untitled"
-msgstr "Virsraksts"
+msgstr "bez nosaukuma"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:514
 #, python-format
@@ -1492,9 +1486,8 @@ msgstr ""
 
 #: internal/bookmarks/routes/x-bookmark.templ:22
 #: internal/bookmarks/routes/x-bookmark.templ:216
-#, fuzzy
 msgid "Edit bookmark"
-msgstr "Grāmatzīmes"
+msgstr "Rediģēt grāmatzīmi"
 
 #: internal/bookmarks/routes/x-bookmark.templ:39
 msgid "Bookmark loading"
@@ -1507,9 +1500,8 @@ msgid "Bookmark information"
 msgstr ""
 
 #: internal/bookmarks/routes/x-bookmark.templ:43
-#, fuzzy
 msgid "Bookmark content"
-msgstr "Galvenais saturs"
+msgstr "Grāmatzīmes saturs"
 
 #: internal/bookmarks/routes/x-bookmark.templ:73
 msgid "Bookmark is loading"
@@ -1532,9 +1524,9 @@ msgid "Close dialog"
 msgstr ""
 
 #: internal/bookmarks/routes/x-bookmark.templ:217
-#, fuzzy, python-format
+#, python-format
 msgid "Edit: %s"
-msgstr "Rediģēt"
+msgstr "Rediģēt: %s"
 
 #: internal/bookmarks/routes/x-bookmark.templ:229
 #: internal/bookmarks/routes/x-bookmark.templ:236
@@ -1548,14 +1540,12 @@ msgid "Title"
 msgstr "Virsraksts"
 
 #: internal/bookmarks/routes/x-bookmark.templ:261
-#, fuzzy
 msgid "Site Name"
-msgstr "Lietotājvārds"
+msgstr "Vietnes nosaukums"
 
 #: internal/bookmarks/routes/x-bookmark.templ:266
-#, fuzzy
 msgid "Authors"
-msgstr "Autors"
+msgstr "Autori"
 
 #: internal/bookmarks/routes/x-bookmark.templ:269
 msgid "One value per line"
@@ -1715,9 +1705,8 @@ msgstr "Izceltais elements"
 
 #: internal/bookmarks/routes/x-components.templ:166
 #: internal/bookmarks/routes/x-filters.templ:25
-#, fuzzy
 msgid "Note"
-msgstr "nē"
+msgstr "Piezīme"
 
 #: internal/bookmarks/routes/x-components.templ:195
 #: internal/bookmarks/routes/x-labels.templ:110
@@ -1765,9 +1754,8 @@ msgid "Subscribe to this feed by copying the URL below:"
 msgstr ""
 
 #: internal/bookmarks/routes/x-components.templ:373
-#, fuzzy
 msgid "Open link"
-msgstr "Aizvērt izvēlni"
+msgstr "Atvērt saiti"
 
 #: internal/bookmarks/routes/x-components.templ:381
 msgid "Access to this feed is restricted."
@@ -1885,9 +1873,8 @@ msgid "Here you can import your existing bookmark collection from various source
 msgstr ""
 
 #: internal/bookmarks/routes/x-import.templ:125
-#, fuzzy
 msgid "Import status"
-msgstr "Ievietot"
+msgstr "Ievietošanas statuss"
 
 #: internal/bookmarks/routes/x-import.templ:145
 msgid "Import operation will launch momentarily."
@@ -1914,9 +1901,8 @@ msgid ""
 msgstr ""
 
 #: internal/bookmarks/routes/x-labels.templ:27
-#, fuzzy
 msgid "Bookmarks Labels"
-msgstr "Grāmatzīmes"
+msgstr "Grāmatzīmju birkas"
 
 #: internal/bookmarks/routes/x-labels.templ:31
 msgid ""
@@ -2109,9 +2095,8 @@ msgid "All Bookmarks"
 msgstr ""
 
 #: internal/dashboard/x-dashboard.templ:72
-#, fuzzy
 msgid "Readeck"
-msgstr "Sarkans"
+msgstr "Readeck"
 
 #: internal/dashboard/x-dashboard.templ:74 internal/profile/views.go:98
 #: internal/profile/views.go:151 internal/profile/views.go:187
@@ -2184,9 +2169,8 @@ msgid "Database Size:"
 msgstr ""
 
 #: internal/docs/x-about.templ:83
-#, fuzzy
 msgid "Bookmarks Disk Usage:"
-msgstr "Grāmatzīmes"
+msgstr "Grāmatzīmju krātuves lietojums:"
 
 #: internal/docs/x-about.templ:88
 msgid "Project"
@@ -2498,7 +2482,7 @@ msgid "My profile"
 msgstr ""
 
 #: internal/profile/x-profile.templ:25
-#, fuzzy, python-format
+#, python-format
 msgid "You are connected as <strong>%s</strong>"
 msgstr ""
 
@@ -2571,9 +2555,8 @@ msgid "Removing your verification code will make your account less secure."
 msgstr ""
 
 #: internal/profile/x-security.templ:67
-#, fuzzy
 msgid "Remove"
-msgstr "noņemt"
+msgstr "Noņemt"
 
 #: internal/profile/x-security.templ:75 internal/profile/x-security.templ:85
 msgid "Setup Verification Code"
@@ -2757,19 +2740,19 @@ msgid "must be lower or equal than %g"
 msgstr ""
 
 #: pkg/forms/validators.go:315
-#, fuzzy, python-format
+#, python-format
 msgid "text must contain at least %d characters"
-msgstr "tekstam jābūt no %d līdz %d rakstzīmēm"
+msgstr "tekstam jāsatur vismaz %d rakstzīmes"
 
 #: pkg/forms/validators.go:323
-#, fuzzy, python-format
+#, python-format
 msgid "text must contain at most %d characters"
-msgstr "tekstam jābūt no %d līdz %d rakstzīmēm"
+msgstr "tekstam jāsatur ne vairāk kā %d rakstzīmes"
 
 #: pkg/forms/validators.go:331
-#, fuzzy, python-format
+#, python-format
 msgid "text must contain %d characters"
-msgstr "tekstam jābūt no %d līdz %d rakstzīmēm"
+msgstr "tekstam jāsatur %d rakstzīmes"
 
 #: pkg/forms/validators.go:394
 #, python-format
@@ -3416,4 +3399,3 @@ msgstr ""
 #~ "\t\t\t\ton your smartphone, your e-book reader or\n"
 #~ "\t\t\t\tin other apps through\tplugins."
 #~ msgstr ""
-
