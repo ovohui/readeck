@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 # γλωσσολαλιά <glossolalia@noreply.codeberg.org>, 2025, 2026.
-# Кнⷫѧⷷ̈зⷮьⷬ Кропоткинъ <kropotkin@noreply.codeberg.org>, 2025, 2026.
+# Kropotkin <kropotkin@noreply.codeberg.org>, 2025, 2026.
 # olivier <olivier@noreply.codeberg.org>, 2025, 2026.
 msgid ""
 msgstr ""
