@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2025-12-18 21:31+0100\n"
-"PO-Revision-Date: 2026-05-30 07:02+0000\n"
+"PO-Revision-Date: 2026-06-25 18:07+0000\n"
 "Last-Translator: imposible01 <imposible01@noreply.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/readeck/documentation/es/>\n"
 "Language: es-ES\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.5\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -46,7 +46,7 @@ msgstr "![Formulario de nuevo marcador](./img/bookmark-new.webp)"
 
 #: en/bookmark-list.md:11
 msgid "After a few seconds, your bookmark will be ready. You can then open it to read or watch its content, add labels, highlight text or export an ebook. For more information, please read the [Bookmark View](./bookmark.md) section."
-msgstr "Después de unos segundos, tu marcador estará listo. Puedes abrirlo para leerlo o ver su contenido, agregar etiquetas, resaltar texto o exportarlo como un libro electrónico. Para más información, por favor lee la sección [Vista de marcador](./bookmark.md)."
+msgstr "Después de unos segundos, tu marcador estará listo. Podrás abrirlo para leer o ver su contenido, añadir etiquetas, resaltar texto o exportar un libro electrónico. Para más información, por favor lee la sección [Vista de marcadores](./bookmark.md)."
 
 #: en/bookmark-list.md:13
 msgid "## Bookmark type"
