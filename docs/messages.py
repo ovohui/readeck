@@ -28,7 +28,6 @@ ROOT = HERE / "src"
 CATALOG_HEADER = """\
 # Translations template for PROJECT.
 # SPDX-FileCopyrightText: © YEAR Readeck <translate@readeck.com>
-#
 # SPDX-License-Identifier: AGPL-3.0-only
 #"""
 
