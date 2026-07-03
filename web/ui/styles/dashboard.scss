@@ -111,6 +111,15 @@
           }
         }
       }
+
+      .dashboard--cta {
+        p {
+          & > a {
+            @apply inline-block py-1.5 pl-2 pr-4 rounded;
+            @apply border border-primary/50;
+          }
+        }
+      }
     }
 
     &--cards {
@@ -130,7 +139,9 @@
       }
 
       .dashboard--cta {
-        @apply p-4 bg-blue-800/70 text-gray-light rounded-lg;
+        @apply p-4 mb-0;
+        @apply bg-blue-800/70 text-gray-light rounded-lg;
+        @apply dark:bg-blue-200/70 dark:text-gray-dark;
 
         & > div {
           @apply h-full flex flex-col gap-2;
@@ -144,7 +155,7 @@
           }
 
           .link {
-            @apply inline-block p-2 rounded bg-blue-50 hf:bg-blue-100;
+            @apply inline-block p-2 pr-4 rounded-full bg-blue-50 hf:bg-blue-100;
           }
         }
       }
@@ -214,6 +225,11 @@
 
       & > div {
         @apply mx-4;
+
+        .link {
+          @apply inline-block py-1.5 pl-2 pr-4 rounded-full bg-primary/10 hf:bg-primary/25;
+          @apply border border-primary/50;
+        }
       }
     }
 

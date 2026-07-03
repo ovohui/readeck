@@ -123,12 +123,14 @@ templ (v Views) dashboard(items *dashboardItems) {
 						@v.ctaApps()
 						@v.ctaBrowserAddon()
 						if HasPermission(ctx, "bookmarks", "import") {
-							@v.cta(L(ctx).Gettext("Import existing bookmarks"), "o-import", "text-yellow-600") {
+							@v.cta(L(ctx).Gettext("Import existing bookmarks"), "o-import", "text-yellow-400 dark:text-yellow-600") {
 								<p class="mb-2">
 									@routes.Components{}.TextImport()
 								</p>
 								<p class="flex justify-start">
 									<a class="link font-semibold" href={ URL(ctx, "/bookmarks/import") }>
+										@Icon("o-arrow-r")
+										{ " " }
 										{ L(ctx).Gettext("Import links and articles") }
 									</a>
 								</p>
@@ -193,7 +195,11 @@ templ (v Views) bookmarkList(title, icon string, href templ.SafeURL, itemList *d
 					}
 				</ul>
 				<div>
-					<a class="link font-semibold" href={ href }>{ L(ctx).Gettext("See all") }</a>
+					<a class="link font-semibold" href={ href }>
+						@Icon("o-arrow-r")
+						{ " " }
+						{ L(ctx).Gettext("See all") }
+					</a>
 				</div>
 			</div>
 		}
@@ -215,8 +221,8 @@ templ (_ Views) cta(title, icon, iconClass string) {
 }
 
 templ (v Views) ctaApps() {
-	@v.cta(L(ctx).Gettext("Applications for Readeck"), "o-applications", "text-green-600") {
-		<p class="mb-2">
+	@v.cta(L(ctx).Gettext("Applications for Readeck"), "o-applications", "text-green-400 dark:text-green-600") {
+		<p class="mb-4">
 			{ L(ctx).Gettext(`
 				You can use Readeck, not only in your browser, but also
 				on your smartphone, your e-book reader or
@@ -225,6 +231,8 @@ templ (v Views) ctaApps() {
 		</p>
 		<p>
 			<a class="link font-semibold" target="_blank" href="https://readeck.org/en/apps">
+				@Icon("o-arrow-r")
+				{ " " }
 				{ L(ctx).Gettext("Discover applications") }
 			</a>
 		</p>
@@ -232,12 +240,14 @@ templ (v Views) ctaApps() {
 }
 
 templ (v Views) ctaBrowserAddon() {
-	@v.cta(L(ctx).Gettext("Readeck in your Browser"), "o-extension", "text-green-600") {
-		<p class="mb-2">
+	@v.cta(L(ctx).Gettext("Readeck in your Browser"), "o-extension", "text-green-400 dark:text-green-600") {
+		<p class="mb-4">
 			@routes.Components{}.TextExtension()
 		</p>
 		<p>
 			<a class="link font-semibold" target="_blank" href="https://readeck.org/en/extension">
+				@Icon("o-arrow-r")
+				{ " " }
 				{ L(ctx).Gettext("Learn more") }
 			</a>
 		</p>

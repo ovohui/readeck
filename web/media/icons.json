@@ -2,6 +2,7 @@
   "o-applications": "bxs:category",
   "o-archive-off":  "bx:archive",
   "o-archive-on":   "bxs:archive",
+  "o-arrow-r":      "mdi:arrow-right-bold-circle",
   "o-calendar":     "bx:calendar",
   "o-check-off":    "bx:check-circle",
   "o-check-on":     "bxs:check-circle",

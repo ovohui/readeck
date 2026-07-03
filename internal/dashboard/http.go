@@ -6,7 +6,10 @@
 package dashboard
 
 import (
+	"hash"
+	"io"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/doug-martin/goqu/v9"
@@ -57,6 +60,10 @@ func (di *dashboardItems) GetLastModified() []time.Time {
 	return []time.Time{time.Time(di.LastUpdate)}
 }
 
+func (di *dashboardItems) UpdateEtag(h hash.Hash) {
+	io.WriteString(h, strconv.FormatInt(time.Time(di.LastUpdate).UnixNano(), 10))
+}
+
 func (v *dashboardViews) main(w http.ResponseWriter, r *http.Request) {
 	ds := bookmarks.Bookmarks.Query().
 		Where(
@@ -86,6 +93,7 @@ func (v *dashboardViews) main(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	server.WriteLastModified(w, r, items)
+	server.WriteEtag(w, r, items)
 	if server.HandleCaching(w, r) {
 		return
 	}
