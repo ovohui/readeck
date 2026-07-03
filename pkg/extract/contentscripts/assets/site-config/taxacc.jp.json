@@ -3,8 +3,12 @@
     "substring-before(//title, '/朝日税理士法人')"
   ],
   "body_selectors": null,
-  "date_selectors": null,
-  "author_selectors": null,
+  "date_selectors": [
+    "substring-before(substring-after(//script[@type=\"application/ld+json\"], '\"datePublished\":\"'), '\",\"dateModified\"')"
+  ],
+  "author_selectors": [
+    "//meta[@name=\"author\"]/content"
+  ],
   "strip_selectors": [
     "//h3[contains(.,  'カテゴリー')]",
     "//h3[contains(.,  '月別アーカイブ')]"
@@ -22,6 +26,10 @@
   "tests": [
     {
       "url": "https://www.taxacc.jp/blog/202512/",
+      "contains": []
+    },
+    {
+      "url": "https://www.taxacc.jp/magazine/pc/202605-2/",
       "contains": []
     }
   ]
