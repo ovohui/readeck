@@ -6,6 +6,7 @@
 
 # Build the bundles and copy all assets
 .PHONY: build
+build: export NODE_ENV=production
 build:
 	npm run build
 
@@ -16,8 +17,10 @@ clean:
 
 # Run linter
 .PHONY: lint
+lint: export NODE_ENV=production
 lint:
-	NODE_ENV=production npm run lint
+	npm run check
+	npm run lint
 
 # Start watching files for changes
 .PHONY: watch

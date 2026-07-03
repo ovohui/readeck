@@ -26,7 +26,7 @@ import {IconSet, SVG, cleanupSVG, runSVGO, scaleSVG} from "@iconify/tools"
 import {deleteAsync as del} from "del"
 import {stimulusPlugin} from "esbuild-plugin-stimulus"
 
-import fontCatalog from "./ui/fonts.js"
+import fontCatalog from "./ui/fonts.cjs"
 
 const sassCompiler = gulpSass(sass)
 
@@ -51,9 +51,9 @@ function toPosixPath(p) {
 function destCompress(format) {
   return through.obj(function (file, _, done) {
     if (
-      file.isNull() ||
-      file._isCompressed ||
-      path.extname(file.basename) == ".map"
+      file.isNull()
+      || file._isCompressed
+      || path.extname(file.basename) == ".map"
     ) {
       return done(null, file)
     }
@@ -103,37 +103,53 @@ function cleanFiles(...args) {
   return del(args, {cwd: DEST, force: true})
 }
 
-// clean_js remove the JS assets.
-function clean_js(done) {
+// cleanJS remove the JS assets.
+function cleanJS(done) {
   return cleanFiles("*.js", "*.js.*")
 }
 
-// clean_css removes the CSS assets (and fonts).
-function clean_css() {
+// cleanCSS removes the CSS assets (and fonts).
+function cleanCSS() {
   return cleanFiles("*.css", "*.css.*", "fonts")
 }
 
-// clean_media removes static assets like svg or images.
-function clean_media() {
+// cleanMedia removes static assets like svg or images.
+function cleanMedia() {
   return cleanFiles("img")
 }
 
-function clean_vendor() {
+// cleanVendor removes vendored assets.
+function cleanVendor() {
   return cleanFiles("vendor")
 }
 
-// clean delete files in the destination folder
-function clean_all(done) {
+// cleanAll delete files in the destination folder
+function cleanAll(done) {
   return gulp.series(
-    clean_js, //
-    clean_css,
-    clean_media,
-    clean_vendor,
+    cleanJS,
+    cleanCSS,
+    cleanMedia,
+    cleanVendor,
   )(done)
 }
 
-// js_bundle creates the JS bundle file using esbuild.
-function js_bundle() {
+// disableTurboStart removes the global "start()" in turbo bundle.
+function disableTurboStart() {
+  return {
+    name: "disableTurboStart",
+    setup(build) {
+      build.onLoad({filter: /@hotwired\/turbo\/.+\.js$/}, async (args) => {
+        let text = await fs.promises.readFile(args.path, "utf8")
+        return {
+          contents: text.replace(/^start\(\);/m, ""),
+        }
+      })
+    },
+  }
+}
+
+// jsBundle creates the JS bundle file using esbuild.
+function jsBundle() {
   return ordered([
     gulp
       .src("src/main.js")
@@ -184,16 +200,16 @@ function js_bundle() {
   ])
 }
 
-// css_bundle creates the CSS bundle.
-function css_bundle() {
+// cssBundle creates the CSS bundle.
+function cssBundle() {
   const processors = [
     require("postcss-import"),
-    require("./ui/plugins/prose"),
-    require("./ui/plugins/palettes.js"),
+    require("./ui/plugins/prose.cjs"),
+    require("./ui/plugins/palettes.cjs"),
     require("tailwindcss"),
-    require("./ui/plugins/responsive-units.js"),
-    require("./ui/plugins/trim-fonts.js"),
-    require("./ui/plugins/hover-media-query.js"),
+    require("./ui/plugins/responsive-units.cjs"),
+    require("./ui/plugins/trim-fonts.cjs"),
+    require("./ui/plugins/hover-media-query.cjs"),
     require("postcss-copy")({
       basePath: fontCatalog.basePath(),
       dest: DEST,
@@ -210,7 +226,7 @@ function css_bundle() {
 
   return gulp
     .src([
-      "ui/index.scss", //
+      "ui/index.scss",
     ])
     .pipe(
       through.obj(function (file, _, done) {
@@ -244,11 +260,11 @@ function css_bundle() {
     .pipe(gulp.dest(DEST))
 }
 
-// css_extra create the css files used as internal assets (epub, email)
-function css_extra() {
+// cssExtra create the css files used as internal assets (epub, email)
+function cssExtra() {
   const processors = [
     require("postcss-import"),
-    require("./ui/plugins/prose"),
+    require("./ui/plugins/prose.cjs"),
     require("autoprefixer"),
   ]
 
@@ -285,11 +301,11 @@ function optiSVG() {
   })
 }
 
-// icon_sprite is a pipeline that converts a JSON icon list to an SVG with a symbol
+// iconSprite is a pipeline that converts a JSON icon list to an SVG with a symbol
 // for each icon.
 // Icons can be URLs (with a scheme being the iconify namespace)
 // or a relative (to the JSON file) SVG path.
-function icon_sprite() {
+function iconSprite() {
   return through.obj(function (file, _, done) {
     if (file.isNull() || file.isStream()) {
       return done()
@@ -349,8 +365,8 @@ function icon_sprite() {
 
     // render sprite
     let res = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    res +=
-      '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n'
+    res
+      += '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n'
     res += icons.join("\n")
     res += "\n</svg>\n"
 
@@ -361,22 +377,22 @@ function icon_sprite() {
   })
 }
 
-// icon_bundle creates the icon bundle files
-function icon_bundle() {
+// iconBundle creates the icon bundle files
+function iconBundle() {
   return gulp
     .src(
       ["./media/icons.json", "./media/logos.json", "./media/logo-text.svg"],
       {encoding: false},
     )
-    .pipe(icon_sprite())
+    .pipe(iconSprite())
     .pipe(hashName())
     .pipe(destCompress("gz"))
     .pipe(destCompress("br"))
     .pipe(gulp.dest(path.join(DEST, "img")))
 }
 
-// copy_files copies some files to the destination.
-function copy_files() {
+// copyFiles copies some files to the destination.
+function copyFiles() {
   return ordered([
     gulp
       .src("media/favicons/*", {encoding: false})
@@ -417,10 +433,10 @@ function copy_files() {
   ])
 }
 
-// write_manifest generates a manifest.json file in the destination folder.
+// writeManifest generates a manifest.json file in the destination folder.
 // It's a very naive process that lists all the files in the destination
 // folder and creates a mapping for all the files having a hash suffix.
-function write_manifest() {
+function writeManifest() {
   return gulp
     .src(path.join(DEST, "**"), {read: false})
     .pipe(buildManifest())
@@ -444,7 +460,7 @@ function buildManifest() {
     }
 
     const m = f.match(rxFilename)
-    if (!!m) {
+    if (m) {
       manifest[`${m[1]}.${m[3]}`] = f
     } else {
       manifest[f] = f
@@ -467,88 +483,74 @@ function buildManifest() {
 // Gulp pipelines
 // ------------------------------------------------------------------
 
-const full_build = gulp.series(
-  clean_all,
+const fullBuild = gulp.series(
+  cleanAll,
   gulp.parallel(
-    js_bundle, //
-    icon_bundle,
-    copy_files,
-    css_bundle,
-    css_extra,
+    jsBundle,
+    iconBundle,
+    copyFiles,
+    cssBundle,
+    cssExtra,
   ),
-  write_manifest,
+  writeManifest,
 )
 
-function watch_js() {
+function watchJS() {
   gulp.watch(
     ["src/**/*"],
     gulp.series(
-      clean_js, //
-      js_bundle,
-      write_manifest,
+      cleanJS,
+      jsBundle,
+      writeManifest,
     ),
   )
 }
 
-function watch_css() {
+function watchCSS() {
   gulp.watch(
     [
-      "tailwind.config.js", //
+      "tailwind.config.js",
       "ui/**/*",
       "../**/*.templ",
     ],
     gulp.series(
-      clean_css, //
-      css_bundle,
-      css_extra,
-      write_manifest,
+      cleanCSS,
+      cssBundle,
+      cssExtra,
+      writeManifest,
     ),
   )
 }
 
-function watch_media() {
+function watchMedia() {
   gulp.watch(
     ["media/**/*"],
     gulp.series(
-      clean_media, //
-      icon_bundle,
-      copy_files,
-      write_manifest,
+      cleanMedia,
+      iconBundle,
+      copyFiles,
+      writeManifest,
     ),
   )
 }
 
-function disableTurboStart() {
-  return {
-    name: "disableTurboStart",
-    setup(build) {
-      build.onLoad({filter: /@hotwired\/turbo\/.+\.js$/}, async (args) => {
-        let text = await fs.promises.readFile(args.path, "utf8")
-        return {
-          contents: text.replace(/^start\(\);/m, ""),
-        }
-      })
-    },
-  }
-}
+export const clean = gulp.series(cleanAll, writeManifest)
+export const js = jsBundle
+export const css = gulp.series(cleanCSS, cssBundle, cssExtra)
+export const epub = cssExtra
+export const icons = iconBundle
+export const copy = copyFiles
 
-export const clean = gulp.series(clean_all, write_manifest)
-export const js = js_bundle
-export const css = gulp.series(clean_css, css_bundle, css_extra)
-export const epub = css_extra
-export const icons = icon_bundle
-export const copy = copy_files
-
-export {watch_css as "watch:css"}
-export {watch_js as "watch:js"}
+export {watchCSS as "watch:css"}
+export {watchJS as "watch:js"}
 
 export const dev = gulp.series(
-  full_build,
+  fullBuild,
   gulp.parallel(
-    watch_js, //
-    watch_css,
-    watch_media,
+    watchJS,
+    watchCSS,
+    watchMedia,
   ),
 )
 
-export default full_build
+export default fullBuild
