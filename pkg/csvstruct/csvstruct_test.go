@@ -5,6 +5,7 @@
 package csvstruct
 
 import (
+	"strconv"
 	"strings"
 	"testing"
 )
@@ -35,7 +36,52 @@ func TestScanner(t *testing.T) {
 	}
 }
 
-func TestScanner_DifferentType(t *testing.T) {
+func TestScannerOutOfBounds(t *testing.T) {
+	tests := []struct {
+		values   []string
+		expected testDst
+		error    string
+	}{
+		{
+			[]string{"42"},
+			testDst{},
+			"index 1 out of bounds for row with only 1 fields",
+		},
+		{
+			[]string{"42", "John"},
+			testDst{Name: "John", Age: 42},
+			"",
+		},
+		{
+			[]string{"42", "John", "true"},
+			testDst{Name: "John", Age: 42},
+			"",
+		},
+	}
+
+	for i, test := range tests {
+		t.Run(strconv.Itoa(i+1), func(t *testing.T) {
+			dst := testDst{}
+			scan, err := NewScanner([]string{"age", "name"}, &dst)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			err = scan(test.values, &dst)
+			if test.error != "" {
+				if err == nil || err.Error() != test.error {
+					t.Fatalf("no error or error not matching: %s", test.error)
+				}
+			}
+
+			if dst != test.expected {
+				t.Fatalf("%#v is not equal to %#v", dst, test.expected)
+			}
+		})
+	}
+}
+
+func TestScannerDifferentType(t *testing.T) {
 	scan, err := NewScanner([]string{"name", "age"}, &testDst{})
 	if err != nil {
 		t.Fatal(err)
