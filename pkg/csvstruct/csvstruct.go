@@ -27,6 +27,11 @@ var textUnmarshalerType = reflect.TypeFor[encoding.TextUnmarshaler]()
 // by the NewScanner call.
 type Scanner func(row []string, dst any) error
 
+// ScannerError is an error type indicating a malformed CSV file.
+type ScannerError struct {
+	error
+}
+
 func colIdx(header []string, f reflect.StructField) int {
 	ignoreCase := f.Tag.Get("case") == "ignore"
 
@@ -234,6 +239,9 @@ func NewScanner(header []string, dst any) (Scanner, error) { // nolint:gocognit,
 		}
 		st = reflect.Indirect(st)
 		for _, s := range setters {
+			if s.csvIdx >= len(row) {
+				return ScannerError{fmt.Errorf("index %d out of bounds for row with only %d fields", s.csvIdx, len(row))}
+			}
 			if err := s.fn(st.Field(s.fieldIdx), row[s.csvIdx]); err != nil {
 				return err
 			}

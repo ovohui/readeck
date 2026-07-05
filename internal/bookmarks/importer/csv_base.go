@@ -9,6 +9,7 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"iter"
 	"slices"
@@ -80,6 +81,10 @@ func (adapter *csvBaseAdapter[S, T]) loadItems(cr *csv.Reader) error {
 
 		src := new(S)
 		if err = scanner(row, src); err != nil {
+			if _, ok := errors.AsType[csvstruct.ScannerError](err); ok {
+				line, _ := cr.FieldPos(0)
+				return fmt.Errorf("CSV read error on line %d: %w", line, err)
+			}
 			continue
 		}
 
