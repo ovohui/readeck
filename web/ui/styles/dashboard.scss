@@ -99,14 +99,19 @@
 
         li {
           &:not(:last-of-type) {
-            @apply mb-2;
+            @apply mb-1;
           }
 
           a {
             @apply inline-flex gap-2 items-baseline link;
+            @apply py-1;
 
             .svgicon {
-              @apply h-4 w-auto text-gray-700;
+              &,
+              & svg {
+                @apply h-5 w-auto;
+              }
+              @apply text-gray-700;
             }
           }
         }

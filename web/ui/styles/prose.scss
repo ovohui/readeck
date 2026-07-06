@@ -17,6 +17,19 @@ $line-height: 1.5;
   }
 
   .prose {
+    --color-blockquote-bg: rgba(0, 0, 0, 0.03);
+    --color-pre-bg: rgba(0, 0, 0, 0.03);
+    --color-code-bg: rgba(0, 0, 0, 0.07);
+    --color-mark-bg: theme("colors.yellow.300");
+    --color-th-bg: rgba(0, 0, 0, 0.03);
+
+    &:is(.dark *) {
+      --color-blockquote-bg: rgba(255, 255, 255, 0.06);
+      --color-pre-bg: rgba(255, 255, 255, 0.07);
+      --color-code-bg: rgba(255, 255, 255, 0.12);
+      --color-th-bg: rgba(255, 255, 255, 0.06);
+    }
+
     overflow-wrap: break-word;
 
     h1 {
@@ -66,7 +79,7 @@ $line-height: 1.5;
 
     a,
     a:visited {
-      @apply text-primary;
+      @apply text-primary dark;
       text-decoration-line: underline;
       text-decoration-style: dotted;
       text-decoration-color: theme("colors.gray.400");
@@ -127,7 +140,7 @@ $line-height: 1.5;
     blockquote {
       padding: $line-height * 1em;
       padding: calc(var(--prose-lh) * 1em);
-      background: rgba(0, 0, 0, 0.03);
+      background: var(--color-blockquote-bg);
       border-left: 5px solid theme("colors.gray.300");
 
       *:last-child {
@@ -153,7 +166,7 @@ $line-height: 1.5;
       padding: calc(var(--prose-lh) * 1em - 1px) calc(var(--prose-lh) * 1em);
       font-size: 0.9em;
       border: 1px solid theme("colors.gray.300");
-      background: rgba(0, 0, 0, 0.03);
+      background: var(--color-pre-bg);
       white-space: pre-wrap;
       overflow-x: auto;
 
@@ -173,13 +186,14 @@ $line-height: 1.5;
       line-height: 1;
       padding: 1px 3px;
       border-radius: theme("borderRadius.sm");
-      background-color: rgba(0, 0, 0, 0.04);
+      background-color: var(--color-code-bg);
     }
 
     mark {
       line-height: 1;
       padding: 1px 3px;
-      background-color: theme("colors.yellow.300");
+      color: inherit;
+      background-color: var(--color-mark-bg);
     }
 
     img,
@@ -309,7 +323,7 @@ $line-height: 1.5;
 
     th {
       font-weight: bold;
-      background-color: rgba(0, 0, 0, 0.03);
+      background-color: var(--color-th-bg);
     }
 
     thead tr:last-child th {
@@ -360,8 +374,13 @@ $line-height: 1.5;
 
       blockquote {
         text-align: left;
-        background: none;
+        background-color: none;
         padding-block: 0;
+      }
+
+      pre,
+      code {
+        background-color: none;
       }
 
       img,
