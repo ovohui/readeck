@@ -4,7 +4,7 @@
 
 import {Application} from "@hotwired/stimulus"
 import VideoController from "./controllers/video_controller"
-import ThemeController from "./controllers/theme_controller.js"
+import ThemeController from "./controllers/theme_controller"
 
 const application = Application.start()
 application.register("video", VideoController)

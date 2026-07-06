@@ -152,10 +152,10 @@ function disableTurboStart() {
 function jsBundle() {
   return ordered([
     gulp
-      .src("src/main.js")
+      .src("src/main.ts")
       .pipe(
         gulpEsbuild({
-          entryPoints: ["src/main.js"],
+          entryPoints: ["src/main.ts"],
           sourcemap: "inline",
           outfile: "bundle.js",
           bundle: true,
@@ -175,10 +175,10 @@ function jsBundle() {
       .pipe(destCompress("br"))
       .pipe(gulp.dest(DEST)),
     gulp
-      .src("src/public.js")
+      .src("src/public.ts")
       .pipe(
         gulpEsbuild({
-          entryPoints: ["src/public.js"],
+          entryPoints: ["src/public.ts"],
           sourcemap: "inline",
           outfile: "public.js",
           bundle: true,
