@@ -98,8 +98,6 @@ func CleanDomProcessor(m *extract.ProcessMessage, next extract.Processor) extrac
 	})
 
 	bleach.DefaultPolicy.Clean(m.Dom)
-	bleach.DefaultPolicy.RemoveEmptyNodes(m.Dom)
-	bleach.DefaultPolicy.SetLinkRel(m.Dom)
 
 	return next
 }
