@@ -8,7 +8,7 @@
 
 ifeq (, $(shell which git && git status))
 VERSION ?= dev
-DATE ?= $(shell date --rfc-3339=seconds)
+DATE ?= $(shell date '+%Y-%m-%dT%H:%M:%S%:z')
 else
 VERSION := $(shell git describe --tags)
 DATE := $(shell git log -1 --format=%cI)
@@ -61,9 +61,9 @@ generate: templ web-build docs-build
 # Setup prepares the environment
 .PHONY: setup
 setup:
-	@echo "GOVERSION: $(shell go env GOVERSION)"
-	@echo "GOOS: $(shell go env GOOS)"
-	@echo "GOARCH: $(shell go env GOARCH)"
+	@echo "GOVERSION: $(shell $(GO) env GOVERSION)"
+	@echo "GOOS: $(shell $(GO) env GOOS)"
+	@echo "GOARCH: $(shell $(GO) env GOARCH)"
 	$(GO) mod download
 	${MAKE} -C web setup
 
@@ -76,9 +76,9 @@ templ/fmt: templ
 # Build the server
 .PHONY: build
 build:
-	@echo "GOVERSION: $(shell go env GOVERSION)"
-	@echo "GOOS: $(shell go env GOOS)"
-	@echo "GOARCH: $(shell go env GOARCH)"
+	@echo "GOVERSION: $(shell $(GO) env GOVERSION)"
+	@echo "GOOS: $(shell $(GO) env GOOS)"
+	@echo "GOARCH: $(shell $(GO) env GOARCH)"
 	@echo "CGO_ENABLED: $(CGO_ENABLED)"
 	@echo "CC: $(CC)"
 	@echo "CXX: $(CXX)"
@@ -105,7 +105,7 @@ web-build:
 .PHONY: test
 test: templ docs-build
 	test -f assets/www/manifest.json || echo "{}" > assets/www/manifest.json
-	GOTOOLCHAIN=$(shell go env GOVERSION) $(GO) test \
+	GOTOOLCHAIN=$(shell $(GO) env GOVERSION) $(GO) test \
 		-tags "$(BUILD_TAGS)" \
 		-ldflags="$(VERSION_FLAGS) $(LDFLAGS)" \
 		-cover ./...
@@ -116,14 +116,14 @@ clean:
 	rm -rf $(DIST)
 	${MAKE} clean/templ
 	rm -rf assets/www/*
-	make -C docs clean
-	make -C locales clean
-	make -C web clean
+	${MAKE} -C docs clean
+	${MAKE} -C locales clean
+	${MAKE} -C web clean
 
 # Clean generated templ files
 .PHONY: clean/templ
 clean/templ:
-	find -name '*_templ.go' -delete
+	find ./ -name '*_templ.go' -delete
 
 # List all the modules included by the build
 list:
