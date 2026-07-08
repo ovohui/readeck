@@ -59,7 +59,6 @@ require (
 	golang.org/x/term v0.44.0
 	golang.org/x/text v0.38.0
 	gopkg.in/yaml.v3 v3.0.1
-	kernel.org/pub/linux/libs/security/libcap/cap v1.2.78
 	modernc.org/sqlite v1.53.0
 )
 
@@ -100,7 +99,6 @@ require (
 	gopkg.in/hlandau/measurable.v1 v1.0.1 // indirect
 	gopkg.in/hlandau/passlib.v1 v1.0.11 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	kernel.org/pub/linux/libs/security/libcap/psx v1.2.78 // indirect
 	modernc.org/libc v1.73.5 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect
