@@ -318,7 +318,8 @@ func copyContentScriptHelpers(dest string) error {
 			}
 			defer dst.Close() //nolint:errcheck
 
-			slog.Debug("copying helper",
+			slog.Debug(
+				"copying helper",
 				slog.String("src", name),
 				slog.String("dst", filepath.Join(dest, name)),
 			)

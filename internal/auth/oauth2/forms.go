@@ -93,7 +93,8 @@ func (*baseForm) GetTaggedValidator(name, args string, tc *forms.TagContext) (fo
 		}), true
 
 	case "grant_types":
-		forms.Choices(tc.Field,
+		forms.Choices(
+			tc.Field,
 			forms.Choice(grantTypeAuthCode, grantTypeAuthCode),
 			forms.Choice(grantTypeDeviceCode, grantTypeDeviceCode),
 		)
@@ -103,19 +104,22 @@ func (*baseForm) GetTaggedValidator(name, args string, tc *forms.TagContext) (fo
 		}
 		return nil, true
 	case "auth_methods":
-		forms.Choices(tc.Field,
+		forms.Choices(
+			tc.Field,
 			forms.Choice("none", "none"),
 		)
 		tc.Field.(*forms.TextField).Set("none")
 		return nil, true
 	case "response_types":
-		forms.Choices(tc.Field,
+		forms.Choices(
+			tc.Field,
 			forms.Choice("code", "code"),
 		)
 		tc.Field.(*forms.TextListField).Set([]string{"code"})
 		return nil, true
 	case "challenge_methods":
-		forms.Choices(tc.Field,
+		forms.Choices(
+			tc.Field,
 			forms.Choice("S256", "S256"),
 		)
 		return nil, true

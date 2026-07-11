@@ -344,7 +344,8 @@ func (api *oauthAPI) deviceCodeHandler(w http.ResponseWriter, r *http.Request) {
 				ClientInfo:  client.toClientInfo(),
 			}
 			if err = tokens.Tokens.Create(t); err != nil {
-				server.Err(w, r,
+				server.Err(
+					w, r,
 					errServerError.withDescription("can't create token").withError(err),
 				)
 				return
@@ -367,7 +368,8 @@ func (api *oauthAPI) deviceCodeHandler(w http.ResponseWriter, r *http.Request) {
 
 		token, err := configs.Keys.TokenKey().Encode(t.UID)
 		if err != nil {
-			server.Err(w, r,
+			server.Err(
+				w, r,
 				errServerError.withDescription("can't encode token").withError(err),
 			)
 			return

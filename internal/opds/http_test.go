@@ -17,7 +17,8 @@ func TestPermissions(t *testing.T) {
 
 	users := []string{"admin", "staff", "user", "disabled", ""}
 	for _, user := range users {
-		app.Client(WithToken(user)).Sequence(t,
+		app.Client(WithToken(user)).Sequence(
+			t,
 			RT(
 				WithTarget("/opds"),
 				WithAssert(func(t *testing.T, rsp *Response) {

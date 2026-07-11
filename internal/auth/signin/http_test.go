@@ -45,18 +45,21 @@ func TestSignin(t *testing.T) {
 			t.Run(test.user, func(t *testing.T) {
 				client := app.Client()
 
-				client.RT(t,
+				client.RT(
+					t,
 					WithTarget("/"),
 					AssertStatus(303),
 					AssertRedirect("/login"),
 				)
 
-				client.RT(t,
+				client.RT(
+					t,
 					WithTarget("/login"),
 					AssertStatus(200),
 				)
 
-				client.RT(t,
+				client.RT(
+					t,
 					WithMethod(http.MethodPost),
 					WithTarget("/login"),
 					WithBody(url.Values{
@@ -72,7 +75,8 @@ func TestSignin(t *testing.T) {
 					}()),
 				)
 
-				client.RT(t,
+				client.RT(
+					t,
 					WithTarget("/profile"),
 					AssertStatus(test.profileStatus),
 				)
@@ -84,7 +88,8 @@ func TestSignin(t *testing.T) {
 		client := app.Client()
 		now := time.Now().UTC()
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/login"),
 			WithBody(url.Values{
@@ -101,7 +106,8 @@ func TestSignin(t *testing.T) {
 
 	t.Run("logout view", func(t *testing.T) {
 		client := app.Client()
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/logout"),
 			WithBody(url.Values{}),
@@ -110,7 +116,8 @@ func TestSignin(t *testing.T) {
 		)
 
 		WithSession("user")(client)
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget("/profile"),
 			AssertStatus(200),
 			WithAssert(func(t *testing.T, rsp *Response) {
@@ -118,7 +125,8 @@ func TestSignin(t *testing.T) {
 			}),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/logout"),
 			WithBody(url.Values{}),
@@ -129,7 +137,8 @@ func TestSignin(t *testing.T) {
 			}),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget("/"),
 			AssertStatus(303),
 			AssertRedirect("/login"),
@@ -149,7 +158,8 @@ func TestSignin(t *testing.T) {
 
 		client := app.Client()
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/login"),
 			WithBody(url.Values{
@@ -160,7 +170,8 @@ func TestSignin(t *testing.T) {
 			AssertRedirect("/login/mfa"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget(client.History[0].Response.Redirect),
 			AssertStatus(200),
 			AssertContains("Two-factor authentication"),
@@ -169,7 +180,8 @@ func TestSignin(t *testing.T) {
 		otp, err := code.OTP(time.Now().UTC())
 		require.NoError(t, err)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget(client.History.PrevURL()),
 			WithBody(url.Values{"code": {otp}}),
@@ -178,7 +190,8 @@ func TestSignin(t *testing.T) {
 		)
 
 		// client is now logged-in
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget("/profile"),
 			AssertStatus(200),
 		)
@@ -237,7 +250,8 @@ func TestSignin(t *testing.T) {
 				}()
 
 				client := app.Client()
-				client.RT(t,
+				client.RT(
+					t,
 					WithMethod(http.MethodPost),
 					WithTarget("/login"),
 					WithBody(url.Values{
@@ -251,7 +265,8 @@ func TestSignin(t *testing.T) {
 				otp, err := test.code()
 				require.NoError(t, err)
 
-				client.RT(t,
+				client.RT(
+					t,
 					append([]TestOption{
 						WithMethod(http.MethodPost),
 						WithTarget(client.History[0].Response.Redirect),
@@ -259,7 +274,8 @@ func TestSignin(t *testing.T) {
 					}, test.assert...)...,
 				)
 
-				client.RT(t,
+				client.RT(
+					t,
 					WithTarget("/profile"),
 					AssertStatus(303),
 					AssertRedirect("/login"),
@@ -277,7 +293,8 @@ func TestLockedExternal(t *testing.T) {
 	app.Users["admin"].User.ExtID = new(uuid.New().String())
 	require.NoError(t, app.Users["admin"].User.Save())
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPost),
 		WithTarget("/login"),
 		WithBody(url.Values{"username": {"admin"}, "password": {"admin"}}),

@@ -135,7 +135,8 @@ func Required(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		provider, ok := CheckProvider(r.Context())
 		if !ok {
-			slog.Error("authentication",
+			slog.Error(
+				"authentication",
 				slog.Any("err", errors.New("no authentication provider")),
 			)
 			w.WriteHeader(http.StatusForbidden)
@@ -162,7 +163,8 @@ func Required(next http.Handler) http.Handler {
 
 		if p, ok := provider.(LoggerProvider); ok && slog.Default().Enabled(context.Background(), slog.LevelDebug) {
 			authInfo := GetRequestAuthInfo(r)
-			p.Log(r).Debug("authenticated user",
+			p.Log(r).Debug(
+				"authenticated user",
 				slog.String("provider", authInfo.Provider.Name),
 				slog.String("id", authInfo.Provider.ID),
 				slog.String("user", authInfo.User.Username),

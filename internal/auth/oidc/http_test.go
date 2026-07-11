@@ -304,7 +304,8 @@ func TestSigninOk(t *testing.T) {
 			srv := newOIDCServer()
 			t.Cleanup(srv.start(test.clientID))
 
-			client.RT(t,
+			client.RT(
+				t,
 				WithMethod(http.MethodPost),
 				WithTarget("/login/oidc"),
 				WithBody(url.Values{"id": {oidc.Providers.Items()[0].ID}}),
@@ -322,13 +323,15 @@ func TestSigninOk(t *testing.T) {
 				require.Regexp(t, "/login/oidc", redir)
 			})
 
-			client.RT(t,
+			client.RT(
+				t,
 				WithName("redir"),
 				WithTarget(redir),
 				AssertStatus(303),
 			)
 
-			client.RT(t,
+			client.RT(
+				t,
 				WithTarget("/api/profile"),
 				WithAssert(func(t *testing.T, rsp *Response) {
 					data := rsp.JSON.(map[string]any)
@@ -351,7 +354,8 @@ func TestSigninKo(t *testing.T) {
 	t.Run("unknown provider", func(t *testing.T) {
 		client := app.Client()
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/login/oidc"),
 			WithBody(url.Values{"id": {"abcd"}}),
@@ -365,7 +369,8 @@ func TestSigninKo(t *testing.T) {
 		srv := newOIDCServer()
 		t.Cleanup(srv.start("authorize-error"))
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/login/oidc"),
 			WithBody(url.Values{"id": {oidc.Providers.Items()[0].ID}}),
@@ -386,7 +391,8 @@ func TestSigninKo(t *testing.T) {
 		}, u.Query())
 		t.Log(redir)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("redir"),
 			WithTarget(redir),
 			AssertStatus(401),
@@ -399,7 +405,8 @@ func TestSigninKo(t *testing.T) {
 		srv := newOIDCServer()
 		t.Cleanup(srv.start("token-error"))
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/login/oidc"),
 			WithBody(url.Values{"id": {oidc.Providers.Items()[0].ID}}),
@@ -413,7 +420,8 @@ func TestSigninKo(t *testing.T) {
 		require.Equal(t, 302, w.Result().StatusCode)
 		redir := w.Result().Header.Get("location")
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("redir"),
 			WithTarget(redir),
 			AssertStatus(500),
@@ -426,7 +434,8 @@ func TestSigninKo(t *testing.T) {
 		srv := newOIDCServer()
 		t.Cleanup(srv.start("token-sig-error"))
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/login/oidc"),
 			WithBody(url.Values{"id": {oidc.Providers.Items()[0].ID}}),
@@ -440,7 +449,8 @@ func TestSigninKo(t *testing.T) {
 		require.Equal(t, 302, w.Result().StatusCode)
 		redir := w.Result().Header.Get("location")
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("redir"),
 			WithTarget(redir),
 			AssertStatus(500),

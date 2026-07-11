@@ -203,7 +203,7 @@ func (f *createForm) createBookmark(r *http.Request) (b *bookmarks.Bookmark, err
 	uri.Fragment = ""
 
 	b = &bookmarks.Bookmark{
-		UserID:   &(auth.GetUser(r.Context()).ID),
+		UserID:   &auth.GetUser(r.Context()).ID,
 		State:    bookmarks.StateLoading,
 		URL:      uri.String(),
 		Title:    f.Title.Value(),
@@ -278,7 +278,8 @@ func (f *updateForm) GetTaggedValidator(name, _ string, tc *forms.TagContext) (f
 			return err == nil
 		}, forms.Gettext("invalid language code")), true
 	case "text_dir_choices":
-		forms.Choices(tc.Field,
+		forms.Choices(
+			tc.Field,
 			forms.Choice("", ""),
 			forms.Choice(forms.GetTranslator(tc.Context).Gettext("Left to right"), "ltr"),
 			forms.Choice(forms.GetTranslator(tc.Context).Gettext("Right to left"), "rtl"),
@@ -467,7 +468,8 @@ type autocompleteHelperForm struct {
 func (f *autocompleteHelperForm) GetTaggedValidator(name, _ string, tc *forms.TagContext) (forms.Validator, bool) {
 	switch name {
 	case "type_choices":
-		forms.Choices(tc.Field,
+		forms.Choices(
+			tc.Field,
 			forms.Choice("author", "author"),
 			forms.Choice("label", "label"),
 			forms.Choice("site", "site"),
@@ -484,9 +486,10 @@ func (f *autocompleteHelperForm) getQuerySet(user *users.User) *goqu.SelectDatas
 
 	switch f.Type.Value() {
 	case "author":
-		return exp.JSONStringsDataset(db.Q().
-			From(goqu.T(db.TableBookmark).As("b")).
-			Select(goqu.C("authors").Table("b")),
+		return exp.JSONStringsDataset(
+			db.Q().
+				From(goqu.T(db.TableBookmark).As("b")).
+				Select(goqu.C("authors").Table("b")),
 			"name",
 		).
 			Distinct().
@@ -496,9 +499,10 @@ func (f *autocompleteHelperForm) getQuerySet(user *users.User) *goqu.SelectDatas
 			).
 			Prepared(true)
 	case "label":
-		return exp.JSONStringsDataset(db.Q().
-			From(goqu.T(db.TableBookmark).As("b")).
-			Select(goqu.C("labels").Table("b")),
+		return exp.JSONStringsDataset(
+			db.Q().
+				From(goqu.T(db.TableBookmark).As("b")).
+				Select(goqu.C("labels").Table("b")),
 			"name",
 		).
 			Distinct().
@@ -674,7 +678,8 @@ type shareForm struct {
 func (f *shareForm) GetTaggedValidator(name, _ string, tc *forms.TagContext) (forms.Validator, bool) {
 	switch name {
 	case "format_choices":
-		forms.Choices(tc.Field,
+		forms.Choices(
+			tc.Field,
 			forms.Choice(forms.GetTranslator(tc.Context).Gettext("Article"), "html"),
 			forms.Choice(forms.GetTranslator(tc.Context).Gettext("E-Book"), "epub"),
 		)

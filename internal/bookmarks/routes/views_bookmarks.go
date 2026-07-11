@@ -175,7 +175,8 @@ func (h *viewsRouter) diagnosis(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	server.RenderTurboStreamComponent(w, r,
+	server.RenderTurboStreamComponent(
+		w, r,
 		Components{}.diagnosis(d),
 		"replace", "diagnosis-info", nil,
 	)
@@ -230,7 +231,8 @@ func (h *viewsRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
 			_, withProgress := updated["read_progress"]
 
 			if withTitle || withDescription {
-				server.RenderTurboStreamComponent(w, r,
+				server.RenderTurboStreamComponent(
+					w, r,
 					Components{}.titleBlock(item),
 					"replace", "bookmark-title-"+b.UID, nil,
 				)
@@ -278,7 +280,8 @@ func (h *viewsRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
 					"replace", "bookmark-card-"+b.UID, nil)
 			}
 			if withMarked || withArchived {
-				server.RenderTurboStreamComponent(w, r,
+				server.RenderTurboStreamComponent(
+					w, r,
 					Components{}.bookmarkInfoBottomActions(item),
 					"replace", "bookmark-bottom-actions-"+b.UID, nil,
 				)
@@ -299,7 +302,8 @@ func (h *viewsRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
 
 	if server.IsTurboRequest(r) {
 		w.WriteHeader(status)
-		server.RenderTurboStreamComponent(w, r,
+		server.RenderTurboStreamComponent(
+			w, r,
 			Components{}.bookmarkUpdate(b, f),
 			"replace", "bookmark-update-"+b.UID, nil,
 		)
@@ -475,7 +479,8 @@ func (h *publicViewsRouter) get(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Don't show the notes on a shared, public, page.
-	ctx := dataset.WithAnnotationTag(r.Context(),
+	ctx := dataset.WithAnnotationTag(
+		r.Context(),
 		dataset.AnnotationTag,
 		dataset.AnnotationCallback(false),
 	)

@@ -176,7 +176,7 @@ func InitRequest(trustedProxies ...*net.IPNet) func(next http.Handler) http.Hand
 			}
 
 			// Set the request's URL
-			*(r.URL) = *cu
+			*r.URL = *cu
 
 			// Add request's ID to context
 			ctx = withReqID(ctx, makeRequestID())

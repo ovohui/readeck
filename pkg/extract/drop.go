@@ -275,7 +275,8 @@ func (d *Drop) loadTextPlain(rsp *http.Response) error {
 
 	title := strings.TrimSuffix(path.Base(d.URL.Path), path.Ext(d.URL.Path))
 	title = rxTitleSpaces.ReplaceAllLiteralString(title, " ")
-	d.Body = fmt.Appendf(nil, "<html><head><title>%s</title><body><pre>%s",
+	d.Body = fmt.Appendf(
+		nil, "<html><head><title>%s</title><body><pre>%s",
 		title,
 		string(d.Body),
 	)

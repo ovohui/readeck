@@ -62,7 +62,8 @@ func (m *yamlMap) items() iter.Seq2[string, *yaml.Node] {
 func (m *yamlMap) contentNodes() []*yaml.Node {
 	res := []*yaml.Node{}
 	for k, v := range m.items() {
-		res = append(res,
+		res = append(
+			res,
 			&yaml.Node{Kind: yaml.ScalarNode, Value: k},
 			v,
 		)

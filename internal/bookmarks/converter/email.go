@@ -86,7 +86,8 @@ func (e HTMLEmailExporter) Export(ctx context.Context, _ io.Writer, r *http.Requ
 			}
 			defer fp.Close() // nolint:errcheck
 			name := path.Base(x.Name)
-			return msg.EmbedReader(name, fp,
+			return msg.EmbedReader(
+				name, fp,
 				mail.WithFileContentID(e.cidPrefix+"."+name),
 			)
 		}(); err != nil {
@@ -103,7 +104,8 @@ func (e HTMLEmailExporter) Export(ctx context.Context, _ io.Writer, r *http.Requ
 			defer fp.Close() // nolint:errcheck
 
 			name := path.Base(i.Name)
-			if err = msg.EmbedReader(name, fp,
+			if err = msg.EmbedReader(
+				name, fp,
 				mail.WithFileContentID(e.cidPrefix+"."+name),
 			); err != nil {
 				return err

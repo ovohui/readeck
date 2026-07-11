@@ -76,16 +76,17 @@ func (v *dashboardViews) main(w http.ResponseWriter, r *http.Request) {
 	items := &dashboardItems{}
 
 	// get last modified
-	du := db.Q().Select(goqu.MAX("time")).From(ds.
-		ClearOrder().ClearLimit().
-		Select(goqu.MAX(exp.DateTime(goqu.C("updated"))).As("time")).
-		Union(
-			db.Q().From(goqu.T(db.TableBookmarkRemoved)).
-				Select(goqu.MAX(exp.DateTime(goqu.C("deleted"))).As("time")).
-				Where(
-					goqu.C("user_id").Eq(auth.GetUser(r.Context()).ID),
-				),
-		),
+	du := db.Q().Select(goqu.MAX("time")).From(
+		ds.
+			ClearOrder().ClearLimit().
+			Select(goqu.MAX(exp.DateTime(goqu.C("updated"))).As("time")).
+			Union(
+				db.Q().From(goqu.T(db.TableBookmarkRemoved)).
+					Select(goqu.MAX(exp.DateTime(goqu.C("deleted"))).As("time")).
+					Where(
+						goqu.C("user_id").Eq(auth.GetUser(r.Context()).ID),
+					),
+			),
 	)
 
 	if _, err = du.ScanVal(&items.LastUpdate); err != nil {
@@ -102,22 +103,28 @@ func (v *dashboardViews) main(w http.ResponseWriter, r *http.Request) {
 		server.Err(w, r, err)
 		return
 	}
-	items.NewBookmarks = dataset.NewBookmarkIterator(r.Context(),
+	items.NewBookmarks = dataset.NewBookmarkIterator(
+		r.Context(),
 		ds.Where(goqu.C("is_archived").Is(false)),
 	)
-	items.FavoriteBookmarks = dataset.NewBookmarkIterator(r.Context(),
+	items.FavoriteBookmarks = dataset.NewBookmarkIterator(
+		r.Context(),
 		ds.Where(goqu.C("is_marked").Is(true)),
 	)
-	items.ArchivedBookmarks = dataset.NewBookmarkIterator(r.Context(),
+	items.ArchivedBookmarks = dataset.NewBookmarkIterator(
+		r.Context(),
 		ds.Where(goqu.C("is_archived").Is(true)),
 	)
-	items.Articles = dataset.NewBookmarkIterator(r.Context(),
+	items.Articles = dataset.NewBookmarkIterator(
+		r.Context(),
 		ds.Where(goqu.C("type").Eq("article")),
 	)
-	items.Pictures = dataset.NewBookmarkIterator(r.Context(),
+	items.Pictures = dataset.NewBookmarkIterator(
+		r.Context(),
 		ds.Where(goqu.C("type").Eq("photo")),
 	)
-	items.Videos = dataset.NewBookmarkIterator(r.Context(),
+	items.Videos = dataset.NewBookmarkIterator(
+		r.Context(),
 		ds.Where(goqu.C("type").Eq("video")),
 	)
 

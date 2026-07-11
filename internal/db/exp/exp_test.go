@@ -106,7 +106,8 @@ func TestFunctions(t *testing.T) {
 				require.NoError(t, err)
 				// t.Logf("%#v -- %#v", sql, args)
 
-				require.Equal(t,
+				require.Equal(
+					t,
 					test.expected[dialect].sql,
 					sql,
 				)
@@ -213,7 +214,8 @@ func TestStringsFilter(t *testing.T) {
 				sql, args, err := ds.Prepared(true).ToSQL()
 				require.NoError(t, err)
 
-				require.Equal(t,
+				require.Equal(
+					t,
 					test.expected[dialect].sql,
 					sql,
 				)

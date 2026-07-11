@@ -170,7 +170,8 @@ func TestNewForm(t *testing.T) {
 
 	f := forms.New[OkForm](context.Background())
 
-	assert.Equal(t,
+	assert.Equal(
+		t,
 		map[string]forms.Binder{
 			"a": &f.A,
 		},

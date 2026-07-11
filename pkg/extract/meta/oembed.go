@@ -126,9 +126,7 @@ func (s *jsonString) UnmarshalJSON(d []byte) error {
 }
 
 func newOembed(doc *html.Node, base *url.URL, client *http.Client) (res *oembed, err error) {
-	node, _ := htmlquery.Query(
-		doc,
-		"//link[@href][@type='application/json+oembed']")
+	node, _ := htmlquery.Query(doc, "//link[@href][@type='application/json+oembed']")
 	if node == nil {
 		return
 	}

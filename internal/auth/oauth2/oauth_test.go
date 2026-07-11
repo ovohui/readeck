@@ -36,7 +36,8 @@ func TestServerMetadata(t *testing.T) {
 	app := NewTestApp(t)
 	defer app.Close(t)
 
-	app.Client().RT(t,
+	app.Client().RT(
+		t,
 		WithTarget("/.well-known/oauth-authorization-server"),
 		AssertStatus(200),
 		AssertJSON(`{
@@ -78,27 +79,31 @@ func TestAuthorizationCodeFlow(t *testing.T) {
 		params.Set("code_challenge", codeChallenge)
 		params.Set("code_challenge_method", "S256")
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget("/authorize"),
 			AssertStatus(303),
 			AssertRedirect("/login"),
 		)
 
-		user.RT(t,
+		user.RT(
+			t,
 			WithName("authorize ko"),
 			WithTarget("/authorize"),
 			AssertStatus(401),
 			AssertJSON(`{"error": "invalid_client"}`),
 		)
 
-		user.RT(t,
+		user.RT(
+			t,
 			WithName("authorization form"),
 			WithTarget("/authorize?"+params.Encode()),
 			AssertStatus(200),
 			AssertContains("Authorize</button>"),
 		)
 
-		user.RT(t,
+		user.RT(
+			t,
 			WithName("authorize ok"),
 			WithMethod(http.MethodPost),
 			WithTarget(user.History.PrevURL()),
@@ -118,7 +123,8 @@ func TestAuthorizationCodeFlow(t *testing.T) {
 			}),
 		)
 
-		user.RT(t,
+		user.RT(
+			t,
 			WithName("authorize deny"),
 			WithMethod(http.MethodPost),
 			WithTarget(user.History.PrevURL()),
@@ -139,7 +145,8 @@ func TestAuthorizationCodeFlow(t *testing.T) {
 			}),
 		)
 
-		user.RT(t,
+		user.RT(
+			t,
 			WithName("client gone after deny"),
 			WithTarget(user.History.PrevURL()),
 			AssertStatus(http.StatusUnauthorized),
@@ -167,13 +174,15 @@ func TestAuthorizationCodeFlow(t *testing.T) {
 		tokenCode := ""
 		accessToken := ""
 
-		user.RT(t,
+		user.RT(
+			t,
 			WithName("authorize form"),
 			WithTarget("/authorize?"+params.Encode()),
 			AssertContains(`Authorize</button>`),
 		)
 
-		user.RT(t,
+		user.RT(
+			t,
 			WithName("authorize ok"),
 			WithMethod(http.MethodPost),
 			WithTarget(user.History.PrevURL()),
@@ -190,7 +199,8 @@ func TestAuthorizationCodeFlow(t *testing.T) {
 			}),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("token challenge ko"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/token"),
@@ -202,7 +212,8 @@ func TestAuthorizationCodeFlow(t *testing.T) {
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("missing fields"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/token"),
@@ -216,7 +227,8 @@ func TestAuthorizationCodeFlow(t *testing.T) {
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("token challenge ko"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/token"),
@@ -232,7 +244,8 @@ func TestAuthorizationCodeFlow(t *testing.T) {
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("token challenge ko"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/token"),
@@ -248,7 +261,8 @@ func TestAuthorizationCodeFlow(t *testing.T) {
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("token ok"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/token"),
@@ -270,14 +284,16 @@ func TestAuthorizationCodeFlow(t *testing.T) {
 			}),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("profile with new token"),
 			WithTarget("/api/profile"),
 			WithHeader("Authorization", "Bearer "+accessToken),
 			AssertStatus(200),
 		)
 
-		user.RT(t,
+		user.RT(
+			t,
 			WithName("revoke token with session auth"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/revoke"),
@@ -290,7 +306,8 @@ func TestAuthorizationCodeFlow(t *testing.T) {
 			}`),
 		)
 
-		app.Client(WithToken("user")).RT(t,
+		app.Client(WithToken("user")).RT(
+			t,
 			WithName("revoke token with another token auth"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/revoke"),
@@ -303,7 +320,8 @@ func TestAuthorizationCodeFlow(t *testing.T) {
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("revoke token"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/revoke"),
@@ -314,14 +332,16 @@ func TestAuthorizationCodeFlow(t *testing.T) {
 			AssertStatus(200),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("profile with revoked token"),
 			WithTarget("/api/profile"),
 			WithHeader("Authorization", "Bearer "+accessToken),
 			AssertStatus(401),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("revoke token already revoked"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/revoke"),
@@ -346,7 +366,8 @@ func TestDeviceCodeFlow(t *testing.T) {
 		deviceCode := ""
 		userCode := ""
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("device code request"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/device"),
@@ -370,7 +391,8 @@ func TestDeviceCodeFlow(t *testing.T) {
 				require.NotEqual(t, deviceCode, userCode)
 
 				fullURI := rsp.JSON.(map[string]any)["verification_uri_complete"].(string)
-				require.Equal(t,
+				require.Equal(
+					t,
 					"http://readeck.example.org/device?user_code="+userCode,
 					fullURI,
 				)
@@ -379,7 +401,8 @@ func TestDeviceCodeFlow(t *testing.T) {
 			}),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("pending token"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/token"),
@@ -392,7 +415,8 @@ func TestDeviceCodeFlow(t *testing.T) {
 			AssertJSON(`{"error": "authorization_pending"}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("slow down"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/token"),
@@ -405,27 +429,31 @@ func TestDeviceCodeFlow(t *testing.T) {
 			AssertJSON(`{"error": "slow_down"}`),
 		)
 
-		user.RT(t,
+		user.RT(
+			t,
 			WithName("authorization page"),
 			WithTarget("/device"),
 			AssertContains("Enter the code displayed on your device"),
 		)
 
-		user.RT(t,
+		user.RT(
+			t,
 			WithName("authorization page"),
 			WithTarget("/device?user_code="+userCode),
 			AssertStatus(200),
 			AssertContains("would like permission to access your account"),
 		)
 
-		user.RT(t,
+		user.RT(
+			t,
 			WithName("authorization page"),
 			WithTarget("/device?user_code=abcd"),
 			AssertStatus(400),
 			AssertContains("This code has expired or is not valid"),
 		)
 
-		user.RT(t,
+		user.RT(
+			t,
 			WithName("grant authorization"),
 			WithMethod(http.MethodPost),
 			WithTarget("/device"),
@@ -435,14 +463,16 @@ func TestDeviceCodeFlow(t *testing.T) {
 			}),
 			AssertStatus(http.StatusSeeOther),
 			WithAssert(func(t *testing.T, rsp *Response) {
-				require.Equal(t,
+				require.Equal(
+					t,
 					"http://readeck.example.org/device?user_code="+userCode,
 					rsp.Header.Get("Location"),
 				)
 			}),
 		)
 
-		user.RT(t,
+		user.RT(
+			t,
 			WithName("authorization granted"),
 			WithTarget(user.History[0].Response.Redirect),
 			AssertStatus(200),
@@ -452,7 +482,8 @@ func TestDeviceCodeFlow(t *testing.T) {
 			}),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("invalid grant type"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/token"),
@@ -468,7 +499,8 @@ func TestDeviceCodeFlow(t *testing.T) {
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("missing fields"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/token"),
@@ -482,7 +514,8 @@ func TestDeviceCodeFlow(t *testing.T) {
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("retrieve token"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/token"),
@@ -500,7 +533,8 @@ func TestDeviceCodeFlow(t *testing.T) {
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("profile with new token"),
 			WithTarget("/api/profile"),
 			WithHeader("Authorization",
@@ -514,7 +548,8 @@ func TestDeviceCodeFlow(t *testing.T) {
 		deviceCode := ""
 		userCode := ""
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("device code request"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/device"),
@@ -530,7 +565,8 @@ func TestDeviceCodeFlow(t *testing.T) {
 			}),
 		)
 
-		user.RT(t,
+		user.RT(
+			t,
 			WithName("deny authorization"),
 			WithMethod(http.MethodPost),
 			WithTarget("/device"),
@@ -540,14 +576,16 @@ func TestDeviceCodeFlow(t *testing.T) {
 			}),
 			AssertStatus(http.StatusSeeOther),
 			WithAssert(func(t *testing.T, rsp *Response) {
-				require.Equal(t,
+				require.Equal(
+					t,
 					"http://readeck.example.org/device?user_code="+userCode,
 					rsp.Header.Get("Location"),
 				)
 			}),
 		)
 
-		user.RT(t,
+		user.RT(
+			t,
 			WithName("authorization denied"),
 			WithTarget(user.History[0].Response.Redirect),
 			AssertStatus(200),
@@ -557,7 +595,8 @@ func TestDeviceCodeFlow(t *testing.T) {
 			}),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("token denied"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/token"),
@@ -576,7 +615,8 @@ func TestDeviceCodeFlow(t *testing.T) {
 		deviceCode := ""
 		userCode := ""
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("device code request"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/device"),
@@ -595,7 +635,8 @@ func TestDeviceCodeFlow(t *testing.T) {
 		// Code has expired
 		require.NoError(t, Store().Del("oauth:device-code:"+userCode))
 
-		user.RT(t,
+		user.RT(
+			t,
 			WithName("expired authorization"),
 			WithMethod(http.MethodPost),
 			WithTarget("/device"),
@@ -607,7 +648,8 @@ func TestDeviceCodeFlow(t *testing.T) {
 			AssertContains("This code has expired or is not valid"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("token denied"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/token"),
@@ -623,7 +665,8 @@ func TestDeviceCodeFlow(t *testing.T) {
 
 	t.Run("scope error", func(t *testing.T) {
 		clientID := registerClient(t, client)
-		client.RT(t,
+		client.RT(
+			t,
 			WithName("device code request"),
 			WithMethod(http.MethodPost),
 			WithTarget("/api/oauth/device"),
@@ -738,7 +781,8 @@ func TestClientRegistration(t *testing.T) {
 		client.Sequence(t, seq...)
 	})
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithName("no client name"),
 		WithMethod(http.MethodPost),
 		WithTarget("/api/oauth/client"),
@@ -752,7 +796,8 @@ func TestClientRegistration(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithName("no client uri"),
 		WithMethod(http.MethodPost),
 		WithTarget("/api/oauth/client"),
@@ -767,7 +812,8 @@ func TestClientRegistration(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithName("invalid grant types"),
 		WithMethod(http.MethodPost),
 		WithTarget("/api/oauth/client"),
@@ -784,7 +830,8 @@ func TestClientRegistration(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithName("invalid auth method"),
 		WithMethod(http.MethodPost),
 		WithTarget("/api/oauth/client"),
@@ -803,7 +850,8 @@ func TestClientRegistration(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithName("invalid response types"),
 		WithMethod(http.MethodPost),
 		WithTarget("/api/oauth/client"),
@@ -822,7 +870,8 @@ func TestClientRegistration(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithName("create client"),
 		WithMethod(http.MethodPost),
 		WithTarget("/api/oauth/client"),

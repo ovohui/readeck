@@ -51,7 +51,8 @@ func ExtractPicture(m *extract.ProcessMessage, next extract.Processor) extract.P
 	ctx := extract.WithReferrer(context.Background(), m.Extractor.Drop().URL)
 
 	if err = picture.Load(ctx, m.Extractor.Client(), size, ""); err != nil {
-		m.Log().Warn("cannot load picture",
+		m.Log().Warn(
+			"cannot load picture",
 			slog.Any("err", err),
 			slog.String("url", href),
 		)

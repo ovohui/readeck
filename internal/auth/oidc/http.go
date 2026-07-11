@@ -154,7 +154,8 @@ func (h *oidcHandler) oidcCallback(w http.ResponseWriter, r *http.Request) {
 
 	// Provisioning user
 	form := info.Form()
-	slog.Debug("OIDC user",
+	slog.Debug(
+		"OIDC user",
 		slog.Any("id", form.ID.Value()),
 		slog.Any("username", form.Username.Value()),
 		slog.Any("email", form.Email.Value()),

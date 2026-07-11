@@ -238,7 +238,8 @@ func (e MarkdownExporter) exportZip(ctx context.Context, w io.Writer, bookmarkSe
 		}
 
 		d, _ := idna.ToASCII(b.Site)
-		root := fmt.Sprintf("%s/%s-%s-%s",
+		root := fmt.Sprintf(
+			"%s/%s-%s-%s",
 			basePath,
 			b.Created.Format(time.DateOnly),
 			strings.ReplaceAll(d, ".", "-"),

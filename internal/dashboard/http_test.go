@@ -17,7 +17,8 @@ func TestPermissions(t *testing.T) {
 	users := []string{"admin", "staff", "user", "disabled", ""}
 	for _, user := range users {
 		t.Run(user, func(t *testing.T) {
-			app.Client(WithSession(user)).Sequence(t,
+			app.Client(WithSession(user)).Sequence(
+				t,
 				RT(
 					WithTarget("/dashboard"),
 					WithAssert(func(t *testing.T, r *Response) {

@@ -59,7 +59,8 @@ func NewHTMLResponder(status int, name string) httpmock.Responder {
 	return NewContentResponder(
 		status,
 		map[string]string{"content-type": "text/html"},
-		name)
+		name,
+	)
 }
 
 type errReader int

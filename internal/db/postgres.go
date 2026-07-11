@@ -29,7 +29,8 @@ func (c *pgConnector) Dialect() string {
 }
 
 func (c *pgConnector) Open(dsn *url.URL) (*sql.DB, error) {
-	slog.Debug("connect to database",
+	slog.Debug(
+		"connect to database",
 		slog.String("driver", c.Name()),
 		slog.String("dsn", dsn.Redacted()),
 	)
@@ -53,8 +54,8 @@ func (c *pgConnector) Version() string {
 func (c *pgConnector) DiskUsage() (uint64, error) {
 	var sizeBytes uint64
 	if _, err := Q().Select(
-		goqu.Func("pg_database_size",
-			goqu.Func("current_database"))).
+		goqu.Func("pg_database_size", goqu.Func("current_database")),
+	).
 		ScanVal(&sizeBytes); err != nil {
 		panic(err)
 	}

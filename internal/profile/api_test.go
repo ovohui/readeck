@@ -19,7 +19,8 @@ func TestAPI(t *testing.T) {
 
 	client := app.Client(WithToken("user"))
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithTarget("/api/profile"),
 		AssertStatus(200),
 		AssertJSON(`{
@@ -40,7 +41,8 @@ func TestAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget("/api/profile"),
 		WithBody(map[string]any{}),
@@ -50,7 +52,8 @@ func TestAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget("/api/profile"),
 		WithBody(map[string]any{
@@ -66,7 +69,8 @@ func TestAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget("/api/profile"),
 		WithBody(map[string]any{
@@ -82,7 +86,8 @@ func TestAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget("/api/profile"),
 		WithBody(map[string]any{
@@ -116,7 +121,8 @@ func TestAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget("/api/profile"),
 		WithBody(map[string]any{
@@ -149,7 +155,8 @@ func TestAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget("/api/profile"),
 		WithBody(map[string]any{
@@ -198,7 +205,8 @@ func TestAPIDeleteToken(t *testing.T) {
 	t.Run("delete foreign token", func(t *testing.T) {
 		client := app.Client(WithToken("user"))
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodDelete),
 			WithTarget("/api/profile/tokens/"+u1.Token.UID),
 			AssertStatus(404),
@@ -210,7 +218,8 @@ func TestAPIDeleteToken(t *testing.T) {
 
 		client.RT(t, WithTarget("/api/profile"), AssertStatus(200))
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodDelete),
 			WithTarget("/api/profile/tokens/"+u1.Token.UID),
 			AssertStatus(204),

@@ -96,9 +96,7 @@ func (arc *Archiver) processCSS(ctx context.Context, r io.Reader, parent *Resour
 			}
 
 			mutex.Lock()
-			replacer = append(replacer,
-				token, fmt.Sprintf(`url("%s")`, newURL),
-			)
+			replacer = append(replacer, token, fmt.Sprintf(`url("%s")`, newURL))
 			mutex.Unlock()
 
 			return nil
