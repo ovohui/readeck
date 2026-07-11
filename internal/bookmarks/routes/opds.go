@@ -52,7 +52,8 @@ func (h *opdsRouter) bookmarkList(w http.ResponseWriter, r *http.Request) {
 	bl := getBookmarkList(r.Context())
 	tr := server.Locale(r)
 
-	c := catalog.New(r,
+	c := catalog.New(
+		r,
 		catalog.WithFeedType(opds.OPDSTypeAcquisistion),
 		catalog.WithTitle(tr.Gettext("Readeck Bookmarks")),
 		catalog.WithURL(urls.AbsoluteURL(r).String()),
@@ -97,7 +98,8 @@ func (h *opdsRouter) collectionList(w http.ResponseWriter, r *http.Request) {
 	cl := getCollectionList(r.Context())
 	tr := server.Locale(r)
 
-	c := catalog.New(r,
+	c := catalog.New(
+		r,
 		catalog.WithFeedType(opds.OPDSTypeNavigation),
 		catalog.WithTitle(tr.Gettext("Readeck Bookmark Collections")),
 		catalog.WithURL(urls.AbsoluteURL(r).String()),
@@ -134,7 +136,8 @@ func (h *opdsRouter) collectionInfo(w http.ResponseWriter, r *http.Request) {
 	tr := server.Locale(r)
 
 	item := getCollection(r.Context())
-	c := catalog.New(r,
+	c := catalog.New(
+		r,
 		catalog.WithFeedType(opds.OPDSTypeAcquisistion),
 		catalog.WithTitle(tr.Gettext("Readeck Collection: %s", item.Name)),
 		catalog.WithURL(urls.AbsoluteURL(r).String()),

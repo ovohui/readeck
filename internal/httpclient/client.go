@@ -111,7 +111,7 @@ func proxyMatcher(req *http.Request) (u *url.URL, err error) {
 	}
 
 	if u != nil {
-		*req = *(req.WithContext(context.WithValue(req.Context(), ctxProxyURLKey{}, u)))
+		*req = *req.WithContext(context.WithValue(req.Context(), ctxProxyURLKey{}, u))
 	}
 
 	return
@@ -147,7 +147,8 @@ func (t *Transport) RoundTrip(r *http.Request) (*http.Response, error) {
 	}
 
 	attrs := []slog.Attr{
-		slog.Group("request",
+		slog.Group(
+			"request",
 			slog.String("url", req.URL.String()),
 			slog.String("method", req.Method),
 			slog.Any("headers", req.Header),
@@ -159,18 +160,21 @@ func (t *Transport) RoundTrip(r *http.Request) (*http.Response, error) {
 	rsp, err := t.RoundTripper.RoundTrip(req)
 
 	if p, ok := req.Context().Value(ctxProxyURLKey{}).(*url.URL); ok {
-		t.Log().Debug("using proxy",
+		t.Log().Debug(
+			"using proxy",
 			slog.Any("domain", req.URL.Host),
 			slog.Any("proxy", p.String()),
 		)
 	}
 
 	if err != nil {
-		attrs = append(attrs, slog.Group("response",
+		attrs = append(attrs, slog.Group(
+			"response",
 			slog.Any("err", err),
 		))
 	} else {
-		attrs = append(attrs, slog.Group("response",
+		attrs = append(attrs, slog.Group(
+			"response",
 			slog.Int("status", rsp.StatusCode),
 			slog.Any("headers", rsp.Header),
 		))

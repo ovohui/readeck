@@ -23,7 +23,8 @@ func TestPermissions(t *testing.T) {
 		t.Run(user, func(t *testing.T) {
 			u := app.Users[user]
 
-			app.Client(WithToken(user)).Sequence(t,
+			app.Client(WithToken(user)).Sequence(
+				t,
 				// API
 				RT(
 					WithTarget("/api/bookmarks"),
@@ -300,7 +301,8 @@ func TestPermissions(t *testing.T) {
 			)
 
 			// Views
-			app.Client(WithSession(user)).Sequence(t,
+			app.Client(WithSession(user)).Sequence(
+				t,
 				RT(
 					WithTarget("/bookmarks"),
 					WithAssert(func(t *testing.T, r *Response) {
@@ -593,14 +595,16 @@ func TestPermissions(t *testing.T) {
 
 				// Public bookmark's assets
 				RT(
-					WithTarget(fmt.Sprintf("/bm/%s/%s/img/icon.png",
+					WithTarget(fmt.Sprintf(
+						"/bm/%s/%s/img/icon.png",
 						u.Bookmarks[0].UID[0:2],
 						u.Bookmarks[0].UID,
 					)),
 					AssertStatus(200),
 				),
 				RT(
-					WithTarget(fmt.Sprintf("/bm/%s/%s/_resources/KUhyzHK6GqcKLf4e4557qP.png",
+					WithTarget(fmt.Sprintf(
+						"/bm/%s/%s/_resources/KUhyzHK6GqcKLf4e4557qP.png",
 						u.Bookmarks[0].UID[0:2],
 						u.Bookmarks[0].UID,
 					)),

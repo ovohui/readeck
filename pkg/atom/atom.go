@@ -8,7 +8,6 @@ package atom
 
 import (
 	"encoding/xml"
-	"fmt"
 	"io"
 	"time"
 )
@@ -91,7 +90,6 @@ type Link struct {
 type Feed struct {
 	XMLName     xml.Name `xml:"feed"`
 	Xmlns       string   `xml:"xmlns,attr"`
-	Stylesheet  string   `xml:"-"`
 	Title       string   `xml:"title"`   // required
 	ID          string   `xml:"id"`      // required
 	Updated     string   `xml:"updated"` // required
@@ -110,14 +108,6 @@ type Feed struct {
 func (f *Feed) WriteXML(w io.Writer) error {
 	if _, err := io.WriteString(w, xml.Header); err != nil {
 		return err
-	}
-
-	if f.Stylesheet != "" {
-		if _, err := fmt.Fprintf(w,
-			`<?xml-stylesheet type="text/xsl" href="%s"?>`+"\n", f.Stylesheet,
-		); err != nil {
-			return err
-		}
 	}
 
 	e := xml.NewEncoder(w)

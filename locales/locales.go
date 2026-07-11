@@ -88,7 +88,8 @@ func Load() {
 		}
 	}
 
-	slog.Debug("locales loaded",
+	slog.Debug(
+		"locales loaded",
 		slog.Int("count", len(allTags)),
 		slog.Any("locales", allTags),
 	)

@@ -27,7 +27,7 @@ func TestTokenAuth(t *testing.T) {
 	require.NoError(t, err)
 
 	t1 := &tokens.Token{
-		UserID:      &(app.Users["user"].User.ID),
+		UserID:      &app.Users["user"].User.ID,
 		Application: "test",
 		IsEnabled:   true,
 	}
@@ -37,7 +37,7 @@ func TestTokenAuth(t *testing.T) {
 
 	exp := time.Now().UTC().Add(-time.Minute)
 	t2 := &tokens.Token{
-		UserID:      &(app.Users["user"].User.ID),
+		UserID:      &app.Users["user"].User.ID,
 		Application: "test",
 		IsEnabled:   true,
 		Expires:     &exp,
@@ -151,7 +151,7 @@ func TestTokenScopes(t *testing.T) {
 	defer app.Close(t)
 
 	tUserAdminScope := &tokens.Token{
-		UserID:      &(app.Users["user"].User.ID),
+		UserID:      &app.Users["user"].User.ID,
 		Application: "test",
 		IsEnabled:   true,
 		Roles:       types.Strings{"admin:read"},
@@ -161,7 +161,7 @@ func TestTokenScopes(t *testing.T) {
 	require.NoError(t, err)
 
 	tAdminAdminScope := &tokens.Token{
-		UserID:      &(app.Users["admin"].User.ID),
+		UserID:      &app.Users["admin"].User.ID,
 		Application: "test",
 		IsEnabled:   true,
 		Roles:       types.Strings{"admin:read"},

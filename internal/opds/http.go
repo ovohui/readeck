@@ -50,7 +50,8 @@ func (h *opdsRouter) mainCatalog(w http.ResponseWriter, r *http.Request) {
 
 	tr := server.Locale(r)
 
-	c := catalog.New(r,
+	c := catalog.New(
+		r,
 		catalog.WithFeedType(opds.OPDSTypeNavigation),
 		catalog.WithTitle("Readeck"),
 		catalog.WithUpdated(lastUpdate),

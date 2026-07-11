@@ -65,7 +65,8 @@ func (api *cookbookAPI) getExtractor(uri string, r *http.Request) *extract.Extra
 	ex, err := extract.New(
 		uri,
 		extract.WithClient(bookmark_tasks.NewClient()),
-		extract.WithLogger(slog.Default(), slog.LevelDebug-10,
+		extract.WithLogger(
+			slog.Default(), slog.LevelDebug-10,
 			slog.String("@id", server.GetReqID(r)),
 		),
 	)
@@ -223,7 +224,8 @@ func (api *cookbookAPI) urlList(w http.ResponseWriter, r *http.Request) {
 
 		cfg, err := contentscripts.NewSiteConfig(f)
 		if err != nil {
-			slog.Error("error parsing file",
+			slog.Error(
+				"error parsing file",
 				slog.String("cf", d.Name()),
 				slog.Any("err", err),
 			)

@@ -17,13 +17,15 @@ func TestCollectionAPI(t *testing.T) {
 
 	client := app.Client(WithToken("user"))
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithTarget("/api/bookmarks/collections"),
 		AssertStatus(200),
 		AssertJSON(`[]`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPost),
 		WithTarget("/api/bookmarks/collections"),
 		WithBody(map[string]any{}),
@@ -152,7 +154,8 @@ func TestCollectionAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPost),
 		WithTarget("/api/bookmarks/collections"),
 		WithBody(map[string]any{
@@ -166,7 +169,8 @@ func TestCollectionAPI(t *testing.T) {
 		AssertJSON(`{"status":201,"message":"Collection created"}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithBody(true),
 		WithTarget(client.History[0].Response.Redirect),
 		AssertStatus(200),
@@ -195,7 +199,8 @@ func TestCollectionAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget(client.History.PrevURL()),
 		WithBody(map[string]any{
@@ -211,7 +216,8 @@ func TestCollectionAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithBody(true),
 		WithTarget("/api/bookmarks/collections"),
 		AssertStatus(200),
@@ -242,7 +248,8 @@ func TestCollectionAPI(t *testing.T) {
 		]`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget(client.History[1].URL.String()),
 		WithBody(map[string]any{
@@ -260,7 +267,8 @@ func TestCollectionAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithTarget(client.History.PrevURL()),
 		AssertStatus(200),
 		AssertJSON(`{
@@ -288,7 +296,8 @@ func TestCollectionAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget(client.History.PrevURL()),
 		WithBody(map[string]any{
@@ -306,7 +315,8 @@ func TestCollectionAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithTarget(client.History.PrevURL()),
 		AssertStatus(200),
 		AssertJSON(`{
@@ -334,7 +344,8 @@ func TestCollectionAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget(client.History.PrevURL()),
 		WithBody(map[string]any{
@@ -356,7 +367,8 @@ func TestCollectionAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithTarget(client.History.PrevURL()),
 		AssertStatus(200),
 		AssertJSON(`{
@@ -384,13 +396,15 @@ func TestCollectionAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodDelete),
 		WithTarget(client.History.PrevURL()),
 		AssertStatus(204),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithTarget(client.History.PrevURL()),
 		AssertStatus(404),
 	)

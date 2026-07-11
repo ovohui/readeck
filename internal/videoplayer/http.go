@@ -34,7 +34,8 @@ func videoPlayerHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	f := forms.New[videoPlayerForm](r.Context())
-	forms.Choices(&f.Type,
+	forms.Choices(
+		&f.Type,
 		forms.Choice("hls", "hls"),
 		forms.Choice("embed", "embed"),
 		forms.Choice("video", "video"),

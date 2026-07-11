@@ -93,7 +93,7 @@ func (c *config) loadOIDCProviders() error {
 		idx, err := strconv.Atoi(k)
 		merge := err == nil && idx < len(c.Auth.OIDC.Providers)
 		if merge {
-			p = &(c.Auth.OIDC.Providers[idx])
+			p = &c.Auth.OIDC.Providers[idx]
 		}
 
 		err = env.ParseWithOptions(p, env.Options{

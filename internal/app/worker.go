@@ -46,7 +46,8 @@ func runWorker(_ context.Context, args []string) error {
 	// Start the metrics HTTP server
 	startMetrics := configs.Config.Metrics.Port > 0
 	if startMetrics {
-		slog.Info("metrics endpoint",
+		slog.Info(
+			"metrics endpoint",
 			slog.String("host", configs.Config.Metrics.Host),
 			slog.Int("port", configs.Config.Metrics.Port),
 		)

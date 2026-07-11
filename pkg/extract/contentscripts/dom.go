@@ -134,7 +134,8 @@ func (m *domModule) valueToNode(v goja.Value) *domNodeObj {
 }
 
 func (m *domModule) defineNodeGetter(p *goja.Object, name string, getter func(*domNodeObj) any) {
-	_ = p.DefineAccessorProperty(name,
+	_ = p.DefineAccessorProperty(
+		name,
 		m.r.ToValue(func(call goja.FunctionCall) goja.Value {
 			return m.r.ToValue(getter(m.valueToNode(call.This)))
 		}),
@@ -144,7 +145,8 @@ func (m *domModule) defineNodeGetter(p *goja.Object, name string, getter func(*d
 }
 
 func (m *domModule) defineNodeSetter(p *goja.Object, name string, getter func(*domNodeObj) any, setter func(*domNodeObj, goja.Value)) {
-	_ = p.DefineAccessorProperty(name,
+	_ = p.DefineAccessorProperty(
+		name,
 		m.r.ToValue(func(call goja.FunctionCall) goja.Value {
 			return m.r.ToValue(getter(m.valueToNode(call.This)))
 		}),

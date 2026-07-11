@@ -109,7 +109,8 @@ func runServer(_ context.Context, args []string) error { // nolint:gocognit,gocy
 	// Start the metrics HTTP server
 	startMetrics := configs.Config.Metrics.Port > 0
 	if startMetrics {
-		slog.Info("metrics endpoint",
+		slog.Info(
+			"metrics endpoint",
 			slog.String("host", configs.Config.Metrics.Host),
 			slog.Int("port", configs.Config.Metrics.Port),
 		)
@@ -252,7 +253,8 @@ func runServer(_ context.Context, args []string) error { // nolint:gocognit,gocy
 		case "0.0.0.0", "127.0.0.1", "::", "::1":
 			serverURL.Host = fmt.Sprintf("localhost:%d", configs.Config.Server.Port)
 		}
-		slog.Info("server started",
+		slog.Info(
+			"server started",
 			slog.String("addr", listenURL.String()),
 			slog.String("url", serverURL.String()),
 		)

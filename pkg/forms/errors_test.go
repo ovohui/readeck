@@ -150,7 +150,8 @@ func TestIterErrors(t *testing.T) {
 	ctx := forms.WithTranslator(context.Background(), prefixTranslator("translated"))
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			assert.Equal(t,
+			assert.Equal(
+				t,
 				test.expected,
 				slices.Collect(collect(forms.IterErrorsTr(ctx, test.err))),
 			)

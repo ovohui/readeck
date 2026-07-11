@@ -28,26 +28,30 @@ func TestViews(t *testing.T) {
 	_ = u1
 
 	t.Run("users", func(t *testing.T) {
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget("/admin"),
 			AssertStatus(303),
 			AssertRedirect("/admin/users"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget("/admin/users"),
 			AssertStatus(200),
 			AssertContains("Users</h1>"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget("/admin/users/add"),
 			AssertStatus(200),
 			AssertContains("New User</h1>"),
 		)
 
 		// Create user
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/admin/users/add"),
 			WithBody(url.Values{}),
@@ -55,7 +59,8 @@ func TestViews(t *testing.T) {
 			AssertContains("Please check your form for errors."),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/admin/users/add"),
 			WithBody(url.Values{
@@ -69,7 +74,8 @@ func TestViews(t *testing.T) {
 			AssertContains("not a valid email address"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/admin/users/add"),
 			WithBody(url.Values{
@@ -82,7 +88,8 @@ func TestViews(t *testing.T) {
 			AssertContains("username is not valid"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/admin/users/add"),
 			WithBody(url.Values{
@@ -95,7 +102,8 @@ func TestViews(t *testing.T) {
 			AssertRedirect(`^/admin/users/\w+$`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/admin/users/add"),
 			WithBody(url.Values{
@@ -108,14 +116,16 @@ func TestViews(t *testing.T) {
 			AssertRedirect(`^/admin/users/\w+$`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget(client.History[0].Response.Redirect),
 			AssertStatus(200),
 			AssertContains(">test3"),
 		)
 
 		// Update user
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/admin/users/"+u1.User.UID),
 			WithBody(url.Values{}),
@@ -123,7 +133,8 @@ func TestViews(t *testing.T) {
 			AssertRedirect("/admin/users/"+u1.User.UID),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget(client.History[0].Response.Redirect),
 			AssertStatus(200),
 			AssertContains(">test1"),
@@ -131,7 +142,8 @@ func TestViews(t *testing.T) {
 		)
 
 		// Udpate current user
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod("POST"),
 			WithTarget("/admin/users/"+app.Users["admin"].User.UID),
 			WithBody(url.Values{
@@ -145,7 +157,8 @@ func TestViews(t *testing.T) {
 			AssertContains("not a valid email address"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod("POST"),
 			WithTarget("/admin/users/"+app.Users["admin"].User.UID),
 			WithBody(url.Values{}),
@@ -153,7 +166,8 @@ func TestViews(t *testing.T) {
 			AssertRedirect("/admin/users/"+app.Users["admin"].User.UID),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget(client.History[0].Response.Redirect),
 			AssertStatus(200),
 			AssertContains(">admin"),
@@ -161,14 +175,16 @@ func TestViews(t *testing.T) {
 		)
 
 		// Delete user
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/admin/users/"+u1.User.UID+"/delete"),
 			AssertStatus(303),
 			AssertRedirect("/admin/users"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget("/admin/users/"+u1.User.UID),
 			AssertStatus(200),
 			AssertContains("User will be removed in a few seconds"),
@@ -190,7 +206,8 @@ func TestViews(t *testing.T) {
 		)
 
 		// Cancel deletion
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/admin/users/"+u1.User.UID+"/delete"),
 			WithBody(url.Values{"cancel": {"1"}}),

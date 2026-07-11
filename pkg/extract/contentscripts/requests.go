@@ -45,7 +45,8 @@ func NewHTTPClient(vm *Runtime, client *http.Client) (*goja.Object, error) {
 }
 
 func (c *httpClient) Do(req *http.Request, args ...goja.Value) (*goja.Object, error) {
-	c.vm.GetLogger().Debug("request",
+	c.vm.GetLogger().Debug(
+		"request",
 		slog.String("method", req.Method),
 		slog.String("url", req.URL.String()),
 	)

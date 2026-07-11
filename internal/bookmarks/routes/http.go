@@ -80,7 +80,8 @@ func newAPIRouter() *apiRouter {
 						server.WithPermission("email", "send"),
 						api.withShareEmail,
 					).Post("/email", api.bookmarkShareEmail)
-				})
+				},
+			)
 			r.Get("/x/*", api.bookmarkResource)
 		})
 
@@ -211,7 +212,8 @@ func newViewsRouter(api *apiRouter) *viewsRouter {
 							r.Get("/", h.bookmarkShareEmail)
 							r.Post("/", h.bookmarkShareEmail)
 						})
-					})
+					},
+				)
 			})
 
 			r.With(api.withAnnotationList).Route("/highlights", func(r chi.Router) {

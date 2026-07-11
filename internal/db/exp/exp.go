@@ -93,7 +93,8 @@ func JSONStringsDataset(ds *goqu.SelectDataset, name string) *goqu.SelectDataset
 		).
 			From(
 				f[0],
-				goqu.Func("jsonb_array_elements_text",
+				goqu.Func(
+					"jsonb_array_elements_text",
 					goqu.Case().
 						Value(goqu.Func("jsonb_typeof", c[0])).
 						When(goqu.L("'array'"), c[0]).
@@ -152,7 +153,8 @@ func JSONListFilter(ds *goqu.SelectDataset, expressions ...exp.BooleanExpression
 				op = "NOT EXISTS"
 			}
 
-			res = res.Append(goqu.L("? ?", goqu.L(op),
+			res = res.Append(goqu.L(
+				"? ?", goqu.L(op),
 				from.Where(goqu.Ex{"value": goqu.Op{cmp: e.RHS()}}),
 			))
 		}
@@ -164,7 +166,8 @@ func JSONListFilter(ds *goqu.SelectDataset, expressions ...exp.BooleanExpression
 
 			from := goqu.Dialect(dialect).From(goqu.Func(
 				"json_each",
-				goqu.Case().Value(goqu.Func("json_type",
+				goqu.Case().Value(goqu.Func(
+					"json_type",
 					goqu.Case().Value(goqu.Func("json_valid", col)).
 						When(goqu.L("true"), col).
 						Else(goqu.L("'[]'")),

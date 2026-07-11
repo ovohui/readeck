@@ -72,7 +72,8 @@ func main() {
 		slog.Error("not a directory", slog.String("dir", destDir))
 	}
 
-	slog.Info("Reading FiveFilters files",
+	slog.Info(
+		"Reading FiveFilters files",
 		slog.String("src", srcDir),
 		slog.String("dest", destDir),
 	)
@@ -180,7 +181,8 @@ func newConfig(file io.Reader, log *slog.Logger) (*Config, error) {
 		}
 		entry, err := parseLine(t)
 		if err != nil {
-			log.Warn("can't parse config line",
+			log.Warn(
+				"can't parse config line",
 				slog.Any("err", err),
 				slog.String("line", t),
 			)

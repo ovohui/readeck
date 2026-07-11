@@ -206,7 +206,8 @@ func ExtractBody(m *extract.ProcessMessage, next extract.Processor) extract.Proc
 		}
 
 		// First match, replace the root node and stop
-		m.Log().Debug("site config body found",
+		m.Log().Debug(
+			"site config body found",
 			slog.String("selector", selector),
 			slog.Int("nodes", len(nodes)),
 		)
@@ -302,7 +303,8 @@ func StripTags(m *extract.ProcessMessage, next extract.Processor) extract.Proces
 	for _, value = range cfg.StripSelectors {
 		nodes, _ := htmlquery.QueryAll(m.Dom, value)
 		dom.RemoveNodes(nodes, nil)
-		m.Log().Debug("site config strip_tags",
+		m.Log().Debug(
+			"site config strip_tags",
 			slog.String("value", value),
 			slog.Int("nodes", len(nodes)),
 		)
@@ -316,7 +318,8 @@ func StripTags(m *extract.ProcessMessage, next extract.Processor) extract.Proces
 
 		nodes, _ := htmlquery.QueryAll(m.Dom, selector)
 		dom.RemoveNodes(nodes, nil)
-		m.Log().Debug("site config strip_id_or_class",
+		m.Log().Debug(
+			"site config strip_id_or_class",
 			slog.String("value", value),
 			slog.Int("nodes", len(nodes)),
 		)
@@ -327,7 +330,8 @@ func StripTags(m *extract.ProcessMessage, next extract.Processor) extract.Proces
 
 		nodes, _ := htmlquery.QueryAll(m.Dom, selector)
 		dom.RemoveNodes(nodes, nil)
-		m.Log().Debug("site config strip_image_src",
+		m.Log().Debug(
+			"site config strip_image_src",
 			slog.String("value", value),
 			slog.Int("nodes", len(nodes)),
 		)

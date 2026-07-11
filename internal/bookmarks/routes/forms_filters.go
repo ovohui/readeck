@@ -46,14 +46,16 @@ type FilterForm struct {
 func (f *FilterForm) GetTaggedValidator(name, _ string, tc *forms.TagContext) (forms.Validator, bool) {
 	switch name {
 	case "bookmark_type_choices":
-		forms.Choices(tc.Field,
+		forms.Choices(
+			tc.Field,
 			forms.Choice(forms.GetTranslator(tc.Context).Gettext("Article"), "article"),
 			forms.Choice(forms.GetTranslator(tc.Context).Gettext("Picture"), "photo"),
 			forms.Choice(forms.GetTranslator(tc.Context).Gettext("Video"), "video"),
 		)
 		return nil, true
 	case "read_status_choices":
-		forms.Choices(tc.Field,
+		forms.Choices(
+			tc.Field,
 			forms.Choice(forms.GetTranslator(tc.Context).Pgettext("status", "Unviewed"), filtersReadStatusUnread),
 			forms.Choice(forms.GetTranslator(tc.Context).Pgettext("status", "In-Progress"), filtersReadStatusReading),
 			forms.Choice(forms.GetTranslator(tc.Context).Pgettext("status", "Completed"), filtersReadStatusRead),

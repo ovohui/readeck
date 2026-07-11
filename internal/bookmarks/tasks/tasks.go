@@ -240,7 +240,8 @@ func extractPageHandler(data any) {
 	ex, err := extract.New(
 		b.URL,
 		extract.WithClient(NewClient()),
-		extract.WithLogger(slog.Default(), slog.LevelDebug,
+		extract.WithLogger(
+			slog.Default(), slog.LevelDebug,
 			slog.String("@id", params.RequestID),
 			slog.Int("bookmark_id", b.ID),
 		),

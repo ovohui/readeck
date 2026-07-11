@@ -76,14 +76,16 @@ type cookbookForm struct {
 func (f *cookbookForm) GetTaggedValidator(name, _ string, tc *forms.TagContext) (forms.Validator, bool) {
 	switch name {
 	case "single_choice":
-		forms.Choices(tc.Field,
+		forms.Choices(
+			tc.Field,
 			forms.Choice("Choice 1", "1"),
 			forms.Choice("Choice 2", "2"),
 			forms.Choice("Choice 3", "3"),
 		)
 		return nil, true
 	case "multiple_choices":
-		forms.Choices(tc.Field,
+		forms.Choices(
+			tc.Field,
 			forms.Choice("Choice A", "a"),
 			forms.Choice("Choice B", "b"),
 			forms.Choice("Choice C", "c"),

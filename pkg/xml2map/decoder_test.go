@@ -64,7 +64,8 @@ func TestStartAttrs(t *testing.T) {
 func TestNs(t *testing.T) {
 	m, err := xml2map.NewDecoder(strings.NewReader(
 		`<container xmlns:h="http://www.w3.org/TR/html4/"
- 						xmlns:xsl="http://www.w3.org/1999/XSL/Transform"></container>`)).Decode()
+ 						xmlns:xsl="http://www.w3.org/1999/XSL/Transform"></container>`,
+	)).Decode()
 	if err != nil {
 		t.Errorf("m: %v, err: %v\n", m, err)
 	}
@@ -78,7 +79,8 @@ func TestPars(t *testing.T) {
 					<n id="20">2</n>
 					<n id="30">3</n>
 				</items>
-			</customer>`)).Decode()
+			</customer>`,
+	)).Decode()
 	if err != nil {
 		t.Errorf("m: %v, err: %v\n", m, err)
 	}
@@ -95,7 +97,8 @@ func TestErrDecoder(t *testing.T) {
 				<state>CA</state>
 				<zip>94041</zip>
 			  </address>
-			<customer>`)).Decode()
+			<customer>`,
+	)).Decode()
 
 	if m == nil && err != nil {
 		t.Logf("result: %v err: %v\n", m, err)
@@ -165,7 +168,8 @@ func TestDecode(t *testing.T) {
 				</cats>
 				<color>white</color>
 				<city>NY</city>
-			</container>`)).Decode()
+			</container>`,
+	)).Decode()
 	if err != nil {
 		t.Errorf("err: %v", err)
 	}
@@ -208,7 +212,8 @@ func TestWithPrefix(t *testing.T) {
 					<n id="20">2</n>
 					<n id="30">3</n>
 				</items>
-			</customer>`), "$", "#").Decode()
+			</customer>`,
+	), "$", "#").Decode()
 	if err != nil {
 		t.Errorf("m: %v, err: %v\n", m, err)
 	}
@@ -249,7 +254,8 @@ func TestWithNameSpace(t *testing.T) {
 					<description>My cool article description</description>
 				</item>
 			</channel>
-		</rss>`)).Decode()
+		</rss>`,
+	)).Decode()
 	if err != nil {
 		t.Errorf("m: %v, err: %v\n", m, err)
 	}

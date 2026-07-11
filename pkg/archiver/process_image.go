@@ -80,7 +80,8 @@ func (arc *Archiver) processPictureNode(ctx context.Context, node *html.Node) {
 	bestImg := arc.findBestImage(withNodeContext(ctx, node), maps.Keys(set))
 	if bestImg == nil {
 		// no candidate, remove the node
-		log.Warn("couldn't find image candidate for node",
+		log.Warn(
+			"couldn't find image candidate for node",
 			slog.String("node", node.Data),
 		)
 		node.Parent.RemoveChild(node)
@@ -102,7 +103,8 @@ func (arc *Archiver) processPictureNode(ctx context.Context, node *html.Node) {
 	dom.SetAttribute(img, replacedImgDataAttr, "true")
 	setImgSize(img, bestImg)
 
-	log.Log(ctx, levelTrace, "replaced img",
+	log.Log(
+		ctx, levelTrace, "replaced img",
 		slog.Any("url", URLLogValue(bestImg.url)),
 	)
 }
@@ -127,7 +129,8 @@ func (arc *Archiver) processImgNode(ctx context.Context, node *html.Node) {
 	dom.SetAttribute(node, "src", bestImg.URL())
 	setImgSize(node, bestImg)
 
-	log.Log(ctx, levelTrace, "replaced img",
+	log.Log(
+		ctx, levelTrace, "replaced img",
 		slog.Any("url", URLLogValue(bestImg.url)),
 	)
 }
@@ -181,7 +184,8 @@ func (arc *Archiver) findBestImage(ctx context.Context, seq iter.Seq[string]) *R
 
 			r := res.Width * res.Height
 			if r == 0 || r > maxImageSize {
-				log.Warn("invalid image size",
+				log.Warn(
+					"invalid image size",
 					slog.Int("w", res.Width),
 					slog.Int("h", res.Height),
 				)

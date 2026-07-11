@@ -216,7 +216,8 @@ func applyMigrations() error {
 			}
 
 			if last.ID >= 0 { // Only apply migrations when there is a schema already
-				slog.Info("applying migration",
+				slog.Info(
+					"applying migration",
 					slog.Int("id", m.id),
 					slog.String("name", m.name),
 				)

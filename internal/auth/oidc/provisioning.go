@@ -164,7 +164,8 @@ func (f *ProvisioningForm) Execute() (*users.User, error) {
 			case len(userList) == 0:
 				user = new(users.User)
 			default:
-				return fmt.Errorf("more than one user is associated with %s and %s",
+				return fmt.Errorf(
+					"more than one user is associated with %s and %s",
 					f.Username.Value(), f.Email.Value(),
 				)
 			}

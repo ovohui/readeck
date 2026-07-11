@@ -149,8 +149,8 @@ func (c Code) OTP(t time.Time) (string, error) {
 
 	offset := sum[len(sum)-1] & 0xf
 	value := int64(((int(sum[offset]) & 0x7f) << 24) |
-		((int(sum[offset+1] & 0xff)) << 16) |
-		((int(sum[offset+2] & 0xff)) << 8) |
+		(int(sum[offset+1]&0xff) << 16) |
+		(int(sum[offset+2]&0xff) << 8) |
 		(int(sum[offset+3]) & 0xff))
 
 	mod := int32(value % int64(math.Pow10(int(c.Digits))))
