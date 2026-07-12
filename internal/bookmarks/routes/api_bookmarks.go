@@ -593,25 +593,19 @@ func (api *apiRouter) withCollectionFilters(next http.Handler) http.Handler {
 		*filters = f.FilterForm
 		ctx = withFilterForm(ctx, filters)
 
-		if _, ok := checkBookmarkOrder(ctx); !ok {
-			ctx = withBookmarkOrder(ctx, orderExpressionList{goqu.T("b").Col("created").Desc()})
-		}
-
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 
 func (api *apiRouter) withBookmarkOrdering(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		f := newBookmarkOrderForm(r.Context())
+		f, ok := checkOrderForm(r.Context())
+		if !ok {
+			f = newBookmarkOrderForm(r.Context())
+		}
 		forms.BindValues(r.URL.Query(), f)
 
 		ctx := withOrderForm(r.Context(), f)
-		order := f.toOrderedExpressions()
-		if order != nil {
-			ctx = withBookmarkOrder(ctx, order)
-		}
-
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
@@ -678,8 +672,13 @@ func (api *apiRouter) withBookmarkListSelectDataset(next http.Handler) http.Hand
 			Offset(uint(pf.Offset.Value()))
 
 		// Apply sorting given by a query string
-		if order, ok := checkBookmarkOrder(r.Context()); ok {
-			ds = ds.Order(order...)
+		if of, ok := checkOrderForm(r.Context()); ok {
+			// Using the same trick as with [filterForm] above.
+			if _, ok := checkCounters(r.Context()); !ok && !of.IsValid() {
+				server.Render(w, r, http.StatusUnprocessableEntity, of)
+				return
+			}
+			ds = of.withOrder(ds)
 		}
 
 		// If pagination is disabled, remove all limits.

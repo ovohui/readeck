@@ -23,7 +23,6 @@ type (
 	ctxBookmarkListDsKey     struct{}
 	ctxBookmarkListKey       struct{}
 	ctxBookmarkListTaggerKey struct{}
-	ctxBookmarkOrderKey      struct{}
 	ctxCountersKey           struct{}
 	ctxDefaultLimitKey       struct{}
 	ctxFiltersKey            struct{}
@@ -41,7 +40,6 @@ var (
 	withBookmarkListDS, getBookmarkListDS             = ctxr.WithGetter[*goqu.SelectDataset](ctxBookmarkListDsKey{})
 	withBookmarkList, getBookmarkList                 = ctxr.WithGetter[*dataset.BookmarkList](ctxBookmarkListKey{})
 	withBookmarkListTaggers, checkBookmarkListTaggers = ctxr.WithChecker[[]server.Etagger](ctxBookmarkListTaggerKey{})
-	withBookmarkOrder, checkBookmarkOrder             = ctxr.WithChecker[orderExpressionList](ctxBookmarkOrderKey{})
 	withCounters, checkCounters                       = ctxr.WithChecker[bookmarks.CountResult](ctxCountersKey{})
 	withDefaultLimit, checkDefaultLimit               = ctxr.WithChecker[int](ctxDefaultLimitKey{})
 	withFilterForm, checkFilterForm                   = ctxr.WithChecker[*FilterForm](ctxFiltersKey{})
