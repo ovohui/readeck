@@ -697,11 +697,8 @@ func (f *bookmarkOrderForm) getOptions(r *http.Request) (res [][3]string) {
 	qs := r.URL.Query()
 	qs.Del("sort")
 	qs.Del("seed")
-
-	setOption := func(name, label string) [3]string {
-		qs.Set("sort", name)
-		return [3]string{name, r.URL.Path + "?" + qs.Encode(), label}
-	}
+	qs.Del("limit")
+	qs.Del("offset")
 
 	for _, x := range f.Sort.Choices() {
 		switch v, _ := strings.CutPrefix(x.Value, "-"); v {
@@ -712,7 +709,8 @@ func (f *bookmarkOrderForm) getOptions(r *http.Request) (res [][3]string) {
 			qs.Set("seed", strconv.FormatUint(rand.Uint64N(999999), 10))
 		}
 
-		res = append(res, setOption(x.Value, x.Name))
+		qs.Set("sort", x.Value)
+		res = append(res, [3]string{x.Value, r.URL.Path + "?" + qs.Encode(), x.Name})
 	}
 
 	return res
