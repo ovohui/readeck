@@ -87,12 +87,9 @@ func (api *apiRouter) bookmarkSync(w http.ResponseWriter, r *http.Request) {
 	ds := bookmarks.Bookmarks.Query().
 		Where(
 			goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID),
-		).
-		Order(exp.DateTime(goqu.C("updated")).Asc())
+		)
 
-	if order := f.toOrderedExpressions(); order != nil {
-		ds = ds.Order(order...)
-	}
+	ds = f.withOrder(ds)
 
 	ids := f.ID.Value()
 	if len(ids) > 0 {

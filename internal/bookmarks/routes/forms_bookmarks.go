@@ -31,7 +31,6 @@ import (
 	"codeberg.org/readeck/readeck/internal/db"
 	"codeberg.org/readeck/readeck/internal/db/exp"
 	"codeberg.org/readeck/readeck/internal/email"
-	"codeberg.org/readeck/readeck/locales"
 	"codeberg.org/readeck/readeck/pkg/forms"
 	"codeberg.org/readeck/readeck/pkg/http/request"
 	"codeberg.org/readeck/readeck/pkg/utils"
@@ -57,8 +56,6 @@ const (
 	filtersReadStatusReading = "reading"
 	filtersReadStatusRead    = "read"
 )
-
-type orderExpressionList []goquexp.OrderedExpression
 
 type multipartResourceInfo struct {
 	URL     string            `json:"url"`
@@ -437,8 +434,7 @@ type syncListForm struct {
 
 type syncForm struct {
 	forms.Form
-	OrderForm
-
+	Sort           forms.TextListField `json:"sort"`
 	ID             forms.TextListField `json:"id"`
 	WithJSON       forms.BooleanField  `json:"with_json"`
 	WithHTML       forms.BooleanField  `json:"with_html"`
@@ -449,14 +445,44 @@ type syncForm struct {
 
 func newSyncForm(ctx context.Context) *syncForm {
 	f := forms.New[syncForm](ctx)
-	f.setSortChoices(map[string]goquexp.Orderable{
-		"updated": exp.DateTime(goqu.C("updated")),
-		"created": exp.DateTime(goqu.C("created")),
-	})
+	forms.Choices(
+		&f.Sort,
+		forms.Choice("updated desc", "-updated"),
+		forms.Choice("updated asc", "updated"),
+		forms.Choice("created desc", "-created"),
+		forms.Choice("created asc", "created"),
+	)
+	f.Sort.Set([]string{"updated"})
 
 	f.ResourcePrefix.Set(".")
 
 	return f
+}
+
+func (f *syncForm) withOrder(ds *goqu.SelectDataset) *goqu.SelectDataset {
+	t := goqu.T("b")
+
+	pOrder := func(name string, o goquexp.Orderable) goquexp.OrderedExpression {
+		if strings.HasPrefix(name, "-") {
+			return o.Desc()
+		}
+		return o.Asc()
+	}
+
+	if !f.Sort.IsEmpty() {
+		ds = ds.ClearOrder()
+	}
+
+	for _, x := range f.Sort.Value() {
+		switch x {
+		case "created", "-created":
+			ds = ds.OrderAppend(pOrder(x, exp.DateTime(t.Col("created"))))
+		case "updated", "-updated":
+			ds = ds.OrderAppend(pOrder(x, exp.DateTime(t.Col("updated"))))
+		}
+	}
+
+	return ds
 }
 
 type autocompleteHelperForm struct {
@@ -577,96 +603,100 @@ func (f *labelDeleteForm) trigger(user *users.User, name string) error {
 	})
 }
 
-// OrderForm is a form providing a "sort" parameter and methods
-// to set a query's ORDER BY clause.
-type OrderForm struct {
-	forms.Form
-	choices map[string]goquexp.Orderable
-	Sort    forms.TextListField `json:"sort" validate:"trim"`
-}
-
-func newOrderForm(ctx context.Context, choices map[string]goquexp.Orderable) *OrderForm {
-	f := forms.New[OrderForm](ctx)
-	f.setSortChoices(choices)
-	return f
-}
-
-func (f *OrderForm) setSortChoices(choices map[string]goquexp.Orderable) {
-	// Compile a list of choices being pairs of "A" and "-A", "B", "-B",
-	fieldChoices := make(forms.ValueChoices[string], 0, len(choices)*2)
-	for k := range choices {
-		fieldChoices = append(fieldChoices, forms.Choice("", k), forms.Choice("", "-"+k))
-	}
-	f.choices = choices
-	forms.Choices(&f.Sort, fieldChoices...)
-}
-
-func (f *OrderForm) toOrderedExpressions() orderExpressionList {
-	values := f.Sort.Value()
-	if len(values) == 0 {
-		return nil
-	}
-
-	res := orderExpressionList{}
-	for _, x := range values {
-		identifier := f.choices[strings.TrimPrefix(x, "-")]
-		if identifier == nil {
-			continue
-		}
-		if strings.HasPrefix(x, "-") {
-			res = append(res, identifier.Desc())
-			continue
-		}
-		res = append(res, identifier.Asc())
-	}
-
-	return res
-}
-
 type bookmarkOrderForm struct {
-	OrderForm
+	forms.Form
+	Sort forms.TextListField `json:"sort" validate:"trim"`
 }
 
 func newBookmarkOrderForm(ctx context.Context) *bookmarkOrderForm {
-	t := goqu.T("b")
+	f := forms.New[bookmarkOrderForm](ctx)
+	tr := forms.GetTranslator(ctx)
 
-	return &bookmarkOrderForm{*newOrderForm(ctx, map[string]goquexp.Orderable{
-		"created":   exp.DateTime(t.Col("created")),
-		"domain":    t.Col("domain"),
-		"duration":  goqu.Case().When(goqu.L("? > 0", t.Col("duration")), t.Col("duration")).Else(goqu.L("? * 0.3", t.Col("word_count"))),
-		"published": exp.DateTime(goqu.Case().When(t.Col("published").IsNot(nil), t.Col("published")).Else(t.Col("created"))),
-		"site":      t.Col("site_name"),
-		"title":     t.Col("title"),
-	})}
+	forms.Choices(
+		&f.Sort,
+		forms.Choice(tr.Pgettext("sort", "Added, most recent first"), "-created"),
+		forms.Choice(tr.Pgettext("sort", "Added, oldest first"), "created"),
+		forms.Choice(tr.Pgettext("sort", "Published, most recent first"), "-published"),
+		forms.Choice(tr.Pgettext("sort", "Published, oldest first"), "published"),
+		forms.Choice(tr.Pgettext("sort", "Title, A to Z"), "title"),
+		forms.Choice(tr.Pgettext("sort", "Title, Z to A"), "-title"),
+		forms.Choice(tr.Pgettext("sort", "Site Name, A to Z"), "site"),
+		forms.Choice(tr.Pgettext("sort", "Site Name, Z to A"), "-site"),
+		forms.Choice(tr.Pgettext("sort", "Duration, shortest first"), "duration"),
+		forms.Choice(tr.Pgettext("sort", "Duration, longest first"), "-duration"),
+		forms.Choice("Domain Name, A to Z", "domain"),  // API only
+		forms.Choice("Domain Name, Z to A", "-domain"), // API only
+	)
+
+	// Default is "created desc"
+	f.Sort.Set([]string{"-created"})
+
+	return f
 }
 
-func (f *bookmarkOrderForm) getOptions(r *http.Request, tr *locales.Locale) [][3]string {
-	qs := url.Values{}
-	for k, v := range r.URL.Query() {
-		if k == "sort" {
-			continue
+func (f *bookmarkOrderForm) withOrder(ds *goqu.SelectDataset) *goqu.SelectDataset {
+	t := goqu.T("b")
+
+	pOrder := func(name string, o goquexp.Orderable) goquexp.OrderedExpression {
+		if strings.HasPrefix(name, "-") {
+			return o.Desc()
 		}
-		qs[k] = v
+		return o.Asc()
 	}
 
+	if f.Sort.IsValid() && !f.Sort.IsEmpty() {
+		ds = ds.ClearOrder()
+	}
+
+	for _, x := range f.Sort.Value() {
+		switch x {
+		case "created", "-created":
+			ds = ds.OrderAppend(pOrder(x, exp.DateTime(t.Col("created"))))
+		case "domain", "-domain":
+			ds = ds.OrderAppend(pOrder(x, t.Col("domain")))
+		case "duration", "-duration":
+			ds = ds.OrderAppend(pOrder(
+				x,
+				goqu.Case().
+					When(goqu.L("? > 0", t.Col("duration")), t.Col("duration")).
+					Else(goqu.L("? * 0.3", t.Col("word_count"))),
+			))
+		case "published", "-published":
+			ds = ds.OrderAppend(pOrder(
+				x,
+				exp.DateTime(goqu.Case().
+					When(t.Col("published").IsNot(nil), t.Col("published")).
+					Else(t.Col("created"))),
+			))
+		case "site", "-site":
+			ds = ds.OrderAppend(pOrder(x, t.Col("site_name")))
+		case "title", "-title":
+			ds = ds.OrderAppend(pOrder(x, t.Col("title")))
+		}
+	}
+
+	return ds
+}
+
+func (f *bookmarkOrderForm) getOptions(r *http.Request) (res [][3]string) {
+	qs := r.URL.Query()
+	qs.Del("sort")
+
 	setOption := func(name, label string) [3]string {
-		qs["sort"] = []string{name}
-		defer delete(qs, "sort")
+		qs.Set("sort", name)
 		return [3]string{name, r.URL.Path + "?" + qs.Encode(), label}
 	}
 
-	return [][3]string{
-		setOption("-created", tr.Pgettext("sort", "Added, most recent first")),
-		setOption("created", tr.Pgettext("sort", "Added, oldest first")),
-		setOption("-published", tr.Pgettext("sort", "Published, most recent first")),
-		setOption("published", tr.Pgettext("sort", "Published, oldest first")),
-		setOption("title", tr.Pgettext("sort", "Title, A to Z")),
-		setOption("-title", tr.Pgettext("sort", "Title, Z to A")),
-		setOption("site", tr.Pgettext("sort", "Site Name, A to Z")),
-		setOption("-site", tr.Pgettext("sort", "Site Name, Z to A")),
-		setOption("duration", tr.Pgettext("sort", "Duration, shortest first")),
-		setOption("-duration", tr.Pgettext("sort", "Duration, longest first")),
+	for _, x := range f.Sort.Choices() {
+		// some values are not exposed to the frontend
+		if v, _ := strings.CutPrefix(x.Value, "-"); v == "domain" {
+			continue
+		}
+
+		res = append(res, setOption(x.Value, x.Name))
 	}
+
+	return res
 }
 
 type shareForm struct {

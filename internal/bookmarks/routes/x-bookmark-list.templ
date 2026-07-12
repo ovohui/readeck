@@ -334,8 +334,7 @@ templ (c Components) listActions() {
 				if v := orderForm.Sort.Value(); len(v) > 0 {
 					currentOrder = v[0]
 				}
-				orderOptions := orderForm.getOptions(server.GetRequest(ctx), L(ctx))
-				_, _ = currentOrder, orderOptions
+				orderOptions := orderForm.getOptions(server.GetRequest(ctx))
 			}}
 			<div class="relative flex items-center">
 				<details

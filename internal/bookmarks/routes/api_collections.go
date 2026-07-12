@@ -133,10 +133,6 @@ func (api *apiRouter) withCollection(next http.Handler) http.Handler {
 		ctx := withCollection(r.Context(), c)
 		ctx = withBookmarkListTaggers(ctx, []server.Etagger{c})
 
-		if _, ok := checkBookmarkOrder(ctx); !ok {
-			ctx = withBookmarkOrder(ctx, orderExpressionList{goqu.T("b").Col("created").Desc()})
-		}
-
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
