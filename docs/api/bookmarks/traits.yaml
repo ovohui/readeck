@@ -25,3 +25,13 @@ sortable:
             - -site
             - title
             - -title
+            - random
+    - name: seed
+      in: query
+      description: |
+        Seed for random ordering.
+        Only needed when using `?sort=random`
+      schema:
+        type: integer
+        minimum: 0
+        maximum: 999999

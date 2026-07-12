@@ -680,7 +680,7 @@ func (f *bookmarkOrderForm) getOrder() (order []goquexp.OrderedExpression) {
 			order = append(
 				order,
 				goqu.L(
-					"(((?)) * ? + ?) & (?)",
+					"(? * ? + ?) & ?",
 					goqu.Cast(goqu.L("b.id+?", f.Seed.Value()), "BIGINT"),
 					goqu.Cast(goqu.V(1103515245), "BIGINT"),
 					goqu.Cast(goqu.V(12345), "BIGINT"),

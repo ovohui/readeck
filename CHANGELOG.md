@@ -5,7 +5,7 @@
 - OIDC authentication
 - Dashboard view
 - "config" command for diagnosis
-- drop capabilities on Linux when running as root, by [@claudio4](https://codeberg.org/claudio4)
+- Bookmark list random ordering, by [@bilgincoskun](https://codeberg.org/bilgincoskun)
 
 ### Improved
 - Refreshed user interface
