@@ -12,9 +12,11 @@ import (
 	"fmt"
 	"io"
 	"maps"
+	"math/rand/v2"
 	"net/http"
 	"net/url"
 	"slices"
+	"strconv"
 	"strings"
 	"time"
 
@@ -606,6 +608,7 @@ func (f *labelDeleteForm) trigger(user *users.User, name string) error {
 type bookmarkOrderForm struct {
 	forms.Form
 	Sort forms.TextListField `json:"sort" validate:"trim"`
+	Seed forms.IntegerField  `json:"seed" validate:"gte:0 lte:999999"`
 }
 
 func newBookmarkOrderForm(ctx context.Context) *bookmarkOrderForm {
@@ -624,6 +627,7 @@ func newBookmarkOrderForm(ctx context.Context) *bookmarkOrderForm {
 		forms.Choice(tr.Pgettext("sort", "Site Name, Z to A"), "-site"),
 		forms.Choice(tr.Pgettext("sort", "Duration, shortest first"), "duration"),
 		forms.Choice(tr.Pgettext("sort", "Duration, longest first"), "-duration"),
+		forms.Choice(tr.Pgettext("sort", "Random"), "random"),
 		forms.Choice("Domain Name, A to Z", "domain"),  // API only
 		forms.Choice("Domain Name, Z to A", "-domain"), // API only
 	)
@@ -672,6 +676,17 @@ func (f *bookmarkOrderForm) getOrder() (order []goquexp.OrderedExpression) {
 			order = append(order, pOrder(x, t.Col("site_name")))
 		case "title", "-title":
 			order = append(order, pOrder(x, t.Col("title")))
+		case "random":
+			order = append(
+				order,
+				goqu.L(
+					"(((?)) * ? + ?) & (?)",
+					goqu.Cast(goqu.L("b.id+?", f.Seed.Value()), "BIGINT"),
+					goqu.Cast(goqu.V(1103515245), "BIGINT"),
+					goqu.Cast(goqu.V(12345), "BIGINT"),
+					goqu.Cast(goqu.V((1<<31)-1), "BIGINT"),
+				).Asc(),
+			)
 		}
 	}
 
@@ -681,6 +696,7 @@ func (f *bookmarkOrderForm) getOrder() (order []goquexp.OrderedExpression) {
 func (f *bookmarkOrderForm) getOptions(r *http.Request) (res [][3]string) {
 	qs := r.URL.Query()
 	qs.Del("sort")
+	qs.Del("seed")
 
 	setOption := func(name, label string) [3]string {
 		qs.Set("sort", name)
@@ -688,9 +704,12 @@ func (f *bookmarkOrderForm) getOptions(r *http.Request) (res [][3]string) {
 	}
 
 	for _, x := range f.Sort.Choices() {
-		// some values are not exposed to the frontend
-		if v, _ := strings.CutPrefix(x.Value, "-"); v == "domain" {
+		switch v, _ := strings.CutPrefix(x.Value, "-"); v {
+		case "domain": // domain and -domain are API only values
 			continue
+		case "random":
+			//nolint:gosec
+			qs.Set("seed", strconv.FormatUint(rand.Uint64N(999999), 10))
 		}
 
 		res = append(res, setOption(x.Value, x.Name))
