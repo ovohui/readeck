@@ -459,7 +459,7 @@ func newSyncForm(ctx context.Context) *syncForm {
 	return f
 }
 
-func (f *syncForm) withOrder(ds *goqu.SelectDataset) *goqu.SelectDataset {
+func (f *syncForm) getOrder() (order []goquexp.OrderedExpression) {
 	t := goqu.T("b")
 
 	pOrder := func(name string, o goquexp.Orderable) goquexp.OrderedExpression {
@@ -469,20 +469,20 @@ func (f *syncForm) withOrder(ds *goqu.SelectDataset) *goqu.SelectDataset {
 		return o.Asc()
 	}
 
-	if !f.Sort.IsEmpty() {
-		ds = ds.ClearOrder()
+	if !f.Sort.IsValid() || f.Sort.IsEmpty() {
+		return order
 	}
 
 	for _, x := range f.Sort.Value() {
 		switch x {
 		case "created", "-created":
-			ds = ds.OrderAppend(pOrder(x, exp.DateTime(t.Col("created"))))
+			order = append(order, pOrder(x, exp.DateTime(t.Col("created"))))
 		case "updated", "-updated":
-			ds = ds.OrderAppend(pOrder(x, exp.DateTime(t.Col("updated"))))
+			order = append(order, pOrder(x, exp.DateTime(t.Col("updated"))))
 		}
 	}
 
-	return ds
+	return order
 }
 
 type autocompleteHelperForm struct {
@@ -634,7 +634,7 @@ func newBookmarkOrderForm(ctx context.Context) *bookmarkOrderForm {
 	return f
 }
 
-func (f *bookmarkOrderForm) withOrder(ds *goqu.SelectDataset) *goqu.SelectDataset {
+func (f *bookmarkOrderForm) getOrder() (order []goquexp.OrderedExpression) {
 	t := goqu.T("b")
 
 	pOrder := func(name string, o goquexp.Orderable) goquexp.OrderedExpression {
@@ -644,38 +644,38 @@ func (f *bookmarkOrderForm) withOrder(ds *goqu.SelectDataset) *goqu.SelectDatase
 		return o.Asc()
 	}
 
-	if f.Sort.IsValid() && !f.Sort.IsEmpty() {
-		ds = ds.ClearOrder()
+	if !f.Sort.IsValid() || f.Sort.IsEmpty() {
+		return order
 	}
 
 	for _, x := range f.Sort.Value() {
 		switch x {
 		case "created", "-created":
-			ds = ds.OrderAppend(pOrder(x, exp.DateTime(t.Col("created"))))
+			order = append(order, pOrder(x, exp.DateTime(t.Col("created"))))
 		case "domain", "-domain":
-			ds = ds.OrderAppend(pOrder(x, t.Col("domain")))
+			order = append(order, pOrder(x, t.Col("domain")))
 		case "duration", "-duration":
-			ds = ds.OrderAppend(pOrder(
+			order = append(order, pOrder(
 				x,
 				goqu.Case().
 					When(goqu.L("? > 0", t.Col("duration")), t.Col("duration")).
 					Else(goqu.L("? * 0.3", t.Col("word_count"))),
 			))
 		case "published", "-published":
-			ds = ds.OrderAppend(pOrder(
+			order = append(order, pOrder(
 				x,
 				exp.DateTime(goqu.Case().
 					When(t.Col("published").IsNot(nil), t.Col("published")).
 					Else(t.Col("created"))),
 			))
 		case "site", "-site":
-			ds = ds.OrderAppend(pOrder(x, t.Col("site_name")))
+			order = append(order, pOrder(x, t.Col("site_name")))
 		case "title", "-title":
-			ds = ds.OrderAppend(pOrder(x, t.Col("title")))
+			order = append(order, pOrder(x, t.Col("title")))
 		}
 	}
 
-	return ds
+	return order
 }
 
 func (f *bookmarkOrderForm) getOptions(r *http.Request) (res [][3]string) {

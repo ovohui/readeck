@@ -678,7 +678,9 @@ func (api *apiRouter) withBookmarkListSelectDataset(next http.Handler) http.Hand
 				server.Render(w, r, http.StatusUnprocessableEntity, of)
 				return
 			}
-			ds = of.withOrder(ds)
+			if order := of.getOrder(); len(order) > 0 {
+				ds = ds.Order(order...)
+			}
 		}
 
 		// If pagination is disabled, remove all limits.

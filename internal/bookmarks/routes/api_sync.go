@@ -89,7 +89,7 @@ func (api *apiRouter) bookmarkSync(w http.ResponseWriter, r *http.Request) {
 			goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID),
 		)
 
-	ds = f.withOrder(ds)
+	ds = ds.Order(f.getOrder()...)
 
 	ids := f.ID.Value()
 	if len(ids) > 0 {
