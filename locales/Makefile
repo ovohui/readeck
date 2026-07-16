@@ -2,10 +2,13 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
-ifneq ($(shell command -pv uv),)
-PYRUN=$(shell command -v uv) run
-else ifeq ($(shell python3 -c "import babel" 2>/dev/null && echo ok),ok)
-PYRUN=$(shell command -v python3)
+PYTHON ?= python3
+UV ?= uv
+
+ifneq ($(shell command -pv $(UV)),)
+PYRUN=$(shell command -v $(UV)) run
+else ifeq ($(shell $(PYTHON) -c "import babel" 2>/dev/null && echo ok),ok)
+PYRUN=$(shell command -v $(PYTHON))
 endif
 
 all: compile
