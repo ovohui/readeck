@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2025-12-18 21:31+0100\n"
-"PO-Revision-Date: 2026-07-02 12:08+0000\n"
+"PO-Revision-Date: 2026-07-16 08:30+0000\n"
 "Last-Translator: boronology <boronology@noreply.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/readeck/documentation/ja/>\n"
 "Language: ja\n"
@@ -433,79 +433,87 @@ msgstr "お気に入りの状態を切り替えます。"
 
 #: en/bookmark.md:56
 msgid "### Archive"
-msgstr ""
+msgstr "### アーカイブ"
 
 #: en/bookmark.md:58
 msgid "This moves the bookmark to the archives (or removes it from there)."
-msgstr ""
+msgstr "ブックマークをアーカイブに移動します（すでにアーカイブにあればアーカイブから除外します）。"
 
 #: en/bookmark.md:60
 msgid "### Share"
-msgstr ""
+msgstr "### 共有"
 
 #: en/bookmark.md:62
 msgid "The share button opens a menu from which you can create a link if you want to share an article with someone."
-msgstr ""
+msgstr "記事を誰かと共有したいときは、このボタンを押して開いたメニューからリンクを作成できます。"
 
 #: en/bookmark.md:64
 msgid "On the same menu, you can export your bookmark (only EPUB for now) to read it on a different device."
-msgstr ""
+msgstr "他の端末でブックマークを読むには、同じメニューからはブックマークをエクスポートできます（現時点ではEPUB形式のみです）。"
 
 #: en/bookmark.md:67
 msgid "### Delete"
-msgstr ""
+msgstr "### 削除"
 
 #: en/bookmark.md:69
 msgid ""
 "This marks the bookmark for deletion.\\\n"
 "No worries if you click on this by mistake! This action can be canceled before actual deletion."
 msgstr ""
+"ブックマークを削除予定にします。\\\n"
+"間違えて押してしまっても心配いりません！本当に削除される前ならキャンセルできます。"
 
 #: en/bookmark.md:73
 msgid "## Labels"
-msgstr ""
+msgstr "## ラベル"
 
 #: en/bookmark.md:75
 msgid "You can add as many labels as you want to a bookmark. To do so, enter some text in the label field and click on **Add label**. There is no limit as to what can be a label. You can even add emojis if you like them."
-msgstr ""
+msgstr "ブックマークにはいくつでもラベルをつけることができます。ラベルをつけるにはラベルのフィールドに文字列を入力して**ラベルを追加**をクリックします。ラベルにできる文字列に制限はありません。お好みであれば絵文字もラベルにできます。"
 
 #: en/bookmark.md:77
 msgid ""
 "![Bookmark labels form](./img/bookmark-labels.webp)\n"
 "Add a new label."
 msgstr ""
+"![ブックマークのラベル入力欄](./img/bookmark-labels.webp)\n"
+"新しいラベルを追加。"
 
 #: en/bookmark.md:80
 msgid "Please read the [Labels](./labels.md) section for more information."
-msgstr ""
+msgstr "より詳しくは [ラベル](./labels.md) のセクションをご覧ください。"
 
 #: en/bookmark.md:82
 msgid "## Highlights"
-msgstr ""
+msgstr "## ハイライト"
 
 #: en/bookmark.md:84
 msgid ""
 "Found some interesting part in an article? You can highlight it!\\\n"
 "When you select any text in the article, a menu appears that lets you create a new highlight."
 msgstr ""
+"記事のなかに目を引く箇所がありましたか？そこをハイライトしましょう！\\\n"
+"記事のなかの文字列を選択するとメニューが表示され、ハイライトを作成できます。"
 
 #: en/bookmark.md:87
 msgid ""
 "![Bookmark highlight creation](./img/bookmark-highlight.webp)\n"
 "Create a new highlight."
 msgstr ""
+"![ブックマークのハイライトを作成](./img/bookmark-highlight.webp)\n"
+"新しいハイライトを作成。"
 
 #: en/bookmark.md:90
 msgid "Your highlights appear in the sidebar."
-msgstr ""
+msgstr "ハイライトした部分はサイドバーに表示されます。"
 
 #: en/bookmark.md:92
 msgid "When you need to remove an highlight, you can do it from the sidebar or by selecting it in the article."
-msgstr ""
+msgstr "ハイライトを削除したいときはサイドバーから、または記事のなかで該当部分を選択すると削除ができます。"
 
 #: en/collections.md:1
 msgid "# Collections"
-msgstr ""
+msgstr "# コレクション"
 
 #: en/collections.md:3
 msgid ""
@@ -515,6 +523,11 @@ msgid ""
 "it will appear immediately.\n"
 "Here are some examples:"
 msgstr ""
+"検索リクエストをコレクションとして保存すると、\n"
+"ブックマークを簡単にまとめたり、エクスポートしたりできます。\n"
+"コレクションの条件に合致するブックマークを新しく作成すると、\n"
+"ただちにコレクションに表示されます。\n"
+"以下はその例です。"
 
 #: en/collections.md:9
 msgid ""
@@ -523,52 +536,58 @@ msgid ""
 "- The pictures with the label \"cat\",\n"
 "- The articles that contain \"climate\" in their title."
 msgstr ""
+"- 未読の記事（画像でも動画でもなく）\n"
+"- アーカイブ済みの\"wikipedia.org\"からの記事\n"
+"- \"cat\"のラベルの付いた画像\n"
+"- タイトルに\"climate\"を含む記事"
 
 #: en/collections.md:14
 msgid "## Create a new collection"
-msgstr ""
+msgstr "## 新しいコレクションを作成する"
 
 #: en/collections.md:16
 msgid "To create a new collection, go to the [Collection List](readeck-instance://bookmarks/collections) and click on **Create a new collection**."
-msgstr ""
+msgstr "新しくコレクションを作るには、[コレクションの一覧](readeck-instance://bookmarks/collections)のページで**新規コレクションを作成**をクリックします。"
 
 #: en/collections.md:18
 msgid ""
 "![New Collection form](./img/collection-new.webp)\n"
 "The collection form"
 msgstr ""
+"![新規コレクション作成フォーム](./img/collection-new.webp)\n"
+"コレクションのフォーム"
 
 #: en/collections.md:21
 msgid "Enter any criteria and click on **Save**."
-msgstr ""
+msgstr "任意の条件を入力して**保存**をクリックします。"
 
 #: en/collections.md:23
 msgid "Please refer to [bookmark filters](./bookmark-list.md#filters) for more details about filtering."
-msgstr ""
+msgstr "絞り込みについての詳細は [ブックマークの絞り込み](./bookmark-list.md#filters)を参照してください。"
 
 #: en/collections.md:25
 msgid "## Export a collection"
-msgstr ""
+msgstr "## コレクションのエクスポート"
 
 #: en/collections.md:27
 msgid "On a collection page, you can export the full collection to a file."
-msgstr ""
+msgstr "コレクションのページでは、コレクション全体を1つのファイルにまとめてエクスポートできます。"
 
 #: en/collections.md:29
 msgid "For now, only EPUB is available and exports the full collection as a single book."
-msgstr ""
+msgstr "現時点ではEPUB形式だけが利用でき、コレクション全体を1つの電子書籍ファイルとして出力します。"
 
 #: en/collections.md:32
 msgid "## Delete a collection"
-msgstr ""
+msgstr "## コレクションの削除"
 
 #: en/collections.md:34
 msgid "On a collection page, open the **Edit** box and click on **Delete**."
-msgstr ""
+msgstr "コレクションのページで**編集**のボックスを開き、**削除**をクリックします。"
 
 #: en/collections.md:36
 msgid "This operation can be cancelled during a few seconds, in case you made a mistake."
-msgstr ""
+msgstr "誤って操作した場合には、数秒以内であればキャンセルができます。"
 
 #: en/index.md:1
 msgid ""
@@ -585,18 +604,30 @@ msgid ""
 "    - user-profile\n"
 "---"
 msgstr ""
+"---\n"
+"Title: 目次\n"
+"# !! 重要：以下は翻訳しないこと!!\n"
+"TOC:\n"
+"    - \"\"\n"
+"    - bookmark-list\n"
+"    - bookmark\n"
+"    - labels\n"
+"    - collections\n"
+"    - opds\n"
+"    - user-profile\n"
+"---"
 
 #: en/index.md:14
 msgid "# Readeck Help"
-msgstr ""
+msgstr "# Readeckのヘルプ"
 
 #: en/index.md:16
 msgid "Welcome to Readeck! Here you'll find the answers to most of your questions regarding Readeck and some tips to improve your experience even more."
-msgstr ""
+msgstr "Readeckへようこそ！このページではReadeckに関するよくある質問と回答や、使い勝手を向上させるコツを紹介します。"
 
 #: en/index.md:18
 msgid "## Contents"
-msgstr ""
+msgstr "## 内容"
 
 #: en/index.md:20
 msgid ""
@@ -607,44 +638,52 @@ msgid ""
 "- [Ebook Catalog](./opds.md)\n"
 "- [User Profile](./user-profile.md)"
 msgstr ""
+"- [ブックマーク](./bookmark-list.md)\n"
+"- [ブックマーク画面](./bookmark.md)\n"
+"- [ラベル](./labels.md)\n"
+"- [コレクション](./collections.md)\n"
+"- [電子書籍カタログ](./opds.md)\n"
+"- [ユーザープロファイル](./user-profile.md)"
 
 #: en/labels.md:1
 msgid "# Labels"
-msgstr ""
+msgstr "# ラベル"
 
 #: en/labels.md:3
 msgid ""
 "You can [add as many labels as you want to a bookmark](./bookmark.md#labels).\\\n"
 "There is no limit as to what can be a label. You can even add emojis if you like them."
 msgstr ""
+"[ブックマークにはいくつでもラベルを付けられます](./bookmark.md#labels)。\\\n"
+"ラベルに使える文字列に制限はありません。お好みであれば絵文字も使用できます。"
 
 #: en/labels.md:6
 msgid "## Label List"
-msgstr ""
+msgstr "## ラベルのリスト"
 
 #: en/labels.md:8
 msgid "The [Label List](readeck-instance://bookmarks/labels) shows all the labels in your bookmark collection, with a number indicating how many bookmarks carry a given label."
-msgstr ""
+msgstr "[ラベルのリスト](readeck-instance://bookmarks/labels)ではブックマークコレクションにあるすべてのラベルと、そのラベルがいくつの記事につけられているかを示す数字を表示します。"
 
 #: en/labels.md:10
 msgid "When you click on a label, you can list all the bookmarks carrying the label."
-msgstr ""
+msgstr "ラベルをクリックすると、そのラベルの付いたブックマークを一覧表示できます。"
 
 #: en/labels.md:12
 msgid "## Rename a label"
-msgstr ""
+msgstr "## ラベル名の変更"
 
 #: en/labels.md:14
 msgid "On a given label page, you can click on the page's title (the label) to change its name."
-msgstr ""
+msgstr "ラベルのページでページタイトル（ラベル）の部分をクリックすると、名前を変更できます。"
 
 #: en/opds.md:1
 msgid "# E-book Catalog"
-msgstr ""
+msgstr "# 電子書籍のカタログ"
 
 #: en/opds.md:3
 msgid "Readeck provides an E-book Catalog of all your bookmarks, organized in a catalog with the structure below:"
-msgstr ""
+msgstr "Readeckはすべてのブックマークを以下の構造にまとめた電子書籍カタログを提供しています。"
 
 #: en/opds.md:5
 msgid ""
@@ -660,7 +699,7 @@ msgstr ""
 
 #: en/opds.md:14
 msgid "Each section, except Collections, provides every bookmark as an E-book."
-msgstr ""
+msgstr "コレクションを除くいずれのセクションでもそれぞれのブックマークを電子書籍として提供しています。"
 
 #: en/opds.md:16
 msgid "On a collection's section, you can download the full collection as a single E-book."
