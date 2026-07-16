@@ -253,6 +253,7 @@ type updateForm struct {
 	Published     forms.DatetimeField `json:"published"`
 	Lang          forms.TextField     `json:"lang"           validate:"trim lowercase check_lang"`
 	TextDirection forms.TextField     `json:"text_direction" validate:"text_dir_choices"`
+	Note          forms.TextField     `json:"note"           validate:"trim"`
 	IsMarked      forms.BooleanField  `json:"is_marked"`
 	IsArchived    forms.BooleanField  `json:"is_archived"`
 	IsDeleted     forms.BooleanField  `json:"is_deleted"`
@@ -289,7 +290,7 @@ func (f *updateForm) GetTaggedValidator(name, _ string, tc *forms.TagContext) (f
 	}
 }
 
-func (f *updateForm) update(b *bookmarks.Bookmark) (updated map[string]any, err error) {
+func (f *updateForm) update(b *bookmarks.Bookmark) (updated map[string]any, err error) { // nolint:gocyclo
 	updated = map[string]any{}
 	var deleted *bool
 	labelsChanged := false
@@ -331,6 +332,11 @@ func (f *updateForm) update(b *bookmarks.Bookmark) (updated map[string]any, err 
 	if f.TextDirection.IsBound() {
 		b.TextDirection = f.TextDirection.Value()
 		updated["text_direction"] = b.TextDirection
+	}
+
+	if f.Note.IsBound() {
+		b.Note = f.Note.Value()
+		updated["note"] = b.Note
 	}
 
 	if f.Authors.IsBound() {
