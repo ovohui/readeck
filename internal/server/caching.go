@@ -47,6 +47,9 @@ func WriteEtag(w http.ResponseWriter, r *http.Request, taggers ...Etagger) {
 
 	h := fnv.New64()
 	h.Write([]byte(strconv.FormatInt(configs.BuildTime().Unix(), 10)))
+	if IsTurboRequest(r) {
+		h.Write([]byte{1})
+	}
 
 	if user := auth.GetRequestUser(r); user.ID != 0 {
 		taggers = append(taggers, user)
