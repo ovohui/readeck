@@ -197,6 +197,7 @@ func (h *viewsRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
 		// Fields the user can update on the UI
 		f.Title.Set(b.Title)
 		f.Description.Set(b.Description)
+		f.Note.Set(b.Note)
 		f.SiteName.Set(b.SiteName)
 		f.Authors.Set([]string(b.Authors))
 		f.Lang.Set(b.Lang)
@@ -228,12 +229,13 @@ func (h *viewsRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
 
 			_, withTitle := updated["title"]
 			_, withDescription := updated["description"]
+			_, withNote := updated["note"]
 			_, withMarked := updated["is_marked"]
 			_, withArchived := updated["is_archived"]
 			_, withDeleted := updated["is_deleted"]
 			_, withProgress := updated["read_progress"]
 
-			if withTitle || withDescription {
+			if withTitle || withDescription || withNote {
 				server.RenderTurboStreamComponent(
 					w, r,
 					Components{}.titleBlock(item),

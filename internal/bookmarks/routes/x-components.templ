@@ -18,16 +18,14 @@ import (
 type Components struct{}
 
 templ (c Components) titleBlock(item *dataset.Bookmark) {
-	<turbo-frame id={ "bookmark-title-" + item.ID } class="print:hidden leading-normal">
-		<h1 class="text-3xl max-sm:text-2xl">{ item.Title }</h1>
+	<turbo-frame id={ "bookmark-title-" + item.ID } class="leading-normal">
+		<h1>{ item.Title }</h1>
 		if item.Description != "" && (item.OmitDescription == nil || *item.OmitDescription == false) {
-			<p
-				class="mt-2 text-lg leading-tight text-justify italic"
-				dir={ Tern(func() bool { return item.TextDirection != "" }, item.TextDirection, "ltr") }
-			>
+			<p dir={ Tern(func() bool { return item.TextDirection != "" }, item.TextDirection, "ltr") }>
 				{ item.Description }
 			</p>
 		}
+		@c.note(item)
 		@c.editDialog(item)
 	</turbo-frame>
 }
@@ -197,6 +195,23 @@ templ (c Components) articleAnnotator() {
 			</div>
 		</div>
 	</div>
+}
+
+templ (c Components) note(item *dataset.Bookmark) {
+	if len(item.Note) > 0 {
+		@Message( //
+			WithMessageIcon("o-pin"),
+			WithMessageType(""),
+			WithMessageClass("bookmark-note"),
+		) {
+			<details open>
+				<summary>{ L(ctx).Gettext("Note") }</summary>
+				<div class="prose">
+					@Markdown(item.Note)
+				</div>
+			</details>
+		}
+	}
 }
 
 templ (c Components) bookmarkInfoBottomActions(b *dataset.Bookmark) {

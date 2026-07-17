@@ -461,6 +461,15 @@ Icons: Apache 2.0
 """
 
 [[licenses]]
+name = "solar icons"
+license = "CC-BY-4.0"
+author = "480 Design"
+url = "https://www.figma.com/community/file/1166831539721848736"
+copyright = """
+480 Design
+"""
+
+[[licenses]]
 name = "tailwindcss"
 license = "MIT"
 author = "Tailwind Labs, Inc."
