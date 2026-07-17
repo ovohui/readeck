@@ -12,6 +12,7 @@ import (
 	"embed"
 	"io"
 	"io/fs"
+	"iter"
 	"log/slog"
 	"path"
 
@@ -111,6 +112,23 @@ func Available(tag language.Tag) [][2]string {
 	}
 
 	return res
+}
+
+// AllBase returns an iterator of all supported (by Go) base languages.
+// The first entry is the language code and the second entry
+// is the language name translated using the given tag.
+func AllBase(tag language.Tag) iter.Seq2[string, string] {
+	d := display.Languages(tag)
+
+	return func(yield func(string, string) bool) {
+		for _, t := range display.Supported.BaseLanguages() {
+			if name := d.Name(t); name != "" {
+				if !yield(t.String(), name) {
+					return
+				}
+			}
+		}
+	}
 }
 
 func localFilesFS() fs.FS {
