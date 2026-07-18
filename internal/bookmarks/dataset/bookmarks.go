@@ -28,6 +28,15 @@ import (
 	"codeberg.org/readeck/readeck/pkg/utils"
 )
 
+// SharingFlag is a sharing option flag.
+type SharingFlag byte
+
+// Bookmark sharing flags.
+const (
+	SharingWithHighlights SharingFlag = 1 << iota
+	SharingWithNotes
+)
+
 // BookmarkList is a collection of [Bookmark] items.
 type BookmarkList struct {
 	Count      int64
@@ -304,7 +313,7 @@ func (bi Bookmark) GetArticle() (*strings.Reader, error) {
 	})
 
 	// Set default annotation tag and callback
-	if tag, _ := getAnnotationTag(ctx); tag == "" {
+	if _, _, ok := getAnnotationTag(ctx); !ok {
 		ctx = WithAnnotationTag(ctx, AnnotationTag, AnnotationCallback(true))
 	}
 
@@ -437,10 +446,11 @@ type BookmarkSync struct {
 
 // SharedLink contains the publicly shared bookmark information.
 type SharedLink struct {
-	URL     string    `json:"url"`
-	Expires time.Time `json:"expires"`
-	Title   string    `json:"title"`
-	ID      string    `json:"id"`
+	Form    forms.FormBinder `json:"-"`
+	URL     string           `json:"url"`
+	Expires time.Time        `json:"expires"`
+	Title   string           `json:"title"`
+	ID      string           `json:"id"`
 }
 
 // SharedEmail contains the informat for sending a bookmark by email.

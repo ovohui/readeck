@@ -350,4 +350,13 @@ div.main.photo img {
       font-style: italic;
     }
   }
+
+  mark {
+    background-color: #fce197;
+  }
+  ins {
+    text-decoration: none;
+    font-style: italic;
+    font-weight: bold;
+  }
 }

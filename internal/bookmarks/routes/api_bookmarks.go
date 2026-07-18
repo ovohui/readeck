@@ -161,8 +161,7 @@ func (api *apiRouter) bookmarkExport(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ctx := converter.WithEnableEPUBNotes(r.Context(), true)
-	if err := exporter.IterExport(ctx, w, r, seq); err != nil {
+	if err := exporter.IterExport(r.Context(), w, r, seq); err != nil {
 		server.Err(w, r, err)
 	}
 }
@@ -842,18 +841,32 @@ func (api *apiRouter) withShareLink(next http.Handler) http.Handler {
 			time.Duration(configs.Config.Bookmarks.PublicShareTTL) * time.Hour,
 		)
 
-		rr, err := bookmarks.EncodeID(uint64(b.ID), expires)
+		f := forms.BindAs[shareLinkForm](r)
+		if !f.IsValid() {
+			server.Render(w, r, http.StatusUnprocessableEntity, f)
+			return
+		}
+
+		info := dataset.SharedLink{
+			Form:    f,
+			Expires: expires,
+			Title:   b.Title,
+			ID:      b.UID,
+		}
+
+		var flags dataset.SharingFlag
+		if info.Form.(*shareLinkForm).WithNotes.Value() {
+			flags = dataset.SharingWithHighlights | dataset.SharingWithNotes
+		}
+
+		code, err := bookmarks.EncodeID(uint64(b.ID), expires, byte(flags))
 		if err != nil {
 			server.Err(w, r, err)
 			return
 		}
 
-		info := dataset.SharedLink{
-			URL:     urls.AbsoluteURL(r, "/@b", rr).String(),
-			Expires: expires,
-			Title:   b.Title,
-			ID:      b.UID,
-		}
+		info.URL = urls.AbsoluteURL(r, "/@b", code).String()
+
 		ctx := withSharedLink(r.Context(), info)
 		w.Header().Set("Location", info.URL)
 		next.ServeHTTP(w, r.WithContext(ctx))

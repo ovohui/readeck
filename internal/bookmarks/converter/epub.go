@@ -23,16 +23,8 @@ import (
 	"codeberg.org/readeck/readeck/internal/bookmarks"
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
 	"codeberg.org/readeck/readeck/internal/server/urls"
-	"codeberg.org/readeck/readeck/pkg/ctxr"
 	"codeberg.org/readeck/readeck/pkg/epub"
 	"codeberg.org/readeck/readeck/pkg/utils"
-)
-
-type ctxEnableEPUBNotesKey struct{}
-
-// Context helpers.
-var (
-	WithEnableEPUBNotes, getEnableEPUBNotes = ctxr.WithChecker[bool](ctxEnableEPUBNotesKey{})
 )
 
 // EPUBExporter is a content exporter that produces EPUB files.
@@ -223,22 +215,34 @@ func (m *epubMaker) addBookmark(ctx context.Context, _ *http.Request, e EPUBExpo
 	}
 
 	// Set highlights and notes
-	withNotes, _ := getEnableEPUBNotes(ctx)
+	withHighlights := true
+	withNotes := true
 	notes := []string{}
 
-	ctx = dataset.WithAnnotationTag(ctx, "mark", func(a *bookmarks.BookmarkAnnotation, n *html.Node, index, ln int) {
-		if withNotes && a.Note != "" && index+1 == ln {
-			notes = append(notes, a.Note)
-			link := dom.CreateElement("a")
-			link.Attr = []html.Attribute{
-				{Key: "id", Val: "noteref" + strconv.Itoa(len(notes))},
-				{Key: "href", Val: "#note" + strconv.Itoa(len(notes))},
-				{Namespace: "epub", Key: "type", Val: "noteref"},
-			}
-			dom.AppendChild(link, dom.CreateTextNode(strconv.Itoa(len(notes))))
-			n.Parent.InsertBefore(link, n.NextSibling)
-		}
-	})
+	if f, ok := checkSharingFlags(ctx); ok {
+		withHighlights = f&dataset.SharingWithHighlights > 0
+		withNotes = f&dataset.SharingWithNotes > 0
+	}
+
+	if withHighlights {
+		ctx = dataset.WithAnnotationTag(
+			ctx,
+			"mark",
+			func(a *bookmarks.BookmarkAnnotation, n *html.Node, index, ln int) {
+				if withNotes && a.Note != "" && index+1 == ln {
+					notes = append(notes, a.Note)
+					link := dom.CreateElement("a")
+					link.Attr = []html.Attribute{
+						{Key: "id", Val: "noteref" + strconv.Itoa(len(notes))},
+						{Key: "href", Val: "#note" + strconv.Itoa(len(notes))},
+						{Namespace: "epub", Key: "type", Val: "noteref"},
+					}
+					dom.AppendChild(link, dom.CreateTextNode(strconv.Itoa(len(notes))))
+					n.Parent.InsertBefore(link, n.NextSibling)
+				}
+			},
+		)
+	}
 
 	buf := new(bytes.Buffer)
 	html, err := e.GetArticle(ctx, b.Bookmark)

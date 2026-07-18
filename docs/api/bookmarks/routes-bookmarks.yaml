@@ -301,6 +301,13 @@ routes:
       summary: Share by link
       description: This route produces a publicly accessible link to share a bookmark.
 
+      parameters:
+        - name: with_notes
+          in: query
+          description: Include annotations and notes
+          schema:
+            type: boolean
+
       responses:
         200:
           description: Public link information

@@ -11,10 +11,13 @@ import (
 	"net/http"
 	"net/url"
 	"slices"
+	"strconv"
 	"time"
 
 	"github.com/doug-martin/goqu/v9"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-shiori/dom"
+	"golang.org/x/net/html"
 
 	"codeberg.org/readeck/readeck/components"
 	"codeberg.org/readeck/readeck/internal/auth"
@@ -445,10 +448,10 @@ func (h *publicViewsRouter) get(w http.ResponseWriter, r *http.Request) {
 	// Status codes can be 404 or 410 (when expired).
 
 	data := chi.URLParam(r, "id")
-	id, expires, err := bookmarks.DecodeID(data)
+	id, expires, flags, err := bookmarks.DecodeID(data)
 	if err != nil {
 		server.Log(r).Warn("shared bookmark", slog.Any("err", err))
-		server.Status(w, r, 404)
+		server.Status(w, r, http.StatusNotFound)
 		return
 	}
 
@@ -479,11 +482,35 @@ func (h *publicViewsRouter) get(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Don't show the notes on a shared, public, page.
-	ctx := dataset.WithAnnotationTag(
-		r.Context(),
-		dataset.AnnotationTag,
-		dataset.AnnotationCallback(false),
-	)
+	ctx := r.Context()
+	notes := []string{}
+
+	if flags&byte(dataset.SharingWithHighlights) > 0 {
+		ctx = dataset.WithAnnotationTag(
+			ctx,
+			dataset.AnnotationTag,
+			func(a *bookmarks.BookmarkAnnotation, n *html.Node, index, ln int) {
+				dataset.AnnotationCallback(false)(a, n, index, ln)
+
+				if flags&byte(dataset.SharingWithNotes) > 0 && a.Note != "" && index+1 == ln {
+					notes = append(notes, a.Note)
+					link := dom.CreateElement("a")
+					sup := dom.CreateElement("sup")
+					sup.AppendChild(link)
+
+					link.Attr = []html.Attribute{
+						{Key: "id", Val: "noteref" + strconv.Itoa(len(notes))},
+						{Key: "href", Val: "#note" + strconv.Itoa(len(notes))},
+					}
+					dom.AppendChild(link, dom.CreateTextNode(strconv.Itoa(len(notes))))
+					n.Parent.InsertBefore(sup, n.NextSibling)
+					n.Parent.InsertBefore(dom.CreateTextNode("\u00A0"), n.NextSibling)
+				}
+			},
+		)
+	} else {
+		ctx = dataset.WithAnnotationTag(ctx, "", nil)
+	}
 
 	item = dataset.NewBookmark(ctx, bu.Bookmark)
 	if err := item.SetEmbed(); err != nil {
@@ -517,6 +544,6 @@ func (h *publicViewsRouter) get(w http.ResponseWriter, r *http.Request) {
 		}
 
 		policy.Write(w.Header())
-		server.RenderComponent(w, r, http.StatusOK, PublicViews{}.bookmark(user, item, html))
+		server.RenderComponent(w, r, http.StatusOK, PublicViews{}.bookmark(user, item, notes, html))
 	})).ServeHTTP(w, r)
 }

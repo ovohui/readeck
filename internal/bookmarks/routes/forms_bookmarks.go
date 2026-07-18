@@ -716,10 +716,16 @@ func (f *bookmarkOrderForm) getOptions(r *http.Request) (res [][3]string) {
 	return res
 }
 
+type shareLinkForm struct {
+	forms.Form
+	WithNotes forms.BooleanField `json:"with_notes"`
+}
+
 type shareForm struct {
 	forms.Form
-	Email  forms.TextField `json:"email"  validate:"trim required max_len:128 is_email"`
-	Format forms.TextField `json:"format" validate:"trim format_choices"`
+	Email     forms.TextField    `json:"email"      validate:"trim required max_len:128 is_email"`
+	Format    forms.TextField    `json:"format"     validate:"trim format_choices"`
+	WithNotes forms.BooleanField `json:"with_notes"`
 }
 
 func (f *shareForm) GetTaggedValidator(name, _ string, tc *forms.TagContext) (forms.Validator, bool) {
@@ -752,6 +758,12 @@ func (f *shareForm) sendBookmark(r *http.Request, b *bookmarks.Bookmark) (err er
 		}
 	}
 
+	var flags dataset.SharingFlag
+	if f.WithNotes.Value() {
+		flags = dataset.SharingWithHighlights | dataset.SharingWithNotes
+	}
+	ctx := converter.WithSharingFlags(r.Context(), flags)
+
 	switch f.Format.Value() {
 	case "html":
 		exporter = converter.NewHTMLEmailExporter(
@@ -772,11 +784,11 @@ func (f *shareForm) sendBookmark(r *http.Request, b *bookmarks.Bookmark) (err er
 	}
 
 	if err = exporter.Export(
-		r.Context(), nil, r,
+		ctx, nil, r,
 		&dataset.BookmarkList{
 			Count: 1,
 			Items: []*dataset.Bookmark{
-				dataset.NewBookmark(r.Context(), b),
+				dataset.NewBookmark(ctx, b),
 			},
 		},
 	); err != nil {
