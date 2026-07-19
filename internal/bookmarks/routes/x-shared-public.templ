@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"codeberg.org/readeck/readeck/internal/auth/users"
+	"codeberg.org/readeck/readeck/internal/bookmarks/converter"
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
 
 	. "codeberg.org/readeck/readeck/components"
@@ -206,6 +207,12 @@ templ (v PublicViews) bookmark(user *users.User, b *dataset.Bookmark, notes []st
 					{ b.Description }
 				</p>
 			}
+			if f, _ := converter.CheckSharingFlags(ctx); f&dataset.SharingWithNotes > 0 && len(b.Note) > 0 {
+				<div class="my-4 px-4 pt-4 border rounded prose">
+					<p><strong>{ L(ctx).Gettext("Note") }</strong></p>
+					@Markdown(b.Note)
+				</div>
+			}
 		</div>
 		{{ img, ok := b.Resources["image"] }}
 		switch  {
@@ -230,7 +237,7 @@ templ (v PublicViews) bookmark(user *users.User, b *dataset.Bookmark, notes []st
 		}
 		if b.HasArticle {
 			<main
-				class="max-w-3xl mx-auto mt-16 prose font-lora text-lg leading-normal overflow-x-auto"
+				class="max-w-3xl mx-auto mt-8 prose font-lora text-lg leading-normal overflow-x-auto"
 				dir={ dir }
 			>
 				@HTML(html)

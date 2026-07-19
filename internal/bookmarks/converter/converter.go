@@ -16,8 +16,11 @@ import (
 
 type ctxSharingFlagsKey struct{}
 
-// WithSharingFlags adds the [dataset.SharingFlag] to the context.
-var WithSharingFlags, checkSharingFlags = ctxr.WithChecker[dataset.SharingFlag](ctxSharingFlagsKey{})
+// Context setter and checker for [dataset.SharingFlag].
+var (
+	WithSharingFlags  = ctxr.Setter[dataset.SharingFlag](ctxSharingFlagsKey{})
+	CheckSharingFlags = ctxr.Checker[dataset.SharingFlag](ctxSharingFlagsKey{})
+)
 
 // Exporter describes a bookmarks exporter.
 type Exporter interface {

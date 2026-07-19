@@ -214,6 +214,20 @@ table.info {
   }
 }
 
+div.note {
+  margin-bottom: 1em;
+  padding: 1em 1em 0 1em;
+  border: 1px solid $gray-default;
+  font-size: 0.85em;
+
+  h3 {
+    font-size: 1.2em;
+  }
+  blockquote {
+    margin: 0;
+  }
+}
+
 /* ------------------------------------------------------------------
     Pictures
     --------------------------------------------------------------- */
@@ -224,7 +238,7 @@ main.photo img {
 /* ------------------------------------------------------------------
     Article Content
     --------------------------------------------------------------- */
-main.content {
+.content {
   line-height: $line-height;
 
   h1 {

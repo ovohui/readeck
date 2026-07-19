@@ -125,7 +125,7 @@ type emailComponent struct {
 }
 
 func newEmailComponent(ctx context.Context, e HTMLEmailExporter, b *dataset.Bookmark) (*emailComponent, error) {
-	if flags, _ := checkSharingFlags(ctx); flags&dataset.SharingWithHighlights > 0 {
+	if flags, _ := CheckSharingFlags(ctx); flags&dataset.SharingWithHighlights > 0 {
 		ctx = dataset.WithAnnotationTag(
 			ctx,
 			"mark",

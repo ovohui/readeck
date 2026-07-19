@@ -37,6 +37,12 @@ templ (v atomViews) bookmark(b *dataset.Bookmark, resources bookmarks.BookmarkFi
 			<img src={ img.Name } alt="" width={ img.Size[0] } height={ img.Size[1] }/>
 		</div>
 	}
+	if len(b.Note) > 0 {
+		<blockquote>
+			<p><strong>{ L(ctx).Gettext("Note") }</strong></p>
+			@Markdown(b.Note)
+		</blockquote>
+	}
 	if _, ok := b.Files["article"]; ok {
 		<main class="content">
 			@HTML(html)

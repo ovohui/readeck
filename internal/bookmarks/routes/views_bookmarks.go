@@ -23,6 +23,7 @@ import (
 	"codeberg.org/readeck/readeck/internal/auth"
 	"codeberg.org/readeck/readeck/internal/auth/users"
 	"codeberg.org/readeck/readeck/internal/bookmarks"
+	"codeberg.org/readeck/readeck/internal/bookmarks/converter"
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
 	"codeberg.org/readeck/readeck/internal/bookmarks/tasks"
 	"codeberg.org/readeck/readeck/internal/db"
@@ -483,8 +484,8 @@ func (h *publicViewsRouter) get(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Don't show the notes on a shared, public, page.
-	ctx := r.Context()
+	// Notes and highlight flags
+	ctx := converter.WithSharingFlags(r.Context(), dataset.SharingFlag(flags))
 	notes := []string{}
 
 	if flags&byte(dataset.SharingWithHighlights) > 0 {
@@ -544,8 +545,8 @@ func (h *publicViewsRouter) get(w http.ResponseWriter, r *http.Request) {
 		if item.Type == "video" && item.EmbedHostname != "" {
 			policy.Add("frame-src", item.EmbedHostname)
 		}
-
 		policy.Write(w.Header())
-		server.RenderComponent(w, r, http.StatusOK, PublicViews{}.bookmark(user, item, notes, html))
+
+		server.RenderComponent(w, r.WithContext(ctx), http.StatusOK, PublicViews{}.bookmark(user, item, notes, html))
 	})).ServeHTTP(w, r)
 }

@@ -101,6 +101,15 @@ table.info {
   }
 }
 
+blockquote.note {
+  margin: $line-height * 2em 0;
+  border: 1px solid $gray-default;
+  border-radius: $radius;
+  padding: $line-height * 0.5em;
+  font-size: 0.9em;
+  background-color: $gray-light;
+}
+
 /* ------------------------------------------------------------------
     Pictures
     --------------------------------------------------------------- */
