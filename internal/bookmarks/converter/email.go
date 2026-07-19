@@ -14,7 +14,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/go-shiori/dom"
 	"github.com/wneessen/go-mail"
+	"golang.org/x/net/html"
 
 	"codeberg.org/readeck/readeck/configs"
 	"codeberg.org/readeck/readeck/internal/bookmarks"
@@ -123,12 +125,26 @@ type emailComponent struct {
 }
 
 func newEmailComponent(ctx context.Context, e HTMLEmailExporter, b *dataset.Bookmark) (*emailComponent, error) {
+	if flags, _ := checkSharingFlags(ctx); flags&dataset.SharingWithHighlights > 0 {
+		ctx = dataset.WithAnnotationTag(
+			ctx,
+			"mark",
+			func(a *bookmarks.BookmarkAnnotation, n *html.Node, index, ln int) {
+				if flags&dataset.SharingWithNotes > 0 && a.Note != "" && index+1 == ln {
+					node := dom.CreateElement("ins")
+					dom.AppendChild(node, dom.CreateTextNode(" ("+a.Note+")"))
+					n.Parent.InsertBefore(node, n.NextSibling)
+				}
+			},
+		)
+	}
+
 	ctx = dataset.WithURLReplacer(ctx, func(_ *bookmarks.Bookmark) func(name string) string {
 		return func(name string) string {
 			return "cid:" + e.cidPrefix + "." + path.Base(name)
 		}
 	})
-	ctx = dataset.WithAnnotationTag(ctx, "mark", nil)
+
 	html, err := e.GetArticle(ctx, b.Bookmark)
 	if err != nil {
 		return nil, err

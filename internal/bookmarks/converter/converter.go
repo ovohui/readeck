@@ -11,7 +11,13 @@ import (
 	"net/http"
 
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
+	"codeberg.org/readeck/readeck/pkg/ctxr"
 )
+
+type ctxSharingFlagsKey struct{}
+
+// WithSharingFlags adds the [dataset.SharingFlag] to the context.
+var WithSharingFlags, checkSharingFlags = ctxr.WithChecker[dataset.SharingFlag](ctxSharingFlagsKey{})
 
 // Exporter describes a bookmarks exporter.
 type Exporter interface {

@@ -294,16 +294,45 @@ templ (c Components) bookmarkUpdate(b *bookmarks.Bookmark, f *updateForm) {
 
 templ (c Components) shareByLink(link dataset.SharedLink) {
 	{{ turbo := server.IsTurboRequest(server.GetRequest(ctx)) }}
-	<turbo-frame id={ "bookmark-share-" + link.ID }>
+	<turbo-frame
+		id={ "bookmark-share-" + link.ID }
+		if turbo {
+			data-turbo="true"
+			data-turbo-action="replace"
+		}
+	>
 		<p>{ L(ctx).Gettext("You can share the following link with your friends.") }</p>
 		<p class="mb-2">
 			{ L(ctx).Gettext("It expires on %s", Strftime(ctx, link.Expires, "%a %e %b %Y %H:%M %Z")) }
 		</p>
 		<p class="mb-2">
-			<a class="link break-all" href={ link.URL } data-turbo="false">{ link.URL }</a>
+			<a class="link break-all" href={ link.URL } data-turbo="false" target="_blank">{ link.URL }</a>
 		</p>
 		<p class="mb-2">
 			<img src={ QRCodeB64(link.URL, ColorPrimary, -3) } alt="" class="rounded bg-white p-2"/>
+		</p>
+		<p class="mb-4">
+			{{
+				arg := 0
+				var text string
+				var linkText string
+				if !link.Form.(*shareLinkForm).WithNotes.Value() {
+					arg = 1
+					text = L(ctx).Gettext("This link is shared without annotations.")
+					linkText = L(ctx).Gettext("Share with annotations")
+				} else {
+					text = L(ctx).Gettext("This link is shared with annotations.")
+					linkText = L(ctx).Gettext("Share without annotations")
+				}
+			}}
+			@Icon("o-info")
+			{ " " }
+			{ text }
+			<br/>
+			<a
+				class="link font-semibold"
+				href={ URL(ctx, "/bookmarks", link.ID, "/share/link?with_notes="+strconv.Itoa(arg)) }
+			>{ linkText } </a>
 		</p>
 		<div
 			class={ templ.KV("btn-block", !turbo) }
@@ -366,6 +395,10 @@ templ (c Components) shareByEmail(info dataset.SharedEmail) {
 					F.Label(L(ctx).Gettext("Send To")),
 					F.InputType("email"),
 					F.Required(true),
+					F.Classes(templ.KV("field-h", !turbo)),
+				)
+				@F.CheckboxField(&f.WithNotes,
+					F.Label(L(ctx).Gettext("Include annotations and notes")),
 					F.Classes(templ.KV("field-h", !turbo)),
 				)
 			} else {

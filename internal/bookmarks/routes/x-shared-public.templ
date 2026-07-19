@@ -7,6 +7,7 @@ package routes
 import (
 	"io"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -117,7 +118,7 @@ templ (v PublicViews) error(status int) {
 	}
 }
 
-templ (v PublicViews) bookmark(user *users.User, b *dataset.Bookmark, html io.Reader) {
+templ (v PublicViews) bookmark(user *users.User, b *dataset.Bookmark, notes []string, html io.Reader) {
 	@v.base(b) {
 		{{
 			dir := Tern(func() bool { return b.TextDirection != "" }, b.TextDirection, "ltr")
@@ -234,6 +235,18 @@ templ (v PublicViews) bookmark(user *users.User, b *dataset.Bookmark, html io.Re
 			>
 				@HTML(html)
 			</main>
+		}
+		if len(notes) > 0 {
+			<div class="max-w-3xl mx-auto">
+				<h2 class="text-lg mb-2">{ L(ctx).Gettext("Notes") }</h2>
+				for i, note := range notes {
+					<aside id={ "note" + strconv.Itoa(i+1) } class="mb-2">
+						<a class="link" href={ "#noteref" + strconv.Itoa(i+1) }>{ i+1 }</a>
+						.
+						{ note }
+					</aside>
+				}
+			</div>
 		}
 		<div class="max-w-3xl mx-auto mt-4 mb-8 flex gap-2 items-center">
 			<p class="flex-grow">

@@ -433,9 +433,13 @@ schemas:
       format:
         type: string
         enum: ["html", "epub"]
+      with_notes:
+        type: boolean
+        description: Include annotations and notes
     example:
       email: alice@localhost
       format: html
+      with_notes: true
 
   labelInfo:
     properties:
