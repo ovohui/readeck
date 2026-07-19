@@ -220,18 +220,18 @@ func (m *epubMaker) addBookmark(ctx context.Context, _ *http.Request, e EPUBExpo
 	// or sharing (includes by flag).
 	notes := []string{}
 
-	flags := dataset.SharingFlag(dataset.SharingWithHighlights | dataset.SharingWithNotes)
-	if f, ok := CheckSharingFlags(ctx); ok {
+	flags := SharingFlag(SharingWithHighlights | SharingWithNotes)
+	if f, ok := checkSharingFlags(ctx); ok {
 		flags = f
 	}
 	ctx = WithSharingFlags(ctx, flags)
 
-	if flags&dataset.SharingWithHighlights > 0 {
+	if flags&SharingWithHighlights > 0 {
 		ctx = dataset.WithAnnotationTag(
 			ctx,
 			"mark",
 			func(a *bookmarks.BookmarkAnnotation, n *html.Node, index, ln int) {
-				if flags&dataset.SharingWithNotes > 0 && a.Note != "" && index+1 == ln {
+				if flags&SharingWithNotes > 0 && a.Note != "" && index+1 == ln {
 					notes = append(notes, a.Note)
 					link := dom.CreateElement("a")
 					link.Attr = []html.Attribute{

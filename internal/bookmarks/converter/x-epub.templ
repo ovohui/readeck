@@ -58,7 +58,7 @@ templ (v epubViews) bookmark(b *dataset.Bookmark, resources bookmarks.BookmarkFi
 					<li>{ L(ctx).Ngettext("About %d minute read", "About %d minutes read", b.ReadingTime, b.ReadingTime) }</li>
 				}
 			</ul>
-			if f, _ := CheckSharingFlags(ctx); f&dataset.SharingWithNotes > 0 && len(b.Note) > 0 {
+			if f, _ := checkSharingFlags(ctx); f&SharingWithNotes > 0 && len(b.Note) > 0 {
 				<div class="note">
 					<h3>{ L(ctx).Gettext("Note") }</h3>
 					<blockquote class="content">

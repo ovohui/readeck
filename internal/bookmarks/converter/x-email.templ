@@ -7,7 +7,6 @@ package converter
 import (
 	"strings"
 
-	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
 	"codeberg.org/readeck/readeck/internal/email"
 
 	. "codeberg.org/readeck/readeck/components"
@@ -38,7 +37,7 @@ templ (c *emailComponent) renderer() {
 				<li>{ L(ctx).Ngettext("About %d minute read", "About %d minutes read", c.item.ReadingTime, c.item.ReadingTime) }</li>
 			}
 		</ul>
-		if f, _ := CheckSharingFlags(ctx); f&dataset.SharingWithNotes > 0 && len(c.item.Note) > 0 {
+		if f, _ := checkSharingFlags(ctx); f&SharingWithNotes > 0 && len(c.item.Note) > 0 {
 			<blockquote class="note prose">
 				<p><strong>{ L(ctx).Gettext("Note") }</strong></p>
 				@Markdown(c.item.Note)

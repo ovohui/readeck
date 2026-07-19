@@ -485,17 +485,17 @@ func (h *publicViewsRouter) get(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Notes and highlight flags
-	ctx := converter.WithSharingFlags(r.Context(), dataset.SharingFlag(flags))
+	ctx := converter.WithSharingFlags(r.Context(), converter.SharingFlag(flags))
 	notes := []string{}
 
-	if flags&byte(dataset.SharingWithHighlights) > 0 {
+	if flags&byte(converter.SharingWithHighlights) > 0 {
 		ctx = dataset.WithAnnotationTag(
 			ctx,
 			dataset.AnnotationTag,
 			func(a *bookmarks.BookmarkAnnotation, n *html.Node, index, ln int) {
 				dataset.AnnotationCallback(false)(a, n, index, ln)
 
-				if flags&byte(dataset.SharingWithNotes) > 0 && a.Note != "" && index+1 == ln {
+				if flags&byte(converter.SharingWithNotes) > 0 && a.Note != "" && index+1 == ln {
 					notes = append(notes, a.Note)
 					link := dom.CreateElement("a")
 					sup := dom.CreateElement("sup")
@@ -547,6 +547,6 @@ func (h *publicViewsRouter) get(w http.ResponseWriter, r *http.Request) {
 		}
 		policy.Write(w.Header())
 
-		server.RenderComponent(w, r.WithContext(ctx), http.StatusOK, PublicViews{}.bookmark(user, item, notes, html))
+		server.RenderComponent(w, r.WithContext(ctx), http.StatusOK, converter.PublicViews{}.Bookmark(user, item, notes, html))
 	})).ServeHTTP(w, r)
 }

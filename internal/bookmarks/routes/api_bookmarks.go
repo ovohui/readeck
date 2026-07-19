@@ -854,9 +854,9 @@ func (api *apiRouter) withShareLink(next http.Handler) http.Handler {
 			ID:      b.UID,
 		}
 
-		var flags dataset.SharingFlag
+		var flags converter.SharingFlag
 		if info.Form.(*shareLinkForm).WithNotes.Value() {
-			flags = dataset.SharingWithHighlights | dataset.SharingWithNotes
+			flags = converter.SharingWithHighlights | converter.SharingWithNotes
 		}
 
 		code, err := bookmarks.EncodeID(uint64(b.ID), expires, byte(flags))

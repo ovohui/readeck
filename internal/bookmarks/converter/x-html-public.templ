@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-package routes
+package converter
 
 import (
 	"io"
@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"codeberg.org/readeck/readeck/internal/auth/users"
-	"codeberg.org/readeck/readeck/internal/bookmarks/converter"
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
 
 	. "codeberg.org/readeck/readeck/components"
@@ -102,7 +101,15 @@ templ (v PublicViews) base(b *dataset.Bookmark) {
 	</html>
 }
 
-templ (v PublicViews) error(status int) {
+templ (v PublicViews) lineIcon(icon string) {
+	<li class="flex items-baseline mb-1">
+		@Icon(icon, WithIconClass("svgicon w-4 ml-0.5 mr-1.5"))
+		{ " " }
+		{ children... }
+	</li>
+}
+
+templ (v PublicViews) Error(status int) {
 	@v.base(nil) {
 		<div class="max-w-3xl mx-auto my-8">
 			<h1 class="text-3xl text-center">
@@ -119,12 +126,9 @@ templ (v PublicViews) error(status int) {
 	}
 }
 
-templ (v PublicViews) bookmark(user *users.User, b *dataset.Bookmark, notes []string, html io.Reader) {
+templ (v PublicViews) Bookmark(user *users.User, b *dataset.Bookmark, notes []string, html io.Reader) {
 	@v.base(b) {
-		{{
-			dir := Tern(func() bool { return b.TextDirection != "" }, b.TextDirection, "ltr")
-			lineIcon := SidebarComponent{}.lineIcon
-		}}
+		{{ dir := Tern(func() bool { return b.TextDirection != "" }, b.TextDirection, "ltr") }}
 		<div class="max-w-3xl mx-auto my-8">
 			<div class="flex gap-2 items-baseline my-4 text-3xl max-sm:text-2xl">
 				<h1 class="grow font-lora" dir={ dir }>
@@ -174,20 +178,20 @@ templ (v PublicViews) bookmark(user *users.User, b *dataset.Bookmark, notes []st
 					</strong>
 				</li>
 				if b.Published != nil {
-					@lineIcon("o-calendar") {
+					@v.lineIcon("o-calendar") {
 						{ L(ctx).Gettext("Published on %s", Strftime(ctx, *b.Published, "%e %B %Y")) }
 					}
 					if len(b.Authors) > 0 {
-						@lineIcon("o-pen") {
+						@v.lineIcon("o-pen") {
 							{ L(ctx).Gettext("By %s", strings.Join(b.Authors, ", ")) }
 						}
 					}
 				}
-				@lineIcon("o-link-ext") {
+				@v.lineIcon("o-link-ext") {
 					<a href={ b.URL } class="link" target="_blank">{ b.Domain }</a>
 				}
 				if b.ReadingTime > 0 {
-					@lineIcon("o-clock") {
+					@v.lineIcon("o-clock") {
 						{ L(ctx).Ngettext("About %d minute read", "About %d minutes read", b.ReadingTime, b.ReadingTime) }
 					}
 				}
@@ -207,7 +211,7 @@ templ (v PublicViews) bookmark(user *users.User, b *dataset.Bookmark, notes []st
 					{ b.Description }
 				</p>
 			}
-			if f, _ := converter.CheckSharingFlags(ctx); f&dataset.SharingWithNotes > 0 && len(b.Note) > 0 {
+			if f, _ := checkSharingFlags(ctx); f&SharingWithNotes > 0 && len(b.Note) > 0 {
 				<div class="my-4 px-4 pt-4 border rounded prose">
 					<p><strong>{ L(ctx).Gettext("Note") }</strong></p>
 					@Markdown(b.Note)

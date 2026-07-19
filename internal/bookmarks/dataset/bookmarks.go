@@ -28,15 +28,6 @@ import (
 	"codeberg.org/readeck/readeck/pkg/utils"
 )
 
-// SharingFlag is a sharing option flag.
-type SharingFlag byte
-
-// Bookmark sharing flags.
-const (
-	SharingWithHighlights SharingFlag = 1 << iota
-	SharingWithNotes
-)
-
 // BookmarkList is a collection of [Bookmark] items.
 type BookmarkList struct {
 	Count      int64

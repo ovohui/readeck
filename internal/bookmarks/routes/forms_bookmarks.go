@@ -764,9 +764,9 @@ func (f *shareForm) sendBookmark(r *http.Request, b *bookmarks.Bookmark) (err er
 		}
 	}
 
-	var flags dataset.SharingFlag
+	var flags converter.SharingFlag
 	if f.WithNotes.Value() {
-		flags = dataset.SharingWithHighlights | dataset.SharingWithNotes
+		flags = converter.SharingWithHighlights | converter.SharingWithNotes
 	}
 	ctx := converter.WithSharingFlags(r.Context(), flags)
 
