@@ -248,7 +248,6 @@ templ (c Components) bookmarkUpdate(b *bookmarks.Bookmark, f *updateForm) {
 			lang={ b.Lang }
 		>
 			@F.Errors(f)
-			// TODO: use field-sizing on textarea fields
 			<fieldset>
 				@F.TextField(&f.Title,
 					F.Label(L(ctx).Gettext("Title")),
