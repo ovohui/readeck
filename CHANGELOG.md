@@ -8,6 +8,7 @@
 - Bookmark list random ordering, by [@bilgincoskun](https://codeberg.org/bilgincoskun)
 - Bookmark's user note
 - Option to share a bookmark with or without annotations and note
+- Note presence and language filters in bookmark lists and collections
 
 ### Improved
 - Refreshed user interface
