@@ -37,6 +37,7 @@ import (
 	"codeberg.org/readeck/readeck/internal/bus"
 	"codeberg.org/readeck/readeck/internal/cookbook"
 	"codeberg.org/readeck/readeck/internal/dashboard"
+	"codeberg.org/readeck/readeck/internal/db"
 	"codeberg.org/readeck/readeck/internal/docs"
 	"codeberg.org/readeck/readeck/internal/metrics"
 	"codeberg.org/readeck/readeck/internal/opds"
@@ -260,9 +261,18 @@ func runServer(_ context.Context, args []string) error { // nolint:gocognit,gocy
 		)
 	}
 
+	// Start ticker
+	tickerCtx, tickerStop := context.WithCancel(context.Background())
+	if db.Driver().Dialect() == "sqlite" {
+		go sqliteAnalyze(tickerCtx)
+	}
+
 	// Server shutdown
 	<-stop
 	slog.Info("shutting down...")
+
+	// Stop ticker
+	tickerStop()
 
 	// Graceful http shutdown
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)

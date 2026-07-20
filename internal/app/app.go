@@ -8,6 +8,7 @@ package app
 import (
 	"bufio"
 	"bytes"
+	"context"
 	"errors"
 	"flag"
 	"fmt"
@@ -331,6 +332,26 @@ func copyContentScriptHelpers(dest string) error {
 	}
 
 	return nil
+}
+
+// sqliteAnalyze runs a [time.Ticker] that performs an ANALYZE query
+// every hour (SQLite only).
+func sqliteAnalyze(ctx context.Context) {
+	ticker := time.NewTicker(time.Hour * 6)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case <-ticker.C:
+			if _, err := db.DB().Exec("ANALYZE"); err != nil {
+				slog.Error("sqlite analyze", slog.Any("err", err))
+			} else {
+				slog.Debug("sqlite analyze done")
+			}
+		}
+	}
 }
 
 func confirmPrompt(label string, defaultV bool) bool {

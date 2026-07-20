@@ -74,6 +74,7 @@ func (c *sqliteConnector) Open(dsn *url.URL) (*sql.DB, error) {
 		PRAGMA secure_delete = 1;
 		PRAGMA synchronous = NORMAL;
 		PRAGMA temp_store = memory;
+		PRAGMA optimize = 0x10002;
 	`)
 	if err != nil {
 		return nil, err

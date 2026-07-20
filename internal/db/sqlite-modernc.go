@@ -72,6 +72,7 @@ func (c *sqliteConnector) Open(dsn *url.URL) (*sql.DB, error) {
 		PRAGMA synchronous = NORMAL;
 		PRAGMA busy_timeout = 5000;
 		PRAGMA temp_store = memory;
+		PRAGMA optimize = 0x10002;
 	`)
 	if err != nil {
 		return nil, err

@@ -19,6 +19,7 @@
 - Autofocus on form submit button when the bookmark list has an "url" query parameter, by [@billieb](https://codeberg.org/billieb)
 - Bookmark placeholder images (with better colors and a letter)
 - Optimized metadata discovery, by [@mislav](https://codeberg.org/mislav)
+- Periodically run ANALYZE on SQLite
 
 ### Changed
 - HTML rendering using Templ
