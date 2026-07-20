@@ -107,4 +107,5 @@ var migrationList = []migrationEntry{
 	newMigrationEntry(26, "user_last_login", applyMigrationFile("26_user_last_login.sql")),
 	newMigrationEntry(27, "annotation_fts", applyMigrationFile("27_annotation_fts.sql")),
 	newMigrationEntry(28, "user_ext", applyMigrationFile("28_user_ext.sql")),
+	newMigrationEntry(29, "bookmark_note", applyMigrationFile("29_bookmark_note.sql")),
 }

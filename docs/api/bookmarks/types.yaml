@@ -85,6 +85,10 @@ schemas:
         type: string
         description: |
           Bookmark's short description, when it exists. It's always an unformatted text.
+      note:
+        type: string
+        description: |
+          Bookmark's user note. Can be parsed as Markdown.
       is_deleted:
         type: boolean
         description: |
@@ -336,6 +340,10 @@ schemas:
         enum: [ltr, rtl]
         description: |
           Direction of the article's text.
+      note:
+        type: string
+        description: |
+          Bookmark's user note, text only.
       is_marked:
         type: boolean
         description: Favortie state

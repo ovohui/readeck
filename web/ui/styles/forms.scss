@@ -171,6 +171,14 @@
       }
     }
 
+    &.field--textarea {
+      textarea {
+        field-sizing: content;
+        // 2 lines with 1.25 line-height + 1rem padding + borders
+        min-height: calc(3.5rem + 2px);
+      }
+    }
+
     &.field--checkbox {
       & > div > label {
         @apply font-bold ml-1;

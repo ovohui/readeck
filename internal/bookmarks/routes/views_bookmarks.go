@@ -23,6 +23,7 @@ import (
 	"codeberg.org/readeck/readeck/internal/auth"
 	"codeberg.org/readeck/readeck/internal/auth/users"
 	"codeberg.org/readeck/readeck/internal/bookmarks"
+	"codeberg.org/readeck/readeck/internal/bookmarks/converter"
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
 	"codeberg.org/readeck/readeck/internal/bookmarks/tasks"
 	"codeberg.org/readeck/readeck/internal/db"
@@ -197,6 +198,7 @@ func (h *viewsRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
 		// Fields the user can update on the UI
 		f.Title.Set(b.Title)
 		f.Description.Set(b.Description)
+		f.Note.Set(b.Note)
 		f.SiteName.Set(b.SiteName)
 		f.Authors.Set([]string(b.Authors))
 		f.Lang.Set(b.Lang)
@@ -228,12 +230,13 @@ func (h *viewsRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
 
 			_, withTitle := updated["title"]
 			_, withDescription := updated["description"]
+			_, withNote := updated["note"]
 			_, withMarked := updated["is_marked"]
 			_, withArchived := updated["is_archived"]
 			_, withDeleted := updated["is_deleted"]
 			_, withProgress := updated["read_progress"]
 
-			if withTitle || withDescription {
+			if withTitle || withDescription || withNote {
 				server.RenderTurboStreamComponent(
 					w, r,
 					Components{}.titleBlock(item),
@@ -481,18 +484,18 @@ func (h *publicViewsRouter) get(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Don't show the notes on a shared, public, page.
-	ctx := r.Context()
+	// Notes and highlight flags
+	ctx := converter.WithSharingFlags(r.Context(), converter.SharingFlag(flags))
 	notes := []string{}
 
-	if flags&byte(dataset.SharingWithHighlights) > 0 {
+	if flags&byte(converter.SharingWithHighlights) > 0 {
 		ctx = dataset.WithAnnotationTag(
 			ctx,
 			dataset.AnnotationTag,
 			func(a *bookmarks.BookmarkAnnotation, n *html.Node, index, ln int) {
 				dataset.AnnotationCallback(false)(a, n, index, ln)
 
-				if flags&byte(dataset.SharingWithNotes) > 0 && a.Note != "" && index+1 == ln {
+				if flags&byte(converter.SharingWithNotes) > 0 && a.Note != "" && index+1 == ln {
 					notes = append(notes, a.Note)
 					link := dom.CreateElement("a")
 					sup := dom.CreateElement("sup")
@@ -542,8 +545,8 @@ func (h *publicViewsRouter) get(w http.ResponseWriter, r *http.Request) {
 		if item.Type == "video" && item.EmbedHostname != "" {
 			policy.Add("frame-src", item.EmbedHostname)
 		}
-
 		policy.Write(w.Header())
-		server.RenderComponent(w, r, http.StatusOK, PublicViews{}.bookmark(user, item, notes, html))
+
+		server.RenderComponent(w, r.WithContext(ctx), http.StatusOK, converter.PublicViews{}.Bookmark(user, item, notes, html))
 	})).ServeHTTP(w, r)
 }

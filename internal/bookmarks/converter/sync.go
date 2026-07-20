@@ -212,12 +212,13 @@ func (e SyncExporter) writeMarkdown(ctx context.Context, mp *multipart.Writer, b
 	intro := new(bytes.Buffer)
 	intro.WriteString("---\n")
 	meta := mdMeta{
-		Title:   b.Title,
-		Saved:   b.Created.Format(time.DateOnly),
-		Website: b.Site,
-		Source:  b.URL,
-		Authors: b.Authors,
-		Labels:  b.Labels,
+		Title:       b.Title,
+		Description: b.Description,
+		Saved:       b.Created.Format(time.DateOnly),
+		Website:     b.Site,
+		Source:      b.URL,
+		Authors:     b.Authors,
+		Labels:      b.Labels,
 	}
 	if b.Published != nil {
 		meta.Published = b.Published.Format(time.DateOnly)

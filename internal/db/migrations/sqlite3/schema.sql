@@ -75,6 +75,7 @@ CREATE TABLE IF NOT EXISTS bookmark (
     dir           text     NOT NULL DEFAULT "",
     type          text     NOT NULL DEFAULT "",
     description   text     NOT NULL DEFAULT "",
+    note          text     NOT NULL DEFAULT "",
     text          text     NOT NULL DEFAULT "",
     word_count    integer  NOT NULL DEFAULT 0,
     duration      integer  NOT NULL DEFAULT 0,
@@ -162,7 +163,7 @@ AS SELECT
           ELSE '[]' END
       ) AS x
       WHERE json_extract(x.value, '$.note') != ''
-    ) AS note
+    ) || ' ' || note AS note
 FROM bookmark;
 
 

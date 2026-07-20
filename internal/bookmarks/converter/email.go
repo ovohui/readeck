@@ -125,12 +125,12 @@ type emailComponent struct {
 }
 
 func newEmailComponent(ctx context.Context, e HTMLEmailExporter, b *dataset.Bookmark) (*emailComponent, error) {
-	if flags, _ := checkSharingFlags(ctx); flags&dataset.SharingWithHighlights > 0 {
+	if flags, _ := checkSharingFlags(ctx); flags&SharingWithHighlights > 0 {
 		ctx = dataset.WithAnnotationTag(
 			ctx,
 			"mark",
 			func(a *bookmarks.BookmarkAnnotation, n *html.Node, index, ln int) {
-				if flags&dataset.SharingWithNotes > 0 && a.Note != "" && index+1 == ln {
+				if flags&SharingWithNotes > 0 && a.Note != "" && index+1 == ln {
 					node := dom.CreateElement("ins")
 					dom.AppendChild(node, dom.CreateTextNode(" ("+a.Note+")"))
 					n.Parent.InsertBefore(node, n.NextSibling)

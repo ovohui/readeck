@@ -28,15 +28,6 @@ import (
 	"codeberg.org/readeck/readeck/pkg/utils"
 )
 
-// SharingFlag is a sharing option flag.
-type SharingFlag byte
-
-// Bookmark sharing flags.
-const (
-	SharingWithHighlights SharingFlag = 1 << iota
-	SharingWithNotes
-)
-
 // BookmarkList is a collection of [Bookmark] items.
 type BookmarkList struct {
 	Count      int64
@@ -175,6 +166,7 @@ type Bookmark struct {
 	HasArticle      bool                          `json:"has_article"`
 	Description     string                        `json:"description"`
 	OmitDescription *bool                         `json:"omit_description,omitempty"`
+	Note            string                        `json:"note"`
 	IsDeleted       bool                          `json:"is_deleted"`
 	IsMarked        bool                          `json:"is_marked"`
 	IsArchived      bool                          `json:"is_archived"`
@@ -225,6 +217,7 @@ func NewBookmark(ctx context.Context, b *bookmarks.Bookmark) *Bookmark {
 		TextDirection: b.TextDirection,
 		DocumentType:  b.DocumentType,
 		Description:   b.Description,
+		Note:          b.Note,
 		IsDeleted:     tasks.DeleteBookmarkTask.IsRunning(b.ID),
 		IsMarked:      b.IsMarked,
 		IsArchived:    b.IsArchived,

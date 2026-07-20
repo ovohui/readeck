@@ -628,7 +628,7 @@ func (api *apiRouter) withBookmarkListSelectDataset(next http.Handler) http.Hand
 				"b.url", "b.title", "b.domain", "b.site", "b.site_name", "b.authors",
 				"b.lang", "b.dir", "b.type", "b.is_marked", "b.is_archived", "b.read_progress",
 				"b.labels", "b.description", "b.word_count", "b.duration", "b.file_path", "b.files",
-				"b.annotations",
+				"b.note", "b.annotations",
 			).
 			Where(
 				goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID),
@@ -854,9 +854,9 @@ func (api *apiRouter) withShareLink(next http.Handler) http.Handler {
 			ID:      b.UID,
 		}
 
-		var flags dataset.SharingFlag
+		var flags converter.SharingFlag
 		if info.Form.(*shareLinkForm).WithNotes.Value() {
-			flags = dataset.SharingWithHighlights | dataset.SharingWithNotes
+			flags = converter.SharingWithHighlights | converter.SharingWithNotes
 		}
 
 		code, err := bookmarks.EncodeID(uint64(b.ID), expires, byte(flags))

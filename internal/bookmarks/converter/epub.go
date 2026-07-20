@@ -215,21 +215,23 @@ func (m *epubMaker) addBookmark(ctx context.Context, _ *http.Request, e EPUBExpo
 	}
 
 	// Set highlights and notes
-	withHighlights := true
-	withNotes := true
+	// We default to sharing highlights and notes and only use the context's values
+	// when they exist. This lets us use this converter when exporting (includes all)
+	// or sharing (includes by flag).
 	notes := []string{}
 
+	flags := SharingFlag(SharingWithHighlights | SharingWithNotes)
 	if f, ok := checkSharingFlags(ctx); ok {
-		withHighlights = f&dataset.SharingWithHighlights > 0
-		withNotes = f&dataset.SharingWithNotes > 0
+		flags = f
 	}
+	ctx = WithSharingFlags(ctx, flags)
 
-	if withHighlights {
+	if flags&SharingWithHighlights > 0 {
 		ctx = dataset.WithAnnotationTag(
 			ctx,
 			"mark",
 			func(a *bookmarks.BookmarkAnnotation, n *html.Node, index, ln int) {
-				if withNotes && a.Note != "" && index+1 == ln {
+				if flags&SharingWithNotes > 0 && a.Note != "" && index+1 == ln {
 					notes = append(notes, a.Note)
 					link := dom.CreateElement("a")
 					link.Attr = []html.Attribute{

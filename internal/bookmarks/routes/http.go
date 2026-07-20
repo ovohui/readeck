@@ -15,6 +15,7 @@ import (
 	"github.com/go-chi/chi/v5"
 
 	"codeberg.org/readeck/readeck/internal/bookmarks"
+	"codeberg.org/readeck/readeck/internal/bookmarks/converter"
 	"codeberg.org/readeck/readeck/internal/server"
 	"codeberg.org/readeck/readeck/pkg/http/csp"
 	"codeberg.org/readeck/readeck/pkg/zipfs"
@@ -296,7 +297,7 @@ func newViewsRouter(api *apiRouter) *viewsRouter {
 func newSharedViewsRouter(api *apiRouter) *publicViewsRouter {
 	r := chi.NewRouter()
 	h := &publicViewsRouter{r, api}
-	r.Use(server.WithCustomErrorComponent(PublicViews{}.error))
+	r.Use(server.WithCustomErrorComponent(converter.PublicViews{}.Error))
 
 	r.Get("/{id:[a-zA-Z0-9_-]+}", h.get)
 	return h

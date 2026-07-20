@@ -55,13 +55,14 @@ type MarkdownExporter struct {
 }
 
 type mdMeta struct {
-	Title     string   `yaml:"title,omitempty"`
-	Saved     string   `yaml:"saved,omitempty"`
-	Published string   `yaml:"published,omitempty"`
-	Website   string   `yaml:"website,omitempty"`
-	Source    string   `yaml:"source,omitempty"`
-	Authors   []string `yaml:"authors,omitempty"`
-	Labels    []string `yaml:"labels,omitempty"`
+	Title       string   `yaml:"title,omitempty"`
+	Description string   `yaml:"description,omitempty"`
+	Saved       string   `yaml:"saved,omitempty"`
+	Published   string   `yaml:"published,omitempty"`
+	Website     string   `yaml:"website,omitempty"`
+	Source      string   `yaml:"source,omitempty"`
+	Authors     []string `yaml:"authors,omitempty"`
+	Labels      []string `yaml:"labels,omitempty"`
 }
 
 // NewMarkdownExporter returns a new [MarkdownExporter] instance.
@@ -308,12 +309,13 @@ func (e MarkdownExporter) writeArticle(ctx context.Context, w io.Writer, b *data
 	if withMeta {
 		fmt.Fprintln(intro, "---")
 		meta := mdMeta{
-			Title:   b.Title,
-			Saved:   b.Created.Format(time.DateOnly),
-			Website: b.Site,
-			Source:  b.URL,
-			Authors: b.Authors,
-			Labels:  b.Labels,
+			Title:       b.Title,
+			Description: b.Description,
+			Saved:       b.Created.Format(time.DateOnly),
+			Website:     b.Site,
+			Source:      b.URL,
+			Authors:     b.Authors,
+			Labels:      b.Labels,
 		}
 		if b.Published != nil {
 			meta.Published = b.Published.Format(time.DateOnly)
@@ -330,6 +332,12 @@ func (e MarkdownExporter) writeArticle(ctx context.Context, w io.Writer, b *data
 
 	if img, ok := b.Files["image"]; ok {
 		fmt.Fprintf(intro, "![](%s)\n\n", e.getImageURL(ctx, b, img.Name))
+	}
+
+	if len(b.Note) > 0 {
+		fmt.Fprint(intro, "#### Note\n\n")
+		fmt.Fprint(intro, b.Note)
+		fmt.Fprint(intro, "\n\n")
 	}
 
 	if b.DocumentType == "video" {

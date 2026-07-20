@@ -178,7 +178,7 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 							<span class="sr-only">{ L(ctx).Gettext("Close panel") }</span>
 						</button>
 					</div>
-					<div class="pr-4">
+					<div class="pr-4 print:pr-0">
 						@SidebarComponent{}.sidebar(item)
 					</div>
 				</div>
@@ -248,46 +248,55 @@ templ (c Components) bookmarkUpdate(b *bookmarks.Bookmark, f *updateForm) {
 			lang={ b.Lang }
 		>
 			@F.Errors(f)
-			@F.TextField(&f.Title,
-				F.Label(L(ctx).Gettext("Title")),
-				F.Required(true),
-				F.Classes("field-h"),
-			)
-			@F.TextAreaField(&f.Description,
-				F.Label(L(ctx).Gettext("Description")),
-				F.Classes("field-h"),
-				F.InputAttr("rows", 5),
-			)
-			@F.TextField(&f.SiteName,
-				F.Label(L(ctx).Gettext("Site Name")),
-				F.Required(true),
-				F.Classes("field-h"),
-			)
-			@F.TextAreaField(&f.Authors,
-				F.Label(L(ctx).Gettext("Authors")),
-				F.Value(strings.Join((&f.Authors).Value(), "\n")),
-				F.Classes("field-h"),
-				F.Help(L(ctx).Gettext("One value per line")),
-				F.InputAttr("rows", 3),
-			)
-			@F.DateField(&f.Published,
-				F.Label(L(ctx).Gettext("Published")),
-				F.Classes("field-h"),
-			)
-			@F.TextField(&f.Lang,
-				F.Label(L(ctx).Gettext("Language")),
-				F.Classes("field-h"),
-				F.InputAttr("list", "data-lang"),
-			)
-			<datalist id="data-lang">
-				for k, v := range locales.AllBase(server.LocaleContext(ctx).Tag) {
-					<option value={ k } label={ v + " (" + k + ")" }></option>
-				}
-			</datalist>
-			@F.SelectField[string](&f.TextDirection,
-				F.Label(L(ctx).Gettext("Text Direction")),
-				F.Classes("field-h"),
-			)
+			<fieldset>
+				@F.TextField(&f.Title,
+					F.Label(L(ctx).Gettext("Title")),
+					F.Required(true),
+					F.Classes("field-h"),
+				)
+				@F.TextAreaField(&f.Description,
+					F.Label(L(ctx).Gettext("Description")),
+					F.Classes("field-h"),
+					F.InputAttr("rows", 5),
+				)
+				@F.TextField(&f.SiteName,
+					F.Label(L(ctx).Gettext("Site Name")),
+					F.Required(true),
+					F.Classes("field-h"),
+				)
+				@F.TextAreaField(&f.Authors,
+					F.Label(L(ctx).Gettext("Authors")),
+					F.Value(strings.Join((&f.Authors).Value(), "\n")),
+					F.Classes("field-h"),
+					F.Help(L(ctx).Gettext("One value per line")),
+					F.InputAttr("rows", 3),
+				)
+				@F.DateField(&f.Published,
+					F.Label(L(ctx).Gettext("Published")),
+					F.Classes("field-h"),
+				)
+				@F.TextField(&f.Lang,
+					F.Label(L(ctx).Gettext("Language")),
+					F.Classes("field-h"),
+					F.InputAttr("list", "data-lang"),
+				)
+				<datalist id="data-lang">
+					for k, v := range locales.AllBase(server.LocaleContext(ctx).Tag) {
+						<option value={ k } label={ v + " (" + k + ")" }></option>
+					}
+				</datalist>
+				@F.SelectField[string](&f.TextDirection,
+					F.Label(L(ctx).Gettext("Text Direction")),
+					F.Classes("field-h"),
+				)
+			</fieldset>
+			<fieldset class="border-t pt-4">
+				@F.TextAreaField(&f.Note,
+					F.Label(L(ctx).Gettext("Note")),
+					F.Classes("field-h"),
+					F.InputAttr("rows", 5),
+				)
+			</fieldset>
 		</form>
 	</turbo-frame>
 }
