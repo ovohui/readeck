@@ -28,6 +28,7 @@ type FilterForm struct {
 	Title      forms.TextField     `json:"title"       validate:"trim"`
 	Author     forms.TextField     `json:"author"      validate:"trim"`
 	Site       forms.TextField     `json:"site"        validate:"trim"`
+	Lang       forms.TextField     `json:"lang"        validate:"trim"`
 	Type       forms.TextListField `json:"type"        validate:"bookmark_type_choices"`
 	IsLoaded   forms.BooleanField  `json:"is_loaded"`
 	HasErrors  forms.BooleanField  `json:"has_errors"`
@@ -210,6 +211,7 @@ func (f *FilterForm) toFilters() bookmarks.Filters {
 		Title:      f.Title.Value(),
 		Author:     f.Author.Value(),
 		Site:       f.Site.Value(),
+		Lang:       f.Lang.Value(),
 		Type:       f.Type.Value(),
 		Labels:     f.Labels.Value(),
 		Note:       f.Note.Value(),
@@ -246,6 +248,7 @@ func (f *FilterForm) fromFilters(filters *bookmarks.Filters) {
 	f.Title.Set(filters.Title)
 	f.Author.Set(filters.Author)
 	f.Site.Set(filters.Site)
+	f.Lang.Set(filters.Lang)
 	f.Type.Set(filters.Type)
 	f.Labels.Set(filters.Labels)
 	f.Note.Set(filters.Note)

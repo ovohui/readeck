@@ -117,6 +117,7 @@ func TestFilters(t *testing.T) {
 				"title": "",
 				"author": "",
 				"site": "",
+				"lang": "",
 				"type": null,
 				"labels": "",
 				"note": "",
@@ -141,6 +142,7 @@ func TestFilters(t *testing.T) {
 				"title": "--title--",
 				"author": "",
 				"site": "",
+				"lang": "",
 				"type": null,
 				"labels": "ABC",
 				"note": "",
@@ -166,6 +168,7 @@ func TestFilters(t *testing.T) {
 				"title": "--title--",
 				"author": "",
 				"site": "",
+				"lang": "",
 				"type": ["article", "video"],
 				"labels": "",
 				"note": "",
@@ -191,6 +194,7 @@ func TestFilters(t *testing.T) {
 				"title": "--title--",
 				"author": "",
 				"site": "",
+				"lang": "",
 				"type": null,
 				"labels": "",
 				"note": "",
@@ -217,6 +221,7 @@ func TestFilters(t *testing.T) {
 				"title": "--title--",
 				"author": "",
 				"site": "",
+				"lang": "",
 				"type": null,
 				"labels": "XYZ ABC",
 				"note": "",
@@ -298,6 +303,12 @@ func TestFilters(t *testing.T) {
 						"errors": null
 					},
 					"labels": {
+						"is_null": false,
+						"is_bound": false,
+						"value": "",
+						"errors": null
+					},
+					"lang": {
 						"is_null": false,
 						"is_bound": false,
 						"value": "",
@@ -420,6 +431,12 @@ func TestFilters(t *testing.T) {
 						"errors": null
 					},
 					"labels": {
+						"is_null": false,
+						"is_bound": false,
+						"value": "",
+						"errors": null
+					},
+					"lang": {
 						"is_null": false,
 						"is_bound": false,
 						"value": "",

@@ -7,6 +7,7 @@ package bookmarks
 import (
 	"database/sql/driver"
 	"encoding/json"
+	"strings"
 	"time"
 
 	"github.com/doug-martin/goqu/v9"
@@ -34,6 +35,7 @@ type Filters struct {
 	Title      string        `json:"title"`
 	Author     string        `json:"author"`
 	Site       string        `json:"site"`
+	Lang       string        `json:"lang"`
 	Type       types.Strings `json:"type"`
 	Labels     string        `json:"labels"`
 	Note       string        `json:"note"`
@@ -122,6 +124,7 @@ func (f Filters) ToMap() map[string]any {
 		"title":       f.Title,
 		"author":      f.Author,
 		"site":        f.Site,
+		"lang":        f.Lang,
 		"type":        []string(f.Type),
 		"labels":      f.Labels,
 		"note":        f.Note,
@@ -188,6 +191,11 @@ func (f Filters) ToSelectDataSet(ds *goqu.SelectDataset) *goqu.SelectDataset {
 				exp.DateTime(end.RelativeTo(nil)),
 			),
 		))
+	}
+
+	// lang filter
+	if f.Lang != "" {
+		ds = ds.Where(goqu.C("lang").Table("b").ILike(strings.ReplaceAll(f.Lang, "*", "%")))
 	}
 
 	// read_progress

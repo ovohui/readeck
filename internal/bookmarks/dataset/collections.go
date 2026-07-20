@@ -76,6 +76,7 @@ type Collection struct {
 	Title      string        `json:"title"`
 	Author     string        `json:"author"`
 	Site       string        `json:"site"`
+	Lang       string        `json:"lang"`
 	Type       types.Strings `json:"type"`
 	Labels     string        `json:"labels"`
 	ReadStatus types.Strings `json:"read_status"`
@@ -106,6 +107,7 @@ func NewCollection(ctx context.Context, c *bookmarks.Collection) *Collection {
 		Title:      c.Filters.Title,
 		Author:     c.Filters.Author,
 		Site:       c.Filters.Site,
+		Lang:       c.Filters.Lang,
 		Type:       c.Filters.Type,
 		Labels:     c.Filters.Labels,
 		ReadStatus: c.Filters.ReadStatus,

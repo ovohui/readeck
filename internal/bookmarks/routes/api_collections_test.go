@@ -100,6 +100,12 @@ func TestCollectionAPI(t *testing.T) {
 					"value": "",
 					"errors": null
 				},
+				"lang": {
+					"is_null": false,
+					"is_bound": false,
+					"value": "",
+					"errors": null
+				},
 				"note": {
 					"is_null": false,
 					"is_bound": false,
@@ -192,6 +198,7 @@ func TestCollectionAPI(t *testing.T) {
 			"title":"",
 			"author":"",
 			"site":"",
+			"lang": "",
 			"type": ["article"],
 			"labels":"test 🥳",
 			"read_status": null,
@@ -241,6 +248,7 @@ func TestCollectionAPI(t *testing.T) {
 				"title":"",
 				"author":"",
 				"site":"",
+				"lang": "",
 				"type": ["article"],
 				"labels":"test 🥳",
 				"read_status": null,
@@ -291,6 +299,7 @@ func TestCollectionAPI(t *testing.T) {
 			"title":"",
 			"author":"",
 			"site":"",
+			"lang": "",
 			"type": ["article"],
 			"labels":"test 🥳",
 			"read_status": null,
@@ -340,6 +349,7 @@ func TestCollectionAPI(t *testing.T) {
 			"title":"",
 			"author":"",
 			"site":"",
+			"lang": "",
 			"type": ["article"],
 			"labels":"test 🥳",
 			"read_status": null,
@@ -393,6 +403,7 @@ func TestCollectionAPI(t *testing.T) {
 			"title":"tt",
 			"author":"",
 			"site":"example.com",
+			"lang": "",
 			"type": ["article", "video"],
 			"labels":"label1 label2 test 🥳",
 			"read_status": ["unread", "reading"],
