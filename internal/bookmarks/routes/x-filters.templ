@@ -42,6 +42,7 @@ templ (c FilterComponents) filters(f *FilterForm) {
 		@c.yesNo(&f.IsArchived, L(ctx).Gettext("Is Archived"))
 		@c.yesNo(&f.IsLoaded, L(ctx).Gettext("Is Loaded"))
 		@c.yesNo(&f.HasLabels, L(ctx).Gettext("With Labels"))
+		@c.yesNo(&f.HasNotes, L(ctx).Gettext("With Notes"))
 		@c.yesNo(&f.HasErrors, L(ctx).Gettext("With Errors"))
 	</div>
 }

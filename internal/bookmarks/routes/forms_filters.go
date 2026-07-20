@@ -32,6 +32,7 @@ type FilterForm struct {
 	IsLoaded   forms.BooleanField  `json:"is_loaded"`
 	HasErrors  forms.BooleanField  `json:"has_errors"`
 	HasLabels  forms.BooleanField  `json:"has_labels"`
+	HasNotes   forms.BooleanField  `json:"has_notes"`
 	Labels     forms.TextField     `json:"labels"      validate:"trim"`
 	Note       forms.TextField     `json:"note"        validate:"trim"`
 	ReadStatus forms.TextListField `json:"read_status" validate:"read_status_choices"`
@@ -218,6 +219,7 @@ func (f *FilterForm) toFilters() bookmarks.Filters {
 		IsLoaded:   boolOrNil(&f.IsLoaded),
 		HasErrors:  boolOrNil(&f.HasErrors),
 		HasLabels:  boolOrNil(&f.HasLabels),
+		HasNotes:   boolOrNil(&f.HasNotes),
 		RangeStart: f.RangeStart.Value(),
 		RangeEnd:   f.RangeEnd.Value(),
 	}
@@ -253,6 +255,7 @@ func (f *FilterForm) fromFilters(filters *bookmarks.Filters) {
 	boolOrNil(&f.IsLoaded, filters.IsLoaded)
 	boolOrNil(&f.HasErrors, filters.HasErrors)
 	boolOrNil(&f.HasLabels, filters.HasLabels)
+	boolOrNil(&f.HasNotes, filters.HasNotes)
 	f.RangeStart.Set(filters.RangeStart)
 	f.RangeEnd.Set(filters.RangeEnd)
 }

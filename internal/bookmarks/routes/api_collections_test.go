@@ -58,6 +58,12 @@ func TestCollectionAPI(t *testing.T) {
 					"value": false,
 					"errors": null
 				},
+				"has_notes": {
+					"is_null": false,
+					"is_bound": false,
+					"value": false,
+					"errors": null
+				},
 				"id": {
 					"is_null": false,
 					"is_bound": false,
@@ -194,6 +200,7 @@ func TestCollectionAPI(t *testing.T) {
 			"is_loaded": null,
 			"has_errors": null,
 			"has_labels": null,
+			"has_notes": null,
 			"range_start": "",
 			"range_end": ""
 		}`),
@@ -242,6 +249,7 @@ func TestCollectionAPI(t *testing.T) {
 				"is_loaded": null,
 				"has_errors": null,
 				"has_labels": null,
+				"has_notes": null,
 				"range_start": "",
 				"range_end": ""
 			}
@@ -291,6 +299,7 @@ func TestCollectionAPI(t *testing.T) {
 			"is_loaded": null,
 			"has_errors": null,
 			"has_labels": null,
+			"has_notes": null,
 			"range_start": "",
 			"range_end": ""
 		}`),
@@ -339,6 +348,7 @@ func TestCollectionAPI(t *testing.T) {
 			"is_loaded": null,
 			"has_errors": null,
 			"has_labels": null,
+			"has_notes": null,
 			"range_start": "",
 			"range_end": ""
 		}`),
@@ -391,6 +401,7 @@ func TestCollectionAPI(t *testing.T) {
 			"is_loaded": null,
 			"has_errors": null,
 			"has_labels": null,
+			"has_notes": null,
 			"range_start": "",
 			"range_end": ""
 		}`),

@@ -126,6 +126,7 @@ func TestFilters(t *testing.T) {
 				"is_loaded": null,
 				"has_errors": null,
 				"has_labels": null,
+				"has_notes": null,
 				"range_start": "",
 				"range_end": ""
 			}`,
@@ -149,6 +150,7 @@ func TestFilters(t *testing.T) {
 				"is_loaded": null,
 				"has_errors": null,
 				"has_labels": null,
+				"has_notes": null,
 				"range_start": "",
 				"range_end": ""
 			}`,
@@ -173,6 +175,7 @@ func TestFilters(t *testing.T) {
 				"is_loaded": null,
 				"has_errors": null,
 				"has_labels": null,
+				"has_notes": null,
 				"range_start": "",
 				"range_end": ""
 			}`,
@@ -197,6 +200,7 @@ func TestFilters(t *testing.T) {
 				"is_loaded": true,
 				"has_errors": null,
 				"has_labels": null,
+				"has_notes": null,
 				"range_start": "",
 				"range_end": ""
 			}`,
@@ -222,6 +226,7 @@ func TestFilters(t *testing.T) {
 				"is_loaded": true,
 				"has_errors": null,
 				"has_labels": null,
+				"has_notes": null,
 				"range_start": "",
 				"range_end": ""
 			}`,
@@ -257,6 +262,12 @@ func TestFilters(t *testing.T) {
 						"errors": null
 					},
 					"has_labels": {
+						"is_null": false,
+						"is_bound": false,
+						"value": false,
+						"errors": null
+					},
+					"has_notes": {
 						"is_null": false,
 						"is_bound": false,
 						"value": false,
@@ -373,6 +384,12 @@ func TestFilters(t *testing.T) {
 						"errors": null
 					},
 					"has_labels": {
+						"is_null": false,
+						"is_bound": false,
+						"value": false,
+						"errors": null
+					},
+					"has_notes": {
 						"is_null": false,
 						"is_bound": false,
 						"value": false,

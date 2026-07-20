@@ -84,6 +84,7 @@ type Collection struct {
 	IsLoaded   *bool         `json:"is_loaded"`
 	HasErrors  *bool         `json:"has_errors"`
 	HasLabels  *bool         `json:"has_labels"`
+	HasNotes   *bool         `json:"has_notes"`
 	RangeStart string        `json:"range_start"`
 	RangeEnd   string        `json:"range_end"`
 }
@@ -113,6 +114,7 @@ func NewCollection(ctx context.Context, c *bookmarks.Collection) *Collection {
 		IsLoaded:   c.Filters.IsLoaded,
 		HasErrors:  c.Filters.HasErrors,
 		HasLabels:  c.Filters.HasLabels,
+		HasNotes:   c.Filters.HasNotes,
 		RangeStart: c.Filters.RangeStart,
 		RangeEnd:   c.Filters.RangeEnd,
 	}
