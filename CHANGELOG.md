@@ -6,6 +6,8 @@
 - Dashboard view
 - "config" command for diagnosis
 - Bookmark list random ordering, by [@bilgincoskun](https://codeberg.org/bilgincoskun)
+- Bookmark's user note
+- Option to share a bookmark with or without annotations and note
 
 ### Improved
 - Refreshed user interface
@@ -19,6 +21,9 @@
 - Autofocus on form submit button when the bookmark list has an "url" query parameter, by [@billieb](https://codeberg.org/billieb)
 - Bookmark placeholder images (with better colors and a letter)
 - Optimized metadata discovery, by [@mislav](https://codeberg.org/mislav)
+- Reset pagination when switching sort option
+- Makefile for NetBSD, by [@m33](https://codeberg.org/m33)
+- Language list in bookmark edit form
 - Periodically run ANALYZE on SQLite
 
 ### Changed
@@ -32,7 +37,7 @@
 
 ### Removed
 - Forwarded authentication
-- Global FiveFilters rule
+- Global FiveFilters ruleset
 
 ## [0.22.3] - 2026-04-16
 ### Improved
