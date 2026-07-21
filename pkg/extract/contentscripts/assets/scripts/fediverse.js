@@ -14,6 +14,11 @@ exports.isActive = function () {
 }
 
 exports.processMeta = function () {
+  // Don't process wordpress posts
+  if (($.properties.link || []).find(x => x["@rel"] == "pingback")) {
+    return
+  }
+
   const link = ($.properties.link || []).find(
     (x) => x["@type"] == "application/activity+json",
   )["@href"]
