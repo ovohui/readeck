@@ -261,6 +261,7 @@ func extractPageHandler(data any) {
 			bookmarks.LoadContentScripts(ex.Log())...,
 		),
 		contentscripts.ProcessDom("documentLoaded"),
+		conditionnalProcessor(!httpclient.IsInCache(ex.Client(), b.URL), meta.ProcessRefreshRedirect),
 		meta.ExtractMeta,
 		meta.ExtractOembed,
 		contentscripts.ProcessMeta,
