@@ -117,6 +117,7 @@ func TestFilters(t *testing.T) {
 				"title": "",
 				"author": "",
 				"site": "",
+				"lang": "",
 				"type": null,
 				"labels": "",
 				"note": "",
@@ -126,6 +127,7 @@ func TestFilters(t *testing.T) {
 				"is_loaded": null,
 				"has_errors": null,
 				"has_labels": null,
+				"has_notes": null,
 				"range_start": "",
 				"range_end": ""
 			}`,
@@ -140,6 +142,7 @@ func TestFilters(t *testing.T) {
 				"title": "--title--",
 				"author": "",
 				"site": "",
+				"lang": "",
 				"type": null,
 				"labels": "ABC",
 				"note": "",
@@ -149,6 +152,7 @@ func TestFilters(t *testing.T) {
 				"is_loaded": null,
 				"has_errors": null,
 				"has_labels": null,
+				"has_notes": null,
 				"range_start": "",
 				"range_end": ""
 			}`,
@@ -164,6 +168,7 @@ func TestFilters(t *testing.T) {
 				"title": "--title--",
 				"author": "",
 				"site": "",
+				"lang": "",
 				"type": ["article", "video"],
 				"labels": "",
 				"note": "",
@@ -173,6 +178,7 @@ func TestFilters(t *testing.T) {
 				"is_loaded": null,
 				"has_errors": null,
 				"has_labels": null,
+				"has_notes": null,
 				"range_start": "",
 				"range_end": ""
 			}`,
@@ -188,6 +194,7 @@ func TestFilters(t *testing.T) {
 				"title": "--title--",
 				"author": "",
 				"site": "",
+				"lang": "",
 				"type": null,
 				"labels": "",
 				"note": "",
@@ -197,6 +204,7 @@ func TestFilters(t *testing.T) {
 				"is_loaded": true,
 				"has_errors": null,
 				"has_labels": null,
+				"has_notes": null,
 				"range_start": "",
 				"range_end": ""
 			}`,
@@ -213,6 +221,7 @@ func TestFilters(t *testing.T) {
 				"title": "--title--",
 				"author": "",
 				"site": "",
+				"lang": "",
 				"type": null,
 				"labels": "XYZ ABC",
 				"note": "",
@@ -222,6 +231,7 @@ func TestFilters(t *testing.T) {
 				"is_loaded": true,
 				"has_errors": null,
 				"has_labels": null,
+				"has_notes": null,
 				"range_start": "",
 				"range_end": ""
 			}`,
@@ -262,6 +272,12 @@ func TestFilters(t *testing.T) {
 						"value": false,
 						"errors": null
 					},
+					"has_notes": {
+						"is_null": false,
+						"is_bound": false,
+						"value": false,
+						"errors": null
+					},
 					"id": {
 						"is_null": false,
 						"is_bound": false,
@@ -287,6 +303,12 @@ func TestFilters(t *testing.T) {
 						"errors": null
 					},
 					"labels": {
+						"is_null": false,
+						"is_bound": false,
+						"value": "",
+						"errors": null
+					},
+					"lang": {
 						"is_null": false,
 						"is_bound": false,
 						"value": "",
@@ -378,6 +400,12 @@ func TestFilters(t *testing.T) {
 						"value": false,
 						"errors": null
 					},
+					"has_notes": {
+						"is_null": false,
+						"is_bound": false,
+						"value": false,
+						"errors": null
+					},
 					"id": {
 						"is_null": false,
 						"is_bound": false,
@@ -403,6 +431,12 @@ func TestFilters(t *testing.T) {
 						"errors": null
 					},
 					"labels": {
+						"is_null": false,
+						"is_bound": false,
+						"value": "",
+						"errors": null
+					},
+					"lang": {
 						"is_null": false,
 						"is_bound": false,
 						"value": "",

@@ -5,6 +5,8 @@
 package routes
 
 import (
+	"codeberg.org/readeck/readeck/internal/server"
+	"codeberg.org/readeck/readeck/locales"
 	"codeberg.org/readeck/readeck/pkg/forms"
 
 	. "codeberg.org/readeck/readeck/components"
@@ -21,6 +23,15 @@ templ (c FilterComponents) filters(f *FilterForm) {
 		@c.autoComplete(&f.Title, L(ctx).Gettext("Title"), "title", false)
 		@c.autoComplete(&f.Author, L(ctx).Gettext("Author"), "author", false)
 		@c.autoComplete(&f.Site, L(ctx).Gettext("Site"), "site", false)
+		@F.TextField(&f.Lang,
+			F.Label(L(ctx).Gettext("Language")),
+			F.InputAttr("list", "data-lang"),
+		)
+		<datalist id="data-lang">
+			for k, v := range locales.AllBase(server.LocaleContext(ctx).Tag) {
+				<option value={ k } label={ v + " (" + k + ")" }></option>
+			}
+		</datalist>
 		@c.autoComplete(&f.Labels, L(ctx).Gettext("Label"), "label", true)
 		@F.TextField(&f.Note, F.Label(L(ctx).Gettext("Note")))
 		@F.TimeTokenField(&f.RangeStart, F.Label("From date"),
@@ -42,6 +53,7 @@ templ (c FilterComponents) filters(f *FilterForm) {
 		@c.yesNo(&f.IsArchived, L(ctx).Gettext("Is Archived"))
 		@c.yesNo(&f.IsLoaded, L(ctx).Gettext("Is Loaded"))
 		@c.yesNo(&f.HasLabels, L(ctx).Gettext("With Labels"))
+		@c.yesNo(&f.HasNotes, L(ctx).Gettext("With Notes"))
 		@c.yesNo(&f.HasErrors, L(ctx).Gettext("With Errors"))
 	</div>
 }

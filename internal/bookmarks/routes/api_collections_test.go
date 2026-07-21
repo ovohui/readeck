@@ -58,6 +58,12 @@ func TestCollectionAPI(t *testing.T) {
 					"value": false,
 					"errors": null
 				},
+				"has_notes": {
+					"is_null": false,
+					"is_bound": false,
+					"value": false,
+					"errors": null
+				},
 				"id": {
 					"is_null": false,
 					"is_bound": false,
@@ -89,6 +95,12 @@ func TestCollectionAPI(t *testing.T) {
 					"errors": null
 				},
 				"labels": {
+					"is_null": false,
+					"is_bound": false,
+					"value": "",
+					"errors": null
+				},
+				"lang": {
 					"is_null": false,
 					"is_bound": false,
 					"value": "",
@@ -186,6 +198,7 @@ func TestCollectionAPI(t *testing.T) {
 			"title":"",
 			"author":"",
 			"site":"",
+			"lang": "",
 			"type": ["article"],
 			"labels":"test 🥳",
 			"read_status": null,
@@ -194,6 +207,7 @@ func TestCollectionAPI(t *testing.T) {
 			"is_loaded": null,
 			"has_errors": null,
 			"has_labels": null,
+			"has_notes": null,
 			"range_start": "",
 			"range_end": ""
 		}`),
@@ -234,6 +248,7 @@ func TestCollectionAPI(t *testing.T) {
 				"title":"",
 				"author":"",
 				"site":"",
+				"lang": "",
 				"type": ["article"],
 				"labels":"test 🥳",
 				"read_status": null,
@@ -242,6 +257,7 @@ func TestCollectionAPI(t *testing.T) {
 				"is_loaded": null,
 				"has_errors": null,
 				"has_labels": null,
+				"has_notes": null,
 				"range_start": "",
 				"range_end": ""
 			}
@@ -283,6 +299,7 @@ func TestCollectionAPI(t *testing.T) {
 			"title":"",
 			"author":"",
 			"site":"",
+			"lang": "",
 			"type": ["article"],
 			"labels":"test 🥳",
 			"read_status": null,
@@ -291,6 +308,7 @@ func TestCollectionAPI(t *testing.T) {
 			"is_loaded": null,
 			"has_errors": null,
 			"has_labels": null,
+			"has_notes": null,
 			"range_start": "",
 			"range_end": ""
 		}`),
@@ -331,6 +349,7 @@ func TestCollectionAPI(t *testing.T) {
 			"title":"",
 			"author":"",
 			"site":"",
+			"lang": "",
 			"type": ["article"],
 			"labels":"test 🥳",
 			"read_status": null,
@@ -339,6 +358,7 @@ func TestCollectionAPI(t *testing.T) {
 			"is_loaded": null,
 			"has_errors": null,
 			"has_labels": null,
+			"has_notes": null,
 			"range_start": "",
 			"range_end": ""
 		}`),
@@ -383,6 +403,7 @@ func TestCollectionAPI(t *testing.T) {
 			"title":"tt",
 			"author":"",
 			"site":"example.com",
+			"lang": "",
 			"type": ["article", "video"],
 			"labels":"label1 label2 test 🥳",
 			"read_status": ["unread", "reading"],
@@ -391,6 +412,7 @@ func TestCollectionAPI(t *testing.T) {
 			"is_loaded": null,
 			"has_errors": null,
 			"has_labels": null,
+			"has_notes": null,
 			"range_start": "",
 			"range_end": ""
 		}`),

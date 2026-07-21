@@ -7,11 +7,13 @@ package bookmarks
 import (
 	"database/sql/driver"
 	"encoding/json"
+	"strings"
 	"time"
 
 	"github.com/doug-martin/goqu/v9"
 	goquexp "github.com/doug-martin/goqu/v9/exp"
 
+	"codeberg.org/readeck/readeck/internal/db"
 	"codeberg.org/readeck/readeck/internal/db/exp"
 	"codeberg.org/readeck/readeck/internal/db/types"
 	"codeberg.org/readeck/readeck/internal/searchstring"
@@ -33,6 +35,7 @@ type Filters struct {
 	Title      string        `json:"title"`
 	Author     string        `json:"author"`
 	Site       string        `json:"site"`
+	Lang       string        `json:"lang"`
 	Type       types.Strings `json:"type"`
 	Labels     string        `json:"labels"`
 	Note       string        `json:"note"`
@@ -42,6 +45,7 @@ type Filters struct {
 	IsLoaded   *bool         `json:"is_loaded"`
 	HasErrors  *bool         `json:"has_errors"`
 	HasLabels  *bool         `json:"has_labels"`
+	HasNotes   *bool         `json:"has_notes"`
 	RangeStart string        `json:"range_start"`
 	RangeEnd   string        `json:"range_end"`
 }
@@ -120,6 +124,7 @@ func (f Filters) ToMap() map[string]any {
 		"title":       f.Title,
 		"author":      f.Author,
 		"site":        f.Site,
+		"lang":        f.Lang,
 		"type":        []string(f.Type),
 		"labels":      f.Labels,
 		"note":        f.Note,
@@ -129,6 +134,7 @@ func (f Filters) ToMap() map[string]any {
 		"is_loaded":   f.IsLoaded,
 		"has_errors":  f.HasErrors,
 		"has_labels":  f.HasLabels,
+		"has_notes":   f.HasNotes,
 		"range_start": f.RangeStart,
 		"range_end":   f.RangeEnd,
 	}
@@ -187,6 +193,11 @@ func (f Filters) ToSelectDataSet(ds *goqu.SelectDataset) *goqu.SelectDataset {
 		))
 	}
 
+	// lang filter
+	if f.Lang != "" {
+		ds = ds.Where(goqu.C("lang").Table("b").ILike(strings.ReplaceAll(f.Lang, "*", "%")))
+	}
+
 	// read_progress
 	if len(f.ReadStatus) > 0 {
 		or := goqu.Or()
@@ -243,6 +254,18 @@ func (f Filters) ToSelectDataSet(ds *goqu.SelectDataset) *goqu.SelectDataset {
 		))
 	}
 
+	// has notes
+	// note: we skip this when already searching in the notes
+	if f.HasNotes != nil && (!*f.HasNotes || f.Note == "") {
+		ds = ds.Where(exp.Boolean(
+			goqu.Or(
+				goqu.C("note").Table("b").Neq(""),
+				goqu.V(0).Lt(f.countAnnotations()),
+			),
+			*f.HasNotes,
+		))
+	}
+
 	// type
 	if len(f.Type) > 0 {
 		or := goqu.Or()
@@ -253,6 +276,51 @@ func (f Filters) ToSelectDataSet(ds *goqu.SelectDataset) *goqu.SelectDataset {
 	}
 
 	return ds
+}
+
+func (f *Filters) countAnnotations() *goqu.SelectDataset {
+	switch db.Driver().Dialect() {
+	case "postgres":
+		return goqu.
+			Select(goqu.COUNT(goqu.L("x->>'note'"))).
+			From(
+				goqu.Func(
+					"jsonb_array_elements",
+					goqu.Case().
+						Value(goqu.Func(
+							"jsonb_typeof",
+							goqu.C("annotations").Table("b"),
+						)).
+						When(goqu.L("'array'"), goqu.C("annotations").Table("b")).Else(goqu.L("'[]'")),
+				).As("x"),
+			).
+			Where(goqu.L("x->>'note'").Neq(goqu.L("''"))).Prepared(true)
+	case "sqlite3":
+		return goqu.
+			Select(goqu.COUNT(goqu.T("x").Col("value"))).
+			From(
+				goqu.Func(
+					"json_each",
+					goqu.Case().
+						Value(goqu.Func(
+							"json_type",
+							goqu.Case().
+								Value(goqu.Func("json_valid", goqu.C("annotations").Table("b"))).
+								When(goqu.V(true), goqu.C("annotations").Table("b")).
+								Else("0"),
+						)).
+						When(
+							goqu.V("array"),
+							goqu.C("annotations").Table("b"),
+						).Else("[]"),
+				).As("x"),
+			).
+			Where(goqu.Func("json_extract", goqu.C("value").Table("x"), "$.note").Neq("")).
+			Prepared(true)
+
+	}
+
+	return nil
 }
 
 var searchConfig = map[string]*searchstring.BuilderConfig{
