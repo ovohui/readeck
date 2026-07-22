@@ -7,16 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2025-12-18 21:31+0100\n"
+"POT-Creation-Date: 2026-07-22 09:42+0200\n"
 "PO-Revision-Date: 2026-06-24 13:15+0000\n"
 "Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
-"Language-Team: French <https://translate.codeberg.org/projects/readeck/documentation/fr/>\n"
 "Language: fr\n"
+"Language-Team: French <https://translate.codeberg.org/projects/readeck/documentation/fr/>\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -259,6 +258,7 @@ msgid "You can combine the following filters:"
 msgstr "Vous pouvez combiner les filtres suivants :"
 
 #: en/bookmark-list.md:114
+#, fuzzy
 msgid ""
 "- **Search**\\\n"
 "  Search in the bookmark's text, its title, its authors, its site name and domain and the labels.\n"
@@ -268,9 +268,13 @@ msgid ""
 "  Search in the author list only.\n"
 "- **Site**\\\n"
 "  Search in the site title and the site domain name.\n"
+"- **Language**\\\n"
+"  Filter the list by bookmark language as an two letter code.\n"
 "- **Label**\\\n"
 "  Search for specific labels.\n"
-"- **Is Favorite**, **Is Archived**, **Type**\\\n"
+"- **Note**\\\n"
+"  Search for a note or annotation.\n"
+"- **Type**, **Progress**, **Is Favorite**, **Is Archived**, **Is Loaded**, **With Labels**, **With Notes**, **With Errors** \\\n"
 "  This filters let you restrict your search to any of these criteria.\n"
 "- **From date**, **To date**\\\n"
 "  This last filters let you restrict from when and to when the bookmark was saved. For example, this lets you retrieve the bookmark list saved during the past 4 weeks but not after the last week."
@@ -290,15 +294,15 @@ msgstr ""
 "- **Depuis**, **Jusqu'à**\\\n"
 "  Ces derniers filtres vous permettent de limiter les résultats par date de création des bookmarks. Par exemple, vous pouvez obtenir la liste des bookmarks créés pendant les 4 dernières semaines mais pas après la dernière semaine."
 
-#: en/bookmark-list.md:129
+#: en/bookmark-list.md:133
 msgid "### Search query"
 msgstr "### Critères de recherche"
 
-#: en/bookmark-list.md:131
+#: en/bookmark-list.md:135
 msgid "The **Search**, **Title**, **Author**, **Site** and **Label** fields understand search criteria the same way:"
 msgstr "Les champs **Recherche**, **Titre**, **Auteur**, **Site** et **Label** comprennent les critères de recherche de la même façon :"
 
-#: en/bookmark-list.md:133
+#: en/bookmark-list.md:137
 msgid ""
 "- `startled cat` will find the content with the words **startled** and **cat**\n"
 "- `\"startled cat\"` will find the content with the exact words **startled cat** together.\n"
@@ -310,15 +314,15 @@ msgstr ""
 "- `cat*` trouvera le contenu avec les mots commençant par **cat** (cat, catnip et caterpillar, par exemple).\n"
 "- `-startled cat` trouvera le contenu avec le mot **cat** mais PAS le mot **startled**."
 
-#: en/bookmark-list.md:139
+#: en/bookmark-list.md:143
 msgid "After you performed a search, you can save it into a new [collection](./collections.md) to make it permanent."
 msgstr "Après avoir effectué une recherche, vous pouvez l'enregistrer en tant que [collection](./collections.md) pour la rendre permanente."
 
-#: en/bookmark-list.md:141
+#: en/bookmark-list.md:145
 msgid "## Export and Import Bookmarks"
 msgstr "## Exporter et importer des bookmarks"
 
-#: en/bookmark-list.md:143
+#: en/bookmark-list.md:147
 msgid ""
 "![Menu](./img/bookmark-list-menu.webp)\n"
 "Bookmark list menu"
@@ -326,19 +330,19 @@ msgstr ""
 "![Menu](./img/bookmark-list-menu.webp)\n"
 "Menu de la liste des bookmarks"
 
-#: en/bookmark-list.md:146
+#: en/bookmark-list.md:150
 msgid "### Export bookmarks"
 msgstr "### Exporter des bookmarks"
 
-#: en/bookmark-list.md:148
+#: en/bookmark-list.md:152
 msgid "The menu button next to the filters button let you download an EPUB file of the current list of bookmarks. It exports one e-book containing all the articles organized in chapters."
 msgstr "Le bouton de menu près des filtres vous permet de télécharger un fichier EPUB de la liste de bookmarks affichés. Il créer un e-book contenant tous les articles organisés en chapitres."
 
-#: en/bookmark-list.md:150
+#: en/bookmark-list.md:154
 msgid "### Import bookmarks"
 msgstr "### Importer des bookmarks"
 
-#: en/bookmark-list.md:152
+#: en/bookmark-list.md:156
 msgid "In the same menu, you'll find a [Import bookmarks](readeck-instance://bookmarks/import) link. It will take you to an import wizard that lets you import your existing bookmarks from various sources."
 msgstr "Dans le même menu, vous trouverez un lien [Importer des bookmarks](readeck-instance://bookmarks/import). Il vous mènera à un assistant vous permettant d'importer des liens existants depuis différentes sources."
 
@@ -381,11 +385,13 @@ msgid "## Navigation and presentation settings"
 msgstr "## Navigation et paramètres de présentation"
 
 #: en/bookmark.md:32
-msgid "On top of the bookmark view, a link takes you back to the previous page."
+#, fuzzy
+msgid "On the side or on top of the bookmark view, a link takes you back to the previous page."
 msgstr "Au dessus de la vue principale, un lien vous permet de retourner à la page précédente."
 
 #: en/bookmark.md:34
-msgid "If the bookmark contains an article, a button on the other side lets you change some typography settings."
+#, fuzzy
+msgid "If the bookmark contains an article, a button lets you change some typography settings."
 msgstr "Si le bookmark contient un article, un bouton sur le côté gauche vous permet de modifier les paramètres de présentation."
 
 #: en/bookmark.md:36
@@ -405,54 +411,54 @@ msgstr ""
 "Ces paramètres sont sauvegardés automatiquement et seront appliqués à n'importe quel article consulté plus tard."
 
 #: en/bookmark.md:43
-msgid "## Change the title"
-msgstr "## Modifier le titre"
+msgid "## Edit information"
+msgstr ""
 
 #: en/bookmark.md:45
-msgid "The bookmark's title is automatically grabbed when you create it. If, for some reason, you need something else, you can change it by clicking on it and then click the button on the title side."
-msgstr "Le titre d'un bookmark est automatiquement récupéré lors de sa création. Si, pour diverses raisons, vous souhaitez le corriger, vous pouvez le modifier en cliquant dessus puis en validant vos changements avec le bouton à côté du titre."
+msgid "Several information such as the title or description are automatically grabbed when you create a bookmark. If you need to change these properties, you can click on the edit side button to open a form."
+msgstr ""
 
-#: en/bookmark.md:48
+#: en/bookmark.md:47
 msgid "## Actions"
 msgstr "## Actions"
 
-#: en/bookmark.md:50
+#: en/bookmark.md:49
 msgid "On the bookmark sidebar, you can perform actions."
 msgstr "La barre latérale d'un bookmark propose diverses actions."
 
-#: en/bookmark.md:52
+#: en/bookmark.md:51
 msgid "### Favorite"
 msgstr "### Favori"
 
-#: en/bookmark.md:54
+#: en/bookmark.md:53
 msgid "This toggles the favorite status of the bookmark."
 msgstr "Ceci change l'état favori du bookmark."
 
-#: en/bookmark.md:56
+#: en/bookmark.md:55
 msgid "### Archive"
 msgstr "### Archive"
 
-#: en/bookmark.md:58
+#: en/bookmark.md:57
 msgid "This moves the bookmark to the archives (or removes it from there)."
 msgstr "Ceci déplace le bookmark dans les archive (ou l'en retire s'il y est déjà)."
 
-#: en/bookmark.md:60
+#: en/bookmark.md:59
 msgid "### Share"
 msgstr "### Partage"
 
-#: en/bookmark.md:62
+#: en/bookmark.md:61
 msgid "The share button opens a menu from which you can create a link if you want to share an article with someone."
 msgstr "Le bouton de partage ouvre un menu depuis lequel vous pouvez créer un lien que vous pouvez partager avec un ami."
 
-#: en/bookmark.md:64
+#: en/bookmark.md:63
 msgid "On the same menu, you can export your bookmark (only EPUB for now) to read it on a different device."
 msgstr "Dans le même menu, vous pouvez exporter votre bookmark (seulement EPUB pour le moment) pour le lire sur un autre périphérique."
 
-#: en/bookmark.md:67
+#: en/bookmark.md:66
 msgid "### Delete"
 msgstr "### Supprimer"
 
-#: en/bookmark.md:69
+#: en/bookmark.md:68
 msgid ""
 "This marks the bookmark for deletion.\\\n"
 "No worries if you click on this by mistake! This action can be canceled before actual deletion."
@@ -460,15 +466,15 @@ msgstr ""
 "Ceci marque le bookmark pour suppression.\\\n"
 "Aucune inquiétude si vous cliquez par erreur ! Cette action peut être annulée avant que la suppression soit effective."
 
-#: en/bookmark.md:73
+#: en/bookmark.md:72
 msgid "## Labels"
 msgstr "## Labels"
 
-#: en/bookmark.md:75
+#: en/bookmark.md:74
 msgid "You can add as many labels as you want to a bookmark. To do so, enter some text in the label field and click on **Add label**. There is no limit as to what can be a label. You can even add emojis if you like them."
 msgstr "Vous pouvez ajouter autant de labels que vous voulez à un bookmark. Pour cela, indiquez le texte du label dans le champ correspondant et cliquez sur **Ajouter un label**. Il n'y a aucune limite quant aux caractères permis dans un label. Vous pouvez même utiliser des emojis si vous le souhaitez."
 
-#: en/bookmark.md:77
+#: en/bookmark.md:76
 msgid ""
 "![Bookmark labels form](./img/bookmark-labels.webp)\n"
 "Add a new label."
@@ -476,15 +482,15 @@ msgstr ""
 "![Formulaire de labels](./img/bookmark-labels.webp)\n"
 "Ajouter un label."
 
-#: en/bookmark.md:80
+#: en/bookmark.md:79
 msgid "Please read the [Labels](./labels.md) section for more information."
 msgstr "Veuillez consulter la section [Labels](./labels.md) pour plus d'informations."
 
-#: en/bookmark.md:82
+#: en/bookmark.md:81
 msgid "## Highlights"
 msgstr "## Annotations {#highlights}"
 
-#: en/bookmark.md:84
+#: en/bookmark.md:83
 msgid ""
 "Found some interesting part in an article? You can highlight it!\\\n"
 "When you select any text in the article, a menu appears that lets you create a new highlight."
@@ -492,7 +498,7 @@ msgstr ""
 "Vous avez trouvé une partie intéressante dans un article et souhaitez la marquer comme telle ; vous pouvez l'annoter.\\\n"
 "Quand vous sélectionnez du texte dans un article, un menu apparaît et vous permet de créer une annotation."
 
-#: en/bookmark.md:87
+#: en/bookmark.md:86
 msgid ""
 "![Bookmark highlight creation](./img/bookmark-highlight.webp)\n"
 "Create a new highlight."
@@ -500,11 +506,11 @@ msgstr ""
 "![Création d'une annotation](./img/bookmark-highlight.webp)\n"
 "Créer une annotation."
 
-#: en/bookmark.md:90
+#: en/bookmark.md:89
 msgid "Your highlights appear in the sidebar."
 msgstr "Vos annotations apparaissent dans la barre latérale."
 
-#: en/bookmark.md:92
+#: en/bookmark.md:91
 msgid "When you need to remove an highlight, you can do it from the sidebar or by selecting it in the article."
 msgstr "Quand vous voulez supprimer une annotation, vous pouvez le faire depuis la barre latérale ou en la sélectionnant dans l'article."
 
@@ -850,3 +856,10 @@ msgstr "À la place, vous pouvez donner votre nom d'utilisateur et un jeton de v
 
 #~ msgid "**Note**: although you can use an application password to access the API, it is recommended to use an API Token when possible."
 #~ msgstr "**Note** : même si vous pouvez accéder à l'API avec un mot de passe d'application, il est préférable d'utiliser les jetons API quand c'est possible."
+
+#~ msgid "## Change the title"
+#~ msgstr "## Modifier le titre"
+
+#~ msgid "The bookmark's title is automatically grabbed when you create it. If, for some reason, you need something else, you can change it by clicking on it and then click the button on the title side."
+#~ msgstr "Le titre d'un bookmark est automatiquement récupéré lors de sa création. Si, pour diverses raisons, vous souhaitez le corriger, vous pouvez le modifier en cliquant dessus puis en validant vos changements avec le bouton à côté du titre."
+

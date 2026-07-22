@@ -10,16 +10,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2025-12-18 21:31+0100\n"
+"POT-Creation-Date: 2026-07-22 09:42+0200\n"
 "PO-Revision-Date: 2026-06-24 13:17+0000\n"
 "Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
-"Language-Team: Belarusian <https://translate.codeberg.org/projects/readeck/documentation/be/>\n"
 "Language: be\n"
+"Language-Team: Belarusian <https://translate.codeberg.org/projects/readeck/documentation/be/>\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -262,6 +261,7 @@ msgid "You can combine the following filters:"
 msgstr "Можна спалучаць наступныя фільтры:"
 
 #: en/bookmark-list.md:114
+#, fuzzy
 msgid ""
 "- **Search**\\\n"
 "  Search in the bookmark's text, its title, its authors, its site name and domain and the labels.\n"
@@ -271,9 +271,13 @@ msgid ""
 "  Search in the author list only.\n"
 "- **Site**\\\n"
 "  Search in the site title and the site domain name.\n"
+"- **Language**\\\n"
+"  Filter the list by bookmark language as an two letter code.\n"
 "- **Label**\\\n"
 "  Search for specific labels.\n"
-"- **Is Favorite**, **Is Archived**, **Type**\\\n"
+"- **Note**\\\n"
+"  Search for a note or annotation.\n"
+"- **Type**, **Progress**, **Is Favorite**, **Is Archived**, **Is Loaded**, **With Labels**, **With Notes**, **With Errors** \\\n"
 "  This filters let you restrict your search to any of these criteria.\n"
 "- **From date**, **To date**\\\n"
 "  This last filters let you restrict from when and to when the bookmark was saved. For example, this lets you retrieve the bookmark list saved during the past 4 weeks but not after the last week."
@@ -293,15 +297,15 @@ msgstr ""
 "- **З даты**, **Па дату**\\\n"
 "  Гэтыя апошнія фільтры дазваляюць абмежаваць перыяд, калі была захавана закладка. Напрыклад, гэта дазваляе атрымаць спіс закладак, захаваных за апошнія 4 тыдні, але не пазней за мінулы тыдзень."
 
-#: en/bookmark-list.md:129
+#: en/bookmark-list.md:133
 msgid "### Search query"
 msgstr "### Пошукавы запыт"
 
-#: en/bookmark-list.md:131
+#: en/bookmark-list.md:135
 msgid "The **Search**, **Title**, **Author**, **Site** and **Label** fields understand search criteria the same way:"
 msgstr "Палі **Пошук**, **Загаловак**, **Аўтар**, **Сайт** і **Метка** успрымаюць крытэрыі пошуку аднолькава:"
 
-#: en/bookmark-list.md:133
+#: en/bookmark-list.md:137
 msgid ""
 "- `startled cat` will find the content with the words **startled** and **cat**\n"
 "- `\"startled cat\"` will find the content with the exact words **startled cat** together.\n"
@@ -313,15 +317,15 @@ msgstr ""
 "- `кот*` будзе шукаць усё са словамі, што пачынаюцца на **кот** (кот, коткі, Котлас і г.д.).\n"
 "- `-палоханы кот` будзе шукаць са словам **кот**, але БЕЗ слова **палоханы**."
 
-#: en/bookmark-list.md:139
+#: en/bookmark-list.md:143
 msgid "After you performed a search, you can save it into a new [collection](./collections.md) to make it permanent."
 msgstr "Пасля выканання пошуку вы можаце захаваць яго ў новую [калекцыю](./collections.md), каб зрабіць яго пастаянным."
 
-#: en/bookmark-list.md:141
+#: en/bookmark-list.md:145
 msgid "## Export and Import Bookmarks"
 msgstr "## Экспарт і імпарт закладак"
 
-#: en/bookmark-list.md:143
+#: en/bookmark-list.md:147
 msgid ""
 "![Menu](./img/bookmark-list-menu.webp)\n"
 "Bookmark list menu"
@@ -329,19 +333,19 @@ msgstr ""
 "![Меню](./img/bookmark-list-menu.webp)\n"
 "Меню спіса закладак"
 
-#: en/bookmark-list.md:146
+#: en/bookmark-list.md:150
 msgid "### Export bookmarks"
 msgstr "### Экспарт закладак"
 
-#: en/bookmark-list.md:148
+#: en/bookmark-list.md:152
 msgid "The menu button next to the filters button let you download an EPUB file of the current list of bookmarks. It exports one e-book containing all the articles organized in chapters."
 msgstr "Кнопка меню побач з кнопкай фільтраў дазваляе спампаваць EPUB-файл бягучага спіса закладак. Яна экспартуе адну электронную кнігу, якая змяшчае ўсе артыкулы, размеркаваныя па раздзелах."
 
-#: en/bookmark-list.md:150
+#: en/bookmark-list.md:154
 msgid "### Import bookmarks"
 msgstr "### Імпарт закладак"
 
-#: en/bookmark-list.md:152
+#: en/bookmark-list.md:156
 msgid "In the same menu, you'll find a [Import bookmarks](readeck-instance://bookmarks/import) link. It will take you to an import wizard that lets you import your existing bookmarks from various sources."
 msgstr "У гэтым жа меню вы знойдзеце спасылку [Імпартаваць закладкі](readeck-instance://bookmarks/import). Яна накіруе вас да майстра імпарту, які дазволіць перанесці вашыя існуючыя закладкі з розных крыніц."
 
@@ -384,11 +388,13 @@ msgid "## Navigation and presentation settings"
 msgstr "## Навігацыя і налады адлюстравання"
 
 #: en/bookmark.md:32
-msgid "On top of the bookmark view, a link takes you back to the previous page."
+#, fuzzy
+msgid "On the side or on top of the bookmark view, a link takes you back to the previous page."
 msgstr "У верхняй частцы прагляду закладкі спасылка вяртае вас на папярэднюю старонку."
 
 #: en/bookmark.md:34
-msgid "If the bookmark contains an article, a button on the other side lets you change some typography settings."
+#, fuzzy
+msgid "If the bookmark contains an article, a button lets you change some typography settings."
 msgstr "Калі закладка змяшчае артыкул, кнопка з іншага боку дазваляе змяніць некаторыя налады тыпаграфікі."
 
 #: en/bookmark.md:36
@@ -408,54 +414,54 @@ msgstr ""
 "Гэтыя налады захоўваюцца аўтаматычна і будуць прымяняцца да любога артыкула, які вы будзеце чытаць пазней."
 
 #: en/bookmark.md:43
-msgid "## Change the title"
-msgstr "## Змяніць загаловак"
+msgid "## Edit information"
+msgstr ""
 
 #: en/bookmark.md:45
-msgid "The bookmark's title is automatically grabbed when you create it. If, for some reason, you need something else, you can change it by clicking on it and then click the button on the title side."
-msgstr "Назва закладкі падцягваецца аўтаматычна пры яе стварэнні. Калі па нейкай прычыне вам трэба іншая назва, вы можаце змяніць яе, клікнуўшы па ёй, а затым націснуўшы на кнопку побач з назвай."
+msgid "Several information such as the title or description are automatically grabbed when you create a bookmark. If you need to change these properties, you can click on the edit side button to open a form."
+msgstr ""
 
-#: en/bookmark.md:48
+#: en/bookmark.md:47
 msgid "## Actions"
 msgstr "## Дзеянні"
 
-#: en/bookmark.md:50
+#: en/bookmark.md:49
 msgid "On the bookmark sidebar, you can perform actions."
 msgstr "На бакавой панэлі закладак можна выконваць розныя дзеянні."
 
-#: en/bookmark.md:52
+#: en/bookmark.md:51
 msgid "### Favorite"
 msgstr "### Абранае"
 
-#: en/bookmark.md:54
+#: en/bookmark.md:53
 msgid "This toggles the favorite status of the bookmark."
 msgstr "Гэта пераключае статус закладкі як абранай."
 
-#: en/bookmark.md:56
+#: en/bookmark.md:55
 msgid "### Archive"
 msgstr "### Архіў"
 
-#: en/bookmark.md:58
+#: en/bookmark.md:57
 msgid "This moves the bookmark to the archives (or removes it from there)."
 msgstr "Гэта перамяшчае закладку ў архіў (або выдаляе яе адтуль)."
 
-#: en/bookmark.md:60
+#: en/bookmark.md:59
 msgid "### Share"
 msgstr "### Падзяліцца"
 
-#: en/bookmark.md:62
+#: en/bookmark.md:61
 msgid "The share button opens a menu from which you can create a link if you want to share an article with someone."
 msgstr "Кнопка «Падзяліцца» адкрывае меню, у якім вы можаце стварыць спасылку, калі хочаце падзяліцца артыкулам з кім-небудзь."
 
-#: en/bookmark.md:64
+#: en/bookmark.md:63
 msgid "On the same menu, you can export your bookmark (only EPUB for now) to read it on a different device."
 msgstr "У гэтым жа меню вы можаце экспартаваць сваю закладку (пакуль толькі ў фармаце EPUB), каб прачытаць яе на іншай прыладзе."
 
-#: en/bookmark.md:67
+#: en/bookmark.md:66
 msgid "### Delete"
 msgstr "### Выдаліць"
 
-#: en/bookmark.md:69
+#: en/bookmark.md:68
 msgid ""
 "This marks the bookmark for deletion.\\\n"
 "No worries if you click on this by mistake! This action can be canceled before actual deletion."
@@ -463,15 +469,15 @@ msgstr ""
 "Гэта пазначае закладку для выдалення.\\\n"
 "Не хвалюйцеся, калі вы націснулі сюды памылкова! Гэта дзеянне можна адмяніць да моманту фактычнага выдалення."
 
-#: en/bookmark.md:73
+#: en/bookmark.md:72
 msgid "## Labels"
 msgstr "## Меткі"
 
-#: en/bookmark.md:75
+#: en/bookmark.md:74
 msgid "You can add as many labels as you want to a bookmark. To do so, enter some text in the label field and click on **Add label**. There is no limit as to what can be a label. You can even add emojis if you like them."
 msgstr "Вы можаце дадаваць да закладкі колькі заўгодна метак. Каб зрабіць гэта, увядзіце тэкст у поле меткі і націсніце **Дадаць метку**. Няма ніякіх абмежаванняў на тое, што можа быць меткай. Вы нават можаце дадаваць эмодзі, калі яны вам падабаюцца."
 
-#: en/bookmark.md:77
+#: en/bookmark.md:76
 msgid ""
 "![Bookmark labels form](./img/bookmark-labels.webp)\n"
 "Add a new label."
@@ -479,15 +485,15 @@ msgstr ""
 "![Форма метак для закладак](./img/bookmark-labels.webp)\n"
 "Дадаць нову метку."
 
-#: en/bookmark.md:80
+#: en/bookmark.md:79
 msgid "Please read the [Labels](./labels.md) section for more information."
 msgstr "Калі ласка, прачытайце раздзел [Меткі](./labels.md) для атрымання дадатковай інфармацыі."
 
-#: en/bookmark.md:82
+#: en/bookmark.md:81
 msgid "## Highlights"
 msgstr "## Вытрымкі"
 
-#: en/bookmark.md:84
+#: en/bookmark.md:83
 msgid ""
 "Found some interesting part in an article? You can highlight it!\\\n"
 "When you select any text in the article, a menu appears that lets you create a new highlight."
@@ -495,7 +501,7 @@ msgstr ""
 "У артыкуле ёсць цікавы кавалак? Зрабіце вытрымку!\n"
 "Для гэтага вылучыце тэкст, і з'явіцца меню з прапановай зрабіць вытрымку."
 
-#: en/bookmark.md:87
+#: en/bookmark.md:86
 msgid ""
 "![Bookmark highlight creation](./img/bookmark-highlight.webp)\n"
 "Create a new highlight."
@@ -503,11 +509,11 @@ msgstr ""
 "![Так робяць вытрымку](./img/bookmark-highlight.webp)\n"
 "Стварэнне вытрымкі."
 
-#: en/bookmark.md:90
+#: en/bookmark.md:89
 msgid "Your highlights appear in the sidebar."
 msgstr "Вашы вытрымкі з’яўляюцца на бакавой панэлі."
 
-#: en/bookmark.md:92
+#: en/bookmark.md:91
 msgid "When you need to remove an highlight, you can do it from the sidebar or by selecting it in the article."
 msgstr "Калі вам трэба выдаліць вытрымку, вы можаце зрабіць гэта праз бакавую панэль або выбраўшы яе непасрэдна ў артыкуле."
 
@@ -838,3 +844,10 @@ msgstr "Калі вам трэба даць доступ да свайго ўл�
 #: en/user-profile.md:21
 msgid "Instead, you can give your username and a token of your choice as authentication credentials."
 msgstr "Замест гэтага вы можаце падаць сваё імя карыстальніка і абраны токен у якасці даных для аўтэнтыфікацыі."
+
+#~ msgid "## Change the title"
+#~ msgstr "## Змяніць загаловак"
+
+#~ msgid "The bookmark's title is automatically grabbed when you create it. If, for some reason, you need something else, you can change it by clicking on it and then click the button on the title side."
+#~ msgstr "Назва закладкі падцягваецца аўтаматычна пры яе стварэнні. Калі па нейкай прычыне вам трэба іншая назва, вы можаце змяніць яе, клікнуўшы па ёй, а затым націснуўшы на кнопку побач з назвай."
+

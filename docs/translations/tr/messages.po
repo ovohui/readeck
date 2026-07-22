@@ -7,16 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2025-12-18 21:31+0100\n"
+"POT-Creation-Date: 2026-07-22 09:42+0200\n"
 "PO-Revision-Date: 2026-06-24 13:16+0000\n"
 "Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
-"Language-Team: Turkish <https://translate.codeberg.org/projects/readeck/documentation/tr/>\n"
 "Language: tr\n"
+"Language-Team: Turkish <https://translate.codeberg.org/projects/readeck/documentation/tr/>\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -259,6 +258,7 @@ msgid "You can combine the following filters:"
 msgstr "Aşağıdaki filtreleri birleştirebilirsiniz:"
 
 #: en/bookmark-list.md:114
+#, fuzzy
 msgid ""
 "- **Search**\\\n"
 "  Search in the bookmark's text, its title, its authors, its site name and domain and the labels.\n"
@@ -268,9 +268,13 @@ msgid ""
 "  Search in the author list only.\n"
 "- **Site**\\\n"
 "  Search in the site title and the site domain name.\n"
+"- **Language**\\\n"
+"  Filter the list by bookmark language as an two letter code.\n"
 "- **Label**\\\n"
 "  Search for specific labels.\n"
-"- **Is Favorite**, **Is Archived**, **Type**\\\n"
+"- **Note**\\\n"
+"  Search for a note or annotation.\n"
+"- **Type**, **Progress**, **Is Favorite**, **Is Archived**, **Is Loaded**, **With Labels**, **With Notes**, **With Errors** \\\n"
 "  This filters let you restrict your search to any of these criteria.\n"
 "- **From date**, **To date**\\\n"
 "  This last filters let you restrict from when and to when the bookmark was saved. For example, this lets you retrieve the bookmark list saved during the past 4 weeks but not after the last week."
@@ -290,15 +294,15 @@ msgstr ""
 "- **Başlangıç tarihi**, **Bitiş tarihi**\\\n"
 "  Bu son filtreler, yer iminin ne zamandan ne zamana kadar kaydedildiğini kısıtlamanıza olanak tanır. Örneğin, bu, geçmiş 4 hafta boyunca kaydedilen ancak geçen haftadan sonra kaydedilmeyen yer imi listesini almanızı sağlar."
 
-#: en/bookmark-list.md:129
+#: en/bookmark-list.md:133
 msgid "### Search query"
 msgstr "### Arama sorgusu"
 
-#: en/bookmark-list.md:131
+#: en/bookmark-list.md:135
 msgid "The **Search**, **Title**, **Author**, **Site** and **Label** fields understand search criteria the same way:"
 msgstr "**Ara**, **Başlık**, **Yazar**, **Site** ve **Etiket** alanları arama kriterlerini aynı şekilde anlar:"
 
-#: en/bookmark-list.md:133
+#: en/bookmark-list.md:137
 msgid ""
 "- `startled cat` will find the content with the words **startled** and **cat**\n"
 "- `\"startled cat\"` will find the content with the exact words **startled cat** together.\n"
@@ -310,15 +314,15 @@ msgstr ""
 "- `kedi*`, **kedi** ile başlayan kelimeleri içeren içeriği bulacaktır (kedi, kedinanesi ve tırtıl eşleşme olacaktır).\n"
 "- `-ürkümüş kedi`, **kedi** kelimesini içeren ancak **ürkümüş** kelimesini İÇERMEYEN içeriği bulacaktır."
 
-#: en/bookmark-list.md:139
+#: en/bookmark-list.md:143
 msgid "After you performed a search, you can save it into a new [collection](./collections.md) to make it permanent."
 msgstr "Bir arama yaptıktan sonra, kalıcı hale getirmek için onu yeni bir [koleksiyona](./collections.md) kaydedebilirsiniz."
 
-#: en/bookmark-list.md:141
+#: en/bookmark-list.md:145
 msgid "## Export and Import Bookmarks"
 msgstr "## Yer İmlerini Dışa ve İçe Aktar"
 
-#: en/bookmark-list.md:143
+#: en/bookmark-list.md:147
 msgid ""
 "![Menu](./img/bookmark-list-menu.webp)\n"
 "Bookmark list menu"
@@ -326,19 +330,19 @@ msgstr ""
 "![Menü](./img/bookmark-list-menu.webp)\n"
 "Yer imi listesi menüsü"
 
-#: en/bookmark-list.md:146
+#: en/bookmark-list.md:150
 msgid "### Export bookmarks"
 msgstr "### Yer imlerini dışa aktar"
 
-#: en/bookmark-list.md:148
+#: en/bookmark-list.md:152
 msgid "The menu button next to the filters button let you download an EPUB file of the current list of bookmarks. It exports one e-book containing all the articles organized in chapters."
 msgstr "Filtreler düğmesinin yanındaki menü düğmesi, mevcut yer imi listesinin bir EPUB dosyasını indirmenize olanak tanır. Tüm makaleleri bölümler halinde düzenlenmiş tek bir e-kitap olarak dışa aktarır."
 
-#: en/bookmark-list.md:150
+#: en/bookmark-list.md:154
 msgid "### Import bookmarks"
 msgstr "### Yer imlerini içe aktar"
 
-#: en/bookmark-list.md:152
+#: en/bookmark-list.md:156
 msgid "In the same menu, you'll find a [Import bookmarks](readeck-instance://bookmarks/import) link. It will take you to an import wizard that lets you import your existing bookmarks from various sources."
 msgstr "Aynı menüde, bir [Yer imlerini içe aktar](readeck-instance://bookmarks/import) bağlantısı bulacaksınız. Bu sizi, mevcut yer imlerinizi çeşitli kaynaklardan içe aktarmanıza olanak tanıyan bir içe aktarma sihirbazına götürecektir."
 
@@ -381,11 +385,13 @@ msgid "## Navigation and presentation settings"
 msgstr "## Gezinme ve sunum ayarları"
 
 #: en/bookmark.md:32
-msgid "On top of the bookmark view, a link takes you back to the previous page."
+#, fuzzy
+msgid "On the side or on top of the bookmark view, a link takes you back to the previous page."
 msgstr "Yer imi görünümünün üstünde, sizi önceki sayfaya geri götüren bir bağlantı bulunur."
 
 #: en/bookmark.md:34
-msgid "If the bookmark contains an article, a button on the other side lets you change some typography settings."
+#, fuzzy
+msgid "If the bookmark contains an article, a button lets you change some typography settings."
 msgstr "Yer imi bir makale içeriyorsa, diğer taraftaki bir düğme bazı tipografi ayarlarını değiştirmenize olanak tanır."
 
 #: en/bookmark.md:36
@@ -405,54 +411,54 @@ msgstr ""
 "Bu ayarlar sizin için otomatik olarak kaydedilir ve daha sonra okuyacağınız tüm makalelere uygulanır."
 
 #: en/bookmark.md:43
-msgid "## Change the title"
-msgstr "## Başlığı değiştir"
+msgid "## Edit information"
+msgstr ""
 
 #: en/bookmark.md:45
-msgid "The bookmark's title is automatically grabbed when you create it. If, for some reason, you need something else, you can change it by clicking on it and then click the button on the title side."
-msgstr "Yer iminin başlığı, siz onu oluşturduğunuzda otomatik olarak alınır. Herhangi bir nedenle başka bir şeye ihtiyacınız olursa, üzerine tıklayarak ve ardından başlık tarafındaki düğmeye tıklayarak değiştirebilirsiniz."
+msgid "Several information such as the title or description are automatically grabbed when you create a bookmark. If you need to change these properties, you can click on the edit side button to open a form."
+msgstr ""
 
-#: en/bookmark.md:48
+#: en/bookmark.md:47
 msgid "## Actions"
 msgstr "## Eylemler"
 
-#: en/bookmark.md:50
+#: en/bookmark.md:49
 msgid "On the bookmark sidebar, you can perform actions."
 msgstr "Yer imi kenar çubuğunda eylemler gerçekleştirebilirsiniz."
 
-#: en/bookmark.md:52
+#: en/bookmark.md:51
 msgid "### Favorite"
 msgstr "### Favori"
 
-#: en/bookmark.md:54
+#: en/bookmark.md:53
 msgid "This toggles the favorite status of the bookmark."
 msgstr "Bu, yer iminin favori durumunu değiştirir."
 
-#: en/bookmark.md:56
+#: en/bookmark.md:55
 msgid "### Archive"
 msgstr "### Arşivle"
 
-#: en/bookmark.md:58
+#: en/bookmark.md:57
 msgid "This moves the bookmark to the archives (or removes it from there)."
 msgstr "Bu, yer imini arşive taşır (veya oradan kaldırır)."
 
-#: en/bookmark.md:60
+#: en/bookmark.md:59
 msgid "### Share"
 msgstr "### Paylaş"
 
-#: en/bookmark.md:62
+#: en/bookmark.md:61
 msgid "The share button opens a menu from which you can create a link if you want to share an article with someone."
 msgstr "Paylaş düğmesi, bir makaleyi biriyle paylaşmak isterseniz bir bağlantı oluşturabileceğiniz bir menü açar."
 
-#: en/bookmark.md:64
+#: en/bookmark.md:63
 msgid "On the same menu, you can export your bookmark (only EPUB for now) to read it on a different device."
 msgstr "Aynı menüde, yer iminizi farklı bir cihazda okumak için dışa aktarabilirsiniz (şimdilik sadece EPUB)."
 
-#: en/bookmark.md:67
+#: en/bookmark.md:66
 msgid "### Delete"
 msgstr "### Sil"
 
-#: en/bookmark.md:69
+#: en/bookmark.md:68
 msgid ""
 "This marks the bookmark for deletion.\\\n"
 "No worries if you click on this by mistake! This action can be canceled before actual deletion."
@@ -460,15 +466,15 @@ msgstr ""
 "Bu, yer imini silinmek üzere işaretler.\\\n"
 "Yanlışlıkla buna tıklarsanız endişelenmeyin! Bu eylem, gerçek silme işleminden önce iptal edilebilir."
 
-#: en/bookmark.md:73
+#: en/bookmark.md:72
 msgid "## Labels"
 msgstr "## Etiketler"
 
-#: en/bookmark.md:75
+#: en/bookmark.md:74
 msgid "You can add as many labels as you want to a bookmark. To do so, enter some text in the label field and click on **Add label**. There is no limit as to what can be a label. You can even add emojis if you like them."
 msgstr "Bir yer imine istediğiniz kadar etiket ekleyebilirsiniz. Bunu yapmak için, etiket alanına bir metin girin ve **Etiket ekle**'ye tıklayın. Neyin etiket olabileceği konusunda bir sınırlama yoktur. Hatta isterseniz emoji bile ekleyebilirsiniz."
 
-#: en/bookmark.md:77
+#: en/bookmark.md:76
 msgid ""
 "![Bookmark labels form](./img/bookmark-labels.webp)\n"
 "Add a new label."
@@ -476,15 +482,15 @@ msgstr ""
 "![Yer imi etiketleri formu](./img/bookmark-labels.webp)\n"
 "Yeni bir etiket ekleyin."
 
-#: en/bookmark.md:80
+#: en/bookmark.md:79
 msgid "Please read the [Labels](./labels.md) section for more information."
 msgstr "Daha fazla bilgi için lütfen [Etiketler](./labels.md) bölümünü okuyun."
 
-#: en/bookmark.md:82
+#: en/bookmark.md:81
 msgid "## Highlights"
 msgstr "## Vurgular"
 
-#: en/bookmark.md:84
+#: en/bookmark.md:83
 msgid ""
 "Found some interesting part in an article? You can highlight it!\\\n"
 "When you select any text in the article, a menu appears that lets you create a new highlight."
@@ -492,7 +498,7 @@ msgstr ""
 "Bir makalede ilginç bir bölüm mü buldunuz? Onu vurgulayabilirsiniz!\\\n"
 "Makalede herhangi bir metni seçtiğinizde, yeni bir vurgu oluşturmanıza olanak tanıyan bir menü belirir."
 
-#: en/bookmark.md:87
+#: en/bookmark.md:86
 msgid ""
 "![Bookmark highlight creation](./img/bookmark-highlight.webp)\n"
 "Create a new highlight."
@@ -500,11 +506,11 @@ msgstr ""
 "![Yer imi vurgusu oluşturma](./img/bookmark-highlight.webp)\n"
 "Yeni bir vurgu oluşturun."
 
-#: en/bookmark.md:90
+#: en/bookmark.md:89
 msgid "Your highlights appear in the sidebar."
 msgstr "Vurgularınız kenar çubuğunda görünür."
 
-#: en/bookmark.md:92
+#: en/bookmark.md:91
 msgid "When you need to remove an highlight, you can do it from the sidebar or by selecting it in the article."
 msgstr "Bir vurguyu kaldırmanız gerektiğinde, bunu kenar çubuğundan veya makalede seçerek yapabilirsiniz."
 
@@ -834,3 +840,10 @@ msgstr "Readeck hesabınıza bir hizmete veya uygulamaya erişim izni vermeniz g
 #: en/user-profile.md:21
 msgid "Instead, you can give your username and a token of your choice as authentication credentials."
 msgstr "Bunun yerine, kimlik doğrulama bilgileri olarak kullanıcı adınızı ve seçtiğiniz bir jetonu verebilirsiniz."
+
+#~ msgid "## Change the title"
+#~ msgstr "## Başlığı değiştir"
+
+#~ msgid "The bookmark's title is automatically grabbed when you create it. If, for some reason, you need something else, you can change it by clicking on it and then click the button on the title side."
+#~ msgstr "Yer iminin başlığı, siz onu oluşturduğunuzda otomatik olarak alınır. Herhangi bir nedenle başka bir şeye ihtiyacınız olursa, üzerine tıklayarak ve ardından başlık tarafındaki düğmeye tıklayarak değiştirebilirsiniz."
+
