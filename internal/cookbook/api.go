@@ -79,6 +79,7 @@ func (api *cookbookAPI) getExtractor(uri string, r *http.Request) *extract.Extra
 			bookmarks.LoadContentScripts(server.Log(r))...,
 		),
 		contentscripts.ProcessDom("documentLoaded"),
+		meta.ProcessRefreshRedirect,
 		meta.ExtractMeta,
 		meta.ExtractOembed,
 		contentscripts.ProcessMeta,

@@ -7,9 +7,11 @@
 package meta
 
 import (
+	"bytes"
 	"iter"
 	"log/slog"
 	"maps"
+	"net/http"
 	"regexp"
 	"strings"
 	"sync"
@@ -22,6 +24,7 @@ import (
 	"github.com/itlightning/dateparse"
 
 	"codeberg.org/readeck/readeck/pkg/extract"
+	"codeberg.org/readeck/readeck/pkg/extract/meta/tinymeta"
 	"codeberg.org/readeck/readeck/pkg/extract/microdata"
 )
 
@@ -133,6 +136,74 @@ func ExtractMeta(m *extract.ProcessMessage, next extract.Processor) extract.Proc
 
 	m.Log().Debug("metadata loaded", slog.Int("count", len(d.Meta)))
 	return next
+}
+
+// ProcessRefreshRedirect looks for a Refresh header or its metadata counterpart.
+// When found with a "URL=" parameter, this resets the extraction process with
+// the new URL.
+func ProcessRefreshRedirect(m *extract.ProcessMessage, next extract.Processor) extract.Processor {
+	if m.Step() != extract.StepDom || m.Position() > 0 {
+		return next
+	}
+
+	refresh := m.Extractor.Drop().Header.Get("refresh")
+	var refreshURL string
+
+	if refresh == "" {
+		for k, v := range tinymeta.Scan(bytes.NewReader(m.Extractor.Drop().Body)) {
+			if strings.ToLower(k) == "refresh" {
+				refresh = v
+				break
+			}
+		}
+	}
+
+	if refresh != "" {
+		_, s, _ := strings.Cut(refresh, ";")
+		s = strings.TrimSpace(s)
+		if len(s) > 4 && strings.ToLower(s[0:4]) == "url=" {
+			refreshURL = strings.TrimSpace(s[4:])
+		}
+	}
+
+	if refreshURL == "" {
+		return next
+	}
+
+	u, err := m.Extractor.Drop().URL.Parse(refreshURL)
+	if err != nil {
+		return next
+	}
+	u.Fragment = ""
+
+	// Same URL, carry on
+	origin := m.Extractor.Drop().URL.String()
+	if u.String() == origin {
+		return next
+	}
+
+	// Already seen
+	if m.Extractor.Visited.IsPresent(u) {
+		m.Log().Debug("page already visited", slog.String("url", u.String()))
+		return next
+	}
+
+	// Proceed with reset
+	m.Log().Debug("found redirection through refresh", slog.String("url", refreshURL))
+	if err = m.Extractor.ReplaceDrop(u); err != nil {
+		m.Log().Error("cannot replace page", slog.Any("err", err))
+		return nil
+	}
+
+	// Set referer header
+	if t, ok := m.Extractor.Client().Transport.(interface{ SetHeader(func(http.Header)) }); ok {
+		t.SetHeader(func(h http.Header) {
+			h.Set("Referer", origin)
+		})
+	}
+
+	m.ResetPosition()
+	return nil
 }
 
 // SetDropProperties will set some Drop properties bases on the retrieved

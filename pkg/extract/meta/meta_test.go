@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"errors"
 	"io"
+	"net/http"
 	"net/url"
 	"os"
 	"path"
@@ -674,6 +675,57 @@ func TestMeta(t *testing.T) {
 			assert.Equal("http://example.net/icon.ico", p.Href)
 			assert.Equal("image/png", p.Type)
 			assert.Equal([]byte{137, 80, 78, 71, 13, 10, 26, 10}, p.Bytes()[0:8])
+		})
+	})
+
+	t.Run("RefreshRedirect", func(t *testing.T) {
+		tests := []struct {
+			value    string
+			expected string
+			replaced bool
+		}{
+			{"0;URL=https://example.org/redirected", "https://example.org/redirected", true},
+			{"0;  URL= https://example.org/redirected ", "https://example.org/redirected", true},
+			{"20;url=/redirected ", "https://example.net/redirected", true},
+			{"0;url=/", "https://example.net/", false},
+			{"5", "https://example.net/", false},
+		}
+
+		t.Run("process header", func(t *testing.T) {
+			for i, test := range tests {
+				t.Run(strconv.Itoa(i+1), func(t *testing.T) {
+					ex, err := extract.New("https://example.net/")
+					orig := ex.Drop()
+
+					ex.Drop().Header = http.Header{"Refresh": []string{test.value}}
+					require.NoError(t, err)
+					pm := ex.NewProcessMessage(extract.StepDom)
+
+					ProcessRefreshRedirect(pm, nil)
+					assert := assert.New(t)
+					assert.Equal(test.expected, ex.Drop().URL.String())
+					assert.Equal(test.replaced, orig != ex.Drop())
+					t.Log(pm.Step())
+				})
+			}
+		})
+
+		t.Run("process meta", func(t *testing.T) {
+			for i, test := range tests {
+				t.Run(strconv.Itoa(i+1), func(t *testing.T) {
+					ex, err := extract.New("https://example.net/")
+					orig := ex.Drop()
+
+					ex.Drop().Body = []byte(`<head><noscript><META http-equiv="refresh" content="` + test.value + `"></noscript></head>`)
+					require.NoError(t, err)
+					pm := ex.NewProcessMessage(extract.StepDom)
+
+					ProcessRefreshRedirect(pm, nil)
+					assert := assert.New(t)
+					assert.Equal(test.expected, ex.Drop().URL.String())
+					assert.Equal(test.replaced, orig != ex.Drop())
+				})
+			}
 		})
 	})
 }
