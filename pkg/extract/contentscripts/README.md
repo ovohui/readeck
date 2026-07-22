@@ -394,6 +394,9 @@ read only -
 #### `Node.cloneNode(): Node`
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Node/cloneNode)
 
+#### `Node.closest(): Node`
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/closest)
+
 #### `Node.contains(node: Node): boolean`
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Node/contains)
 
@@ -417,6 +420,9 @@ read only -
 
 #### `Node.insertBefore(newChild: Node, oldChild: Node): Node`
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Node/insertBefore)
+
+#### `Node.remove(node: Node): Node`
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/remove)
 
 #### `Node.removeChild(node: Node): Node`
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Node/removeChild)
