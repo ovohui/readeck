@@ -45,6 +45,8 @@ var (
 	bold        = console.ToANSICode(console.Bold)
 )
 
+const sqliteAnalyzePeriod = 6 // interval (in hours) between each SQLite ANALYZE
+
 type appFlags struct {
 	ConfigFile string
 }
@@ -335,9 +337,9 @@ func copyContentScriptHelpers(dest string) error {
 }
 
 // sqliteAnalyze runs a [time.Ticker] that performs an ANALYZE query
-// every hour (SQLite only).
+// on the SQLite db every [sqliteAnalyzePeriod] hours.
 func sqliteAnalyze(ctx context.Context) {
-	ticker := time.NewTicker(time.Hour * 6)
+	ticker := time.NewTicker(time.Hour * sqliteAnalyzePeriod)
 	defer ticker.Stop()
 
 	for {
