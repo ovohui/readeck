@@ -30,6 +30,9 @@ func registerExported(vm *Runtime) (err error) {
 	if p, err = newProcessMessageProxy(vm); err != nil {
 		return
 	}
+	if err = vm.Set("abort", errAbort); err != nil {
+		return
+	}
 	if err = vm.Set("$", p); err != nil {
 		return
 	}

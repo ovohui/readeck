@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
+exports.priority = 10
+
 const rxPost = /^\/profile\/(.+)?\/post\/([a-zA-Z0-9]+)$/
 
 /**
