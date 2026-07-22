@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
+exports.priority = 10
+
 const vttTimeStamp = /^\d+:\d+:\d+\.\d+\s+-->\s+\d+:\d+:\d+\.\d+/
 const rxAutogen = /-x-autogen/
 const rxDuration = /^PT(\d+)H(\d+)M(\d+)S$/

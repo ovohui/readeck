@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
+exports.priority = 10
+
 exports.isActive = function () {
   return (
     $.domain == "mediapart.fr" || $.host == "www-mediapart-fr.bnf.idm.oclc.org"
