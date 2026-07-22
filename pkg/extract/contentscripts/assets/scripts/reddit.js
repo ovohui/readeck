@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: © 2023 Olivier Meunier <olivier@neokraft.net>
+// SPDX-FileContributor: Earl Hathaway <https://codeberg.org/0xEArl>
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
@@ -69,7 +70,6 @@ exports.documentDone = () => {
  * @param {Node} document
  */
 exports.documentLoaded = (document) => {
-
   // when the user submits a selection from the extension, note via $.readability false.
   // Leave submitted content as is.
   //
@@ -86,7 +86,7 @@ exports.documentLoaded = (document) => {
     rsp = requests.get(url)
     rsp.raiseForStatus()
   } catch (e) {
-    console.error("reddit: could not fetch JSON endpoint", {
+    console.warn("reddit: could not fetch JSON endpoint", {
       url: url.toString(),
       status: rsp ? rsp.status : undefined,
       error: String(e),
@@ -161,7 +161,7 @@ exports.documentLoaded = (document) => {
         const img = data.media_metadata?.[item.media_id]?.s?.u
         return img
       })
-      .filter((item) => !!item)
+      .filter((item) => item !== undefined)
 
     for (let img of images) {
       html += `\n<figure><img src="${img}" alt=""></figure>`
@@ -176,6 +176,7 @@ exports.documentLoaded = (document) => {
     html += `<p>Link to <a href="${data.url}">${data.url}</a></p>`
   }
 
+  // @ts-ignore
   document.body.innerHTML = html
   $.readability = false
 }
@@ -199,7 +200,9 @@ function extractFromDOMOld(document) {
   let html = ""
 
   // post author, scoped to the post itself (".thing.link")
-  const author = document.querySelector("#siteTable .thing.link .tagline .author")
+  const author = document.querySelector(
+    "#siteTable .thing.link .tagline .author",
+  )
   if (author) {
     $.authors = [author.textContent]
   }
@@ -242,12 +245,11 @@ function extractFromDOMOld(document) {
   // when post's link points off-redit, surface it
   // this covers link-type posts
   // filter links to reddit because a self-post links to reddit
-  let link = document.querySelector("div.sitetable .title a")?.getAttribute("href")
+  let link = document
+    .querySelector("div.sitetable .title a")
+    ?.getAttribute("href")
   if (link && !link.includes("reddit.com")) {
     html += `<p>Link: <a href="${link}">${link}</a></p>`
-
-  } else {
-    link = undefined
   }
 
   if (html == "") {
@@ -257,7 +259,7 @@ function extractFromDOMOld(document) {
   $.html = `<section id="main">${html}</section>`
   $.readability = false
 
-  console.info("reddit: content extracted from DOM fallback", {
+  console.debug("reddit: content extracted from DOM fallback", {
     author: author ? author.textContent : undefined,
     date: dateEl ? dateEl.getAttribute("datetime") : undefined,
     has_selftext: !!selftext,
@@ -277,13 +279,13 @@ function extractFromDOMOld(document) {
  * external link post
  *   https://www.reddit.com/r/worldnews/comments/1tyz96q/albania_freezes_assets_in_kushner_resort_probe/
  * single image post
- *   https://old.reddit.com/r/MurderedByWords/comments/1tywa7o/hunter_calls_out_the_shameful_maga_lies_about/
+ *   https://www.reddit.com/r/MurderedByWords/comments/1tywa7o/hunter_calls_out_the_shameful_maga_lies_about/
  *
  */
 function extractFromDOMNew(document) {
   let html = ""
 
-  // post author: look for slot="authorName" then rip from aria 
+  // post author: look for slot="authorName" then rip from aria
   const authorSlot = document.querySelector('[slot="authorName"]')
   const authorLink = authorSlot?.querySelector('a[aria-label^="Author:"]')
   const authorName = authorLink
@@ -312,8 +314,13 @@ function extractFromDOMNew(document) {
 
   // extract media: grab highest-resolution candidate from srcsets, and
   // the outbound link for "link posts" rendered as a lightbox preview.
+
+  /** @type {string[]} */
   const images = []
-  let link
+
+  /** @type {string} */
+  let link = ""
+
   const mediaContainer = document.querySelector('[slot="post-media-container"]')
   if (mediaContainer) {
     // for single image posts: "#post-image" is the actual picture with
@@ -354,7 +361,7 @@ function extractFromDOMNew(document) {
   if (link) {
     const linkURL = new URL(link, $.url)
     if (linkURL.hostname.endsWith("reddit.com")) {
-      link = undefined
+      link = ""
     } else {
       link = linkURL.toString()
       html += `<p>Link: <a href="${link}">${link}</a></p>`
@@ -368,7 +375,7 @@ function extractFromDOMNew(document) {
   $.html = `<section id="main">${html}</section>`
   $.readability = false
 
-  console.info("reddit: content extracted from DOM fallback", {
+  console.debug("reddit: content extracted from DOM fallback", {
     author: authorName,
     date: dateEl ? dateEl.getAttribute("datetime") : undefined,
     has_selftext: !!selftext,
@@ -378,7 +385,7 @@ function extractFromDOMNew(document) {
 }
 
 /**
- * extract highest resolution image url from srcset 
+ * extract highest resolution image url from srcset
  *
  * @param {Node} img
  * @returns {string | undefined}
@@ -417,8 +424,9 @@ function findPreview(data) {
 
   if (data.media_metadata) {
     const img = Object.entries(data.media_metadata).find(([_, o]) => {
-      return !!o.e && o.e.toLowerCase() == "image" && !!o.s?.u
-    })[1].s.u
+      return o.e && o.e.toLowerCase() == "image" && o.s?.u
+    })?.[1].s.u
+
     if (img) {
       return unescapeHTML(img)
     }
