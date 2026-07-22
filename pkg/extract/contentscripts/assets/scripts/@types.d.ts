@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 declare global {
+  var abort: Error
   var $: contentScript.Message
   var requests: http.Requests
   var console: console.Console
