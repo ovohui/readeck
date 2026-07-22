@@ -50,12 +50,12 @@ templ (v Views) tokenList(tokenList *tokenItemList) {
 								· { token.Application }
 								<small class="block">
 									{ L(ctx).Gettext("Created on: %s",
-										Strftime(ctx, token.Created, L(ctx).Pgettext("datetime", "%e %B %Y")),
+										Strftime(ctx, token.Created, "%e %B %Y"),
 									) }
 									if token.Expires != nil {
 										<br/>
 										{ L(ctx).Gettext("Expires on: %s",
-											Strftime(ctx, *token.Expires, L(ctx).Pgettext("datetime", "%e %B %Y")),
+											Strftime(ctx, *token.Expires, "%e %B %Y"),
 										) }
 									}
 									if token.LastUsed != nil {
