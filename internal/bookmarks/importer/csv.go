@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"slices"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/itlightning/dateparse"
@@ -77,7 +78,7 @@ func newCsvBookmarkItem(e *csvEntry) (*csvBookmarkItem, error) {
 	if e.Labels != "" && e.Labels != "[]" {
 		_ = json.Unmarshal([]byte(e.Labels), &res.Labels)
 	}
-	if e.Folder == "archive" {
+	if strings.ToLower(e.Folder) == "archive" {
 		res.IsArchived = true
 	}
 
