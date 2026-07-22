@@ -22,7 +22,8 @@
     "article-promoted-content",
     "article-share-buttons",
     "article-previous-next",
-    "comments-container"
+    "comments-container",
+    "top-stories"
   ],
   "strip_image_src": null,
   "native_ad_selectors": null,

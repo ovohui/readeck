@@ -126,7 +126,9 @@
       "src="
     ]
   ],
-  "http_headers": null,
+  "http_headers": {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:152.0) Gecko/20100101 Firefox/152.0"
+  },
   "tests": [
     {
       "url": "https://www.faz.net/aktuell/feuilleton/bilder-und-zeiten/lord-byron-in-venedig-als-pilger-popstar-und-poet-19648440.html",
