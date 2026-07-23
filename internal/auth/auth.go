@@ -10,6 +10,7 @@ import (
 	"errors"
 	"log/slog"
 	"net/http"
+	"slices"
 
 	"codeberg.org/readeck/readeck/internal/auth/users"
 	"codeberg.org/readeck/readeck/pkg/ctxr"
@@ -102,17 +103,12 @@ func Init(providers ...Provider) func(next http.Handler) http.Handler {
 		next = defaultProviderHandler(next)
 
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			var h http.Handler
+			h := next
 
-			if len(providers) == 0 {
-				h = next
-			} else {
-				// Build the final handler with each provider wrapped in a handler
-				// that allows to skip them when necessary.
-				h = skipNextProviderHandler(providers[len(providers)-1].Handler(next), next)
-				for i := len(providers) - 2; i >= 0; i-- {
-					h = skipNextProviderHandler(providers[i].Handler(h), next)
-				}
+			// Build the final handler with each provider wrapped in a handler
+			// that allows to skip them when necessary.
+			for _, x := range slices.Backward(providers) {
+				h = skipNextProviderHandler(x.Handler(h), next)
 			}
 
 			h.ServeHTTP(w, r)
