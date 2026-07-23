@@ -84,7 +84,13 @@ func RenderTurboStreamComponent(
 	)
 
 	w.Header().Set("Content-Type", "text/vnd.turbo-stream.html; charset=utf-8")
-	fmt.Fprint(w, `<turbo-stream action="`, action, `" `, extraAttrs, `target="`, target, `"><template>`, "\n")
+	fmt.Fprint(
+		w,
+		`<turbo-stream action="`, html.EscapeString(action), `" `,
+		extraAttrs,
+		`target="`, html.EscapeString(target), `"><template>`,
+		"\n",
+	)
 	err := component.Render(componentContext(r), w)
 	fmt.Fprint(w, "\n</template></turbo-stream>\n\n")
 	if err != nil {
