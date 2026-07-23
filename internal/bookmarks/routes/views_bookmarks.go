@@ -38,7 +38,7 @@ const listDefaultLimit = 36
 
 func (h *viewsRouter) withBaseContext(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		count, err := bookmarks.Bookmarks.CountAll(auth.GetRequestUser(r))
+		count, err := bookmarks.Bookmarks.CountAll(auth.GetUser(r.Context()))
 		if err != nil {
 			server.Err(w, r, err)
 			return
@@ -86,7 +86,7 @@ func (h *viewsRouter) bookmarkList(w http.ResponseWriter, r *http.Request) {
 	// Retrieve the bookmark list
 	bl := getBookmarkList(r.Context())
 
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	title := tr.Gettext("All your Bookmarks")
 	filters := newContextFilterForm(r.Context())
 
@@ -136,7 +136,7 @@ func (h *viewsRouter) bookmarkInfo(w http.ResponseWriter, r *http.Request) {
 
 	// Set CSP for video playback
 	if item.Type == "video" && item.EmbedHostname != "" {
-		policy := server.GetCSPHeader(r).Clone()
+		policy := server.GetCSPHeader(r.Context())
 		policy.Add("frame-src", item.EmbedHostname)
 		policy.Write(w.Header())
 	}
@@ -187,7 +187,7 @@ func (h *viewsRouter) diagnosis(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *viewsRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	b := getBookmark(r.Context())
 	f := forms.New[updateForm](r.Context())
 
@@ -335,7 +335,7 @@ func (h *viewsRouter) bookmarkShareLink(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
 		{tr.Gettext("Bookmarks"), urls.AbsoluteURL(r, "/bookmarks").String()},
 		{utils.ShortText(link.Title, 50), urls.AbsoluteURL(r, "/bookmarks", link.ID).String()},
@@ -354,7 +354,7 @@ func (h *viewsRouter) bookmarkShareEmail(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Set default email address when sending an EPUB
-	if u := auth.GetRequestUser(r); u != nil && f.Format.Value() == "epub" && f.Email.Value() == "" {
+	if u := auth.GetUser(r.Context()); u != nil && f.Format.Value() == "epub" && f.Email.Value() == "" {
 		f.Email.Set(u.Settings.EmailSettings.EpubTo)
 	}
 
@@ -365,7 +365,7 @@ func (h *viewsRouter) bookmarkShareEmail(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
 		{tr.Gettext("Bookmarks"), urls.AbsoluteURL(r, "/bookmarks").String()},
 		{utils.ShortText(info.Title, 50), urls.AbsoluteURL(r, "/bookmarks", info.ID).String()},
@@ -395,7 +395,7 @@ func (h *viewsRouter) labelInfo(w http.ResponseWriter, r *http.Request) {
 		f := forms.BindAs[labelForm](r)
 
 		if f.IsValid() {
-			_, err := bookmarks.Bookmarks.RenameLabel(auth.GetRequestUser(r), label, f.Name.Value())
+			_, err := bookmarks.Bookmarks.RenameLabel(auth.GetUser(r.Context()), label, f.Name.Value())
 			if err != nil {
 				server.Err(w, r, err)
 				return
@@ -410,7 +410,7 @@ func (h *viewsRouter) labelInfo(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnprocessableEntity)
 	}
 
-	isDeleted := tasks.DeleteLabelTask.IsRunning(fmt.Sprintf("%d@%s", auth.GetRequestUser(r).ID, label))
+	isDeleted := tasks.DeleteLabelTask.IsRunning(fmt.Sprintf("%d@%s", auth.GetUser(r.Context()).ID, label))
 	server.RenderComponent(w, r, http.StatusOK, Views{}.labelInfo(
 		label, bl, isDeleted,
 	))
@@ -426,7 +426,7 @@ func (h *viewsRouter) labelDelete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	f := forms.BindAs[labelDeleteForm](r)
-	if err := f.trigger(auth.GetRequestUser(r), label); err != nil {
+	if err := f.trigger(auth.GetUser(r.Context()), label); err != nil {
 		server.Err(w, r, err)
 		return
 	}
@@ -531,20 +531,21 @@ func (h *publicViewsRouter) get(w http.ResponseWriter, r *http.Request) {
 	server.WithCaching(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var html io.Reader
 
-		// Harden CSP
-		policy := server.GetCSPHeader(r).Clone()
-		policy.Set("connect-src", csp.None)
-		policy.Set("form-action", csp.None)
-
 		if html, err = item.GetArticle(); err != nil {
 			server.Err(w, r, err)
 			return
 		}
 
+		// Harden CSP
+		policy := server.GetCSPHeader(r.Context())
+		policy.Set("connect-src", csp.None)
+		policy.Set("form-action", csp.None)
+
 		// Relax CSP for video playback
 		if item.Type == "video" && item.EmbedHostname != "" {
 			policy.Add("frame-src", item.EmbedHostname)
 		}
+
 		policy.Write(w.Header())
 
 		server.RenderComponent(w, r.WithContext(ctx), http.StatusOK, converter.PublicViews{}.Bookmark(user, item, notes, html))

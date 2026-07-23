@@ -254,7 +254,7 @@ func (h *authHandler) recover(w http.ResponseWriter, r *http.Request) {
 }
 
 func recoverMsg(ctx context.Context, recoverLink *url.URL) string {
-	return server.LocaleContext(ctx).Gettext(`
+	return server.Locale(ctx).Gettext(`
 Hi,
 
 You (or someone else) entered this email address when trying to
@@ -268,7 +268,7 @@ a new password for your readeck account.
 }
 
 func recoverNoTokenMsg(ctx context.Context) string {
-	return server.LocaleContext(ctx).Gettext(`
+	return server.Locale(ctx).Gettext(`
 Hi,
 
 You (or someone else) entered this email address when trying to

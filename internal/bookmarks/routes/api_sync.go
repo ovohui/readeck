@@ -33,7 +33,7 @@ func (api *apiRouter) bookmarkSyncList(w http.ResponseWriter, r *http.Request) {
 			goqu.C("updated").Table("b").As("time"),
 			goqu.V("update").As("type"),
 		).
-		Where(goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID))
+		Where(goqu.C("user_id").Table("b").Eq(auth.GetUser(r.Context()).ID))
 
 	if !f.Since.Value().IsZero() {
 		// When querying with ?since=, we perform a union with bookmark_removed
@@ -53,7 +53,7 @@ func (api *apiRouter) bookmarkSyncList(w http.ResponseWriter, r *http.Request) {
 					goqu.V("delete").As("type"),
 				).
 				Where(
-					goqu.C("user_id").Table("r").Eq(auth.GetRequestUser(r).ID),
+					goqu.C("user_id").Table("r").Eq(auth.GetUser(r.Context()).ID),
 					exp.DateTime(goqu.C("deleted").Table("r")).
 						Gte(exp.DateTime(since)),
 				),
@@ -86,7 +86,7 @@ func (api *apiRouter) bookmarkSync(w http.ResponseWriter, r *http.Request) {
 
 	ds := bookmarks.Bookmarks.Query().
 		Where(
-			goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID),
+			goqu.C("user_id").Table("b").Eq(auth.GetUser(r.Context()).ID),
 		)
 
 	ds = ds.Order(f.getOrder()...)

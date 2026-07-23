@@ -113,10 +113,10 @@ func TestAPI(t *testing.T) {
 						"username is not valid"
 					]
 				},
-				"settings_lang": "<<PRESENCE>>",
-				"settings_addon_reminder": "<<PRESENCE>>",
-				"settings_email_epub_to": "<<PRESENCE>>",
-				"settings_email_reply_to": "<<PRESENCE>>"
+				"settings.lang": "<<PRESENCE>>",
+				"settings.addon_reminder": "<<PRESENCE>>",
+				"settings.email_epub_to": "<<PRESENCE>>",
+				"settings.email_reply_to": "<<PRESENCE>>"
 			}
 		}`),
 	)
@@ -147,10 +147,10 @@ func TestAPI(t *testing.T) {
 						"field is required"
 					]
 				},
-				"settings_lang": "<<PRESENCE>>",
-				"settings_addon_reminder": "<<PRESENCE>>",
-				"settings_email_epub_to": "<<PRESENCE>>",
-				"settings_email_reply_to": "<<PRESENCE>>"
+				"settings.lang": "<<PRESENCE>>",
+				"settings.addon_reminder": "<<PRESENCE>>",
+				"settings.email_epub_to": "<<PRESENCE>>",
+				"settings.email_reply_to": "<<PRESENCE>>"
 			}
 		}`),
 	)
@@ -184,10 +184,10 @@ func TestAPI(t *testing.T) {
 						"username is not valid"
 					]
 				},
-				"settings_lang": "<<PRESENCE>>",
-				"settings_addon_reminder": "<<PRESENCE>>",
-				"settings_email_epub_to": "<<PRESENCE>>",
-				"settings_email_reply_to": "<<PRESENCE>>"
+				"settings.lang": "<<PRESENCE>>",
+				"settings.addon_reminder": "<<PRESENCE>>",
+				"settings.email_epub_to": "<<PRESENCE>>",
+				"settings.email_reply_to": "<<PRESENCE>>"
 			}
 		}`),
 	)

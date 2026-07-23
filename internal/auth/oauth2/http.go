@@ -57,7 +57,7 @@ func metadataHandler(w http.ResponseWriter, r *http.Request) {
 		TokenEndpointAuthMethodsSupported: []string{"none", "bearer"},
 	}
 
-	for _, x := range users.GroupList(server.Locale(r), "@oauth_scope", nil) {
+	for _, x := range users.GroupList(server.Locale(r.Context()), "@oauth_scope", nil) {
 		meta.ScopesSupported = append(meta.ScopesSupported, x[0])
 	}
 

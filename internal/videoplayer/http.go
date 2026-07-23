@@ -53,7 +53,7 @@ func videoPlayerHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Set appropriate CSP values for this ressource to work
 	// as a video play in an iframe.
-	policy := server.GetCSPHeader(r)
+	policy := server.GetCSPHeader(r.Context())
 	policy.Set("connect-src", src.Hostname())
 	policy.Set("worker-src", "blob:")
 	policy.Add("media-src", "blob:", src.Hostname())

@@ -28,7 +28,7 @@ templ (c FilterComponents) filters(f *FilterForm) {
 			F.InputAttr("list", "data-lang"),
 		)
 		<datalist id="data-lang">
-			for k, v := range locales.AllBase(server.LocaleContext(ctx).Tag) {
+			for k, v := range locales.AllBase(server.Locale(ctx).Tag) {
 				<option value={ k } label={ v + " (" + k + ")" }></option>
 			}
 		</datalist>

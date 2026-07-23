@@ -51,7 +51,7 @@ templ (v Views) userProfile(f *profileForm) {
 					F.Classes("field-h"),
 					F.InputAttr("disabled", user.IsExternal()),
 				)
-				@F.SelectField[string](&f.SettingsLang,
+				@F.SelectField[string](&f.Settings.Lang,
 					F.Label(L(ctx).Gettext("Language")),
 					F.Required(true),
 					F.Classes("field-h"),
@@ -70,13 +70,13 @@ templ (v Views) userProfile(f *profileForm) {
 			if HasPermission(ctx, "email", "send") {
 				<fieldset class="mb-6">
 					<legend class="title text-h3">{ L(ctx).Gettext("Email settings") }</legend>
-					@F.TextField(&f.SettingsEmailReplyTo,
+					@F.TextField(&f.Settings.EmailReplyTo,
 						F.InputType("email"),
 						F.Label(L(ctx).Gettext("Reply To")),
 						F.Classes("field-h"),
 						F.Help(L(ctx).Gettext("Add this email address in your outgoing emails so recipients can reply.")),
 					)
-					@F.TextField(&f.SettingsEmailEpubTo,
+					@F.TextField(&f.Settings.EmailEpubTo,
 						F.InputType("email"),
 						F.Label(L(ctx).Gettext("Send EPUB to")),
 						F.Classes("field-h"),

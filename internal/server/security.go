@@ -61,9 +61,9 @@ func getDefaultCSP() csp.Policy {
 	}
 }
 
-// GetCSPHeader extracts the current CSPHeader from the request's context.
-func GetCSPHeader(r *http.Request) csp.Policy {
-	if c, ok := getCSP(r.Context()); ok {
+// GetCSPHeader extracts the current context's CSPHeader.
+func GetCSPHeader(ctx context.Context) csp.Policy {
+	if c, ok := getCSP(ctx); ok {
 		return c
 	}
 	return getDefaultCSP()

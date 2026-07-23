@@ -32,7 +32,10 @@ export GOARCH?=
 SITECONFIG_SRC=./ftr-site-config
 SITECONFIG_DEST=pkg/extract/contentscripts/assets/site-config
 
-GOTOOL = $(GO) tool -modfile=go.tool.mod
+TEMPL = $(GO) run github.com/a-h/templ/cmd/templ@v0.3.1020
+GOLANGCI_LINT = $(GO) run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.12.2
+AIR = $(GO) run github.com/air-verse/air@v1.65.3
+SCC = $(GO) run github.com/boyter/scc/v3@latest
 
 # -------------------------------------------------------------------
 # Base targets
@@ -68,10 +71,10 @@ setup:
 	${MAKE} -C web setup
 
 templ:
-	$(GOTOOL) templ generate
+	$(TEMPL) generate
 
 templ/fmt: templ
-	$(GOTOOL) templ fmt -fail .
+	$(TEMPL) templ fmt -fail .
 
 # Build the server
 .PHONY: build
@@ -136,7 +139,7 @@ list:
 .PHONY: lint
 lint: templ docs-build
 	test -f assets/www/manifest.json || echo "{}" > assets/www/manifest.json
-	$(GOTOOL) golangci-lint run
+	$(GOLANGCI_LINT) run
 
 .PHONY: vulncheck
 vulncheck: templ
@@ -147,7 +150,7 @@ vulncheck: templ
 # Single lines of code
 .PHONY: sloc
 sloc:
-	$(GOTOOL) scc -i go,js,scss,html,md
+	$(SCC) -i go,js,scss,html,md
 
 
 # Update site-config folder with definitions from
@@ -187,7 +190,7 @@ dev:
 .PHONY: watch/server
 watch/server: SERVE_CMD ?= serve
 watch/server:
-	$(GOTOOL) air \
+	$(AIR) \
 		--tmp_dir "dist" \
 		--build.log "" \
 		--build.cmd "${MAKE} DATE= build" \
@@ -203,10 +206,10 @@ watch/server:
 # Rebuild components on change.
 # It runs air watching the .templ files and rebuilds them on any change.
 watch/templ:
-	$(GOTOOL) air \
+	$(AIR) \
 		--tmp_dir "dist" \
 		--build.log "" \
-		--build.cmd "$(GOTOOL) templ generate -lazy" \
+		--build.cmd "$(TEMPL) generate -lazy" \
 		--build.full_bin "/usr/bin/true" \
 		--build.delay 1000 \
 		--build.include_dir "components,internal" \
@@ -221,7 +224,7 @@ watch/templ:
 # on changes.
 .PHONY: watch/docs
 watch/docs:
-	$(GOTOOL) air \
+	$(AIR) \
 		--tmp_dir "dist" \
 		--build.log "" \
 		--build.cmd "${MAKE} docs-build" \

@@ -40,7 +40,7 @@ func (api *apiRouter) collectionCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	c, err := f.createCollection(auth.GetRequestUser(r).ID)
+	c, err := f.createCollection(auth.GetUser(r.Context()).ID)
 	if err != nil {
 		server.Err(w, r, err)
 		return
@@ -95,7 +95,7 @@ func (api *apiRouter) withColletionList(next http.Handler) http.Handler {
 				"c.name", "c.is_pinned", "c.filters",
 			).
 			Where(
-				goqu.C("user_id").Table("c").Eq(auth.GetRequestUser(r).ID),
+				goqu.C("user_id").Table("c").Eq(auth.GetUser(r.Context()).ID),
 			)
 
 		ds = ds.Order(goqu.I("name").Asc()).
@@ -123,7 +123,7 @@ func (api *apiRouter) withCollection(next http.Handler) http.Handler {
 
 		c, err := bookmarks.Collections.GetOne(
 			goqu.C("uid").Eq(uid),
-			goqu.C("user_id").Eq(auth.GetRequestUser(r).ID),
+			goqu.C("user_id").Eq(auth.GetUser(r.Context()).ID),
 		)
 		if err != nil {
 			server.Status(w, r, http.StatusNotFound)

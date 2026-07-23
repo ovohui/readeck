@@ -54,7 +54,7 @@ func (h *adminViews) main(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *adminViews) userList(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	ul := getUserList(r.Context())
 
 	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
@@ -64,7 +64,7 @@ func (h *adminViews) userList(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *adminViews) userCreate(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	f := forms.New[userForm](r.Context())
 
 	if r.Method == http.MethodPost {
@@ -90,7 +90,7 @@ func (h *adminViews) userCreate(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *adminViews) userInfo(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	u := getUser(r.Context())
 
 	f := forms.New[userForm](r.Context())
@@ -104,7 +104,7 @@ func (h *adminViews) userInfo(w http.ResponseWriter, r *http.Request) {
 				server.Log(r).Error("", slog.Any("err", err))
 			} else {
 				// Refresh session if same user
-				if auth.GetRequestUser(r).ID == u.ID {
+				if auth.GetUser(r.Context()).ID == u.ID {
 					sess := server.GetSession(r)
 					sess.Payload.User = u.ID
 					sess.Payload.Seed = u.Seed
@@ -136,7 +136,7 @@ func (h *adminViews) userDelete(w http.ResponseWriter, r *http.Request) {
 	forms.Bind(r, f)
 
 	u := getUser(r.Context())
-	if u.ID == auth.GetRequestUser(r).ID {
+	if u.ID == auth.GetUser(r.Context()).ID {
 		server.Err(w, r, errSameUser)
 		return
 	}
@@ -149,7 +149,7 @@ func (h *adminViews) userDelete(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *adminViews) userDetach(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	u := getUser(r.Context())
 	if err := u.Update(goqu.Record{
 		"ext_id":   nil,
@@ -165,7 +165,7 @@ func (h *adminViews) userDetach(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *adminViews) userSignout(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	u := getUser(r.Context())
 	u.SetSeed()
 	if err := u.Update(goqu.Record{
@@ -177,7 +177,7 @@ func (h *adminViews) userSignout(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Refresh session if same user
-	if auth.GetRequestUser(r).ID == u.ID {
+	if auth.GetUser(r.Context()).ID == u.ID {
 		sess := server.GetSession(r)
 		sess.Payload.User = u.ID
 		sess.Payload.Seed = u.Seed

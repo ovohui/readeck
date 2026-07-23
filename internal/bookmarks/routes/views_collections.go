@@ -31,11 +31,11 @@ func (h *viewsRouter) collectionCreate(w http.ResponseWriter, r *http.Request) {
 	case http.MethodPost:
 		forms.Bind(r, f)
 		if f.IsValid() {
-			c, err := f.createCollection(auth.GetRequestUser(r).ID)
+			c, err := f.createCollection(auth.GetUser(r.Context()).ID)
 			if err != nil {
 				server.Log(r).Error("", slog.Any("err", err))
 			} else {
-				tr := server.Locale(r)
+				tr := server.Locale(r.Context())
 				server.AddFlash(w, r, "success", tr.Gettext("Collection created."))
 				server.Redirect(w, r, "./..", c.UID)
 				return
@@ -62,7 +62,7 @@ func (h *viewsRouter) collectionInfo(w http.ResponseWriter, r *http.Request) {
 			if _, err := f.updateCollection(c); err != nil {
 				server.Log(r).Error("", slog.Any("err", err))
 			} else {
-				tr := server.Locale(r)
+				tr := server.Locale(r.Context())
 				server.AddFlash(w, r, "success", tr.Gettext("Collection updated."))
 				server.Redirect(w, r, c.UID+"?"+r.URL.RawQuery)
 				return

@@ -41,14 +41,14 @@ func SetupRoutes(s *server.Server) {
 
 func (h *opdsRouter) mainCatalog(w http.ResponseWriter, r *http.Request) {
 	lastUpdate, err := bookmarks.Bookmarks.GetLastUpdate(
-		goqu.C("user_id").Eq(auth.GetRequestUser(r).ID),
+		goqu.C("user_id").Eq(auth.GetUser(r.Context()).ID),
 	)
 	if err != nil {
 		server.Err(w, r, err)
 		return
 	}
 
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 
 	c := catalog.New(
 		r,

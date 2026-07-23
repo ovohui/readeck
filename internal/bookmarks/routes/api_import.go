@@ -62,7 +62,7 @@ func (api *apiRouter) bookmarksImport(w http.ResponseWriter, r *http.Request) {
 	err = importer.ImportBookmarksTask.Run(trackID, importer.ImportParams{
 		Source:          source,
 		Data:            data,
-		UserID:          auth.GetRequestUser(r).ID,
+		UserID:          auth.GetUser(r.Context()).ID,
 		RequestID:       server.GetReqID(r),
 		Label:           options.Label,
 		AllowDuplicates: !options.IgnoreDuplicates,
@@ -97,7 +97,7 @@ func (api *apiRouter) bookmaksImportStatus(w http.ResponseWriter, r *http.Reques
 		),
 			"replace", "import-progress-"+trackID, nil)
 
-		if counters, err := bookmarks.Bookmarks.CountAll(auth.GetRequestUser(r)); err == nil {
+		if counters, err := bookmarks.Bookmarks.CountAll(auth.GetUser(r.Context())); err == nil {
 			ctx := withCounters(r.Context(), counters)
 			server.RenderTurboStreamComponent(w, r.WithContext(ctx), Views{}.sideMenu(),
 				"replace", "bookmarks-sidemenu", nil)

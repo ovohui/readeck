@@ -148,7 +148,7 @@ func (h *helpHandlers) getSection(r *http.Request) (*docs.Section, string) {
 		return section, r.Context().Value(ctxLanguageKey{}).(string)
 	}
 
-	tag := server.Locale(r).Tag.String()
+	tag := server.Locale(r.Context()).Tag.String()
 	if _, ok := docs.Manifest.Sections[tag]; !ok {
 		tag = "en"
 	}
@@ -201,7 +201,7 @@ func (h *helpHandlers) serveStatic(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *helpHandlers) localeRedirect(w http.ResponseWriter, r *http.Request) {
-	tag := server.Locale(r).Tag.String()
+	tag := server.Locale(r.Context()).Tag.String()
 	if _, ok := docs.Manifest.Sections[tag]; !ok {
 		tag = "en"
 	}
@@ -298,18 +298,18 @@ func (h *helpHandlers) serveAPISchema(w http.ResponseWriter, r *http.Request) {
 func (h *helpHandlers) serveAPIDocs(w http.ResponseWriter, r *http.Request) {
 	// By including a web component full of inline styles, we need
 	// to relax the style-src policy.
-	policy := server.GetCSPHeader(r).Clone()
+	policy := server.GetCSPHeader(r.Context())
 	policy.Set("style-src", csp.ReportSample, csp.Self, csp.UnsafeInline)
 	policy.Write(w.Header())
 
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
 		{tr.Gettext("Documentation"), urls.PathOnly(urls.AbsoluteURL(r, "/docs", tr.Tag.String(), "/"))},
 		{"API"},
 	})
 
 	hideBadges := []string{}
-	if !auth.GetRequestUser(r).HasPermission("api:cookbook", "read") {
+	if !auth.GetUser(r.Context()).HasPermission("api:cookbook", "read") {
 		hideBadges = append(hideBadges, "admin only")
 	}
 

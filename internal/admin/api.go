@@ -100,7 +100,7 @@ func (api *adminAPI) withUser(next http.Handler) http.Handler {
 }
 
 func (api *adminAPI) deleteUser(r *http.Request, u *users.User) error {
-	if u.ID == auth.GetRequestUser(r).ID {
+	if u.ID == auth.GetUser(r.Context()).ID {
 		return errSameUser
 	}
 

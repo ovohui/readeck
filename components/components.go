@@ -29,7 +29,7 @@ var S = fmt.Sprintf
 
 // L returns the context's current [locales.Locale].
 func L(ctx context.Context) *locales.Locale {
-	return server.LocaleContext(ctx)
+	return server.Locale(ctx)
 }
 
 // URL returns a [templ.SafeURL] (path only) for a given internal URL.
