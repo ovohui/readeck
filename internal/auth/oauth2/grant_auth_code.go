@@ -120,7 +120,7 @@ func (h *authorizeViewRouter) authorizeHandler(w http.ResponseWriter, r *http.Re
 		}
 
 		// Add encrypted code to the redirect_uri parameter.
-		code, err := f.getCode(auth.GetRequestUser(r))
+		code, err := f.getCode(auth.GetUser(r.Context()))
 		if err != nil {
 			errServerError.withError(err).redirect(w, r, redir, params)
 			return

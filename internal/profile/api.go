@@ -122,7 +122,7 @@ func (api *profileAPI) profileInfo(w http.ResponseWriter, r *http.Request) {
 
 // profileUpdate updates the current user profile information.
 func (api *profileAPI) profileUpdate(w http.ResponseWriter, r *http.Request) {
-	user := auth.GetRequestUser(r)
+	user := auth.GetUser(r.Context())
 	f := forms.BindAs[profileForm](r, withProfileUser(user))
 
 	if !f.IsValid() {
@@ -150,7 +150,7 @@ func (api *profileAPI) withTokenList(t tokenType) func(next http.Handler) http.H
 
 			ds := tokens.Tokens.Query().
 				Where(
-					goqu.C("user_id").Eq(auth.GetRequestUser(r).ID),
+					goqu.C("user_id").Eq(auth.GetUser(r.Context()).ID),
 				).
 				Order(
 					exp.DateTime(goqu.C("last_used").Table("t")).Desc().NullsLast(),
@@ -187,7 +187,7 @@ func (api *profileAPI) withToken(t tokenType) func(next http.Handler) http.Handl
 			ds := tokens.Tokens.Query().
 				Where(
 					goqu.C("uid").Table("t").Eq(uid),
-					goqu.C("user_id").Eq(auth.GetRequestUser(r).ID),
+					goqu.C("user_id").Eq(auth.GetUser(r.Context()).ID),
 				)
 
 			switch t {

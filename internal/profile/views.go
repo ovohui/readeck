@@ -73,7 +73,7 @@ func newProfileViews(api *profileAPI) *profileViews {
 // userProfile handles GET and POST requests on /profile.
 func (v *profileViews) userProfile(w http.ResponseWriter, r *http.Request) {
 	tr := server.Locale(r)
-	user := auth.GetRequestUser(r)
+	user := auth.GetUser(r.Context())
 	f := forms.New[profileForm](r.Context(), withProfileUser(user))
 
 	if r.Method == http.MethodPost {
@@ -104,7 +104,7 @@ func (v *profileViews) userProfile(w http.ResponseWriter, r *http.Request) {
 // userPassword handles GET and POST requests on /profile/password.
 func (v *profileViews) userPassword(w http.ResponseWriter, r *http.Request) {
 	tr := server.Locale(r)
-	user := auth.GetRequestUser(r)
+	user := auth.GetUser(r.Context())
 	f := forms.New[changePasswordForm](r.Context())
 
 	if r.Method == http.MethodPost {
@@ -157,7 +157,7 @@ func (v *profileViews) userPassword(w http.ResponseWriter, r *http.Request) {
 
 func (v *profileViews) userTOTP(w http.ResponseWriter, r *http.Request) {
 	tr := server.Locale(r)
-	user := auth.GetRequestUser(r)
+	user := auth.GetUser(r.Context())
 	f := forms.New[totpForm](r.Context())
 
 	switch r.Method {
@@ -245,7 +245,7 @@ func (v *profileViews) tokenList(w http.ResponseWriter, r *http.Request) {
 
 func (v *profileViews) tokenCreate(w http.ResponseWriter, r *http.Request) {
 	t := &tokens.Token{
-		UserID:      &auth.GetRequestUser(r).ID,
+		UserID:      &auth.GetUser(r.Context()).ID,
 		IsEnabled:   true,
 		Application: "internal",
 	}
@@ -310,7 +310,7 @@ func (v *profileViews) tokenDelete(w http.ResponseWriter, r *http.Request) {
 
 func (v *profileViews) exportData(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
-		u := auth.GetRequestUser(r)
+		u := auth.GetUser(r.Context())
 		ex, err := portability.NewSingleUserExporter(w, u)
 		if err != nil {
 			server.Err(w, r, err)

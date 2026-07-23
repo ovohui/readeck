@@ -104,7 +104,7 @@ func (h *adminViews) userInfo(w http.ResponseWriter, r *http.Request) {
 				server.Log(r).Error("", slog.Any("err", err))
 			} else {
 				// Refresh session if same user
-				if auth.GetRequestUser(r).ID == u.ID {
+				if auth.GetUser(r.Context()).ID == u.ID {
 					sess := server.GetSession(r)
 					sess.Payload.User = u.ID
 					sess.Payload.Seed = u.Seed
@@ -136,7 +136,7 @@ func (h *adminViews) userDelete(w http.ResponseWriter, r *http.Request) {
 	forms.Bind(r, f)
 
 	u := getUser(r.Context())
-	if u.ID == auth.GetRequestUser(r).ID {
+	if u.ID == auth.GetUser(r.Context()).ID {
 		server.Err(w, r, errSameUser)
 		return
 	}
@@ -177,7 +177,7 @@ func (h *adminViews) userSignout(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Refresh session if same user
-	if auth.GetRequestUser(r).ID == u.ID {
+	if auth.GetUser(r.Context()).ID == u.ID {
 		sess := server.GetSession(r)
 		sess.Payload.User = u.ID
 		sess.Payload.Seed = u.Seed

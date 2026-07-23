@@ -98,7 +98,7 @@ func (h *viewsRouter) bookmarksImport(w http.ResponseWriter, r *http.Request) {
 		err = importer.ImportBookmarksTask.Run(trackID, importer.ImportParams{
 			Source:          source,
 			Data:            data,
-			UserID:          auth.GetRequestUser(r).ID,
+			UserID:          auth.GetUser(r.Context()).ID,
 			RequestID:       server.GetReqID(r),
 			Label:           options.Label,
 			AllowDuplicates: !options.IgnoreDuplicates,

@@ -85,7 +85,7 @@ func crossOriginGuard(next http.Handler) http.Handler {
 func WithPermission(obj, act string) func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			u := auth.GetRequestUser(r)
+			u := auth.GetUser(r.Context())
 			ok := auth.HasPermission(r, obj, act)
 
 			logger := Log(r).With(

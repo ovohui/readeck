@@ -31,7 +31,7 @@ func (h *viewsRouter) collectionCreate(w http.ResponseWriter, r *http.Request) {
 	case http.MethodPost:
 		forms.Bind(r, f)
 		if f.IsValid() {
-			c, err := f.createCollection(auth.GetRequestUser(r).ID)
+			c, err := f.createCollection(auth.GetUser(r.Context()).ID)
 			if err != nil {
 				server.Log(r).Error("", slog.Any("err", err))
 			} else {

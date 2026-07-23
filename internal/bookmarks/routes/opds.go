@@ -42,7 +42,7 @@ func NewOPDSRouteHandler() func(r chi.Router) {
 
 func (h *opdsRouter) bookmarkList(w http.ResponseWriter, r *http.Request) {
 	lastUpdate, err := bookmarks.Bookmarks.GetLastUpdate(
-		goqu.C("user_id").Eq(auth.GetRequestUser(r).ID),
+		goqu.C("user_id").Eq(auth.GetUser(r.Context()).ID),
 	)
 	if err != nil {
 		server.Err(w, r, err)
@@ -88,7 +88,7 @@ func (h *opdsRouter) bookmarkList(w http.ResponseWriter, r *http.Request) {
 
 func (h *opdsRouter) collectionList(w http.ResponseWriter, r *http.Request) {
 	lastUpdate, err := bookmarks.Bookmarks.GetLastUpdate(
-		goqu.C("user_id").Eq(auth.GetRequestUser(r).ID),
+		goqu.C("user_id").Eq(auth.GetUser(r.Context()).ID),
 	)
 	if err != nil {
 		server.Err(w, r, err)
@@ -126,7 +126,7 @@ func (h *opdsRouter) collectionList(w http.ResponseWriter, r *http.Request) {
 
 func (h *opdsRouter) collectionInfo(w http.ResponseWriter, r *http.Request) {
 	lastUpdate, err := bookmarks.Bookmarks.GetLastUpdate(
-		goqu.C("user_id").Eq(auth.GetRequestUser(r).ID),
+		goqu.C("user_id").Eq(auth.GetUser(r.Context()).ID),
 	)
 	if err != nil {
 		server.Err(w, r, err)

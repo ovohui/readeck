@@ -278,7 +278,7 @@ func (api *apiRouter) autocompleteHelper(w http.ResponseWriter, r *http.Request)
 	}
 
 	values := []string{}
-	ds := f.getQuerySet(auth.GetRequestUser(r))
+	ds := f.getQuerySet(auth.GetUser(r.Context()))
 	if ds != nil {
 		if err := ds.ScanVals(&values); err != nil {
 			server.Err(w, r, err)
@@ -299,7 +299,7 @@ func (api *apiRouter) labelInfo(w http.ResponseWriter, r *http.Request) {
 	label := getLabel(r.Context())
 	ds := bookmarks.Bookmarks.GetLabels().
 		Where(
-			goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID),
+			goqu.C("user_id").Table("b").Eq(auth.GetUser(r.Context()).ID),
 			goqu.I("name").Eq(label),
 		)
 
@@ -326,7 +326,7 @@ func (api *apiRouter) labelUpdate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ids, err := bookmarks.Bookmarks.RenameLabel(auth.GetRequestUser(r), label, f.Name.Value())
+	ids, err := bookmarks.Bookmarks.RenameLabel(auth.GetUser(r.Context()), label, f.Name.Value())
 	if err != nil {
 		server.Err(w, r, err)
 		return
@@ -344,7 +344,7 @@ func (api *apiRouter) labelUpdate(w http.ResponseWriter, r *http.Request) {
 func (api *apiRouter) labelDelete(w http.ResponseWriter, r *http.Request) {
 	label := getLabel(r.Context())
 
-	ids, err := bookmarks.Bookmarks.RenameLabel(auth.GetRequestUser(r), label, "")
+	ids, err := bookmarks.Bookmarks.RenameLabel(auth.GetUser(r.Context()), label, "")
 	if err != nil {
 		server.Err(w, r, err)
 		return
@@ -468,7 +468,7 @@ func (api *apiRouter) withBookmark(next http.Handler) http.Handler {
 
 		b, err := bookmarks.Bookmarks.GetOne(
 			goqu.C("uid").Eq(uid),
-			goqu.C("user_id").Eq(auth.GetRequestUser(r).ID),
+			goqu.C("user_id").Eq(auth.GetUser(r.Context()).ID),
 		)
 		if err != nil {
 			server.Status(w, r, http.StatusNotFound)
@@ -477,8 +477,8 @@ func (api *apiRouter) withBookmark(next http.Handler) http.Handler {
 		ctx := withBookmark(r.Context(), b)
 
 		if b.State == bookmarks.StateLoaded {
-			server.WriteLastModified(w, r, b, auth.GetRequestUser(r))
-			server.WriteEtag(w, r, b, auth.GetRequestUser(r))
+			server.WriteLastModified(w, r, b, auth.GetUser(r.Context()))
+			server.WriteEtag(w, r, b, auth.GetUser(r.Context()))
 		}
 
 		w.Header().Add("bookmark-id", b.UID)
@@ -576,7 +576,7 @@ func (api *apiRouter) withCollectionFilters(next http.Handler) http.Handler {
 
 			c, err = bookmarks.Collections.GetOne(
 				goqu.C("uid").Eq(uid),
-				goqu.C("user_id").Eq(auth.GetRequestUser(r).ID),
+				goqu.C("user_id").Eq(auth.GetUser(r.Context()).ID),
 			)
 			if err != nil {
 				server.Status(w, r, http.StatusNotFound)
@@ -631,7 +631,7 @@ func (api *apiRouter) withBookmarkListSelectDataset(next http.Handler) http.Hand
 				"b.note", "b.annotations",
 			).
 			Where(
-				goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID),
+				goqu.C("user_id").Table("b").Eq(auth.GetUser(r.Context()).ID),
 			)
 
 		ds = ds.Order(exp.DateTime(goqu.I("created")).Desc())
@@ -723,7 +723,7 @@ func (api *apiRouter) withBookmarkSeq(next http.Handler) http.Handler {
 		uid := chi.URLParam(r, "uid")
 		if uid != "" {
 			ds := bookmarks.Bookmarks.Query().Where(
-				goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID),
+				goqu.C("user_id").Table("b").Eq(auth.GetUser(r.Context()).ID),
 				goqu.C("uid").Table("b").Eq(uid),
 			)
 			serve(w, r, ds)
@@ -781,7 +781,7 @@ func (api *apiRouter) withAnnotationList(next http.Handler) http.Handler {
 
 		ds := bookmarks.Bookmarks.GetAnnotations().
 			Where(
-				goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID),
+				goqu.C("user_id").Table("b").Eq(auth.GetUser(r.Context()).ID),
 			)
 
 		ds = ds.
@@ -805,7 +805,7 @@ func (api *apiRouter) withLabelList(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ds := bookmarks.Bookmarks.GetLabels().
 			Where(
-				goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID),
+				goqu.C("user_id").Table("b").Eq(auth.GetUser(r.Context()).ID),
 			)
 
 		f := forms.BindAs[labelSearchForm](r)

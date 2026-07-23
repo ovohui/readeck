@@ -756,7 +756,7 @@ func (f *shareForm) sendBookmark(r *http.Request, b *bookmarks.Bookmark) (err er
 
 	var exporter converter.Exporter
 	var options []email.MessageOption
-	if u := auth.GetRequestUser(r); u != nil && u.Settings.EmailSettings.ReplyTo != "" {
+	if u := auth.GetUser(r.Context()); u != nil && u.Settings.EmailSettings.ReplyTo != "" {
 		options = []email.MessageOption{
 			func(_ context.Context, msg *email.Message) error {
 				return msg.ReplyTo(u.Settings.EmailSettings.ReplyTo)

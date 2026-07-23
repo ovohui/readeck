@@ -309,7 +309,7 @@ func (h *helpHandlers) serveAPIDocs(w http.ResponseWriter, r *http.Request) {
 	})
 
 	hideBadges := []string{}
-	if !auth.GetRequestUser(r).HasPermission("api:cookbook", "read") {
+	if !auth.GetUser(r.Context()).HasPermission("api:cookbook", "read") {
 		hideBadges = append(hideBadges, "admin only")
 	}
 

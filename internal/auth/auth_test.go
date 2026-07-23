@@ -80,8 +80,8 @@ func TestHandler(t *testing.T) {
 					Provider: &ProviderInfo{},
 					User:     &users.User{},
 				}, GetAuthInfo(r.Context()))
-				require.Equal(t, &users.User{}, GetRequestUser(r))
-				require.True(t, GetRequestUser(r).IsAnonymous())
+				require.Equal(t, &users.User{}, GetUser(r.Context()))
+				require.True(t, GetUser(r.Context()).IsAnonymous())
 			},
 		},
 		{
@@ -94,8 +94,8 @@ func TestHandler(t *testing.T) {
 					Provider: &ProviderInfo{},
 					User:     &users.User{},
 				}, GetAuthInfo(r.Context()))
-				require.Equal(t, &users.User{}, GetRequestUser(r))
-				require.True(t, GetRequestUser(r).IsAnonymous())
+				require.Equal(t, &users.User{}, GetUser(r.Context()))
+				require.True(t, GetUser(r.Context()).IsAnonymous())
 			},
 		},
 		{

@@ -24,7 +24,7 @@ var withLocale, getLocale = ctxr.WithChecker[*locales.Locale](ctxLocaleKey{})
 // It defaults to English if no user is connected or no language is set.
 func LoadLocale(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		user := auth.GetRequestUser(r)
+		user := auth.GetUser(r.Context())
 		lang := "en"
 		var tr *locales.Locale
 		if !user.IsAnonymous() {

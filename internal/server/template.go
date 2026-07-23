@@ -39,7 +39,7 @@ var (
 // The resulting context always contains the request and its user.
 func componentContext(r *http.Request) context.Context {
 	ctx := r.Context()
-	ctx = withUser(ctx, auth.GetRequestUser(r))
+	ctx = withUser(ctx, auth.GetUser(r.Context()))
 	ctx = withRequest(ctx, r)
 	return ctx
 }

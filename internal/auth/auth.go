@@ -152,7 +152,7 @@ func Required(next http.Handler) http.Handler {
 			return
 		}
 
-		if _, ok := CheckAuthInfo(r.Context()); !ok || GetRequestUser(r).IsAnonymous() {
+		if _, ok := CheckAuthInfo(r.Context()); !ok || GetUser(r.Context()).IsAnonymous() {
 			w.WriteHeader(http.StatusForbidden)
 			return
 		}
@@ -267,10 +267,4 @@ func GetUser(ctx context.Context) *users.User {
 	// we should never reach this since [defaultProviderHandler] sets
 	// an empty user already.
 	return &users.User{}
-}
-
-// GetRequestUser returns the current request's user.
-// TODO: replace with [GetUser].
-func GetRequestUser(r *http.Request) *users.User {
-	return GetUser(r.Context())
 }

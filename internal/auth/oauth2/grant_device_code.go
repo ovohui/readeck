@@ -175,7 +175,7 @@ func (h *deviceViewRouter) authorizeHandler(w http.ResponseWriter, r *http.Reque
 
 			step = stepPending
 
-			availableScopes := users.GroupList(server.Locale(r), "@oauth_scope", auth.GetRequestUser(r))
+			availableScopes := users.GroupList(server.Locale(r), "@oauth_scope", auth.GetUser(r.Context()))
 			for _, x := range availableScopes {
 				if slices.Contains(req.Scopes, x[0]) {
 					scopes = append(scopes, x[1])
@@ -186,7 +186,7 @@ func (h *deviceViewRouter) authorizeHandler(w http.ResponseWriter, r *http.Reque
 				if f.Granted.IsBound() {
 					if f.Granted.Value() {
 						req.Status = codeRequestGranted
-						req.UserID = auth.GetRequestUser(r).ID
+						req.UserID = auth.GetUser(r.Context()).ID
 					} else {
 						req.Status = codeRequestDenied
 					}

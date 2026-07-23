@@ -38,7 +38,7 @@ const listDefaultLimit = 36
 
 func (h *viewsRouter) withBaseContext(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		count, err := bookmarks.Bookmarks.CountAll(auth.GetRequestUser(r))
+		count, err := bookmarks.Bookmarks.CountAll(auth.GetUser(r.Context()))
 		if err != nil {
 			server.Err(w, r, err)
 			return
@@ -354,7 +354,7 @@ func (h *viewsRouter) bookmarkShareEmail(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Set default email address when sending an EPUB
-	if u := auth.GetRequestUser(r); u != nil && f.Format.Value() == "epub" && f.Email.Value() == "" {
+	if u := auth.GetUser(r.Context()); u != nil && f.Format.Value() == "epub" && f.Email.Value() == "" {
 		f.Email.Set(u.Settings.EmailSettings.EpubTo)
 	}
 
@@ -395,7 +395,7 @@ func (h *viewsRouter) labelInfo(w http.ResponseWriter, r *http.Request) {
 		f := forms.BindAs[labelForm](r)
 
 		if f.IsValid() {
-			_, err := bookmarks.Bookmarks.RenameLabel(auth.GetRequestUser(r), label, f.Name.Value())
+			_, err := bookmarks.Bookmarks.RenameLabel(auth.GetUser(r.Context()), label, f.Name.Value())
 			if err != nil {
 				server.Err(w, r, err)
 				return
@@ -410,7 +410,7 @@ func (h *viewsRouter) labelInfo(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnprocessableEntity)
 	}
 
-	isDeleted := tasks.DeleteLabelTask.IsRunning(fmt.Sprintf("%d@%s", auth.GetRequestUser(r).ID, label))
+	isDeleted := tasks.DeleteLabelTask.IsRunning(fmt.Sprintf("%d@%s", auth.GetUser(r.Context()).ID, label))
 	server.RenderComponent(w, r, http.StatusOK, Views{}.labelInfo(
 		label, bl, isDeleted,
 	))
@@ -426,7 +426,7 @@ func (h *viewsRouter) labelDelete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	f := forms.BindAs[labelDeleteForm](r)
-	if err := f.trigger(auth.GetRequestUser(r), label); err != nil {
+	if err := f.trigger(auth.GetUser(r.Context()), label); err != nil {
 		server.Err(w, r, err)
 		return
 	}

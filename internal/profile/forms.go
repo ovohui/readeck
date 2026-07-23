@@ -371,7 +371,7 @@ func (f *importForm) load(r *http.Request) error {
 		return err
 	}
 
-	imp := portability.NewSingleUserImporter(zr, auth.GetRequestUser(r), server.Locale(r))
+	imp := portability.NewSingleUserImporter(zr, auth.GetUser(r.Context()), server.Locale(r))
 	imp.SetLogger(func(s string, a ...any) {
 		server.Log(r).Info(fmt.Sprintf(s, a...))
 	})
