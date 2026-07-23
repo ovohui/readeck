@@ -175,7 +175,7 @@ func (h *deviceViewRouter) authorizeHandler(w http.ResponseWriter, r *http.Reque
 
 			step = stepPending
 
-			availableScopes := users.GroupList(server.Locale(r), "@oauth_scope", auth.GetUser(r.Context()))
+			availableScopes := users.GroupList(server.Locale(r.Context()), "@oauth_scope", auth.GetUser(r.Context()))
 			for _, x := range availableScopes {
 				if slices.Contains(req.Scopes, x[0]) {
 					scopes = append(scopes, x[1])

@@ -54,7 +54,7 @@ func (h *adminViews) main(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *adminViews) userList(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	ul := getUserList(r.Context())
 
 	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
@@ -64,7 +64,7 @@ func (h *adminViews) userList(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *adminViews) userCreate(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	f := forms.New[userForm](r.Context())
 
 	if r.Method == http.MethodPost {
@@ -90,7 +90,7 @@ func (h *adminViews) userCreate(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *adminViews) userInfo(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	u := getUser(r.Context())
 
 	f := forms.New[userForm](r.Context())
@@ -149,7 +149,7 @@ func (h *adminViews) userDelete(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *adminViews) userDetach(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	u := getUser(r.Context())
 	if err := u.Update(goqu.Record{
 		"ext_id":   nil,
@@ -165,7 +165,7 @@ func (h *adminViews) userDetach(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *adminViews) userSignout(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	u := getUser(r.Context())
 	u.SetSeed()
 	if err := u.Update(goqu.Record{

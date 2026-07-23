@@ -86,7 +86,7 @@ func (h *viewsRouter) bookmarkList(w http.ResponseWriter, r *http.Request) {
 	// Retrieve the bookmark list
 	bl := getBookmarkList(r.Context())
 
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	title := tr.Gettext("All your Bookmarks")
 	filters := newContextFilterForm(r.Context())
 
@@ -187,7 +187,7 @@ func (h *viewsRouter) diagnosis(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *viewsRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	b := getBookmark(r.Context())
 	f := forms.New[updateForm](r.Context())
 
@@ -335,7 +335,7 @@ func (h *viewsRouter) bookmarkShareLink(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
 		{tr.Gettext("Bookmarks"), urls.AbsoluteURL(r, "/bookmarks").String()},
 		{utils.ShortText(link.Title, 50), urls.AbsoluteURL(r, "/bookmarks", link.ID).String()},
@@ -365,7 +365,7 @@ func (h *viewsRouter) bookmarkShareEmail(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
 		{tr.Gettext("Bookmarks"), urls.AbsoluteURL(r, "/bookmarks").String()},
 		{utils.ShortText(info.Title, 50), urls.AbsoluteURL(r, "/bookmarks", info.ID).String()},

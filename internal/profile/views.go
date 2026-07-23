@@ -72,7 +72,7 @@ func newProfileViews(api *profileAPI) *profileViews {
 
 // userProfile handles GET and POST requests on /profile.
 func (v *profileViews) userProfile(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	user := auth.GetUser(r.Context())
 	f := forms.New[profileForm](r.Context(), withProfileUser(user))
 
@@ -103,7 +103,7 @@ func (v *profileViews) userProfile(w http.ResponseWriter, r *http.Request) {
 
 // userPassword handles GET and POST requests on /profile/password.
 func (v *profileViews) userPassword(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	user := auth.GetUser(r.Context())
 	f := forms.New[changePasswordForm](r.Context())
 
@@ -156,7 +156,7 @@ func (v *profileViews) userPassword(w http.ResponseWriter, r *http.Request) {
 }
 
 func (v *profileViews) userTOTP(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	user := auth.GetUser(r.Context())
 	f := forms.New[totpForm](r.Context())
 
@@ -223,7 +223,7 @@ func (v *profileViews) userSession(w http.ResponseWriter, r *http.Request) {
 
 func (v *profileViews) applicationList(w http.ResponseWriter, r *http.Request) {
 	tl := getTokenList(r.Context())
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
 		{tr.Gettext("Profile"), urls.AbsoluteURL(r, "/profile").String()},
 		{tr.Gettext("Applications")},
@@ -234,7 +234,7 @@ func (v *profileViews) applicationList(w http.ResponseWriter, r *http.Request) {
 
 func (v *profileViews) tokenList(w http.ResponseWriter, r *http.Request) {
 	tl := getTokenList(r.Context())
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
 		{tr.Gettext("Profile"), urls.AbsoluteURL(r, "/profile").String()},
 		{tr.Gettext("API Tokens")},
@@ -249,7 +249,7 @@ func (v *profileViews) tokenCreate(w http.ResponseWriter, r *http.Request) {
 		IsEnabled:   true,
 		Application: "internal",
 	}
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	if err := tokens.Tokens.Create(t); err != nil {
 		server.Log(r).Error("server error", slog.Any("err", err))
 		server.AddFlash(w, r, "error", tr.Gettext("An error occurred while creating your token."))
@@ -262,7 +262,7 @@ func (v *profileViews) tokenCreate(w http.ResponseWriter, r *http.Request) {
 }
 
 func (v *profileViews) tokenInfo(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	ti := getToken(r.Context())
 	f := forms.New[tokenForm](r.Context(), withTokenInfo(ti.Token))
 
@@ -337,7 +337,7 @@ func (v *profileViews) exportData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
 		{tr.Gettext("Profile"), urls.AbsoluteURL(r, "/profile").String()},
 		{tr.Gettext("Export")},
@@ -347,7 +347,7 @@ func (v *profileViews) exportData(w http.ResponseWriter, r *http.Request) {
 }
 
 func (v *profileViews) importData(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	f := forms.New[importForm](r.Context())
 
 	if r.Method == http.MethodPost {

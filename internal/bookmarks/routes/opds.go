@@ -50,7 +50,7 @@ func (h *opdsRouter) bookmarkList(w http.ResponseWriter, r *http.Request) {
 	}
 
 	bl := getBookmarkList(r.Context())
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 
 	c := catalog.New(
 		r,
@@ -96,7 +96,7 @@ func (h *opdsRouter) collectionList(w http.ResponseWriter, r *http.Request) {
 	}
 
 	cl := getCollectionList(r.Context())
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 
 	c := catalog.New(
 		r,
@@ -133,7 +133,7 @@ func (h *opdsRouter) collectionInfo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 
 	item := getCollection(r.Context())
 	c := catalog.New(

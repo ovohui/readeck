@@ -220,7 +220,7 @@ func (e EPUBEmailExporter) Export(ctx context.Context, _ io.Writer, r *http.Requ
 }
 
 func (EPUBEmailExporter) msg(ctx context.Context, title string) string {
-	return server.LocaleContext(ctx).Gettext(`
+	return server.Locale(ctx).Gettext(`
 Hi,
 
 Here is your ebook for: **%s**

@@ -257,7 +257,7 @@ type tokenItem struct {
 }
 
 func newTokenItem(ctx context.Context, t *tokens.Token) *tokenItem {
-	tr := server.LocaleContext(ctx)
+	tr := server.Locale(ctx)
 	res := &tokenItem{
 		Token:     t,
 		ID:        t.UID,

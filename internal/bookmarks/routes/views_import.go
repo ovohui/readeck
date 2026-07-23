@@ -18,7 +18,7 @@ import (
 )
 
 func (h *viewsRouter) bookmarksImportMain(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
 		{tr.Gettext("Bookmarks"), urls.AbsoluteURL(r, "/bookmarks").String()},
 		{tr.Gettext("Import")},
@@ -29,7 +29,7 @@ func (h *viewsRouter) bookmarksImportMain(w http.ResponseWriter, r *http.Request
 
 func (h *viewsRouter) bookmarksImportStatus(w http.ResponseWriter, r *http.Request) {
 	trackID := chi.URLParam(r, "trackID")
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	progress, _ := importer.NewImportProgress(trackID)
 
 	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
@@ -63,7 +63,7 @@ func (h *viewsRouter) bookmarksImport(w http.ResponseWriter, r *http.Request) {
 		f.(*forms.BooleanField).Set(true)
 	}
 
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
 		{tr.Gettext("Bookmarks"), urls.AbsoluteURL(r, "/bookmarks").String()},
 		{tr.Gettext("Import"), urls.AbsoluteURL(r, "/bookmarks/import").String()},

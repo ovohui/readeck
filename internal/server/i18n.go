@@ -41,13 +41,8 @@ func LoadLocale(next http.Handler) http.Handler {
 	})
 }
 
-// Locale returns the current request's locale.
-func Locale(r *http.Request) *locales.Locale {
-	return LocaleContext(r.Context())
-}
-
-// LocaleContext returns the given context's locale or defaults to en-US.
-func LocaleContext(ctx context.Context) *locales.Locale {
+// Locale returns the given context's locale or defaults to en-US.
+func Locale(ctx context.Context) *locales.Locale {
 	if t, ok := getLocale(ctx); ok {
 		return t
 	}

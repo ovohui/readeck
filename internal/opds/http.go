@@ -48,7 +48,7 @@ func (h *opdsRouter) mainCatalog(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 
 	c := catalog.New(
 		r,

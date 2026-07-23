@@ -129,7 +129,7 @@ func (*baseForm) GetTaggedValidator(name, args string, tc *forms.TagContext) (fo
 			user = info.User
 		}
 
-		g := users.GroupList(server.LocaleContext(tc.Context), "@oauth_scope", user)
+		g := users.GroupList(server.Locale(tc.Context), "@oauth_scope", user)
 		choices := make([]forms.ValueChoice[string], 0, len(g))
 		for _, x := range g {
 			choices = append(choices, forms.Choice(x[1], x[0]))

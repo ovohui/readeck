@@ -60,7 +60,7 @@ func (h *viewHandler) onboarding(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		forms.Bind(r, f)
 		if f.IsValid() {
-			user, err := f.createUser(server.Locale(r).Tag.String())
+			user, err := f.createUser(server.Locale(r.Context()).Tag.String())
 			if err != nil {
 				server.Log(r).Error("", slog.Any("err", err))
 			} else {
