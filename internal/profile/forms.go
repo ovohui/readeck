@@ -30,14 +30,15 @@ import (
 var errInvalidPassword = forms.Gettext("invalid password")
 
 type profileForm struct {
-	// TODO: move settings to a nested struct
 	forms.Form
-	Username              forms.TextField    `json:"username"                validate:"trim required_or_nil max_len:128 is_valid_username"`
-	Email                 forms.TextField    `json:"email"                   validate:"trim required_or_nil max_len:128 is_valid_email"`
-	SettingsLang          forms.TextField    `json:"settings_lang"           validate:"trim lang_choices"`
-	SettingsAddonReminder forms.BooleanField `json:"settings_addon_reminder"`
-	SettingsEmailReplyTo  forms.TextField    `json:"settings_email_reply_to" validate:"trim skip is_email"`
-	SettingsEmailEpubTo   forms.TextField    `json:"settings_email_epub_to"  validate:"trim skip is_email"`
+	Username forms.TextField `json:"username" validate:"trim required_or_nil max_len:128 is_valid_username"`
+	Email    forms.TextField `json:"email"    validate:"trim required_or_nil max_len:128 is_valid_email"`
+	Settings struct {
+		Lang          forms.TextField    `json:"lang"           validate:"trim lang_choices"`
+		AddonReminder forms.BooleanField `json:"addon_reminder"`
+		EmailReplyTo  forms.TextField    `json:"email_reply_to" validate:"trim skip is_email"`
+		EmailEpubTo   forms.TextField    `json:"email_epub_to"  validate:"trim skip is_email"`
+	} `json:"settings"`
 }
 
 func (f *profileForm) GetTaggedValidator(name, _ string, tc *forms.TagContext) (forms.Validator, bool) {
@@ -69,9 +70,9 @@ func withProfileUser(u *users.User) func(forms.FormBinder) {
 
 		f.Username.Set(u.Username)
 		f.Email.Set(u.Email)
-		f.SettingsLang.Set(u.Lang())
-		f.SettingsEmailReplyTo.Set(u.Settings.EmailSettings.ReplyTo)
-		f.SettingsEmailEpubTo.Set(u.Settings.EmailSettings.EpubTo)
+		f.Settings.Lang.Set(u.Lang())
+		f.Settings.EmailReplyTo.Set(u.Settings.EmailSettings.ReplyTo)
+		f.Settings.EmailEpubTo.Set(u.Settings.EmailSettings.EpubTo)
 	}
 }
 
@@ -123,8 +124,8 @@ func (f *profileForm) update() (res map[string]any, err error) {
 		}
 
 		switch n := name; {
-		case strings.HasPrefix(n, "settings_email_"):
-			name := strings.TrimPrefix(n, "settings_email_")
+		case strings.HasPrefix(n, "settings.email_"):
+			name := strings.TrimPrefix(n, "settings.email_")
 			switch name {
 			case "reply_to":
 				user.Settings.EmailSettings.ReplyTo = field.String()
@@ -132,10 +133,10 @@ func (f *profileForm) update() (res map[string]any, err error) {
 				user.Settings.EmailSettings.EpubTo = field.String()
 			}
 			res["settings"] = user.Settings
-		case n == "settings_lang":
+		case n == "settings.lang":
 			user.Settings.Lang = field.String()
 			res["settings"] = user.Settings
-		case n == "settings_addon_reminder":
+		case n == "settings.addon_reminder":
 			user.Settings.AddonReminder = field.V().(bool)
 			res["settings"] = user.Settings
 		case n == "email" && field.String() != user.Email:
