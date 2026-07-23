@@ -74,7 +74,7 @@ templ:
 	$(TEMPL) generate
 
 templ/fmt: templ
-	$(TEMPL) templ fmt -fail .
+	$(TEMPL) fmt -fail .
 
 # Build the server
 .PHONY: build
