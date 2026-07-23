@@ -303,7 +303,7 @@ func (f *revokeTokenForm) revoke(r *http.Request) error {
 	}
 
 	// must be authenticated with the same token
-	if tokenID != auth.GetRequestAuthInfo(r).Provider.ID {
+	if tokenID != auth.GetAuthInfo(r.Context()).Provider.ID {
 		return errAccessDenied
 	}
 

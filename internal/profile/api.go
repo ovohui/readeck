@@ -91,7 +91,7 @@ type profileInfo struct {
 
 // profileInfo returns the current user information.
 func (api *profileAPI) profileInfo(w http.ResponseWriter, r *http.Request) {
-	info := auth.GetRequestAuthInfo(r)
+	info := auth.GetAuthInfo(r.Context())
 
 	res := profileInfo{
 		Provider: profileInfoProvider{

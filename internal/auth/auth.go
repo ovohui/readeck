@@ -158,7 +158,7 @@ func Required(next http.Handler) http.Handler {
 		}
 
 		if p, ok := provider.(LoggerProvider); ok && slog.Default().Enabled(context.Background(), slog.LevelDebug) {
-			authInfo := GetRequestAuthInfo(r)
+			authInfo := GetAuthInfo(r.Context())
 			p.Log(r).Debug(
 				"authenticated user",
 				slog.String("provider", authInfo.Provider.Name),
@@ -175,7 +175,7 @@ func Required(next http.Handler) http.Handler {
 // the action "act" on object "obj". It will check the user permissions
 // and any scope given by the authentication provider.
 func HasPermission(r *http.Request, obj, act string) bool {
-	info := GetRequestAuthInfo(r)
+	info := GetAuthInfo(r.Context())
 
 	// Checked the scoped permissions if any
 	// Note that the provider permission must be in the user's scope
@@ -192,7 +192,7 @@ func HasPermission(r *http.Request, obj, act string) bool {
 // If the authentication provider implements it, a subset of permissions
 // is sent, otherwise, the user own permissions is returned.
 func GetPermissions(r *http.Request) []string {
-	info := GetRequestAuthInfo(r)
+	info := GetAuthInfo(r.Context())
 	if info.User.IsAnonymous() {
 		return []string{}
 	}
@@ -267,12 +267,6 @@ func GetUser(ctx context.Context) *users.User {
 	// we should never reach this since [defaultProviderHandler] sets
 	// an empty user already.
 	return &users.User{}
-}
-
-// GetRequestAuthInfo returns the current request's auth info.
-// TODO: replace with [GetAuthInfo].
-func GetRequestAuthInfo(r *http.Request) *Info {
-	return GetAuthInfo(r.Context())
 }
 
 // GetRequestUser returns the current request's user.

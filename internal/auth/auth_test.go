@@ -79,7 +79,7 @@ func TestHandler(t *testing.T) {
 				require.Equal(t, &Info{
 					Provider: &ProviderInfo{},
 					User:     &users.User{},
-				}, GetRequestAuthInfo(r))
+				}, GetAuthInfo(r.Context()))
 				require.Equal(t, &users.User{}, GetRequestUser(r))
 				require.True(t, GetRequestUser(r).IsAnonymous())
 			},
@@ -93,7 +93,7 @@ func TestHandler(t *testing.T) {
 				require.Equal(t, &Info{
 					Provider: &ProviderInfo{},
 					User:     &users.User{},
-				}, GetRequestAuthInfo(r))
+				}, GetAuthInfo(r.Context()))
 				require.Equal(t, &users.User{}, GetRequestUser(r))
 				require.True(t, GetRequestUser(r).IsAnonymous())
 			},
@@ -225,7 +225,7 @@ func TestAuthenticate(t *testing.T) {
 			map[string]string{},
 			func(t *testing.T, w *httptest.ResponseRecorder, r *http.Request) {
 				require.Equal(t, 403, w.Code)
-				require.Nil(t, GetRequestAuthInfo(r))
+				require.Nil(t, GetAuthInfo(r.Context()))
 			},
 		},
 		{
@@ -233,7 +233,7 @@ func TestAuthenticate(t *testing.T) {
 			map[string]string{},
 			func(t *testing.T, w *httptest.ResponseRecorder, r *http.Request) {
 				require.Equal(t, 403, w.Code)
-				require.Nil(t, GetRequestAuthInfo(r))
+				require.Nil(t, GetAuthInfo(r.Context()))
 			},
 		},
 		{
@@ -248,7 +248,7 @@ func TestAuthenticate(t *testing.T) {
 						Name: "header",
 					},
 					User: &users.User{ID: 1, Username: "alice"},
-				}, GetRequestAuthInfo(r))
+				}, GetAuthInfo(r.Context()))
 			},
 		},
 		{
@@ -258,7 +258,7 @@ func TestAuthenticate(t *testing.T) {
 			},
 			func(t *testing.T, w *httptest.ResponseRecorder, r *http.Request) {
 				require.Equal(t, 403, w.Code)
-				require.Nil(t, GetRequestAuthInfo(r))
+				require.Nil(t, GetAuthInfo(r.Context()))
 			},
 		},
 		{
@@ -268,7 +268,7 @@ func TestAuthenticate(t *testing.T) {
 			},
 			func(t *testing.T, w *httptest.ResponseRecorder, r *http.Request) {
 				require.Equal(t, 403, w.Code)
-				require.Nil(t, GetRequestAuthInfo(r))
+				require.Nil(t, GetAuthInfo(r.Context()))
 			},
 		},
 		{
@@ -283,7 +283,7 @@ func TestAuthenticate(t *testing.T) {
 						Name: "x-header",
 					},
 					User: &users.User{ID: 1, Username: "test"},
-				}, GetRequestAuthInfo(r))
+				}, GetAuthInfo(r.Context()))
 			},
 		},
 	}

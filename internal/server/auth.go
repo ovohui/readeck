@@ -108,11 +108,11 @@ func (p *TokenAuthProvider) Authenticate(w http.ResponseWriter, r *http.Request)
 // HasPermission checks the permission on the current authentication provider role
 // list. If the role list is empty, the user permissions apply.
 func (p *TokenAuthProvider) HasPermission(r *http.Request, obj, act string) bool {
-	if len(auth.GetRequestAuthInfo(r).Provider.Roles) == 0 {
+	if len(auth.GetAuthInfo(r.Context()).Provider.Roles) == 0 {
 		return true
 	}
 
-	for _, scope := range auth.GetRequestAuthInfo(r).Provider.Roles {
+	for _, scope := range auth.GetAuthInfo(r.Context()).Provider.Roles {
 		if acls.Enforce(scope, obj, act) {
 			return true
 		}
@@ -124,11 +124,11 @@ func (p *TokenAuthProvider) HasPermission(r *http.Request, obj, act string) bool
 // GetPermissions returns all the permissions attached to the current authentication provider
 // role list. If no role is defined, it will fallback to the user permission list.
 func (p *TokenAuthProvider) GetPermissions(r *http.Request) []string {
-	if len(auth.GetRequestAuthInfo(r).Provider.Roles) == 0 {
+	if len(auth.GetAuthInfo(r.Context()).Provider.Roles) == 0 {
 		return nil
 	}
 
-	return acls.GetPermissions(auth.GetRequestAuthInfo(r).Provider.Roles...)
+	return acls.GetPermissions(auth.GetAuthInfo(r.Context()).Provider.Roles...)
 }
 
 // CsrfExempt is always true for this provider.
