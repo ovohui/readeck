@@ -129,7 +129,7 @@ func HandleCaching(w http.ResponseWriter, r *http.Request) bool {
 
 	// Cancel the caching headers when there are messages.
 	// It prevents the message to stay on the page forever.
-	if len(Flashes(r)) > 0 {
+	if len(Flashes(r.Context())) > 0 {
 		w.Header().Del("Last-Modified")
 		w.Header().Del("Etag")
 	}

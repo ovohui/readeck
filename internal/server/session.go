@@ -115,8 +115,8 @@ func AddFlash(w http.ResponseWriter, r *http.Request, typ, msg string) error {
 
 // Flashes returns the flash messages retrieved from the session
 // in the session middleware.
-func Flashes(r *http.Request) []sessions.FlashMessage {
-	if msgs, ok := checkFlashMessages(r.Context()); ok && msgs != nil {
+func Flashes(ctx context.Context) []sessions.FlashMessage {
+	if msgs, ok := checkFlashMessages(ctx); ok && msgs != nil {
 		return msgs
 	}
 	return make([]sessions.FlashMessage, 0)

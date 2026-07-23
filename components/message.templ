@@ -32,7 +32,7 @@ templ (mc *message) component() {
 
 // Flashes shows the flash messages extracted from the user's session.
 templ Flashes() {
-	if flashes := server.Flashes(server.GetRequest(ctx)); len(flashes) > 0 {
+	if flashes := server.Flashes(ctx); len(flashes) > 0 {
 		<div class="toaster">
 			for _, f := range flashes {
 				if !strings.HasPrefix(f.Type, "_") {
