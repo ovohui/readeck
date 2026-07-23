@@ -8,7 +8,6 @@ import json
 import os
 from contextlib import chdir, contextmanager
 from datetime import date
-from pathlib import Path
 from subprocess import call, check_call, check_output
 from tempfile import TemporaryDirectory
 from urllib import parse, request
@@ -124,31 +123,6 @@ def update_go_dependencies():
     check_call(["go", "mod", "tidy"])
 
 
-def update_go_tools():
-    tools = []
-    with open("go.mod") as fp:
-        for line in fp.readlines():
-            if line.startswith("//tool:"):
-                tools.append(line.lstrip("//tool:").strip())
-
-    modfile = Path("go.tool.mod")
-    modfile.unlink(True)
-    modfile.with_suffix(".sum").unlink(True)
-
-    # fmt: off
-    check_call(
-        [
-            "go", "mod", "init",
-            f"-modfile={modfile}",
-            "codeberg.org/readeck/readeck/tools",
-        ]
-    )
-    # fmt: on
-
-    for tool in tools:
-        check_call(["go", "get", f"-modfile={modfile}", "-tool", tool])
-
-
 def update_js_dependencies():
     with chdir("web"):
         # fmt: off
@@ -217,12 +191,6 @@ def main():
         commit_changes(
             ["go.mod", "go.sum"],
             "Updated Go dependencies",
-        )
-
-        update_go_tools()
-        commit_changes(
-            ["go.tool.mod", "go.tool.sum"],
-            "Updated Go tools",
         )
 
         update_js_dependencies()
