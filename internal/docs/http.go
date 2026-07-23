@@ -298,7 +298,7 @@ func (h *helpHandlers) serveAPISchema(w http.ResponseWriter, r *http.Request) {
 func (h *helpHandlers) serveAPIDocs(w http.ResponseWriter, r *http.Request) {
 	// By including a web component full of inline styles, we need
 	// to relax the style-src policy.
-	policy := server.GetCSPHeader(r).Clone()
+	policy := server.GetCSPHeader(r.Context())
 	policy.Set("style-src", csp.ReportSample, csp.Self, csp.UnsafeInline)
 	policy.Write(w.Header())
 

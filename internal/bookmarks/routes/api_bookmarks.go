@@ -112,7 +112,7 @@ func (api *apiRouter) bookmarkListFeed(w http.ResponseWriter, r *http.Request) {
 	})
 
 	// Chromium needs style-src unsafe-inline to show the XML tree.
-	policy := server.GetCSPHeader(r).Clone()
+	policy := server.GetCSPHeader(r.Context())
 	policy.Set("style-src", csp.UnsafeInline)
 	policy.Write(w.Header())
 

@@ -102,7 +102,7 @@ func (h *authorizeViewRouter) authorizeHandler(w http.ResponseWriter, r *http.Re
 	}
 
 	// Remove form-action CSP directive
-	policy := server.GetCSPHeader(r)
+	policy := server.GetCSPHeader(r.Context())
 	policy.Del("form-action")
 	policy.Write(w.Header())
 

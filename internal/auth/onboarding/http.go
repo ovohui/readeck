@@ -79,7 +79,7 @@ func (h *viewHandler) onboarding(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnprocessableEntity)
 	}
 
-	policy := oidc.Providers.CSP(server.GetCSPHeader(r))
+	policy := oidc.Providers.CSP(server.GetCSPHeader(r.Context()))
 	policy.Write(w.Header())
 
 	server.RenderComponent(w, r, http.StatusOK, Views{}.onboarding(f))

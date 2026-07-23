@@ -136,7 +136,7 @@ func (h *viewsRouter) bookmarkInfo(w http.ResponseWriter, r *http.Request) {
 
 	// Set CSP for video playback
 	if item.Type == "video" && item.EmbedHostname != "" {
-		policy := server.GetCSPHeader(r).Clone()
+		policy := server.GetCSPHeader(r.Context())
 		policy.Add("frame-src", item.EmbedHostname)
 		policy.Write(w.Header())
 	}
@@ -531,20 +531,21 @@ func (h *publicViewsRouter) get(w http.ResponseWriter, r *http.Request) {
 	server.WithCaching(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var html io.Reader
 
-		// Harden CSP
-		policy := server.GetCSPHeader(r).Clone()
-		policy.Set("connect-src", csp.None)
-		policy.Set("form-action", csp.None)
-
 		if html, err = item.GetArticle(); err != nil {
 			server.Err(w, r, err)
 			return
 		}
 
+		// Harden CSP
+		policy := server.GetCSPHeader(r.Context())
+		policy.Set("connect-src", csp.None)
+		policy.Set("form-action", csp.None)
+
 		// Relax CSP for video playback
 		if item.Type == "video" && item.EmbedHostname != "" {
 			policy.Add("frame-src", item.EmbedHostname)
 		}
+
 		policy.Write(w.Header())
 
 		server.RenderComponent(w, r.WithContext(ctx), http.StatusOK, converter.PublicViews{}.Bookmark(user, item, notes, html))
