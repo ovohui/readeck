@@ -142,7 +142,7 @@ func infoRoutes() http.Handler {
 			},
 		}
 
-		if auth.HasPermission(r, "email", "send") {
+		if auth.HasPermission(r.Context(), "email", "send") {
 			res.Features = append(res.Features, "email")
 		}
 		slices.Sort(res.Features)

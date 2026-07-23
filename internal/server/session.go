@@ -68,7 +68,7 @@ func WithSession() func(next http.Handler) http.Handler {
 			ctx = withSession(ctx, session)
 
 			// If auth provider is not [auth.SessionAuthProvider], we're done
-			if _, ok := auth.GetRequestProvider(r).(*SessionAuthProvider); !ok {
+			if _, ok := auth.GetProvider(r.Context()).(*SessionAuthProvider); !ok {
 				next.ServeHTTP(w, r.WithContext(ctx))
 				return
 			}

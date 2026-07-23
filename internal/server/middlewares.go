@@ -35,7 +35,7 @@ var csrfProtection = http.NewCrossOriginProtection()
 // https://words.filippo.io/csrf/
 func Csrf(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if p, ok := auth.GetRequestProvider(r).(auth.FeatureCsrfProvider); ok && p.CsrfExempt(r) {
+		if p, ok := auth.GetProvider(r.Context()).(auth.FeatureCsrfProvider); ok && p.CsrfExempt(r) {
 			next.ServeHTTP(w, r)
 			return
 		}
@@ -86,7 +86,7 @@ func WithPermission(obj, act string) func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			u := auth.GetUser(r.Context())
-			ok := auth.HasPermission(r, obj, act)
+			ok := auth.HasPermission(r.Context(), obj, act)
 
 			logger := Log(r).With(
 				slog.String("user", u.Username),
@@ -97,7 +97,7 @@ func WithPermission(obj, act string) func(next http.Handler) http.Handler {
 			)
 
 			if logger.Enabled(context.Background(), slog.LevelDebug) {
-				logger.Debug("access control", slog.Any("permissions", auth.GetPermissions(r)))
+				logger.Debug("access control", slog.Any("permissions", auth.GetPermissions(r.Context())))
 			}
 
 			if !ok {

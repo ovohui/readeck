@@ -67,8 +67,8 @@ type FeatureCsrfProvider interface {
 // FeaturePermissionProvider allows a provider to implement a permission
 // check of its own. Usually providing scoped permissions.
 type FeaturePermissionProvider interface {
-	HasPermission(*http.Request, string, string) bool
-	GetPermissions(*http.Request) []string
+	HasPermission(context.Context, string, string) bool
+	GetPermissions(context.Context) []string
 }
 
 // LoggerProvider described a [Provider] that can return an [slog.Logger].
@@ -171,41 +171,6 @@ func Required(next http.Handler) http.Handler {
 	})
 }
 
-// HasPermission returns true if the user that's connected can perform
-// the action "act" on object "obj". It will check the user permissions
-// and any scope given by the authentication provider.
-func HasPermission(r *http.Request, obj, act string) bool {
-	info := GetAuthInfo(r.Context())
-
-	// Checked the scoped permissions if any
-	// Note that the provider permission must be in the user's scope
-	// to succeed.
-	if p, ok := GetRequestProvider(r).(FeaturePermissionProvider); ok {
-		return info.User.HasPermission(obj, act) && p.HasPermission(r, obj, act)
-	}
-
-	// Fallback to user permissions
-	return info.User.HasPermission(obj, act)
-}
-
-// GetPermissions returns all the permissions available for the request.
-// If the authentication provider implements it, a subset of permissions
-// is sent, otherwise, the user own permissions is returned.
-func GetPermissions(r *http.Request) []string {
-	info := GetAuthInfo(r.Context())
-	if info.User.IsAnonymous() {
-		return []string{}
-	}
-
-	if p, ok := GetRequestProvider(r).(FeaturePermissionProvider); ok {
-		if res := p.GetPermissions(r); res != nil {
-			return res
-		}
-	}
-
-	return info.User.Permissions()
-}
-
 // defaultProviderHandler is a final handler that sets [NullProvider]
 // as the request's authentication provider when no other provider
 // was set.
@@ -243,10 +208,43 @@ func skipNextProviderHandler(next http.Handler, last http.Handler) http.Handler 
 	})
 }
 
-// GetRequestProvider returns the current request's authentication
-// provider.
-func GetRequestProvider(r *http.Request) Provider {
-	if p, ok := CheckProvider(r.Context()); ok {
+// HasPermission returns true if the context's user can perform the action "act" on object "obj".
+// It will check the user permissions and any scope given by the authentication provider.
+func HasPermission(ctx context.Context, obj, act string) bool {
+	info := GetAuthInfo(ctx)
+
+	// Checked the scoped permissions if any
+	// Note that the provider permission must be in the user's scope
+	// to succeed.
+	if p, ok := GetProvider(ctx).(FeaturePermissionProvider); ok {
+		return info.User.HasPermission(obj, act) && p.HasPermission(ctx, obj, act)
+	}
+
+	// Fallback to user permissions
+	return info.User.HasPermission(obj, act)
+}
+
+// GetPermissions returns all the permissions available for the context's user.
+// If the authentication provider implements it, a subset of permissions
+// is sent, otherwise, the user own permissions is returned.
+func GetPermissions(ctx context.Context) []string {
+	info := GetAuthInfo(ctx)
+	if info.User.IsAnonymous() {
+		return []string{}
+	}
+
+	if p, ok := GetProvider(ctx).(FeaturePermissionProvider); ok {
+		if res := p.GetPermissions(ctx); res != nil {
+			return res
+		}
+	}
+
+	return info.User.Permissions()
+}
+
+// GetProvider returns the current context's authentication provider.
+func GetProvider(ctx context.Context) Provider {
+	if p, ok := CheckProvider(ctx); ok {
 		return p
 	}
 	return nil

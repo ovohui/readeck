@@ -99,14 +99,14 @@ func (api *profileAPI) profileInfo(w http.ResponseWriter, r *http.Request) {
 			Application: info.Provider.Application,
 			ID:          info.Provider.ID,
 			Roles:       info.Provider.Roles,
-			Permissions: auth.GetPermissions(r),
+			Permissions: auth.GetPermissions(r.Context()),
 		},
 		User: profileInfoUser{
 			Username: info.User.Username,
 		},
 	}
 
-	if auth.HasPermission(r, "api:profile", "read") {
+	if auth.HasPermission(r.Context(), "api:profile", "read") {
 		res.User.Email = info.User.Email
 		res.User.Created = &info.User.Created
 		res.User.Updated = &info.User.Updated

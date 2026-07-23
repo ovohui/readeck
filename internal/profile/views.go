@@ -197,7 +197,7 @@ func (v *profileViews) userTOTP(w http.ResponseWriter, r *http.Request) {
 // it makes more sense to have it in the views.
 // The response's body is always empty.
 func (v *profileViews) userSession(w http.ResponseWriter, r *http.Request) {
-	_, ok := auth.GetRequestProvider(r).(*server.SessionAuthProvider)
+	_, ok := auth.GetProvider(r.Context()).(*server.SessionAuthProvider)
 	if !ok {
 		server.TextMsg(w, r, http.StatusBadRequest, "invalid authentication provider")
 		return
