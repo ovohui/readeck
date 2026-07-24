@@ -19,8 +19,8 @@ from babel.messages.extract import extract_from_file
 from babel.messages.mofile import write_mo
 from babel.messages.pofile import read_po, write_po
 
-# Percentage of translated content under which a translation won't be loaded.
-COMPLETION_CUTOFF = 0.90
+# Maximum number of untranslated strings.
+COMPLETION_CUTOFF = 30
 
 HERE = Path(__file__).parent
 ROOT = (HERE / "..").resolve()
@@ -332,10 +332,10 @@ def compile(_):
             nb_translated += 1
 
         pct = float(nb_translated / total_strings)
-        count_info = "{:>4}/{:<4} {:>4}%".format(
-            nb_translated, total_strings, round(pct * 100)
+        count_info = "{:>4}|{:<4} {:>4}%".format(
+            total_strings, total_strings - nb_translated, round(pct * 100)
         )
-        if round(pct, 2) < COMPLETION_CUTOFF:
+        if total_strings - nb_translated > COMPLETION_CUTOFF:
             print("[-] {:8} {}".format(code, count_info))
             continue
 
