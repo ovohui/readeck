@@ -10,16 +10,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-07-22 09:23+0200\n"
+"POT-Creation-Date: 2026-07-24 17:15+0200\n"
 "PO-Revision-Date: 2026-07-23 08:07+0000\n"
 "Last-Translator: gallegonovato <gallegonovato@noreply.codeberg.org>\n"
+"Language: es_ES\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/readeck/application/es/>\n"
-"Language: es-ES\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -185,11 +184,11 @@ msgstr "la contraseña está vacía"
 msgid "User is external and can't be updated."
 msgstr "Usuario externo y no se puede actualizar."
 
-#: internal/admin/forms.go:85 internal/profile/forms.go:97
+#: internal/admin/forms.go:85 internal/profile/forms.go:98
 msgid "username is already in use"
 msgstr "nombre de usuario en uso"
 
-#: internal/admin/forms.go:92 internal/profile/forms.go:104
+#: internal/admin/forms.go:92 internal/profile/forms.go:105
 msgid "email address is already in use"
 msgstr "correo electrónico está en uso"
 
@@ -503,7 +502,7 @@ msgstr "Finalizar la instalación"
 msgid "Invalid user and/or password"
 msgstr "Usuario y/o contraseña no válidos"
 
-#: internal/auth/signin/http.go:185 internal/profile/forms.go:227
+#: internal/auth/signin/http.go:185 internal/profile/forms.go:228
 msgid "Invalid code"
 msgstr "Código inválido"
 
@@ -1981,6 +1980,17 @@ msgstr "Autor"
 msgid "Site"
 msgstr "Sitio web"
 
+#: internal/bookmarks/routes/x-filters.templ:37
+#, fuzzy
+msgctxt "date"
+msgid "Since"
+msgstr "Tamaño"
+
+#: internal/bookmarks/routes/x-filters.templ:41
+msgctxt "date"
+msgid "To"
+msgstr ""
+
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
 msgstr "Tipo"
@@ -2471,7 +2481,7 @@ msgstr "El archivo importado debe contener un único usuario"
 msgid "invalid password"
 msgstr "Contraseña no válida"
 
-#: internal/profile/forms.go:356
+#: internal/profile/forms.go:357
 msgid "username does not match"
 msgstr "usuario no coincide"
 
@@ -3410,3 +3420,4 @@ msgstr "%H:%M:%S"
 #~ msgctxt "datetime"
 #~ msgid "%e %B %Y"
 #~ msgstr "%e %B %Y"
+

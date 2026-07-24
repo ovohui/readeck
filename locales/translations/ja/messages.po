@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-07-22 09:23+0200\n"
+"POT-Creation-Date: 2026-07-24 17:15+0200\n"
 "PO-Revision-Date: 2026-07-02 15:29+0000\n"
 "Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
 "Language: ja\n"
@@ -185,11 +185,11 @@ msgstr "パスワードが空です"
 msgid "User is external and can't be updated."
 msgstr "外部ユーザーのため変更はできません。"
 
-#: internal/admin/forms.go:85 internal/profile/forms.go:97
+#: internal/admin/forms.go:85 internal/profile/forms.go:98
 msgid "username is already in use"
 msgstr "すでに使われているユーザー名です"
 
-#: internal/admin/forms.go:92 internal/profile/forms.go:104
+#: internal/admin/forms.go:92 internal/profile/forms.go:105
 msgid "email address is already in use"
 msgstr "すでに使われているメールアドレスです"
 
@@ -502,7 +502,7 @@ msgstr "インストールを完了する"
 msgid "Invalid user and/or password"
 msgstr "ユーザー名かパスワードが誤っています"
 
-#: internal/auth/signin/http.go:185 internal/profile/forms.go:227
+#: internal/auth/signin/http.go:185 internal/profile/forms.go:228
 msgid "Invalid code"
 msgstr "認証コードが誤っています"
 
@@ -1945,6 +1945,17 @@ msgstr "著者"
 msgid "Site"
 msgstr "サイト"
 
+#: internal/bookmarks/routes/x-filters.templ:37
+#, fuzzy
+msgctxt "date"
+msgid "Since"
+msgstr "文字サイズ"
+
+#: internal/bookmarks/routes/x-filters.templ:41
+msgctxt "date"
+msgid "To"
+msgstr ""
+
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
 msgstr "種類"
@@ -2433,7 +2444,7 @@ msgstr "1つのファイルからインポートできるユーザー情報は1�
 msgid "invalid password"
 msgstr "パスワードが誤っています"
 
-#: internal/profile/forms.go:356
+#: internal/profile/forms.go:357
 msgid "username does not match"
 msgstr "ユーザー名が一致しません"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-07-22 09:23+0200\n"
+"POT-Creation-Date: 2026-07-24 17:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Readeck <translate@readeck.com>\n"
 "Language-Team: Readeck <translate@readeck.com>\n"
@@ -178,27 +178,16 @@ msgstr ""
 msgid "User is external and can't be updated."
 msgstr ""
 
-#: internal/admin/forms.go:85 internal/profile/forms.go:97
+#: internal/admin/forms.go:85 internal/profile/forms.go:98
 msgid "username is already in use"
 msgstr ""
 
-#: internal/admin/forms.go:92 internal/profile/forms.go:104
+#: internal/admin/forms.go:92 internal/profile/forms.go:105
 msgid "email address is already in use"
-msgstr ""
-
-#: internal/admin/views.go:61 internal/admin/views.go:86
-#: internal/admin/views.go:127 internal/admin/x-users.templ:16
-#: internal/admin/x-users.templ:121 internal/dashboard/x-dashboard.templ:76
-#: internal/profile/x-base.templ:70
-msgid "Users"
 msgstr ""
 
 #: internal/admin/views.go:77
 msgid "User created."
-msgstr ""
-
-#: internal/admin/views.go:87 internal/admin/x-users.templ:85
-msgid "New User"
 msgstr ""
 
 #: internal/admin/views.go:112
@@ -211,6 +200,13 @@ msgstr ""
 
 #: internal/admin/views.go:186
 msgid "User signed out."
+msgstr ""
+
+#: internal/admin/views.go:61 internal/admin/views.go:86
+#: internal/admin/views.go:127 internal/admin/x-users.templ:16
+#: internal/admin/x-users.templ:121 internal/dashboard/x-dashboard.templ:76
+#: internal/profile/x-base.templ:70
+msgid "Users"
 msgstr ""
 
 #: internal/admin/x-users.templ:19
@@ -246,6 +242,10 @@ msgstr ""
 #: internal/profile/x-applications.templ:84 internal/profile/x-tokens.templ:83
 #: internal/profile/x-tokens.templ:106
 msgid "Cancel"
+msgstr ""
+
+#: internal/admin/views.go:87 internal/admin/x-users.templ:85
+msgid "New User"
 msgstr ""
 
 #: internal/admin/x-users.templ:91 internal/admin/x-users.templ:130
@@ -1079,13 +1079,13 @@ msgctxt "sort"
 msgid "Random"
 msgstr ""
 
+#: internal/bookmarks/routes/forms_bookmarks.go:743
+msgid "E-Book"
+msgstr ""
+
 #: internal/bookmarks/routes/forms_bookmarks.go:742
 #: internal/bookmarks/routes/forms_filters.go:53
 msgid "Article"
-msgstr ""
-
-#: internal/bookmarks/routes/forms_bookmarks.go:743
-msgid "E-Book"
 msgstr ""
 
 #: internal/bookmarks/routes/forms_filters.go:54
@@ -1386,20 +1386,9 @@ msgstr ""
 msgid "Bookmark is loading"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark.templ:123
-#: internal/bookmarks/routes/x-collections.templ:187
-msgid "Edit"
-msgstr ""
-
 #: internal/bookmarks/routes/x-bookmark.templ:166
 #: internal/bookmarks/routes/x-bookmark.templ:178
 msgid "Close panel"
-msgstr ""
-
-#: internal/bookmarks/routes/x-bookmark.templ:207
-#: internal/bookmarks/routes/x-components.templ:36
-#: internal/bookmarks/routes/x-components.templ:363
-msgid "Close dialog"
 msgstr ""
 
 #: internal/bookmarks/routes/x-bookmark.templ:218
@@ -1559,8 +1548,19 @@ msgstr ""
 msgid "Collection will be removed in a few seconds."
 msgstr ""
 
+#: internal/bookmarks/routes/x-bookmark.templ:123
+#: internal/bookmarks/routes/x-collections.templ:187
+msgid "Edit"
+msgstr ""
+
 #: internal/bookmarks/routes/x-collections.templ:240
 msgid "Delete collection"
+msgstr ""
+
+#: internal/bookmarks/routes/x-bookmark.templ:207
+#: internal/bookmarks/routes/x-components.templ:36
+#: internal/bookmarks/routes/x-components.templ:363
+msgid "Close dialog"
 msgstr ""
 
 #: internal/bookmarks/routes/x-components.templ:140
@@ -1669,6 +1669,16 @@ msgstr ""
 msgid "Site"
 msgstr ""
 
+#: internal/bookmarks/routes/x-filters.templ:37
+msgctxt "date"
+msgid "Since"
+msgstr ""
+
+#: internal/bookmarks/routes/x-filters.templ:41
+msgctxt "date"
+msgid "To"
+msgstr ""
+
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
 msgstr ""
@@ -1700,16 +1710,6 @@ msgstr ""
 
 #: internal/bookmarks/routes/x-filters.templ:57
 msgid "With Errors"
-msgstr ""
-
-#: internal/bookmarks/routes/x-filters.templ:90
-#: internal/bookmarks/routes/x-reader-control.templ:180
-msgid "yes"
-msgstr ""
-
-#: internal/bookmarks/routes/x-filters.templ:91
-#: internal/bookmarks/routes/x-reader-control.templ:180
-msgid "no"
 msgstr ""
 
 #: internal/bookmarks/routes/x-import.templ:24
@@ -1866,6 +1866,16 @@ msgstr ""
 
 #: internal/bookmarks/routes/x-reader-control.templ:82
 msgid "Font"
+msgstr ""
+
+#: internal/bookmarks/routes/x-filters.templ:90
+#: internal/bookmarks/routes/x-reader-control.templ:180
+msgid "yes"
+msgstr ""
+
+#: internal/bookmarks/routes/x-filters.templ:91
+#: internal/bookmarks/routes/x-reader-control.templ:180
+msgid "no"
 msgstr ""
 
 #: internal/bookmarks/routes/x-sidebar.templ:44
@@ -2252,11 +2262,11 @@ msgstr ""
 msgid "invalid password"
 msgstr ""
 
-#: internal/auth/signin/http.go:185 internal/profile/forms.go:227
+#: internal/auth/signin/http.go:185 internal/profile/forms.go:228
 msgid "Invalid code"
 msgstr ""
 
-#: internal/profile/forms.go:356
+#: internal/profile/forms.go:357
 msgid "username does not match"
 msgstr ""
 
@@ -2272,22 +2282,12 @@ msgstr ""
 msgid "Your verification code was removed."
 msgstr ""
 
-#: internal/profile/views.go:152 internal/profile/views.go:188
-#: internal/profile/x-base.templ:26
-msgid "Security"
-msgstr ""
-
 #: internal/profile/views.go:181
 msgid "Verification Code is now enabled."
 msgstr ""
 
 #: internal/profile/views.go:189
 msgid "Verification Code"
-msgstr ""
-
-#: internal/profile/views.go:240 internal/profile/views.go:291
-#: internal/profile/x-base.templ:39
-msgid "API Tokens"
 msgstr ""
 
 #: internal/profile/views.go:255
@@ -2357,6 +2357,16 @@ msgid ""
 "\t\t\t\t\t\t\tIf you plan to build an application, please refer to the\n"
 "\t\t\t\t\t\t\t<a href=\"%s\">API Documentation</a>.\n"
 "\t\t\t\t\t\t"
+msgstr ""
+
+#: internal/profile/views.go:152 internal/profile/views.go:188
+#: internal/profile/x-base.templ:26
+msgid "Security"
+msgstr ""
+
+#: internal/profile/views.go:240 internal/profile/views.go:291
+#: internal/profile/x-base.templ:39
+msgid "API Tokens"
 msgstr ""
 
 #: internal/profile/views.go:343 internal/profile/x-base.templ:51
@@ -2460,10 +2470,6 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 
-#: internal/profile/x-profile.templ:17 internal/profile/x-security.templ:16
-msgid "My profile"
-msgstr ""
-
 #: internal/profile/x-profile.templ:25
 #, python-format
 msgid "You are connected as <strong>%s</strong>"
@@ -2513,6 +2519,10 @@ msgid ""
 "\t\t\t\t\t\t\t\t\t\tIf you plan to send e-books to a Kindle device, you must approve the\n"
 "\t\t\t\t\t\t\t\t\t\tfollowing email address within your Kindle Account:\n"
 "\t\t\t\t\t\t\t\t\t"
+msgstr ""
+
+#: internal/profile/x-profile.templ:17 internal/profile/x-security.templ:16
+msgid "My profile"
 msgstr ""
 
 #: internal/profile/x-security.templ:25

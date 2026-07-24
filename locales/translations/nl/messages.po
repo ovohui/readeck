@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-07-22 09:23+0200\n"
+"POT-Creation-Date: 2026-07-24 17:15+0200\n"
 "PO-Revision-Date: 2026-07-02 15:28+0000\n"
 "Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
 "Language: nl\n"
@@ -188,11 +188,11 @@ msgstr "Geen wachtwoord ingevoerd"
 msgid "User is external and can't be updated."
 msgstr "Gebruiker is extern en kan niet worden bijgewerkt."
 
-#: internal/admin/forms.go:85 internal/profile/forms.go:97
+#: internal/admin/forms.go:85 internal/profile/forms.go:98
 msgid "username is already in use"
 msgstr "gebruikersnaam is al in gebruik"
 
-#: internal/admin/forms.go:92 internal/profile/forms.go:104
+#: internal/admin/forms.go:92 internal/profile/forms.go:105
 msgid "email address is already in use"
 msgstr "e-mailadres is al in gebruik"
 
@@ -508,7 +508,7 @@ msgstr "Installatie afronden"
 msgid "Invalid user and/or password"
 msgstr "Ongeldige gebruikersnaam en/of wachtwoord"
 
-#: internal/auth/signin/http.go:185 internal/profile/forms.go:227
+#: internal/auth/signin/http.go:185 internal/profile/forms.go:228
 msgid "Invalid code"
 msgstr "Ongeldig code"
 
@@ -2003,6 +2003,17 @@ msgstr "Auteur"
 msgid "Site"
 msgstr "Website"
 
+#: internal/bookmarks/routes/x-filters.templ:37
+#, fuzzy
+msgctxt "date"
+msgid "Since"
+msgstr "Grootte"
+
+#: internal/bookmarks/routes/x-filters.templ:41
+msgctxt "date"
+msgid "To"
+msgstr ""
+
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
 msgstr "Type"
@@ -2504,7 +2515,7 @@ msgstr "Het importbestand kan slechts van één gebruiker zijn"
 msgid "invalid password"
 msgstr "Ongeldig wachtwoord"
 
-#: internal/profile/forms.go:356
+#: internal/profile/forms.go:357
 msgid "username does not match"
 msgstr "De gebruikersnaam komt niet overeen"
 

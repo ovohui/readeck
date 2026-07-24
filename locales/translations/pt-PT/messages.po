@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-07-22 09:23+0200\n"
+"POT-Creation-Date: 2026-07-24 17:15+0200\n"
 "PO-Revision-Date: 2026-07-02 15:28+0000\n"
 "Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
 "Language: pt_PT\n"
@@ -185,11 +185,11 @@ msgstr "A palavra-passe está vazia"
 msgid "User is external and can't be updated."
 msgstr "O utilizador é um utilizador externo e não pode ser alterado."
 
-#: internal/admin/forms.go:85 internal/profile/forms.go:97
+#: internal/admin/forms.go:85 internal/profile/forms.go:98
 msgid "username is already in use"
 msgstr "o nome de utilizador já está a ser usado"
 
-#: internal/admin/forms.go:92 internal/profile/forms.go:104
+#: internal/admin/forms.go:92 internal/profile/forms.go:105
 msgid "email address is already in use"
 msgstr "o endereço de email já está a ser usado"
 
@@ -503,7 +503,7 @@ msgstr "Concluir a instalação"
 msgid "Invalid user and/or password"
 msgstr "Utilizador e/ou palavra-passe inválidos"
 
-#: internal/auth/signin/http.go:185 internal/profile/forms.go:227
+#: internal/auth/signin/http.go:185 internal/profile/forms.go:228
 msgid "Invalid code"
 msgstr "Código inválido"
 
@@ -1983,6 +1983,17 @@ msgstr "Autor"
 msgid "Site"
 msgstr "Site"
 
+#: internal/bookmarks/routes/x-filters.templ:37
+#, fuzzy
+msgctxt "date"
+msgid "Since"
+msgstr "Tamanho"
+
+#: internal/bookmarks/routes/x-filters.templ:41
+msgctxt "date"
+msgid "To"
+msgstr ""
+
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
 msgstr "Tipo"
@@ -2474,7 +2485,7 @@ msgstr "O ficheiro de importação deve conter apenas um utilizador"
 msgid "invalid password"
 msgstr "senha inválida"
 
-#: internal/profile/forms.go:356
+#: internal/profile/forms.go:357
 msgid "username does not match"
 msgstr "o nome de utilizador não tem correspondência"
 

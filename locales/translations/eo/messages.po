@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-07-22 09:23+0200\n"
+"POT-Creation-Date: 2026-07-24 17:15+0200\n"
 "PO-Revision-Date: 2026-07-02 15:29+0000\n"
 "Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
 "Language: eo\n"
@@ -184,11 +184,11 @@ msgstr "pasvorto estas malplena"
 msgid "User is external and can't be updated."
 msgstr "Uzanto estas ekstera kaj ne povas esti ĝisdatigita."
 
-#: internal/admin/forms.go:85 internal/profile/forms.go:97
+#: internal/admin/forms.go:85 internal/profile/forms.go:98
 msgid "username is already in use"
 msgstr "uzantnomo jam estas uzata"
 
-#: internal/admin/forms.go:92 internal/profile/forms.go:104
+#: internal/admin/forms.go:92 internal/profile/forms.go:105
 msgid "email address is already in use"
 msgstr "retpoŝta adreso jam estas uzata"
 
@@ -501,7 +501,7 @@ msgstr "Finu instaladon"
 msgid "Invalid user and/or password"
 msgstr "Nevalida uzantnomo kaj/aŭ pasvorto"
 
-#: internal/auth/signin/http.go:185 internal/profile/forms.go:227
+#: internal/auth/signin/http.go:185 internal/profile/forms.go:228
 msgid "Invalid code"
 msgstr "Nevalida kodo"
 
@@ -1947,6 +1947,17 @@ msgstr "Aŭtoro"
 msgid "Site"
 msgstr "Retejo"
 
+#: internal/bookmarks/routes/x-filters.templ:37
+#, fuzzy
+msgctxt "date"
+msgid "Since"
+msgstr "Grandeco"
+
+#: internal/bookmarks/routes/x-filters.templ:41
+msgctxt "date"
+msgid "To"
+msgstr ""
+
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
 msgstr "Tipo"
@@ -2435,7 +2446,7 @@ msgstr "La importa dosiero devas enhavi nur unu uzanton"
 msgid "invalid password"
 msgstr "malĝusta pasvorto"
 
-#: internal/profile/forms.go:356
+#: internal/profile/forms.go:357
 msgid "username does not match"
 msgstr "La uzantnomo ne akordas"
 

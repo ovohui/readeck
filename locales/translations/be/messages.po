@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-07-22 09:23+0200\n"
+"POT-Creation-Date: 2026-07-24 17:15+0200\n"
 "PO-Revision-Date: 2026-06-25 18:07+0000\n"
 "Last-Translator: Кнⷫѧⷷ̈зⷮьⷬ Кропоткинъ <kropotkin@noreply.codeberg.org>\n"
 "Language: be\n"
@@ -184,11 +184,11 @@ msgstr "пароль пусты"
 msgid "User is external and can't be updated."
 msgstr "Карыстальнік знешні і не можа быць абноўлены."
 
-#: internal/admin/forms.go:85 internal/profile/forms.go:97
+#: internal/admin/forms.go:85 internal/profile/forms.go:98
 msgid "username is already in use"
 msgstr "імя карыстальніка ўжо выкарыстоўваецца"
 
-#: internal/admin/forms.go:92 internal/profile/forms.go:104
+#: internal/admin/forms.go:92 internal/profile/forms.go:105
 msgid "email address is already in use"
 msgstr "email ўжо выкарыстоўваецца"
 
@@ -501,7 +501,7 @@ msgstr "Завяршыць ўстаноўку"
 msgid "Invalid user and/or password"
 msgstr "Няправільны карыстальнік і/ці пароль"
 
-#: internal/auth/signin/http.go:185 internal/profile/forms.go:227
+#: internal/auth/signin/http.go:185 internal/profile/forms.go:228
 msgid "Invalid code"
 msgstr "Няправільны код"
 
@@ -1950,6 +1950,17 @@ msgstr "Аўтар"
 msgid "Site"
 msgstr "Сайт"
 
+#: internal/bookmarks/routes/x-filters.templ:37
+#, fuzzy
+msgctxt "date"
+msgid "Since"
+msgstr "Памер"
+
+#: internal/bookmarks/routes/x-filters.templ:41
+msgctxt "date"
+msgid "To"
+msgstr ""
+
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
 msgstr "Тып"
@@ -2438,7 +2449,7 @@ msgstr "Файл імпарту павінен утрымліваць тольк
 msgid "invalid password"
 msgstr "несапраўдны пароль"
 
-#: internal/profile/forms.go:356
+#: internal/profile/forms.go:357
 msgid "username does not match"
 msgstr "імя карыстальніка не супадае"
 
