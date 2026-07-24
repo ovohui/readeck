@@ -38,7 +38,7 @@ templ (c FilterComponents) filters(f *FilterForm) {
 			compactField,
 		)
 		@F.TimeTokenField(&f.RangeEnd,
-			F.Label(L(ctx).Pgettext("date", "To")),
+			F.Label(L(ctx).Pgettext("date", "Until")),
 			compactField,
 		)
 		@F.MultiSelectField[string](&f.Type,

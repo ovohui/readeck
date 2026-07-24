@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-07-24 17:15+0200\n"
+"POT-Creation-Date: 2026-07-24 17:42+0200\n"
 "PO-Revision-Date: 2026-07-24 08:00+0000\n"
 "Last-Translator: ghose <ghose@noreply.codeberg.org>\n"
 "Language: gl\n"
@@ -1967,9 +1967,10 @@ msgid "Since"
 msgstr "Tamaño"
 
 #: internal/bookmarks/routes/x-filters.templ:41
+#, fuzzy
 msgctxt "date"
-msgid "To"
-msgstr ""
+msgid "Until"
+msgstr "sen título"
 
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
@@ -3348,4 +3349,8 @@ msgstr "%H:%M:%S"
 #~ msgctxt "datetime"
 #~ msgid "%e %B %Y"
 #~ msgstr "%e de %B, %Y"
+
+#~ msgctxt "date"
+#~ msgid "To"
+#~ msgstr ""
 

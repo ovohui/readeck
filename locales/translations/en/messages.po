@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-07-24 17:15+0200\n"
+"POT-Creation-Date: 2026-07-24 17:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en_US\n"
@@ -1858,7 +1858,7 @@ msgstr ""
 
 #: internal/bookmarks/routes/x-filters.templ:41
 msgctxt "date"
-msgid "To"
+msgid "Until"
 msgstr ""
 
 #: internal/bookmarks/routes/x-filters.templ:45
@@ -3592,5 +3592,9 @@ msgstr ""
 
 #~ msgctxt "datetime"
 #~ msgid "%e %B %Y"
+#~ msgstr ""
+
+#~ msgctxt "date"
+#~ msgid "To"
 #~ msgstr ""
 
