@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-22 09:42+0200\n"
-"PO-Revision-Date: 2026-06-24 13:15+0000\n"
-"Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
-"Language: gl\n"
+"PO-Revision-Date: 2026-07-24 08:00+0000\n"
+"Last-Translator: ghose <ghose@noreply.codeberg.org>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/readeck/documentation/gl/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -259,7 +260,6 @@ msgid "You can combine the following filters:"
 msgstr "Podes combinar os seguintes filtros:"
 
 #: en/bookmark-list.md:114
-#, fuzzy
 msgid ""
 "- **Search**\\\n"
 "  Search in the bookmark's text, its title, its authors, its site name and domain and the labels.\n"
@@ -288,9 +288,13 @@ msgstr ""
 "  Busca só na lista da autoría.\n"
 "- **Sitio web**\\\n"
 "  Busca no título da web e no nome do dominio da web.\n"
+"- **Idioma**\\\n"
+"  Filtra a lista polo idioma do marcador, usando o código de dúas letras\n"
+"- **Nota**\\\n"
+"  Busca unha nota ou anotación.\n"
 "- **Etiqueta**\\\n"
-"  Busca entre as etiquetas.\n"
-"- **É favorito**, **Está arquivado**, **Tipo**\\\n"
+"  Busca etiquetas específicas.\n"
+"- **Tipo**, **Progreso da lectura**, **É favorito**, **Está arquivado**, **Cargouse**, **Con etiquetas**, **Con notas**, **Con erros** \\\n"
 "  Estes filtros limitan as busca aos ámbitos seleccionados.\n"
 "- **Desde a data**, **Ata a data**\\\n"
 "  Este último filtro limita a busca ao marco temporal no que se gardou o marcador. Por exemplo, obter a lista de marcadores creados durante as últimas catro semanas pero non posterior á última semana."
@@ -386,14 +390,12 @@ msgid "## Navigation and presentation settings"
 msgstr "## Axustes da navegación e presentación"
 
 #: en/bookmark.md:32
-#, fuzzy
 msgid "On the side or on top of the bookmark view, a link takes you back to the previous page."
-msgstr "Arriba na vista do marcador, unha ligazón lévate á páxina anterior."
+msgstr "No lateral ou arriba na vista do marcador, unha ligazón lévate á páxina anterior."
 
 #: en/bookmark.md:34
-#, fuzzy
 msgid "If the bookmark contains an article, a button lets you change some typography settings."
-msgstr "Se o marcador contén un artigo, un botón no outro lado permíte cambiar algúns axustes no tipo de letra."
+msgstr "Se o marcador contén un artigo, un botón permíteche cambiar os axustes da tipografía."
 
 #: en/bookmark.md:36
 msgid ""
@@ -413,11 +415,11 @@ msgstr ""
 
 #: en/bookmark.md:43
 msgid "## Edit information"
-msgstr ""
+msgstr "## Editar a información"
 
 #: en/bookmark.md:45
 msgid "Several information such as the title or description are automatically grabbed when you create a bookmark. If you need to change these properties, you can click on the edit side button to open a form."
-msgstr ""
+msgstr "Algúns datos como o título ou a descrición obtéñense automaticamente cando creas o marcador. Se precisas cambiar estas propiedades, podes premer no botón a carón para abrir un formulario."
 
 #: en/bookmark.md:47
 msgid "## Actions"
@@ -848,4 +850,3 @@ msgstr "No seu lugar podes utilizar o identificador e un token da túa elección
 
 #~ msgid "The bookmark's title is automatically grabbed when you create it. If, for some reason, you need something else, you can change it by clicking on it and then click the button on the title side."
 #~ msgstr "O título do marcador obténse automaticamente ao crealo. Se, por calquera motivo, precisas cambialo podes facelo premendo nel e despois no botón que ten ao lado."
-
