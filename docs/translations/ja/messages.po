@@ -10,14 +10,15 @@ msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-22 09:42+0200\n"
-"PO-Revision-Date: 2026-07-16 08:30+0000\n"
+"PO-Revision-Date: 2026-07-24 08:00+0000\n"
 "Last-Translator: boronology <boronology@noreply.codeberg.org>\n"
-"Language: ja\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/readeck/documentation/ja/>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -260,7 +261,6 @@ msgid "You can combine the following filters:"
 msgstr "以下の絞り込みを組み合わせて使用できます。"
 
 #: en/bookmark-list.md:114
-#, fuzzy
 msgid ""
 "- **Search**\\\n"
 "  Search in the bookmark's text, its title, its authors, its site name and domain and the labels.\n"
@@ -289,9 +289,13 @@ msgstr ""
 "  著者で検索します。\n"
 "- **サイト**\\\n"
 "  サイトのタイトルとドメイン名で検索します。\n"
+"- **言語**\\\n"
+"  2文字の言語コードでリストを絞り込みます。\n"
 "- **ラベル**\\\n"
 "  指定したラベルの付いたブックマークを検索します。\n"
-"- **お気に入り**、 **アーカイブ済み**、 **種類**\\\n"
+"- **ノート**\\\n"
+"  ノートや注釈を検索します。\n"
+"- **種類**、**進行状況**、 **お気に入り**、 **アーカイブ済み**、**読み込み済み**、**ラベルあり**、**ノートあり**、**エラーあり** \\\n"
 "  それぞれの条件に合致したものだけから検索します。\n"
 "- **開始日**、 **終了日**\\\n"
 "  指定した期間内に保存したブックマークに限定します。たとえば、過去4週間内かつ1週間以上前に保存したブックマークだけを取得することもできます。"
@@ -387,14 +391,12 @@ msgid "## Navigation and presentation settings"
 msgstr "## ナビゲーションと表示設定"
 
 #: en/bookmark.md:32
-#, fuzzy
 msgid "On the side or on top of the bookmark view, a link takes you back to the previous page."
-msgstr "ブックマーク画面の上部には前のページに戻るリンクがあります。"
+msgstr "ブックマーク画面の横、または上部には前のページに戻るリンクがあります。"
 
 #: en/bookmark.md:34
-#, fuzzy
 msgid "If the bookmark contains an article, a button lets you change some typography settings."
-msgstr "ブックマークが記事のときは、反対側にあるボタンで書式設定の変更ができます。"
+msgstr "ブックマークが記事のときは、書式設定の変更ができるボタンがあります。"
 
 #: en/bookmark.md:36
 msgid ""
@@ -414,11 +416,11 @@ msgstr ""
 
 #: en/bookmark.md:43
 msgid "## Edit information"
-msgstr ""
+msgstr "## 情報の編集"
 
 #: en/bookmark.md:45
 msgid "Several information such as the title or description are automatically grabbed when you create a bookmark. If you need to change these properties, you can click on the edit side button to open a form."
-msgstr ""
+msgstr "タイトルや説明文のような特定の情報はブックマーク作成時に自動的に取得しています。手動で変更したければ横にある編集ボタンを押してフォームを開いてください。"
 
 #: en/bookmark.md:47
 msgid "## Actions"
@@ -701,6 +703,14 @@ msgid ""
 "    - Collection E-book\n"
 "    - Browse Collection"
 msgstr ""
+"- 未読のブックマーク\n"
+"- アーカイブ済みのブックマーク\n"
+"- お気に入りのブックマーク\n"
+"- すべてのブックマーク\n"
+"- ブックマークコレクション\n"
+"  - （コレクション名）\n"
+"    - コレクションの電子書籍\n"
+"    - コレクションを閲覧する"
 
 #: en/opds.md:14
 msgid "Each section, except Collections, provides every bookmark as an E-book."
@@ -708,41 +718,47 @@ msgstr "コレクションを除くいずれのセクションでもそれぞれ
 
 #: en/opds.md:16
 msgid "On a collection's section, you can download the full collection as a single E-book."
-msgstr ""
+msgstr "コレクションのセクションでは、コレクションを一つの電子書籍ファイルとしてダウンロードできます。"
 
 #: en/opds.md:19
 msgid "## Catalog access"
-msgstr ""
+msgstr "## カタログへのアクセス方法"
 
 #: en/opds.md:21
 msgid ""
 "The catalog can be accessed by any app or e-reader supporting the OPDS format.\n"
 "To give access to the catalog, you must first create an [API Token](readeck-instance://profile/tokens)."
 msgstr ""
+"OPDS形式に対応していればどのようなアプリや電子書籍リーダーでもカタログにアクセスできます。\n"
+"カタログにアクセスするにはまず[APIトークン](readeck-instance://profile/tokens)を作成します。"
 
 #: en/opds.md:24
 msgid "**Note**: It's easier to download the token as a text file and transfer it to your e-reader. You can then open the file and copy the token."
-msgstr ""
+msgstr "**備考**: トークンをダウンロードして電子書籍リーダーに転送するのが簡単です。ファイルを開いてトークンをコピーしましょう。"
 
 #: en/opds.md:26
 msgid ""
 "You can restrict the permission of this token to \"Bookmarks : Read Only\".\n"
 "Write the token value down and setup your app."
 msgstr ""
+"このトークンの権限を「ブックマーク: 読み込みのみ」に制限してもかまいません。\n"
+"トークンを書き出して、アプリのセットアップを行ってください。"
 
 #: en/opds.md:29
 msgid ""
 "The URL of your OPDS catalog is: \\\n"
 "[readeck-instance://opds](readeck-instance://opds)"
 msgstr ""
+"OPDSカタログのURLはこちらです: \\\n"
+"[readeck-instance://opds](readeck-instance://opds)"
 
 #: en/opds.md:33
 msgid "## Example setup: Koreader"
-msgstr ""
+msgstr "## セットアップ例: Koreader"
 
 #: en/opds.md:35
 msgid "[Koreader](https://koreader.rocks/) is a document viewer for E Ink devices. It's available for Kindle, Kobo, PocketBook, Android and desktop Linux. It has a very good OPDS support."
-msgstr ""
+msgstr "[Koreader](https://koreader.rocks/)はE-Ink端末向けのドキュメントビューアーです。Kindle、Kobo、PocketBook、Android、デスクトップLinuxでも利用できます。OPDSのサポートも充実しています。"
 
 #: en/opds.md:37
 msgid "Once you have an API Token, you can access the OPDS section in Koreader's lookup menu:"
@@ -832,4 +848,3 @@ msgstr ""
 
 #~ msgid "The bookmark's title is automatically grabbed when you create it. If, for some reason, you need something else, you can change it by clicking on it and then click the button on the title side."
 #~ msgstr "ブックマークのタイトルはブックマーク作成時に自動で取得しています。なんらかの理由で別のタイトルを付けたい場合は、タイトル側にあるボタンをクリックして変更できます。"
-

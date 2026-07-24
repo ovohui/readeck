@@ -13,14 +13,15 @@ msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-22 09:42+0200\n"
-"PO-Revision-Date: 2026-06-25 18:07+0000\n"
-"Last-Translator: imposible01 <imposible01@noreply.codeberg.org>\n"
-"Language: es_ES\n"
+"PO-Revision-Date: 2026-07-23 08:07+0000\n"
+"Last-Translator: gallegonovato <gallegonovato@noreply.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/readeck/documentation/es/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: es-ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -263,7 +264,6 @@ msgid "You can combine the following filters:"
 msgstr "Tu puedes combinar los siguientes filtros:"
 
 #: en/bookmark-list.md:114
-#, fuzzy
 msgid ""
 "- **Search**\\\n"
 "  Search in the bookmark's text, its title, its authors, its site name and domain and the labels.\n"
@@ -285,16 +285,20 @@ msgid ""
 "  This last filters let you restrict from when and to when the bookmark was saved. For example, this lets you retrieve the bookmark list saved during the past 4 weeks but not after the last week."
 msgstr ""
 "- **Buscar**\\\n"
-"  Busca en el texto del marcador, su título, sus autores, el nombre y el dominio del sitio, y las etiquetas.\n"
+"  Busca en el texto del marcador, su título, sus autores, el nombre y el dominio del sitio web y las etiquetas.\n"
 "- **Título**\\\n"
 "  Busca solo en el título.\n"
 "- **Autor**\\\n"
 "  Busca solo en la lista de autores.\n"
-"- **Sitio**\\\n"
-"  Busca en el título del sitio y en el nombre de dominio del sitio.\n"
+"- **Página**\\\n"
+"  Busca en el título de la página y en el nombre de dominio de la misma.\n"
+"- **Idioma**\\\n"
+"  Filtra la lista por el idioma del marcador utilizando un código de dos letras.\n"
 "- **Etiqueta**\\\n"
 "  Busca etiquetas específicas.\n"
-"- **Es favorito**, **Está archivado**, **Tipo**\\\n"
+"- **Nota**\\\n"
+"  Busca una nota o anotación.\n"
+"- **Tipo**, **Progreso**, **Es favorito**, **Está archivado**, **Está cargado**, **Con etiquetas**, **Con notas**, **Con errores** \\\n"
 "  Estos filtros te permiten restringir la búsqueda a cualquiera de estos criterios.\n"
 "- **Desde la fecha**, **Hasta la fecha**\\\n"
 "  Estos últimos filtros te permiten restringir el periodo en el que se guardó el marcador. Por ejemplo, esto te permite recuperar la lista de marcadores guardados durante las últimas 4 semanas, pero no después de la semana pasada."
@@ -390,14 +394,12 @@ msgid "## Navigation and presentation settings"
 msgstr "## Configuración de navegación y presentación"
 
 #: en/bookmark.md:32
-#, fuzzy
 msgid "On the side or on top of the bookmark view, a link takes you back to the previous page."
-msgstr "En la parte superior de la vista de marcadores, hay un enlace que te lleva a la página anterior."
+msgstr "Al lado o encima de la vista de marcadores, hay un enlace que te lleva a la página anterior."
 
 #: en/bookmark.md:34
-#, fuzzy
 msgid "If the bookmark contains an article, a button lets you change some typography settings."
-msgstr "Si el marcador contiene un artículo, un botón situado al lado te permite modificar algunos ajustes tipográficos."
+msgstr "Si el marcador contiene un artículo, hay un botón que te permite modificar algunos ajustes tipográficos."
 
 #: en/bookmark.md:36
 msgid ""
@@ -417,11 +419,11 @@ msgstr ""
 
 #: en/bookmark.md:43
 msgid "## Edit information"
-msgstr ""
+msgstr "## Editar información"
 
 #: en/bookmark.md:45
 msgid "Several information such as the title or description are automatically grabbed when you create a bookmark. If you need to change these properties, you can click on the edit side button to open a form."
-msgstr ""
+msgstr "Al crear un marcador, se recogen automáticamente varios datos, como el título o la descripción. Si necesitas modificar estas propiedades, puedes hacer clic en el botón lateral de edición para abrir un formulario."
 
 #: en/bookmark.md:47
 msgid "## Actions"
@@ -852,4 +854,3 @@ msgstr "En su lugar, puedes introducir tu nombre de usuario y un token de tu ele
 
 #~ msgid "The bookmark's title is automatically grabbed when you create it. If, for some reason, you need something else, you can change it by clicking on it and then click the button on the title side."
 #~ msgstr "El título del marcador se toma automáticamente al crearlo. Si, por cualquier motivo, necesitas otro, puedes cambiarlo haciendo clic en él y, a continuación, en el botón situado junto al título."
-
