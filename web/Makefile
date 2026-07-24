@@ -4,6 +4,8 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+-include ../.makerc
+
 NPM ?= npm
 
 # Build the bundles and copy all assets
