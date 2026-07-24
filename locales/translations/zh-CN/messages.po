@@ -11,14 +11,15 @@ msgstr ""
 "Project-Id-Version: Readeck CN 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-22 09:23+0200\n"
-"PO-Revision-Date: 2026-07-02 15:28+0000\n"
-"Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
-"Language: zh_CN\n"
+"PO-Revision-Date: 2026-07-24 08:00+0000\n"
+"Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/readeck/application/zh_Hans/>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh-CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -34,7 +35,7 @@ msgstr "错误"
 
 #: components/errors.templ:16
 msgid "Permission denied."
-msgstr "权限不足。"
+msgstr "权限被拒绝。"
 
 #: components/errors.templ:18
 msgid "Page not found."
@@ -150,7 +151,7 @@ msgstr "关闭菜单"
 
 #: components/layout.templ:249 internal/auth/oauth2/x-oauth.templ:87
 msgid "Go back to Readeck"
-msgstr "返回到 Readeck"
+msgstr "返回 Readeck"
 
 #: components/pagination.templ:15
 msgctxt "page"
@@ -382,11 +383,11 @@ msgstr "输入您设备上显示的代码"
 
 #: internal/auth/oauth2/x-oauth.templ:42
 msgid "Next"
-msgstr "下一步‌"
+msgstr "下一步"
 
 #: internal/auth/oauth2/x-oauth.templ:52
 msgid "Authorization request was denied."
-msgstr "授权请求已被拒绝。‌"
+msgstr "授权请求已被拒绝。"
 
 #: internal/auth/oauth2/x-oauth.templ:54 internal/auth/oauth2/x-oauth.templ:76
 msgid " You can now close this page."
@@ -457,7 +458,7 @@ msgstr "授权"
 
 #: internal/auth/oauth2/x-oauth.templ:153
 msgid "Deny"
-msgstr "拒绝‌"
+msgstr "拒绝"
 
 #: internal/auth/onboarding/x-onboarding.templ:17
 #: internal/bookmarks/routes/x-bookmark-list.templ:235
@@ -595,7 +596,7 @@ msgstr "验证"
 #: internal/auth/signin/x-auth.templ:108 internal/auth/signin/x-auth.templ:144
 #: internal/auth/signin/x-auth.templ:177
 msgid "Cancel and go back to sign in"
-msgstr "取消并返回登录页面"
+msgstr "取消并返回登录"
 
 #: internal/auth/signin/x-auth.templ:117
 msgid "Password recovery"
@@ -683,7 +684,7 @@ msgstr "管理员"
 #: internal/auth/users/groups.go:18
 msgctxt "role"
 msgid "Profile : Read Only"
-msgstr "个人资料：只读‌"
+msgstr "个人资料：只读"
 
 #: internal/auth/users/groups.go:19
 msgctxt "role"
@@ -877,7 +878,7 @@ msgstr "归档所有链接"
 
 #: internal/bookmarks/importer/x-forms.templ:55
 msgid "Moves all links to archive, regardless of their original status"
-msgstr "将所有链接移至归档，无论其原始状态如何"
+msgstr "将所有链接移动到归档，无论其原始状态如何"
 
 #: internal/bookmarks/importer/x-forms.templ:58
 msgid "Mark all links as read"
@@ -1207,10 +1208,9 @@ msgid "Duration, longest first"
 msgstr "耗时最长"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:636
-#, fuzzy
 msgctxt "sort"
 msgid "Random"
-msgstr "撤销"
+msgstr "随机"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:742
 #: internal/bookmarks/routes/forms_filters.go:53
@@ -1493,7 +1493,7 @@ msgstr "“%s”不是有效地址。您的意思是在书签中搜索 %s？"
 # | msgid "Readeck Bookmark Collections"
 #: internal/bookmarks/routes/x-bookmark-list.templ:247
 msgid "Readeck Browser Extension"
-msgstr "Readeck 浏览器扩展程序"
+msgstr "Readeck 浏览器扩展"
 
 # | msgid "Import bookmarks"
 #: internal/bookmarks/routes/x-bookmark-list.templ:267
@@ -1566,13 +1566,13 @@ msgstr "将在几秒钟内移除此书签。"
 #: internal/bookmarks/routes/x-components.templ:246
 #: internal/bookmarks/routes/x-sidebar.templ:106
 msgid "Remove from archive"
-msgstr "从归档移除"
+msgstr "从归档中移除"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:548
 #: internal/bookmarks/routes/x-components.templ:247
 #: internal/bookmarks/routes/x-sidebar.templ:107
 msgid "Move to archive"
-msgstr "移至归档"
+msgstr "移动到归档"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:549
 #: internal/bookmarks/routes/x-components.templ:234
@@ -1691,20 +1691,19 @@ msgstr "它将于 %s 过期"
 
 #: internal/bookmarks/routes/x-bookmark.templ:330
 msgid "This link is shared without annotations."
-msgstr ""
+msgstr "此链接以无标注形式分享。"
 
 #: internal/bookmarks/routes/x-bookmark.templ:331
 msgid "Share with annotations"
-msgstr ""
+msgstr "带标注分享"
 
 #: internal/bookmarks/routes/x-bookmark.templ:333
 msgid "This link is shared with annotations."
-msgstr ""
+msgstr "此链接以带标注形式分享。"
 
 #: internal/bookmarks/routes/x-bookmark.templ:334
-#, fuzzy
 msgid "Share without annotations"
-msgstr "禁用连字符"
+msgstr "不带标注分享"
 
 #: internal/bookmarks/routes/x-bookmark.templ:354
 msgid "Copy the link"
@@ -1735,7 +1734,7 @@ msgstr "发送至"
 
 #: internal/bookmarks/routes/x-bookmark.templ:410
 msgid "Include annotations and notes"
-msgstr ""
+msgstr "包含标注和笔记"
 
 #: internal/bookmarks/routes/x-bookmark.templ:415
 #, python-format
@@ -1982,9 +1981,8 @@ msgid "With Labels"
 msgstr "有标签"
 
 #: internal/bookmarks/routes/x-filters.templ:56
-#, fuzzy
 msgid "With Notes"
-msgstr "有标签"
+msgstr "有笔记"
 
 #: internal/bookmarks/routes/x-filters.templ:57
 msgid "With Errors"
@@ -2535,7 +2533,7 @@ msgstr "上次使用：%s"
 
 #: internal/profile/x-applications.templ:73
 msgid "This client will be revoked in a few seconds."
-msgstr "此客户端将在几秒钟后被撤销。‌"
+msgstr "此客户端将在几秒钟后被撤销。"
 
 #: internal/profile/x-applications.templ:94
 msgid "Revoke application"
@@ -3379,4 +3377,3 @@ msgstr "%H:%M:%S"
 #~ msgctxt "datetime"
 #~ msgid "%e %B %Y"
 #~ msgstr "%e %B %Y"
-
