@@ -34,11 +34,11 @@ templ (c FilterComponents) filters(f *FilterForm) {
 		</datalist>
 		@c.autoComplete(&f.Labels, L(ctx).Gettext("Label"), "label", true)
 		@F.TextField(&f.Note, F.Label(L(ctx).Gettext("Note")))
-		@F.TimeTokenField(&f.RangeStart, F.Label("From date"),
+		@F.TimeTokenField(&f.RangeStart, F.Label(L(ctx).Pgettext("date", "Since")),
 			compactField,
 		)
 		@F.TimeTokenField(&f.RangeEnd,
-			F.Label("To date"),
+			F.Label(L(ctx).Pgettext("date", "To")),
 			compactField,
 		)
 		@F.MultiSelectField[string](&f.Type,
