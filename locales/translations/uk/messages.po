@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:49+0000\n"
+"PO-Revision-Date: 2026-07-25 06:13+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/readeck/application/uk/>\n"
 "Language: uk\n"
@@ -1963,16 +1963,14 @@ msgid "Site"
 msgstr "Сайт"
 
 #: internal/bookmarks/routes/x-filters.templ:37
-#, fuzzy
 msgctxt "date"
 msgid "Since"
-msgstr "Розмір"
+msgstr "З"
 
 #: internal/bookmarks/routes/x-filters.templ:41
-#, fuzzy
 msgctxt "date"
 msgid "Until"
-msgstr "без назви"
+msgstr "До"
 
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
