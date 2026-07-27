@@ -373,7 +373,8 @@ func saveBookmark(b *bookmarks.Bookmark, saved *bool, resourceCount *int) extrac
 		err = createZipFile(b, ex, resourceCount)
 		if err != nil {
 			// If something goes really wrong, cleanup after ourselves
-			b.Errors = append(b.Errors, err.Error())
+			m.Log().Error("archive", slog.Any("err", err))
+			b.Errors = append(b.Errors, fmt.Sprintf("archive error: %s", err))
 			b.RemoveFiles()
 			b.FilePath = ""
 			b.Files = bookmarks.BookmarkFiles{}
@@ -526,9 +527,11 @@ func createZipFile(b *bookmarks.Bookmark, ex *extract.Extractor, resourceCount *
 	if len(ex.HTML) > 0 && ex.Drop().IsHTML() {
 		*resourceCount, err = bookmarks.ArchiveDocument(ex.Context, z.Dest(), ex)
 		if err != nil {
-			return err
+			ex.Log().Error("archive document", slog.Any("err", err))
+			b.Errors = append(b.Errors, fmt.Sprintf("archive error: %s", err))
+		} else {
+			b.Files["article"] = &bookmarks.BookmarkFile{Name: "index.html"}
 		}
-		b.Files["article"] = &bookmarks.BookmarkFile{Name: "index.html"}
 	}
 
 	// Add the log
