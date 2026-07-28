@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:51+0000\n"
-"Last-Translator: Anonymous <anonymous@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-07-27 15:05+0000\n"
+"Last-Translator: boronology <boronology@noreply.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/readeck/application/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -1206,10 +1206,9 @@ msgid "Duration, longest first"
 msgstr "長いものから順に並べる"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:636
-#, fuzzy
 msgctxt "sort"
 msgid "Random"
-msgstr "取り消す"
+msgstr "ランダム"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:742
 #: internal/bookmarks/routes/forms_filters.go:53
@@ -1686,20 +1685,19 @@ msgstr "リンクは%sまで有効です"
 
 #: internal/bookmarks/routes/x-bookmark.templ:330
 msgid "This link is shared without annotations."
-msgstr ""
+msgstr "このリンクは注釈なしで共有されています。"
 
 #: internal/bookmarks/routes/x-bookmark.templ:331
 msgid "Share with annotations"
-msgstr ""
+msgstr "注釈つきで共有する"
 
 #: internal/bookmarks/routes/x-bookmark.templ:333
 msgid "This link is shared with annotations."
-msgstr ""
+msgstr "このリンクは注釈つきで共有されています。"
 
 #: internal/bookmarks/routes/x-bookmark.templ:334
-#, fuzzy
 msgid "Share without annotations"
-msgstr "ハイフネーションを行わない"
+msgstr "注釈なしで共有する"
 
 #: internal/bookmarks/routes/x-bookmark.templ:354
 msgid "Copy the link"
@@ -1728,7 +1726,7 @@ msgstr "送信先"
 
 #: internal/bookmarks/routes/x-bookmark.templ:410
 msgid "Include annotations and notes"
-msgstr ""
+msgstr "注釈とメモを含める"
 
 #: internal/bookmarks/routes/x-bookmark.templ:415
 #, python-format
@@ -1947,16 +1945,14 @@ msgid "Site"
 msgstr "サイト"
 
 #: internal/bookmarks/routes/x-filters.templ:37
-#, fuzzy
 msgctxt "date"
 msgid "Since"
-msgstr "文字サイズ"
+msgstr "開始日"
 
 #: internal/bookmarks/routes/x-filters.templ:41
-#, fuzzy
 msgctxt "date"
 msgid "Until"
-msgstr "タイトルなし"
+msgstr "終了日"
 
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
@@ -1984,9 +1980,8 @@ msgid "With Labels"
 msgstr "ラベル付き"
 
 #: internal/bookmarks/routes/x-filters.templ:56
-#, fuzzy
 msgid "With Notes"
-msgstr "ラベル付き"
+msgstr "メモ付き"
 
 #: internal/bookmarks/routes/x-filters.templ:57
 msgid "With Errors"
