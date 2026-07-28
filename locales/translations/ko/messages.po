@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:50+0000\n"
+"PO-Revision-Date: 2026-07-27 05:48+0000\n"
 "Last-Translator: dewyeyed <dewyeyed@noreply.codeberg.org>\n"
 "Language-Team: Korean <https://translate.codeberg.org/projects/readeck/application/ko/>\n"
 "Language: ko\n"
@@ -1942,16 +1942,14 @@ msgid "Site"
 msgstr "사이트"
 
 #: internal/bookmarks/routes/x-filters.templ:37
-#, fuzzy
 msgctxt "date"
 msgid "Since"
-msgstr "글꼴 크기"
+msgstr "이후"
 
 #: internal/bookmarks/routes/x-filters.templ:41
-#, fuzzy
 msgctxt "date"
 msgid "Until"
-msgstr "무제"
+msgstr "까지"
 
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
