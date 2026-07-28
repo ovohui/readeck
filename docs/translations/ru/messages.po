@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-22 09:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:51+0000\n"
+"PO-Revision-Date: 2026-07-26 08:07+0000\n"
 "Last-Translator: Кнⷫѧⷷ̈зⷮьⷬ Кропоткинъ <kropotkin@noreply.codeberg.org>\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/readeck/documentation/ru/>\n"
 "Language: ru\n"
@@ -261,7 +261,6 @@ msgid "You can combine the following filters:"
 msgstr "Можно сочетать следующие фильтры:"
 
 #: en/bookmark-list.md:114
-#, fuzzy
 msgid ""
 "- **Search**\\\n"
 "  Search in the bookmark's text, its title, its authors, its site name and domain and the labels.\n"
@@ -283,19 +282,23 @@ msgid ""
 "  This last filters let you restrict from when and to when the bookmark was saved. For example, this lets you retrieve the bookmark list saved during the past 4 weeks but not after the last week."
 msgstr ""
 "- **Поиск**\\\n"
-" Ищет в тексте, заголовке, авторах, имени сайта, домене и ярлыках закладки.\n"
+"  Ищет в тексте, заголовке, авторах, имени сайта, домене и ярлыках закладки.\n"
 "- **Заголовок**\\\n"
 "  Только в заголовках.\n"
 "- **Автор**\\\n"
 "  Только в авторах.\n"
 "- **Сайт**\\\n"
-"  Имена сайтов и домены.\n"
+"  Ищет в именах сайтов и доменах.\n"
+"- **Язык**\\\n"
+" Фильтрует список закладок по языку (двухбуквенный код).\n"
 "- **Ярлык**\\\n"
 "  Поиск по ярлыкам.\n"
-"- **В избранном**, **Архивирован**, **Тип**\\\n"
+"- **Note**\\\n"
+"  Search for a note or annotation.\n"
+"- **Тип**, **Прогресс**, **В Избранном**, **Архивировано**, **Загружено**, **С Ярлыками**, **С Заметками**, **С Ошибками** \\\n"
 "  Ограничение по соответствующим критериям.\n"
 "- **С даты**, **По дату**\\\n"
-"  Тут выбирается время сохранения закладки. Например, последние 4 недели, но не в самую последнюю."
+"  Тут выбирается время сохранения закладки. Например, последние 4 недели, но не в ближайшую."
 
 #: en/bookmark-list.md:133
 msgid "### Search query"
@@ -388,14 +391,12 @@ msgid "## Navigation and presentation settings"
 msgstr "## Навигация и настройки просмотра"
 
 #: en/bookmark.md:32
-#, fuzzy
 msgid "On the side or on top of the bookmark view, a link takes you back to the previous page."
-msgstr "Слева сверху находится кнопка возврата на предыдущую страницу."
+msgstr "Сбоку или сверху страницы закладок есть ссылка возврата на предыдущую страницу."
 
 #: en/bookmark.md:34
-#, fuzzy
 msgid "If the bookmark contains an article, a button lets you change some typography settings."
-msgstr "Для закладки-статьи, кнопка сверху справа позволяет изменить шрифт."
+msgstr "Для закладки-статьи, кнопка позволяет изменить настройки текста."
 
 #: en/bookmark.md:36
 msgid ""
@@ -415,11 +416,11 @@ msgstr ""
 
 #: en/bookmark.md:43
 msgid "## Edit information"
-msgstr ""
+msgstr "## Редактировать информацию"
 
 #: en/bookmark.md:45
 msgid "Several information such as the title or description are automatically grabbed when you create a bookmark. If you need to change these properties, you can click on the edit side button to open a form."
-msgstr ""
+msgstr "Некоторые данные, такие как заголовок или описание, автоматически пишутся при создании закладки. Если надо их изменить, вы можете нажать кнопку редактирования сбоку и откроется форма."
 
 #: en/bookmark.md:47
 msgid "## Actions"

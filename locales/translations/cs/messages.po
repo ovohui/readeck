@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Readeck CZ 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:47+0000\n"
+"PO-Revision-Date: 2026-07-26 08:07+0000\n"
 "Last-Translator: Joedmin <joedmin@joedmin.cz>\n"
 "Language-Team: Czech <https://translate.codeberg.org/projects/readeck/application/cs/>\n"
 "Language: cs\n"
@@ -1983,16 +1983,14 @@ msgid "Site"
 msgstr "Stránka"
 
 #: internal/bookmarks/routes/x-filters.templ:37
-#, fuzzy
 msgctxt "date"
 msgid "Since"
-msgstr "Velikost"
+msgstr "Od"
 
 #: internal/bookmarks/routes/x-filters.templ:41
-#, fuzzy
 msgctxt "date"
 msgid "Until"
-msgstr "bez názvu"
+msgstr "Do"
 
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"

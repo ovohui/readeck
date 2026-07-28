@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-22 09:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:51+0000\n"
-"Last-Translator: Anonymous <anonymous@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-07-27 15:05+0000\n"
+"Last-Translator: henriquetguedes <henriquetguedes@noreply.codeberg.org>\n"
 "Language-Team: Portuguese (Portugal) <https://translate.codeberg.org/projects/readeck/documentation/pt_PT/>\n"
 "Language: pt-PT\n"
 "MIME-Version: 1.0\n"
@@ -261,7 +261,6 @@ msgid "You can combine the following filters:"
 msgstr "Pode combinar os seguintes filtros:"
 
 #: en/bookmark-list.md:114
-#, fuzzy
 msgid ""
 "- **Search**\\\n"
 "  Search in the bookmark's text, its title, its authors, its site name and domain and the labels.\n"
@@ -289,13 +288,17 @@ msgstr ""
 "- **Autor**\\\n"
 "  Procure apenas na lista de autores.\n"
 "- **Site**\\\n"
-"  Procure  apenas no título do site e no domínio.\n"
+"  Procure apenas no título do site e no domínio.\n"
+"- **Língua**\\\n"
+"  Filtre a lista pelo código de duas letras da língua do marcador.\n"
 "- **Etiqueta**\\\n"
-"  Procure apenas etiquetas específicas.\n"
-"- **É favorito**, **Está arquivado**, **Tipo**\\\n"
-"  Procure apenas marcadores que cumpram este critérios.\n"
-"- **A partir da data**, **À data**\\\n"
-"  Este último filtro permite-lhe restringir a procura a um intervalo de datas em que o marcador pode ter sido guardado. Por exemplo, pode encontrar todos os marcadores guardados nas últimas 4 semanas, excepto na última semana."
+"  Procure etiquetas específicas.\n"
+"- **Nota**\\\n"
+"  Procure notas ou anotações.\n"
+"- **Tipo**, **Progresso**, **É Favorito**, **Está Arquivado**, **Está carregado**, **Com Etiquetas**, **Com Notas**, **Com Erros** \\\n"
+"  Procure marcadores que cumpram este critérios.\n"
+"- **From date**, **To date**\\\n"
+"  Este último filtro permite-lhe restringir a procura a um intervalo de datas em que o marcador foi guardado. Por exemplo, pode encontrar todos os marcadores guardados desde há 4 semanas até há uma semana."
 
 #: en/bookmark-list.md:133
 msgid "### Search query"
@@ -388,14 +391,12 @@ msgid "## Navigation and presentation settings"
 msgstr "## Definições de navegação e apresentação"
 
 #: en/bookmark.md:32
-#, fuzzy
 msgid "On the side or on top of the bookmark view, a link takes you back to the previous page."
-msgstr "No cimo da vista de marcadores, uma ligação trás-te de volta para a página anterior."
+msgstr "No cimo ou ao lado da vista de marcadores, uma ligação trás-te de volta para a página anterior."
 
 #: en/bookmark.md:34
-#, fuzzy
 msgid "If the bookmark contains an article, a button lets you change some typography settings."
-msgstr "Se o marcador contiver um artigo, o botão do lado oposto permite alterar algumas configurações tipográficas."
+msgstr "Se o marcador contiver um artigo, um botão permite alterar algumas configurações tipográficas."
 
 #: en/bookmark.md:36
 msgid ""
@@ -415,11 +416,11 @@ msgstr ""
 
 #: en/bookmark.md:43
 msgid "## Edit information"
-msgstr ""
+msgstr "## Editar informação"
 
 #: en/bookmark.md:45
 msgid "Several information such as the title or description are automatically grabbed when you create a bookmark. If you need to change these properties, you can click on the edit side button to open a form."
-msgstr ""
+msgstr "Informações como o título ou a descrição são automaticamente obtidas quando cria um marcador. Se precisar de alterar estas propriedades, pode clicar no botão de edição do lado para abrir uma caixa de texto."
 
 #: en/bookmark.md:47
 msgid "## Actions"

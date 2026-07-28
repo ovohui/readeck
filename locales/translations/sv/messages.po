@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:51+0000\n"
-"Last-Translator: Anonymous <anonymous@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-07-26 08:07+0000\n"
+"Last-Translator: apq <apq@noreply.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/readeck/application/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -1207,10 +1207,9 @@ msgid "Duration, longest first"
 msgstr "Längd, längst först"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:636
-#, fuzzy
 msgctxt "sort"
 msgid "Random"
-msgstr "Ångra"
+msgstr "Slumpmässig"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:742
 #: internal/bookmarks/routes/forms_filters.go:53
@@ -1689,20 +1688,19 @@ msgstr "Den går ut den %s"
 
 #: internal/bookmarks/routes/x-bookmark.templ:330
 msgid "This link is shared without annotations."
-msgstr ""
+msgstr "Den här länken delas utan annoteringar."
 
 #: internal/bookmarks/routes/x-bookmark.templ:331
 msgid "Share with annotations"
-msgstr ""
+msgstr "Dela med annoteringar"
 
 #: internal/bookmarks/routes/x-bookmark.templ:333
 msgid "This link is shared with annotations."
-msgstr ""
+msgstr "Den här länken delas med annoteringar."
 
 #: internal/bookmarks/routes/x-bookmark.templ:334
-#, fuzzy
 msgid "Share without annotations"
-msgstr "Utan bindestreck"
+msgstr "Dela utan annoteringar"
 
 #: internal/bookmarks/routes/x-bookmark.templ:354
 msgid "Copy the link"
@@ -1731,7 +1729,7 @@ msgstr "Skicka Till"
 
 #: internal/bookmarks/routes/x-bookmark.templ:410
 msgid "Include annotations and notes"
-msgstr ""
+msgstr "Inkludera annoteringar och anteckningar"
 
 #: internal/bookmarks/routes/x-bookmark.templ:415
 #, python-format
@@ -1950,16 +1948,14 @@ msgid "Site"
 msgstr "Sida"
 
 #: internal/bookmarks/routes/x-filters.templ:37
-#, fuzzy
 msgctxt "date"
 msgid "Since"
-msgstr "Storlek"
+msgstr "Sedan"
 
 #: internal/bookmarks/routes/x-filters.templ:41
-#, fuzzy
 msgctxt "date"
 msgid "Until"
-msgstr "utan titel"
+msgstr "Till"
 
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
@@ -1987,9 +1983,8 @@ msgid "With Labels"
 msgstr "Med Etiketter"
 
 #: internal/bookmarks/routes/x-filters.templ:56
-#, fuzzy
 msgid "With Notes"
-msgstr "Med Etiketter"
+msgstr "Med anteckningar"
 
 #: internal/bookmarks/routes/x-filters.templ:57
 msgid "With Errors"
