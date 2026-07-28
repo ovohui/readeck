@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:52+0000\n"
-"Last-Translator: Anonymous <anonymous@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-07-26 08:07+0000\n"
+"Last-Translator: Кнⷫѧⷷ̈зⷮьⷬ Кропоткинъ <kropotkin@noreply.codeberg.org>\n"
 "Language-Team: Belarusian <https://translate.codeberg.org/projects/readeck/application/be/>\n"
 "Language: be\n"
 "MIME-Version: 1.0\n"
@@ -1207,10 +1207,9 @@ msgid "Duration, longest first"
 msgstr "Працягласць, спачатку найдаўжэйшыя"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:636
-#, fuzzy
 msgctxt "sort"
 msgid "Random"
-msgstr "Адмяніць"
+msgstr "Выпадковы"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:742
 #: internal/bookmarks/routes/forms_filters.go:53
@@ -1691,20 +1690,19 @@ msgstr "Яна сканчаецца %s"
 
 #: internal/bookmarks/routes/x-bookmark.templ:330
 msgid "This link is shared without annotations."
-msgstr ""
+msgstr "Гэтая спасылка без анатацый."
 
 #: internal/bookmarks/routes/x-bookmark.templ:331
 msgid "Share with annotations"
-msgstr ""
+msgstr "Падзяліцца з анатацыямі"
 
 #: internal/bookmarks/routes/x-bookmark.templ:333
 msgid "This link is shared with annotations."
-msgstr ""
+msgstr "Гэтая спасылка з анатацыямі."
 
 #: internal/bookmarks/routes/x-bookmark.templ:334
-#, fuzzy
 msgid "Share without annotations"
-msgstr "Без пераносаў"
+msgstr "Падзяліцца без анатацый"
 
 #: internal/bookmarks/routes/x-bookmark.templ:354
 msgid "Copy the link"
@@ -1733,7 +1731,7 @@ msgstr "Адправіць да"
 
 #: internal/bookmarks/routes/x-bookmark.templ:410
 msgid "Include annotations and notes"
-msgstr ""
+msgstr "Уключыць анатацыі і заўвагі"
 
 #: internal/bookmarks/routes/x-bookmark.templ:415
 #, python-format
@@ -1952,16 +1950,14 @@ msgid "Site"
 msgstr "Сайт"
 
 #: internal/bookmarks/routes/x-filters.templ:37
-#, fuzzy
 msgctxt "date"
 msgid "Since"
-msgstr "Памер"
+msgstr "З"
 
 #: internal/bookmarks/routes/x-filters.templ:41
-#, fuzzy
 msgctxt "date"
 msgid "Until"
-msgstr "без назвы"
+msgstr "Па"
 
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
@@ -1989,9 +1985,8 @@ msgid "With Labels"
 msgstr "З мэткамі"
 
 #: internal/bookmarks/routes/x-filters.templ:56
-#, fuzzy
 msgid "With Notes"
-msgstr "З мэткамі"
+msgstr "З заўвагамі"
 
 #: internal/bookmarks/routes/x-filters.templ:57
 msgid "With Errors"

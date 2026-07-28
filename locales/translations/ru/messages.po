@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
 "PO-Revision-Date: 2026-07-26 08:07+0000\n"
-"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
+"Last-Translator: Кнⷫѧⷷ̈зⷮьⷬ Кропоткинъ <kropotkin@noreply.codeberg.org>\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/readeck/application/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -1730,7 +1730,7 @@ msgstr "Эта ссылка без аннотаций."
 
 #: internal/bookmarks/routes/x-bookmark.templ:331
 msgid "Share with annotations"
-msgstr "Поделиться с описанием"
+msgstr "Поделиться с аннотациями"
 
 #: internal/bookmarks/routes/x-bookmark.templ:333
 msgid "This link is shared with annotations."
