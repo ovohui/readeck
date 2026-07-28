@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-22 09:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:51+0000\n"
-"Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-07-27 15:05+0000\n"
+"Last-Translator: linsui <linsui@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/readeck/documentation/zh_Hans/>\n"
 "Language: zh-CN\n"
 "MIME-Version: 1.0\n"
@@ -262,7 +262,6 @@ msgid "You can combine the following filters:"
 msgstr "您可以组合以下筛选器："
 
 #: en/bookmark-list.md:114
-#, fuzzy
 msgid ""
 "- **Search**\\\n"
 "  Search in the bookmark's text, its title, its authors, its site name and domain and the labels.\n"
@@ -291,10 +290,14 @@ msgstr ""
 "  仅搜索书签作者。\n"
 "- **网站** \\\n"
 "  仅搜索书签网站。\n"
+"- **语言**\\\n"
+"  以两字母代码按书签语言过滤列表。\n"
 "- **标签** \\\n"
 "  仅搜索书签标签。\n"
-"- **是否收藏**，**是否归档**，**类型** \\\n"
-"  筛选书签收藏、归档和类型。\n"
+"- **笔记**\\\n"
+"  搜索笔记或标注。\n"
+"- **类型**, **进度**, **是否收藏**, **是否归档**, **是否以加载**, **有标签**, **有笔记**, **有错误** \\\n"
+"  此过滤器可以按任何策略限制搜索范围。\n"
 "- **起始日期**，**结束日期** \\\n"
 "  最后一个过滤器允许您限制书签的保存时间。例如，这允许您检索过去 4 周内保存的书签列表，但不包括上周之后的书签列表。"
 
@@ -389,14 +392,12 @@ msgid "## Navigation and presentation settings"
 msgstr "## 导航和排版"
 
 #: en/bookmark.md:32
-#, fuzzy
 msgid "On the side or on top of the bookmark view, a link takes you back to the previous page."
-msgstr "在书签视图的顶部，有一个链接可以带您返回上一页。"
+msgstr "在书签视图的顶部或侧边，有一个链接可以带您返回上一页。"
 
 #: en/bookmark.md:34
-#, fuzzy
 msgid "If the bookmark contains an article, a button lets you change some typography settings."
-msgstr "如果书签包含一篇文章，另一侧的按钮可以让您更改一些排版设置。"
+msgstr "如果书签包含一篇文章，有一个按钮可以让您更改一些排版设置。"
 
 #: en/bookmark.md:36
 msgid ""
@@ -420,7 +421,7 @@ msgstr "## 编辑信息"
 
 #: en/bookmark.md:45
 msgid "Several information such as the title or description are automatically grabbed when you create a bookmark. If you need to change these properties, you can click on the edit side button to open a form."
-msgstr ""
+msgstr "一些信息如标题或描述在你创建书签时自动抓取。如果你需要更改这些属性，你可以点击编辑按钮打开一个表单。"
 
 #: en/bookmark.md:47
 msgid "## Actions"
