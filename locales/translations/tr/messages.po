@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:50+0000\n"
-"Last-Translator: Anonymous <anonymous@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-07-27 15:05+0000\n"
+"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/readeck/application/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -48,9 +48,8 @@ msgid "An error occurred."
 msgstr "Bir hata oluştu."
 
 #: components/errors.templ:24
-#, fuzzy
 msgid "Back to home page"
-msgstr "Ana Sayfa"
+msgstr "Ana sayfaya dön"
 
 #: components/forms/forms.templ:21
 msgid "Errors"
@@ -99,7 +98,6 @@ msgid "remove"
 msgstr "kaldır"
 
 #: components/layout.templ:63
-#, fuzzy
 msgid "Open Menu"
 msgstr "Menüyü aç"
 
@@ -194,7 +192,7 @@ msgstr ""
 
 #: internal/admin/forms.go:92 internal/profile/forms.go:105
 msgid "email address is already in use"
-msgstr ""
+msgstr "e-posta zaten kullanılıyor"
 
 #: internal/admin/views.go:61 internal/admin/views.go:86
 #: internal/admin/views.go:127 internal/admin/x-users.templ:16
@@ -216,14 +214,12 @@ msgid "User updated."
 msgstr "Kullanıcı güncellendi."
 
 #: internal/admin/views.go:163
-#, fuzzy
 msgid "User detached."
-msgstr "Kullanıcı güncellendi."
+msgstr "Kullanıcı ayrıldı."
 
 #: internal/admin/views.go:186
-#, fuzzy
 msgid "User signed out."
-msgstr "Çıkış yap"
+msgstr "Kullanıcı oturumu kapattı."
 
 #: internal/admin/x-users.templ:19
 msgid "Add a new user"
@@ -235,13 +231,12 @@ msgid "External User"
 msgstr "Kullanıcı oluştur"
 
 #: internal/admin/x-users.templ:44 internal/admin/x-users.templ:174
-#, fuzzy
 msgid "TOTP is enabled"
-msgstr "Etkin"
+msgstr "TOTP etkin"
 
 #: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
-msgstr ""
+msgstr "Bu sensin!"
 
 # | msgid "Created on: %s"
 #: internal/admin/x-users.templ:56
@@ -292,9 +287,8 @@ msgid "Create user"
 msgstr "Kullanıcı oluştur"
 
 #: internal/admin/x-users.templ:126
-#, fuzzy
 msgid "User information"
-msgstr "Sistem Bilgisi"
+msgstr "Kullanıcı bilgileri"
 
 #: internal/admin/x-users.templ:153
 msgid "will not change if empty"
@@ -318,22 +312,20 @@ msgid "Created on"
 msgstr "Oluşturulma tarihi: %s"
 
 #: internal/admin/x-users.templ:182
-#, fuzzy
 msgid "Last Login"
-msgstr "Son giriş"
+msgstr "Son Giriş"
 
 #: internal/admin/x-users.templ:186
 msgid "Last Activity"
 msgstr "Son Etkinlik"
 
 #: internal/admin/x-users.templ:194
-#, fuzzy
 msgid "Disk Usage"
-msgstr "Disk kullanımı"
+msgstr "Disk Kullanımı"
 
 #: internal/admin/x-users.templ:198
 msgid "User Administration"
-msgstr ""
+msgstr "Kullanıcı Yönetimi"
 
 #: internal/admin/x-users.templ:204
 msgid "User will be removed in a few seconds"
@@ -341,7 +333,7 @@ msgstr "Kullanıcı birkaç saniye içinde silinecek"
 
 #: internal/admin/x-users.templ:214
 msgid "This will sign this user out of all active sessions on the web application."
-msgstr ""
+msgstr "Bu, söz konusu kullanıcının web uygulamasındaki tüm aktif oturumlardan çıkış yapmasını sağlayacaktır."
 
 #: internal/admin/x-users.templ:219
 #, fuzzy
@@ -366,7 +358,7 @@ msgstr "Bu kullanıcıyı sil"
 #: internal/admin/x-users.templ:249
 #, python-format
 msgid "This will delete the user <strong>%s</strong> and all their contents."
-msgstr ""
+msgstr "Bu, <strong>%s</strong> kullanıcısını ve tüm içeriğini siler."
 
 #: internal/admin/x-users.templ:257
 msgid "Delete this user"

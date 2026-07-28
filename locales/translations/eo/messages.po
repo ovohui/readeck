@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:52+0000\n"
-"Last-Translator: Anonymous <anonymous@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-07-27 15:05+0000\n"
+"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Esperanto <https://translate.codeberg.org/projects/readeck/application/eo/>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
@@ -1206,10 +1206,9 @@ msgid "Duration, longest first"
 msgstr "Daŭro, plej longa unue"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:636
-#, fuzzy
 msgctxt "sort"
 msgid "Random"
-msgstr "Malfari"
+msgstr "Hazarda"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:742
 #: internal/bookmarks/routes/forms_filters.go:53
@@ -1688,20 +1687,19 @@ msgstr "Ĝi eksvalidiĝas je %s"
 
 #: internal/bookmarks/routes/x-bookmark.templ:330
 msgid "This link is shared without annotations."
-msgstr ""
+msgstr "Tiu ligo estas dividita sen komentoj."
 
 #: internal/bookmarks/routes/x-bookmark.templ:331
 msgid "Share with annotations"
-msgstr ""
+msgstr "Dividi kun komentoj"
 
 #: internal/bookmarks/routes/x-bookmark.templ:333
 msgid "This link is shared with annotations."
-msgstr ""
+msgstr "Tiu ligo estas dividita kun komentoj."
 
 #: internal/bookmarks/routes/x-bookmark.templ:334
-#, fuzzy
 msgid "Share without annotations"
-msgstr "Sen streketado"
+msgstr "Dividi sen komentoj"
 
 #: internal/bookmarks/routes/x-bookmark.templ:354
 msgid "Copy the link"
@@ -1730,7 +1728,7 @@ msgstr "Sendi al"
 
 #: internal/bookmarks/routes/x-bookmark.templ:410
 msgid "Include annotations and notes"
-msgstr ""
+msgstr "Inkluzivi komentariojn kaj notojn"
 
 #: internal/bookmarks/routes/x-bookmark.templ:415
 #, python-format
@@ -1949,16 +1947,14 @@ msgid "Site"
 msgstr "Retejo"
 
 #: internal/bookmarks/routes/x-filters.templ:37
-#, fuzzy
 msgctxt "date"
 msgid "Since"
-msgstr "Grandeco"
+msgstr "Ekde"
 
 #: internal/bookmarks/routes/x-filters.templ:41
-#, fuzzy
 msgctxt "date"
 msgid "Until"
-msgstr "sen titolo"
+msgstr "Ĝis"
 
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
@@ -1986,9 +1982,8 @@ msgid "With Labels"
 msgstr "Kun Etikedoj"
 
 #: internal/bookmarks/routes/x-filters.templ:56
-#, fuzzy
 msgid "With Notes"
-msgstr "Kun Etikedoj"
+msgstr "Kun Notoj"
 
 #: internal/bookmarks/routes/x-filters.templ:57
 msgid "With Errors"

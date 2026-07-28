@@ -12,15 +12,15 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:53+0000\n"
-"Last-Translator: Anonymous <anonymous@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-07-28 05:51+0000\n"
+"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Tatar <https://translate.codeberg.org/projects/readeck/application/tt/>\n"
 "Language: tt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.7.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -595,6 +595,11 @@ msgid ""
 "\t\t\t\t\t\t\tto recover your password.\n"
 "\t\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\t\tЗинһар, төзегәндә кулланган э-хат адресын күрсәтегез,\n"
+"\t\t\t\t\t\t\tһәм без сезгә серсүзегезне торгызу өчен сылтама\n"
+"\t\t\t\t\t\t\tбелән хәбәр җибәрербез.\n"
+"\t\t\t\t\t\t"
 
 #: internal/auth/signin/x-auth.templ:140
 msgid "Send me a recovery link"
@@ -739,9 +744,8 @@ msgstr[0] "Якынча %d минут укыу"
 #: internal/bookmarks/routes/x-components.templ:164
 #: internal/bookmarks/routes/x-components.templ:208
 #: internal/bookmarks/routes/x-filters.templ:36
-#, fuzzy
 msgid "Note"
-msgstr "юк"
+msgstr "Искәрмә"
 
 #: internal/bookmarks/converter/x-epub.templ:83
 #: internal/bookmarks/converter/x-html-public.templ:252
@@ -767,7 +771,7 @@ msgstr "Битнең вакыты күп булды"
 
 #: internal/bookmarks/converter/x-html-public.templ:148
 msgid "Change theme"
-msgstr ""
+msgstr "Теманы алыштырырга"
 
 #: internal/bookmarks/converter/x-html-public.templ:200
 #, fuzzy
@@ -854,7 +858,7 @@ msgstr ""
 
 #: internal/bookmarks/importer/x-forms.templ:53
 msgid "Archive all links"
-msgstr ""
+msgstr "Барлык сылтамаларны архивлагыз"
 
 #: internal/bookmarks/importer/x-forms.templ:55
 msgid "Moves all links to archive, regardless of their original status"
@@ -862,7 +866,7 @@ msgstr ""
 
 #: internal/bookmarks/importer/x-forms.templ:58
 msgid "Mark all links as read"
-msgstr ""
+msgstr "Барлык сылтамаларны укылган дип билгеләгез"
 
 #: internal/bookmarks/importer/x-forms.templ:60
 msgid "Marks all links as read, regardless of their original status"
@@ -966,7 +970,7 @@ msgstr "GoodLinks экспорт файлыннан сылтамаларны и�
 
 #: internal/bookmarks/importer/x-forms.templ:164
 msgid "Upload a JSON file obtained from your GoodLinks app."
-msgstr ""
+msgstr "Сезнең GoodLinks кушымтасыннан алынган JSON файлын йөкләгез."
 
 #: internal/bookmarks/importer/x-forms.templ:173
 msgid "Import Bookmarks from a Linkwarden export file"
@@ -999,7 +1003,7 @@ msgstr ""
 
 #: internal/bookmarks/importer/x-forms.templ:212
 msgid "Note: upload the ZIP file directly, not its contents"
-msgstr ""
+msgstr "Искәрмә: ZIP-файлны эчтәлеген түгел, ә турыдан-туры йөкләгез"
 
 #: internal/bookmarks/importer/x-forms.templ:220
 msgid "Import Links from Readwise Reader CSV export"
