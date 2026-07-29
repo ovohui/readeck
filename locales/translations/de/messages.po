@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
 "PO-Revision-Date: 2026-07-28 17:12+0000\n"
-"Last-Translator: Menelmacar <menelmacar@noreply.codeberg.org>\n"
+"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/readeck/application/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -564,7 +564,7 @@ msgstr ""
 
 #: internal/auth/signin/x-auth.templ:21
 msgid "Or continue with"
-msgstr ""
+msgstr "Oder weiter mit"
 
 #: internal/auth/signin/x-auth.templ:41 internal/auth/signin/x-auth.templ:68
 msgid "Sign in"
@@ -1233,7 +1233,7 @@ msgstr "Artikel"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:743
 msgid "E-Book"
-msgstr ""
+msgstr "E-Buch"
 
 #: internal/bookmarks/routes/forms_filters.go:54
 msgid "Picture"
