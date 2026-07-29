@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-28 18:13+0000\n"
-"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-07-29 07:59+0000\n"
+"Last-Translator: notDavid <notdavid@noreply.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/readeck/application/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -310,7 +310,6 @@ msgid "Created on"
 msgstr "Aangemaakt op"
 
 #: internal/admin/x-users.templ:182
-#, fuzzy
 msgid "Last Login"
 msgstr "Laatste login"
 
@@ -611,7 +610,6 @@ msgid "No worries, it happens to anyone."
 msgstr "Geen zorgen: dit kan een ieder overkomen."
 
 #: internal/auth/signin/x-auth.templ:129
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tPlease provide the email address you used to create\n"
@@ -620,10 +618,10 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"        Voer het e-mailadres in dat je hebt gebruikt om je\n"
-"        account aan te maken. We sturen je een e-mail met link\n"
-"        waarmee je je wachtwoord kunt herstellen.\n"
-"      "
+"\t\t\t\t\t\t\tVul het e-mailadres in dat je hebt gebruikt om je\n"
+"\t\t\t\t\t\t\taccount aan te maken en we sturen je een bericht met een link \n"
+"\t\t\t\t\t\t\tom je wachtwoord te herstellen.\n"
+"\t\t\t\t\t\t"
 
 #: internal/auth/signin/x-auth.templ:140
 msgid "Send me a recovery link"
@@ -903,7 +901,6 @@ msgid "Import your Browser's Bookmarks"
 msgstr "Bladwijzers uit webbrowser importeren"
 
 #: internal/bookmarks/importer/x-forms.templ:68
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tIn your web browser, export your bookmarks as an HTML file.<br>\n"
@@ -912,10 +909,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"    Exporteer de bladwijzers van je webbrowser naar een html-bestand.<br>\n"
-"    Upload het bestand hieronder om Readeck alle bladwijzers uit\n"
-"    het bestand te laten importeren.\n"
-"  "
+"\t\t\t\t\tExporteer je bladwijzers als een HTML-bestand in je webbrowser.<br>\n"
+"\t\t\t\t\tUpload dit bestand in het formulier hieronder en Readeck zal elke bladwijzer\n"
+"\t\t\t\t\tdie in het bestand wordt gevonden, aanmaken en ophalen.\n"
+"\t\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:77
 msgid "Instructions for Firefox"
@@ -951,7 +948,7 @@ msgid "CSV Format"
 msgstr "CSV Formaat"
 
 #: internal/bookmarks/importer/x-forms.templ:110
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\tThe uploaded file must contain a first row with the column names. Column names are case\n"
@@ -959,9 +956,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Het geüploade bestand dient over een eerste rij met kolomnamen te beschikken. Kolomnamen zijn\n"
-"    hoofdletterongevoelig en alle kolommen zijn optioneel, behalve <code>%s</code>.\n"
-"  "
+"\t\t\t\tHet geüploade bestand moet een eerste rij met de kolomnamen bevatten. Kolomnamen zijn <strong>niet</strong>\n"
+"\t\t\t\thoofdlettergevoelig en, met uitzondering van <code>%s</code>, is elke kolom optioneel.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:115
 msgid "Here are the columns you can set:"
@@ -1023,12 +1020,8 @@ msgid "Import Bookmarks from a Linkwarden export file"
 msgstr "Bladwijzers importeren uit Linkwarden-bestand"
 
 #: internal/bookmarks/importer/x-forms.templ:176
-#, fuzzy
 msgid "Upload a JSON file obtained from your Linkwarden app."
-msgstr ""
-"\n"
-"    Upload een door de Linkwarden-app samengesteld json-bestand.\n"
-"  "
+msgstr "Upload een JSON-bestand verkregen uit je Linkwarden-app."
 
 # | msgid "Import Links from a Text File"
 #: internal/bookmarks/importer/x-forms.templ:185
@@ -1045,7 +1038,6 @@ msgid "Import your Pocket Articles"
 msgstr "Pocket-artikelen importeren"
 
 #: internal/bookmarks/importer/x-forms.templ:200
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a Pocket export file in the form below and Readeck will fetch and save\n"
@@ -1053,9 +1045,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Upload het bestand hieronder om Readeck alle links uit het bestand\n"
-"    te laten importeren.\n"
-"  "
+"\t\t\t\tUpload hieronder een Pocket exportbestand en Readeck zal elke link die in \n"
+"\t\t\t\thet bestand gevonden wordt ophalen en opslaan.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:212
 msgid "Note: upload the ZIP file directly, not its contents"
@@ -1114,7 +1106,6 @@ msgid "Import Links from a Text File"
 msgstr "Links importeren uit tekstbestand"
 
 #: internal/bookmarks/importer/x-forms.templ:250
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a text file that contains one link per line and Readeck will fetch\n"
@@ -1122,9 +1113,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Upload een tekstbestand met één link per regel om Readeck alle links\n"
-"    uit het bestand te laten importeren naar je bladwijzerlijst.\n"
-"  "
+"\t\t\t\tUpload een tekstbestand dat één link per regel bevat en Readeck zal\n"
+"\t\t\t\tze allemaal ophalen en opslaan in je bladwijzerlijst.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:260
 #: internal/bookmarks/routes/x-import.templ:93
@@ -1132,7 +1123,6 @@ msgid "Import your Wallabag Articles"
 msgstr "Wallabag-artikelen importeren"
 
 #: internal/bookmarks/importer/x-forms.templ:263
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tTo import your articles from Wallabag, you must first create an API client\n"
@@ -1141,10 +1131,10 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Voor het importeren van Wallabag-artikelen is een api-client vereist.\n"
-"    Deze kan worden aangemaakt via het Wallabag-menuitem <strong>API clients management</strong>.\n"
-"    Dit hulpmiddel geeft een  <strong>Client ID</strong> en <strong>Client secret</strong>.\n"
-"  "
+"\t\t\t\tOm je artikelen uit Wallabag te importeren, moet je eerst een API-client aanmaken\n"
+"\t\t\t\tin het menu <strong>API-clientsbeheer</strong> van Wallabag. Dit geeft je\n"
+"\t\t\t\teen <strong>Client ID</strong> en <strong>Client secret</strong>.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:270
 msgid "You can then enter all the necessary information in the form below."
@@ -1358,9 +1348,8 @@ msgid "Share by email"
 msgstr "Delen via e-mail"
 
 #: internal/bookmarks/routes/views_collections.go:39
-#, fuzzy
 msgid "Collection created."
-msgstr "De verzameling is bijgewerkt."
+msgstr "Verzameling aangemaakt."
 
 #: internal/bookmarks/routes/views_collections.go:66
 msgid "Collection updated."
@@ -1583,7 +1572,7 @@ msgstr "Bezig met laden…"
 #: internal/bookmarks/routes/x-bookmark-list.templ:500
 #: internal/dashboard/x-dashboard.templ:184
 msgid "untitled"
-msgstr "zonder titel"
+msgstr "naamloos"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:513
 #, python-format
