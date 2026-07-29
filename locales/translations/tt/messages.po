@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-28 05:51+0000\n"
+"PO-Revision-Date: 2026-07-28 18:13+0000\n"
 "Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Tatar <https://translate.codeberg.org/projects/readeck/application/tt/>\n"
 "Language: tt\n"
@@ -1166,10 +1166,9 @@ msgid "Duration, longest first"
 msgstr "Озынлык, иң озыны беренче"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:636
-#, fuzzy
 msgctxt "sort"
 msgid "Random"
-msgstr "Кайтару"
+msgstr "Rastgele"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:742
 #: internal/bookmarks/routes/forms_filters.go:53
@@ -1178,7 +1177,7 @@ msgstr "Мәкалә"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:743
 msgid "E-Book"
-msgstr ""
+msgstr "Э-китап"
 
 #: internal/bookmarks/routes/forms_filters.go:54
 msgid "Picture"
@@ -1501,9 +1500,8 @@ msgstr "Йөкләнү"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:500
 #: internal/dashboard/x-dashboard.templ:184
-#, fuzzy
 msgid "untitled"
-msgstr "Башлык"
+msgstr "исемсез"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:513
 #, python-format
@@ -2188,7 +2186,7 @@ msgstr ""
 #: internal/dashboard/x-dashboard.templ:26
 #, python-format
 msgid "Hi %s!"
-msgstr ""
+msgstr "Сәлам, %s!"
 
 #: internal/dashboard/x-dashboard.templ:60 internal/opds/http.go:72
 msgid "All Bookmarks"

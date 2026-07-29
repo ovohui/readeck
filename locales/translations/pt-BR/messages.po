@@ -12,15 +12,15 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:50+0000\n"
-"Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-07-29 13:51+0000\n"
+"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.codeberg.org/projects/readeck/application/pt_BR/>\n"
 "Language: pt-BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.7.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -239,7 +239,7 @@ msgstr ""
 
 #: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
-msgstr ""
+msgstr "Este é você!"
 
 # | msgid "Created on: %s"
 #: internal/admin/x-users.templ:56
@@ -546,7 +546,7 @@ msgstr ""
 
 #: internal/auth/signin/x-auth.templ:21
 msgid "Or continue with"
-msgstr ""
+msgstr "Ou continue com"
 
 #: internal/auth/signin/x-auth.templ:41 internal/auth/signin/x-auth.templ:68
 msgid "Sign in"
@@ -1200,7 +1200,7 @@ msgstr ""
 
 #: internal/bookmarks/routes/forms_bookmarks.go:743
 msgid "E-Book"
-msgstr ""
+msgstr "Livro digital"
 
 #: internal/bookmarks/routes/forms_filters.go:54
 msgid "Picture"
@@ -1537,9 +1537,8 @@ msgstr "Carregando"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:500
 #: internal/dashboard/x-dashboard.templ:184
-#, fuzzy
 msgid "untitled"
-msgstr "Título"
+msgstr "sem nome"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:513
 #, python-format

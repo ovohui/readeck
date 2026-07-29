@@ -13,15 +13,15 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:49+0000\n"
-"Last-Translator: Anonymous <anonymous@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-07-29 13:51+0000\n"
+"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/readeck/application/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.7.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -49,9 +49,8 @@ msgid "An error occurred."
 msgstr "Er is een fout opgetreden."
 
 #: components/errors.templ:24
-#, fuzzy
 msgid "Back to home page"
-msgstr "Startpagina"
+msgstr "Terug naar startpagina"
 
 #: components/forms/forms.templ:21
 msgid "Errors"
@@ -100,9 +99,8 @@ msgid "remove"
 msgstr "verwijderen"
 
 #: components/layout.templ:63
-#, fuzzy
 msgid "Open Menu"
-msgstr "Menu openen"
+msgstr "Open Menu"
 
 #: components/layout.templ:82 components/layout.templ:83
 #: internal/admin/x-users.templ:190
@@ -312,7 +310,6 @@ msgid "Created on"
 msgstr "Aangemaakt op"
 
 #: internal/admin/x-users.templ:182
-#, fuzzy
 msgid "Last Login"
 msgstr "Laatste login"
 
@@ -321,9 +318,8 @@ msgid "Last Activity"
 msgstr "Laatste activiteit"
 
 #: internal/admin/x-users.templ:194
-#, fuzzy
 msgid "Disk Usage"
-msgstr "Schijfgebruik"
+msgstr "Gebruikte ruimte"
 
 #: internal/admin/x-users.templ:198
 msgid "User Administration"
@@ -487,7 +483,6 @@ msgid "Please note:"
 msgstr "Let op:"
 
 #: internal/auth/onboarding/x-onboarding.templ:44
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour email address is optional and will never leave this installation.\n"
@@ -496,10 +491,10 @@ msgid ""
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"  Je e-mailadres is optioneel en wordt alléén binnen deze instantie bewaard.\n"
-"  Er is dus geen sprake van extern bewaren, overdragen of verkoop ervan.\n"
-"  Het wordt <strong>slechts</strong> gebruikt voor wachtwoordherstel en interne meldingen.\n"
-"  "
+"\t\t\t\t\t\tJe e-mailadres is optioneel en wordt alléén binnen deze instantie bewaard.\n"
+"\t\t\t\t\t\tHet wordt nooit verzameld, overgedragen of verkocht.\n"
+"\t\t\t\t\t\tHet wordt <strong>enkel</strong> gebruikt, mocht je het nodig hebben, voor wachtwoordherstel en interne meldingen..\n"
+"\t\t\t\t\t"
 
 #: internal/auth/onboarding/x-onboarding.templ:52
 msgid "Finish installation"
@@ -615,7 +610,6 @@ msgid "No worries, it happens to anyone."
 msgstr "Geen zorgen: dit kan een ieder overkomen."
 
 #: internal/auth/signin/x-auth.templ:129
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tPlease provide the email address you used to create\n"
@@ -624,10 +618,10 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"        Voer het e-mailadres in dat je hebt gebruikt om je\n"
-"        account aan te maken. We sturen je een e-mail met link\n"
-"        waarmee je je wachtwoord kunt herstellen.\n"
-"      "
+"\t\t\t\t\t\t\tVul het e-mailadres in dat je hebt gebruikt om je\n"
+"\t\t\t\t\t\t\taccount aan te maken en we sturen je een bericht met een link \n"
+"\t\t\t\t\t\t\tom je wachtwoord te herstellen.\n"
+"\t\t\t\t\t\t"
 
 #: internal/auth/signin/x-auth.templ:140
 msgid "Send me a recovery link"
@@ -772,7 +766,7 @@ msgstr[1] "Ongeveer %d min. leestijd"
 #: internal/bookmarks/routes/x-components.templ:208
 #: internal/bookmarks/routes/x-filters.templ:36
 msgid "Note"
-msgstr "Opmerking"
+msgstr "Notitie"
 
 #: internal/bookmarks/converter/x-epub.templ:83
 #: internal/bookmarks/converter/x-html-public.templ:252
@@ -832,7 +826,7 @@ msgstr "Het bestand is blanco of ongeldig"
 
 #: internal/bookmarks/importer/pinboard.go:44
 msgid "Pinboard JSON backup File"
-msgstr ""
+msgstr "Pinboard JSON backup bestand"
 
 #: internal/bookmarks/importer/readwise.go:62
 msgid "Readwise Reader CSV"
@@ -907,7 +901,6 @@ msgid "Import your Browser's Bookmarks"
 msgstr "Bladwijzers uit webbrowser importeren"
 
 #: internal/bookmarks/importer/x-forms.templ:68
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tIn your web browser, export your bookmarks as an HTML file.<br>\n"
@@ -916,10 +909,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"    Exporteer de bladwijzers van je webbrowser naar een html-bestand.<br>\n"
-"    Upload het bestand hieronder om Readeck alle bladwijzers uit\n"
-"    het bestand te laten importeren.\n"
-"  "
+"\t\t\t\t\tExporteer je bladwijzers als een HTML-bestand in je webbrowser.<br>\n"
+"\t\t\t\t\tUpload dit bestand in het formulier hieronder en Readeck zal elke bladwijzer\n"
+"\t\t\t\t\tdie in het bestand wordt gevonden, aanmaken en ophalen.\n"
+"\t\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:77
 msgid "Instructions for Firefox"
@@ -955,7 +948,7 @@ msgid "CSV Format"
 msgstr "CSV Formaat"
 
 #: internal/bookmarks/importer/x-forms.templ:110
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\tThe uploaded file must contain a first row with the column names. Column names are case\n"
@@ -963,9 +956,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Het geüploade bestand dient over een eerste rij met kolomnamen te beschikken. Kolomnamen zijn\n"
-"    hoofdletterongevoelig en alle kolommen zijn optioneel, behalve <code>%s</code>.\n"
-"  "
+"\t\t\t\tHet geüploade bestand moet een eerste rij met de kolomnamen bevatten. Kolomnamen zijn niet\n"
+"\t\t\t\thoofdlettergevoelig en, op <code>%s</code> na, is elke kolom optioneel.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:115
 msgid "Here are the columns you can set:"
@@ -1027,18 +1020,13 @@ msgid "Import Bookmarks from a Linkwarden export file"
 msgstr "Bladwijzers importeren uit Linkwarden-bestand"
 
 #: internal/bookmarks/importer/x-forms.templ:176
-#, fuzzy
 msgid "Upload a JSON file obtained from your Linkwarden app."
-msgstr ""
-"\n"
-"    Upload een door de Linkwarden-app samengesteld json-bestand.\n"
-"  "
+msgstr "Upload een JSON-bestand verkregen uit je Linkwarden-app."
 
 # | msgid "Import Links from a Text File"
 #: internal/bookmarks/importer/x-forms.templ:185
-#, fuzzy
 msgid "Import Links from a Pinboard JSON backup file"
-msgstr "Links importeren uit csv-bestand"
+msgstr "Links importeren uit Pinboard JSON-back-upbestand"
 
 #: internal/bookmarks/importer/x-forms.templ:188
 msgid "Upload a JSON file obtained from your Pinboard account."
@@ -1050,7 +1038,6 @@ msgid "Import your Pocket Articles"
 msgstr "Pocket-artikelen importeren"
 
 #: internal/bookmarks/importer/x-forms.templ:200
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a Pocket export file in the form below and Readeck will fetch and save\n"
@@ -1058,9 +1045,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Upload het bestand hieronder om Readeck alle links uit het bestand\n"
-"    te laten importeren.\n"
-"  "
+"\t\t\t\tUpload hieronder een Pocket exportbestand en Readeck zal elke link die in \n"
+"\t\t\t\thet bestand gevonden wordt ophalen en opslaan.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:212
 msgid "Note: upload the ZIP file directly, not its contents"
@@ -1119,7 +1106,6 @@ msgid "Import Links from a Text File"
 msgstr "Links importeren uit tekstbestand"
 
 #: internal/bookmarks/importer/x-forms.templ:250
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a text file that contains one link per line and Readeck will fetch\n"
@@ -1127,9 +1113,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Upload een tekstbestand met één link per regel om Readeck alle links\n"
-"    uit het bestand te laten importeren naar je bladwijzerlijst.\n"
-"  "
+"\t\t\t\tUpload een tekstbestand dat één link per regel bevat en Readeck zal\n"
+"\t\t\t\tze allemaal ophalen en opslaan in je bladwijzerlijst.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:260
 #: internal/bookmarks/routes/x-import.templ:93
@@ -1137,7 +1123,6 @@ msgid "Import your Wallabag Articles"
 msgstr "Wallabag-artikelen importeren"
 
 #: internal/bookmarks/importer/x-forms.templ:263
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tTo import your articles from Wallabag, you must first create an API client\n"
@@ -1146,10 +1131,10 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Voor het importeren van Wallabag-artikelen is een api-client vereist.\n"
-"    Deze kan worden aangemaakt via het Wallabag-menuitem <strong>API clients management</strong>.\n"
-"    Dit hulpmiddel geeft een  <strong>Client ID</strong> en <strong>Client secret</strong>.\n"
-"  "
+"\t\t\t\tOm je artikelen uit Wallabag te importeren, moet je eerst een API-client aanmaken\n"
+"\t\t\t\tin het menu <strong>API-clientsbeheer</strong> van Wallabag. Dit geeft je\n"
+"\t\t\t\teen <strong>Client ID</strong> en <strong>Client secret</strong>.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:270
 msgid "You can then enter all the necessary information in the form below."
@@ -1239,10 +1224,9 @@ msgid "Duration, longest first"
 msgstr "Duur - langste eerst"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:636
-#, fuzzy
 msgctxt "sort"
 msgid "Random"
-msgstr "Ongedaan maken"
+msgstr "Willekeurig"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:742
 #: internal/bookmarks/routes/forms_filters.go:53
@@ -1251,7 +1235,7 @@ msgstr "Artikel"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:743
 msgid "E-Book"
-msgstr ""
+msgstr "E-Boek"
 
 #: internal/bookmarks/routes/forms_filters.go:54
 msgid "Picture"
@@ -1279,7 +1263,7 @@ msgstr "Afgerond"
 #: internal/bookmarks/routes/forms_filters.go:72
 #, python-format
 msgid "\"%s\" is not a valid date value"
-msgstr ""
+msgstr "\"%s\" is geen geldige datumwaarde"
 
 #: internal/bookmarks/routes/opds.go:58
 msgid "Readeck Bookmarks"
@@ -1364,9 +1348,8 @@ msgid "Share by email"
 msgstr "Delen via e-mail"
 
 #: internal/bookmarks/routes/views_collections.go:39
-#, fuzzy
 msgid "Collection created."
-msgstr "De verzameling is bijgewerkt."
+msgstr "Verzameling aangemaakt."
 
 #: internal/bookmarks/routes/views_collections.go:66
 msgid "Collection updated."
@@ -1394,7 +1377,6 @@ msgid "You don't have any highlights yet."
 msgstr "Je hebt nog niets gemarkeerd."
 
 #: internal/bookmarks/routes/x-annotations.templ:22
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tOnce you start highlighting parts of your saved articles, they will appear on this page\n"
@@ -1402,9 +1384,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"        Zodra je delen van opgeslagen artikelen markeert, worden ze hier getoond,\n"
-"        zodat je ze makkelijk kunt terugvinden.\n"
-"      "
+"\t\t\t\t\t\t\tZodra je delen van opgeslagen artikelen markeert, worden ze hier getoond,\n"
+"\t\t\t\t\t\t\tzodat je ze eenvoudig kunt terugvinden.\n"
+"\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-annotations.templ:29
 #, python-format
@@ -1412,9 +1394,8 @@ msgid "Read more about highlights in the <a class=\"%s\" href=\"%s\">documentati
 msgstr "Meer informatie hierover is te vinden in de <a class=\"%s\" href=\"%s\">documentatie</a>."
 
 #: internal/bookmarks/routes/x-base.templ:27
-#, fuzzy
 msgid "search in bookmarks"
-msgstr "Gearchiveerde bladwijzers"
+msgstr "zoeken in bladwijzers"
 
 #: internal/bookmarks/routes/x-base.templ:31
 #: internal/bookmarks/routes/x-filters.templ:22
@@ -1588,9 +1569,8 @@ msgstr "Bezig met laden…"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:500
 #: internal/dashboard/x-dashboard.templ:184
-#, fuzzy
 msgid "untitled"
-msgstr "Titel"
+msgstr "naamloos"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:513
 #, python-format
@@ -1659,9 +1639,8 @@ msgstr "Bladwijzerinformatie"
 
 # | msgid "Bookmark Labels"
 #: internal/bookmarks/routes/x-bookmark.templ:44
-#, fuzzy
 msgid "Bookmark content"
-msgstr "Bladwijzertitel"
+msgstr "Bladwijzerinhoud"
 
 #: internal/bookmarks/routes/x-bookmark.templ:74
 msgid "Bookmark is loading"
@@ -1737,20 +1716,19 @@ msgstr "De link vervalt op %s"
 
 #: internal/bookmarks/routes/x-bookmark.templ:330
 msgid "This link is shared without annotations."
-msgstr ""
+msgstr "Deze link is gedeeld zonder annotaties."
 
 #: internal/bookmarks/routes/x-bookmark.templ:331
 msgid "Share with annotations"
-msgstr ""
+msgstr "Delen met annotaties"
 
 #: internal/bookmarks/routes/x-bookmark.templ:333
 msgid "This link is shared with annotations."
-msgstr ""
+msgstr "Deze link is gedeeld met annotaties."
 
 #: internal/bookmarks/routes/x-bookmark.templ:334
-#, fuzzy
 msgid "Share without annotations"
-msgstr "Zonder koppelteken"
+msgstr "Delen zonder annotaties"
 
 #: internal/bookmarks/routes/x-bookmark.templ:354
 msgid "Copy the link"
@@ -1781,7 +1759,7 @@ msgstr "Versturen naar"
 
 #: internal/bookmarks/routes/x-bookmark.templ:410
 msgid "Include annotations and notes"
-msgstr ""
+msgstr "Annotaties en notities toevoegen"
 
 #: internal/bookmarks/routes/x-bookmark.templ:415
 #, python-format
@@ -1801,7 +1779,6 @@ msgid "Create a new collection"
 msgstr "Verzameling samenstellen"
 
 #: internal/bookmarks/routes/x-collections.templ:50
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\tCollections let you easily organize and export your bookmarks\n"
@@ -1812,12 +1789,12 @@ msgid ""
 "\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"          Met behulp van verzamelingen kun je je bladwijzers op een eenvoudige manier\n"
-"          ordenen en exporteren, door ze te bewaren als zoekopdrachten.\n"
-"          Zodra je een bladwijzer toevoegt die overeenkomt met een bepaalde verzameling,\n"
-"          wordt deze daar getoond.\n"
-"          Hieronder vind je enkele voorbeelden:\n"
-"        "
+"\t\t\t\t\t\t\t\tMet verzamelingen kun je eenvoudig je bladwijzers organiseren en exporteren\n"
+"\t\t\t\t\t\t\t\tdoor zoekopdrachten naar keuze op te slaan.\n"
+"\t\t\t\t\t\t\t\tWanneer je een nieuwe bladwijzer aanmaakt die voldoet aan de criteria van een collectie,\n"
+"\t\t\t\t\t\t\t\tverschijnt deze automatisch.\n"
+"\t\t\t\t\t\t\t\tHier zijn enkele voorbeelden:\n"
+"\t\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-collections.templ:59
 msgid "The unread articles (no photos or videos)"
@@ -1847,9 +1824,8 @@ msgid "Created on: %s"
 msgstr "Aangemaakt op %s"
 
 #: internal/bookmarks/routes/x-collections.templ:97
-#, fuzzy
 msgid "This collection will be removed in a few seconds."
-msgstr "De verzameling wordt over enkele seconden verwijderd."
+msgstr "Deze verzameling wordt over enkele seconden verwijderd."
 
 #: internal/bookmarks/routes/x-collections.templ:107
 #: internal/bookmarks/routes/x-sidebar.templ:131
@@ -1916,9 +1892,8 @@ msgid "Play video"
 msgstr "Video afspelen"
 
 #: internal/bookmarks/routes/x-components.templ:326
-#, fuzzy
 msgid "Extraction log"
-msgstr "Tekstrichting"
+msgstr "Extractielogboek"
 
 #: internal/bookmarks/routes/x-components.templ:330
 #: internal/bookmarks/routes/x-components.templ:381
@@ -1937,20 +1912,19 @@ msgstr "Bewaard met Readeck"
 
 #: internal/bookmarks/routes/x-components.templ:368
 msgid "This feed provides the latest entries from this bookmark list"
-msgstr ""
+msgstr "Deze feed toont de nieuwste items uit deze bladwijzerlijst"
 
 #: internal/bookmarks/routes/x-components.templ:369
 msgid "Subscribe to this feed by copying the URL below:"
-msgstr ""
+msgstr "Abonneer je op deze feed door de onderstaande URL te kopiëren:"
 
 #: internal/bookmarks/routes/x-components.templ:388
-#, fuzzy
 msgid "Open link"
-msgstr "Link kopiëren"
+msgstr "Link openen"
 
 #: internal/bookmarks/routes/x-components.templ:396
 msgid "Access to this feed is restricted."
-msgstr ""
+msgstr "De toegang tot deze feed is afgeschermd.."
 
 #: internal/bookmarks/routes/x-components.templ:398
 msgid ""
@@ -1959,6 +1933,10 @@ msgid ""
 "\t\t\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">API Token</a> to load this feed.\n"
 "\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\tJe moet je nieuwslezer app voorzien van een gebruikersnaam en een\n"
+"\t\t\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">API Token</a> om deze feed te laden.\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-components.templ:409
 msgid "You don't have any bookmarks yet.<br> Copy a link in the field above and start saving."
@@ -1970,21 +1948,19 @@ msgid "Read more about bookmarks in the <a class=\"%s\" href=\"%s\">documentatio
 msgstr "Meer informatie is te vinden in de <a class=\"%s\" href=\"%s\">documentatie</a>."
 
 #: internal/bookmarks/routes/x-components.templ:423
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWith the Browser Extension, you can save pages, images and selections\n"
 "\t\tdirectly from your browser!"
 msgstr ""
 "\n"
-"            Met behulp van de browserextensie kun je pagina's, afbeelding en selecties opslaan\n"
-"            vanuit je browser!"
+"\t\tMet de browserextensie kun je pagina's, afbeeldingen en selecties\n"
+"\t\tdirect vanuit je browser opslaan!"
 
 # | msgid "" "\n" "          Would you like to import from a similar tool or
 # | from a file with existing bookmarks?\n" "          Try Readeck's import
 # | tool.\n" "        "
 #: internal/bookmarks/routes/x-components.templ:430
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWould you like to import from a similar tool or from a file with existing bookmarks?\n"
@@ -1992,9 +1968,9 @@ msgid ""
 "\t"
 msgstr ""
 "\n"
-"              Wil je bladwijzers importeren uit een vergelijkbare dienst of een bestand?\n"
-"          Maak dan gebruik van Readecks importhulpmiddel.\n"
-"            "
+"\t\tWil je importeren uit een vergelijkbare tool of uit een bestand met bestaande bladwijzers?\n"
+"\t\tProbeer de importtool van Readeck.\n"
+"\t"
 
 #: internal/bookmarks/routes/x-filters.templ:24
 msgid "Author"
@@ -2005,16 +1981,14 @@ msgid "Site"
 msgstr "Website"
 
 #: internal/bookmarks/routes/x-filters.templ:37
-#, fuzzy
 msgctxt "date"
 msgid "Since"
-msgstr "Grootte"
+msgstr "Sinds"
 
 #: internal/bookmarks/routes/x-filters.templ:41
-#, fuzzy
 msgctxt "date"
 msgid "Until"
-msgstr "Titel"
+msgstr "Tot"
 
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
@@ -2042,9 +2016,8 @@ msgid "With Labels"
 msgstr "Met labels"
 
 #: internal/bookmarks/routes/x-filters.templ:56
-#, fuzzy
 msgid "With Notes"
-msgstr "Met labels"
+msgstr "Met notities"
 
 #: internal/bookmarks/routes/x-filters.templ:57
 msgid "With Errors"
@@ -2090,17 +2063,12 @@ msgid "Import your Readwise Reader Library"
 msgstr "Readwise Reader-bibliotheek importeren"
 
 #: internal/bookmarks/routes/x-import.templ:100
-#, fuzzy
 msgid "Here you can import your existing bookmark collection from various sources into Readeck."
-msgstr ""
-"\n"
-"    Hier kun je je bladwijzers vanuit verschillende diensten importeren naar Readeck.\n"
-"  "
+msgstr "Hier kun je je bladwijzers vanuit verschillende diensten importeren naar Readeck."
 
 #: internal/bookmarks/routes/x-import.templ:125
-#, fuzzy
 msgid "Import status"
-msgstr "Importeren"
+msgstr "Importstatus"
 
 #: internal/bookmarks/routes/x-import.templ:145
 msgid "Import operation will launch momentarily."
@@ -2119,23 +2087,21 @@ msgid "Import is finished!"
 msgstr "Het importeren is voltooid!"
 
 #: internal/bookmarks/routes/x-import.templ:165
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour bookmarks are now available in your <a class=\"%s\" href=\"%s\">bookmark list</a>.\n"
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"      De bladwijzers zijn toegevoegd aan je <a class=\"%s\" href=\"%s\">bladwijzerlijst</a>.\n"
-"      "
+"\t\t\t\t\t\tDe bladwijzers zijn toegevoegd aan je <a class=\"%s\" href=\"%s\">bladwijzerlijst</a>.\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:27
-#, fuzzy
 msgid "Bookmarks Labels"
 msgstr "Bladwijzerlabels"
 
 #: internal/bookmarks/routes/x-labels.templ:31
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tLabels let your organize your bookmarks the way you want.\n"
@@ -2143,8 +2109,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"  Je kunt je bladwijzers ordenen met behulp van labels.\n"
-"  Alles kan een label zijn, zelfs emoji's!\n"
+"\t\t\t\tJe kunt je bladwijzers ordenen met behulp van labels.\n"
+"\t\t\t\tAlles kan een label zijn, zelfs emoji's!\n"
+"\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:128
 msgid "Label will be removed in a few seconds."
@@ -2236,15 +2203,14 @@ msgid "Errors occurred during extraction."
 msgstr "Er zijn fouten opgetreden tijdens het extraheren."
 
 #: internal/bookmarks/routes/x-sidebar.templ:51
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tDepending on the error, Readeck's browser extension may provide\n"
 "\t\t\t\t\t\ta workaround."
 msgstr ""
 "\n"
-"          Readecks browserextensie kan - afhankelijk van de precieze foutmelding -\n"
-"          een tussenoplossing bieden."
+"\t\t\t\t\t\tReadecks browserextensie kan - afhankelijk van de precieze foutmelding -\n"
+"\t\t\t\t\t\teen tussenoplossing bieden."
 
 #: internal/bookmarks/routes/x-sidebar.templ:67
 msgid "View log"
@@ -2301,16 +2267,15 @@ msgstr "Links"
 #: internal/dashboard/x-dashboard.templ:26
 #, python-format
 msgid "Hi %s!"
-msgstr ""
+msgstr "Hallo %s!"
 
 #: internal/dashboard/x-dashboard.templ:60 internal/opds/http.go:72
 msgid "All Bookmarks"
 msgstr "Alle bladwijzers"
 
 #: internal/dashboard/x-dashboard.templ:72
-#, fuzzy
 msgid "Readeck"
-msgstr "Hulp"
+msgstr "Readeck"
 
 #: internal/dashboard/x-dashboard.templ:74 internal/profile/views.go:98
 #: internal/profile/views.go:151 internal/profile/views.go:187
@@ -2322,22 +2287,19 @@ msgstr "Profiel"
 
 #: internal/dashboard/x-dashboard.templ:78
 msgid "Help"
-msgstr ""
+msgstr "Help"
 
 #: internal/dashboard/x-dashboard.templ:146
-#, fuzzy
 msgid "Archived"
-msgstr "Archiveren"
+msgstr "Gearchiveerd"
 
 #: internal/dashboard/x-dashboard.templ:201
-#, fuzzy
 msgid "See all"
-msgstr "Alle"
+msgstr "Toon alle"
 
 #: internal/dashboard/x-dashboard.templ:224
-#, fuzzy
 msgid "Applications for Readeck"
-msgstr "Informatie over de applicatie"
+msgstr "Apps voor Readeck"
 
 #: internal/dashboard/x-dashboard.templ:226
 msgid ""
@@ -2346,17 +2308,19 @@ msgid ""
 "\t\t\t\ton your smartphone, your e-book reader or\n"
 "\t\t\t\tin other apps through plugins."
 msgstr ""
+"\n"
+"\t\t\t\tJe kunt Readeck niet alleen in je browser gebruiken, maar ook\n"
+"\t\t\t\top je smartphone, je e-reader of\n"
+"\t\t\t\tin andere apps via plug-ins."
 
 #: internal/dashboard/x-dashboard.templ:236
-#, fuzzy
 msgid "Discover applications"
-msgstr "Applicaties"
+msgstr "Ontdek apps"
 
 # | msgid "Readeck Bookmark Collections"
 #: internal/dashboard/x-dashboard.templ:243
-#, fuzzy
 msgid "Readeck in your Browser"
-msgstr "Readeck-browserextensie"
+msgstr "Readeck in je browser"
 
 #: internal/docs/http.go:257 internal/docs/x-about.templ:53
 #: internal/docs/x-base.templ:43
@@ -2368,7 +2332,6 @@ msgid "Version:"
 msgstr "Versie:"
 
 #: internal/docs/x-about.templ:58
-#, fuzzy
 msgid "Build Date:"
 msgstr "Bouwdatum:"
 
@@ -2578,7 +2541,6 @@ msgid "Profile imported."
 msgstr "Het profiel is geïmporteerd."
 
 #: internal/profile/x-applications.templ:15
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tApplications are registered clients that have permissions to access your Readeck account.\n"
@@ -2587,9 +2549,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"  Applicaties zijn geregistreerde clients die toegang hebben tot uw Readeck account.\n"
-"  Als er applicaties zijn die u hier niet herkent, of als een applicatie zich misdraagt,\n"
-"  kunt u de toegang intrekken.\n"
+"\t\t\t\t\tApplicaties zijn geregistreerde clients die toegang hebben tot je Readeck-account.\n"
+"\t\t\t\t\tAls er applicaties zijn die je hier niet herkent, of als een applicatie zich misdraagt,\n"
+"\t\t\t\t\tkun je de toegang intrekken.\n"
+"\t\t\t\t"
 
 #: internal/profile/x-applications.templ:23
 msgid "You have no registered application at the moment."
@@ -2618,7 +2581,7 @@ msgid "Developer information"
 msgstr "Informatie voor ontwikkelaars"
 
 #: internal/profile/x-applications.templ:107
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tIf you plan to build an application, please refer to the\n"
@@ -2626,9 +2589,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"    Als u van plan bent om een applicatie te bouwen, raadpleeg dan de\n"
-"    <a href=\"%s\">API Documentatie</a>.\n"
-"  "
+"\t\t\t\t\t\t\tAls je van plan bent om een applicatie te bouwen, raadpleeg dan de\n"
+"\t\t\t\t\t\t\t<a href=\"%s\">API-documentatie</a>.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-export.templ:23
 msgid "Bookmark List in Browser Bookmarks Format"
@@ -2643,7 +2606,6 @@ msgid "Export your Readeck Profile"
 msgstr "Exorteer je Readeck-profiel"
 
 #: internal/profile/x-export.templ:41
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tThis lets you download a zip file containing all your profile's data, including\n"
@@ -2651,9 +2613,9 @@ msgid ""
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"    Hiermee kun je een zipbestand downloaden, met daarin al je profielgegevens, zoals\n"
-"    bladwijzers, verzamelingen, etc.\n"
-"    "
+"\t\t\t\t\t\tHiermee kun je een zipbestand downloaden met daarin al je profielgegevens, zoals\n"
+"\t\t\t\t\t\tbladwijzers, verzamelingen, etc.\n"
+"\t\t\t\t\t"
 
 #: internal/profile/x-export.templ:47
 msgid "Export Data"
@@ -2684,7 +2646,6 @@ msgid "Attention"
 msgstr "Let op"
 
 #: internal/profile/x-import.templ:34
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tThis will empty your current profile and all its data will be\n"
@@ -2692,16 +2653,16 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"      Hierdoor wordt je huidige profiel overschreven door de gegevens\n"
-"      uit het bestand.\n"
-"      "
+"\t\t\t\t\t\t\tHiermee wordt je huidige profiel leeggemaakt en worden alle gegevens\n"
+"\t\t\t\t\t\t\tvervangen door de inhoud van het bestand.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-import.templ:46
 msgid "Import bookmarks from other services"
 msgstr "Bladwijzers van andere diensten importeren"
 
 #: internal/profile/x-import.templ:49
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\tIf you have bookmarks from another service you can import them in the\n"
@@ -2709,9 +2670,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"  Als je over bladwijzers op een andere dienst beschikt, dan kun je ze importeren in de\n"
-"  <a href=\"%s\">daarvoor bestemde sectie</a>.\n"
-"  "
+"\t\t\t\t\t\tAls je over bladwijzers op een andere dienst beschikt, dan kun je ze importeren in de\n"
+"\t\t\t\t\t\t<a href=\"%s\">daarvoor bestemde sectie</a>.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-profile.templ:17 internal/profile/x-security.templ:16
 msgid "My profile"
@@ -2757,7 +2718,6 @@ msgid "Sending e-books to an Amazon Kindle"
 msgstr "E-books verzenden naar een Amazon Kindle"
 
 #: internal/profile/x-profile.templ:93
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\t\t\tIf you plan to send e-books to a Kindle device, you must approve the\n"
@@ -2765,9 +2725,9 @@ msgid ""
 "\t\t\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"          Als je van plan bent om e-boeken naar een Kindle-apparaat te versturen,\n"
-"        dan moet je eerst dit e-mailadres bevestigen via je Kindle-account:\n"
-"          "
+"\t\t\t\t\t\t\t\t\t\tAls je van plan bent om e-boeken naar een Kindle-apparaat te versturen,\n"
+"\t\t\t\t\t\t\t\t\t\tdan moet je eerst dit e-mailadres goedkeuren via je Kindle-account:\n"
+"\t\t\t\t\t\t\t\t\t"
 
 #: internal/profile/x-security.templ:25
 msgid "Change my password"
@@ -2892,7 +2852,6 @@ msgid "Roles"
 msgstr "Functies"
 
 #: internal/profile/x-tokens.templ:142
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tYou can limit the permissions granted to this token by choosing one or more\n"
@@ -2901,10 +2860,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"    Met behulp van onderstaande opties kun je beperkingen op deze toegangssleutel\n"
-"    instellen.<br>\n"
-"    Als je niets instelt, worden alle rechten toegekend.\n"
-"  "
+"\t\t\t\t\tJe kunt de aan deze toegangssleutel verleende rechten beperken door hieronder één of meer\n"
+"\t\t\t\t\trechtengroepen te kiezen.<br>\n"
+"\t\t\t\t\tLaat alle keuzes leeg om al je rechten aan deze toegangssleutel te verlenen.\n"
+"\t\t\t\t"
 
 #: internal/profile/x-tokens.templ:158
 msgid "Delete token"
@@ -2956,15 +2915,16 @@ msgid "Alternatively, you can use this token as a password for HTTP Basic Authen
 msgstr "Ook kun je deze sleutel als wachtwoord gebruiken i.c.m. HTTP Basic Authentication."
 
 #: internal/profile/x-tokens.templ:222
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tFor example, if an application only accepts a username and password, you can provide this token as a password.\n"
 "\t\t\t\tThe username is ignored and can be anything, including an empty value.\n"
 "\t\t\t"
 msgstr ""
-"Voorbeeld: als een app alleen een gebruikersnaam en wachtwoord accepteert, kun je deze sleutel als wachtwoord gebruiken.\n"
-"  De gebruikersnaam wordt genegeerd en kan van alles zijn, zelfs een lege."
+"\n"
+"\t\t\t\tVoorbeeld: als een app alleen een gebruikersnaam en wachtwoord accepteert, kun je deze sleutel als wachtwoord gebruiken.\n"
+"\t\t\t\tDe gebruikersnaam wordt genegeerd en kan van alles zijn, zelfs een lege.\n"
+"\t\t\t"
 
 #: pkg/forms/forms.go:28
 msgid "an unexpected error has occurred"

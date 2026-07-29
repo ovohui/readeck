@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-27 15:05+0000\n"
+"PO-Revision-Date: 2026-07-29 13:51+0000\n"
 "Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/readeck/application/tr/>\n"
 "Language: tr\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.7.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -184,11 +184,11 @@ msgstr "şifre boş"
 
 #: internal/admin/forms.go:73
 msgid "User is external and can't be updated."
-msgstr ""
+msgstr "Kullanıcı harici ve güncellenemez."
 
 #: internal/admin/forms.go:85 internal/profile/forms.go:98
 msgid "username is already in use"
-msgstr ""
+msgstr "kullanıcı adı zaten kullanılıyor"
 
 #: internal/admin/forms.go:92 internal/profile/forms.go:105
 msgid "email address is already in use"
@@ -226,9 +226,8 @@ msgid "Add a new user"
 msgstr "Yeni bir kullanıcı ekle"
 
 #: internal/admin/x-users.templ:38
-#, fuzzy
 msgid "External User"
-msgstr "Kullanıcı oluştur"
+msgstr "Harici Kullanıcı"
 
 #: internal/admin/x-users.templ:44 internal/admin/x-users.templ:174
 msgid "TOTP is enabled"
@@ -307,9 +306,8 @@ msgid "Save"
 msgstr "Kaydet"
 
 #: internal/admin/x-users.templ:178
-#, fuzzy
 msgid "Created on"
-msgstr "Oluşturulma tarihi: %s"
+msgstr "Oluşturulma tarihi"
 
 #: internal/admin/x-users.templ:182
 msgid "Last Login"
@@ -336,9 +334,8 @@ msgid "This will sign this user out of all active sessions on the web applicatio
 msgstr "Bu, söz konusu kullanıcının web uygulamasındaki tüm aktif oturumlardan çıkış yapmasını sağlayacaktır."
 
 #: internal/admin/x-users.templ:219
-#, fuzzy
 msgid "Sign this user out"
-msgstr "Çıkış yap"
+msgstr "Bu kullanıcıyı çıkış yap"
 
 #: internal/admin/x-users.templ:227
 msgid ""
@@ -349,11 +346,16 @@ msgid ""
 "\t\t\t\t\t\t\t\t\tThis will detach the user <strong>%[2]s</strong>.\n"
 "\t\t\t\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\t\t\t\tBu kullanıcı harici bir kimlik doğrulama sağlayıcısına bağlı:<br />\n"
+"\t\t\t\t\t\t\t\t\t<strong>%[1]s</strong>.<br />\n"
+"\t\t\t\t\t\t\t\t\tBu yüzden bazı özellikleri düzenlenebilir değil.<br />\n"
+"\t\t\t\t\t\t\t\t\tBu, <strong>%[2]s</strong> adlı kullanıcıyı ayıracaktır.\n"
+"\t\t\t\t\t\t\t\t"
 
 #: internal/admin/x-users.templ:240
-#, fuzzy
 msgid "Detach this user"
-msgstr "Bu kullanıcıyı sil"
+msgstr "Bu kullanıcıyı ayır"
 
 #: internal/admin/x-users.templ:249
 #, python-format
@@ -371,7 +373,7 @@ msgstr "Yetkilendirme gerekli"
 
 #: internal/auth/oauth2/x-oauth.templ:30
 msgid "This code has expired or is not valid"
-msgstr ""
+msgstr "Bu kodun süresi geçmiş veya kod geçerli değil"
 
 #: internal/auth/oauth2/x-oauth.templ:33 internal/auth/oauth2/x-oauth.templ:50
 #: internal/auth/oauth2/x-oauth.templ:58
@@ -418,7 +420,7 @@ msgid "Sign out"
 msgstr "Çıkış yap"
 
 #: internal/auth/oauth2/x-oauth.templ:116
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t<strong>%s</strong> would like permission to access your account.\n"
@@ -426,9 +428,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"      <strong>%s</strong> hesabınıza erişim izni istiyor.\n"
-"      Bu isteği yalnızca bu kaynağı tanıyor ve güveniyorsanız onaylayın.\n"
-"    "
+"\t\t\t\t<strong>%s</strong> hesabınıza erişmek için izin istiyor.\n"
+"\t\t\t\tBu isteği sadece bu kaynağı tanıyor ve ona güveniyorsanız onaylayın.\n"
+"\t\t\t"
 
 #: internal/auth/oauth2/x-oauth.templ:122
 msgid "Review permissions"
@@ -481,7 +483,6 @@ msgid "Please note:"
 msgstr "Önemli not:"
 
 #: internal/auth/onboarding/x-onboarding.templ:44
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour email address is optional and will never leave this installation.\n"
@@ -490,10 +491,10 @@ msgid ""
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"  E-posta adresi girmek isteğe bağlıdır ve bu sistemin dışına asla çıkmaz.\n"
-"  Bu bilgi hiçbir zaman toplanmaz, başka bir yere aktarılmaz veya satılmaz. \n"
-"  <strong>Yalnızca</strong> ihtiyacınız olursa, parola kurtarma ve dahili bildirimler için kullanılacaktır.\n"
-"  "
+"\t\t\t\t\t\tE-posta adresi girmek isteğe bağlıdır ve bu sistemin dışına asla çıkmaz.\n"
+"\t\t\t\t\t\tBu bilgi hiçbir zaman toplanmaz, başka bir yere aktarılmaz veya satılmaz.\n"
+"\t\t\t\t\t\t<strong>Yalnızca</strong> ihtiyacınız olursa, parola kurtarma ve dahili bildirimler için kullanılacaktır.\n"
+"\t\t\t\t\t"
 
 #: internal/auth/onboarding/x-onboarding.templ:52
 msgid "Finish installation"
@@ -504,12 +505,10 @@ msgid "Invalid user and/or password"
 msgstr "Geçersiz kullanıcı ve/veya şifre"
 
 #: internal/auth/signin/http.go:185 internal/profile/forms.go:228
-#, fuzzy
 msgid "Invalid code"
-msgstr "geçersiz şifre"
+msgstr "Geçersiz kod"
 
 #: internal/auth/signin/recover.go:257
-#, fuzzy
 msgid ""
 "\n"
 "Hi,\n"
@@ -525,16 +524,15 @@ msgstr ""
 "\n"
 "Merhaba,\n"
 "\n"
-"Siz (ya da bir başkası) %s Readeck hesabının şifresini\n"
+"Siz (ya da bir başkası) %[1]s Readeck hesabının şifresini\n"
 "değiştirmek için bu eposta adresini kullandı.\n"
 "\n"
 "Eğer bu postayı almayı bekliyorduysanız, Readeck hesabınıza yeni bir şifre belirlemek için\n"
 "aşağıdaki bağlantıyı takip edin.\n"
 "\n"
-"%s\n"
+"%[2]s\n"
 
 #: internal/auth/signin/recover.go:271
-#, fuzzy
 msgid ""
 "\n"
 "Hi,\n"
@@ -552,23 +550,23 @@ msgid ""
 "If you are not a Readeck user, please ignore this message.\n"
 msgstr ""
 "\n"
-"Merhaba,\r\n"
-"\r\n"
-"Bir Readeck hesabının şifresini değiştirmeye çalışırken bu e-posta adresini\r\n"
-"siz (veya başka biri) girdiniz (%s).\r\n"
-"\r\n"
-"Ancak, bu e-posta adresi herhangi bir hesaba bağlı değil ve bu nedenle\r\n"
-"şifre değiştirme girişimi başarısız oldu.\r\n"
-"\r\n"
-"Eğer %s üzerinde bir Readeck kullanıcısıysanız ve\r\n"
-"bu e-postayı bekliyorsanız, lütfen hesabınızı oluştururken kullandığınız\r\n"
-"e-posta adresini kullanarak tekrar deneyin.\r\n"
-"\r\n"
+"Merhaba,\n"
+"\n"
+"Bir Readeck hesabının şifresini değiştirmeye çalışırken bu e-posta adresini\n"
+"siz (veya başka biri) girdiniz (%[1]s).\n"
+"\n"
+"Ancak, bu e-posta adresi herhangi bir hesaba bağlı değil ve bu nedenle\n"
+"şifre değiştirme girişimi başarısız oldu.\n"
+"\n"
+"Eğer %[1]s üzerinde bir Readeck kullanıcısıysanız ve\n"
+"bu e-postayı bekliyorsanız, lütfen hesabınızı oluştururken kullandığınız\n"
+"e-posta adresini kullanarak tekrar deneyin.\n"
+"\n"
 "Readeck kullanıcısı değilseniz, lütfen bu mesajı görmezden gelin.\n"
 
 #: internal/auth/signin/x-auth.templ:21
 msgid "Or continue with"
-msgstr ""
+msgstr "Oder weiter mit"
 
 #: internal/auth/signin/x-auth.templ:41 internal/auth/signin/x-auth.templ:68
 msgid "Sign in"
@@ -613,7 +611,6 @@ msgid "No worries, it happens to anyone."
 msgstr "Sorun değil, herkesin başına gelebilir."
 
 #: internal/auth/signin/x-auth.templ:129
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tPlease provide the email address you used to create\n"
@@ -622,10 +619,10 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"        Lütfen esabınızı oluştururken kullandığınız e-posta \n"
-"        adresinizi girin. Size parolanızı kurtarabileceğiniz\n"
-"         bir bağlantı göndereceğiz.\n"
-"      "
+"\t\t\t\t\t\t\tLütfen esabınızı oluştururken kullandığınız e-posta\n"
+"\t\t\t\t\t\t\tadresinizi girin. Size parolanızı kurtarabileceğiniz\n"
+"\t\t\t\t\t\t\tbir bağlantı göndereceğiz.\n"
+"\t\t\t\t\t\t"
 
 #: internal/auth/signin/x-auth.templ:140
 msgid "Send me a recovery link"
@@ -636,14 +633,9 @@ msgid "Almost there!"
 msgstr "Neredeyse bitti!"
 
 #: internal/auth/signin/x-auth.templ:152
-#, fuzzy, python-format
+#, python-format
 msgid "We have sent an email to <strong>%s</strong> with further instructions."
-msgstr ""
-"\n"
-"        <strong>%s</strong>\n"
-"        adresine talimatlar içeren \n"
-"        bir e-posta gönderdik.\n"
-"      "
+msgstr "<strong>%s</strong> adresine talimatlar içeren e-posta gönderdik."
 
 #: internal/auth/signin/x-auth.templ:168 internal/profile/x-security.templ:33
 msgid "New password"
@@ -662,72 +654,61 @@ msgid "Go to the sign in page"
 msgstr "Oturum açma sayfasına git"
 
 #: internal/auth/users/forms.go:18
-#, fuzzy
 msgid "username is not valid"
-msgstr "kullanıcı adı eşleşmiyor"
+msgstr "kullanıcı adı geçerli değil"
 
 #: internal/auth/users/forms.go:19
-#, fuzzy
 msgid "username is not available"
-msgstr "kullanıcı adı eşleşmiyor"
+msgstr "kullanıcı adı mevcut değil"
 
 #: internal/auth/users/forms.go:34
-#, fuzzy
 msgid "password must be at least 8 characters long"
-msgstr "8 veya daha fazla karakter içermeli"
+msgstr "parola en az 8 karakter olmalı"
 
 #: internal/auth/users/forms.go:89
-#, fuzzy
 msgctxt "role"
 msgid "no group"
-msgstr "Grup"
+msgstr "grup yok"
 
 #: internal/auth/users/groups.go:14
-#, fuzzy
 msgctxt "role"
 msgid "user"
-msgstr "Kullanıcılar"
+msgstr "kullanıcı"
 
 #: internal/auth/users/groups.go:15
 msgctxt "role"
 msgid "staff"
-msgstr ""
+msgstr "ekip"
 
 #: internal/auth/users/groups.go:16
-#, fuzzy
 msgctxt "role"
 msgid "admin"
-msgstr "%d dk."
+msgstr "yönetici"
 
 #: internal/auth/users/groups.go:18
-#, fuzzy
 msgctxt "role"
 msgid "Profile : Read Only"
-msgstr "Yönetici: Salt Okunur"
+msgstr "Profil : Salt Okunur"
 
 #: internal/auth/users/groups.go:19
-#, fuzzy
 msgctxt "role"
 msgid "Bookmarks : Read Only"
-msgstr "Yer İmleri: Salt Okunur"
+msgstr "Yer İmleri : Salt Okunur"
 
 #: internal/auth/users/groups.go:20
-#, fuzzy
 msgctxt "role"
 msgid "Bookmarks : Write Only"
-msgstr "Yer İmleri: Salt Yazılır"
+msgstr "Yer İmleri : Salt Yazılır"
 
 #: internal/auth/users/groups.go:21
-#, fuzzy
 msgctxt "role"
 msgid "Admin : Read Only"
-msgstr "Yönetici: Salt Okunur"
+msgstr "Yönetici : Salt Okunur"
 
 #: internal/auth/users/groups.go:22
-#, fuzzy
 msgctxt "role"
 msgid "Admin : Write Only"
-msgstr "Yönetici: Salt Yazılır"
+msgstr "Yönetici: Yalnızca Yazılır"
 
 #: internal/bookmarks/converter/email.go:223
 #, python-format
@@ -790,9 +771,8 @@ msgstr "Not"
 
 #: internal/bookmarks/converter/x-epub.templ:83
 #: internal/bookmarks/converter/x-html-public.templ:252
-#, fuzzy
 msgid "Notes"
-msgstr "Roller"
+msgstr "Notlar"
 
 #: internal/bookmarks/converter/x-html-public.templ:31
 msgid "Shared link"
@@ -847,7 +827,7 @@ msgstr "Boş veya geçersiz içe aktarma dosyası"
 
 #: internal/bookmarks/importer/pinboard.go:44
 msgid "Pinboard JSON backup File"
-msgstr ""
+msgstr "Pinboard JSON yedekleme dosyası"
 
 #: internal/bookmarks/importer/readwise.go:62
 msgid "Readwise Reader CSV"
@@ -920,7 +900,6 @@ msgid "Import your Browser's Bookmarks"
 msgstr "Tarayıcınızdaki yer imlerini içeri aktarın"
 
 #: internal/bookmarks/importer/x-forms.templ:68
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tIn your web browser, export your bookmarks as an HTML file.<br>\n"
@@ -929,10 +908,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"    Tarayıcınızdaki yer imlerini HTML dosyası olarak dışarı aktarın.<br>\n"
-"    Bu dosyayı aşağıdaki formu kullanarak yükleyin, Readeck dosyadaki her bir yer iminin\n"
-"    bilgilerini alarak kayıt oluşturacaktır.\n"
-"  "
+"\t\t\t\t\tTarayıcınızdaki yer imlerini HTML dosyası olarak dışarı aktarın.<br>\n"
+"\t\t\t\t\tBu dosyayı aşağıdaki formu kullanarak yükleyin, Readeck dosyadaki her bir yer iminin\n"
+"\t\t\t\t\tbilgilerini alarak kayıt oluşturacaktır.\n"
+"\t\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:77
 msgid "Instructions for Firefox"
@@ -955,19 +934,15 @@ msgid "Import Links from a CSV File"
 msgstr "CSV dosyasındaki bağlantıları içeri aktar"
 
 #: internal/bookmarks/importer/x-forms.templ:101
-#, fuzzy
 msgid "Upload a CSV file from Instapaper or any CSV that matches the format specified below."
-msgstr ""
-"\n"
-"    Aşağıdaki biçime uyan bir Instapaper CSV dosyası ya da herhangi bir CSV dosyası yükleyin.\n"
-"  "
+msgstr "Aşağıdaki biçime uyan bir Instapaper CSV dosyası ya da herhangi bir CSV dosyası yükleyin."
 
 #: internal/bookmarks/importer/x-forms.templ:107
 msgid "CSV Format"
 msgstr "CSV biçim"
 
 #: internal/bookmarks/importer/x-forms.templ:110
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\tThe uploaded file must contain a first row with the column names. Column names are case\n"
@@ -975,9 +950,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Yükleyeceğiniz dosyanın ilk satırı sütun başlıklarından oluşmalı. Sütun başlıkları\n"
-"    büyük/küçük harfe duyarlıdır ve <code>%s</code> dışındaki her sütun isteğe bağlıdır.\n"
-"  "
+"\t\t\t\tYükleyeceğiniz dosyanın ilk satırı sütun başlıklarından oluşmalı. Sütun başlıkları\n"
+"\t\t\t\tbüyük/küçük harfe duyarlıdır ve <code>%s</code> dışındaki her sütun isteğe bağlıdır.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:115
 msgid "Here are the columns you can set:"
@@ -1039,9 +1014,8 @@ msgid "Upload a JSON file obtained from your Linkwarden app."
 msgstr "Linkwarden uygulamanızdan aldığınız bir JSON dosyası yükleyin."
 
 #: internal/bookmarks/importer/x-forms.templ:185
-#, fuzzy
 msgid "Import Links from a Pinboard JSON backup file"
-msgstr "CSV dosyasındaki bağlantıları içeri aktar"
+msgstr "Pinboard JSON dosyasındaki bağlantıları içeri aktar"
 
 #: internal/bookmarks/importer/x-forms.templ:188
 msgid "Upload a JSON file obtained from your Pinboard account."
@@ -1053,7 +1027,6 @@ msgid "Import your Pocket Articles"
 msgstr "Pocket yazılarınızı içeri aktarın"
 
 #: internal/bookmarks/importer/x-forms.templ:200
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a Pocket export file in the form below and Readeck will fetch and save\n"
@@ -1061,9 +1034,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Bu dosyayı aşağıdaki formu kullanarak yükleyin, Readeck dosyada bulduğu her bağlantıya\n"
-"    erişip kaydedecektir.\n"
-"  "
+"\t\t\t\tBu dosyayı aşağıdaki formu kullanarak yükleyin, Readeck dosyada bulduğu her bağlantıya\n"
+"\t\t\t\terişip kaydedecektir.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:212
 msgid "Note: upload the ZIP file directly, not its contents"
@@ -1075,12 +1048,8 @@ msgid "Import Links from Readwise Reader CSV export"
 msgstr "Readwise Reader CSV dosyasındaki bağlantıları içeri aktar"
 
 #: internal/bookmarks/importer/x-forms.templ:223
-#, fuzzy
 msgid "Upload a CSV file exported from your Readwise Reader account below."
-msgstr ""
-"\n"
-"    Readwise Reader hesabınızdan dışa aktarılan CSV dosyasını aşağıya yükleyin.\n"
-"  "
+msgstr "Readwise Reader hesabınızdan dışa aktarılan CSV dosyasını aşağıya yükleyin."
 
 #: internal/bookmarks/importer/x-forms.templ:229
 msgid "Which information is imported"
@@ -1126,7 +1095,6 @@ msgid "Import Links from a Text File"
 msgstr "Bir metin dosyasından içeri aktar"
 
 #: internal/bookmarks/importer/x-forms.templ:250
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a text file that contains one link per line and Readeck will fetch\n"
@@ -1134,9 +1102,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Her satırında bir bağlantı bulunan bir metin dosyası yükleyin, Readeck herbirine\n"
-"    erişerek yer imleri listenize kaydedecektir.\n"
-"  "
+"\t\t\t\tHer satırında bir bağlantı bulunan bir metin dosyası yükleyin, Readeck herbirine\n"
+"\t\t\t\terişerek yer imleri listenize kaydedecektir.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:260
 #: internal/bookmarks/routes/x-import.templ:93
@@ -1144,7 +1112,6 @@ msgid "Import your Wallabag Articles"
 msgstr "Wallabag yazılarınızı içeri aktarın"
 
 #: internal/bookmarks/importer/x-forms.templ:263
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tTo import your articles from Wallabag, you must first create an API client\n"
@@ -1153,18 +1120,14 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Wallabag yazılarınızı içeri aktarmak için önce Wallabag <strong>API istemcileri yönetimi</strong> menüsünden\n"
-"    bir API istemcisi oluşturmalısınız. Bu işlem sonucunda size <strong>Client ID</strong> ve\n"
-"    <strong>Client secret</strong> değerleri verilecek.\n"
-"  "
+"\t\t\t\tWallabag yazılarınızı içeri aktarmak için önce Wallabag <strong>API istemcileri yönetimi</strong> menüsünden\n"
+"\t\t\t\tbir API istemcisi oluşturmalısınız. Bu işlem sonucunda size <strong>Client ID</strong> ve\n"
+"\t\t\t\t<strong>Client secret</strong> değerleri verilecek.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:270
-#, fuzzy
 msgid "You can then enter all the necessary information in the form below."
-msgstr ""
-"\n"
-"    Daha sonra gerekli bütün bilgileri aşağıdaki forma girebilirsiniz.\n"
-"  "
+msgstr "Daha sonra gerekli bütün bilgileri aşağıdaki forma girebilirsiniz."
 
 #: internal/bookmarks/importer/x-forms.templ:278
 msgid "Wallabag URL"
@@ -1188,17 +1151,16 @@ msgid "Unable to process input data"
 msgstr "Girdi verisi işlenemiyor"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:279
-#, fuzzy
 msgid "invalid language code"
-msgstr "Geçersiz API Anahtarı"
+msgstr "geçersiz dil kodu"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:284
 msgid "Left to right"
-msgstr ""
+msgstr "Soldan sağa"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:285
 msgid "Right to left"
-msgstr ""
+msgstr "Sağdan sola"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:626
 msgctxt "sort"
@@ -1251,10 +1213,9 @@ msgid "Duration, longest first"
 msgstr "Süre, en uzundan kısaya"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:636
-#, fuzzy
 msgctxt "sort"
 msgid "Random"
-msgstr "Geri al"
+msgstr "Rastgele"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:742
 #: internal/bookmarks/routes/forms_filters.go:53
@@ -1263,7 +1224,7 @@ msgstr "Makale"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:743
 msgid "E-Book"
-msgstr ""
+msgstr "E-Kitap"
 
 #: internal/bookmarks/routes/forms_filters.go:54
 msgid "Picture"
@@ -1291,7 +1252,7 @@ msgstr "Tamamlandı"
 #: internal/bookmarks/routes/forms_filters.go:72
 #, python-format
 msgid "\"%s\" is not a valid date value"
-msgstr ""
+msgstr "\"%s\" geçerli bir tarih değeri değil"
 
 #: internal/bookmarks/routes/opds.go:58
 msgid "Readeck Bookmarks"
@@ -1356,14 +1317,12 @@ msgid "Videos"
 msgstr "Videolar"
 
 #: internal/bookmarks/routes/views_bookmarks.go:299
-#, fuzzy
 msgid "Bookmark updated"
-msgstr "Yer imi başlığı"
+msgstr "Yer imi güncellendi"
 
 #: internal/bookmarks/routes/views_bookmarks.go:322
-#, fuzzy
 msgid "Update"
-msgstr "Kullanıcı güncellendi."
+msgstr "Güncelleme"
 
 #: internal/bookmarks/routes/views_bookmarks.go:342
 #: internal/bookmarks/routes/x-bookmark.templ:229
@@ -1376,9 +1335,8 @@ msgid "Share by email"
 msgstr "E-posta aracılığıyla paylaş"
 
 #: internal/bookmarks/routes/views_collections.go:39
-#, fuzzy
 msgid "Collection created."
-msgstr "Koleksiyon güncellendi."
+msgstr "Koleksiyon oluşturuldu."
 
 #: internal/bookmarks/routes/views_collections.go:66
 msgid "Collection updated."
@@ -1406,7 +1364,6 @@ msgid "You don't have any highlights yet."
 msgstr "Henüz hiçbir vurgulama yapmadınız."
 
 #: internal/bookmarks/routes/x-annotations.templ:22
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tOnce you start highlighting parts of your saved articles, they will appear on this page\n"
@@ -1414,9 +1371,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"        Kaydettiğiniz makalelerde vurgulama yaptıkça, vurguladığınız kısımlar bu sayfada görünür \n"
-"        böylece kolayca erişebilirsiniz.\n"
-"      "
+"\t\t\t\t\t\t\tKaydettiğiniz makalelerde vurgulama yaptıkça, vurguladığınız kısımlar bu sayfada görünür \n"
+"\t\t\t\t\t\t\tböylece kolayca erişebilirsiniz.\n"
+"\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-annotations.templ:29
 #, python-format
@@ -1536,9 +1493,8 @@ msgid "Save link"
 msgstr "Bağlantıyı kaydet"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:204
-#, fuzzy
 msgid "\"%[1]s\" is not a valid address. Did you mean to search your bookmarks for %[2]s?"
-msgstr "\"%s\" geçerli bir adres değil. Yer imleriniz arasında %s terimini aramak mı istediniz?"
+msgstr "\"%[1]s\" geçerli bir adres değil. Yer imleriniz arasında %[2]s terimini aramak mı istediniz?"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:247
 msgid "Readeck Browser Extension"
@@ -1594,9 +1550,8 @@ msgstr "Yükleniyor"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:500
 #: internal/dashboard/x-dashboard.templ:184
-#, fuzzy
 msgid "untitled"
-msgstr "Başlık"
+msgstr "isimsiz"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:513
 #, python-format
@@ -1664,9 +1619,8 @@ msgid "Bookmark information"
 msgstr "Yer imi bilgileri"
 
 #: internal/bookmarks/routes/x-bookmark.templ:44
-#, fuzzy
 msgid "Bookmark content"
-msgstr "Yer imi başlığı"
+msgstr "Yer imi içeriği"
 
 #: internal/bookmarks/routes/x-bookmark.templ:74
 msgid "Bookmark is loading"
@@ -1921,9 +1875,8 @@ msgstr "Videoyu Oynat"
 
 # | msgid "Documentation"
 #: internal/bookmarks/routes/x-components.templ:326
-#, fuzzy
 msgid "Extraction log"
-msgstr "Metin Yönü"
+msgstr "Ayıklama günlüğü"
 
 #: internal/bookmarks/routes/x-components.templ:330
 #: internal/bookmarks/routes/x-components.templ:381
@@ -1955,7 +1908,7 @@ msgstr "Bağlantıyı kopyala"
 
 #: internal/bookmarks/routes/x-components.templ:396
 msgid "Access to this feed is restricted."
-msgstr ""
+msgstr "Bu feed'e erişim kısıtlanmıştır."
 
 #: internal/bookmarks/routes/x-components.templ:398
 msgid ""
@@ -1975,18 +1928,16 @@ msgid "Read more about bookmarks in the <a class=\"%s\" href=\"%s\">documentatio
 msgstr "Yer imleri hakkında daha fazla bilgi için <a class=\"%s\" href=\"%s\">yardım belgelerine</a> bakın."
 
 #: internal/bookmarks/routes/x-components.templ:423
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWith the Browser Extension, you can save pages, images and selections\n"
 "\t\tdirectly from your browser!"
 msgstr ""
 "\n"
-"            Tarayıcı Eklentisini kullanarak sayfaları, görselleri ve fareyle seçtiklerinizi \n"
-"            tarayıcınızdan ayrılmadan kaydedebilirsiniz!"
+"\t\tTarayıcı Eklentisini kullanarak sayfaları, görselleri ve fareyle seçtiklerinizi \n"
+"\t\ttarayıcınızdan ayrılmadan kaydedebilirsiniz!"
 
 #: internal/bookmarks/routes/x-components.templ:430
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWould you like to import from a similar tool or from a file with existing bookmarks?\n"
@@ -1994,9 +1945,9 @@ msgid ""
 "\t"
 msgstr ""
 "\n"
-"              Benzer bir araç ya da yer imlerini içeren bir dosyayı kullanarak içeri aktarmak mı istiyorsunuz?\n"
-"              Readeck içeri aktarım aracını kullanın.\n"
-"            "
+"\t\tBenzer bir araç ya da yer imlerini içeren bir dosyayı kullanarak içeri aktarmak mı istiyorsunuz?\n"
+"\t\tReadeck içeri aktarım aracını kullanın.\n"
+"\t"
 
 #: internal/bookmarks/routes/x-filters.templ:24
 msgid "Author"
@@ -2044,9 +1995,8 @@ msgid "With Labels"
 msgstr "Etiketlenmiş"
 
 #: internal/bookmarks/routes/x-filters.templ:56
-#, fuzzy
 msgid "With Notes"
-msgstr "Etiketlenmiş"
+msgstr "Notlarla"
 
 #: internal/bookmarks/routes/x-filters.templ:57
 msgid "With Errors"
@@ -2083,26 +2033,20 @@ msgid "Import your Linkwarden Bookmarks"
 msgstr "Yer imlerinizi içeri aktarın"
 
 #: internal/bookmarks/routes/x-import.templ:65
-#, fuzzy
 msgid "Import your Pinboard bookmarks"
-msgstr "Yer imlerinizi içeri aktarın"
+msgstr "Pinboard yer imlerinizi içe aktarın"
 
 #: internal/bookmarks/routes/x-import.templ:79
 msgid "Import your Readwise Reader Library"
 msgstr "Readwise Kütüphanenizi aktarın"
 
 #: internal/bookmarks/routes/x-import.templ:100
-#, fuzzy
 msgid "Here you can import your existing bookmark collection from various sources into Readeck."
-msgstr ""
-"\n"
-"    Burayı kullanarak farklı kaynaklardaki var olan yer imlerinizi Readeck içerisine aktarabilirsiniz.\n"
-"  "
+msgstr "Burayı kullanarak farklı kaynaklardaki var olan yer imlerinizi Readeck içerisine aktarabilirsiniz."
 
 #: internal/bookmarks/routes/x-import.templ:125
-#, fuzzy
 msgid "Import status"
-msgstr "İçe aktar"
+msgstr "İçe aktarma durumu"
 
 #: internal/bookmarks/routes/x-import.templ:145
 msgid "Import operation will launch momentarily."
@@ -2121,15 +2065,15 @@ msgid "Import is finished!"
 msgstr "İçeri aktarım sonlandı!"
 
 #: internal/bookmarks/routes/x-import.templ:165
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour bookmarks are now available in your <a class=\"%s\" href=\"%s\">bookmark list</a>.\n"
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"      Yer imlerinize <a class=\"%s\" href=\"%s\">yer imleri listesinden</a> ulaşabilirsiniz.\n"
-"      "
+"\t\t\t\t\t\tYer imlerinize <a class=\"%s\" href=\"%s\">yer imleri listesinden</a> ulaşabilirsiniz.\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:27
 #, fuzzy
@@ -2153,9 +2097,8 @@ msgid "Label will be removed in a few seconds."
 msgstr "Etiket bir kaç saniye içinde silinecek."
 
 #: internal/bookmarks/routes/x-reader-control.templ:27
-#, fuzzy
 msgid "Display options"
-msgstr "Sıralama seçenekleri"
+msgstr "Görüntüleme seçenekleri"
 
 #: internal/bookmarks/routes/x-reader-control.templ:34
 msgid "Width"
@@ -2210,7 +2153,6 @@ msgid "Justify"
 msgstr "İki yana hizalı"
 
 #: internal/bookmarks/routes/x-reader-control.templ:59
-#, fuzzy
 msgid "Justify text"
 msgstr "İki yana hizalı"
 
@@ -2223,14 +2165,12 @@ msgid "Hyphenation"
 msgstr "Tireleme"
 
 #: internal/bookmarks/routes/x-reader-control.templ:66
-#, fuzzy
 msgid "With hyphenation"
-msgstr "Tireleme"
+msgstr "Tireleme ile"
 
 #: internal/bookmarks/routes/x-reader-control.templ:67
-#, fuzzy
 msgid "Without hyphenation"
-msgstr "Tireleme"
+msgstr "Tireleme olmadan"
 
 #: internal/bookmarks/routes/x-reader-control.templ:82
 msgid "Font"
@@ -2306,16 +2246,15 @@ msgstr "Bağlantılar"
 #: internal/dashboard/x-dashboard.templ:26
 #, python-format
 msgid "Hi %s!"
-msgstr ""
+msgstr "Selam, %s!"
 
 #: internal/dashboard/x-dashboard.templ:60 internal/opds/http.go:72
 msgid "All Bookmarks"
 msgstr "Tüm Yer İmleri"
 
 #: internal/dashboard/x-dashboard.templ:72
-#, fuzzy
 msgid "Readeck"
-msgstr "Readeck Yardımı"
+msgstr "Readeck"
 
 #: internal/dashboard/x-dashboard.templ:74 internal/profile/views.go:98
 #: internal/profile/views.go:151 internal/profile/views.go:187
@@ -2327,7 +2266,7 @@ msgstr "Profil"
 
 #: internal/dashboard/x-dashboard.templ:78
 msgid "Help"
-msgstr ""
+msgstr "Yardımı"
 
 #: internal/dashboard/x-dashboard.templ:146
 #, fuzzy
@@ -2541,7 +2480,7 @@ msgstr "Şifreniz değiştirildi."
 
 #: internal/profile/views.go:142
 msgid "Your verification code was removed."
-msgstr ""
+msgstr "Doğrulama kodunuz kaldırıldı."
 
 #: internal/profile/views.go:152 internal/profile/views.go:188
 #: internal/profile/x-base.templ:26
@@ -2550,18 +2489,16 @@ msgstr "Güvenlik"
 
 #: internal/profile/views.go:181
 msgid "Verification Code is now enabled."
-msgstr ""
+msgstr "Doğrulama Kodu artık etkin."
 
 #: internal/profile/views.go:189
-#, fuzzy
 msgid "Verification Code"
-msgstr "Değişiklik yapma"
+msgstr "Doğrulama Kodu"
 
 #: internal/profile/views.go:229 internal/profile/x-applications.templ:10
 #: internal/profile/x-base.templ:33
-#, fuzzy
 msgid "Applications"
-msgstr "Uygulama"
+msgstr "Uygulamalar"
 
 #: internal/profile/views.go:240 internal/profile/views.go:291
 #: internal/profile/x-base.templ:39

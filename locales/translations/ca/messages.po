@@ -11,15 +11,15 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:49+0000\n"
-"Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-07-29 13:51+0000\n"
+"Last-Translator: greyluked <greyluked@noreply.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/readeck/application/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.7.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -185,15 +185,15 @@ msgstr "La contrasenya està buida"
 
 #: internal/admin/forms.go:73
 msgid "User is external and can't be updated."
-msgstr ""
+msgstr "L'usuari és extern i no es pot actualitzar."
 
 #: internal/admin/forms.go:85 internal/profile/forms.go:98
 msgid "username is already in use"
-msgstr ""
+msgstr "El nom d'usuari ja està en ús"
 
 #: internal/admin/forms.go:92 internal/profile/forms.go:105
 msgid "email address is already in use"
-msgstr ""
+msgstr "El correu electrònic ja està en ús"
 
 #: internal/admin/views.go:61 internal/admin/views.go:86
 #: internal/admin/views.go:127 internal/admin/x-users.templ:16
@@ -240,7 +240,7 @@ msgstr "Activat"
 
 #: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
-msgstr ""
+msgstr "Aquest ets tu!"
 
 # | msgid "Created on: %s"
 #: internal/admin/x-users.templ:56
@@ -324,7 +324,7 @@ msgstr "Últim ús: %s"
 
 #: internal/admin/x-users.templ:186
 msgid "Last Activity"
-msgstr ""
+msgstr "Última activitat"
 
 #: internal/admin/x-users.templ:194
 #, fuzzy
@@ -333,7 +333,7 @@ msgstr "El marcador s'està carregant"
 
 #: internal/admin/x-users.templ:198
 msgid "User Administration"
-msgstr ""
+msgstr "Administració d'usuari"
 
 #: internal/admin/x-users.templ:204
 msgid "User will be removed in a few seconds"
@@ -341,7 +341,7 @@ msgstr "L'usuari s'eliminarà en breus segons"
 
 #: internal/admin/x-users.templ:214
 msgid "This will sign this user out of all active sessions on the web application."
-msgstr ""
+msgstr "Açó desconectarà a l'usuari de totes les sessions actives en l'aplicació web."
 
 #: internal/admin/x-users.templ:219
 #, fuzzy
@@ -357,6 +357,12 @@ msgid ""
 "\t\t\t\t\t\t\t\t\tThis will detach the user <strong>%[2]s</strong>.\n"
 "\t\t\t\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\t\t\t\tAquest usuari està enllaçat a un proveedor d'autenticació extern:<br />\n"
+"\t\t\t\t\t\t\t\t\t<strong>%[1]s</strong>.<br />\n"
+"\t\t\t\t\t\t\t\t\tPer això algunes de les seues propietats no es poden editar.<br />\n"
+"\t\t\t\t\t\t\t\t\tAçò desenllaçarà a l'usuari <strong>%[2]s</strong>.\n"
+"\t\t\t\t\t\t\t\t"
 
 #: internal/admin/x-users.templ:240
 #, fuzzy
@@ -366,7 +372,7 @@ msgstr "Esborra aquest usuari"
 #: internal/admin/x-users.templ:249
 #, python-format
 msgid "This will delete the user <strong>%s</strong> and all their contents."
-msgstr ""
+msgstr "Açò esborrarà l'usuari <strong>%s</strong> i tots els seus continguts."
 
 #: internal/admin/x-users.templ:257
 msgid "Delete this user"
@@ -379,7 +385,7 @@ msgstr "Cal autorització"
 
 #: internal/auth/oauth2/x-oauth.templ:30
 msgid "This code has expired or is not valid"
-msgstr ""
+msgstr "Aquest codi ha caducat o no és vàlid"
 
 #: internal/auth/oauth2/x-oauth.templ:33 internal/auth/oauth2/x-oauth.templ:50
 #: internal/auth/oauth2/x-oauth.templ:58
@@ -397,29 +403,29 @@ msgstr "Següent"
 
 #: internal/auth/oauth2/x-oauth.templ:52
 msgid "Authorization request was denied."
-msgstr ""
+msgstr "La petició d'autorització ha sigut rebutjada."
 
 #: internal/auth/oauth2/x-oauth.templ:54 internal/auth/oauth2/x-oauth.templ:76
 msgid " You can now close this page."
-msgstr ""
+msgstr " Ara pots tancar aquesta pàgina."
 
 #: internal/auth/oauth2/x-oauth.templ:60
 msgid "Authorization granted. Connecting device..."
-msgstr ""
+msgstr "Autorització acceptada. Connectant el dispositiu..."
 
 #: internal/auth/oauth2/x-oauth.templ:67
 #, python-format
 msgid "<a href=\"%s\">Reload this page</a> if it doesn't refresh after a few seconds."
-msgstr ""
+msgstr "<a href=\"%s\">Recarrega la pàgina</a> si no es refresca després d'uns segons."
 
 #: internal/auth/oauth2/x-oauth.templ:74
 msgid "Device is connected!"
-msgstr ""
+msgstr "El dispositiu està connectat!"
 
 #: internal/auth/oauth2/x-oauth.templ:98
 #, python-format
 msgid "Signed in as: <strong>%s</strong>"
-msgstr ""
+msgstr "Sessió iniciada com: <strong>%s</strong>"
 
 #: internal/auth/oauth2/x-oauth.templ:106
 #: internal/dashboard/x-dashboard.templ:97 internal/profile/x-profile.templ:32
@@ -434,6 +440,10 @@ msgid ""
 "\t\t\t\tOnly approve this request if you recognize and trust this source.\n"
 "\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t<strong>%s</strong> vol permís per a accedir al teu compte.\n"
+"\t\t\t\tNomés acceptes aquesta petició si reconeixes i confies en qui l'ha realitzat.\n"
+"\t\t\t"
 
 #: internal/auth/oauth2/x-oauth.templ:122
 #, fuzzy
@@ -468,7 +478,7 @@ msgstr "Autor"
 
 #: internal/auth/oauth2/x-oauth.templ:153
 msgid "Deny"
-msgstr ""
+msgstr "Rebutjar"
 
 #: internal/auth/onboarding/x-onboarding.templ:17
 #: internal/bookmarks/routes/x-bookmark-list.templ:235
@@ -577,7 +587,7 @@ msgstr ""
 
 #: internal/auth/signin/x-auth.templ:21
 msgid "Or continue with"
-msgstr ""
+msgstr "O continuar amb"
 
 #: internal/auth/signin/x-auth.templ:41 internal/auth/signin/x-auth.templ:68
 msgid "Sign in"
@@ -702,7 +712,7 @@ msgstr "Usuaris"
 #: internal/auth/users/groups.go:15
 msgctxt "role"
 msgid "staff"
-msgstr ""
+msgstr "personal"
 
 # | msgid "%d min"
 #: internal/auth/users/groups.go:16
@@ -862,7 +872,7 @@ msgstr "Arxiu d'importació buit o no vàlid"
 
 #: internal/bookmarks/importer/pinboard.go:44
 msgid "Pinboard JSON backup File"
-msgstr ""
+msgstr "Còpia de seguretat en JSON del Pinboard"
 
 #: internal/bookmarks/importer/readwise.go:62
 msgid "Readwise Reader CSV"
@@ -1223,11 +1233,11 @@ msgstr "Clau d'API no vàlida"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:284
 msgid "Left to right"
-msgstr ""
+msgstr "D'esquerra a dreta"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:285
 msgid "Right to left"
-msgstr ""
+msgstr "De dreta a esquerra"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:626
 msgctxt "sort"
@@ -1280,10 +1290,9 @@ msgid "Duration, longest first"
 msgstr "Temps de lectura, més llarg primer"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:636
-#, fuzzy
 msgctxt "sort"
 msgid "Random"
-msgstr "Desfer"
+msgstr "Aleatori"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:742
 #: internal/bookmarks/routes/forms_filters.go:53
@@ -1292,7 +1301,7 @@ msgstr "Article"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:743
 msgid "E-Book"
-msgstr ""
+msgstr "llibre electrònic"
 
 #: internal/bookmarks/routes/forms_filters.go:54
 msgid "Picture"
@@ -1320,7 +1329,7 @@ msgstr "Completat"
 #: internal/bookmarks/routes/forms_filters.go:72
 #, python-format
 msgid "\"%s\" is not a valid date value"
-msgstr ""
+msgstr "\"%s\" no és una data vàlida"
 
 #: internal/bookmarks/routes/opds.go:58
 msgid "Readeck Bookmarks"
@@ -1630,9 +1639,8 @@ msgstr "Carregant"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:500
 #: internal/dashboard/x-dashboard.templ:184
-#, fuzzy
 msgid "untitled"
-msgstr "Títol"
+msgstr "sense títol"
 
 # | msgid "%d min"
 #: internal/bookmarks/routes/x-bookmark-list.templ:513
@@ -1757,7 +1765,7 @@ msgstr "Autor"
 
 #: internal/bookmarks/routes/x-bookmark.templ:271
 msgid "One value per line"
-msgstr ""
+msgstr "Un valor per línia"
 
 #: internal/bookmarks/routes/x-bookmark.templ:275
 #, fuzzy
@@ -1786,15 +1794,15 @@ msgstr "Caduca el %s"
 
 #: internal/bookmarks/routes/x-bookmark.templ:330
 msgid "This link is shared without annotations."
-msgstr ""
+msgstr "Aquest enllaç està compartit sense anotacions."
 
 #: internal/bookmarks/routes/x-bookmark.templ:331
 msgid "Share with annotations"
-msgstr ""
+msgstr "Compartir amb anotacions"
 
 #: internal/bookmarks/routes/x-bookmark.templ:333
 msgid "This link is shared with annotations."
-msgstr ""
+msgstr "Aquest enllaç està compartit amb anotacions."
 
 #: internal/bookmarks/routes/x-bookmark.templ:334
 #, fuzzy
@@ -1829,7 +1837,7 @@ msgstr "Enviar a"
 
 #: internal/bookmarks/routes/x-bookmark.templ:410
 msgid "Include annotations and notes"
-msgstr ""
+msgstr "Inclou anotacions i notes"
 
 #: internal/bookmarks/routes/x-bookmark.templ:415
 #, python-format
@@ -1985,11 +1993,11 @@ msgstr "Desat amb el Readeck"
 
 #: internal/bookmarks/routes/x-components.templ:368
 msgid "This feed provides the latest entries from this bookmark list"
-msgstr ""
+msgstr "Aquest canal de continguts mostra les últimes entrades d'aquesta llista de marcadors"
 
 #: internal/bookmarks/routes/x-components.templ:369
 msgid "Subscribe to this feed by copying the URL below:"
-msgstr ""
+msgstr "Subscriu-te a aquest canal de continguts copiant la URL següent:"
 
 #: internal/bookmarks/routes/x-components.templ:388
 #, fuzzy
@@ -1998,7 +2006,7 @@ msgstr "Copia l'enllaç"
 
 #: internal/bookmarks/routes/x-components.templ:396
 msgid "Access to this feed is restricted."
-msgstr ""
+msgstr "L'accés a aquest canal de continguts està restringit."
 
 #: internal/bookmarks/routes/x-components.templ:398
 msgid ""
@@ -2007,6 +2015,10 @@ msgid ""
 "\t\t\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">API Token</a> to load this feed.\n"
 "\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\tDeus facilitar a la teu aplicació agregadora de notícies un nom d'usuari i un\n"
+"\t\t\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">testimoni API</a> per a carregar aquest canal de continguts.\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-components.templ:409
 msgid "You don't have any bookmarks yet.<br> Copy a link in the field above and start saving."
@@ -2211,11 +2223,11 @@ msgstr "Contrasenya actual"
 
 #: internal/bookmarks/routes/x-reader-control.templ:36
 msgid "Decrease width"
-msgstr ""
+msgstr "Reduir amplària"
 
 #: internal/bookmarks/routes/x-reader-control.templ:37
 msgid "Increase width"
-msgstr ""
+msgstr "Augmentar amplària"
 
 #: internal/bookmarks/routes/x-reader-control.templ:42
 msgid "Size"
@@ -2223,7 +2235,7 @@ msgstr "Mida"
 
 #: internal/bookmarks/routes/x-reader-control.templ:43
 msgid "Current font size"
-msgstr ""
+msgstr "Mida de font actual"
 
 #: internal/bookmarks/routes/x-reader-control.templ:44
 #, fuzzy
@@ -2265,7 +2277,7 @@ msgstr "Justifica"
 
 #: internal/bookmarks/routes/x-reader-control.templ:60
 msgid "Don't justify text"
-msgstr ""
+msgstr "No justificar el text"
 
 #: internal/bookmarks/routes/x-reader-control.templ:65
 msgid "Hyphenation"
@@ -2356,7 +2368,7 @@ msgstr "Enllaços"
 #: internal/dashboard/x-dashboard.templ:26
 #, python-format
 msgid "Hi %s!"
-msgstr ""
+msgstr "Hola %s!"
 
 #: internal/dashboard/x-dashboard.templ:60 internal/opds/http.go:72
 msgid "All Bookmarks"
@@ -2377,7 +2389,7 @@ msgstr "Perfil"
 
 #: internal/dashboard/x-dashboard.templ:78
 msgid "Help"
-msgstr ""
+msgstr "Ajuda"
 
 #: internal/dashboard/x-dashboard.templ:146
 #, fuzzy
@@ -2401,6 +2413,10 @@ msgid ""
 "\t\t\t\ton your smartphone, your e-book reader or\n"
 "\t\t\t\tin other apps through plugins."
 msgstr ""
+"\n"
+"\t\t\t\tPots utilitzar Readeck, no només al navegador, sinó també\n"
+"\t\t\t\tal mòvil, lector de llibres electrònics o\n"
+"\t\t\t\ten altres aplicacions mitjançant plugins."
 
 #: internal/dashboard/x-dashboard.templ:236
 #, fuzzy
@@ -2436,11 +2452,11 @@ msgstr "Aquí tens la informació actual del teu sistema. Si us plau, inclou-la 
 
 #: internal/docs/x-about.templ:75
 msgid "Storage"
-msgstr ""
+msgstr "Magatzem"
 
 #: internal/docs/x-about.templ:79
 msgid "Database Size:"
-msgstr ""
+msgstr "Mida de la base de dades:"
 
 #: internal/docs/x-about.templ:83
 #, fuzzy
@@ -2591,16 +2607,16 @@ msgstr "S'ha canviat la contrasenya."
 
 #: internal/profile/views.go:142
 msgid "Your verification code was removed."
-msgstr ""
+msgstr "El teu codi de verificaciò s'ha esborrat."
 
 #: internal/profile/views.go:152 internal/profile/views.go:188
 #: internal/profile/x-base.templ:26
 msgid "Security"
-msgstr ""
+msgstr "Seguretat"
 
 #: internal/profile/views.go:181
 msgid "Verification Code is now enabled."
-msgstr ""
+msgstr "Codi de verificació està habilitat."
 
 #: internal/profile/views.go:189
 #, fuzzy
