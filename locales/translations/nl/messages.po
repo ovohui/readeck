@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-28 17:12+0000\n"
-"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-07-28 18:13+0000\n"
+"Last-Translator: notDavid <notdavid@noreply.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/readeck/application/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -484,7 +484,6 @@ msgid "Please note:"
 msgstr "Let op:"
 
 #: internal/auth/onboarding/x-onboarding.templ:44
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour email address is optional and will never leave this installation.\n"
@@ -493,10 +492,10 @@ msgid ""
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"  Je e-mailadres is optioneel en wordt alléén binnen deze instantie bewaard.\n"
-"  Er is dus geen sprake van extern bewaren, overdragen of verkoop ervan.\n"
-"  Het wordt <strong>slechts</strong> gebruikt voor wachtwoordherstel en interne meldingen.\n"
-"  "
+"\t\t\t\t\t\tJe e-mailadres is optioneel en wordt alléén binnen deze instantie bewaard.\n"
+"\t\t\t\t\t\tHet wordt nooit verzameld, overgedragen of verkocht.\n"
+"\t\t\t\t\t\tHet wordt <strong>enkel</strong> gebruikt, mocht je het nodig hebben, voor wachtwoordherstel en interne meldingen..\n"
+"\t\t\t\t\t"
 
 #: internal/auth/onboarding/x-onboarding.templ:52
 msgid "Finish installation"
@@ -829,7 +828,7 @@ msgstr "Het bestand is blanco of ongeldig"
 
 #: internal/bookmarks/importer/pinboard.go:44
 msgid "Pinboard JSON backup File"
-msgstr ""
+msgstr "Pinboard JSON backup bestand"
 
 #: internal/bookmarks/importer/readwise.go:62
 msgid "Readwise Reader CSV"
@@ -1275,7 +1274,7 @@ msgstr "Afgerond"
 #: internal/bookmarks/routes/forms_filters.go:72
 #, python-format
 msgid "\"%s\" is not a valid date value"
-msgstr ""
+msgstr "\"%s\" is geen geldige datumwaarde"
 
 #: internal/bookmarks/routes/opds.go:58
 msgid "Readeck Bookmarks"
@@ -1733,15 +1732,15 @@ msgstr "De link vervalt op %s"
 
 #: internal/bookmarks/routes/x-bookmark.templ:330
 msgid "This link is shared without annotations."
-msgstr ""
+msgstr "Deze link is gedeeld zonder annotaties."
 
 #: internal/bookmarks/routes/x-bookmark.templ:331
 msgid "Share with annotations"
-msgstr ""
+msgstr "Delen met annotaties"
 
 #: internal/bookmarks/routes/x-bookmark.templ:333
 msgid "This link is shared with annotations."
-msgstr ""
+msgstr "Deze link is gedeeld met annotaties."
 
 #: internal/bookmarks/routes/x-bookmark.templ:334
 #, fuzzy
@@ -1777,7 +1776,7 @@ msgstr "Versturen naar"
 
 #: internal/bookmarks/routes/x-bookmark.templ:410
 msgid "Include annotations and notes"
-msgstr ""
+msgstr "Annotaties en notities toevoegen"
 
 #: internal/bookmarks/routes/x-bookmark.templ:415
 #, python-format
@@ -1933,11 +1932,11 @@ msgstr "Bewaard met Readeck"
 
 #: internal/bookmarks/routes/x-components.templ:368
 msgid "This feed provides the latest entries from this bookmark list"
-msgstr ""
+msgstr "Deze feed toont de nieuwste items uit deze bladwijzerlijst"
 
 #: internal/bookmarks/routes/x-components.templ:369
 msgid "Subscribe to this feed by copying the URL below:"
-msgstr ""
+msgstr "Abonneer je op deze feed door de onderstaande URL te kopiëren:"
 
 #: internal/bookmarks/routes/x-components.templ:388
 #, fuzzy
@@ -1946,7 +1945,7 @@ msgstr "Link kopiëren"
 
 #: internal/bookmarks/routes/x-components.templ:396
 msgid "Access to this feed is restricted."
-msgstr ""
+msgstr "De toegang tot deze feed is afgeschermd.."
 
 #: internal/bookmarks/routes/x-components.templ:398
 msgid ""
@@ -1955,6 +1954,10 @@ msgid ""
 "\t\t\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">API Token</a> to load this feed.\n"
 "\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\tJe moet je nieuwslezer app voorzien van een gebruikersnaam en een\n"
+"\t\t\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">API Token</a> om deze feed te laden.\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-components.templ:409
 msgid "You don't have any bookmarks yet.<br> Copy a link in the field above and start saving."
@@ -2318,7 +2321,7 @@ msgstr "Profiel"
 
 #: internal/dashboard/x-dashboard.templ:78
 msgid "Help"
-msgstr ""
+msgstr "Help"
 
 #: internal/dashboard/x-dashboard.templ:146
 #, fuzzy
@@ -2342,6 +2345,10 @@ msgid ""
 "\t\t\t\ton your smartphone, your e-book reader or\n"
 "\t\t\t\tin other apps through plugins."
 msgstr ""
+"\n"
+"\t\t\t\tJe kunt Readeck niet alleen in je browser gebruiken, maar ook\n"
+"\t\t\t\top je smartphone, je e-reader of\n"
+"\t\t\t\tin andere apps via plug-ins."
 
 #: internal/dashboard/x-dashboard.templ:236
 #, fuzzy
