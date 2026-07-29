@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-28 18:13+0000\n"
-"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-07-29 05:31+0000\n"
+"Last-Translator: cagatayy <cagatayy@noreply.codeberg.org>\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/readeck/application/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -184,11 +184,11 @@ msgstr "şifre boş"
 
 #: internal/admin/forms.go:73
 msgid "User is external and can't be updated."
-msgstr ""
+msgstr "Kullanıcı harici ve güncellenemez."
 
 #: internal/admin/forms.go:85 internal/profile/forms.go:98
 msgid "username is already in use"
-msgstr ""
+msgstr "kullanıcı adı zaten kullanılıyor"
 
 #: internal/admin/forms.go:92 internal/profile/forms.go:105
 msgid "email address is already in use"
@@ -346,11 +346,16 @@ msgid ""
 "\t\t\t\t\t\t\t\t\tThis will detach the user <strong>%[2]s</strong>.\n"
 "\t\t\t\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\t\t\t\tBu kullanıcı harici bir kimlik doğrulama sağlayıcısına bağlı:<br />\n"
+"\t\t\t\t\t\t\t\t\t<strong>%[1]s</strong>.<br />\n"
+"\t\t\t\t\t\t\t\t\tBu yüzden bazı özellikleri düzenlenebilir değil.<br />\n"
+"\t\t\t\t\t\t\t\t\tBu, <strong>%[2]s</strong> adlı kullanıcıyı ayıracaktır.\n"
+"\t\t\t\t\t\t\t\t"
 
 #: internal/admin/x-users.templ:240
-#, fuzzy
 msgid "Detach this user"
-msgstr "Bu kullanıcıyı sil"
+msgstr "Bu kullanıcıyı ayır"
 
 #: internal/admin/x-users.templ:249
 #, python-format
@@ -368,7 +373,7 @@ msgstr "Yetkilendirme gerekli"
 
 #: internal/auth/oauth2/x-oauth.templ:30
 msgid "This code has expired or is not valid"
-msgstr ""
+msgstr "Bu kodun süresi geçmiş veya kod geçerli değil"
 
 #: internal/auth/oauth2/x-oauth.templ:33 internal/auth/oauth2/x-oauth.templ:50
 #: internal/auth/oauth2/x-oauth.templ:58
@@ -415,7 +420,7 @@ msgid "Sign out"
 msgstr "Çıkış yap"
 
 #: internal/auth/oauth2/x-oauth.templ:116
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t<strong>%s</strong> would like permission to access your account.\n"
@@ -423,9 +428,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"      <strong>%s</strong> hesabınıza erişim izni istiyor.\n"
-"      Bu isteği yalnızca bu kaynağı tanıyor ve güveniyorsanız onaylayın.\n"
-"    "
+"\t\t\t\t<strong>%s</strong> hesabınıza erişmek için izin istiyor.\n"
+"\t\t\t\tBu isteği sadece bu kaynağı tanıyor ve ona güveniyorsanız onaylayın.\n"
+"\t\t\t"
 
 #: internal/auth/oauth2/x-oauth.templ:122
 msgid "Review permissions"
@@ -501,9 +506,8 @@ msgid "Invalid user and/or password"
 msgstr "Geçersiz kullanıcı ve/veya şifre"
 
 #: internal/auth/signin/http.go:185 internal/profile/forms.go:228
-#, fuzzy
 msgid "Invalid code"
-msgstr "geçersiz şifre"
+msgstr "Geçersiz kod"
 
 #: internal/auth/signin/recover.go:257
 #, fuzzy
@@ -667,9 +671,8 @@ msgid "username is not available"
 msgstr "kullanıcı adı mevcut değil"
 
 #: internal/auth/users/forms.go:34
-#, fuzzy
 msgid "password must be at least 8 characters long"
-msgstr "8 veya daha fazla karakter içermeli"
+msgstr "parola en az 8 karakter olmalı"
 
 #: internal/auth/users/forms.go:89
 #, fuzzy
@@ -678,10 +681,9 @@ msgid "no group"
 msgstr "Grup"
 
 #: internal/auth/users/groups.go:14
-#, fuzzy
 msgctxt "role"
 msgid "user"
-msgstr "Kullanıcılar"
+msgstr "kullanıcı"
 
 #: internal/auth/users/groups.go:15
 msgctxt "role"
@@ -689,34 +691,29 @@ msgid "staff"
 msgstr "ekip"
 
 #: internal/auth/users/groups.go:16
-#, fuzzy
 msgctxt "role"
 msgid "admin"
-msgstr "%d dk."
+msgstr "yönetici"
 
 #: internal/auth/users/groups.go:18
-#, fuzzy
 msgctxt "role"
 msgid "Profile : Read Only"
-msgstr "Yönetici: Salt Okunur"
+msgstr "Profil : Salt Okunur"
 
 #: internal/auth/users/groups.go:19
-#, fuzzy
 msgctxt "role"
 msgid "Bookmarks : Read Only"
-msgstr "Yer İmleri: Salt Okunur"
+msgstr "Yer İmleri : Salt Okunur"
 
 #: internal/auth/users/groups.go:20
-#, fuzzy
 msgctxt "role"
 msgid "Bookmarks : Write Only"
-msgstr "Yer İmleri: Salt Yazılır"
+msgstr "Yer İmleri : Salt Yazılır"
 
 #: internal/auth/users/groups.go:21
-#, fuzzy
 msgctxt "role"
 msgid "Admin : Read Only"
-msgstr "Yönetici: Salt Okunur"
+msgstr "Yönetici : Salt Okunur"
 
 #: internal/auth/users/groups.go:22
 #, fuzzy
