@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-29 07:59+0000\n"
-"Last-Translator: notDavid <notdavid@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-07-29 13:51+0000\n"
+"Last-Translator: arjan5 <arjan5@noreply.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/readeck/application/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -2084,9 +2084,8 @@ msgstr ""
 "  "
 
 #: internal/bookmarks/routes/x-import.templ:125
-#, fuzzy
 msgid "Import status"
-msgstr "Importeren"
+msgstr "Importstatus"
 
 #: internal/bookmarks/routes/x-import.templ:145
 msgid "Import operation will launch momentarily."
@@ -2311,19 +2310,16 @@ msgid "Help"
 msgstr "Help"
 
 #: internal/dashboard/x-dashboard.templ:146
-#, fuzzy
 msgid "Archived"
-msgstr "Archiveren"
+msgstr "Gearchiveerd"
 
 #: internal/dashboard/x-dashboard.templ:201
-#, fuzzy
 msgid "See all"
-msgstr "Alle"
+msgstr "Toon alle"
 
 #: internal/dashboard/x-dashboard.templ:224
-#, fuzzy
 msgid "Applications for Readeck"
-msgstr "Informatie over de applicatie"
+msgstr "Apps voor Readeck"
 
 #: internal/dashboard/x-dashboard.templ:226
 msgid ""
@@ -2338,15 +2334,13 @@ msgstr ""
 "\t\t\t\tin andere apps via plug-ins."
 
 #: internal/dashboard/x-dashboard.templ:236
-#, fuzzy
 msgid "Discover applications"
-msgstr "Applicaties"
+msgstr "Ontdek apps"
 
 # | msgid "Readeck Bookmark Collections"
 #: internal/dashboard/x-dashboard.templ:243
-#, fuzzy
 msgid "Readeck in your Browser"
-msgstr "Readeck-browserextensie"
+msgstr "Readeck in je browser"
 
 #: internal/docs/http.go:257 internal/docs/x-about.templ:53
 #: internal/docs/x-base.templ:43
@@ -2568,7 +2562,6 @@ msgid "Profile imported."
 msgstr "Het profiel is geïmporteerd."
 
 #: internal/profile/x-applications.templ:15
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tApplications are registered clients that have permissions to access your Readeck account.\n"
@@ -2577,9 +2570,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"  Applicaties zijn geregistreerde clients die toegang hebben tot uw Readeck account.\n"
-"  Als er applicaties zijn die u hier niet herkent, of als een applicatie zich misdraagt,\n"
-"  kunt u de toegang intrekken.\n"
+"\t\t\t\t\tApplicaties zijn geregistreerde clients die toegang hebben tot je Readeck-account.\n"
+"\t\t\t\t\tAls er applicaties zijn die je hier niet herkent, of als een applicatie zich misdraagt,\n"
+"\t\t\t\t\tkun je de toegang intrekken.\n"
+"\t\t\t\t"
 
 #: internal/profile/x-applications.templ:23
 msgid "You have no registered application at the moment."
@@ -2608,7 +2602,7 @@ msgid "Developer information"
 msgstr "Informatie voor ontwikkelaars"
 
 #: internal/profile/x-applications.templ:107
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tIf you plan to build an application, please refer to the\n"
@@ -2616,9 +2610,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"    Als u van plan bent om een applicatie te bouwen, raadpleeg dan de\n"
-"    <a href=\"%s\">API Documentatie</a>.\n"
-"  "
+"\t\t\t\t\t\t\tAls je van plan bent om een applicatie te bouwen, raadpleeg dan de\n"
+"\t\t\t\t\t\t\t<a href=\"%s\">API-documentatie</a>.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-export.templ:23
 msgid "Bookmark List in Browser Bookmarks Format"
@@ -2633,7 +2627,6 @@ msgid "Export your Readeck Profile"
 msgstr "Exorteer je Readeck-profiel"
 
 #: internal/profile/x-export.templ:41
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tThis lets you download a zip file containing all your profile's data, including\n"
@@ -2641,9 +2634,9 @@ msgid ""
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"    Hiermee kun je een zipbestand downloaden, met daarin al je profielgegevens, zoals\n"
-"    bladwijzers, verzamelingen, etc.\n"
-"    "
+"\t\t\t\t\t\tHiermee kun je een zipbestand downloaden met daarin al je profielgegevens, zoals\n"
+"\t\t\t\t\t\tbladwijzers, verzamelingen, etc.\n"
+"\t\t\t\t\t"
 
 #: internal/profile/x-export.templ:47
 msgid "Export Data"
@@ -2674,7 +2667,6 @@ msgid "Attention"
 msgstr "Let op"
 
 #: internal/profile/x-import.templ:34
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tThis will empty your current profile and all its data will be\n"
@@ -2682,16 +2674,16 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"      Hierdoor wordt je huidige profiel overschreven door de gegevens\n"
-"      uit het bestand.\n"
-"      "
+"\t\t\t\t\t\t\tHierdoor wordt je huidige profiel overschreven door de gegevens\n"
+"\t\t\t\t\t\t\tuit het bestand.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-import.templ:46
 msgid "Import bookmarks from other services"
 msgstr "Bladwijzers van andere diensten importeren"
 
 #: internal/profile/x-import.templ:49
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\tIf you have bookmarks from another service you can import them in the\n"
@@ -2699,9 +2691,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"  Als je over bladwijzers op een andere dienst beschikt, dan kun je ze importeren in de\n"
-"  <a href=\"%s\">daarvoor bestemde sectie</a>.\n"
-"  "
+"\t\t\t\t\t\tAls je over bladwijzers op een andere dienst beschikt, dan kun je ze importeren in de\n"
+"\t\t\t\t\t\t<a href=\"%s\">daarvoor bestemde sectie</a>.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-profile.templ:17 internal/profile/x-security.templ:16
 msgid "My profile"
@@ -2747,7 +2739,6 @@ msgid "Sending e-books to an Amazon Kindle"
 msgstr "E-books verzenden naar een Amazon Kindle"
 
 #: internal/profile/x-profile.templ:93
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\t\t\tIf you plan to send e-books to a Kindle device, you must approve the\n"
@@ -2755,9 +2746,9 @@ msgid ""
 "\t\t\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"          Als je van plan bent om e-boeken naar een Kindle-apparaat te versturen,\n"
-"        dan moet je eerst dit e-mailadres bevestigen via je Kindle-account:\n"
-"          "
+"\t\t\t\t\t\t\t\t\t\tAls je van plan bent om e-boeken naar een Kindle-apparaat te versturen,\n"
+"\t\t\t\t\t\t\t\t\t\tdan moet je eerst dit e-mailadres goedkeuren via je Kindle-account:\n"
+"\t\t\t\t\t\t\t\t\t"
 
 #: internal/profile/x-security.templ:25
 msgid "Change my password"
@@ -2882,7 +2873,6 @@ msgid "Roles"
 msgstr "Functies"
 
 #: internal/profile/x-tokens.templ:142
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tYou can limit the permissions granted to this token by choosing one or more\n"
@@ -2891,10 +2881,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"    Met behulp van onderstaande opties kun je beperkingen op deze toegangssleutel\n"
-"    instellen.<br>\n"
-"    Als je niets instelt, worden alle rechten toegekend.\n"
-"  "
+"\t\t\t\t\tMet behulp van onderstaande opties kun je beperkingen op deze toegangssleutel\n"
+"\t\t\t\t\tinstellen.<br>\n"
+"\t\t\t\t\tAls je niets instelt, worden alle rechten toegekend.\n"
+"\t\t\t\t"
 
 #: internal/profile/x-tokens.templ:158
 msgid "Delete token"
