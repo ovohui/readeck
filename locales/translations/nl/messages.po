@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
 "PO-Revision-Date: 2026-07-29 13:51+0000\n"
-"Last-Translator: arjan5 <arjan5@noreply.codeberg.org>\n"
+"Last-Translator: notDavid <notdavid@noreply.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/readeck/application/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -766,7 +766,7 @@ msgstr[1] "Ongeveer %d min. leestijd"
 #: internal/bookmarks/routes/x-components.templ:208
 #: internal/bookmarks/routes/x-filters.templ:36
 msgid "Note"
-msgstr "Opmerking"
+msgstr "Notitie"
 
 #: internal/bookmarks/converter/x-epub.templ:83
 #: internal/bookmarks/converter/x-html-public.templ:252
@@ -956,8 +956,8 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"\t\t\t\tHet geüploade bestand moet een eerste rij met de kolomnamen bevatten. Kolomnamen zijn <strong>niet</strong>\n"
-"\t\t\t\thoofdlettergevoelig en, met uitzondering van <code>%s</code>, is elke kolom optioneel.\n"
+"\t\t\t\tHet geüploade bestand moet een eerste rij met de kolomnamen bevatten. Kolomnamen zijn niet\n"
+"\t\t\t\thoofdlettergevoelig en, op <code>%s</code> na, is elke kolom optioneel.\n"
 "\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:115
@@ -1377,7 +1377,6 @@ msgid "You don't have any highlights yet."
 msgstr "Je hebt nog niets gemarkeerd."
 
 #: internal/bookmarks/routes/x-annotations.templ:22
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tOnce you start highlighting parts of your saved articles, they will appear on this page\n"
@@ -1385,9 +1384,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"        Zodra je delen van opgeslagen artikelen markeert, worden ze hier getoond,\n"
-"        zodat je ze makkelijk kunt terugvinden.\n"
-"      "
+"\t\t\t\t\t\t\tZodra je delen van opgeslagen artikelen markeert, worden ze hier getoond,\n"
+"\t\t\t\t\t\t\tzodat je ze eenvoudig kunt terugvinden.\n"
+"\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-annotations.templ:29
 #, python-format
@@ -1395,9 +1394,8 @@ msgid "Read more about highlights in the <a class=\"%s\" href=\"%s\">documentati
 msgstr "Meer informatie hierover is te vinden in de <a class=\"%s\" href=\"%s\">documentatie</a>."
 
 #: internal/bookmarks/routes/x-base.templ:27
-#, fuzzy
 msgid "search in bookmarks"
-msgstr "Gearchiveerde bladwijzers"
+msgstr "zoeken in bladwijzers"
 
 #: internal/bookmarks/routes/x-base.templ:31
 #: internal/bookmarks/routes/x-filters.templ:22
@@ -1641,9 +1639,8 @@ msgstr "Bladwijzerinformatie"
 
 # | msgid "Bookmark Labels"
 #: internal/bookmarks/routes/x-bookmark.templ:44
-#, fuzzy
 msgid "Bookmark content"
-msgstr "Bladwijzertitel"
+msgstr "Bladwijzerinhoud"
 
 #: internal/bookmarks/routes/x-bookmark.templ:74
 msgid "Bookmark is loading"
@@ -1730,9 +1727,8 @@ msgid "This link is shared with annotations."
 msgstr "Deze link is gedeeld met annotaties."
 
 #: internal/bookmarks/routes/x-bookmark.templ:334
-#, fuzzy
 msgid "Share without annotations"
-msgstr "Zonder koppelteken"
+msgstr "Delen zonder annotaties"
 
 #: internal/bookmarks/routes/x-bookmark.templ:354
 msgid "Copy the link"
@@ -1783,7 +1779,6 @@ msgid "Create a new collection"
 msgstr "Verzameling samenstellen"
 
 #: internal/bookmarks/routes/x-collections.templ:50
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\tCollections let you easily organize and export your bookmarks\n"
@@ -1794,12 +1789,12 @@ msgid ""
 "\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"          Met behulp van verzamelingen kun je je bladwijzers op een eenvoudige manier\n"
-"          ordenen en exporteren, door ze te bewaren als zoekopdrachten.\n"
-"          Zodra je een bladwijzer toevoegt die overeenkomt met een bepaalde verzameling,\n"
-"          wordt deze daar getoond.\n"
-"          Hieronder vind je enkele voorbeelden:\n"
-"        "
+"\t\t\t\t\t\t\t\tMet verzamelingen kun je eenvoudig je bladwijzers organiseren en exporteren\n"
+"\t\t\t\t\t\t\t\tdoor zoekopdrachten naar keuze op te slaan.\n"
+"\t\t\t\t\t\t\t\tWanneer je een nieuwe bladwijzer aanmaakt die voldoet aan de criteria van een collectie,\n"
+"\t\t\t\t\t\t\t\tverschijnt deze automatisch.\n"
+"\t\t\t\t\t\t\t\tHier zijn enkele voorbeelden:\n"
+"\t\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-collections.templ:59
 msgid "The unread articles (no photos or videos)"
@@ -1829,9 +1824,8 @@ msgid "Created on: %s"
 msgstr "Aangemaakt op %s"
 
 #: internal/bookmarks/routes/x-collections.templ:97
-#, fuzzy
 msgid "This collection will be removed in a few seconds."
-msgstr "De verzameling wordt over enkele seconden verwijderd."
+msgstr "Deze verzameling wordt over enkele seconden verwijderd."
 
 #: internal/bookmarks/routes/x-collections.templ:107
 #: internal/bookmarks/routes/x-sidebar.templ:131
@@ -1898,9 +1892,8 @@ msgid "Play video"
 msgstr "Video afspelen"
 
 #: internal/bookmarks/routes/x-components.templ:326
-#, fuzzy
 msgid "Extraction log"
-msgstr "Tekstrichting"
+msgstr "Extractielogboek"
 
 #: internal/bookmarks/routes/x-components.templ:330
 #: internal/bookmarks/routes/x-components.templ:381
@@ -1926,9 +1919,8 @@ msgid "Subscribe to this feed by copying the URL below:"
 msgstr "Abonneer je op deze feed door de onderstaande URL te kopiëren:"
 
 #: internal/bookmarks/routes/x-components.templ:388
-#, fuzzy
 msgid "Open link"
-msgstr "Link kopiëren"
+msgstr "Link openen"
 
 #: internal/bookmarks/routes/x-components.templ:396
 msgid "Access to this feed is restricted."
@@ -1956,21 +1948,19 @@ msgid "Read more about bookmarks in the <a class=\"%s\" href=\"%s\">documentatio
 msgstr "Meer informatie is te vinden in de <a class=\"%s\" href=\"%s\">documentatie</a>."
 
 #: internal/bookmarks/routes/x-components.templ:423
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWith the Browser Extension, you can save pages, images and selections\n"
 "\t\tdirectly from your browser!"
 msgstr ""
 "\n"
-"            Met behulp van de browserextensie kun je pagina's, afbeelding en selecties opslaan\n"
-"            vanuit je browser!"
+"\t\tMet de browserextensie kun je pagina's, afbeeldingen en selecties\n"
+"\t\tdirect vanuit je browser opslaan!"
 
 # | msgid "" "\n" "          Would you like to import from a similar tool or
 # | from a file with existing bookmarks?\n" "          Try Readeck's import
 # | tool.\n" "        "
 #: internal/bookmarks/routes/x-components.templ:430
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWould you like to import from a similar tool or from a file with existing bookmarks?\n"
@@ -1978,9 +1968,9 @@ msgid ""
 "\t"
 msgstr ""
 "\n"
-"              Wil je bladwijzers importeren uit een vergelijkbare dienst of een bestand?\n"
-"          Maak dan gebruik van Readecks importhulpmiddel.\n"
-"            "
+"\t\tWil je importeren uit een vergelijkbare tool of uit een bestand met bestaande bladwijzers?\n"
+"\t\tProbeer de importtool van Readeck.\n"
+"\t"
 
 #: internal/bookmarks/routes/x-filters.templ:24
 msgid "Author"
@@ -1991,16 +1981,14 @@ msgid "Site"
 msgstr "Website"
 
 #: internal/bookmarks/routes/x-filters.templ:37
-#, fuzzy
 msgctxt "date"
 msgid "Since"
-msgstr "Grootte"
+msgstr "Sinds"
 
 #: internal/bookmarks/routes/x-filters.templ:41
-#, fuzzy
 msgctxt "date"
 msgid "Until"
-msgstr "Titel"
+msgstr "Tot"
 
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
@@ -2028,9 +2016,8 @@ msgid "With Labels"
 msgstr "Met labels"
 
 #: internal/bookmarks/routes/x-filters.templ:56
-#, fuzzy
 msgid "With Notes"
-msgstr "Met labels"
+msgstr "Met notities"
 
 #: internal/bookmarks/routes/x-filters.templ:57
 msgid "With Errors"
@@ -2674,8 +2661,8 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"\t\t\t\t\t\t\tHierdoor wordt je huidige profiel overschreven door de gegevens\n"
-"\t\t\t\t\t\t\tuit het bestand.\n"
+"\t\t\t\t\t\t\tHiermee wordt je huidige profiel leeggemaakt en worden alle gegevens\n"
+"\t\t\t\t\t\t\tvervangen door de inhoud van het bestand.\n"
 "\t\t\t\t\t\t"
 
 #: internal/profile/x-import.templ:46
@@ -2881,9 +2868,9 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"\t\t\t\t\tMet behulp van onderstaande opties kun je beperkingen op deze toegangssleutel\n"
-"\t\t\t\t\tinstellen.<br>\n"
-"\t\t\t\t\tAls je niets instelt, worden alle rechten toegekend.\n"
+"\t\t\t\t\tJe kunt de aan deze toegangssleutel verleende rechten beperken door hieronder één of meer\n"
+"\t\t\t\t\trechtengroepen te kiezen.<br>\n"
+"\t\t\t\t\tLaat alle keuzes leeg om al je rechten aan deze toegangssleutel te verlenen.\n"
 "\t\t\t\t"
 
 #: internal/profile/x-tokens.templ:158
