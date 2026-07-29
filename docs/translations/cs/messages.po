@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-22 09:42+0200\n"
-"PO-Revision-Date: 2026-07-29 05:31+0000\n"
+"PO-Revision-Date: 2026-07-29 13:51+0000\n"
 "Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Czech <https://translate.codeberg.org/projects/readeck/documentation/cs/>\n"
 "Language: cs\n"
@@ -417,7 +417,7 @@ msgstr "## Upravit informace"
 
 #: en/bookmark.md:45
 msgid "Several information such as the title or description are automatically grabbed when you create a bookmark. If you need to change these properties, you can click on the edit side button to open a form."
-msgstr ""
+msgstr "Při vytváření záložky se automaticky zachytí několik informací, jako je název nebo popis. Pokud potřebujete tyto vlastnosti změnit, můžete kliknutím na tlačítko Upravit otevřít formulář."
 
 #: en/bookmark.md:47
 msgid "## Actions"

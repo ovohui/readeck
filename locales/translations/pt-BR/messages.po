@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-28 18:13+0000\n"
+"PO-Revision-Date: 2026-07-29 13:51+0000\n"
 "Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.codeberg.org/projects/readeck/application/pt_BR/>\n"
 "Language: pt-BR\n"
@@ -239,7 +239,7 @@ msgstr ""
 
 #: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
-msgstr ""
+msgstr "Este é você!"
 
 # | msgid "Created on: %s"
 #: internal/admin/x-users.templ:56

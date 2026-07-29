@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-28 18:13+0000\n"
+"PO-Revision-Date: 2026-07-29 13:51+0000\n"
 "Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Thai <https://translate.codeberg.org/projects/readeck/application/th/>\n"
 "Language: th\n"
@@ -234,7 +234,7 @@ msgstr ""
 
 #: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
-msgstr ""
+msgstr "นี่คือคุณ!"
 
 #: internal/admin/x-users.templ:56
 #, python-format

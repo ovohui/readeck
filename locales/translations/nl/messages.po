@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
 "PO-Revision-Date: 2026-07-29 13:51+0000\n"
-"Last-Translator: notDavid <notdavid@noreply.codeberg.org>\n"
+"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/readeck/application/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -2063,12 +2063,8 @@ msgid "Import your Readwise Reader Library"
 msgstr "Readwise Reader-bibliotheek importeren"
 
 #: internal/bookmarks/routes/x-import.templ:100
-#, fuzzy
 msgid "Here you can import your existing bookmark collection from various sources into Readeck."
-msgstr ""
-"\n"
-"    Hier kun je je bladwijzers vanuit verschillende diensten importeren naar Readeck.\n"
-"  "
+msgstr "Hier kun je je bladwijzers vanuit verschillende diensten importeren naar Readeck."
 
 #: internal/bookmarks/routes/x-import.templ:125
 msgid "Import status"
@@ -2091,23 +2087,21 @@ msgid "Import is finished!"
 msgstr "Het importeren is voltooid!"
 
 #: internal/bookmarks/routes/x-import.templ:165
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour bookmarks are now available in your <a class=\"%s\" href=\"%s\">bookmark list</a>.\n"
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"      De bladwijzers zijn toegevoegd aan je <a class=\"%s\" href=\"%s\">bladwijzerlijst</a>.\n"
-"      "
+"\t\t\t\t\t\tDe bladwijzers zijn toegevoegd aan je <a class=\"%s\" href=\"%s\">bladwijzerlijst</a>.\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:27
-#, fuzzy
 msgid "Bookmarks Labels"
 msgstr "Bladwijzerlabels"
 
 #: internal/bookmarks/routes/x-labels.templ:31
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tLabels let your organize your bookmarks the way you want.\n"
@@ -2115,8 +2109,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"  Je kunt je bladwijzers ordenen met behulp van labels.\n"
-"  Alles kan een label zijn, zelfs emoji's!\n"
+"\t\t\t\tJe kunt je bladwijzers ordenen met behulp van labels.\n"
+"\t\t\t\tAlles kan een label zijn, zelfs emoji's!\n"
+"\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:128
 msgid "Label will be removed in a few seconds."
@@ -2208,15 +2203,14 @@ msgid "Errors occurred during extraction."
 msgstr "Er zijn fouten opgetreden tijdens het extraheren."
 
 #: internal/bookmarks/routes/x-sidebar.templ:51
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tDepending on the error, Readeck's browser extension may provide\n"
 "\t\t\t\t\t\ta workaround."
 msgstr ""
 "\n"
-"          Readecks browserextensie kan - afhankelijk van de precieze foutmelding -\n"
-"          een tussenoplossing bieden."
+"\t\t\t\t\t\tReadecks browserextensie kan - afhankelijk van de precieze foutmelding -\n"
+"\t\t\t\t\t\teen tussenoplossing bieden."
 
 #: internal/bookmarks/routes/x-sidebar.templ:67
 msgid "View log"
@@ -2280,9 +2274,8 @@ msgid "All Bookmarks"
 msgstr "Alle bladwijzers"
 
 #: internal/dashboard/x-dashboard.templ:72
-#, fuzzy
 msgid "Readeck"
-msgstr "Hulp"
+msgstr "Readeck"
 
 #: internal/dashboard/x-dashboard.templ:74 internal/profile/views.go:98
 #: internal/profile/views.go:151 internal/profile/views.go:187
@@ -2339,7 +2332,6 @@ msgid "Version:"
 msgstr "Versie:"
 
 #: internal/docs/x-about.templ:58
-#, fuzzy
 msgid "Build Date:"
 msgstr "Bouwdatum:"
 
@@ -2923,15 +2915,16 @@ msgid "Alternatively, you can use this token as a password for HTTP Basic Authen
 msgstr "Ook kun je deze sleutel als wachtwoord gebruiken i.c.m. HTTP Basic Authentication."
 
 #: internal/profile/x-tokens.templ:222
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tFor example, if an application only accepts a username and password, you can provide this token as a password.\n"
 "\t\t\t\tThe username is ignored and can be anything, including an empty value.\n"
 "\t\t\t"
 msgstr ""
-"Voorbeeld: als een app alleen een gebruikersnaam en wachtwoord accepteert, kun je deze sleutel als wachtwoord gebruiken.\n"
-"  De gebruikersnaam wordt genegeerd en kan van alles zijn, zelfs een lege."
+"\n"
+"\t\t\t\tVoorbeeld: als een app alleen een gebruikersnaam en wachtwoord accepteert, kun je deze sleutel als wachtwoord gebruiken.\n"
+"\t\t\t\tDe gebruikersnaam wordt genegeerd en kan van alles zijn, zelfs een lege.\n"
+"\t\t\t"
 
 #: pkg/forms/forms.go:28
 msgid "an unexpected error has occurred"
