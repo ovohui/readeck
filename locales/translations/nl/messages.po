@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
 "PO-Revision-Date: 2026-07-28 17:12+0000\n"
-"Last-Translator: notDavid <notdavid@noreply.codeberg.org>\n"
+"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/readeck/application/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -1236,10 +1236,9 @@ msgid "Duration, longest first"
 msgstr "Duur - langste eerst"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:636
-#, fuzzy
 msgctxt "sort"
 msgid "Random"
-msgstr "Ongedaan maken"
+msgstr "Willekeurig"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:742
 #: internal/bookmarks/routes/forms_filters.go:53
@@ -1248,7 +1247,7 @@ msgstr "Artikel"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:743
 msgid "E-Book"
-msgstr ""
+msgstr "E-Boek"
 
 #: internal/bookmarks/routes/forms_filters.go:54
 msgid "Picture"

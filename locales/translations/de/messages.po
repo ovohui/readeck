@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-28 17:12+0000\n"
+"PO-Revision-Date: 2026-07-28 18:13+0000\n"
 "Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/readeck/application/de/>\n"
 "Language: de\n"
@@ -309,7 +309,6 @@ msgid "Created on"
 msgstr "Erstellt am"
 
 #: internal/admin/x-users.templ:182
-#, fuzzy
 msgid "Last Login"
 msgstr "Letzte Anmeldung"
 
@@ -370,7 +369,7 @@ msgstr "Autorisierung benötigt"
 
 #: internal/auth/oauth2/x-oauth.templ:30
 msgid "This code has expired or is not valid"
-msgstr ""
+msgstr "Dieser Code ist abgelaufen oder ungültig"
 
 #: internal/auth/oauth2/x-oauth.templ:33 internal/auth/oauth2/x-oauth.templ:50
 #: internal/auth/oauth2/x-oauth.templ:58
@@ -828,7 +827,7 @@ msgstr "Leere oder ungültige Importdatei"
 
 #: internal/bookmarks/importer/pinboard.go:44
 msgid "Pinboard JSON backup File"
-msgstr ""
+msgstr "Pinboard JSON Sicherungsdatei"
 
 #: internal/bookmarks/importer/readwise.go:62
 msgid "Readwise Reader CSV"
@@ -1221,10 +1220,9 @@ msgid "Duration, longest first"
 msgstr "Lesedauer, längste zuerst"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:636
-#, fuzzy
 msgctxt "sort"
 msgid "Random"
-msgstr "Rückgängig machen"
+msgstr "Zufällig"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:742
 #: internal/bookmarks/routes/forms_filters.go:53
@@ -1565,9 +1563,8 @@ msgstr "Laden"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:500
 #: internal/dashboard/x-dashboard.templ:184
-#, fuzzy
 msgid "untitled"
-msgstr "Titel"
+msgstr "ohne Titel"
 
 # | msgid "%d min"
 #: internal/bookmarks/routes/x-bookmark-list.templ:513
@@ -2270,7 +2267,7 @@ msgstr "Links"
 #: internal/dashboard/x-dashboard.templ:26
 #, python-format
 msgid "Hi %s!"
-msgstr ""
+msgstr "Hallo %s!"
 
 #: internal/dashboard/x-dashboard.templ:60 internal/opds/http.go:72
 msgid "All Bookmarks"

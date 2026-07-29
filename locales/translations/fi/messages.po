@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-28 05:51+0000\n"
+"PO-Revision-Date: 2026-07-28 17:12+0000\n"
 "Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Finnish <https://translate.codeberg.org/projects/readeck/application/fi/>\n"
 "Language: fi\n"
@@ -1144,7 +1144,7 @@ msgstr ""
 
 #: internal/bookmarks/routes/forms_bookmarks.go:743
 msgid "E-Book"
-msgstr ""
+msgstr "E-Kirja"
 
 #: internal/bookmarks/routes/forms_filters.go:54
 msgid "Picture"
