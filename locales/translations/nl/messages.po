@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
 "PO-Revision-Date: 2026-07-28 18:13+0000\n"
-"Last-Translator: notDavid <notdavid@noreply.codeberg.org>\n"
+"Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/readeck/application/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -1032,9 +1032,8 @@ msgstr ""
 
 # | msgid "Import Links from a Text File"
 #: internal/bookmarks/importer/x-forms.templ:185
-#, fuzzy
 msgid "Import Links from a Pinboard JSON backup file"
-msgstr "Links importeren uit csv-bestand"
+msgstr "Links importeren uit Pinboard JSON-back-upbestand"
 
 #: internal/bookmarks/importer/x-forms.templ:188
 msgid "Upload a JSON file obtained from your Pinboard account."
@@ -1583,9 +1582,8 @@ msgstr "Bezig met laden…"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:500
 #: internal/dashboard/x-dashboard.templ:184
-#, fuzzy
 msgid "untitled"
-msgstr "Titel"
+msgstr "zonder titel"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:513
 #, python-format
@@ -2300,7 +2298,7 @@ msgstr "Links"
 #: internal/dashboard/x-dashboard.templ:26
 #, python-format
 msgid "Hi %s!"
-msgstr ""
+msgstr "Hallo %s!"
 
 #: internal/dashboard/x-dashboard.templ:60 internal/opds/http.go:72
 msgid "All Bookmarks"

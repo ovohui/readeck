@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-28 17:12+0000\n"
+"PO-Revision-Date: 2026-07-28 18:13+0000\n"
 "Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/readeck/application/tr/>\n"
 "Language: tr\n"
@@ -686,7 +686,7 @@ msgstr "Kullanıcılar"
 #: internal/auth/users/groups.go:15
 msgctxt "role"
 msgid "staff"
-msgstr ""
+msgstr "ekip"
 
 #: internal/auth/users/groups.go:16
 #, fuzzy
@@ -842,7 +842,7 @@ msgstr "Boş veya geçersiz içe aktarma dosyası"
 
 #: internal/bookmarks/importer/pinboard.go:44
 msgid "Pinboard JSON backup File"
-msgstr ""
+msgstr "Pinboard JSON yedekleme dosyası"
 
 #: internal/bookmarks/importer/readwise.go:62
 msgid "Readwise Reader CSV"
@@ -1246,10 +1246,9 @@ msgid "Duration, longest first"
 msgstr "Süre, en uzundan kısaya"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:636
-#, fuzzy
 msgctxt "sort"
 msgid "Random"
-msgstr "Geri al"
+msgstr "Rastgele"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:742
 #: internal/bookmarks/routes/forms_filters.go:53
@@ -1589,9 +1588,8 @@ msgstr "Yükleniyor"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:500
 #: internal/dashboard/x-dashboard.templ:184
-#, fuzzy
 msgid "untitled"
-msgstr "Başlık"
+msgstr "isimsiz"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:513
 #, python-format
@@ -2301,7 +2299,7 @@ msgstr "Bağlantılar"
 #: internal/dashboard/x-dashboard.templ:26
 #, python-format
 msgid "Hi %s!"
-msgstr ""
+msgstr "Selam, %s!"
 
 #: internal/dashboard/x-dashboard.templ:60 internal/opds/http.go:72
 msgid "All Bookmarks"

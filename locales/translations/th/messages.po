@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-28 17:12+0000\n"
+"PO-Revision-Date: 2026-07-28 18:13+0000\n"
 "Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language-Team: Thai <https://translate.codeberg.org/projects/readeck/application/th/>\n"
 "Language: th\n"
@@ -1470,7 +1470,7 @@ msgstr ""
 #: internal/bookmarks/routes/x-bookmark-list.templ:500
 #: internal/dashboard/x-dashboard.templ:184
 msgid "untitled"
-msgstr ""
+msgstr "ไม่มีชื่อ"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:513
 #, python-format
