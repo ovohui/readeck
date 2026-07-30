@@ -118,7 +118,7 @@ schemas:
       reading_time:
         type: integer
         minimum: 0
-        description: | 
+        description: |
           Duration of the article, in minutes. Either the actual duration for a
           video or a reading time based on the word count.
       resources:
@@ -240,7 +240,6 @@ schemas:
           - "%/img"
           - images
 
-
   bookmarkInfo:
     allOf:
       - $ref: "#/components/schemas/bookmarkSummary"
@@ -346,7 +345,7 @@ schemas:
           Bookmark's user note, text only.
       is_marked:
         type: boolean
-        description: Favortie state
+        description: Favorite state
       is_archived:
         type: boolean
         description: Archive state
@@ -639,7 +638,6 @@ schemas:
             format: date-time
             description: Creation date
       - $ref: "#/components/schemas/collectionSummary"
-
 
   collectionCreate:
     required: [name]
