@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-29 13:51+0000\n"
+"PO-Revision-Date: 2026-07-31 21:25+0000\n"
 "Last-Translator: greyluked <greyluked@noreply.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/readeck/application/ca/>\n"
 "Language: ca\n"
@@ -47,9 +47,8 @@ msgid "An error occurred."
 msgstr "Hi ha hagut un error."
 
 #: components/errors.templ:24
-#, fuzzy
 msgid "Back to home page"
-msgstr "Pàgina principal"
+msgstr "Tornar a la pàgina principal"
 
 #: components/forms/forms.templ:21
 msgid "Errors"
@@ -98,7 +97,6 @@ msgid "remove"
 msgstr "elimina"
 
 #: components/layout.templ:63
-#, fuzzy
 msgid "Open Menu"
 msgstr "Obrir el menú"
 
@@ -193,7 +191,7 @@ msgstr "El nom d'usuari ja està en ús"
 
 #: internal/admin/forms.go:92 internal/profile/forms.go:105
 msgid "email address is already in use"
-msgstr "El correu electrònic ja està en ús"
+msgstr "aquesta adreça electrònica ja està en ús"
 
 #: internal/admin/views.go:61 internal/admin/views.go:86
 #: internal/admin/views.go:127 internal/admin/x-users.templ:16
@@ -215,28 +213,24 @@ msgid "User updated."
 msgstr "Usuari actualitzat."
 
 #: internal/admin/views.go:163
-#, fuzzy
 msgid "User detached."
-msgstr "Usuari actualitzat."
+msgstr "Usuari desenllaçat."
 
 #: internal/admin/views.go:186
-#, fuzzy
 msgid "User signed out."
-msgstr "Tancar la sessió"
+msgstr "L'usuari ha tancat la sessió."
 
 #: internal/admin/x-users.templ:19
 msgid "Add a new user"
 msgstr "Afegeix un usuari nou"
 
 #: internal/admin/x-users.templ:38
-#, fuzzy
 msgid "External User"
-msgstr "Crea un usuari"
+msgstr "Usuari extern"
 
 #: internal/admin/x-users.templ:44 internal/admin/x-users.templ:174
-#, fuzzy
 msgid "TOTP is enabled"
-msgstr "Activat"
+msgstr "El TOTP (contrasenya d'un sol ús basada en temps) està activat"
 
 #: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
@@ -244,9 +238,9 @@ msgstr "Aquest ets tu!"
 
 # | msgid "Created on: %s"
 #: internal/admin/x-users.templ:56
-#, fuzzy, python-format
+#, python-format
 msgid "Last login: %s"
-msgstr "Últim ús: %s"
+msgstr "Última connexió: %s"
 
 #: internal/admin/x-users.templ:63
 msgid "This user will be removed in a few seconds."
@@ -291,9 +285,8 @@ msgid "Create user"
 msgstr "Crea un usuari"
 
 #: internal/admin/x-users.templ:126
-#, fuzzy
 msgid "User information"
-msgstr "Informació del sistema"
+msgstr "Informació de l'usuari"
 
 #: internal/admin/x-users.templ:153
 msgid "will not change if empty"
@@ -312,24 +305,21 @@ msgid "Save"
 msgstr "Desa"
 
 #: internal/admin/x-users.templ:178
-#, fuzzy
 msgid "Created on"
-msgstr "Creat el: %s"
+msgstr "Creat el"
 
 # | msgid "Created on: %s"
 #: internal/admin/x-users.templ:182
-#, fuzzy
 msgid "Last Login"
-msgstr "Últim ús: %s"
+msgstr "Última connexió"
 
 #: internal/admin/x-users.templ:186
 msgid "Last Activity"
 msgstr "Última activitat"
 
 #: internal/admin/x-users.templ:194
-#, fuzzy
 msgid "Disk Usage"
-msgstr "El marcador s'està carregant"
+msgstr "Ús de disc"
 
 #: internal/admin/x-users.templ:198
 msgid "User Administration"
@@ -344,9 +334,8 @@ msgid "This will sign this user out of all active sessions on the web applicatio
 msgstr "Açó desconectarà a l'usuari de totes les sessions actives en l'aplicació web."
 
 #: internal/admin/x-users.templ:219
-#, fuzzy
 msgid "Sign this user out"
-msgstr "Tancar la sessió"
+msgstr "Tancar la sessió per a aquest usuari"
 
 #: internal/admin/x-users.templ:227
 msgid ""
@@ -365,9 +354,8 @@ msgstr ""
 "\t\t\t\t\t\t\t\t"
 
 #: internal/admin/x-users.templ:240
-#, fuzzy
 msgid "Detach this user"
-msgstr "Esborra aquest usuari"
+msgstr "Desenllaça aquest usuari"
 
 #: internal/admin/x-users.templ:249
 #, python-format
@@ -397,7 +385,6 @@ msgid "Enter the code displayed on your device"
 msgstr "Introduïu el codi que es mostra al vostre dispositiu"
 
 #: internal/auth/oauth2/x-oauth.templ:42
-#, fuzzy
 msgid "Next"
 msgstr "Següent"
 
@@ -446,14 +433,12 @@ msgstr ""
 "\t\t\t"
 
 #: internal/auth/oauth2/x-oauth.templ:122
-#, fuzzy
 msgid "Review permissions"
-msgstr "Permisos"
+msgstr "Revisar permisos"
 
 #: internal/auth/oauth2/x-oauth.templ:132
-#, fuzzy
 msgid "Application information"
-msgstr "Aplicació"
+msgstr "Informació d'aplicació"
 
 #: internal/auth/oauth2/x-oauth.templ:134
 #: internal/bookmarks/routes/x-collections.templ:131
@@ -463,18 +448,16 @@ msgid "Name"
 msgstr "Nom"
 
 #: internal/auth/oauth2/x-oauth.templ:135
-#, fuzzy
 msgid "Website"
-msgstr "Lloc web principal"
+msgstr "Lloc web"
 
 #: internal/auth/oauth2/x-oauth.templ:136
 msgid "Version"
 msgstr "Versió"
 
 #: internal/auth/oauth2/x-oauth.templ:145
-#, fuzzy
 msgid "Authorize"
-msgstr "Autor"
+msgstr "Autoritzar"
 
 #: internal/auth/oauth2/x-oauth.templ:153
 msgid "Deny"
@@ -500,7 +483,6 @@ msgid "Please note:"
 msgstr "Tingues en compte:"
 
 #: internal/auth/onboarding/x-onboarding.templ:44
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour email address is optional and will never leave this installation.\n"
@@ -509,10 +491,10 @@ msgid ""
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"  El teu correu és opcional i mai sortirà d'aquesta instal·lació.\n"
-"  Mai el recollirem, transferirem o vendrem.\n"
-"  <strong>Només</strong>  el farem servir, si cal, per recuperar la contrasenya i per notificacions internes.\n"
-"  "
+"\t\t\t\t\t\tLa teva adreçá electrònica és opcional i mai sortirà d'aquesta instal·lació.\n"
+"\t\t\t\t\t\tMai la recollirem, transferirem o vendrem.\n"
+"\t\t\t\t\t\t<strong>Només</strong> la farem servir, si cal, per recuperar la contrasenya i per notificacions internes.\n"
+"\t\t\t\t\t"
 
 #: internal/auth/onboarding/x-onboarding.templ:52
 msgid "Finish installation"
@@ -523,12 +505,10 @@ msgid "Invalid user and/or password"
 msgstr "Usuari i/o contrasenya no vàlids"
 
 #: internal/auth/signin/http.go:185 internal/profile/forms.go:228
-#, fuzzy
 msgid "Invalid code"
-msgstr "contrasenya no vàlida"
+msgstr "Codi no vàlid"
 
 #: internal/auth/signin/recover.go:257
-#, fuzzy
 msgid ""
 "\n"
 "Hi,\n"
@@ -545,15 +525,14 @@ msgstr ""
 "Hola!\n"
 "\n"
 "Has introduït aquesta adreça electrònica (o algú altre ho ha fet)\n"
-"en intentar canviar la contrasenya d'un compte de Readeck (%s).\n"
+"en intentar canviar la contrasenya d'un compte de Readeck (%[1]s).\n"
 "\n"
 "Si esperaves aquest correu electrònic, segueix aquest enllaç per establir\n"
-"una nova contrasenya pel teu compte del Readeck.\n"
+"una nova contrasenya pel teu compte de Readeck.\n"
 "\n"
-"%s\n"
+"%[2]s\n"
 
 #: internal/auth/signin/recover.go:271
-#, fuzzy
 msgid ""
 "\n"
 "Hi,\n"
@@ -574,16 +553,16 @@ msgstr ""
 "Hola!\n"
 "\n"
 "Has introduït aquesta adreça electrònica (o algú altre ho ha fet)\n"
-"en intentar canviar la contrasenya d'un compte de Readeck (%s).\n"
+"en intentar canviar la contrasenya d'un compte de Readeck (%[1]s).\n"
 "\n"
 "Tanmateix, aquesta adreça de correu electrònic no està associada a cap compte i, per tant,\n"
 "l'intent de canvi de contrasenya ha fallat.\n"
 "\n"
-"Si ets usuari del Readeck a %s i espereves aquest correu electrònic,\n"
+"Si ets usuari de Readeck a %[1]s i espereves aquest correu electrònic,\n"
 "torneu-ho a intentar amb l'adreça electrònica\n"
 "que vas utilitzar en crear el compte.\n"
 "\n"
-"Si no ets usuari del Readeck, pots ignorar aquest missatge.\n"
+"Si no ets usuari de Readeck, pots ignorar aquest missatge.\n"
 
 #: internal/auth/signin/x-auth.templ:21
 msgid "Or continue with"
@@ -599,26 +578,23 @@ msgstr "Iniciar la sessió al Readeck"
 
 #: internal/auth/signin/x-auth.templ:52
 msgid "Username or email address"
-msgstr "Nom d'usuari o correu electrònic"
+msgstr "Nom d'usuari o adreça electrònica"
 
 #: internal/auth/signin/x-auth.templ:73
 msgid "Forgot your password?"
 msgstr "Heu oblidat la contrasenya?"
 
 #: internal/auth/signin/x-auth.templ:84
-#, fuzzy
 msgid "Two-factor authentication"
-msgstr "Autenticació"
+msgstr "Autenticació de dos factors"
 
 #: internal/auth/signin/x-auth.templ:91
-#, fuzzy
 msgid "Passcode"
-msgstr "Contrasenya"
+msgstr "Clau d'accés"
 
 #: internal/auth/signin/x-auth.templ:102
-#, fuzzy
 msgid "Verify"
-msgstr "Versió:"
+msgstr "Verificar"
 
 #: internal/auth/signin/x-auth.templ:108 internal/auth/signin/x-auth.templ:144
 #: internal/auth/signin/x-auth.templ:177
@@ -634,7 +610,6 @@ msgid "No worries, it happens to anyone."
 msgstr "Tranquil, li passa a tothom."
 
 #: internal/auth/signin/x-auth.templ:129
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tPlease provide the email address you used to create\n"
@@ -643,10 +618,10 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"        Si us plau, escriu l'adreça de correu que vas fer servir\n"
-"        per crear el teu compte, i t'enviarem un enllaç\n"
-"        per recuperar la contrasenya.\n"
-"      "
+"\t\t\t\t\t\t\tSi us plau, escriu l'adreça electrònica que vas fer servir\n"
+"\t\t\t\t\t\t\tper crear el teu compte, i t'enviarem un missatge amb un enllaç\n"
+"\t\t\t\t\t\t\tper recuperar la contrasenya.\n"
+"\t\t\t\t\t\t"
 
 #: internal/auth/signin/x-auth.templ:140
 msgid "Send me a recovery link"
@@ -657,14 +632,9 @@ msgid "Almost there!"
 msgstr "Gairebé hi som!"
 
 #: internal/auth/signin/x-auth.templ:152
-#, fuzzy, python-format
+#, python-format
 msgid "We have sent an email to <strong>%s</strong> with further instructions."
-msgstr ""
-"\n"
-"        Hem enviat un correu a\n"
-"        <strong>%s</strong>\n"
-"        amb instruccions.\n"
-"      "
+msgstr "Hem enviat un correu a <strong>%s</strong> amb instruccions."
 
 #: internal/auth/signin/x-auth.templ:168 internal/profile/x-security.templ:33
 msgid "New password"
@@ -683,31 +653,26 @@ msgid "Go to the sign in page"
 msgstr "Ves a la pàgina d'entrada"
 
 #: internal/auth/users/forms.go:18
-#, fuzzy
 msgid "username is not valid"
-msgstr "el nom d'usuari no coincideix"
+msgstr "el nom d'usuari no és vàlid"
 
 #: internal/auth/users/forms.go:19
-#, fuzzy
 msgid "username is not available"
-msgstr "el nom d'usuari no coincideix"
+msgstr "el nom d'usuari no està disponible"
 
 #: internal/auth/users/forms.go:34
-#, fuzzy
 msgid "password must be at least 8 characters long"
-msgstr "ha de tenir un mínim de 8 caràcters"
+msgstr "la contrasenya ha de tenir un mínim de 8 caràcters"
 
 #: internal/auth/users/forms.go:89
-#, fuzzy
 msgctxt "role"
 msgid "no group"
-msgstr "Grup"
+msgstr "Sense grup"
 
 #: internal/auth/users/groups.go:14
-#, fuzzy
 msgctxt "role"
 msgid "user"
-msgstr "Usuaris"
+msgstr "usuari"
 
 #: internal/auth/users/groups.go:15
 msgctxt "role"
@@ -716,40 +681,34 @@ msgstr "personal"
 
 # | msgid "%d min"
 #: internal/auth/users/groups.go:16
-#, fuzzy
 msgctxt "role"
 msgid "admin"
-msgstr "%d min"
+msgstr "administrador"
 
 #: internal/auth/users/groups.go:18
-#, fuzzy
 msgctxt "role"
 msgid "Profile : Read Only"
-msgstr "Administració: només lectura"
+msgstr "Perfil: Només lectura"
 
 #: internal/auth/users/groups.go:19
-#, fuzzy
 msgctxt "role"
 msgid "Bookmarks : Read Only"
-msgstr "Marcadors: només lectura"
+msgstr "Marcadors: Només lectura"
 
 #: internal/auth/users/groups.go:20
-#, fuzzy
 msgctxt "role"
 msgid "Bookmarks : Write Only"
-msgstr "Marcadors: només escriptura"
+msgstr "Marcadors: Només escriptura"
 
 #: internal/auth/users/groups.go:21
-#, fuzzy
 msgctxt "role"
 msgid "Admin : Read Only"
-msgstr "Administració: només lectura"
+msgstr "Administració: Només lectura"
 
 #: internal/auth/users/groups.go:22
-#, fuzzy
 msgctxt "role"
 msgid "Admin : Write Only"
-msgstr "Administració: només escriptura"
+msgstr "Administració: Només escriptura"
 
 #: internal/bookmarks/converter/email.go:223
 #, python-format
@@ -807,15 +766,13 @@ msgstr[1] "Lectura de %d minuts aprox."
 #: internal/bookmarks/routes/x-components.templ:164
 #: internal/bookmarks/routes/x-components.templ:208
 #: internal/bookmarks/routes/x-filters.templ:36
-#, fuzzy
 msgid "Note"
-msgstr "No"
+msgstr "Nota"
 
 #: internal/bookmarks/converter/x-epub.templ:83
 #: internal/bookmarks/converter/x-html-public.templ:252
-#, fuzzy
 msgid "Notes"
-msgstr "Rols"
+msgstr "Notes"
 
 #: internal/bookmarks/converter/x-html-public.templ:31
 msgid "Shared link"
@@ -842,9 +799,8 @@ msgstr "Canviar el tema"
 
 # | msgid "Shared by %s"
 #: internal/bookmarks/converter/x-html-public.templ:200
-#, fuzzy
 msgid "Shared by %[1]s with %[2]s"
-msgstr "Compartit per %s amb %s"
+msgstr "Compartit per %[1]s amb %[2]s"
 
 #: internal/bookmarks/importer/browser.go:56
 #: internal/bookmarks/routes/x-import.templ:36
@@ -946,7 +902,6 @@ msgid "Import your Browser's Bookmarks"
 msgstr "Importa els marcadors del teu navegador"
 
 #: internal/bookmarks/importer/x-forms.templ:68
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tIn your web browser, export your bookmarks as an HTML file.<br>\n"
@@ -955,10 +910,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"    Al navegador web, exporta els marcadors com a fitxer HTML.<br>\n"
-"    Puja aquest fitxer al formulari següent i el Readeck crearà i recuperarà\n"
-"    tots els marcadors que hi trobi.\n"
-"  "
+"\t\t\t\t\tAl navegador web, exporta els marcadors com a un fitxer HTML.<br>\n"
+"\t\t\t\t\tPuja aquest fitxer al formulari següent i el Readeck crearà i recuperarà\n"
+"\t\t\t\t\ttots els marcadors que hi trobi al fitxer.\n"
+"\t\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:77
 msgid "Instructions for Firefox"
@@ -981,12 +936,8 @@ msgid "Import Links from a CSV File"
 msgstr "Importa enllaços des d'un arxiu CSV"
 
 #: internal/bookmarks/importer/x-forms.templ:101
-#, fuzzy
 msgid "Upload a CSV file from Instapaper or any CSV that matches the format specified below."
-msgstr ""
-"\n"
-"    Puja un arxiu CSV des d'Instapaper o qualsevol CSV que coincideixi amb el format especificat a continuació.\n"
-"  "
+msgstr "Puja un arxiu CSV des d'Instapaper o qualsevol CSV que coincideixi amb el format especificat a continuació."
 
 # | msgid "From date"
 #: internal/bookmarks/importer/x-forms.templ:107
@@ -994,7 +945,7 @@ msgid "CSV Format"
 msgstr "CSV Format"
 
 #: internal/bookmarks/importer/x-forms.templ:110
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\tThe uploaded file must contain a first row with the column names. Column names are case\n"
@@ -1002,9 +953,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    El fitxer carregat ha de contenir una primera fila amb els noms de les columnes. Els noms de les columnes no distingeixen\n"
-"entre majúscules i minúscules i, excepte <code>%s</code>, totes les columnes són opcionals.\n"
-"  "
+"\t\t\t\tEl fitxer carregat ha de contenir una primera fila amb els noms de les columnes. Els noms de les columnes no distingueixen\n"
+"\t\t\t\tentre majúscules i minúscules i, excepte <code>%s</code>, totes les columnes són opcionals.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:115
 msgid "Here are the columns you can set:"
@@ -1055,37 +1006,24 @@ msgid "Import Links from a GoodLinks export file"
 msgstr "Importa enllaços des d'un arxiu exportat des de GoodLinks"
 
 #: internal/bookmarks/importer/x-forms.templ:164
-#, fuzzy
 msgid "Upload a JSON file obtained from your GoodLinks app."
-msgstr ""
-"\n"
-"    Puja un arxiu JSON obtingut de la teva aplicació GoodLinks.\n"
-"  "
+msgstr "Puja un arxiu JSON obtingut de la teva aplicació GoodLinks."
 
 #: internal/bookmarks/importer/x-forms.templ:173
 msgid "Import Bookmarks from a Linkwarden export file"
 msgstr "Importa enllaços des d'un arxiu exportat des de Linkwarden"
 
 #: internal/bookmarks/importer/x-forms.templ:176
-#, fuzzy
 msgid "Upload a JSON file obtained from your Linkwarden app."
-msgstr ""
-"\n"
-"    Puja un arxiu JSON obtingut de la teva aplicació Linkwarden.\n"
-"  "
+msgstr "Puja un arxiu JSON obtingut de la teva aplicació Linkwarden."
 
 #: internal/bookmarks/importer/x-forms.templ:185
-#, fuzzy
 msgid "Import Links from a Pinboard JSON backup file"
-msgstr "Importa enllaços des d'un arxiu CSV"
+msgstr "Importa enllaços des d'un arxiu JSON de còpia de seguretat de Pinboard"
 
 #: internal/bookmarks/importer/x-forms.templ:188
-#, fuzzy
 msgid "Upload a JSON file obtained from your Pinboard account."
-msgstr ""
-"\n"
-"    Puja un arxiu JSON obtingut de la teva aplicació Linkwarden.\n"
-"  "
+msgstr "Puja un arxiu JSON obtingut del teu compte de Pinboard."
 
 #: internal/bookmarks/importer/x-forms.templ:197
 #: internal/bookmarks/routes/x-import.templ:72
@@ -1093,7 +1031,6 @@ msgid "Import your Pocket Articles"
 msgstr "Importa els teus articles de Pocket"
 
 #: internal/bookmarks/importer/x-forms.templ:200
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a Pocket export file in the form below and Readeck will fetch and save\n"
@@ -1101,9 +1038,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Puja aquest fitxer al formulari següent i el Readeck buscarà i desarà\n"
-"     tots els enllaços que hi hagi trobat.\n"
-"  "
+"\t\t\t\tPuja un fitxer exportat del Pocket al formulari següent i el Readeck buscarà i desarà\n"
+"\t\t\t\ttots els enllaços que hi trobe en l'arxiu.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:212
 msgid "Note: upload the ZIP file directly, not its contents"
@@ -1114,12 +1051,8 @@ msgid "Import Links from Readwise Reader CSV export"
 msgstr "Importa enllaços des d'un arxiu CSV exportat des de Readwise Reader"
 
 #: internal/bookmarks/importer/x-forms.templ:223
-#, fuzzy
 msgid "Upload a CSV file exported from your Readwise Reader account below."
-msgstr ""
-"\n"
-"    Puja un arxiu CSV exportat des del teu compte de Readwise Reader.\n"
-"  "
+msgstr "Puja un arxiu CSV exportat des del teu compte de Readwise Reader."
 
 #: internal/bookmarks/importer/x-forms.templ:229
 msgid "Which information is imported"
@@ -1165,7 +1098,6 @@ msgid "Import Links from a Text File"
 msgstr "Importa enllaços des d'un arxiu de text"
 
 #: internal/bookmarks/importer/x-forms.templ:250
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tUpload a text file that contains one link per line and Readeck will fetch\n"
@@ -1173,9 +1105,9 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Puja un arxiu de text que contingui un enllaç per línia i el Readeck els buscarà tots\n"
-"    i els desarà a la teva llista de marcadors.\n"
-"  "
+"\t\t\t\tPuja un arxiu de text que contingui un enllaç per línia i el Readeck els recollirà\n"
+"\t\t\t\ti els desarà a la teva llista de marcadors.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:260
 #: internal/bookmarks/routes/x-import.templ:93
@@ -1183,7 +1115,6 @@ msgid "Import your Wallabag Articles"
 msgstr "Importa els teus articles de Wallabag"
 
 #: internal/bookmarks/importer/x-forms.templ:263
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tTo import your articles from Wallabag, you must first create an API client\n"
@@ -1192,18 +1123,14 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"    Per importar els vostres articles des de Wallabag, primer has de crear un client API\n"
-"    al menú de <strong>gestió de clients API</strong> de Wallabag. Això et proporcionarà\n"
-"    un <strong>ID de client</strong> i un <strong>secret de client</strong>.\n"
-"  "
+"\t\t\t\tPer importar els vostres articles des de Wallabag, primer deus crear un client API\n"
+"\t\t\t\tal menú de <strong>gestió de clients API</strong> de Wallabag. Això et proporcionarà\n"
+"\t\t\t\tun <strong>ID de client</strong> i un <strong>secret de client</strong>.\n"
+"\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:270
-#, fuzzy
 msgid "You can then enter all the necessary information in the form below."
-msgstr ""
-"\n"
-"    Llavors podeu introduir tota la informació necessària al formulari següent.\n"
-"  "
+msgstr "Llavors podeu introduir tota la informació necessària al formulari següent."
 
 #: internal/bookmarks/importer/x-forms.templ:278
 msgid "Wallabag URL"
@@ -1227,9 +1154,8 @@ msgid "Unable to process input data"
 msgstr "No es poden processar les dades d'entrada"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:279
-#, fuzzy
 msgid "invalid language code"
-msgstr "Clau d'API no vàlida"
+msgstr "codi d'idioma no vàlid"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:284
 msgid "Left to right"
@@ -1395,14 +1321,12 @@ msgstr "Vídeos"
 
 # | msgid "Bookmarks"
 #: internal/bookmarks/routes/views_bookmarks.go:299
-#, fuzzy
 msgid "Bookmark updated"
-msgstr "Títol del marcador"
+msgstr "Marcador actualitzat"
 
 #: internal/bookmarks/routes/views_bookmarks.go:322
-#, fuzzy
 msgid "Update"
-msgstr "Usuari actualitzat."
+msgstr "Actualitzar"
 
 #: internal/bookmarks/routes/views_bookmarks.go:342
 #: internal/bookmarks/routes/x-bookmark.templ:229
@@ -1416,9 +1340,8 @@ msgid "Share by email"
 msgstr "Comparteix mitjançant correu"
 
 #: internal/bookmarks/routes/views_collections.go:39
-#, fuzzy
 msgid "Collection created."
-msgstr "Col·lecció actualitzada."
+msgstr "Col·lecció creada."
 
 #: internal/bookmarks/routes/views_collections.go:66
 msgid "Collection updated."
@@ -1446,7 +1369,6 @@ msgid "You don't have any highlights yet."
 msgstr "Encara no tens cap ressaltat."
 
 #: internal/bookmarks/routes/x-annotations.templ:22
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tOnce you start highlighting parts of your saved articles, they will appear on this page\n"
@@ -1454,9 +1376,9 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"        Quan comencis a ressaltar parts dels teus articles, apareixeran en aquesta pàgina\n"
-"        perquè les puguis trobar fàcilment.\n"
-"      "
+"\t\t\t\t\t\t\tQuan comencis a ressaltar parts dels teus articles desats, apareixeran en aquesta pàgina\n"
+"\t\t\t\t\t\t\tperquè les puguis trobar fàcilment.\n"
+"\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-annotations.templ:29
 #, python-format
@@ -1464,9 +1386,8 @@ msgid "Read more about highlights in the <a class=\"%s\" href=\"%s\">documentati
 msgstr "Llegeix més sobre els ressaltats a la <a class=\"%s\" href=\"%s\">documentació</a>."
 
 #: internal/bookmarks/routes/x-base.templ:27
-#, fuzzy
 msgid "search in bookmarks"
-msgstr "Marcadors arxivats"
+msgstr "cercar en marcadors"
 
 #: internal/bookmarks/routes/x-base.templ:31
 #: internal/bookmarks/routes/x-filters.templ:22
@@ -1577,9 +1498,8 @@ msgid "Save link"
 msgstr "Guarda l'enllaç"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:204
-#, fuzzy
 msgid "\"%[1]s\" is not a valid address. Did you mean to search your bookmarks for %[2]s?"
-msgstr "\"%s\" no és una adreça vàlida. Volies cercar %s als teus marcadors?"
+msgstr "\"%[1]s\" no és una adreça vàlida. Volies cercar %[2]s als teus marcadors?"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:247
 msgid "Readeck Browser Extension"
@@ -1695,9 +1615,8 @@ msgstr "Marcador no trobat"
 
 #: internal/bookmarks/routes/x-bookmark.templ:23
 #: internal/bookmarks/routes/x-bookmark.templ:217
-#, fuzzy
 msgid "Edit bookmark"
-msgstr "Marcadors no llegits"
+msgstr "Editar marcador"
 
 #: internal/bookmarks/routes/x-bookmark.templ:40
 msgid "Bookmark loading"
@@ -1711,9 +1630,8 @@ msgstr "Informació del marcador"
 
 # | msgid "Bookmarks"
 #: internal/bookmarks/routes/x-bookmark.templ:44
-#, fuzzy
 msgid "Bookmark content"
-msgstr "Títol del marcador"
+msgstr "Contingut del marcador"
 
 #: internal/bookmarks/routes/x-bookmark.templ:74
 msgid "Bookmark is loading"
@@ -1738,9 +1656,9 @@ msgstr "Tanca el diàleg"
 # | msgid "Saved with Readeck"
 # | msgid "Saved with"
 #: internal/bookmarks/routes/x-bookmark.templ:218
-#, fuzzy, python-format
+#, python-format
 msgid "Edit: %s"
-msgstr "Desat amb %s"
+msgstr "Editat: %s"
 
 #: internal/bookmarks/routes/x-bookmark.templ:230
 #: internal/bookmarks/routes/x-bookmark.templ:237
@@ -1754,23 +1672,20 @@ msgid "Title"
 msgstr "Títol"
 
 #: internal/bookmarks/routes/x-bookmark.templ:263
-#, fuzzy
 msgid "Site Name"
-msgstr "sense nom del lloc"
+msgstr "Nom del lloc"
 
 #: internal/bookmarks/routes/x-bookmark.templ:268
-#, fuzzy
 msgid "Authors"
-msgstr "Autor"
+msgstr "Autors"
 
 #: internal/bookmarks/routes/x-bookmark.templ:271
 msgid "One value per line"
 msgstr "Un valor per línia"
 
 #: internal/bookmarks/routes/x-bookmark.templ:275
-#, fuzzy
 msgid "Published"
-msgstr "Publicat el %s"
+msgstr "Publicat"
 
 #: internal/bookmarks/routes/x-bookmark.templ:279
 #: internal/bookmarks/routes/x-filters.templ:27
@@ -1779,9 +1694,8 @@ msgid "Language"
 msgstr "Idioma"
 
 #: internal/bookmarks/routes/x-bookmark.templ:289
-#, fuzzy
 msgid "Text Direction"
-msgstr "Autenticació"
+msgstr "Direcció del text"
 
 #: internal/bookmarks/routes/x-bookmark.templ:313
 msgid "You can share the following link with your friends."
@@ -1805,9 +1719,8 @@ msgid "This link is shared with annotations."
 msgstr "Aquest enllaç està compartit amb anotacions."
 
 #: internal/bookmarks/routes/x-bookmark.templ:334
-#, fuzzy
 msgid "Share without annotations"
-msgstr "Partició de mots"
+msgstr "Compartir sense anotacions"
 
 #: internal/bookmarks/routes/x-bookmark.templ:354
 msgid "Copy the link"
@@ -1857,7 +1770,6 @@ msgid "Create a new collection"
 msgstr "Crea una nova col·lecció"
 
 #: internal/bookmarks/routes/x-collections.templ:50
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\tCollections let you easily organize and export your bookmarks\n"
@@ -1868,12 +1780,12 @@ msgid ""
 "\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"          Les col·leccions et permeten organitzar i exportar els teus marcadors\n"
-"          fàcilment desant les sol·licituds de cerca que triïs.\n"
-"          Quan creïs un marcador que coincideixi amb els criteris d'una col·lecció,\n"
-"          hi apareixerà inmediatament.\n"
-"          Heus aquí alguns exemples:\n"
-"        "
+"\t\t\t\t\t\t\t\tLes col·leccions et permeten organitzar i exportar els teus marcadors\n"
+"\t\t\t\t\t\t\t\tfàcilment desant les sol·licituds de cerca que triïs.\n"
+"\t\t\t\t\t\t\t\tQuan creïs un marcador que coincideixi amb els criteris d'una col·lecció,\n"
+"\t\t\t\t\t\t\t\thi apareixerà inmediatament.\n"
+"\t\t\t\t\t\t\t\tAlguns exemples:\n"
+"\t\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-collections.templ:59
 msgid "The unread articles (no photos or videos)"
@@ -1903,9 +1815,8 @@ msgid "Created on: %s"
 msgstr "Creat el: %s"
 
 #: internal/bookmarks/routes/x-collections.templ:97
-#, fuzzy
 msgid "This collection will be removed in a few seconds."
-msgstr "La col·lecció s'eliminarà en breus segons."
+msgstr "La col·lecció s'eliminarà en uns segons."
 
 #: internal/bookmarks/routes/x-collections.templ:107
 #: internal/bookmarks/routes/x-sidebar.templ:131
@@ -1947,7 +1858,7 @@ msgstr "Verd"
 
 #: internal/bookmarks/routes/x-components.templ:144
 msgid "Transparent"
-msgstr ""
+msgstr "Transparent"
 
 #: internal/bookmarks/routes/x-components.templ:151
 msgid "Highlight"
@@ -1972,9 +1883,8 @@ msgid "Play video"
 msgstr "Reprodueix el vídeo"
 
 #: internal/bookmarks/routes/x-components.templ:326
-#, fuzzy
 msgid "Extraction log"
-msgstr "Autenticació"
+msgstr "Registre d'extracció"
 
 #: internal/bookmarks/routes/x-components.templ:330
 #: internal/bookmarks/routes/x-components.templ:381
@@ -2000,9 +1910,8 @@ msgid "Subscribe to this feed by copying the URL below:"
 msgstr "Subscriu-te a aquest canal de continguts copiant la URL següent:"
 
 #: internal/bookmarks/routes/x-components.templ:388
-#, fuzzy
 msgid "Open link"
-msgstr "Copia l'enllaç"
+msgstr "Obrir enllaç"
 
 #: internal/bookmarks/routes/x-components.templ:396
 msgid "Access to this feed is restricted."
@@ -2030,18 +1939,16 @@ msgid "Read more about bookmarks in the <a class=\"%s\" href=\"%s\">documentatio
 msgstr "Llegeix més informació sobre els marcadors a la <a class=\"%s\" href=\"%s\">documentació</a>."
 
 #: internal/bookmarks/routes/x-components.templ:423
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWith the Browser Extension, you can save pages, images and selections\n"
 "\t\tdirectly from your browser!"
 msgstr ""
 "\n"
-"            Amb l'extensió del navegador, pots desar pàgines, imatges i seleccions\n"
-"            directament des del teu navegador!"
+"\t\tAmb l'extensió del navegador, pots desar pàgines, imatges i seleccions\n"
+"\t\tdirectament des del navegador!"
 
 #: internal/bookmarks/routes/x-components.templ:430
-#, fuzzy
 msgid ""
 "\n"
 "\t\tWould you like to import from a similar tool or from a file with existing bookmarks?\n"
@@ -2049,9 +1956,9 @@ msgid ""
 "\t"
 msgstr ""
 "\n"
-"              Vols importar des d'una eina similar o des d'un arxiu amb marcadors existents?\n"
-"              Prova l'eina d'importació del Readeck.\n"
-"            "
+"\t\tVols importar des d'una eina similar o des d'un arxiu amb marcadors existents?\n"
+"\t\tProva l'eina d'importació del Readeck.\n"
+"\t"
 
 #: internal/bookmarks/routes/x-filters.templ:24
 msgid "Author"
@@ -2062,16 +1969,14 @@ msgid "Site"
 msgstr "Lloc web"
 
 #: internal/bookmarks/routes/x-filters.templ:37
-#, fuzzy
 msgctxt "date"
 msgid "Since"
-msgstr "Mida"
+msgstr "Des de"
 
 #: internal/bookmarks/routes/x-filters.templ:41
-#, fuzzy
 msgctxt "date"
 msgid "Until"
-msgstr "Títol"
+msgstr "Fins a"
 
 #: internal/bookmarks/routes/x-filters.templ:45
 msgid "Type"
@@ -2099,9 +2004,8 @@ msgid "With Labels"
 msgstr "Amb etiquetes"
 
 #: internal/bookmarks/routes/x-filters.templ:56
-#, fuzzy
 msgid "With Notes"
-msgstr "Amb etiquetes"
+msgstr "Amb notes"
 
 #: internal/bookmarks/routes/x-filters.templ:57
 msgid "With Errors"
@@ -2138,26 +2042,20 @@ msgid "Import your Linkwarden Bookmarks"
 msgstr "Importa els teus marcadors de Linkwarden"
 
 #: internal/bookmarks/routes/x-import.templ:65
-#, fuzzy
 msgid "Import your Pinboard bookmarks"
-msgstr "Importa els teus marcadors de Linkwarden"
+msgstr "Importa els teus marcadors de Pinboard"
 
 #: internal/bookmarks/routes/x-import.templ:79
 msgid "Import your Readwise Reader Library"
 msgstr "Importa la teva llibreria de Readwise Reader"
 
 #: internal/bookmarks/routes/x-import.templ:100
-#, fuzzy
 msgid "Here you can import your existing bookmark collection from various sources into Readeck."
-msgstr ""
-"\n"
-"    Aquí pots importar la teva col·lecció de marcadors des de diverses fonts al Readeck.\n"
-"  "
+msgstr "Aquí pots importar la teva col·lecció de marcadors des de diverses fonts al Readeck."
 
 #: internal/bookmarks/routes/x-import.templ:125
-#, fuzzy
 msgid "Import status"
-msgstr "Importar"
+msgstr "Importar estat"
 
 #: internal/bookmarks/routes/x-import.templ:145
 msgid "Import operation will launch momentarily."
@@ -2176,23 +2074,21 @@ msgid "Import is finished!"
 msgstr "L'importació ha acabat!"
 
 #: internal/bookmarks/routes/x-import.templ:165
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\tYour bookmarks are now available in your <a class=\"%s\" href=\"%s\">bookmark list</a>.\n"
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"      Els teus marcadors ja estan disponibles a la teva <a class=\"%s\" href=\"%s\">llista de marcadors</a>.\n"
-"      "
+"\t\t\t\t\t\tEls teus marcadors estan disponibles a la teva <a class=\"%s\" href=\"%s\">llista de marcadors</a>.\n"
+"\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:27
-#, fuzzy
 msgid "Bookmarks Labels"
 msgstr "Etiquetes dels marcadors"
 
 #: internal/bookmarks/routes/x-labels.templ:31
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tLabels let your organize your bookmarks the way you want.\n"
@@ -2200,26 +2096,25 @@ msgid ""
 "\t\t\t"
 msgstr ""
 "\n"
-"  Les etiquetes et permeten organitzar els teus marcadors com vulguis.\n"
-"Pots definir qualsevol cosa com una etiqueta, fins i tot emojis!\n"
+"\t\t\t\tLes etiquetes et permeten organitzar els teus marcadors com vulguis.\n"
+"\t\t\t\tPots definir qualsevol cosa com una etiqueta, fins i tot emojis!\n"
+"\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:128
 msgid "Label will be removed in a few seconds."
 msgstr "L'etiqueta s'esborrarà en uns segons."
 
 #: internal/bookmarks/routes/x-reader-control.templ:27
-#, fuzzy
 msgid "Display options"
-msgstr "Opcions d'ordenació"
+msgstr "Opcions de visualització"
 
 #: internal/bookmarks/routes/x-reader-control.templ:34
 msgid "Width"
 msgstr "Amplada"
 
 #: internal/bookmarks/routes/x-reader-control.templ:35
-#, fuzzy
 msgid "Current Width"
-msgstr "Contrasenya actual"
+msgstr "Amplària actual"
 
 #: internal/bookmarks/routes/x-reader-control.templ:36
 msgid "Decrease width"
@@ -2238,42 +2133,36 @@ msgid "Current font size"
 msgstr "Mida de font actual"
 
 #: internal/bookmarks/routes/x-reader-control.templ:44
-#, fuzzy
 msgid "Decrease font size"
-msgstr "Creat el: %s"
+msgstr "Reduir mida de font"
 
 #: internal/bookmarks/routes/x-reader-control.templ:45
-#, fuzzy
 msgid "Increase font size"
-msgstr "Creat el: %s"
+msgstr "Augmentar mida de font"
 
 #: internal/bookmarks/routes/x-reader-control.templ:50
 msgid "Line height"
 msgstr "Interlineat"
 
 #: internal/bookmarks/routes/x-reader-control.templ:51
-#, fuzzy
 msgid "Current line height"
-msgstr "Interlineat"
+msgstr "Interlineat actual"
 
 #: internal/bookmarks/routes/x-reader-control.templ:52
-#, fuzzy
 msgid "Decrease line height"
-msgstr "Interlineat"
+msgstr "Reduir l'interlineat"
 
 #: internal/bookmarks/routes/x-reader-control.templ:53
-#, fuzzy
 msgid "Increase line height"
-msgstr "Interlineat"
+msgstr "Augmentar l'interlineat"
 
 #: internal/bookmarks/routes/x-reader-control.templ:58
 msgid "Justify"
 msgstr "Justifica"
 
 #: internal/bookmarks/routes/x-reader-control.templ:59
-#, fuzzy
 msgid "Justify text"
-msgstr "Justifica"
+msgstr "Justificar el text"
 
 #: internal/bookmarks/routes/x-reader-control.templ:60
 msgid "Don't justify text"
@@ -2284,14 +2173,12 @@ msgid "Hyphenation"
 msgstr "Partició de mots"
 
 #: internal/bookmarks/routes/x-reader-control.templ:66
-#, fuzzy
 msgid "With hyphenation"
-msgstr "Partició de mots"
+msgstr "Amb partició de mots"
 
 #: internal/bookmarks/routes/x-reader-control.templ:67
-#, fuzzy
 msgid "Without hyphenation"
-msgstr "Partició de mots"
+msgstr "Sense partició de mots"
 
 #: internal/bookmarks/routes/x-reader-control.templ:82
 msgid "Font"
@@ -2302,15 +2189,14 @@ msgid "Errors occurred during extraction."
 msgstr "S'han produït errors durant l'extracció."
 
 #: internal/bookmarks/routes/x-sidebar.templ:51
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tDepending on the error, Readeck's browser extension may provide\n"
 "\t\t\t\t\t\ta workaround."
 msgstr ""
 "\n"
-"          Depenent de l'error, l'extensió del navegador de Readeck pot proporcionar\n"
-"          una solució alternativa."
+"\t\t\t\t\t\tDepenent de l'error, l'extensió del navegador del Readeck pot proporcionar\n"
+"\t\t\t\t\t\tuna solució alternativa."
 
 #: internal/bookmarks/routes/x-sidebar.templ:67
 msgid "View log"
@@ -2357,9 +2243,8 @@ msgid "Start selecting text in the article to create a new highlight."
 msgstr "Comença a seleccionar text de l'article per crear un nou ressaltat."
 
 #: internal/bookmarks/routes/x-sidebar.templ:440
-#, fuzzy
 msgid "Delete highlight"
-msgstr "Ressaltar"
+msgstr "Esborrar el ressaltat"
 
 #: internal/bookmarks/routes/x-sidebar.templ:458
 msgid "Links"
@@ -2375,9 +2260,8 @@ msgid "All Bookmarks"
 msgstr "Tots els marcadors"
 
 #: internal/dashboard/x-dashboard.templ:72
-#, fuzzy
 msgid "Readeck"
-msgstr "Ajuda del Readeck"
+msgstr "Readeck"
 
 #: internal/dashboard/x-dashboard.templ:74 internal/profile/views.go:98
 #: internal/profile/views.go:151 internal/profile/views.go:187
@@ -2392,19 +2276,16 @@ msgid "Help"
 msgstr "Ajuda"
 
 #: internal/dashboard/x-dashboard.templ:146
-#, fuzzy
 msgid "Archived"
-msgstr "Arxivats"
+msgstr "Arxivat"
 
 #: internal/dashboard/x-dashboard.templ:201
-#, fuzzy
 msgid "See all"
-msgstr "Tots"
+msgstr "Vore tots"
 
 #: internal/dashboard/x-dashboard.templ:224
-#, fuzzy
 msgid "Applications for Readeck"
-msgstr "Aplicació"
+msgstr "Aplicacions pel Readeck"
 
 #: internal/dashboard/x-dashboard.templ:226
 msgid ""
@@ -2419,14 +2300,12 @@ msgstr ""
 "\t\t\t\ten altres aplicacions mitjançant plugins."
 
 #: internal/dashboard/x-dashboard.templ:236
-#, fuzzy
 msgid "Discover applications"
-msgstr "Aplicació"
+msgstr "Descobrir aplicacions"
 
 #: internal/dashboard/x-dashboard.templ:243
-#, fuzzy
 msgid "Readeck in your Browser"
-msgstr "Extensió del Readeck pel navegador"
+msgstr "Readeck en el navegador"
 
 #: internal/docs/http.go:257 internal/docs/x-about.templ:53
 #: internal/docs/x-base.templ:43
@@ -2438,7 +2317,6 @@ msgid "Version:"
 msgstr "Versió:"
 
 #: internal/docs/x-about.templ:58
-#, fuzzy
 msgid "Build Date:"
 msgstr "Data de compilació:"
 
@@ -2459,38 +2337,32 @@ msgid "Database Size:"
 msgstr "Mida de la base de dades:"
 
 #: internal/docs/x-about.templ:83
-#, fuzzy
 msgid "Bookmarks Disk Usage:"
-msgstr "El marcador s'està carregant"
+msgstr "Ús de disc dels marcadors:"
 
 #: internal/docs/x-about.templ:88
 msgid "Project"
 msgstr "Projecte"
 
 #: internal/docs/x-about.templ:91
-#, fuzzy
 msgid "Main website:"
-msgstr "Lloc web principal"
+msgstr "Lloc web principal:"
 
 #: internal/docs/x-about.templ:95
-#, fuzzy
 msgid "Sources and issues:"
-msgstr "Codi i incidències"
+msgstr "Codi i incidències:"
 
 #: internal/docs/x-about.templ:99
-#, fuzzy
 msgid "How to contribute:"
-msgstr "Com contribuir"
+msgstr "Com contribuir:"
 
 #: internal/docs/x-about.templ:103
-#, fuzzy
 msgid "Community Forum:"
-msgstr "Fòrum de la comunitat"
+msgstr "Fòrum de la comunitat:"
 
 #: internal/docs/x-about.templ:107
-#, fuzzy
 msgid "Matrix Chat:"
-msgstr "Xat de Matrix"
+msgstr "Xat de Matrix:"
 
 #: internal/docs/x-about.templ:111
 msgid "License"
@@ -2619,15 +2491,13 @@ msgid "Verification Code is now enabled."
 msgstr "Codi de verificació està habilitat."
 
 #: internal/profile/views.go:189
-#, fuzzy
 msgid "Verification Code"
-msgstr "Modificació"
+msgstr "Codi de verificació"
 
 #: internal/profile/views.go:229 internal/profile/x-applications.templ:10
 #: internal/profile/x-base.templ:33
-#, fuzzy
 msgid "Applications"
-msgstr "Aplicació"
+msgstr "Aplicacions"
 
 #: internal/profile/views.go:240 internal/profile/views.go:291
 #: internal/profile/x-base.templ:39
@@ -2663,16 +2533,21 @@ msgid ""
 "\t\t\t\t\tyou can revoke its access.\n"
 "\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\tLes aplicacions son clients registrats que tenen permís per a accedir al teu compte del Readeck.\n"
+"\t\t\t\t\tSi hi trobes aplicacions que no reconeixes ací, o alguna no funciona com toca,\n"
+"\t\t\t\t\tpots anul·lar el seu accés.\n"
+"\t\t\t\t"
 
 #: internal/profile/x-applications.templ:23
 msgid "You have no registered application at the moment."
-msgstr ""
+msgstr "No tens ninguna aplicació registrada ara mateix."
 
 # | msgid "Created on: %s"
 #: internal/profile/x-applications.templ:46
-#, fuzzy, python-format
+#, python-format
 msgid "Authorized on: %s"
-msgstr "Últim ús: %s"
+msgstr "Autoritzat el: %s"
 
 # | msgid "Created on: %s"
 #: internal/profile/x-applications.templ:52 internal/profile/x-tokens.templ:63
@@ -2681,19 +2556,16 @@ msgid "Last used on: %s"
 msgstr "Últim ús: %s"
 
 #: internal/profile/x-applications.templ:73
-#, fuzzy
 msgid "This client will be revoked in a few seconds."
-msgstr "Aquest testimoni s'esborrarà en uns segons."
+msgstr "Aquest client s'anul·larà en uns segons."
 
 #: internal/profile/x-applications.templ:94
-#, fuzzy
 msgid "Revoke application"
-msgstr "Aplicació"
+msgstr "Anul·lar aplicació"
 
 #: internal/profile/x-applications.templ:105
-#, fuzzy
 msgid "Developer information"
-msgstr "Informació del marcador"
+msgstr "Informació del desenvolupador"
 
 #: internal/profile/x-applications.templ:107
 #, python-format
@@ -2703,6 +2575,10 @@ msgid ""
 "\t\t\t\t\t\t\t<a href=\"%s\">API Documentation</a>.\n"
 "\t\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\t\tSi vols desenvolupar una aplicació, sisplau consulta la\n"
+"\t\t\t\t\t\t\t<a href=\"%s\">documentació d'API</a>.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-export.templ:23
 msgid "Bookmark List in Browser Bookmarks Format"
@@ -2717,7 +2593,6 @@ msgid "Export your Readeck Profile"
 msgstr "Exporta el teu perfil del Readeck"
 
 #: internal/profile/x-export.templ:41
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\tThis lets you download a zip file containing all your profile's data, including\n"
@@ -2725,9 +2600,9 @@ msgid ""
 "\t\t\t\t\t"
 msgstr ""
 "\n"
-"    Això et permet descarregar un fitxer zip que conté totes les dades del teu perfil,\n"
-"    incloent-hi els marcadors, les col·leccions, etc.\n"
-"    "
+"\t\t\t\t\t\tAixò et permet descarregar un fitxer zip que conté totes les dades del teu perfil,\n"
+"\t\t\t\t\t\tincloent-hi els marcadors, les col·leccions, etc.\n"
+"\t\t\t\t\t"
 
 #: internal/profile/x-export.templ:47
 msgid "Export Data"
@@ -2758,7 +2633,6 @@ msgid "Attention"
 msgstr "Atenció"
 
 #: internal/profile/x-import.templ:34
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tThis will empty your current profile and all its data will be\n"
@@ -2766,16 +2640,16 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"      Això buidarà el teu perfil actual i totes les teves dades\n"
-"      seran substituïdes pel contingut del fitxer.\n"
-"      "
+"\t\t\t\t\t\t\tAixò buidarà el teu perfil actual i totes les teves dades\n"
+"\t\t\t\t\t\t\tseran substituïdes pel contingut del fitxer.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-import.templ:46
 msgid "Import bookmarks from other services"
 msgstr "Importa marcadors des d'altres serveis"
 
 #: internal/profile/x-import.templ:49
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\tIf you have bookmarks from another service you can import them in the\n"
@@ -2783,18 +2657,18 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"  Si teniu marcadors d'un altre servei, els podeu importar a la\n"
-"  <a href=\"%s\">secció dedicada</a>.\n"
-"  "
+"\t\t\t\t\t\tSi teniu marcadors d'un altre servei, els podeu importar a la\n"
+"\t\t\t\t\t\t<a href=\"%s\">secció dedicada</a>.\n"
+"\t\t\t\t\t\t"
 
 #: internal/profile/x-profile.templ:17 internal/profile/x-security.templ:16
 msgid "My profile"
 msgstr "El meu perfil"
 
 #: internal/profile/x-profile.templ:25
-#, fuzzy, python-format
+#, python-format
 msgid "You are connected as <strong>%s</strong>"
-msgstr "El teu terme de cerca ha donat <strong>%d resultat</strong>."
+msgstr "Estàs connectat com a <strong>%s</strong>"
 
 #: internal/profile/x-profile.templ:40
 msgid "Base settings"
@@ -2802,7 +2676,7 @@ msgstr "Ajustos bàsics"
 
 #: internal/profile/x-profile.templ:49
 msgid "Email Address"
-msgstr "Correu electrònic"
+msgstr "Adreça electrònica"
 
 #: internal/profile/x-profile.templ:72
 msgid "Email settings"
@@ -2814,7 +2688,7 @@ msgstr "Respon a"
 
 #: internal/profile/x-profile.templ:77
 msgid "Add this email address in your outgoing emails so recipients can reply."
-msgstr "Afegeix aquesta adreça de correu electrònic als teus correus sortints perquè els destinataris puguin respondre."
+msgstr "Afegeix aquesta adreça electrònica als teus correus sortints perquè els destinataris puguin respondre."
 
 #: internal/profile/x-profile.templ:81
 msgid "Send EPUB to"
@@ -2822,15 +2696,13 @@ msgstr "Enviar EPUB a"
 
 #: internal/profile/x-profile.templ:83
 msgid "This address is used to prefill the recipient when you send an e-book by email."
-msgstr "Aquesta adreça s'utilitza per omplir prèviament el destinatari quan envieu un llibre electrònic per correu."
+msgstr "Aquesta adreça s'utilitza per omplir prèviament el destinatari quan envies un llibre electrònic per correu."
 
 #: internal/profile/x-profile.templ:90
-#, fuzzy
 msgid "Sending e-books to an Amazon Kindle"
-msgstr "Enviar el llibre electrònic per correu"
+msgstr "Enviant llibres electrònics a un Kindle d'Amazon"
 
 #: internal/profile/x-profile.templ:93
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t\t\t\tIf you plan to send e-books to a Kindle device, you must approve the\n"
@@ -2838,9 +2710,9 @@ msgid ""
 "\t\t\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"          Si tens previst enviar llibres electrònics a un dispositiu Kindle, has d'aprovar\n"
-"          la següent adreça de correu electrònic dins del teu compte Kindle:\n"
-"          "
+"\t\t\t\t\t\t\t\t\t\tSi tens previst enviar llibres electrònics a un dispositiu Kindle, has d'aprovar\n"
+"\t\t\t\t\t\t\t\t\t\tla següent adreça electrònica dins del teu compte Kindle:\n"
+"\t\t\t\t\t\t\t\t\t"
 
 #: internal/profile/x-security.templ:25
 msgid "Change my password"
@@ -2852,76 +2724,67 @@ msgstr "Contrasenya actual"
 
 #: internal/profile/x-security.templ:49
 msgid "Verification Code (TOTP)"
-msgstr ""
+msgstr "Codi de verificació (TOTP)"
 
 #: internal/profile/x-security.templ:50
 msgid "A verification code is a one time code generated by an application, such as Google Authenticator."
-msgstr ""
+msgstr "Un codi de verificació és una contrasenya d'un sol ús generada per una aplicació, com per exemple Google Authenticator."
 
 #: internal/profile/x-security.templ:55
 msgid "The verification code is enabled on this account."
-msgstr ""
+msgstr "El codi de verificació està habilitat en aquest compte."
 
 #: internal/profile/x-security.templ:59
-#, fuzzy
 msgid "Remove Verification Code"
-msgstr "Modificació"
+msgstr "Eliminar codi de verificació"
 
 #: internal/profile/x-security.templ:61
 msgid "Removing your verification code will make your account less secure."
-msgstr ""
+msgstr "Revocar el codi de verificació farà que el teu compte siga menys segur."
 
 #: internal/profile/x-security.templ:67
-#, fuzzy
 msgid "Remove"
-msgstr "elimina"
+msgstr "Eliminar"
 
 #: internal/profile/x-security.templ:75 internal/profile/x-security.templ:85
-#, fuzzy
 msgid "Setup Verification Code"
-msgstr "Modificació"
+msgstr "Configurar codi de verificació"
 
 #: internal/profile/x-security.templ:91
 msgid "Scan this QR code with your app"
-msgstr ""
+msgstr "Escaneja aquest codi QR amb la teva aplicació"
 
 #: internal/profile/x-security.templ:92
 msgid "Scan the QR code below with a two-factor authentication app on your phone."
-msgstr ""
+msgstr "Escaneja aquest codi QR amb una aplicació de autenticació de dos factors al teu mòvil."
 
 #: internal/profile/x-security.templ:101
 msgid "If you can't use the QR code, enter the code below instead."
-msgstr ""
+msgstr "Si no pots utilitzat el codi QR, pots introduir el codi següent."
 
 #: internal/profile/x-security.templ:104
-#, fuzzy
 msgid "Enter the code from your application."
-msgstr "Introduïu el codi que es mostra al vostre dispositiu"
+msgstr "Introduïu el codi que es mostra a l'aplicació."
 
 #: internal/profile/x-security.templ:106
 msgid "After scanning the QR code, the app will display a six-digit code that you need to enter below."
-msgstr ""
+msgstr "Després d'escanejar el codi QR, l'aplicació et mostrarà un codi de sis dígits que deus escriure a continuació."
 
 #: internal/profile/x-security.templ:109
-#, fuzzy
 msgid "Code from your device"
-msgstr "Confirma el teu nom d'usuari"
+msgstr "Codi del dispositiu"
 
 #: internal/profile/x-security.templ:115
 msgid "Finish"
-msgstr ""
+msgstr "Finalitzar"
 
 #: internal/profile/x-tokens.templ:13
 msgid "My API Tokens"
 msgstr "Els meus testimonis d'API"
 
 #: internal/profile/x-tokens.templ:17
-#, fuzzy
 msgid "An API Token is a key that grants you access to the Readeck API."
-msgstr ""
-"\n"
-"  Un testimoni d'API és una clau que concedeix (a tu o a una eina, p. ex. una extensió del navegador),\n"
-"  accés a l'API del Readeck.\n"
+msgstr "Un testimoni d'API és una clau que et concedeix accés a l'API del Readeck."
 
 #: internal/profile/x-tokens.templ:19
 #, python-format
@@ -2976,7 +2839,6 @@ msgid "Roles"
 msgstr "Rols"
 
 #: internal/profile/x-tokens.templ:142
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\t\tYou can limit the permissions granted to this token by choosing one or more\n"
@@ -2985,10 +2847,10 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 "\n"
-"    Podeu limitar els permisos concedits a aquest testimoni seleccionant un o més\n"
-"    grups de permisos a continuació.<br>\n"
-"    Deixeu totes les opcions en blanc per concedir tots els permisos a aquest testimoni.\n"
-"  "
+"\t\t\t\t\tPodeu limitar els permisos concedits a aquest testimoni seleccionant un o més\n"
+"\t\t\t\t\tgrups de permisos a continuació.<br>\n"
+"\t\t\t\t\tDeixeu totes les opcions en blanc per concedir tots els permisos a aquest testimoni.\n"
+"\t\t\t\t"
 
 #: internal/profile/x-tokens.templ:158
 msgid "Delete token"
@@ -3039,15 +2901,16 @@ msgid "Alternatively, you can use this token as a password for HTTP Basic Authen
 msgstr "Alternativament, podeu utilitzar aquest testimoni com a contrasenya per a l'autenticació bàsica HTTP."
 
 #: internal/profile/x-tokens.templ:222
-#, fuzzy
 msgid ""
 "\n"
 "\t\t\t\tFor example, if an application only accepts a username and password, you can provide this token as a password.\n"
 "\t\t\t\tThe username is ignored and can be anything, including an empty value.\n"
 "\t\t\t"
 msgstr ""
-"Per exemple, si una aplicació només accepta un nom d'usuari i una contrasenya, podeu proporcionar aquest testimoni com a contrasenya.\n"
-"  El nom d'usuari s'ignora i pot ser quelcom, fins i tot un valor buit."
+"\n"
+"\t\t\t\tPer exemple, si una aplicació només accepta un nom d'usuari i una contrasenya, podeu proporcionar aquest testimoni com a contrasenya.\n"
+"\t\t\t\tEl nom d'usuari s'ignora i pot ser quelcom, fins i tot un valor buit.\n"
+"\t\t\t"
 
 #: pkg/forms/forms.go:28
 msgid "an unexpected error has occurred"
@@ -3059,36 +2922,36 @@ msgstr "camp obligatori"
 
 #: pkg/forms/validators.go:19
 msgid "not a valid email address"
-msgstr "adreça de correu electrònic no vàlida"
+msgstr "adreça electrònica no vàlida"
 
 #: pkg/forms/validators.go:20
 msgid "invalid URL"
 msgstr "URL no vàlida"
 
 #: pkg/forms/validators.go:290
-#, fuzzy, python-format
+#, python-format
 msgid "must be greater or equal than %g"
-msgstr "ha de ser major o igual a %d"
+msgstr "ha de ser major o igual a %g"
 
 #: pkg/forms/validators.go:307
-#, fuzzy, python-format
+#, python-format
 msgid "must be lower or equal than %g"
-msgstr "ha de ser menor o igual a %d"
+msgstr "ha de ser menor o igual a %g"
 
 #: pkg/forms/validators.go:315
-#, fuzzy, python-format
+#, python-format
 msgid "text must contain at least %d characters"
-msgstr "ha de tenir un mínim de 8 caràcters"
+msgstr "el text deu tenir un mínim de %d caràcters"
 
 #: pkg/forms/validators.go:323
-#, fuzzy, python-format
+#, python-format
 msgid "text must contain at most %d characters"
-msgstr "ha de tenir un mínim de 8 caràcters"
+msgstr "el text deu tenir un màxim de %d caràcters"
 
 #: pkg/forms/validators.go:331
 #, python-format
 msgid "text must contain %d characters"
-msgstr ""
+msgstr "el text deu contenir %d caràcters"
 
 #: pkg/forms/validators.go:394
 #, python-format
