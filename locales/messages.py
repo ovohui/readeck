@@ -9,6 +9,7 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+import os
 import re
 import sys
 from argparse import ArgumentParser
@@ -41,6 +42,14 @@ CATALOG_OPTIONS = {
     "last_translator": "Readeck <translate@readeck.com>",
     "language_team": "Readeck <translate@readeck.com>",
 }
+
+
+if os.environ.get("TRANSLATION_CUTOFF", None) is not None:
+    c = os.environ.get("TRANSLATION_CUTOFF")
+    if re.match(r"^[0-9]+$", c) is not None:
+        COMPLETION_CUTOFF = int(c)
+    elif re.match(r"^[0-9]\.[0-9]+$", c) is not None:
+        COMPLETION_CUTOFF = float(c)
 
 
 def tok(name: str):
@@ -303,6 +312,11 @@ def compile(_):
     with (translations / "messages.pot").open("rb") as fp:
         template = read_po(fp)
     total_strings = len(template)
+
+    if isinstance(COMPLETION_CUTOFF, float):
+        print(f"::: completion cutoff: untranslated > {COMPLETION_CUTOFF * 100}%\n")
+    else:
+        print(f"::: completion cutoff: untranslated > {COMPLETION_CUTOFF} strings\n")
 
     for po_file in sorted(po_files):
         code = po_file.parent.name
