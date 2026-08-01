@@ -20,6 +20,7 @@ from babel.messages.mofile import write_mo
 from babel.messages.pofile import read_po, write_po
 
 # Maximum number of untranslated strings.
+# Can be a float (percentage) or an int (fixed number of strings)
 COMPLETION_CUTOFF = 30
 
 HERE = Path(__file__).parent
@@ -335,7 +336,14 @@ def compile(_):
         count_info = "{:>4}|{:<4} {:>4}%".format(
             total_strings, total_strings - nb_translated, round(pct * 100)
         )
-        if total_strings - nb_translated > COMPLETION_CUTOFF:
+
+        do_compile = False
+        if isinstance(COMPLETION_CUTOFF, float):
+            do_compile = pct >= 1 - COMPLETION_CUTOFF
+        elif isinstance(COMPLETION_CUTOFF, int):
+            do_compile = total_strings - nb_translated <= COMPLETION_CUTOFF
+
+        if not do_compile:
             print("[-] {:8} {}".format(code, count_info))
             continue
 

@@ -19,8 +19,9 @@ from babel.messages.catalog import Catalog, Locale
 from babel.messages.extract import extract_from_file
 from babel.messages.pofile import read_po, write_po
 
-# Percentage of translated content under which a translation won't be loaded.
-COMPLETION_CUTOFF = 0.90
+# Maximum number of untranslated strings.
+# Can be a float (percentage) or an int (fixed number of strings)
+COMPLETION_CUTOFF = 0.10
 
 HERE = Path(__file__).parent
 ROOT = HERE / "src"
@@ -190,7 +191,14 @@ def generate(_):
         count_info = "{:>4}|{:<4} {:>4}%".format(
             total_strings, total_strings - nb_translated, round(pct * 100)
         )
-        if round(pct, 2) < COMPLETION_CUTOFF:
+
+        do_compile = False
+        if isinstance(COMPLETION_CUTOFF, float):
+            do_compile = pct >= 1 - COMPLETION_CUTOFF
+        elif isinstance(COMPLETION_CUTOFF, int):
+            do_compile = total_strings - nb_translated <= COMPLETION_CUTOFF
+
+        if not do_compile:
             print("[-] {:8} {}".format(code, count_info))
             continue
 
