@@ -22,7 +22,7 @@ templ (c ReaderControlComponent) controls() {
 		data-request-url-value={ URL(ctx, "/profile/session") }
 		data-request-method-value="patch"
 	>
-		<summary role="button">
+		<summary role="button" title={ L(ctx).Gettext("Display options") }>
 			@Icon("o-font-family", WithIconClass("inline-block"), WithIconSvgClass("h-6 w-6"))
 			<span class="sr-only">{ L(ctx).Gettext("Display options") }</span>
 		</summary>

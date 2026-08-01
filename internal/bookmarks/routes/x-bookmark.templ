@@ -107,14 +107,17 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 					<div class="flex flex-col gap-4 items-center">
 						<a
 							href={ URL(ctx, "/bookmarks/unread") }
+							title={ L(ctx).Gettext("Go back") }
 							data-controller="history"
 							data-action="history#back"
 							class="p-2 rounded-full w-8 h-8 border border-bg-100 inline-flex items-center justify-center"
 						>
 							@Icon("o-chevron-l", WithIconClass("inline-block"), WithIconSvgClass("w-6 h-6"))
+							<span class="sr-only">{ L(ctx).Gettext(("Go back")) }</span>
 						</a>
 						<a
 							href={ URL(ctx, "/bookmarks", item.UID, "update") }
+							title={ L(ctx).Gettext("Edit") }
 							data-controller="dialog"
 							data-dialog-select-value="#bookmark-update-dialog"
 							data-action="scroll-progress#skip dialog#open:prevent"
