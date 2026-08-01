@@ -8,9 +8,6 @@ on:
       translation_cutoff:
         description: |
           Translation cutoff.
-
-          Do not generate translations with more than the given untranslated strings.
-          In percent (0.1 = 10%) or a fixed number of strings (20, 100, etc.)
         type: string
         required: false
         default: ""
