@@ -4,6 +4,14 @@ name: Readeck Build
 run-name: ${{ github.actor }} build
 on:
   workflow_dispatch:
+    inputs:
+      translation_cutoff:
+        description: |
+          Do not generate translations with more than the given untranslated strings.
+          In percent (0.1 = 10%) or a fixed number of strings (20, 100, etc.)
+        type: string
+        required: false
+        default: ""
 
 jobs:
   tests:
@@ -41,7 +49,7 @@ jobs:
 
       - name: Generate assets
         run: |
-          make setup generate
+          make TRANSLATION_CUTOFF=${{ inputs.translation_cutoff }} setup generate
 
       - name: Copy workdir
         run: |
