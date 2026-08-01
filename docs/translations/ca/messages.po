@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-22 09:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:51+0000\n"
-"Last-Translator: Anonymous <anonymous@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-07-31 21:25+0000\n"
+"Last-Translator: greyluked <greyluked@noreply.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/readeck/documentation/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.7.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -259,7 +259,6 @@ msgid "You can combine the following filters:"
 msgstr "Pots combinar els filtres següents:"
 
 #: en/bookmark-list.md:114
-#, fuzzy
 msgid ""
 "- **Search**\\\n"
 "  Search in the bookmark's text, its title, its authors, its site name and domain and the labels.\n"
@@ -281,19 +280,23 @@ msgid ""
 "  This last filters let you restrict from when and to when the bookmark was saved. For example, this lets you retrieve the bookmark list saved during the past 4 weeks but not after the last week."
 msgstr ""
 "- **Cerca**\\\n"
-"Cerca al text del marcador, al seu títol, als seus autors, al nom i domini del lloc web i a les etiquetes.\n"
+"  Cerca al text del marcador, al seu títol, als seus autors, al nom i domini del lloc web i a les etiquetes.\n"
 "- **Títol**\\\n"
-"Cerca només al títol.\n"
+"  Cerca només al títol.\n"
 "- **Autor**\\\n"
-"Cerca només a la llista d'autors.\n"
+"  Cerca només a la llista d'autors.\n"
 "- **Lloc web**\\\n"
-"Cerca al títol del lloc web i al nom de domini del lloc web.\n"
+"  Cerca al títol del lloc web i al nom de domini del lloc web.\n"
+"-**Idioma**\\\n"
+"  Filtrar la llista per l'idioma del marcador com a codi de dos lletres.\n"
 "- **Etiqueta**\\\n"
-"Cerca etiquetes específiques.\n"
+"  Cerca etiquetes específiques.\n"
+"-**Nota**\\\n"
+"  Cerca una nota o anotació.\n"
 "- **És preferit**, **Està arxivat**, **Tipus**\\\n"
-"Aquests filtres permeten restringir la cerca a qualsevol d'aquests criteris.\n"
+"  Aquests filtres permeten restringir la cerca a qualsevol d'aquests criteris.\n"
 "- **Data d'inici**, **Data de finalització**\\\n"
-"Aquests últims filtres permeten restringir des de quan i fins a quan es va desar el marcador. Per exemple, això permet recuperar la llista de marcadors desats durant les últimes 4 setmanes, però no després de la setmana passada."
+"  Aquests últims filtres permeten restringir des de quan i fins a quan es va desar el marcador. Per exemple, això permet recuperar la llista de marcadors desats durant les últimes 4 setmanes, però no després de la setmana passada."
 
 #: en/bookmark-list.md:133
 msgid "### Search query"
@@ -386,14 +389,12 @@ msgid "## Navigation and presentation settings"
 msgstr "## Configuració de la navegació i la presentació"
 
 #: en/bookmark.md:32
-#, fuzzy
 msgid "On the side or on top of the bookmark view, a link takes you back to the previous page."
-msgstr "A la part superior de la vista de marcadors, un enllaç et porta de tornada a la pàgina anterior."
+msgstr "Al costat o la part superior de la vista de marcadors, un enllaç et torna a la pàgina anterior."
 
 #: en/bookmark.md:34
-#, fuzzy
 msgid "If the bookmark contains an article, a button lets you change some typography settings."
-msgstr "Si el marcador conté un article, un botó a l'altre costat permet canviar alguns paràmetres de tipografia."
+msgstr "Si el marcador conté un article, un botó et permet canviar alguns paràmetres de tipografia."
 
 #: en/bookmark.md:36
 msgid ""
@@ -413,11 +414,11 @@ msgstr ""
 
 #: en/bookmark.md:43
 msgid "## Edit information"
-msgstr ""
+msgstr "## Editar informació"
 
 #: en/bookmark.md:45
 msgid "Several information such as the title or description are automatically grabbed when you create a bookmark. If you need to change these properties, you can click on the edit side button to open a form."
-msgstr ""
+msgstr "Alguna informació, com el títol o la descripció, es desa automàticament quan crees un marcador. Si necesites canviar aquestes propietats, pots fer clic al botó d'edició lateral per a obrir un formulari."
 
 #: en/bookmark.md:47
 msgid "## Actions"
@@ -610,6 +611,7 @@ msgid ""
 msgstr ""
 "---\n"
 "Title: Índex\n"
+"# !! IMPORTANT: DO NOT TRANSLATE THE PART BELOW\n"
 "TOC:\n"
 "    - \"\"\n"
 "    - bookmark-list\n"

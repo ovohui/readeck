@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-24 17:42+0200\n"
-"PO-Revision-Date: 2026-07-25 06:13+0000\n"
+"PO-Revision-Date: 2026-07-30 17:07+0000\n"
 "Last-Translator: gallegonovato <gallegonovato@noreply.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/readeck/application/es/>\n"
 "Language: es-ES\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.7.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -115,12 +115,12 @@ msgstr "Marcadores"
 
 #: components/layout.templ:94 components/layout.templ:99
 msgid "Change color theme"
-msgstr "Cambiar el tema de color"
+msgstr "Cambiar los colores del tema"
 
 #: components/layout.templ:112 components/layout.templ:113
 #: internal/profile/x-base.templ:14
 msgid "Settings"
-msgstr "Configuración"
+msgstr "Ajustes"
 
 #: components/layout.templ:116 components/layout.templ:117
 #: internal/bookmarks/routes/x-bookmark-list.templ:127
