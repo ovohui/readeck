@@ -12,16 +12,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-07-24 17:42+0200\n"
+"POT-Creation-Date: 2026-08-02 21:32+0200\n"
 "PO-Revision-Date: 2026-07-27 15:05+0000\n"
 "Last-Translator: boronology <boronology@noreply.codeberg.org>\n"
-"Language-Team: Japanese <https://translate.codeberg.org/projects/readeck/application/ja/>\n"
 "Language: ja\n"
+"Language-Team: Japanese <https://translate.codeberg.org/projects/readeck/application/ja/>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -293,7 +292,7 @@ msgid "will not change if empty"
 msgstr "空欄の場合は変更しません"
 
 #: internal/admin/x-users.templ:158
-#: internal/bookmarks/routes/x-bookmark.templ:222
+#: internal/bookmarks/routes/x-bookmark.templ:225
 #: internal/bookmarks/routes/x-collections.templ:138
 #: internal/bookmarks/routes/x-collections.templ:232
 #: internal/bookmarks/routes/x-components.templ:49
@@ -759,7 +758,7 @@ msgstr[0] "読了時間約 %d 分"
 #: internal/bookmarks/converter/x-email.templ:42
 #: internal/bookmarks/converter/x-epub.templ:63
 #: internal/bookmarks/converter/x-html-public.templ:216
-#: internal/bookmarks/routes/x-bookmark.templ:295
+#: internal/bookmarks/routes/x-bookmark.templ:298
 #: internal/bookmarks/routes/x-components.templ:164
 #: internal/bookmarks/routes/x-components.templ:208
 #: internal/bookmarks/routes/x-filters.templ:36
@@ -962,7 +961,7 @@ msgid "Alias"
 msgstr "別名"
 
 #: internal/bookmarks/importer/x-forms.templ:121
-#: internal/bookmarks/routes/x-bookmark.templ:258
+#: internal/bookmarks/routes/x-bookmark.templ:261
 msgid "Description"
 msgstr "説明"
 
@@ -1318,12 +1317,12 @@ msgid "Update"
 msgstr "更新"
 
 #: internal/bookmarks/routes/views_bookmarks.go:342
-#: internal/bookmarks/routes/x-bookmark.templ:229
+#: internal/bookmarks/routes/x-bookmark.templ:232
 msgid "Share link"
 msgstr "リンクを共有"
 
 #: internal/bookmarks/routes/views_bookmarks.go:372
-#: internal/bookmarks/routes/x-bookmark.templ:236
+#: internal/bookmarks/routes/x-bookmark.templ:239
 msgid "Share by email"
 msgstr "メールで共有する"
 
@@ -1594,7 +1593,7 @@ msgid "Bookmark not found"
 msgstr "ブックマークが見つかりませんでした"
 
 #: internal/bookmarks/routes/x-bookmark.templ:23
-#: internal/bookmarks/routes/x-bookmark.templ:217
+#: internal/bookmarks/routes/x-bookmark.templ:220
 msgid "Edit bookmark"
 msgstr "ブックマークを編集"
 
@@ -1603,8 +1602,8 @@ msgid "Bookmark loading"
 msgstr "ブックマークを読み込み中"
 
 #: internal/bookmarks/routes/x-bookmark.templ:43
-#: internal/bookmarks/routes/x-bookmark.templ:130
-#: internal/bookmarks/routes/x-bookmark.templ:143
+#: internal/bookmarks/routes/x-bookmark.templ:133
+#: internal/bookmarks/routes/x-bookmark.templ:146
 msgid "Bookmark information"
 msgstr "ブックマーク情報"
 
@@ -1616,124 +1615,130 @@ msgstr "ブックマークのコンテンツ"
 msgid "Bookmark is loading"
 msgstr "ブックマークを読み込んでいます"
 
-#: internal/bookmarks/routes/x-bookmark.templ:123
+#: internal/bookmarks/routes/x-bookmark.templ:110
+#: internal/bookmarks/routes/x-bookmark.templ:116
+msgid "Go back"
+msgstr ""
+
+#: internal/bookmarks/routes/x-bookmark.templ:120
+#: internal/bookmarks/routes/x-bookmark.templ:126
 #: internal/bookmarks/routes/x-collections.templ:187
 msgid "Edit"
 msgstr "編集"
 
-#: internal/bookmarks/routes/x-bookmark.templ:166
-#: internal/bookmarks/routes/x-bookmark.templ:178
+#: internal/bookmarks/routes/x-bookmark.templ:169
+#: internal/bookmarks/routes/x-bookmark.templ:181
 msgid "Close panel"
 msgstr "パネルを閉じる"
 
-#: internal/bookmarks/routes/x-bookmark.templ:207
+#: internal/bookmarks/routes/x-bookmark.templ:210
 #: internal/bookmarks/routes/x-components.templ:36
 #: internal/bookmarks/routes/x-components.templ:363
 msgid "Close dialog"
 msgstr "ダイアログを閉じる"
 
-#: internal/bookmarks/routes/x-bookmark.templ:218
+#: internal/bookmarks/routes/x-bookmark.templ:221
 #, python-format
 msgid "Edit: %s"
 msgstr "編集:%s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:230
-#: internal/bookmarks/routes/x-bookmark.templ:237
+#: internal/bookmarks/routes/x-bookmark.templ:233
+#: internal/bookmarks/routes/x-bookmark.templ:240
 #, python-format
 msgid "Share: %s"
 msgstr "共有:%s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:253
+#: internal/bookmarks/routes/x-bookmark.templ:256
 #: internal/bookmarks/routes/x-filters.templ:23
 msgid "Title"
 msgstr "タイトル"
 
-#: internal/bookmarks/routes/x-bookmark.templ:263
+#: internal/bookmarks/routes/x-bookmark.templ:266
 msgid "Site Name"
 msgstr "サイト名"
 
-#: internal/bookmarks/routes/x-bookmark.templ:268
+#: internal/bookmarks/routes/x-bookmark.templ:271
 msgid "Authors"
 msgstr "著者"
 
-#: internal/bookmarks/routes/x-bookmark.templ:271
+#: internal/bookmarks/routes/x-bookmark.templ:274
 msgid "One value per line"
 msgstr "1行に1人ずつ入力してください"
 
-#: internal/bookmarks/routes/x-bookmark.templ:275
+#: internal/bookmarks/routes/x-bookmark.templ:278
 msgid "Published"
 msgstr "公開日"
 
-#: internal/bookmarks/routes/x-bookmark.templ:279
+#: internal/bookmarks/routes/x-bookmark.templ:282
 #: internal/bookmarks/routes/x-filters.templ:27
 #: internal/profile/x-profile.templ:55
 msgid "Language"
 msgstr "言語"
 
-#: internal/bookmarks/routes/x-bookmark.templ:289
+#: internal/bookmarks/routes/x-bookmark.templ:292
 msgid "Text Direction"
 msgstr "テキストの方向"
 
-#: internal/bookmarks/routes/x-bookmark.templ:313
+#: internal/bookmarks/routes/x-bookmark.templ:316
 msgid "You can share the following link with your friends."
 msgstr "以下のリンクを他の人に共有できます。"
 
-#: internal/bookmarks/routes/x-bookmark.templ:315
+#: internal/bookmarks/routes/x-bookmark.templ:318
 #, python-format
 msgid "It expires on %s"
 msgstr "リンクは%sまで有効です"
 
-#: internal/bookmarks/routes/x-bookmark.templ:330
+#: internal/bookmarks/routes/x-bookmark.templ:333
 msgid "This link is shared without annotations."
 msgstr "このリンクは注釈なしで共有されています。"
 
-#: internal/bookmarks/routes/x-bookmark.templ:331
+#: internal/bookmarks/routes/x-bookmark.templ:334
 msgid "Share with annotations"
 msgstr "注釈つきで共有する"
 
-#: internal/bookmarks/routes/x-bookmark.templ:333
+#: internal/bookmarks/routes/x-bookmark.templ:336
 msgid "This link is shared with annotations."
 msgstr "このリンクは注釈つきで共有されています。"
 
-#: internal/bookmarks/routes/x-bookmark.templ:334
+#: internal/bookmarks/routes/x-bookmark.templ:337
 msgid "Share without annotations"
 msgstr "注釈なしで共有する"
 
-#: internal/bookmarks/routes/x-bookmark.templ:354
+#: internal/bookmarks/routes/x-bookmark.templ:357
 msgid "Copy the link"
 msgstr "リンクをコピー"
 
-#: internal/bookmarks/routes/x-bookmark.templ:363
-#: internal/bookmarks/routes/x-bookmark.templ:427
+#: internal/bookmarks/routes/x-bookmark.templ:366
+#: internal/bookmarks/routes/x-bookmark.templ:430
 msgid "Go back to the bookmark"
 msgstr "ブックマークに戻る"
 
-#: internal/bookmarks/routes/x-bookmark.templ:388
+#: internal/bookmarks/routes/x-bookmark.templ:391
 msgid "Sends this bookmark's content in the message."
 msgstr "ブックマークの内容を本文に入れて送ります。"
 
-#: internal/bookmarks/routes/x-bookmark.templ:390
+#: internal/bookmarks/routes/x-bookmark.templ:393
 msgid "Sends this bookmark as an attached EPUB file."
 msgstr "ブックマークをEPUBファイルとして添付して送ります。"
 
-#: internal/bookmarks/routes/x-bookmark.templ:398
+#: internal/bookmarks/routes/x-bookmark.templ:401
 msgid "Format"
 msgstr "形式"
 
-#: internal/bookmarks/routes/x-bookmark.templ:404
+#: internal/bookmarks/routes/x-bookmark.templ:407
 msgid "Send To"
 msgstr "送信先"
 
-#: internal/bookmarks/routes/x-bookmark.templ:410
+#: internal/bookmarks/routes/x-bookmark.templ:413
 msgid "Include annotations and notes"
 msgstr "注釈とメモを含める"
 
-#: internal/bookmarks/routes/x-bookmark.templ:415
+#: internal/bookmarks/routes/x-bookmark.templ:418
 #, python-format
 msgid "The bookmark was sent to %s"
 msgstr "ブックマークを%sに送信しました"
 
-#: internal/bookmarks/routes/x-bookmark.templ:420
+#: internal/bookmarks/routes/x-bookmark.templ:423
 msgid "Send message"
 msgstr "メッセージを送信"
 
@@ -2080,6 +2085,7 @@ msgstr ""
 msgid "Label will be removed in a few seconds."
 msgstr "ラベルはまもなく削除されます。"
 
+#: internal/bookmarks/routes/x-reader-control.templ:25
 #: internal/bookmarks/routes/x-reader-control.templ:27
 msgid "Display options"
 msgstr "表示オプション"
@@ -3606,3 +3612,4 @@ msgstr "%H:%M:%S"
 #~ msgctxt "date"
 #~ msgid "To"
 #~ msgstr ""
+

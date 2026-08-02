@@ -10,16 +10,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck CN 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-07-24 17:42+0200\n"
+"POT-Creation-Date: 2026-08-02 21:32+0200\n"
 "PO-Revision-Date: 2026-07-27 15:05+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
+"Language: zh_CN\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/readeck/application/zh_Hans/>\n"
-"Language: zh-CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -291,7 +290,7 @@ msgid "will not change if empty"
 msgstr "如果为空，则不会更改"
 
 #: internal/admin/x-users.templ:158
-#: internal/bookmarks/routes/x-bookmark.templ:222
+#: internal/bookmarks/routes/x-bookmark.templ:225
 #: internal/bookmarks/routes/x-collections.templ:138
 #: internal/bookmarks/routes/x-collections.templ:232
 #: internal/bookmarks/routes/x-components.templ:49
@@ -757,7 +756,7 @@ msgstr[0] "阅读约需 %d 分钟"
 #: internal/bookmarks/converter/x-email.templ:42
 #: internal/bookmarks/converter/x-epub.templ:63
 #: internal/bookmarks/converter/x-html-public.templ:216
-#: internal/bookmarks/routes/x-bookmark.templ:295
+#: internal/bookmarks/routes/x-bookmark.templ:298
 #: internal/bookmarks/routes/x-components.templ:164
 #: internal/bookmarks/routes/x-components.templ:208
 #: internal/bookmarks/routes/x-filters.templ:36
@@ -964,7 +963,7 @@ msgid "Alias"
 msgstr "别名"
 
 #: internal/bookmarks/importer/x-forms.templ:121
-#: internal/bookmarks/routes/x-bookmark.templ:258
+#: internal/bookmarks/routes/x-bookmark.templ:261
 msgid "Description"
 msgstr "描述"
 
@@ -1320,13 +1319,13 @@ msgid "Update"
 msgstr "更新"
 
 #: internal/bookmarks/routes/views_bookmarks.go:342
-#: internal/bookmarks/routes/x-bookmark.templ:229
+#: internal/bookmarks/routes/x-bookmark.templ:232
 msgid "Share link"
 msgstr "分享链接"
 
 # | msgid "Share by Link"
 #: internal/bookmarks/routes/views_bookmarks.go:372
-#: internal/bookmarks/routes/x-bookmark.templ:236
+#: internal/bookmarks/routes/x-bookmark.templ:239
 msgid "Share by email"
 msgstr "通过电子邮件分享"
 
@@ -1600,7 +1599,7 @@ msgid "Bookmark not found"
 msgstr "未找到书签"
 
 #: internal/bookmarks/routes/x-bookmark.templ:23
-#: internal/bookmarks/routes/x-bookmark.templ:217
+#: internal/bookmarks/routes/x-bookmark.templ:220
 msgid "Edit bookmark"
 msgstr "编辑书签"
 
@@ -1609,8 +1608,8 @@ msgid "Bookmark loading"
 msgstr "加载书签"
 
 #: internal/bookmarks/routes/x-bookmark.templ:43
-#: internal/bookmarks/routes/x-bookmark.templ:130
-#: internal/bookmarks/routes/x-bookmark.templ:143
+#: internal/bookmarks/routes/x-bookmark.templ:133
+#: internal/bookmarks/routes/x-bookmark.templ:146
 msgid "Bookmark information"
 msgstr "书签信息"
 
@@ -1622,126 +1621,132 @@ msgstr "书签内容"
 msgid "Bookmark is loading"
 msgstr "书签正在加载"
 
-#: internal/bookmarks/routes/x-bookmark.templ:123
+#: internal/bookmarks/routes/x-bookmark.templ:110
+#: internal/bookmarks/routes/x-bookmark.templ:116
+msgid "Go back"
+msgstr ""
+
+#: internal/bookmarks/routes/x-bookmark.templ:120
+#: internal/bookmarks/routes/x-bookmark.templ:126
 #: internal/bookmarks/routes/x-collections.templ:187
 msgid "Edit"
 msgstr "编辑"
 
-#: internal/bookmarks/routes/x-bookmark.templ:166
-#: internal/bookmarks/routes/x-bookmark.templ:178
+#: internal/bookmarks/routes/x-bookmark.templ:169
+#: internal/bookmarks/routes/x-bookmark.templ:181
 msgid "Close panel"
 msgstr "关闭面板"
 
-#: internal/bookmarks/routes/x-bookmark.templ:207
+#: internal/bookmarks/routes/x-bookmark.templ:210
 #: internal/bookmarks/routes/x-components.templ:36
 #: internal/bookmarks/routes/x-components.templ:363
 msgid "Close dialog"
 msgstr "关闭对话框"
 
-#: internal/bookmarks/routes/x-bookmark.templ:218
+#: internal/bookmarks/routes/x-bookmark.templ:221
 #, python-format
 msgid "Edit: %s"
 msgstr "编辑：%s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:230
-#: internal/bookmarks/routes/x-bookmark.templ:237
+#: internal/bookmarks/routes/x-bookmark.templ:233
+#: internal/bookmarks/routes/x-bookmark.templ:240
 #, python-format
 msgid "Share: %s"
 msgstr "分享于 %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:253
+#: internal/bookmarks/routes/x-bookmark.templ:256
 #: internal/bookmarks/routes/x-filters.templ:23
 msgid "Title"
 msgstr "标题"
 
-#: internal/bookmarks/routes/x-bookmark.templ:263
+#: internal/bookmarks/routes/x-bookmark.templ:266
 msgid "Site Name"
 msgstr "网站名称"
 
-#: internal/bookmarks/routes/x-bookmark.templ:268
+#: internal/bookmarks/routes/x-bookmark.templ:271
 msgid "Authors"
 msgstr "作者"
 
-#: internal/bookmarks/routes/x-bookmark.templ:271
+#: internal/bookmarks/routes/x-bookmark.templ:274
 msgid "One value per line"
 msgstr "每行一个值"
 
-#: internal/bookmarks/routes/x-bookmark.templ:275
+#: internal/bookmarks/routes/x-bookmark.templ:278
 msgid "Published"
 msgstr "发布"
 
-#: internal/bookmarks/routes/x-bookmark.templ:279
+#: internal/bookmarks/routes/x-bookmark.templ:282
 #: internal/bookmarks/routes/x-filters.templ:27
 #: internal/profile/x-profile.templ:55
 msgid "Language"
 msgstr "语言"
 
-#: internal/bookmarks/routes/x-bookmark.templ:289
+#: internal/bookmarks/routes/x-bookmark.templ:292
 msgid "Text Direction"
 msgstr "文本方向"
 
-#: internal/bookmarks/routes/x-bookmark.templ:313
+#: internal/bookmarks/routes/x-bookmark.templ:316
 msgid "You can share the following link with your friends."
 msgstr "您可以与朋友分享以下链接。"
 
-#: internal/bookmarks/routes/x-bookmark.templ:315
+#: internal/bookmarks/routes/x-bookmark.templ:318
 #, python-format
 msgid "It expires on %s"
 msgstr "它将于 %s 过期"
 
-#: internal/bookmarks/routes/x-bookmark.templ:330
+#: internal/bookmarks/routes/x-bookmark.templ:333
 msgid "This link is shared without annotations."
 msgstr "此链接以无标注形式分享。"
 
-#: internal/bookmarks/routes/x-bookmark.templ:331
+#: internal/bookmarks/routes/x-bookmark.templ:334
 msgid "Share with annotations"
 msgstr "带标注分享"
 
-#: internal/bookmarks/routes/x-bookmark.templ:333
+#: internal/bookmarks/routes/x-bookmark.templ:336
 msgid "This link is shared with annotations."
 msgstr "此链接以带标注形式分享。"
 
-#: internal/bookmarks/routes/x-bookmark.templ:334
+#: internal/bookmarks/routes/x-bookmark.templ:337
 msgid "Share without annotations"
 msgstr "不带标注分享"
 
-#: internal/bookmarks/routes/x-bookmark.templ:354
+#: internal/bookmarks/routes/x-bookmark.templ:357
 msgid "Copy the link"
 msgstr "复制链接"
 
-#: internal/bookmarks/routes/x-bookmark.templ:363
-#: internal/bookmarks/routes/x-bookmark.templ:427
+#: internal/bookmarks/routes/x-bookmark.templ:366
+#: internal/bookmarks/routes/x-bookmark.templ:430
 msgid "Go back to the bookmark"
 msgstr "返回书签"
 
-#: internal/bookmarks/routes/x-bookmark.templ:388
+#: internal/bookmarks/routes/x-bookmark.templ:391
 msgid "Sends this bookmark's content in the message."
 msgstr "在邮件中发送此书签的内容。"
 
 # | msgid "Sends this bookmarks as an attached EPUB file."
-#: internal/bookmarks/routes/x-bookmark.templ:390
+#: internal/bookmarks/routes/x-bookmark.templ:393
 msgid "Sends this bookmark as an attached EPUB file."
 msgstr "将此书签作为附加的 EPUB 文件发送。"
 
 # | msgid "From date"
-#: internal/bookmarks/routes/x-bookmark.templ:398
+#: internal/bookmarks/routes/x-bookmark.templ:401
 msgid "Format"
 msgstr "格式"
 
-#: internal/bookmarks/routes/x-bookmark.templ:404
+#: internal/bookmarks/routes/x-bookmark.templ:407
 msgid "Send To"
 msgstr "发送至"
 
-#: internal/bookmarks/routes/x-bookmark.templ:410
+#: internal/bookmarks/routes/x-bookmark.templ:413
 msgid "Include annotations and notes"
 msgstr "包含标注和笔记"
 
-#: internal/bookmarks/routes/x-bookmark.templ:415
+#: internal/bookmarks/routes/x-bookmark.templ:418
 #, python-format
 msgid "The bookmark was sent to %s"
 msgstr "书签已发送到 %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:420
+#: internal/bookmarks/routes/x-bookmark.templ:423
 msgid "Send message"
 msgstr "发送邮件"
 
@@ -2091,6 +2096,7 @@ msgstr ""
 msgid "Label will be removed in a few seconds."
 msgstr "将在几秒钟内移除标签。"
 
+#: internal/bookmarks/routes/x-reader-control.templ:25
 #: internal/bookmarks/routes/x-reader-control.templ:27
 msgid "Display options"
 msgstr "显示选项"
@@ -3391,3 +3397,4 @@ msgstr "%H:%M:%S"
 #~ msgctxt "date"
 #~ msgid "To"
 #~ msgstr ""
+

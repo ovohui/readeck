@@ -10,16 +10,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-07-24 17:42+0200\n"
+"POT-Creation-Date: 2026-08-02 21:32+0200\n"
 "PO-Revision-Date: 2026-07-27 05:48+0000\n"
 "Last-Translator: dewyeyed <dewyeyed@noreply.codeberg.org>\n"
-"Language-Team: Korean <https://translate.codeberg.org/projects/readeck/application/ko/>\n"
 "Language: ko\n"
+"Language-Team: Korean <https://translate.codeberg.org/projects/readeck/application/ko/>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -291,7 +290,7 @@ msgid "will not change if empty"
 msgstr "변경하지 않으시려면 공란으로 두세요"
 
 #: internal/admin/x-users.templ:158
-#: internal/bookmarks/routes/x-bookmark.templ:222
+#: internal/bookmarks/routes/x-bookmark.templ:225
 #: internal/bookmarks/routes/x-collections.templ:138
 #: internal/bookmarks/routes/x-collections.templ:232
 #: internal/bookmarks/routes/x-components.templ:49
@@ -756,7 +755,7 @@ msgstr[0] "약 %d 분 소요"
 #: internal/bookmarks/converter/x-email.templ:42
 #: internal/bookmarks/converter/x-epub.templ:63
 #: internal/bookmarks/converter/x-html-public.templ:216
-#: internal/bookmarks/routes/x-bookmark.templ:295
+#: internal/bookmarks/routes/x-bookmark.templ:298
 #: internal/bookmarks/routes/x-components.templ:164
 #: internal/bookmarks/routes/x-components.templ:208
 #: internal/bookmarks/routes/x-filters.templ:36
@@ -959,7 +958,7 @@ msgid "Alias"
 msgstr "별칭"
 
 #: internal/bookmarks/importer/x-forms.templ:121
-#: internal/bookmarks/routes/x-bookmark.templ:258
+#: internal/bookmarks/routes/x-bookmark.templ:261
 msgid "Description"
 msgstr "설명"
 
@@ -1315,12 +1314,12 @@ msgid "Update"
 msgstr "업데이트"
 
 #: internal/bookmarks/routes/views_bookmarks.go:342
-#: internal/bookmarks/routes/x-bookmark.templ:229
+#: internal/bookmarks/routes/x-bookmark.templ:232
 msgid "Share link"
 msgstr "링크 공유"
 
 #: internal/bookmarks/routes/views_bookmarks.go:372
-#: internal/bookmarks/routes/x-bookmark.templ:236
+#: internal/bookmarks/routes/x-bookmark.templ:239
 msgid "Share by email"
 msgstr "E-Mail로 공유"
 
@@ -1591,7 +1590,7 @@ msgid "Bookmark not found"
 msgstr "북마크가 존재하지 않습니다"
 
 #: internal/bookmarks/routes/x-bookmark.templ:23
-#: internal/bookmarks/routes/x-bookmark.templ:217
+#: internal/bookmarks/routes/x-bookmark.templ:220
 msgid "Edit bookmark"
 msgstr "북마크 편집"
 
@@ -1600,8 +1599,8 @@ msgid "Bookmark loading"
 msgstr "북마크 불러오는 중"
 
 #: internal/bookmarks/routes/x-bookmark.templ:43
-#: internal/bookmarks/routes/x-bookmark.templ:130
-#: internal/bookmarks/routes/x-bookmark.templ:143
+#: internal/bookmarks/routes/x-bookmark.templ:133
+#: internal/bookmarks/routes/x-bookmark.templ:146
 msgid "Bookmark information"
 msgstr "북마크 정보"
 
@@ -1613,124 +1612,130 @@ msgstr "북마크 콘텐츠"
 msgid "Bookmark is loading"
 msgstr "북마크를 불러오는 중"
 
-#: internal/bookmarks/routes/x-bookmark.templ:123
+#: internal/bookmarks/routes/x-bookmark.templ:110
+#: internal/bookmarks/routes/x-bookmark.templ:116
+msgid "Go back"
+msgstr ""
+
+#: internal/bookmarks/routes/x-bookmark.templ:120
+#: internal/bookmarks/routes/x-bookmark.templ:126
 #: internal/bookmarks/routes/x-collections.templ:187
 msgid "Edit"
 msgstr "수정"
 
-#: internal/bookmarks/routes/x-bookmark.templ:166
-#: internal/bookmarks/routes/x-bookmark.templ:178
+#: internal/bookmarks/routes/x-bookmark.templ:169
+#: internal/bookmarks/routes/x-bookmark.templ:181
 msgid "Close panel"
 msgstr "패널 닫기"
 
-#: internal/bookmarks/routes/x-bookmark.templ:207
+#: internal/bookmarks/routes/x-bookmark.templ:210
 #: internal/bookmarks/routes/x-components.templ:36
 #: internal/bookmarks/routes/x-components.templ:363
 msgid "Close dialog"
 msgstr "창 닫기"
 
-#: internal/bookmarks/routes/x-bookmark.templ:218
+#: internal/bookmarks/routes/x-bookmark.templ:221
 #, python-format
 msgid "Edit: %s"
 msgstr "수정일: %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:230
-#: internal/bookmarks/routes/x-bookmark.templ:237
+#: internal/bookmarks/routes/x-bookmark.templ:233
+#: internal/bookmarks/routes/x-bookmark.templ:240
 #, python-format
 msgid "Share: %s"
 msgstr "Share: %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:253
+#: internal/bookmarks/routes/x-bookmark.templ:256
 #: internal/bookmarks/routes/x-filters.templ:23
 msgid "Title"
 msgstr "제목"
 
-#: internal/bookmarks/routes/x-bookmark.templ:263
+#: internal/bookmarks/routes/x-bookmark.templ:266
 msgid "Site Name"
 msgstr "사이트 이름"
 
-#: internal/bookmarks/routes/x-bookmark.templ:268
+#: internal/bookmarks/routes/x-bookmark.templ:271
 msgid "Authors"
 msgstr "저자"
 
-#: internal/bookmarks/routes/x-bookmark.templ:271
+#: internal/bookmarks/routes/x-bookmark.templ:274
 msgid "One value per line"
 msgstr "한 줄에 하나의 값"
 
-#: internal/bookmarks/routes/x-bookmark.templ:275
+#: internal/bookmarks/routes/x-bookmark.templ:278
 msgid "Published"
 msgstr "게시일"
 
-#: internal/bookmarks/routes/x-bookmark.templ:279
+#: internal/bookmarks/routes/x-bookmark.templ:282
 #: internal/bookmarks/routes/x-filters.templ:27
 #: internal/profile/x-profile.templ:55
 msgid "Language"
 msgstr "언어"
 
-#: internal/bookmarks/routes/x-bookmark.templ:289
+#: internal/bookmarks/routes/x-bookmark.templ:292
 msgid "Text Direction"
 msgstr "텍스트 방향"
 
-#: internal/bookmarks/routes/x-bookmark.templ:313
+#: internal/bookmarks/routes/x-bookmark.templ:316
 msgid "You can share the following link with your friends."
 msgstr "다음 링크를 타인과 공유할 수 있습니다."
 
-#: internal/bookmarks/routes/x-bookmark.templ:315
+#: internal/bookmarks/routes/x-bookmark.templ:318
 #, python-format
 msgid "It expires on %s"
 msgstr "만료일 : %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:330
+#: internal/bookmarks/routes/x-bookmark.templ:333
 msgid "This link is shared without annotations."
 msgstr "이 링크는 별다른 설명/주석 없이 공유되었습니다."
 
-#: internal/bookmarks/routes/x-bookmark.templ:331
+#: internal/bookmarks/routes/x-bookmark.templ:334
 msgid "Share with annotations"
 msgstr "주석을 달아 공유하기"
 
-#: internal/bookmarks/routes/x-bookmark.templ:333
+#: internal/bookmarks/routes/x-bookmark.templ:336
 msgid "This link is shared with annotations."
 msgstr "이 링크에는 주석이 함께 첨부되어 공유됩니다."
 
-#: internal/bookmarks/routes/x-bookmark.templ:334
+#: internal/bookmarks/routes/x-bookmark.templ:337
 msgid "Share without annotations"
 msgstr "주석 없이 공유하기"
 
-#: internal/bookmarks/routes/x-bookmark.templ:354
+#: internal/bookmarks/routes/x-bookmark.templ:357
 msgid "Copy the link"
 msgstr "링크 복사"
 
-#: internal/bookmarks/routes/x-bookmark.templ:363
-#: internal/bookmarks/routes/x-bookmark.templ:427
+#: internal/bookmarks/routes/x-bookmark.templ:366
+#: internal/bookmarks/routes/x-bookmark.templ:430
 msgid "Go back to the bookmark"
 msgstr "북마크로 돌아가기"
 
-#: internal/bookmarks/routes/x-bookmark.templ:388
+#: internal/bookmarks/routes/x-bookmark.templ:391
 msgid "Sends this bookmark's content in the message."
 msgstr "이 북마크의 내용을 이메일로 전송."
 
-#: internal/bookmarks/routes/x-bookmark.templ:390
+#: internal/bookmarks/routes/x-bookmark.templ:393
 msgid "Sends this bookmark as an attached EPUB file."
 msgstr "이 북마크를 EPUB으로 보내기."
 
-#: internal/bookmarks/routes/x-bookmark.templ:398
+#: internal/bookmarks/routes/x-bookmark.templ:401
 msgid "Format"
 msgstr "포맷"
 
-#: internal/bookmarks/routes/x-bookmark.templ:404
+#: internal/bookmarks/routes/x-bookmark.templ:407
 msgid "Send To"
 msgstr "수신인"
 
-#: internal/bookmarks/routes/x-bookmark.templ:410
+#: internal/bookmarks/routes/x-bookmark.templ:413
 msgid "Include annotations and notes"
 msgstr "주석 및 메모 포함"
 
-#: internal/bookmarks/routes/x-bookmark.templ:415
+#: internal/bookmarks/routes/x-bookmark.templ:418
 #, python-format
 msgid "The bookmark was sent to %s"
 msgstr "이 북마크가 %s에게 전송 되었습니다"
 
-#: internal/bookmarks/routes/x-bookmark.templ:420
+#: internal/bookmarks/routes/x-bookmark.templ:423
 msgid "Send message"
 msgstr "이메일 전송"
 
@@ -2077,6 +2082,7 @@ msgstr ""
 msgid "Label will be removed in a few seconds."
 msgstr "라벨이 잠시 뒤에 제거됩니다."
 
+#: internal/bookmarks/routes/x-reader-control.templ:25
 #: internal/bookmarks/routes/x-reader-control.templ:27
 msgid "Display options"
 msgstr "화면 옵션"
@@ -3359,3 +3365,4 @@ msgstr "%H:%M:%S"
 #~ msgctxt "date"
 #~ msgid "To"
 #~ msgstr ""
+

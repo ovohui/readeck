@@ -15,16 +15,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-07-24 17:42+0200\n"
+"POT-Creation-Date: 2026-08-02 21:32+0200\n"
 "PO-Revision-Date: 2026-07-27 15:05+0000\n"
 "Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
-"Language-Team: Italian <https://translate.codeberg.org/projects/readeck/application/it/>\n"
 "Language: it\n"
+"Language-Team: Italian <https://translate.codeberg.org/projects/readeck/application/it/>\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
@@ -298,7 +297,7 @@ msgid "will not change if empty"
 msgstr "non cambierà se lasciato vuoto"
 
 #: internal/admin/x-users.templ:158
-#: internal/bookmarks/routes/x-bookmark.templ:222
+#: internal/bookmarks/routes/x-bookmark.templ:225
 #: internal/bookmarks/routes/x-collections.templ:138
 #: internal/bookmarks/routes/x-collections.templ:232
 #: internal/bookmarks/routes/x-components.templ:49
@@ -768,7 +767,7 @@ msgstr[1] "Circa %d minuti di lettura"
 #: internal/bookmarks/converter/x-email.templ:42
 #: internal/bookmarks/converter/x-epub.templ:63
 #: internal/bookmarks/converter/x-html-public.templ:216
-#: internal/bookmarks/routes/x-bookmark.templ:295
+#: internal/bookmarks/routes/x-bookmark.templ:298
 #: internal/bookmarks/routes/x-components.templ:164
 #: internal/bookmarks/routes/x-components.templ:208
 #: internal/bookmarks/routes/x-filters.templ:36
@@ -984,7 +983,7 @@ msgstr "Alias"
 
 # | msgid "Distribution"
 #: internal/bookmarks/importer/x-forms.templ:121
-#: internal/bookmarks/routes/x-bookmark.templ:258
+#: internal/bookmarks/routes/x-bookmark.templ:261
 msgid "Description"
 msgstr "Descrizione"
 
@@ -1346,13 +1345,13 @@ msgid "Update"
 msgstr "Aggiorna"
 
 #: internal/bookmarks/routes/views_bookmarks.go:342
-#: internal/bookmarks/routes/x-bookmark.templ:229
+#: internal/bookmarks/routes/x-bookmark.templ:232
 msgid "Share link"
 msgstr "Condividi link"
 
 # | msgid "Share by Link"
 #: internal/bookmarks/routes/views_bookmarks.go:372
-#: internal/bookmarks/routes/x-bookmark.templ:236
+#: internal/bookmarks/routes/x-bookmark.templ:239
 msgid "Share by email"
 msgstr "Condividi via email"
 
@@ -1633,7 +1632,7 @@ msgid "Bookmark not found"
 msgstr "Bookmark non trovato"
 
 #: internal/bookmarks/routes/x-bookmark.templ:23
-#: internal/bookmarks/routes/x-bookmark.templ:217
+#: internal/bookmarks/routes/x-bookmark.templ:220
 msgid "Edit bookmark"
 msgstr "Modifica il bookmark"
 
@@ -1642,8 +1641,8 @@ msgid "Bookmark loading"
 msgstr "Bookmark in caricamento"
 
 #: internal/bookmarks/routes/x-bookmark.templ:43
-#: internal/bookmarks/routes/x-bookmark.templ:130
-#: internal/bookmarks/routes/x-bookmark.templ:143
+#: internal/bookmarks/routes/x-bookmark.templ:133
+#: internal/bookmarks/routes/x-bookmark.templ:146
 msgid "Bookmark information"
 msgstr "Informazioni sul bookmark"
 
@@ -1656,17 +1655,23 @@ msgstr "Contenuto del segnalibro"
 msgid "Bookmark is loading"
 msgstr "Il bookmark si sta caricando"
 
-#: internal/bookmarks/routes/x-bookmark.templ:123
+#: internal/bookmarks/routes/x-bookmark.templ:110
+#: internal/bookmarks/routes/x-bookmark.templ:116
+msgid "Go back"
+msgstr ""
+
+#: internal/bookmarks/routes/x-bookmark.templ:120
+#: internal/bookmarks/routes/x-bookmark.templ:126
 #: internal/bookmarks/routes/x-collections.templ:187
 msgid "Edit"
 msgstr "Modifica"
 
-#: internal/bookmarks/routes/x-bookmark.templ:166
-#: internal/bookmarks/routes/x-bookmark.templ:178
+#: internal/bookmarks/routes/x-bookmark.templ:169
+#: internal/bookmarks/routes/x-bookmark.templ:181
 msgid "Close panel"
 msgstr "Chiudi pannello"
 
-#: internal/bookmarks/routes/x-bookmark.templ:207
+#: internal/bookmarks/routes/x-bookmark.templ:210
 #: internal/bookmarks/routes/x-components.templ:36
 #: internal/bookmarks/routes/x-components.templ:363
 msgid "Close dialog"
@@ -1674,111 +1679,111 @@ msgstr "Chiudi pannello"
 
 # | msgid "Saved with Readeck"
 # | msgid "Saved with"
-#: internal/bookmarks/routes/x-bookmark.templ:218
+#: internal/bookmarks/routes/x-bookmark.templ:221
 #, python-format
 msgid "Edit: %s"
 msgstr "Modifica: %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:230
-#: internal/bookmarks/routes/x-bookmark.templ:237
+#: internal/bookmarks/routes/x-bookmark.templ:233
+#: internal/bookmarks/routes/x-bookmark.templ:240
 #, python-format
 msgid "Share: %s"
 msgstr "Condividi: %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:253
+#: internal/bookmarks/routes/x-bookmark.templ:256
 #: internal/bookmarks/routes/x-filters.templ:23
 msgid "Title"
 msgstr "Titolo"
 
-#: internal/bookmarks/routes/x-bookmark.templ:263
+#: internal/bookmarks/routes/x-bookmark.templ:266
 msgid "Site Name"
 msgstr "Nome del sito"
 
-#: internal/bookmarks/routes/x-bookmark.templ:268
+#: internal/bookmarks/routes/x-bookmark.templ:271
 msgid "Authors"
 msgstr "Autori"
 
-#: internal/bookmarks/routes/x-bookmark.templ:271
+#: internal/bookmarks/routes/x-bookmark.templ:274
 msgid "One value per line"
 msgstr "Un valore per ciascuna linea"
 
-#: internal/bookmarks/routes/x-bookmark.templ:275
+#: internal/bookmarks/routes/x-bookmark.templ:278
 msgid "Published"
 msgstr "Pubblicato il %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:279
+#: internal/bookmarks/routes/x-bookmark.templ:282
 #: internal/bookmarks/routes/x-filters.templ:27
 #: internal/profile/x-profile.templ:55
 msgid "Language"
 msgstr "Lingua"
 
 # | msgid "API authentication"
-#: internal/bookmarks/routes/x-bookmark.templ:289
+#: internal/bookmarks/routes/x-bookmark.templ:292
 msgid "Text Direction"
 msgstr "Direzione del testo"
 
-#: internal/bookmarks/routes/x-bookmark.templ:313
+#: internal/bookmarks/routes/x-bookmark.templ:316
 msgid "You can share the following link with your friends."
 msgstr "Puoi condividere il link seguente con lз tuз amichз."
 
-#: internal/bookmarks/routes/x-bookmark.templ:315
+#: internal/bookmarks/routes/x-bookmark.templ:318
 #, python-format
 msgid "It expires on %s"
 msgstr "Scadrà il %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:330
+#: internal/bookmarks/routes/x-bookmark.templ:333
 msgid "This link is shared without annotations."
 msgstr "Questo link è condiviso senza annotazioni."
 
-#: internal/bookmarks/routes/x-bookmark.templ:331
+#: internal/bookmarks/routes/x-bookmark.templ:334
 msgid "Share with annotations"
 msgstr "Condividi con le annotazioni"
 
-#: internal/bookmarks/routes/x-bookmark.templ:333
+#: internal/bookmarks/routes/x-bookmark.templ:336
 msgid "This link is shared with annotations."
 msgstr "Questo link è condiviso con le annotazioni."
 
-#: internal/bookmarks/routes/x-bookmark.templ:334
+#: internal/bookmarks/routes/x-bookmark.templ:337
 msgid "Share without annotations"
 msgstr "Condividi senza annotazioni"
 
-#: internal/bookmarks/routes/x-bookmark.templ:354
+#: internal/bookmarks/routes/x-bookmark.templ:357
 msgid "Copy the link"
 msgstr "Copia il link"
 
-#: internal/bookmarks/routes/x-bookmark.templ:363
-#: internal/bookmarks/routes/x-bookmark.templ:427
+#: internal/bookmarks/routes/x-bookmark.templ:366
+#: internal/bookmarks/routes/x-bookmark.templ:430
 msgid "Go back to the bookmark"
 msgstr "Torna al bookmark"
 
-#: internal/bookmarks/routes/x-bookmark.templ:388
+#: internal/bookmarks/routes/x-bookmark.templ:391
 msgid "Sends this bookmark's content in the message."
 msgstr "Invia il contenuto di questo bookmark nel messaggio."
 
 # | msgid "Sends this bookmarks as an attached EPUB file."
-#: internal/bookmarks/routes/x-bookmark.templ:390
+#: internal/bookmarks/routes/x-bookmark.templ:393
 msgid "Sends this bookmark as an attached EPUB file."
 msgstr "Invia questo bookmark come un EPUB in allegato."
 
 # | msgid "From date"
-#: internal/bookmarks/routes/x-bookmark.templ:398
+#: internal/bookmarks/routes/x-bookmark.templ:401
 msgid "Format"
 msgstr "Formato"
 
-#: internal/bookmarks/routes/x-bookmark.templ:404
+#: internal/bookmarks/routes/x-bookmark.templ:407
 msgid "Send To"
 msgstr "Invia a"
 
-#: internal/bookmarks/routes/x-bookmark.templ:410
+#: internal/bookmarks/routes/x-bookmark.templ:413
 msgid "Include annotations and notes"
 msgstr "Includi annotazioni e note"
 
-#: internal/bookmarks/routes/x-bookmark.templ:415
+#: internal/bookmarks/routes/x-bookmark.templ:418
 #, python-format
 msgid "The bookmark was sent to %s"
 msgstr "Il bookmark è stato inviato a %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:420
+#: internal/bookmarks/routes/x-bookmark.templ:423
 msgid "Send message"
 msgstr "Invia messaggio"
 
@@ -2133,6 +2138,7 @@ msgid "Label will be removed in a few seconds."
 msgstr "L’etichetta sarà rimossa fra alcuni secondi."
 
 # | msgid "Options"
+#: internal/bookmarks/routes/x-reader-control.templ:25
 #: internal/bookmarks/routes/x-reader-control.templ:27
 msgid "Display options"
 msgstr "Opzioni di visualizzazione"
@@ -3439,3 +3445,4 @@ msgstr "%H:%M:%S"
 #~ msgctxt "date"
 #~ msgid "To"
 #~ msgstr ""
+
