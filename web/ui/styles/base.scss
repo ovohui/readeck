@@ -72,6 +72,10 @@ body.js {
   math {
     font-family: "DejaVu Math", sans-serif;
   }
+
+  [popover] {
+    color: inherit;
+  }
 }
 
 // Scrollbar

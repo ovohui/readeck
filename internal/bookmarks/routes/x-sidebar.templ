@@ -139,7 +139,7 @@ templ (c SidebarComponent) actions(b *dataset.Bookmark) {
 					class="relative"
 				>
 					<input type="hidden" name="_to" value={ CurrentPath(ctx) }/>
-					<div class="btn-group btn-primary rounded-full">
+					<div class="btn-group btn-primary rounded-full dropdown-menu dropdown-menu-left">
 						<button
 							class="btn-outlined btn-primary pl-3"
 							name="read_progress"
@@ -167,60 +167,61 @@ templ (c SidebarComponent) actions(b *dataset.Bookmark) {
 						>
 							@Icon(Tern(func() bool { return b.IsArchived }, "o-archive-on", "o-archive-off"))
 						</button>
-						<details class="menu" data-controller="menu">
-							<summary
-								class="btn-outlined btn-primary pr-3"
-								title={ L(ctx).Gettext("Export and Share") }
-							>
-								@Icon("o-share")
-							</summary>
-							<ul class="top-10 left-0">
+						<button
+							type="button"
+							popovertarget="export-menu"
+							class="btn-outlined btn-primary pr-3"
+							title={ L(ctx).Gettext("Export and Share") }
+						>
+							@Icon("o-share")
+							<span class="sr-only">{ L(ctx).Gettext("Export and Share") }</span>
+						</button>
+						<ul popover id="export-menu" data-controller="menu">
+							<li>
+								<a class="link" href={ URL(ctx, "/api/bookmarks", b.ID, "article.epub") } download>
+									@Icon("o-ebook")
+									{ " " }
+									{ L(ctx).Gettext("Download EPUB") }
+								</a>
+							</li>
+							if HasPermission(ctx, "bookmarks", "share") {
 								<li>
-									<a class="link" href={ URL(ctx, "/api/bookmarks", b.ID, "article.epub") } download>
-										@Icon("o-ebook")
+									<a
+										class="link"
+										href={ URL(ctx, "/bookmarks", b.ID, "/share/link") }
+										data-action="menu#toggle"
+									>
+										@Icon("o-link")
 										{ " " }
-										{ L(ctx).Gettext("Download EPUB") }
+										{ L(ctx).Gettext("Share by Link") }
 									</a>
 								</li>
-								if HasPermission(ctx, "bookmarks", "share") {
+								if HasPermission(ctx, "email", "send") {
 									<li>
 										<a
 											class="link"
-											href={ URL(ctx, "/bookmarks", b.ID, "/share/link") }
+											href={ URL(ctx, "/bookmarks", b.ID, "/share/email") + "?format=html" }
 											data-action="menu#toggle"
 										>
-											@Icon("o-link")
+											@Icon("o-email")
 											{ " " }
-											{ L(ctx).Gettext("Share by Link") }
+											{ L(ctx).Gettext("Send article by Email") }
 										</a>
 									</li>
-									if HasPermission(ctx, "email", "send") {
-										<li>
-											<a
-												class="link"
-												href={ URL(ctx, "/bookmarks", b.ID, "/share/email") + "?format=html" }
-												data-action="menu#toggle"
-											>
-												@Icon("o-email")
-												{ " " }
-												{ L(ctx).Gettext("Send article by Email") }
-											</a>
-										</li>
-										<li>
-											<a
-												class="link"
-												href={ URL(ctx, "/bookmarks", b.ID, "/share/email") + "?format=epub" }
-												data-action="menu#toggle"
-											>
-												@Icon("o-email")
-												{ " " }
-												{ L(ctx).Gettext("Send e-book by Email") }
-											</a>
-										</li>
-									}
+									<li>
+										<a
+											class="link"
+											href={ URL(ctx, "/bookmarks", b.ID, "/share/email") + "?format=epub" }
+											data-action="menu#toggle"
+										>
+											@Icon("o-email")
+											{ " " }
+											{ L(ctx).Gettext("Send e-book by Email") }
+										</a>
+									</li>
 								}
-							</ul>
-						</details>
+							}
+						</ul>
 					</div>
 				</form>
 				<form action={ URL(ctx, "/bookmarks", b.ID, "update") } method="post" class="ml-auto">

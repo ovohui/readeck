@@ -16,17 +16,17 @@ type ReaderControlComponent struct{}
 
 templ (c ReaderControlComponent) controls() {
 	{{ prefs := Preferences(ctx) }}
-	<details
-		class="no-js:hidden bookmark-reader-control"
-		data-controller="menu request"
+	<div
+		class="bookmark-reader-control"
+		data-controller="request"
 		data-request-url-value={ URL(ctx, "/profile/session") }
 		data-request-method-value="patch"
 	>
-		<summary role="button" title={ L(ctx).Gettext("Display options") }>
+		<button popovertarget="reader-options" title={ L(ctx).Gettext("Display options") }>
 			@Icon("o-font-family", WithIconClass("inline-block"), WithIconSvgClass("h-6 w-6"))
 			<span class="sr-only">{ L(ctx).Gettext("Display options") }</span>
-		</summary>
-		<div>
+		</button>
+		<div popover id="reader-options">
 			@c.fontChoice()
 			@c.numericChoice("bookmark.reader_width",
 				uint(prefs.Bookmark.ReaderWidth), preferences.WidthChoices.Classes(),
@@ -67,7 +67,7 @@ templ (c ReaderControlComponent) controls() {
 				L(ctx).Gettext("Without hyphenation"),
 			)
 		</div>
-	</details>
+	</div>
 }
 
 templ (c ReaderControlComponent) fontChoice() {
@@ -132,7 +132,7 @@ templ (c ReaderControlComponent) numericChoice(
 			@Icon("o-minus")
 		</button>
 		<input
-			class="p-1 text-center text-sm bg-gray-200 rounded-full"
+			class="p-1 min-w-7 text-center text-sm bg-gray-200 rounded-full"
 			type="text"
 			size="1"
 			disabled

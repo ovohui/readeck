@@ -308,26 +308,32 @@
     }
 
     .bookmark-reader-control {
-      & > summary {
-        @apply list-none;
+      anchor-scope: --reader-control;
+
+      & > [popovertarget] {
+        anchor-name: --reader-control;
       }
 
-      & > div {
-        @apply absolute w-72 overflow-y-auto;
-        top: 0;
-        left: 3rem;
+      & > [popover] {
+        position-anchor: --reader-control;
+        position-area: right;
+        margin-top: calc(2rem + var(--topnav-h));
+        margin-left: 1rem;
+
         max-height: calc(100vh - 2rem - (var(--topnav-h) * 2));
         @apply overscroll-y-contain;
         @apply shadow-lg text-gray-900 bg-gray-50 border border-gray-300 rounded-md p-4;
-      }
 
-      @screen max-sm {
-        @apply static;
+        @screen max-sm {
+          position-area: none;
+          margin: calc(var(--topnav-h) * 2) 1rem 0;
+        }
 
-        & > div {
-          @apply w-full;
-          left: 0;
-          top: var(--topnav-h);
+        transition: opacity 0.25s;
+        @starting-style {
+          &:popover-open {
+            opacity: 0;
+          }
         }
       }
     }
