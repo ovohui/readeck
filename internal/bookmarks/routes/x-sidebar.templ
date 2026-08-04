@@ -5,14 +5,12 @@
 package routes
 
 import (
-	"net/url"
 	"strings"
 
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
 	"codeberg.org/readeck/readeck/pkg/utils"
 
 	. "codeberg.org/readeck/readeck/components"
-	"golang.org/x/net/publicsuffix"
 )
 
 type SidebarComponent struct{}
@@ -287,17 +285,20 @@ templ (c SidebarComponent) info(b *dataset.Bookmark) {
 				{ L(ctx).Gettext("By %s", strings.Join(b.Authors, ", ")) }
 			}
 		}
-		if b.URL != b.InitialURL {
-			{{
-				u, _ := url.Parse(b.InitialURL)
-				initialDomain, _ := publicsuffix.EffectiveTLDPlusOne(u.Hostname())
-			}}
-			@c.lineIcon("o-link-ext") {
-				<a href={ b.InitialURL } class="link" target="_blank">{ initialDomain }</a>
-			}
-		}
 		@c.lineIcon("o-link-ext") {
-			<a href={ b.URL } class="link" target="_blank">{ b.Domain }</a>
+			<div class="btn-group gap-1 border-0 items-center dropdown-menu sm:dropdown-menu-right">
+				<a href={ b.URL } class="link" target="_blank">{ b.Domain }</a>
+				if b.URL != b.InitialURL {
+					<button class="hf:text-primary-dark" popovertarget="menu-group">
+						@Icon("o-chevron-d")
+					</button>
+					<div popover id="menu-group" class="p-4 max-w-80 max-sm:max-w-full overflow-hidden whitespace-nowrap text-ellipsis">
+						{ L(ctx).Gettext("Initial URL:") }
+						<br/>
+						<a href={ b.InitialURL } class="link" target="_blank">{ b.InitialURL }</a>
+					</div>
+				}
+			</div>
 		}
 		if b.ReadingTime > 0 {
 			@c.lineIcon("o-clock") {
