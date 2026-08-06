@@ -70,18 +70,36 @@ templ (v Views) ui(form, formErr *cookbookForm) {
 				<button class="ml-auto btn-outlined btn-danger">Delete</button>
 			</div>
 			<hr class="my-8"/>
-			<h2 class="title text-h3">Menus</h2>
-			<details class="menu btn-group" data-controller="menu">
-				<summary class="btn-outlined py-1">
-					@Icon("o-menu-dots")
-				</summary>
-				<ul>
-					<li><button>Item A</button></li>
-					<li><button>Item B</button></li>
-					<li role="separator"></li>
-					<li><button>Item C</button></li>
-				</ul>
-			</details>
+			<h2 class="title text-h3">Dropdowns</h2>
+			<div class="grid grid-cols-2 gap-8 mb-8">
+				<div>
+					<div class="btn-group dropdown-menu dropdown-menu-left">
+						<button class="btn-outlined py-1" popovertarget="menu-inline">
+							@Icon("o-menu-dots")
+						</button>
+						<ul popover id="menu-inline">
+							<li><button>Item A</button></li>
+							<li><button>Item B</button></li>
+							<li role="separator"></li>
+							<li><button>Item C</button></li>
+						</ul>
+					</div>
+				</div>
+				<div>
+					<div class="btn-group btn-primary dropdown-menu dropdown-menu-right">
+						<button class="btn-outlined btn-primary">Main action</button>
+						<button class="btn-outlined btn-primary" popovertarget="menu-btn-group">
+							@Icon("o-chevron-d")
+						</button>
+						<ul popover id="menu-btn-group">
+							<li><button>Item A</button></li>
+							<li><button>Item B</button></li>
+							<li role="separator"></li>
+							<li><button>Item C</button></li>
+						</ul>
+					</div>
+				</div>
+			</div>
 			<hr class="my-8"/>
 			<h2 class="title text-h3">Messages</h2>
 			@Message() {

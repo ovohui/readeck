@@ -336,32 +336,27 @@ templ (c Components) listActions() {
 				}
 				orderOptions := orderForm.getOptions(server.GetRequest(ctx))
 			}}
-			<div class="relative flex items-center">
-				<details
-					class="menu btn-group"
-					data-controller="menu"
-					data-menu-offset-value="right"
+			<div class="flex items-center dropdown-menu dropdown-menu-right">
+				<button
+					class="btn-outlined py-1"
+					popovertarget="sort-menu"
+					title={ L(ctx).Gettext("Sort bookmarks") }
 				>
-					<summary
-						class="btn-outlined py-1"
-						role="button"
-						title={ L(ctx).Gettext("Sort bookmarks") }
-					>
-						@Icon("o-sort")
-					</summary>
-					<ul class="top-8 right-0" role="menu" aria-label={ L(ctx).Gettext("Sort options") }>
-						for _, x := range orderOptions {
-							<li
-								role="menuitem"
-								if x[0] == currentOrder {
-									aria-current="page"
-								}
-							>
-								<a class="link" href={ x[1] }>{ x[2] } </a>
-							</li>
-						}
-					</ul>
-				</details>
+					@Icon("o-sort")
+					<span class="sr-only">{ L(ctx).Gettext("Sort bookmarks") }</span>
+				</button>
+				<ul popover id="sort-menu" aria-label={ L(ctx).Gettext("Sort options") }>
+					for _, x := range orderOptions {
+						<li
+							role="menuitem"
+							if x[0] == currentOrder {
+								aria-current="page"
+							}
+						>
+							<a class="link" href={ x[1] }>{ x[2] } </a>
+						</li>
+					}
+				</ul>
 			</div>
 		}
 		{ children... }
@@ -375,51 +370,46 @@ templ (c Components) exportMenu(q url.Values) {
 			delete(atomQ, f.Sort.Name())
 		}
 	}}
-	<div class="relative flex items-center">
-		<details
-			class="menu btn-group"
-			data-controller="menu"
-			data-menu-offset-value="right"
+	<div class="flex items-center dropdown-menu dropdown-menu-right">
+		<button
+			class="btn-outlined py-1"
+			popovertarget="import-export-menu"
+			title={ L(ctx).Gettext("Import and export") }
 		>
-			<summary
-				class="btn-outlined py-1"
-				role="button"
-				title={ L(ctx).Gettext("Import and export") }
-			>
-				@Icon("o-menu-dots")
-			</summary>
-			<ul class="top-8 right-0">
-				{ children... }
-				if HasPermission(ctx, "api:bookmarks", "export") {
-					<li>
-						<a class="link" href={ string(URL(ctx, "/api/bookmarks/export.epub")) + "?" + q.Encode() }>
-							@Icon("o-ebook")
-							{ " " }
-							{ L(ctx).Gettext("Download EPUB") }
-						</a>
-					</li>
-					{{
-						q2 := maps.Clone(q)
-						if f, ok := checkOrderForm(ctx); ok {
-							delete(q2, f.Sort.Name())
-						}
-					}}
-					<li>
-						<a
-							class="link"
-							href={ string(URL(ctx, "/api/bookmarks/feed")) + "?" + atomQ.Encode() }
-							data-controller="dialog"
-							data-dialog-select-value="#atom-feed"
-							data-action="dialog#open:prevent"
-						>
-							@Icon("o-feed")
-							{ " " }
-							{ L(ctx).Gettext("Atom Feed") }
-						</a>
-					</li>
-				}
-			</ul>
-		</details>
+			@Icon("o-menu-dots")
+			<span class="sr-only">{ L(ctx).Gettext("Import and export") }</span>
+		</button>
+		<ul popover id="import-export-menu">
+			{ children... }
+			if HasPermission(ctx, "api:bookmarks", "export") {
+				<li>
+					<a class="link" href={ string(URL(ctx, "/api/bookmarks/export.epub")) + "?" + q.Encode() }>
+						@Icon("o-ebook")
+						{ " " }
+						{ L(ctx).Gettext("Download EPUB") }
+					</a>
+				</li>
+				{{
+					q2 := maps.Clone(q)
+					if f, ok := checkOrderForm(ctx); ok {
+						delete(q2, f.Sort.Name())
+					}
+				}}
+				<li>
+					<a
+						class="link"
+						href={ string(URL(ctx, "/api/bookmarks/feed")) + "?" + atomQ.Encode() }
+						data-controller="dialog"
+						data-dialog-select-value="#atom-feed"
+						data-action="dialog#open:prevent"
+					>
+						@Icon("o-feed")
+						{ " " }
+						{ L(ctx).Gettext("Atom Feed") }
+					</a>
+				</li>
+			}
+		</ul>
 	</div>
 	if HasPermission(ctx, "api:bookmarks", "export") {
 		@Components{}.feedDialog(atomQ)
