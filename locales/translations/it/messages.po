@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-08-02 21:32+0200\n"
-"PO-Revision-Date: 2026-07-27 15:05+0000\n"
+"PO-Revision-Date: 2026-08-03 14:47+0000\n"
 "Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language: it\n"
 "Language-Team: Italian <https://translate.codeberg.org/projects/readeck/application/it/>\n"
@@ -25,6 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
+"X-Generator: Weblate 2026.7.1\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
 #: components/layout.templ:78 components/layout.templ:79
@@ -1658,7 +1659,7 @@ msgstr "Il bookmark si sta caricando"
 #: internal/bookmarks/routes/x-bookmark.templ:110
 #: internal/bookmarks/routes/x-bookmark.templ:116
 msgid "Go back"
-msgstr ""
+msgstr "Indietro"
 
 #: internal/bookmarks/routes/x-bookmark.templ:120
 #: internal/bookmarks/routes/x-bookmark.templ:126
@@ -3445,4 +3446,3 @@ msgstr "%H:%M:%S"
 #~ msgctxt "date"
 #~ msgid "To"
 #~ msgstr ""
-
