@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-22 09:42+0200\n"
-"PO-Revision-Date: 2026-07-27 05:48+0000\n"
+"PO-Revision-Date: 2026-08-05 12:00+0000\n"
 "Last-Translator: boronology <boronology@noreply.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/readeck/documentation/ja/>\n"
 "Language: ja\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.7.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -770,15 +770,15 @@ msgstr "![Koreaderの検索メニュー](../img/koreader-1.webp)"
 
 #: en/opds.md:41
 msgid "This section shows a list of preconfigured OPDS sources and you can add yours by pressing the \"+\" icon on the top left corner:"
-msgstr ""
+msgstr "このセクションでは事前に設定済みのOPDSソースが表示されており、左上の\"+\"アイコンを押すと自分のソースを追加できます。"
 
 #: en/opds.md:43
 msgid "![Koreader catalog list](../img/koreader-2.webp)"
-msgstr ""
+msgstr "![Koreaderのカタログ一覧](../img/koreader-2.webp)"
 
 #: en/opds.md:45
 msgid "In this dialog replace the fields below with:"
-msgstr ""
+msgstr "このダイアログでは各入力欄の内容を以下のように読み替えてください。"
 
 #: en/opds.md:47
 msgid ""
@@ -786,62 +786,65 @@ msgid ""
 "- alice: your username\n"
 "- your API Token in the last field"
 msgstr ""
+"- https://readeck.example.com を `readeck-instance://opds` に\n"
+"- aliceをあなたのユーザー名に\n"
+"- 最後の入力欄をあなたのAPIトークンに"
 
 #: en/opds.md:51
 msgid "![Koreader add catalog](../img/koreader-3.webp)"
-msgstr ""
+msgstr "![Koreaderにカタログを追加](../img/koreader-3.webp)"
 
 #: en/opds.md:53
 msgid "You can now access your bookmarks from Koreader!"
-msgstr ""
+msgstr "Koreaderからブックマークにアクセスできるようになりました！"
 
 #: en/opds.md:55
 msgid "![Koreader readeck catalog](../img/koreader-4.webp)"
-msgstr ""
+msgstr "![Koreaderに表示されたReadeckのカタログ](../img/koreader-4.webp)"
 
 #: en/user-profile.md:1
 msgid "# User Profile"
-msgstr ""
+msgstr "# ユーザープロフィール"
 
 #: en/user-profile.md:3
 msgid "The [Profile section](readeck-instance://profile) of Readeck lets you change your personal information, you password and some other settings."
-msgstr ""
+msgstr "Readeckの[プロフィールのセクション](readeck-instance://profile)では個人情報、パスワード、その他の設定を変更できます。"
 
 #: en/user-profile.md:5
 msgid "## Edit your profile"
-msgstr ""
+msgstr "## プロフィールの編集"
 
 #: en/user-profile.md:7
 msgid "On the main profile page, you can change your username, your email address and choose the app's language."
-msgstr ""
+msgstr "プロフィールのメインページではユーザー名、メールアドレス、アプリの言語を変更できます。"
 
 #: en/user-profile.md:9
 msgid "## Change your password"
-msgstr ""
+msgstr "## パスワードの変更"
 
 #: en/user-profile.md:11
 msgid "On the [Password](readeck-instance://profile/password) page, you can change the password you use to connect to Readeck."
-msgstr ""
+msgstr "[パスワード](readeck-instance://profile/password)のページでは、Readeckに接続するために使うパスワードを変更できます。"
 
 #: en/user-profile.md:13
 msgid "## API Tokens"
-msgstr ""
+msgstr "## APIトークン"
 
 #: en/user-profile.md:15
 msgid "An API Token lets you access and use the [Readeck API](readeck-instance://docs/api) for anything you'd like to build. You can create and manage tokens on the [API Tokens](readeck-instance://profile/tokens) section of your user profile."
-msgstr ""
+msgstr "APIトークンがあれば、自分で作ったどんなアプリでも[Readeck API](readeck-instance://docs/api)にアクセスして利用できるようになります。 ユーザープロフィールの[APIトークン](readeck-instance://profile/tokens)のセクションでトークンを作成し、管理できます。"
 
 #: en/user-profile.md:17
 msgid "You can limit what a given token can access through the API and for how long it's valid."
-msgstr ""
+msgstr "トークンがAPIを通して何にアクセスできるか、いつまで有効かを制限できます。"
 
 #: en/user-profile.md:19
 msgid "If you need to grant access to your Readeck account to a service or an app, you can't provide you main username and password; it won't work."
-msgstr ""
+msgstr "サービスやアプリに対してReadeckアカウントへのアクセスを許可するには、ユーザー名とパスワードを渡してはいけません。"
 
 #: en/user-profile.md:21
 msgid "Instead, you can give your username and a token of your choice as authentication credentials."
-msgstr ""
+msgstr "かわりに、認証クレデンシャルとしてユーザー名とトークンを渡します。"
 
 #~ msgid "## Change the title"
 #~ msgstr "## タイトルの変更"
