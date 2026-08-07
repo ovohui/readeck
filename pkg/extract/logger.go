@@ -61,19 +61,20 @@ func (h *logRecorder) Handle(ctx context.Context, r slog.Record) error {
 		}
 	}
 
-	prefix := ""
+	var prefix strings.Builder
 	for _, goa := range goas {
 		if goa.group != "" {
-			prefix += goa.group + "."
+			prefix.WriteString(goa.group)
+			prefix.WriteString(".")
 		}
 
 		for _, a := range goa.attrs {
-			h.renderAttr(b, prefix, a)
+			h.renderAttr(b, prefix.String(), a)
 		}
 	}
 
 	r.Attrs(func(a slog.Attr) bool {
-		h.renderAttr(b, prefix, a)
+		h.renderAttr(b, prefix.String(), a)
 		return true
 	})
 

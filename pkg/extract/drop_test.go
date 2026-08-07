@@ -37,7 +37,7 @@ func TestDrop(t *testing.T) {
 		var buf bytes.Buffer
 		// To avoid this response being confidently detected as UTF-8 by HTMLReader, make sure that
 		// there is at least 3 kB padding before the first Unicode character.
-		for i := 0; i < 3; i++ {
+		for range 3 {
 			fmt.Fprintf(&buf, "<!-- % 1024s -->\n", "")
 		}
 		fmt.Fprint(&buf, "<p>Otters 🦦 are playful animals.</p>\n")

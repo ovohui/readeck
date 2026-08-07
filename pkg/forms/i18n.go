@@ -31,8 +31,8 @@ func GetTranslator(ctx context.Context) Translator {
 
 // Translator describes a type that implements a translation method.
 type Translator interface {
-	Gettext(string, ...interface{}) string
-	Pgettext(ctx, str string, vars ...interface{}) string
+	Gettext(string, ...any) string
+	Pgettext(ctx, str string, vars ...any) string
 }
 
 // ContextHolder is an interface implemented by types that can carry a [context.Context].
