@@ -1,9 +1,9 @@
 {
   "title_selectors": [
-    "//h3[@class=\"post-title\"]"
+    "//div[@class=\"title\"]"
   ],
   "body_selectors": [
-    "//div[@class=\"grumpypost\"]"
+    "//div[@class=\"body\"]"
   ],
   "date_selectors": null,
   "author_selectors": [

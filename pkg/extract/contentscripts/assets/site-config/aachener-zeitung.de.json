@@ -1,0 +1,30 @@
+{
+  "title_selectors": null,
+  "body_selectors": [
+    "//main/article[1]"
+  ],
+  "date_selectors": null,
+  "author_selectors": null,
+  "strip_selectors": [
+    "//hgroup/div[1]",
+    "//div[contains(@class, 'article-hero-block_')]",
+    "//div[contains(@class, 'tag-list_')]",
+    "//div[contains(@class, 'trustbox_')]"
+  ],
+  "strip_id_or_class": null,
+  "strip_image_src": null,
+  "native_ad_selectors": null,
+  "tidy": false,
+  "prune": false,
+  "autodetect_on_failure": true,
+  "single_page_link_selectors": null,
+  "next_page_link_selectors": null,
+  "replace_strings": null,
+  "http_headers": null,
+  "tests": [
+    {
+      "url": "https://www.aachener-zeitung.de/region-nrw/erst-hitze-dann-gewitter-bis-zu-34-grad-in-der-region/159327668.html",
+      "contains": []
+    }
+  ]
+}
