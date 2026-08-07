@@ -174,7 +174,7 @@ templ (c SidebarComponent) actions(b *dataset.Bookmark) {
 							@Icon("o-share")
 							<span class="sr-only">{ L(ctx).Gettext("Export and Share") }</span>
 						</button>
-						<ul popover id="export-menu" data-controller="menu">
+						<ul popover id="export-menu" role="menu" data-controller="menu">
 							<li>
 								<a class="link" href={ URL(ctx, "/api/bookmarks", b.ID, "article.epub") } download>
 									@Icon("o-ebook")

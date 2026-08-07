@@ -345,7 +345,7 @@ templ (c Components) listActions() {
 					@Icon("o-sort")
 					<span class="sr-only">{ L(ctx).Gettext("Sort bookmarks") }</span>
 				</button>
-				<ul popover id="sort-menu" aria-label={ L(ctx).Gettext("Sort options") }>
+				<ul popover id="sort-menu" role="menu" aria-label={ L(ctx).Gettext("Sort options") }>
 					for _, x := range orderOptions {
 						<li
 							role="menuitem"
@@ -379,7 +379,7 @@ templ (c Components) exportMenu(q url.Values) {
 			@Icon("o-menu-dots")
 			<span class="sr-only">{ L(ctx).Gettext("Import and export") }</span>
 		</button>
-		<ul popover id="import-export-menu">
+		<ul popover id="import-export-menu" role="menu">
 			{ children... }
 			if HasPermission(ctx, "api:bookmarks", "export") {
 				<li>
