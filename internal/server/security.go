@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"io"
 	"log/slog"
+	"maps"
 	"net/http"
 
 	"codeberg.org/readeck/readeck/configs"
@@ -70,30 +71,35 @@ func GetCSPHeader(ctx context.Context) csp.Policy {
 }
 
 // SetSecurityHeaders adds some headers to improve client side security.
-func SetSecurityHeaders(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var nonce string
-		if nonce = r.Header.Get("x-turbo-nonce"); nonce == "" {
-			nonce = csp.MakeNonce()
-		}
+func SetSecurityHeaders() func(next http.Handler) http.Handler {
+	permissions := maps.Clone(permissionspolicy.DefaultPolicy)
+	permissions.Add("fullscreen", "self")
 
-		policy := getDefaultCSP()
-		policy.Add("script-src", fmt.Sprintf("'nonce-%s'", nonce), csp.UnsafeInline)
-		policy.Add("style-src", fmt.Sprintf("'nonce-%s'", nonce), csp.UnsafeInline)
-		policy.Add("report-uri", urls.AbsoluteURL(r, "/logger/csp-report").String())
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			var nonce string
+			if nonce = r.Header.Get("x-turbo-nonce"); nonce == "" {
+				nonce = csp.MakeNonce()
+			}
 
-		policy.Write(w.Header())
-		permissionspolicy.DefaultPolicy.Write(w.Header())
-		w.Header().Set("Referrer-Policy", "same-origin, strict-origin")
-		w.Header().Add("X-Frame-Options", "DENY")
-		w.Header().Add("X-Content-Type-Options", "nosniff")
-		w.Header().Add("X-XSS-Protection", "1; mode=block")
-		w.Header().Add("X-Robots-Tag", "noindex, nofollow, noarchive")
+			policy := getDefaultCSP()
+			policy.Add("script-src", fmt.Sprintf("'nonce-%s'", nonce), csp.UnsafeInline)
+			policy.Add("style-src", fmt.Sprintf("'nonce-%s'", nonce), csp.UnsafeInline)
+			policy.Add("report-uri", urls.AbsoluteURL(r, "/logger/csp-report").String())
 
-		ctx := withCSPNonce(r.Context(), nonce)
-		ctx = withCSP(ctx, policy)
-		next.ServeHTTP(w, r.WithContext(ctx))
-	})
+			policy.Write(w.Header())
+			permissions.Write(w.Header())
+			w.Header().Set("Referrer-Policy", "same-origin, strict-origin")
+			w.Header().Add("X-Frame-Options", "DENY")
+			w.Header().Add("X-Content-Type-Options", "nosniff")
+			w.Header().Add("X-XSS-Protection", "1; mode=block")
+			w.Header().Add("X-Robots-Tag", "noindex, nofollow, noarchive")
+
+			ctx := withCSPNonce(r.Context(), nonce)
+			ctx = withCSP(ctx, policy)
+			next.ServeHTTP(w, r.WithContext(ctx))
+		})
+	}
 }
 
 func cspReportHandler(w http.ResponseWriter, r *http.Request) {

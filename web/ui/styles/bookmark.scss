@@ -46,6 +46,10 @@
         display: none;
       }
 
+      @at-root :root:fullscreen & {
+        top: 0;
+      }
+
       @screen max-sm {
         @apply transition-all duration-500;
         top: calc(var(--topnav-h) * 2);
@@ -258,6 +262,10 @@
         @apply mb-8 p-0 border-b border-l-0 ml-0;
       }
 
+      @at-root :root:fullscreen & {
+        display: none;
+      }
+
       @screen max-lg {
         @apply fixed right-0 w-full max-w-col-8;
         top: var(--topnav-h);
@@ -290,6 +298,10 @@
 
       @media print {
         display: none;
+      }
+
+      @at-root :root:fullscreen & {
+        top: 2rem;
       }
 
       @screen max-sm {
