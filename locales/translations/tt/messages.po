@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-08-02 21:32+0200\n"
-"PO-Revision-Date: 2026-07-28 18:13+0000\n"
+"PO-Revision-Date: 2026-08-03 18:40+0000\n"
 "Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language: tt\n"
 "Language-Team: Tatar <https://translate.codeberg.org/projects/readeck/application/tt/>\n"
@@ -21,6 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
+"X-Generator: Weblate 2026.7.1\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
 #: components/layout.templ:78 components/layout.templ:79
@@ -343,6 +344,12 @@ msgid ""
 "\t\t\t\t\t\t\t\t\tThis will detach the user <strong>%[2]s</strong>.\n"
 "\t\t\t\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\t\t\t\tБу кулланучы тышкы аутентификация провайдерына бәйләнгән:<br />\n"
+"\t\t\t\t\t\t\t\t\t<strong>%[1]s</strong>.<br />\n"
+"\t\t\t\t\t\t\t\t\tШуңа күрә, аның кайбер үзлекләрен үзгәртеп булмый.<br />\n"
+"\t\t\t\t\t\t\t\t\tБу <strong>%[2]s</strong> кулланучысын аерып куячак.\n"
+"\t\t\t\t\t\t\t\t"
 
 #: internal/admin/x-users.templ:240
 msgid "Detach this user"
@@ -540,6 +547,20 @@ msgid ""
 "\n"
 "If you are not a Readeck user, please ignore this message.\n"
 msgstr ""
+"\n"
+"Сәлам,\n"
+"\n"
+"Сез (яки башка берәү) Readeck хисап язмасының (%[1]s) серсүзен үзгәртергә\n"
+"тырышканда бу электрон почта адресын керттегез.\n"
+"\n"
+"Ләкин бу э-почта адресы бернинди хисап язмасы белән дә бәйләнмәгән, шуңа\n"
+"күрә серсүзне үзгәртү омтылышы уңышсыз тәмамланды.\n"
+"\n"
+"Әгәр сез %[1]s сайтында Readeck кулланучысы булсагыз һәм бу\n"
+"хатны көтсәгез, зинһар, хисап язмасын төзегәндә кулланган\n"
+"э-почта адресы белән кабатлап карагыз.\n"
+"\n"
+"Әгәр сез Readeck кулланучысы түгелсез икән, зинһар, бу хәбәрне игътибарсыз калдырыгыз.\n"
 
 #: internal/auth/signin/x-auth.templ:21
 msgid "Or continue with"
@@ -634,14 +655,12 @@ msgid "username is not valid"
 msgstr "дөрес булмаган кулланучы исеме"
 
 #: internal/auth/users/forms.go:19
-#, fuzzy
 msgid "username is not available"
-msgstr "кулланучы исеме туры килми"
+msgstr "кулланучы исеме буш түгел"
 
 #: internal/auth/users/forms.go:34
-#, fuzzy
 msgid "password must be at least 8 characters long"
-msgstr "кем дә 8 символдан кем дә күбрәк булырга тиеш"
+msgstr "серсүз ким дигәндә 8 билгедән торырга тиеш"
 
 #: internal/auth/users/forms.go:89
 msgctxt "role"
@@ -773,9 +792,8 @@ msgid "Change theme"
 msgstr "Теманы алыштырырга"
 
 #: internal/bookmarks/converter/x-html-public.templ:200
-#, fuzzy
 msgid "Shared by %[1]s with %[2]s"
-msgstr "%s тарафыннан %s белән уртаклаштырылды"
+msgstr "%[1]s тарафыннан %[2]s белән уртаклашылган"
 
 #: internal/bookmarks/importer/browser.go:56
 #: internal/bookmarks/routes/x-import.templ:36
@@ -853,7 +871,7 @@ msgstr "Ярлык импортланган закладкаларга өстә�
 
 #: internal/bookmarks/importer/x-forms.templ:49
 msgid "Ignore links already in your bookmarks"
-msgstr ""
+msgstr "Билгеләрыгызда булган сылтамаларны санга сукмагыз"
 
 #: internal/bookmarks/importer/x-forms.templ:53
 msgid "Archive all links"
@@ -861,7 +879,7 @@ msgstr "Барлык сылтамаларны архивлагыз"
 
 #: internal/bookmarks/importer/x-forms.templ:55
 msgid "Moves all links to archive, regardless of their original status"
-msgstr ""
+msgstr "Барлык сылтамаларны да, баштагы статусларына карамастан, архивка күчерә"
 
 #: internal/bookmarks/importer/x-forms.templ:58
 msgid "Mark all links as read"
@@ -869,11 +887,11 @@ msgstr "Барлык сылтамаларны укылган дип билгел
 
 #: internal/bookmarks/importer/x-forms.templ:60
 msgid "Marks all links as read, regardless of their original status"
-msgstr ""
+msgstr "Барлык сылтамаларны да, баштагы статусларына карамастан, укылган дип билгели"
 
 #: internal/bookmarks/importer/x-forms.templ:65
 msgid "Import your Browser's Bookmarks"
-msgstr ""
+msgstr "Браузер билгеләрын импортларга"
 
 #: internal/bookmarks/importer/x-forms.templ:68
 msgid ""
@@ -883,6 +901,11 @@ msgid ""
 "\t\t\t\t\tevery bookmark found it the file.\n"
 "\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\tВеб-браузерыгызда билгеләрыгызны HTML файлы итеп экспортлагыз.<br>\n"
+"\t\t\t\t\tБу файлны түбәндәге формага йөкләгез, һәм Readeck файлда табылган һәр\n"
+"\t\t\t\t\tкыстыргычны ясаячак һәм алачак.\n"
+"\t\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:77
 msgid "Instructions for Firefox"
@@ -1006,54 +1029,54 @@ msgstr "Искәрмә: ZIP-файлны эчтәлеген түгел, ә ту�
 
 #: internal/bookmarks/importer/x-forms.templ:220
 msgid "Import Links from Readwise Reader CSV export"
-msgstr ""
+msgstr "Readwise Reader CSV экспортыннан сылтамаларны импортлау"
 
 #: internal/bookmarks/importer/x-forms.templ:223
 msgid "Upload a CSV file exported from your Readwise Reader account below."
-msgstr ""
+msgstr "Түбәндә Readwise Reader аккаунтыннан экспортланган CSV файлын йөкләгез."
 
 #: internal/bookmarks/importer/x-forms.templ:229
 msgid "Which information is imported"
-msgstr ""
+msgstr "Нинди мәгълүмат импортлана"
 
 #: internal/bookmarks/importer/x-forms.templ:232
 msgid "Article title, URL, and when it was first saved,"
-msgstr ""
+msgstr "Мәкалә исеме, URL һәм ул беренче тапкыр сакланган вакыт,"
 
 #: internal/bookmarks/importer/x-forms.templ:233
 msgid "The archived state of an article,"
-msgstr ""
+msgstr "Мәкаләнең архивланган хәле,"
 
 #: internal/bookmarks/importer/x-forms.templ:234
 #, python-format
 msgid "\"%s\" as Readeck labels,"
-msgstr ""
+msgstr "Readeck ярлыклары буларак \"%s\","
 
 #: internal/bookmarks/importer/x-forms.templ:235
 #, python-format
 msgid "When a document tag contains \"%s\", the bookmark will be added to Readeck Favorites."
-msgstr ""
+msgstr "Документ тегында \"%s\" булса, кыстыргыч Readeck Сөйкемлеләренә өстәләчәк."
 
 #: internal/bookmarks/importer/x-forms.templ:237
 msgid "What is not imported:"
-msgstr ""
+msgstr "Нәрсә импортланмаган:"
 
 #: internal/bookmarks/importer/x-forms.templ:239
 msgid "Article reading progress and seen status,"
-msgstr ""
+msgstr "Мәкаләне уку барышы һәм каралу статусы,"
 
 #: internal/bookmarks/importer/x-forms.templ:240
 msgid "Articles forwarded to Readwise Reader by email,"
-msgstr ""
+msgstr "Э-хат аша Readwise Reader-га җибәрелгән мәкаләләр,"
 
 #: internal/bookmarks/importer/x-forms.templ:241
 msgid "Uploaded documents such as PDFs or EPUB."
-msgstr ""
+msgstr "PDF яки EPUB кебек йөкләнгән документлар."
 
 #: internal/bookmarks/importer/x-forms.templ:247
 #: internal/bookmarks/routes/x-import.templ:86
 msgid "Import Links from a Text File"
-msgstr ""
+msgstr "Текст файлыннан сылтамаларны импортлау"
 
 #: internal/bookmarks/importer/x-forms.templ:250
 msgid ""
@@ -1355,7 +1378,7 @@ msgstr "Архив"
 #: internal/bookmarks/routes/x-base.templ:55
 #: internal/dashboard/x-dashboard.templ:144
 msgid "Favorites"
-msgstr "Изләнгәннәр"
+msgstr "Сайланмалар"
 
 #: internal/bookmarks/routes/x-base.templ:76
 #: internal/bookmarks/routes/x-labels.templ:72
@@ -1579,7 +1602,7 @@ msgstr "Вакытлык йөкләнә"
 #: internal/bookmarks/routes/x-bookmark.templ:110
 #: internal/bookmarks/routes/x-bookmark.templ:116
 msgid "Go back"
-msgstr ""
+msgstr "Кайту"
 
 #: internal/bookmarks/routes/x-bookmark.templ:120
 #: internal/bookmarks/routes/x-bookmark.templ:126
@@ -3477,4 +3500,3 @@ msgstr "%H:%M:%S"
 #~ msgctxt "date"
 #~ msgid "To"
 #~ msgstr ""
-

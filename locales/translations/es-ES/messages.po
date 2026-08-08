@@ -11,15 +11,16 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-08-02 21:32+0200\n"
-"PO-Revision-Date: 2026-07-30 17:07+0000\n"
+"PO-Revision-Date: 2026-08-06 12:18+0000\n"
 "Last-Translator: gallegonovato <gallegonovato@noreply.codeberg.org>\n"
-"Language: es_ES\n"
+"Language: es-ES\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/readeck/application/es/>\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
+"X-Generator: Weblate 2026.7.1\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
 #: components/layout.templ:78 components/layout.templ:79
@@ -47,7 +48,7 @@ msgstr "Ocurrió un error."
 
 #: components/errors.templ:24
 msgid "Back to home page"
-msgstr "Regresar a la página de inicio"
+msgstr "Volver a la página de inicio"
 
 #: components/forms/forms.templ:21
 msgid "Errors"
@@ -55,12 +56,12 @@ msgstr "Errores"
 
 #: components/forms/forms.templ:28
 msgid "Please check your form for errors."
-msgstr "Por favor, revise su formulario para encontrar posibles errores."
+msgstr "Por favor, revise su formulario para detectar posibles errores."
 
 #: components/forms/forms.templ:48 components/forms/forms.templ:52
 #: internal/bookmarks/importer/x-forms.templ:126
 msgid "Required"
-msgstr "Necesario"
+msgstr "Obligatorio"
 
 #: components/forms/forms.templ:349
 msgid "The previous"
@@ -178,11 +179,11 @@ msgstr "Ir a la página siguiente"
 # | msgid "Password ID"
 #: internal/admin/forms.go:39
 msgid "password is empty"
-msgstr "la contraseña está vacía"
+msgstr "La contraseña está vacía"
 
 #: internal/admin/forms.go:73
 msgid "User is external and can't be updated."
-msgstr "Usuario externo y no se puede actualizar."
+msgstr "No puedo actualizar el usuario externo."
 
 #: internal/admin/forms.go:85 internal/profile/forms.go:98
 msgid "username is already in use"
@@ -205,7 +206,7 @@ msgstr "Usuario creado."
 
 #: internal/admin/views.go:87 internal/admin/x-users.templ:85
 msgid "New User"
-msgstr "Usuario nuevo"
+msgstr "Nuevo usuario"
 
 #: internal/admin/views.go:112
 msgid "User updated."
@@ -289,7 +290,7 @@ msgstr "Información de usuario"
 
 #: internal/admin/x-users.templ:153
 msgid "will not change if empty"
-msgstr "no cambiará si está vacío"
+msgstr "no cambia si está vacío"
 
 #: internal/admin/x-users.templ:158
 #: internal/bookmarks/routes/x-bookmark.templ:225
@@ -329,7 +330,7 @@ msgstr "El usuario será eliminado en unos segundos"
 
 #: internal/admin/x-users.templ:214
 msgid "This will sign this user out of all active sessions on the web application."
-msgstr "Esto cerrará la sesión de este usuario en todas las sesiones activas de la aplicación web."
+msgstr "Con esto, se cerrará la sesión de este usuario en todas las sesiones activas de la aplicación web."
 
 #: internal/admin/x-users.templ:219
 msgid "Sign this user out"
@@ -345,10 +346,10 @@ msgid ""
 "\t\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"\t\t\t\t\t\t\t\t\tEste usuario está vinculado a un proveedor de autenticación externo: <br />\n"
+"\t\t\t\t\t\t\t\t\tEste usuario está vinculado a un proveedor de autenticación externo:<br />\n"
 "\t\t\t\t\t\t\t\t\t<strong>%[1]s</strong>.<br />\n"
-"\t\t\t\t\t\t\t\t\tPor lo tanto, algunas de sus propiedades no se pueden modificar.<br />\n"
-"\t\t\t\t\t\t\t\t\tEsto desconectará al usuario <strong>%[2]s</strong>.\n"
+"\t\t\t\t\t\t\t\t\tPor lo tanto, algunas de sus propiedades no se pueden editar.<br />\n"
+"\t\t\t\t\t\t\t\t\tEsto desvinculará al usuario <strong>%[2]s</strong>.\n"
 "\t\t\t\t\t\t\t\t"
 
 #: internal/admin/x-users.templ:240
@@ -447,7 +448,7 @@ msgstr "Nombre"
 
 #: internal/auth/oauth2/x-oauth.templ:135
 msgid "Website"
-msgstr "Sitio web"
+msgstr "Página web"
 
 #: internal/auth/oauth2/x-oauth.templ:136
 msgid "Version"
@@ -520,7 +521,7 @@ msgid ""
 "%[2]s\n"
 msgstr ""
 "\n"
-"Hola,\n"
+"¡Hola!:\n"
 "\n"
 "Has ingresado esta dirección de correo electrónico (u otra persona) al intentar\n"
 "cambiar la contraseña de una cuenta de Readeck (%[1]s).\n"
@@ -548,7 +549,7 @@ msgid ""
 "If you are not a Readeck user, please ignore this message.\n"
 msgstr ""
 "\n"
-"Hola\n"
+"¡Hola!:\n"
 "\n"
 "Has ingresado esta dirección de correo electrónico (u otra persona) al intentar\n"
 "cambiar la contraseña de una cuenta de Readeck (%[1]s).\n"
@@ -627,12 +628,12 @@ msgstr "Envíame un enlace de recuperación"
 
 #: internal/auth/signin/x-auth.templ:150
 msgid "Almost there!"
-msgstr "¡Ya queda nada!"
+msgstr "¡Casi estamos!"
 
 #: internal/auth/signin/x-auth.templ:152
 #, python-format
 msgid "We have sent an email to <strong>%s</strong> with further instructions."
-msgstr "Hemos enviado un correo electrónico a <strong>%s</strong> con más instrucciones."
+msgstr "Hemos enviado un correo electrónico a <strong>%s</strong> con más indicaciones."
 
 #: internal/auth/signin/x-auth.templ:168 internal/profile/x-security.templ:33
 msgid "New password"
@@ -717,7 +718,7 @@ msgid ""
 "Here is your ebook for: **%s**\n"
 msgstr ""
 "\n"
-"Hola,\n"
+"¡Hola!:\n"
 "\n"
 "Aquí está su libro electrónico para: **%s**\n"
 
@@ -852,7 +853,7 @@ msgstr "No se encontró ningún token de acceso"
 #: internal/bookmarks/importer/x-forms.templ:21
 #: internal/dashboard/x-dashboard.templ:66
 msgid "Import Bookmarks"
-msgstr "Importar Marcadores"
+msgstr "Importar marcadores"
 
 #: internal/bookmarks/importer/x-forms.templ:32
 #: internal/bookmarks/importer/x-forms.templ:209
@@ -872,11 +873,11 @@ msgstr "Etiqueta"
 
 #: internal/bookmarks/importer/x-forms.templ:46
 msgid "A label to add to all imported bookmarks"
-msgstr "Una etiqueta que añadir a todos los marcadores importados"
+msgstr "Una etiqueta para añadir a todos los marcadores importados"
 
 #: internal/bookmarks/importer/x-forms.templ:49
 msgid "Ignore links already in your bookmarks"
-msgstr "Ignora los enlaces que ya están en tus marcadores"
+msgstr "Ignora los enlaces que ya tienes en tus marcadores"
 
 # | msgid "Archived Bookmarks"
 #: internal/bookmarks/importer/x-forms.templ:53
@@ -996,7 +997,7 @@ msgstr "Estado archivado del marcador; el único valor válido es «%s»"
 
 #: internal/bookmarks/importer/x-forms.templ:143
 msgid "Creation date, can be a UNIX timestamp or an RFC-3339 formatted date"
-msgstr "Fecha de creación; puede ser un cronomarcador UNIX o una fecha en formato RFC-3339"
+msgstr "Fecha de creación; puede ser una marca de tiempo UNIX o una fecha con formato RFC-3339"
 
 #: internal/bookmarks/importer/x-forms.templ:148
 msgid "A JSON encoded list of labels"
@@ -1016,7 +1017,7 @@ msgstr "Sube un archivo JSON obtenido de tu aplicación GoodLinks."
 
 #: internal/bookmarks/importer/x-forms.templ:173
 msgid "Import Bookmarks from a Linkwarden export file"
-msgstr "Importar Marcadores desde un archivo de exportación de Linkwarden"
+msgstr "Importar marcadores desde un archivo de exportación de Linkwarden"
 
 #: internal/bookmarks/importer/x-forms.templ:176
 msgid "Upload a JSON file obtained from your Linkwarden app."
@@ -1063,7 +1064,7 @@ msgstr "A continuación sube un archivo CSV exportado desde tu cuenta de Readwis
 
 #: internal/bookmarks/importer/x-forms.templ:229
 msgid "Which information is imported"
-msgstr "Qué información es importada"
+msgstr "¿Qué información se importa?"
 
 #: internal/bookmarks/importer/x-forms.templ:232
 msgid "Article title, URL, and when it was first saved,"
@@ -1257,7 +1258,7 @@ msgstr "En curso"
 #: internal/bookmarks/routes/forms_filters.go:63
 msgctxt "status"
 msgid "Completed"
-msgstr "Leídos"
+msgstr "Finalizado"
 
 #: internal/bookmarks/routes/forms_filters.go:72
 #, python-format
@@ -1280,7 +1281,7 @@ msgstr "Colección Readeck: %s"
 #: internal/bookmarks/routes/opds.go:148
 #, python-format
 msgid "Collection ebook - %s"
-msgstr "Colección ebook - %s"
+msgstr "Colección de libros electrónicos - %s"
 
 #: internal/bookmarks/routes/opds.go:155
 #, python-format
@@ -1373,7 +1374,7 @@ msgstr "Marcadores destacados"
 
 #: internal/bookmarks/routes/x-annotations.templ:20
 msgid "You don't have any highlights yet."
-msgstr "Todavía no tiene ningún destacado."
+msgstr "Aún no tienes ningún destacado."
 
 #: internal/bookmarks/routes/x-annotations.templ:22
 msgid ""
@@ -1383,14 +1384,14 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"\t\t\t\t\t\t\tUna vez que empieces a resaltar partes de tus artículos guardados, aparecerán en esta página\n"
-"\t\t\t\t\t\t\t para que puedas encontrarlos fácilmente.\n"
+"\t\t\t\t\t\t\tEn cuanto empieces a resaltar partes de tus artículos guardados, aparecerán en esta página\n"
+"\t\t\t\t\t\t\tpara que puedas encontrarlos fácilmente.\n"
 "\t\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-annotations.templ:29
 #, python-format
 msgid "Read more about highlights in the <a class=\"%s\" href=\"%s\">documentation</a>."
-msgstr "Obtenga más información sobre los aspectos destacados en la <a class=\"%s\" href=\"%s\">documentación</a>."
+msgstr "Para obtener más información sobre las características más destacadas, consulta la <a class=\"%s\" href=\"%s\">documentación</a>."
 
 #: internal/bookmarks/routes/x-base.templ:27
 msgid "search in bookmarks"
@@ -1466,14 +1467,14 @@ msgstr "Importar marcadores"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:97
 msgid "Your search query yielded <strong>no results</strong>."
-msgstr "Su consulta de búsqueda no arrojó <strong>ningún resultado</strong>."
+msgstr "Tu búsqueda no ha dado <strong>ningún resultado</strong>."
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:99
 #, python-format
 msgid "Your search query yielded <strong>%d result</strong>."
 msgid_plural "Your search query yielded <strong>%d results</strong>."
-msgstr[0] "Su búsqueda ha dado <strong>%d resultado</strong>."
-msgstr[1] "Su búsqueda ha dado <strong>%d resultados</strong>."
+msgstr[0] "Tu búsqueda ha arrojado <strong>%d resultado</strong>."
+msgstr[1] "Tu búsqueda ha arrojado <strong>%d resultados</strong>."
 
 # | msgid "Bookmark Labels"
 #: internal/bookmarks/routes/x-bookmark-list.templ:130
@@ -1506,7 +1507,7 @@ msgstr "Guardar enlace"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:204
 msgid "\"%[1]s\" is not a valid address. Did you mean to search your bookmarks for %[2]s?"
-msgstr "«%[1]s» no es una dirección válida. ¿Quería buscar %[2]s en sus marcadores?"
+msgstr "«%[1]s» no es una dirección válida. ¿Querías buscar %[2]s en tus marcadores?"
 
 # | msgid "Readeck Bookmark Collections"
 #: internal/bookmarks/routes/x-bookmark-list.templ:247
@@ -1517,7 +1518,7 @@ msgstr "Extensión Readeck para el navegador"
 #: internal/bookmarks/routes/x-bookmark-list.templ:267
 #: internal/dashboard/x-dashboard.templ:126
 msgid "Import existing bookmarks"
-msgstr "Importar favoritos existentes"
+msgstr "Importar marcadores"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:277
 #: internal/dashboard/x-dashboard.templ:134
@@ -1526,7 +1527,7 @@ msgstr "Importar enlaces y artículos"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:305
 msgid "Grid view"
-msgstr "Vista en Cuadrícula"
+msgstr "Vista en cuadrícula"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:306
 msgid "Compact view"
@@ -1629,7 +1630,7 @@ msgstr "Editar marcador"
 
 #: internal/bookmarks/routes/x-bookmark.templ:40
 msgid "Bookmark loading"
-msgstr "Carga de marcadores"
+msgstr "Cargando marcadores"
 
 #: internal/bookmarks/routes/x-bookmark.templ:43
 #: internal/bookmarks/routes/x-bookmark.templ:133
@@ -1649,7 +1650,7 @@ msgstr "El marcador se está cargando"
 #: internal/bookmarks/routes/x-bookmark.templ:110
 #: internal/bookmarks/routes/x-bookmark.templ:116
 msgid "Go back"
-msgstr ""
+msgstr "Atrás"
 
 #: internal/bookmarks/routes/x-bookmark.templ:120
 #: internal/bookmarks/routes/x-bookmark.templ:126
@@ -1687,11 +1688,11 @@ msgstr "Título"
 
 #: internal/bookmarks/routes/x-bookmark.templ:266
 msgid "Site Name"
-msgstr "Nombre del sitio web"
+msgstr "Nombre de la página web"
 
 #: internal/bookmarks/routes/x-bookmark.templ:271
 msgid "Authors"
-msgstr "Autoría"
+msgstr "Autores"
 
 #: internal/bookmarks/routes/x-bookmark.templ:274
 msgid "One value per line"
@@ -1821,7 +1822,7 @@ msgstr "Los artículos que contienen «refugio» en su título"
 #: internal/bookmarks/routes/x-collections.templ:66
 #, python-format
 msgid "Read more about collections in the <a class=\"%s\" href=\"%s\">documentation</a>."
-msgstr "Obtenga más información sobre las colecciones en la <a class=\"%s\" href=\"%s\">documentación</a>."
+msgstr "Para obtener más información sobre las colecciones, consulta la <a class=\"%s\" href=\"%s\">documentación</a>."
 
 #: internal/bookmarks/routes/x-collections.templ:88
 #: internal/profile/x-tokens.templ:52
@@ -1951,7 +1952,7 @@ msgstr "Todavía no tienes ningún marcador.<br> Copia un enlace en el campo de 
 #: internal/bookmarks/routes/x-components.templ:415
 #, python-format
 msgid "Read more about bookmarks in the <a class=\"%s\" href=\"%s\">documentation</a>."
-msgstr "Conozca más sobre los marcadores en la <a class=\"%s\" href=\"%s\">documentación</a>."
+msgstr "Para obtener más información sobre los marcadores, consulta la <a class=\"%s\" href=\"%s\">documentación</a>."
 
 #: internal/bookmarks/routes/x-components.templ:423
 msgid ""
@@ -1984,7 +1985,7 @@ msgstr "Autor"
 
 #: internal/bookmarks/routes/x-filters.templ:25
 msgid "Site"
-msgstr "Sitio web"
+msgstr "Página web"
 
 #: internal/bookmarks/routes/x-filters.templ:37
 msgctxt "date"
@@ -2007,7 +2008,7 @@ msgstr "Progreso"
 
 #: internal/bookmarks/routes/x-filters.templ:52
 msgid "Is Favorite"
-msgstr "Es Favorito"
+msgstr "Es uno de mis favoritos"
 
 #: internal/bookmarks/routes/x-filters.templ:53
 msgid "Is Archived"
@@ -2058,7 +2059,7 @@ msgstr "Importar sus artículos de GoodLinks"
 
 #: internal/bookmarks/routes/x-import.templ:58
 msgid "Import your Linkwarden Bookmarks"
-msgstr "Importa tus Marcadores de Linkwarden"
+msgstr "Importa tus marcadores de Linkwarden"
 
 #: internal/bookmarks/routes/x-import.templ:65
 msgid "Import your Pinboard bookmarks"
@@ -2078,19 +2079,19 @@ msgstr "Estado de la importación"
 
 #: internal/bookmarks/routes/x-import.templ:145
 msgid "Import operation will launch momentarily."
-msgstr "La operación de importación se iniciará momentáneamente."
+msgstr "La operación de importación se iniciará en unos instantes."
 
 #: internal/bookmarks/routes/x-import.templ:147
 msgid "Import operation has started!"
-msgstr "¡La operación de importación ha comenzado!"
+msgstr "¡La importación ha comenzado!"
 
 #: internal/bookmarks/routes/x-import.templ:151
 msgid "You can keep using Readeck while the import is running."
-msgstr "Puede seguir usando Readeck mientras se ejecuta la importación."
+msgstr "Puedes seguir utilizando Readeck mientras se está realizando la importación."
 
 #: internal/bookmarks/routes/x-import.templ:162
 msgid "Import is finished!"
-msgstr "¡La importación ha finalizado!"
+msgstr "¡Importación finalizada!"
 
 #: internal/bookmarks/routes/x-import.templ:165
 #, python-format
@@ -2191,7 +2192,7 @@ msgstr "No justificar texto"
 
 #: internal/bookmarks/routes/x-reader-control.templ:65
 msgid "Hyphenation"
-msgstr "Silabación"
+msgstr "Separación silábica"
 
 #: internal/bookmarks/routes/x-reader-control.templ:66
 msgid "With hyphenation"
@@ -2203,7 +2204,7 @@ msgstr "Sin separación de sílabas"
 
 #: internal/bookmarks/routes/x-reader-control.templ:82
 msgid "Font"
-msgstr "Tipo de letra"
+msgstr "Fuente"
 
 #: internal/bookmarks/routes/x-sidebar.templ:44
 msgid "Errors occurred during extraction."
@@ -2261,7 +2262,7 @@ msgstr "Quitar etiqueta"
 
 #: internal/bookmarks/routes/x-sidebar.templ:408
 msgid "Start selecting text in the article to create a new highlight."
-msgstr "Comience a seleccionar texto en el artículo para crear un nuevo resaltado."
+msgstr "Empieza a seleccionar texto en el artículo para crear un nuevo fragmento destacado."
 
 #: internal/bookmarks/routes/x-sidebar.templ:440
 msgid "Delete highlight"
@@ -2344,11 +2345,11 @@ msgstr "Fecha de compilación:"
 
 #: internal/docs/x-about.templ:60
 msgid "System Information"
-msgstr "Información del Sistema"
+msgstr "Información del sistema"
 
 #: internal/docs/x-about.templ:62
 msgid "Here are your current system information. Please include them if you report a bug."
-msgstr "Esta es la información actual de su sistema. Por favor, inclúyelos si informas de un error."
+msgstr "A continuación te mostramos la información actual de tu sistema. Por favor, inclúyela si informas de un error."
 
 #: internal/docs/x-about.templ:75
 msgid "Storage"
@@ -2368,7 +2369,7 @@ msgstr "Proyecto"
 
 #: internal/docs/x-about.templ:91
 msgid "Main website:"
-msgstr "Sitio web principal:"
+msgstr "Página web principal:"
 
 #: internal/docs/x-about.templ:95
 msgid "Sources and issues:"
@@ -2384,7 +2385,7 @@ msgstr "Foro comunitario:"
 
 #: internal/docs/x-about.templ:107
 msgid "Matrix Chat:"
-msgstr "Charla en Matrix:"
+msgstr "Chat en Matrix:"
 
 #: internal/docs/x-about.templ:111
 msgid "License"
@@ -2393,11 +2394,11 @@ msgstr "Licencia"
 #: internal/docs/x-about.templ:113
 #, python-format
 msgid "Readeck is distributed under the terms of the license \"%s\""
-msgstr "Readeck se distribuye en virtud de la licencia «%s»"
+msgstr "Readeck se distribuye bajo los términos de la licencia «%s»"
 
 #: internal/docs/x-about.templ:118
 msgid "Here's a short summary of the license conditions:"
-msgstr "He aquí un breve resumen de las condiciones de la licencia:"
+msgstr "A continuación te ofrecemos un breve resumen de las condiciones de la licencia:"
 
 #: internal/docs/x-about.templ:123 internal/profile/x-applications.templ:56
 msgid "Permissions"
@@ -2433,7 +2434,7 @@ msgstr "Uso privado"
 
 #: internal/docs/x-about.templ:164
 msgid "Disclose source"
-msgstr "Revelar fuente"
+msgstr "Indicar la fuente"
 
 #: internal/docs/x-about.templ:169
 msgid "License and copyright notice"
@@ -2604,11 +2605,11 @@ msgstr ""
 
 #: internal/profile/x-export.templ:23
 msgid "Bookmark List in Browser Bookmarks Format"
-msgstr "Marcadores en formato de marcadores de navegador"
+msgstr "Lista de marcadores en formato de marcadores del navegador"
 
 #: internal/profile/x-export.templ:30
 msgid "Bookmark List as Comma Separated Values"
-msgstr "Marcadores como valores separados por coma"
+msgstr "Guardar la lista de marcadores como valores separados por comas"
 
 #: internal/profile/x-export.templ:37
 msgid "Export your Readeck Profile"
@@ -2632,7 +2633,7 @@ msgstr "Exportar datos"
 
 #: internal/profile/x-export.templ:52
 msgid "Export Bookmarks"
-msgstr "Exportar Marcadores"
+msgstr "Exportar marcadores"
 
 #: internal/profile/x-export.templ:53
 msgid "You can export your bookmark list in the following formats:"
@@ -2695,7 +2696,7 @@ msgstr "Te has conectado como <strong>%s</strong>"
 # | msgid "Settings"
 #: internal/profile/x-profile.templ:40
 msgid "Base settings"
-msgstr "Configuración base"
+msgstr "Configuración básica"
 
 #: internal/profile/x-profile.templ:49
 msgid "Email Address"
@@ -2813,11 +2814,11 @@ msgstr "Un API Token es una llave que te otorga permisos para acceder a la API d
 #: internal/profile/x-tokens.templ:19
 #, python-format
 msgid "Please read the <a href=\"%s\">API Documentation</a> if you plan to use it."
-msgstr "Lea la documentación de la <a href=\"%s\">API</a> si planea utilizarla."
+msgstr "Por favor, si tienes pensado utilizarla, lee la <a href=\"%s\">documentación de la API</a>."
 
 #: internal/profile/x-tokens.templ:28
 msgid "Create a new API token"
-msgstr "Creación de un nuevo token de API"
+msgstr "Crear un nuevo token de API"
 
 #: internal/profile/x-tokens.templ:57
 #, python-format
@@ -2859,7 +2860,7 @@ msgstr "Caduca en"
 
 #: internal/profile/x-tokens.templ:140 internal/profile/x-tokens.templ:149
 msgid "Roles"
-msgstr "Roles"
+msgstr "Funciones"
 
 #: internal/profile/x-tokens.templ:142
 msgid ""
@@ -3430,4 +3431,3 @@ msgstr "%H:%M:%S"
 #~ msgctxt "date"
 #~ msgid "To"
 #~ msgstr ""
-

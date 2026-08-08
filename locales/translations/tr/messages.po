@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-08-02 21:32+0200\n"
-"PO-Revision-Date: 2026-08-01 06:36+0000\n"
+"PO-Revision-Date: 2026-08-03 18:40+0000\n"
 "Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language: tr\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/readeck/application/tr/>\n"
@@ -21,6 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
+"X-Generator: Weblate 2026.7.1\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
 #: components/layout.templ:78 components/layout.templ:79
@@ -1380,9 +1381,8 @@ msgid "Read more about highlights in the <a class=\"%s\" href=\"%s\">documentati
 msgstr "Vurgulamalar ile ilgili daha fazla bilgi için <a class=\"%s\" href=\"%s\">yardım belgelerine</a> göz atın."
 
 #: internal/bookmarks/routes/x-base.templ:27
-#, fuzzy
 msgid "search in bookmarks"
-msgstr "Arşivlenmiş Yer İmleri"
+msgstr "yer işaretlerinde ara"
 
 #: internal/bookmarks/routes/x-base.templ:31
 #: internal/bookmarks/routes/x-filters.templ:22
@@ -1628,7 +1628,7 @@ msgstr "Yer imi yükleniyor"
 #: internal/bookmarks/routes/x-bookmark.templ:110
 #: internal/bookmarks/routes/x-bookmark.templ:116
 msgid "Go back"
-msgstr ""
+msgstr "Dönmek"
 
 #: internal/bookmarks/routes/x-bookmark.templ:120
 #: internal/bookmarks/routes/x-bookmark.templ:126
@@ -1702,20 +1702,19 @@ msgstr "%s tarihine kadar geçerlidir"
 
 #: internal/bookmarks/routes/x-bookmark.templ:333
 msgid "This link is shared without annotations."
-msgstr ""
+msgstr "Bu bağlantı not eklenmeden paylaşıldı."
 
 #: internal/bookmarks/routes/x-bookmark.templ:334
 msgid "Share with annotations"
-msgstr ""
+msgstr "Notlarla paylaş"
 
 #: internal/bookmarks/routes/x-bookmark.templ:336
 msgid "This link is shared with annotations."
-msgstr ""
+msgstr "Bu bağlantı notlarla birlikte paylaşıldı."
 
 #: internal/bookmarks/routes/x-bookmark.templ:337
-#, fuzzy
 msgid "Share without annotations"
-msgstr "Tireleme"
+msgstr "Notlar olmadan paylaş"
 
 #: internal/bookmarks/routes/x-bookmark.templ:357
 msgid "Copy the link"
@@ -1744,7 +1743,7 @@ msgstr "Alıcı"
 
 #: internal/bookmarks/routes/x-bookmark.templ:413
 msgid "Include annotations and notes"
-msgstr ""
+msgstr "Açıklamalar ve notlar ekleyin"
 
 #: internal/bookmarks/routes/x-bookmark.templ:418
 #, python-format
@@ -1810,9 +1809,8 @@ msgid "Created on: %s"
 msgstr "Oluşturulma tarihi: %s"
 
 #: internal/bookmarks/routes/x-collections.templ:97
-#, fuzzy
 msgid "This collection will be removed in a few seconds."
-msgstr "Koleksiyon bir kaç saniye içinde silinecek."
+msgstr "Bu koleksiyon birkaç saniye içinde kaldırılacak."
 
 #: internal/bookmarks/routes/x-collections.templ:107
 #: internal/bookmarks/routes/x-sidebar.templ:131
@@ -1900,16 +1898,15 @@ msgstr "Readeck ile kaydedildi"
 
 #: internal/bookmarks/routes/x-components.templ:368
 msgid "This feed provides the latest entries from this bookmark list"
-msgstr ""
+msgstr "Bu akış, bu yer imi listesindeki en son girişleri sağlar"
 
 #: internal/bookmarks/routes/x-components.templ:369
 msgid "Subscribe to this feed by copying the URL below:"
-msgstr ""
+msgstr "Aşağıdaki URL'yi kopyalayarak bu akışa abone olun:"
 
 #: internal/bookmarks/routes/x-components.templ:388
-#, fuzzy
 msgid "Open link"
-msgstr "Bağlantıyı kopyala"
+msgstr "Bağlantıyı aç"
 
 #: internal/bookmarks/routes/x-components.templ:396
 msgid "Access to this feed is restricted."
@@ -2241,9 +2238,8 @@ msgid "Start selecting text in the article to create a new highlight."
 msgstr "Yeni bir vurgulama oluşturmak için yazıda istediğiniz metni seçin."
 
 #: internal/bookmarks/routes/x-sidebar.templ:440
-#, fuzzy
 msgid "Delete highlight"
-msgstr "Vurgula"
+msgstr "Vurguyu sil"
 
 #: internal/bookmarks/routes/x-sidebar.templ:458
 msgid "Links"
@@ -2275,7 +2271,6 @@ msgid "Help"
 msgstr "Yardımı"
 
 #: internal/dashboard/x-dashboard.templ:146
-#, fuzzy
 msgid "Archived"
 msgstr "Arşiv"
 
@@ -2285,9 +2280,8 @@ msgid "See all"
 msgstr "Tümü"
 
 #: internal/dashboard/x-dashboard.templ:224
-#, fuzzy
 msgid "Applications for Readeck"
-msgstr "Başvuru bilgileri"
+msgstr "Readeck için Uygulamalar"
 
 #: internal/dashboard/x-dashboard.templ:226
 msgid ""
@@ -2296,16 +2290,18 @@ msgid ""
 "\t\t\t\ton your smartphone, your e-book reader or\n"
 "\t\t\t\tin other apps through plugins."
 msgstr ""
+"\n"
+"\t\t\t\tReadeck'i sadece tarayıcınızda değil, aynı zamanda\n"
+"\t\t\t\takıllı telefonunuzda, e-kitap okuyucunuzda veya\n"
+"\t\t\t\teklentiler aracılığıyla diğer uygulamalarda da kullanabilirsiniz."
 
 #: internal/dashboard/x-dashboard.templ:236
-#, fuzzy
 msgid "Discover applications"
-msgstr "Uygulama"
+msgstr "Uygulamaları keşfedin"
 
 #: internal/dashboard/x-dashboard.templ:243
-#, fuzzy
 msgid "Readeck in your Browser"
-msgstr "Readeck Tarayıcı Eklentisi"
+msgstr "Tarayıcınızda Readeck"
 
 #: internal/docs/http.go:257 internal/docs/x-about.templ:53
 #: internal/docs/x-base.templ:43
@@ -2317,7 +2313,6 @@ msgid "Version:"
 msgstr "Sürüm:"
 
 #: internal/docs/x-about.templ:58
-#, fuzzy
 msgid "Build Date:"
 msgstr "Sürüm Oluşturulma Tarihi:"
 
@@ -3426,4 +3421,3 @@ msgstr "%H:%M:%S"
 #~ msgctxt "date"
 #~ msgid "To"
 #~ msgstr ""
-
