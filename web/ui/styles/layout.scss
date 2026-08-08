@@ -231,6 +231,8 @@
     }
 
     .topnav {
+      @apply fullscreen:hidden;
+
       .logo {
         a {
           @apply inline-block rounded-md;

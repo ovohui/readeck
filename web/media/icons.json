@@ -33,6 +33,8 @@
   "o-filter":       "bx:filter-alt",
   "o-font":         "bx:font",
   "o-font-family":  "bx:font-family",
+  "o-fullscreen":   "bx:fullscreen",
+  "o-fullscreen-x": "bx:exit-fullscreen",
   "o-grid":         "bxs:grid",
   "o-help":         "bx:help-circle",
   "o-hide":         "bxs:show",

@@ -46,7 +46,7 @@ func New() *Server {
 		InitRequest(),
 		Logger(),
 		metrics.Middleware,
-		SetSecurityHeaders,
+		SetSecurityHeaders(),
 		CompressResponse,
 		WithCacheControl,
 		CannonicalPaths,

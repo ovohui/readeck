@@ -31,6 +31,12 @@ module.exports = plugin(function ({addVariant, config, e}) {
     })
   })
 
+  addVariant("fullscreen", ({modifySelectors, separator}) => {
+    modifySelectors(({className}) => {
+      return `:root:fullscreen .${e(`fullscreen${separator}${className}`)}`
+    })
+  })
+
   addVariant("hf", ["&:hover", "&:focus-visible"])
   addVariant("hfw", ["&:hover", "&:focus-visible", "&:focus-within"])
   addVariant("group-hf", [
