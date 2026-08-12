@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-08-02 21:32+0200\n"
-"PO-Revision-Date: 2026-08-06 12:18+0000\n"
+"PO-Revision-Date: 2026-08-12 18:25+0000\n"
 "Last-Translator: gallegonovato <gallegonovato@noreply.codeberg.org>\n"
 "Language: es-ES\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/readeck/application/es/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
-"X-Generator: Weblate 2026.7.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
 #: components/layout.templ:78 components/layout.templ:79
@@ -1518,7 +1518,7 @@ msgstr "Extensión Readeck para el navegador"
 #: internal/bookmarks/routes/x-bookmark-list.templ:267
 #: internal/dashboard/x-dashboard.templ:126
 msgid "Import existing bookmarks"
-msgstr "Importar marcadores"
+msgstr "Importar marcadores actuales"
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:277
 #: internal/dashboard/x-dashboard.templ:134
