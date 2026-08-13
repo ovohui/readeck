@@ -19,8 +19,13 @@ func TestRecover(t *testing.T) {
 	app := NewTestApp(t)
 	defer app.Close(t)
 
+	cleanEmail := func() {
+		app.LastEmail = ""
+	}
+
 	t.Run("recover views", func(t *testing.T) {
 		client := app.Client()
+		defer cleanEmail()
 
 		client.RT(
 			t,
@@ -75,7 +80,7 @@ func TestRecover(t *testing.T) {
 		)
 	})
 
-	t.Run("recover no user", func(t *testing.T) {
+	t.Run("recover no user no js", func(t *testing.T) {
 		client := app.Client()
 
 		client.RT(
@@ -85,6 +90,26 @@ func TestRecover(t *testing.T) {
 			WithBody(url.Values{
 				"step":  {"0"},
 				"email": {"nope@localhost"},
+			}),
+			AssertStatus(200),
+			WithAssert(func(t *testing.T, _ *Response) {
+				require.Empty(t, app.LastEmail)
+			}),
+		)
+	})
+
+	t.Run("recover no user js", func(t *testing.T) {
+		defer cleanEmail()
+		client := app.Client()
+
+		client.RT(
+			t,
+			WithMethod(http.MethodPost),
+			WithTarget("/login/recover"),
+			WithBody(url.Values{
+				"step":   {"0"},
+				"email":  {"nope@localhost"},
+				"emailx": {"-1"},
 			}),
 			AssertStatus(200),
 			WithAssert(func(t *testing.T, _ *Response) {

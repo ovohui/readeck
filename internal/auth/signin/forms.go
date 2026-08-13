@@ -66,6 +66,7 @@ type recoverForm struct {
 	Step     forms.IntegerField `json:"step"     validate:"required gte:0 lte:3"`
 	Email    forms.TextField    `json:"email"    validate:"trim max_len:128 only_step:0,1 required is_valid_email"`
 	Password forms.TextField    `json:"password" validate:"only_step:2,3 required is_valid_password"`
+	Antispam forms.IntegerField `json:"emailx"`
 	ttl      time.Duration
 	prefix   string
 }

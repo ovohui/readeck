@@ -290,8 +290,7 @@ func (s *StdOutSender) SendEmail(msg *Message) error {
 // SMTPSender implements EmailSender for SMTP.
 type SMTPSender struct{}
 
-// SendEmail sends an email using SMTP.
-func (s *SMTPSender) SendEmail(msg *Message) error {
+func (s *SMTPSender) newClient() (*mail.Client, error) {
 	client, err := mail.NewClient(
 		configs.Config.Email.Host,
 		mail.WithPort(configs.Config.Email.Port),
@@ -303,7 +302,7 @@ func (s *SMTPSender) SendEmail(msg *Message) error {
 		}),
 	)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if configs.Config.Email.Username != "" {
@@ -323,5 +322,29 @@ func (s *SMTPSender) SendEmail(msg *Message) error {
 		client.SetTLSPolicy(mail.TLSOpportunistic)
 	}
 
+	return client, nil
+}
+
+// SendEmail sends an email using SMTP.
+func (s *SMTPSender) SendEmail(msg *Message) error {
+	client, err := s.newClient()
+	if err != nil {
+		return err
+	}
+
 	return client.DialAndSend(msg.Msg)
+}
+
+// Helo opens and closes an SMTP connection.
+func (s *SMTPSender) Helo() error {
+	client, err := s.newClient()
+	if err != nil {
+		return err
+	}
+
+	sclient, err := client.DialToSMTPClientWithContext(context.Background())
+	if err != nil {
+		return nil
+	}
+	return sclient.Close()
 }
