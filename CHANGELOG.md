@@ -11,6 +11,7 @@
 - Note presence and language filters in bookmark lists and collections
 - Content Script for Hackernews, by [@mislav](https://codeberg.org/mislav)
 - Content Script override system
+- Fullscreen bookmark view
 
 ### Improved
 - Refreshed user interface
@@ -31,6 +32,7 @@
 - Case insensitive folder value in CSV import
 - Handle "Refresh" header or meta when used as a redirect, by [@mislav](https://codeberg.org/mislav)
 - Reddit Content Script, by [0xEArl](https://codeberg.org/0xEArl)
+- Send password recovery email to non existing users only when JS is enabled
 
 ### Changed
 - HTML rendering using Templ
