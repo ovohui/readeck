@@ -13,6 +13,7 @@ import (
 	"github.com/go-chi/chi/v5"
 
 	"codeberg.org/readeck/readeck/configs"
+	"codeberg.org/readeck/readeck/internal/auth/oidc"
 	"codeberg.org/readeck/readeck/internal/auth/users"
 	"codeberg.org/readeck/readeck/internal/server"
 	"codeberg.org/readeck/readeck/pkg/forms"
@@ -54,12 +55,12 @@ func (h *viewHandler) onboarding(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	f := newOnboardingForm(server.Locale(r))
+	f := forms.New[onboardingForm](r.Context())
 
 	if r.Method == http.MethodPost {
-		forms.Bind(f, r)
+		forms.Bind(r, f)
 		if f.IsValid() {
-			user, err := f.createUser(server.Locale(r).Tag.String())
+			user, err := f.createUser(server.Locale(r.Context()).Tag.String())
 			if err != nil {
 				server.Log(r).Error("", slog.Any("err", err))
 			} else {
@@ -78,9 +79,8 @@ func (h *viewHandler) onboarding(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnprocessableEntity)
 	}
 
-	ctx := server.TC{
-		"Form": f,
-	}
+	policy := oidc.Providers.CSP(server.GetCSPHeader(r.Context()))
+	policy.Write(w.Header())
 
-	server.RenderTemplate(w, r, http.StatusOK, "auth/onboarding", ctx)
+	server.RenderComponent(w, r, http.StatusOK, Views{}.onboarding(f))
 }

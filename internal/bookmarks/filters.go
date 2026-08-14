@@ -7,16 +7,16 @@ package bookmarks
 import (
 	"database/sql/driver"
 	"encoding/json"
-	"reflect"
+	"strings"
 	"time"
 
 	"github.com/doug-martin/goqu/v9"
 	goquexp "github.com/doug-martin/goqu/v9/exp"
 
+	"codeberg.org/readeck/readeck/internal/db"
 	"codeberg.org/readeck/readeck/internal/db/exp"
 	"codeberg.org/readeck/readeck/internal/db/types"
 	"codeberg.org/readeck/readeck/internal/searchstring"
-	"codeberg.org/readeck/readeck/pkg/forms"
 	"codeberg.org/readeck/readeck/pkg/timetoken"
 )
 
@@ -35,6 +35,7 @@ type Filters struct {
 	Title      string        `json:"title"`
 	Author     string        `json:"author"`
 	Site       string        `json:"site"`
+	Lang       string        `json:"lang"`
 	Type       types.Strings `json:"type"`
 	Labels     string        `json:"labels"`
 	Note       string        `json:"note"`
@@ -44,20 +45,9 @@ type Filters struct {
 	IsLoaded   *bool         `json:"is_loaded"`
 	HasErrors  *bool         `json:"has_errors"`
 	HasLabels  *bool         `json:"has_labels"`
+	HasNotes   *bool         `json:"has_notes"`
 	RangeStart string        `json:"range_start"`
 	RangeEnd   string        `json:"range_end"`
-}
-
-// NewFiltersFromForm return a new [Filters] instance
-// populated with the given [forms.Binder] fields.
-func NewFiltersFromForm(form forms.Binder) Filters {
-	res := Filters{}
-	if form != nil {
-		(&res).applyForm(form)
-		(&res).updateValues()
-	}
-
-	return res
 }
 
 // Scan loads a [Filters] instance from a column.
@@ -83,83 +73,9 @@ func (f Filters) Value() (driver.Value, error) {
 	return string(v), nil
 }
 
-func (f *Filters) getFields() map[string]reflect.StructField {
-	res := map[string]reflect.StructField{}
-	t := reflect.TypeFor[Filters]()
-	for sf := range t.Fields() {
-		if tag := sf.Tag.Get("json"); tag != "" {
-			res[tag] = sf
-		}
-	}
-
-	return res
-}
-
-func (f *Filters) applyForm(form forms.Binder) {
-	sfields := f.getFields()
-	rv := reflect.ValueOf(f).Elem()
-	for name, field := range form.Fields() {
-		sf, ok := sfields[name]
-		if !ok {
-			continue
-		}
-
-		prop := rv.FieldByName(sf.Name)
-
-		switch {
-		case sf.Type.Kind() == reflect.Pointer:
-			if field.IsNil() {
-				prop.SetZero()
-			} else {
-				prop.Set(reflect.New(sf.Type.Elem()))
-				prop.Elem().Set(reflect.ValueOf(field.Value()))
-			}
-		default:
-			if field.IsNil() {
-				prop.SetZero()
-			} else {
-				prop.Set(reflect.ValueOf(field.Value()))
-			}
-		}
-	}
-}
-
-// UpdateForm updates the given [forms.Binder]'s fields using the [Filters]
-// properties.
-func (f Filters) UpdateForm(form forms.Binder) {
-	rv := reflect.ValueOf(f)
-	for name, sf := range f.getFields() {
-		if field := form.Get(name); field != nil {
-			_ = rv
-			_ = sf
-			prop := reflect.Indirect(rv).FieldByName(sf.Name)
-
-			// types of [types.Strings] need to be converted to []string
-			// so we can set its value to the field later.
-			if prop.Type().ConvertibleTo(reflect.TypeFor[[]string]()) {
-				prop = prop.Convert(reflect.TypeFor[[]string]())
-			}
-
-			k := sf.Type.Kind()
-			switch {
-			case k == reflect.Pointer && prop.IsNil():
-				// Nil pointer, the field is nil
-				field.Set(nil)
-			case k == reflect.Slice && prop.IsNil():
-				// Empty slice
-				field.Set(reflect.New(prop.Type()).Interface())
-			case prop.IsZero():
-				// Empty value
-				field.Set(reflect.New(sf.Type).Interface())
-			default:
-				// A value with something
-				field.Set(prop.Interface())
-			}
-		}
-	}
-}
-
-func (f *Filters) updateValues() {
+// Normalize updates the filters, moving tagged terms in the "search" value
+// to their proper location and removing duplicates so search filters stay consistent.
+func (f *Filters) Normalize() {
 	// First, we must build a search string based on
 	// the provided free form search and
 	// what we might have in the following fields:
@@ -201,10 +117,33 @@ func (f *Filters) updateValues() {
 	updateValues("note", &f.Note)
 }
 
+// ToMap returns a map of all filters.
+func (f Filters) ToMap() map[string]any {
+	return map[string]any{
+		"search":      f.Search,
+		"title":       f.Title,
+		"author":      f.Author,
+		"site":        f.Site,
+		"lang":        f.Lang,
+		"type":        []string(f.Type),
+		"labels":      f.Labels,
+		"note":        f.Note,
+		"read_status": []string(f.ReadStatus),
+		"is_marked":   f.IsMarked,
+		"is_archived": f.IsArchived,
+		"is_loaded":   f.IsLoaded,
+		"has_errors":  f.HasErrors,
+		"has_labels":  f.HasLabels,
+		"has_notes":   f.HasNotes,
+		"range_start": f.RangeStart,
+		"range_end":   f.RangeEnd,
+	}
+}
+
 // ToSelectDataSet adds the query parameters to the given [*goqu.SelectDataset]
 // and returns it.
 func (f Filters) ToSelectDataSet(ds *goqu.SelectDataset) *goqu.SelectDataset {
-	(&f).updateValues()
+	(&f).Normalize()
 
 	// Separate labels from the final search string
 	var labels searchstring.SearchQuery
@@ -252,6 +191,11 @@ func (f Filters) ToSelectDataSet(ds *goqu.SelectDataset) *goqu.SelectDataset {
 				exp.DateTime(end.RelativeTo(nil)),
 			),
 		))
+	}
+
+	// lang filter
+	if f.Lang != "" {
+		ds = ds.Where(goqu.C("lang").Table("b").ILike(strings.ReplaceAll(f.Lang, "*", "%")))
 	}
 
 	// read_progress
@@ -310,6 +254,18 @@ func (f Filters) ToSelectDataSet(ds *goqu.SelectDataset) *goqu.SelectDataset {
 		))
 	}
 
+	// has notes
+	// note: we skip this when already searching in the notes
+	if f.HasNotes != nil && (!*f.HasNotes || f.Note == "") {
+		ds = ds.Where(exp.Boolean(
+			goqu.Or(
+				goqu.C("note").Table("b").Neq(""),
+				goqu.V(0).Lt(f.countAnnotations()),
+			),
+			*f.HasNotes,
+		))
+	}
+
 	// type
 	if len(f.Type) > 0 {
 		or := goqu.Or()
@@ -320,6 +276,51 @@ func (f Filters) ToSelectDataSet(ds *goqu.SelectDataset) *goqu.SelectDataset {
 	}
 
 	return ds
+}
+
+func (f *Filters) countAnnotations() *goqu.SelectDataset {
+	switch db.Driver().Dialect() {
+	case "postgres":
+		return goqu.
+			Select(goqu.COUNT(goqu.L("x->>'note'"))).
+			From(
+				goqu.Func(
+					"jsonb_array_elements",
+					goqu.Case().
+						Value(goqu.Func(
+							"jsonb_typeof",
+							goqu.C("annotations").Table("b"),
+						)).
+						When(goqu.L("'array'"), goqu.C("annotations").Table("b")).Else(goqu.L("'[]'")),
+				).As("x"),
+			).
+			Where(goqu.L("x->>'note'").Neq(goqu.L("''"))).Prepared(true)
+	case "sqlite3":
+		return goqu.
+			Select(goqu.COUNT(goqu.T("x").Col("value"))).
+			From(
+				goqu.Func(
+					"json_each",
+					goqu.Case().
+						Value(goqu.Func(
+							"json_type",
+							goqu.Case().
+								Value(goqu.Func("json_valid", goqu.C("annotations").Table("b"))).
+								When(goqu.V(true), goqu.C("annotations").Table("b")).
+								Else("0"),
+						)).
+						When(
+							goqu.V("array"),
+							goqu.C("annotations").Table("b"),
+						).Else("[]"),
+				).As("x"),
+			).
+			Where(goqu.Func("json_extract", goqu.C("value").Table("x"), "$.note").Neq("")).
+			Prepared(true)
+
+	}
+
+	return nil
 }
 
 var searchConfig = map[string]*searchstring.BuilderConfig{

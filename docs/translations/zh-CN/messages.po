@@ -2,23 +2,24 @@
 # SPDX-FileCopyrightText: © 2025 Readeck <translate@readeck.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-only
-# olivier <olivier@noreply.codeberg.org>, 2025.
+# olivier <olivier@noreply.codeberg.org>, 2025, 2026.
 # Anonymous <anonymous@noreply.codeberg.org>, 2025.
-# linsui <linsui@noreply.codeberg.org>, 2025.
+# linsui <linsui@noreply.codeberg.org>, 2025, 2026.
 # linsui <user-4173@noreply.codeberg.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2025-12-18 21:31+0100\n"
-"PO-Revision-Date: 2025-12-16 09:12+0000\n"
-"Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
-"Language: zh_CN\n"
+"POT-Creation-Date: 2026-07-22 09:42+0200\n"
+"PO-Revision-Date: 2026-07-27 15:05+0000\n"
+"Last-Translator: linsui <linsui@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/readeck/documentation/zh_Hans/>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh-CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -270,9 +271,13 @@ msgid ""
 "  Search in the author list only.\n"
 "- **Site**\\\n"
 "  Search in the site title and the site domain name.\n"
+"- **Language**\\\n"
+"  Filter the list by bookmark language as an two letter code.\n"
 "- **Label**\\\n"
 "  Search for specific labels.\n"
-"- **Is Favorite**, **Is Archived**, **Type**\\\n"
+"- **Note**\\\n"
+"  Search for a note or annotation.\n"
+"- **Type**, **Progress**, **Is Favorite**, **Is Archived**, **Is Loaded**, **With Labels**, **With Notes**, **With Errors** \\\n"
 "  This filters let you restrict your search to any of these criteria.\n"
 "- **From date**, **To date**\\\n"
 "  This last filters let you restrict from when and to when the bookmark was saved. For example, this lets you retrieve the bookmark list saved during the past 4 weeks but not after the last week."
@@ -285,22 +290,26 @@ msgstr ""
 "  仅搜索书签作者。\n"
 "- **网站** \\\n"
 "  仅搜索书签网站。\n"
+"- **语言**\\\n"
+"  以两字母代码按书签语言过滤列表。\n"
 "- **标签** \\\n"
 "  仅搜索书签标签。\n"
-"- **是否收藏**，**是否归档**，**类型** \\\n"
-"  筛选书签收藏、归档和类型。\n"
+"- **笔记**\\\n"
+"  搜索笔记或标注。\n"
+"- **类型**, **进度**, **是否收藏**, **是否归档**, **是否以加载**, **有标签**, **有笔记**, **有错误** \\\n"
+"  此过滤器可以按任何策略限制搜索范围。\n"
 "- **起始日期**，**结束日期** \\\n"
 "  最后一个过滤器允许您限制书签的保存时间。例如，这允许您检索过去 4 周内保存的书签列表，但不包括上周之后的书签列表。"
 
-#: en/bookmark-list.md:129
+#: en/bookmark-list.md:133
 msgid "### Search query"
 msgstr "### 搜索查询"
 
-#: en/bookmark-list.md:131
+#: en/bookmark-list.md:135
 msgid "The **Search**, **Title**, **Author**, **Site** and **Label** fields understand search criteria the same way:"
 msgstr "**搜索**，**标题**，**作者**，**网站** 和 **标签** 字段以相同的方式理解搜索条件:"
 
-#: en/bookmark-list.md:133
+#: en/bookmark-list.md:137
 msgid ""
 "- `startled cat` will find the content with the words **startled** and **cat**\n"
 "- `\"startled cat\"` will find the content with the exact words **startled cat** together.\n"
@@ -312,15 +321,15 @@ msgstr ""
 "- `cat*` 会查找以 **cat** 开头的内容 (包括 cat，catnip 和 caterpillar)。\n"
 "- `-startled cat` 会查找包括 **cat** 但不包括 **startled** 的内容。"
 
-#: en/bookmark-list.md:139
+#: en/bookmark-list.md:143
 msgid "After you performed a search, you can save it into a new [collection](./collections.md) to make it permanent."
 msgstr "执行搜索后，您可以将其保存到一个新的[收藏集](./collections.md)使其永久保存。"
 
-#: en/bookmark-list.md:141
+#: en/bookmark-list.md:145
 msgid "## Export and Import Bookmarks"
 msgstr "## 导入导出"
 
-#: en/bookmark-list.md:143
+#: en/bookmark-list.md:147
 msgid ""
 "![Menu](./img/bookmark-list-menu.webp)\n"
 "Bookmark list menu"
@@ -328,19 +337,19 @@ msgstr ""
 "![菜单](./img/bookmark-list-menu.webp)\n"
 "书签列表菜单"
 
-#: en/bookmark-list.md:146
+#: en/bookmark-list.md:150
 msgid "### Export bookmarks"
 msgstr "### 导出书签"
 
-#: en/bookmark-list.md:148
+#: en/bookmark-list.md:152
 msgid "The menu button next to the filters button let you download an EPUB file of the current list of bookmarks. It exports one e-book containing all the articles organized in chapters."
 msgstr "过滤器按钮旁边的菜单按钮允许您下载当前书签列表的 EPUB 文件。它会导出一本电子书，其中包含按章节组织的所有文章。"
 
-#: en/bookmark-list.md:150
+#: en/bookmark-list.md:154
 msgid "### Import bookmarks"
 msgstr "### 导入书签"
 
-#: en/bookmark-list.md:152
+#: en/bookmark-list.md:156
 msgid "In the same menu, you'll find a [Import bookmarks](readeck-instance://bookmarks/import) link. It will take you to an import wizard that lets you import your existing bookmarks from various sources."
 msgstr "在同一菜单中，您将找到 [导入书签](readeck-instance://bookmarks/import) 链接。 它将带您进入一个导入向导，允许您从各种来源导入现有书签。"
 
@@ -383,12 +392,12 @@ msgid "## Navigation and presentation settings"
 msgstr "## 导航和排版"
 
 #: en/bookmark.md:32
-msgid "On top of the bookmark view, a link takes you back to the previous page."
-msgstr "在书签视图的顶部，有一个链接可以带您返回上一页。"
+msgid "On the side or on top of the bookmark view, a link takes you back to the previous page."
+msgstr "在书签视图的顶部或侧边，有一个链接可以带您返回上一页。"
 
 #: en/bookmark.md:34
-msgid "If the bookmark contains an article, a button on the other side lets you change some typography settings."
-msgstr "如果书签包含一篇文章，另一侧的按钮可以让您更改一些排版设置。"
+msgid "If the bookmark contains an article, a button lets you change some typography settings."
+msgstr "如果书签包含一篇文章，有一个按钮可以让您更改一些排版设置。"
 
 #: en/bookmark.md:36
 msgid ""
@@ -407,54 +416,54 @@ msgstr ""
 "此设置会自动为您保存，并将应用于您以后阅读的任何文章。"
 
 #: en/bookmark.md:43
-msgid "## Change the title"
-msgstr "## 修改标题"
+msgid "## Edit information"
+msgstr "## 编辑信息"
 
 #: en/bookmark.md:45
-msgid "The bookmark's title is automatically grabbed when you create it. If, for some reason, you need something else, you can change it by clicking on it and then click the button on the title side."
-msgstr "书签的标题在您创建时会自动抓取。如果出于某种原因，您需要其他内容，您可以通过点击它，然后点击标题侧的按钮来更改它。"
+msgid "Several information such as the title or description are automatically grabbed when you create a bookmark. If you need to change these properties, you can click on the edit side button to open a form."
+msgstr "一些信息如标题或描述在你创建书签时自动抓取。如果你需要更改这些属性，你可以点击编辑按钮打开一个表单。"
 
-#: en/bookmark.md:48
+#: en/bookmark.md:47
 msgid "## Actions"
 msgstr "## 操作"
 
-#: en/bookmark.md:50
+#: en/bookmark.md:49
 msgid "On the bookmark sidebar, you can perform actions."
 msgstr "在书签侧边栏上，您可以执行操作。"
 
-#: en/bookmark.md:52
+#: en/bookmark.md:51
 msgid "### Favorite"
 msgstr "### 收藏"
 
-#: en/bookmark.md:54
+#: en/bookmark.md:53
 msgid "This toggles the favorite status of the bookmark."
 msgstr "切换书签的收藏状态。"
 
-#: en/bookmark.md:56
+#: en/bookmark.md:55
 msgid "### Archive"
 msgstr "### 归档"
 
-#: en/bookmark.md:58
+#: en/bookmark.md:57
 msgid "This moves the bookmark to the archives (or removes it from there)."
 msgstr "将书签移至已归档或者移除。"
 
-#: en/bookmark.md:60
+#: en/bookmark.md:59
 msgid "### Share"
 msgstr "### 分享"
 
-#: en/bookmark.md:62
+#: en/bookmark.md:61
 msgid "The share button opens a menu from which you can create a link if you want to share an article with someone."
 msgstr "共享按钮打开一个菜单，如果您想与某人共享一篇文章，可以从中创建链接。"
 
-#: en/bookmark.md:64
+#: en/bookmark.md:63
 msgid "On the same menu, you can export your bookmark (only EPUB for now) to read it on a different device."
 msgstr "在同一菜单上，您可以导出书签（目前仅EPUB），以便在其他设备上阅读。"
 
-#: en/bookmark.md:67
+#: en/bookmark.md:66
 msgid "### Delete"
 msgstr "### 删除"
 
-#: en/bookmark.md:69
+#: en/bookmark.md:68
 msgid ""
 "This marks the bookmark for deletion.\\\n"
 "No worries if you click on this by mistake! This action can be canceled before actual deletion."
@@ -462,15 +471,15 @@ msgstr ""
 "这将标记书签以进行删除。\n"
 "如果您不小心点到了这个，别担心！此操作可以在实际删除之前取消。"
 
-#: en/bookmark.md:73
+#: en/bookmark.md:72
 msgid "## Labels"
 msgstr "## 标签"
 
-#: en/bookmark.md:75
+#: en/bookmark.md:74
 msgid "You can add as many labels as you want to a bookmark. To do so, enter some text in the label field and click on **Add label**. There is no limit as to what can be a label. You can even add emojis if you like them."
 msgstr "您可以在书签中添加任意数量的标签。为此，请在标签字段中输入一些文本，然后点击 **添加标签**。 标签是没有限制的。如果您喜欢，您甚至可以添加表情符号。"
 
-#: en/bookmark.md:77
+#: en/bookmark.md:76
 msgid ""
 "![Bookmark labels form](./img/bookmark-labels.webp)\n"
 "Add a new label."
@@ -478,15 +487,15 @@ msgstr ""
 "![书签标签表单](./img/bookmark-labels.webp)\n"
 "添加标签。"
 
-#: en/bookmark.md:80
+#: en/bookmark.md:79
 msgid "Please read the [Labels](./labels.md) section for more information."
 msgstr "请阅读[标签](./labels.md)部分了解更多信息。"
 
-#: en/bookmark.md:82
+#: en/bookmark.md:81
 msgid "## Highlights"
 msgstr "## 高亮"
 
-#: en/bookmark.md:84
+#: en/bookmark.md:83
 msgid ""
 "Found some interesting part in an article? You can highlight it!\\\n"
 "When you select any text in the article, a menu appears that lets you create a new highlight."
@@ -494,7 +503,7 @@ msgstr ""
 "在一篇文章中发现了一些有趣的部分？您可以突出它。\n"
 "当您选择文章中的任何文本时，会出现一个菜单，允许您创建新的突出显示。"
 
-#: en/bookmark.md:87
+#: en/bookmark.md:86
 msgid ""
 "![Bookmark highlight creation](./img/bookmark-highlight.webp)\n"
 "Create a new highlight."
@@ -502,11 +511,11 @@ msgstr ""
 "![书签添加高亮](./img/bookmark-highlight.webp)\n"
 "创建新的高亮。"
 
-#: en/bookmark.md:90
+#: en/bookmark.md:89
 msgid "Your highlights appear in the sidebar."
 msgstr "您的高亮显示在侧边栏中。"
 
-#: en/bookmark.md:92
+#: en/bookmark.md:91
 msgid "When you need to remove an highlight, you can do it from the sidebar or by selecting it in the article."
 msgstr "当您需要删除高亮时，您可以从侧边栏中删除，也可以在文章中选择它。"
 
@@ -854,3 +863,8 @@ msgstr "但您可以提供您的用户名和一个您选择的令牌作为认证
 #~ msgid "**Note**: although you can use an application password to access the API, it is recommended to use an API Token when possible."
 #~ msgstr "**注意**: 虽然您可以使用应用程序密码访问API，但建议尽可能使用 API Token。"
 
+#~ msgid "## Change the title"
+#~ msgstr "## 修改标题"
+
+#~ msgid "The bookmark's title is automatically grabbed when you create it. If, for some reason, you need something else, you can change it by clicking on it and then click the button on the title side."
+#~ msgstr "书签的标题在您创建时会自动抓取。如果出于某种原因，您需要其他内容，您可以通过点击它，然后点击标题侧的按钮来更改它。"

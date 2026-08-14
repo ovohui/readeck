@@ -15,27 +15,28 @@ import (
 )
 
 func (h *viewsRouter) collectionList(w http.ResponseWriter, r *http.Request) {
-	cl := getCollectionList(r.Context())
-	tc := getBaseContext(r.Context())
-	tc["Collections"] = cl.Items
-
-	server.RenderTemplate(w, r, 200, "/bookmarks/collection_list", tc)
+	server.RenderComponent(
+		w, r, http.StatusOK,
+		Views{}.collectionList(getCollectionList(r.Context())),
+	)
 }
 
 func (h *viewsRouter) collectionCreate(w http.ResponseWriter, r *http.Request) {
-	f := newCollectionForm(server.Locale(r), r)
+	f := newCollectionForm(r)
 
 	switch r.Method {
 	case http.MethodGet:
 		// Add values from query string but don't perform validation
-		forms.BindURL(f, r)
+		forms.BindValues(r.URL.Query(), f)
 	case http.MethodPost:
-		forms.Bind(f, r)
+		forms.Bind(r, f)
 		if f.IsValid() {
-			c, err := f.createCollection(auth.GetRequestUser(r).ID)
+			c, err := f.createCollection(auth.GetUser(r.Context()).ID)
 			if err != nil {
 				server.Log(r).Error("", slog.Any("err", err))
 			} else {
+				tr := server.Locale(r.Context())
+				server.AddFlash(w, r, "success", tr.Gettext("Collection created."))
 				server.Redirect(w, r, "./..", c.UID)
 				return
 			}
@@ -43,54 +44,42 @@ func (h *viewsRouter) collectionCreate(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnprocessableEntity)
 	}
 
-	bl := getBookmarkList(r.Context())
-
-	tc := getBaseContext(r.Context())
-	tc["Pagination"] = bl.Pagination
-	tc["Bookmarks"] = bl.Items
-	tc["Form"] = f
-
-	server.RenderTemplate(w, r, 200, "/bookmarks/collection_create", tc)
+	server.RenderComponent(w, r, http.StatusOK, Views{}.collectionCreate(
+		f, getBookmarkList(r.Context()),
+	))
 }
 
 func (h *viewsRouter) collectionInfo(w http.ResponseWriter, r *http.Request) {
 	c := getCollection(r.Context())
 	item := dataset.NewCollection(r.Context(), c)
 
-	f := newCollectionForm(server.Locale(r), r)
+	f := newCollectionForm(r)
 	f.setCollection(c)
 
 	if r.Method == http.MethodPost {
-		forms.Bind(f, r)
+		forms.Bind(r, f)
 		if f.IsValid() {
 			if _, err := f.updateCollection(c); err != nil {
 				server.Log(r).Error("", slog.Any("err", err))
 			} else {
-				tr := server.Locale(r)
+				tr := server.Locale(r.Context())
 				server.AddFlash(w, r, "success", tr.Gettext("Collection updated."))
-				server.Redirect(w, r, c.UID+"?edit=1")
+				server.Redirect(w, r, c.UID+"?"+r.URL.RawQuery)
 				return
 			}
 		}
 		w.WriteHeader(http.StatusUnprocessableEntity)
 	}
 
-	bl := getBookmarkList(r.Context())
-
-	tc := getBaseContext(r.Context())
-	tc["Editing"] = r.URL.Query().Get("edit") == "1"
-	tc["Item"] = item
-	tc["Form"] = f
-	tc["Pagination"] = bl.Pagination
-	tc["Bookmarks"] = bl.Items
-
-	server.RenderTemplate(w, r, 200, "/bookmarks/collection", tc)
+	server.RenderComponent(w, r, http.StatusOK, Views{}.collectionInfo(
+		item, f, getBookmarkList(r.Context()),
+	))
 }
 
 func (h *viewsRouter) collectionDelete(w http.ResponseWriter, r *http.Request) {
-	f := newCollectionDeleteForm(server.Locale(r))
-	f.Get("_to").Set("/bookmarks/collections")
-	forms.Bind(f, r)
+	f := forms.New[collectionDeleteForm](r.Context())
+	f.To.Set("/bookmarks/collections")
+	forms.Bind(r, f)
 
 	c := getCollection(r.Context())
 
@@ -103,5 +92,5 @@ func (h *viewsRouter) collectionDelete(w http.ResponseWriter, r *http.Request) {
 		server.Err(w, r, err)
 		return
 	}
-	server.Redirect(w, r, f.Get("_to").String())
+	server.Redirect(w, r, f.To.String())
 }

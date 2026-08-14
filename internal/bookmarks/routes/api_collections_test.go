@@ -17,13 +17,15 @@ func TestCollectionAPI(t *testing.T) {
 
 	client := app.Client(WithToken("user"))
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithTarget("/api/bookmarks/collections"),
 		AssertStatus(200),
 		AssertJSON(`[]`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPost),
 		WithTarget("/api/bookmarks/collections"),
 		WithBody(map[string]any{}),
@@ -33,73 +35,85 @@ func TestCollectionAPI(t *testing.T) {
 			"errors": null,
 			"fields": {
 				"author": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
 					"value": "",
 					"errors": null
 				},
 				"bf": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
 					"value": false,
 					"errors": null
 				},
 				"has_errors": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
 					"value": false,
 					"errors": null
 				},
 				"has_labels": {
-					"is_null": true,
+					"is_null": false,
+					"is_bound": false,
+					"value": false,
+					"errors": null
+				},
+				"has_notes": {
+					"is_null": false,
 					"is_bound": false,
 					"value": false,
 					"errors": null
 				},
 				"id": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
-					"value": null,
+					"value": [],
 					"errors": null
 				},
 				"is_archived": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
 					"value": false,
 					"errors": null
 				},
 				"is_loaded": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
 					"value": false,
 					"errors": null
 				},
 				"is_marked": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
 					"value": false,
 					"errors": null
 				},
 				"is_pinned": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
 					"value": false,
 					"errors": null
 				},
 				"labels": {
-					"is_null": true,
+					"is_null": false,
+					"is_bound": false,
+					"value": "",
+					"errors": null
+				},
+				"lang": {
+					"is_null": false,
 					"is_bound": false,
 					"value": "",
 					"errors": null
 				},
 				"note": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
 					"value": "",
 					"errors": null
 				},
 				"name": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
 					"value": "",
 					"errors": [
@@ -107,52 +121,53 @@ func TestCollectionAPI(t *testing.T) {
 					]
 				},
 				"search": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
 					"value": "",
 					"errors": null
 				},
 				"site": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
 					"value": "",
 					"errors": null
 				},
 				"range_end": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
 					"value": "",
 					"errors": null
 				},
 				"range_start": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
 					"value": "",
 					"errors": null
 				},
 				"read_status": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
-					"value": null,
+					"value": [],
 					"errors": null
 				},
 				"title": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
 					"value": "",
 					"errors": null
 				},
 				"type": {
-					"is_null": true,
+					"is_null": false,
 					"is_bound": false,
-					"value": null,
+					"value": [],
 					"errors": null
 				}
 			}
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPost),
 		WithTarget("/api/bookmarks/collections"),
 		WithBody(map[string]any{
@@ -166,7 +181,8 @@ func TestCollectionAPI(t *testing.T) {
 		AssertJSON(`{"status":201,"message":"Collection created"}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithBody(true),
 		WithTarget(client.History[0].Response.Redirect),
 		AssertStatus(200),
@@ -182,6 +198,7 @@ func TestCollectionAPI(t *testing.T) {
 			"title":"",
 			"author":"",
 			"site":"",
+			"lang": "",
 			"type": ["article"],
 			"labels":"test 🥳",
 			"read_status": null,
@@ -190,12 +207,14 @@ func TestCollectionAPI(t *testing.T) {
 			"is_loaded": null,
 			"has_errors": null,
 			"has_labels": null,
+			"has_notes": null,
 			"range_start": "",
 			"range_end": ""
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget(client.History.PrevURL()),
 		WithBody(map[string]any{
@@ -211,7 +230,8 @@ func TestCollectionAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithBody(true),
 		WithTarget("/api/bookmarks/collections"),
 		AssertStatus(200),
@@ -228,6 +248,7 @@ func TestCollectionAPI(t *testing.T) {
 				"title":"",
 				"author":"",
 				"site":"",
+				"lang": "",
 				"type": ["article"],
 				"labels":"test 🥳",
 				"read_status": null,
@@ -236,31 +257,34 @@ func TestCollectionAPI(t *testing.T) {
 				"is_loaded": null,
 				"has_errors": null,
 				"has_labels": null,
+				"has_notes": null,
 				"range_start": "",
 				"range_end": ""
 			}
 		]`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget(client.History[1].URL.String()),
 		WithBody(map[string]any{
-			"name":        "new name",
-			"is_archived": nil,
+			"name":        "name",
+			"is_archived": true,
 			"is_marked":   false,
 		}),
 		AssertStatus(200),
 		AssertJSON(`{
 			"id": "<<PRESENCE>>",
-			"is_archived": null,
+			"is_archived": true,
 			"is_marked": false,
-			"name": "new name",
+			"name": "name",
 			"updated": "<<PRESENCE>>"
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithTarget(client.History.PrevURL()),
 		AssertStatus(200),
 		AssertJSON(`{
@@ -268,27 +292,30 @@ func TestCollectionAPI(t *testing.T) {
 			"href": "<<PRESENCE>>",
 			"created": "<<PRESENCE>>",
 			"updated": "<<PRESENCE>>",
-			"name": "new name",
+			"name": "name",
 			"is_pinned": true,
 			"is_deleted": false,
 			"search":"",
 			"title":"",
 			"author":"",
 			"site":"",
+			"lang": "",
 			"type": ["article"],
 			"labels":"test 🥳",
 			"read_status": null,
 			"is_marked": false,
-			"is_archived": null,
+			"is_archived": true,
 			"is_loaded": null,
 			"has_errors": null,
 			"has_labels": null,
+			"has_notes": null,
 			"range_start": "",
 			"range_end": ""
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget(client.History.PrevURL()),
 		WithBody(map[string]any{
@@ -306,7 +333,8 @@ func TestCollectionAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithTarget(client.History.PrevURL()),
 		AssertStatus(200),
 		AssertJSON(`{
@@ -321,6 +349,7 @@ func TestCollectionAPI(t *testing.T) {
 			"title":"",
 			"author":"",
 			"site":"",
+			"lang": "",
 			"type": ["article"],
 			"labels":"test 🥳",
 			"read_status": null,
@@ -329,12 +358,14 @@ func TestCollectionAPI(t *testing.T) {
 			"is_loaded": null,
 			"has_errors": null,
 			"has_labels": null,
+			"has_notes": null,
 			"range_start": "",
 			"range_end": ""
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget(client.History.PrevURL()),
 		WithBody(map[string]any{
@@ -347,7 +378,6 @@ func TestCollectionAPI(t *testing.T) {
 		AssertJSON(`{
 			"id": "<<PRESENCE>>",
 			"labels":"label1 label2 test 🥳",
-			"name": "new name",
 			"read_status": ["unread", "reading"],
 			"search":"some search",
 			"site":"example.com",
@@ -357,7 +387,8 @@ func TestCollectionAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithTarget(client.History.PrevURL()),
 		AssertStatus(200),
 		AssertJSON(`{
@@ -372,6 +403,7 @@ func TestCollectionAPI(t *testing.T) {
 			"title":"tt",
 			"author":"",
 			"site":"example.com",
+			"lang": "",
 			"type": ["article", "video"],
 			"labels":"label1 label2 test 🥳",
 			"read_status": ["unread", "reading"],
@@ -380,18 +412,21 @@ func TestCollectionAPI(t *testing.T) {
 			"is_loaded": null,
 			"has_errors": null,
 			"has_labels": null,
+			"has_notes": null,
 			"range_start": "",
 			"range_end": ""
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodDelete),
 		WithTarget(client.History.PrevURL()),
 		AssertStatus(204),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithTarget(client.History.PrevURL()),
 		AssertStatus(404),
 	)

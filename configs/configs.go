@@ -7,7 +7,6 @@ package configs
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log/slog"
 	"net"
@@ -20,8 +19,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/araddon/dateparse"
 	"github.com/caarlos0/env/v11"
+	"github.com/itlightning/dateparse"
 	"github.com/komkom/toml"
 
 	"codeberg.org/readeck/readeck/internal/acls"
@@ -59,36 +58,32 @@ type config struct {
 }
 
 type configMain struct {
-	LogLevel      slog.Level `json:"log_level" env:"LOG_LEVEL"`
-	LogFormat     string     `json:"log_format" env:"LOG_FORMAT"`
+	LogLevel      slog.Level `json:"log_level"       env:"LOG_LEVEL"`
+	LogFormat     string     `json:"log_format"      env:"LOG_FORMAT"`
 	LogTimeFormat string     `json:"log_time_format" env:"LOG_TIME_FORMAT"`
-	SecretKey     string     `json:"secret_key" env:"SECRET_KEY,unset"`
-	DataDirectory string     `json:"data_directory" env:"DATA_DIRECTORY,unset"`
+	SecretKey     string     `json:"secret_key"      env:"SECRET_KEY,unset"`
+	DataDirectory string     `json:"data_directory"  env:"DATA_DIRECTORY,unset"`
 }
 
 type configServer struct {
-	Host           string        `json:"host" env:"SERVER_HOST"`
-	Port           int           `json:"port" env:"SERVER_PORT"`
-	BaseURL        *configURL    `json:"base_url" env:"SERVER_BASE_URL"`
-	Prefix         string        `json:"prefix" env:"SERVER_PREFIX"`
+	Host           string        `json:"host"            env:"SERVER_HOST"`
+	Port           int           `json:"port"            env:"SERVER_PORT"`
+	BaseURL        *configURL    `json:"base_url"        env:"SERVER_BASE_URL"`
+	Prefix         string        `json:"prefix"          env:"SERVER_PREFIX"`
 	TrustedProxies []configIPNet `json:"trusted_proxies" env:"TRUSTED_PROXIES,unset"`
-	AllowedHosts   []string      `json:"allowed_hosts" env:"ALLOWED_HOSTS"`
-	CertFile       string        `json:"cert_file" env:"CERT_FILE"`
-	KeyFile        string        `json:"key_file" env:"KEY_FILE"`
-	ClientCAFile   string        `json:"client_ca_file" env:"CLIENT_CA_FILE"`
+	AllowedHosts   []string      `json:"allowed_hosts"   env:"ALLOWED_HOSTS"`
+	CertFile       string        `json:"cert_file"       env:"CERT_FILE"`
+	KeyFile        string        `json:"key_file"        env:"KEY_FILE"`
+	ClientCAFile   string        `json:"client_ca_file"  env:"CLIENT_CA_FILE"`
 	Session        configSession `json:"session"`
 }
 
 type configAuth struct {
-	Forwarded configForwardedAuth
+	OIDC configOIDC `json:"oidc"`
 }
 
-type configForwardedAuth struct {
-	Enabled             bool   `json:"enabled" env:"AUTH_FORWARDED_ENABLED"`
-	ProvisioningEnabled bool   `json:"provisioning" env:"AUTH_FORWARDED_PROVISIONING"`
-	HeaderUser          string `json:"header_user" env:"AUTH_FORWARDED_HEADER_USER"`
-	HeaderEmail         string `json:"header_email" env:"AUTH_FORWARDED_HEADER_EMAIL"`
-	HeaderGroup         string `json:"header_group" env:"AUTH_FORWARDED_HEADER_GROUP"`
+type configOIDC struct {
+	Providers []OIDCProvider `json:"providers"`
 }
 
 type configDB struct {
@@ -105,14 +100,14 @@ type configBookmarks struct {
 }
 
 type configEmail struct {
-	Debug       bool            `json:"debug" env:"MAIL_DEBUG,unset"`
-	Host        string          `json:"host" env:"MAIL_HOST,unset"`
-	Port        int             `json:"port" env:"MAIL_PORT,unset"`
-	Username    string          `json:"username" env:"MAIL_USERNAME,unset"`
-	Password    string          `json:"password" env:"MAIL_PASSWORD,unset"`
-	Encryption  string          `json:"encryption" env:"MAIL_ENCRYPTION,unset"`
-	Insecure    bool            `json:"insecure" env:"MAIL_INSECURE,unset"`
-	From        configEmailAddr `json:"from" env:"MAIL_FROM,unset"`
+	Debug       bool            `json:"debug"        env:"MAIL_DEBUG,unset"`
+	Host        string          `json:"host"         env:"MAIL_HOST,unset"`
+	Port        int             `json:"port"         env:"MAIL_PORT,unset"`
+	Username    string          `json:"username"     env:"MAIL_USERNAME,unset"`
+	Password    string          `json:"password"     env:"MAIL_PASSWORD,unset"`
+	Encryption  string          `json:"encryption"   env:"MAIL_ENCRYPTION,unset"`
+	Insecure    bool            `json:"insecure"     env:"MAIL_INSECURE,unset"`
+	From        configEmailAddr `json:"from"         env:"MAIL_FROM,unset"`
 	FromNoReply configEmailAddr `json:"from_noreply" env:"MAIL_FROMNOREPLY,unset"`
 }
 
@@ -122,8 +117,8 @@ type configAccounts struct {
 }
 
 type configWorker struct {
-	DSN         string `json:"dsn" env:"WORKER_DSN,unset"`
-	NumWorkers  int    `json:"num_workers" env:"WORKER_NUMBER"`
+	DSN         string `json:"dsn"          env:"WORKER_DSN,unset"`
+	NumWorkers  int    `json:"num_workers"  env:"WORKER_NUMBER"`
 	StartWorker bool   `json:"start_worker" env:"WORKER_START"`
 }
 
@@ -168,19 +163,33 @@ func (c *config) LoadFile(filename string) error {
 }
 
 func (c *config) LoadEnv() error {
-	return env.ParseWithOptions(c, env.Options{
+	err := env.ParseWithOptions(c, env.Options{
 		Prefix:                "READECK_",
 		UseFieldNameByDefault: false,
 	})
+	if err != nil {
+		return err
+	}
+	return c.loadOIDCProviders()
 }
 
 func (c *config) validate() error {
-	if len(map[string]struct{}{
-		c.Auth.Forwarded.HeaderUser:  {},
-		c.Auth.Forwarded.HeaderEmail: {},
-		c.Auth.Forwarded.HeaderGroup: {},
-	}) != 3 {
-		return errors.New("auth.forwarded: all header names must be different")
+	for i, v := range c.Auth.OIDC.Providers {
+		f := ""
+		switch {
+		case v.URL == "":
+			f = "url"
+		case v.Name == "":
+			f = "name"
+		case v.ClientID == "":
+			f = "client_id"
+		case v.ClientSecret == "":
+			f = "client_secret"
+		}
+
+		if f != "" {
+			return fmt.Errorf("auth.oidc.providers.%d.%s is empty", i, f)
+		}
 	}
 
 	return nil
@@ -204,7 +213,7 @@ func (a *configEmailAddr) Addr() string {
 	return a.Address.Address
 }
 
-// UnmarshalJSON implements [encoding.json.Unmarshaler].
+// UnmarshalJSON implements [json.Unmarshaler].
 func (a *configEmailAddr) UnmarshalJSON(d []byte) (err error) {
 	var s string
 	if err = json.Unmarshal(d, &s); err != nil {
@@ -218,7 +227,16 @@ func (a *configEmailAddr) UnmarshalText(text []byte) (err error) {
 	return a.parse(string(text))
 }
 
-// UnmarshalJSON implements [encoding.json.Unmarshaler].
+// MarshalJSON implements [json.Marshaler].
+func (a configEmailAddr) MarshalJSON() ([]byte, error) {
+	s := a.Addr()
+	if a.Name != "" {
+		s += " (" + a.Name + ")"
+	}
+	return json.Marshal(s)
+}
+
+// UnmarshalJSON implements [json.Unmarshaler].
 func (cu *configURL) UnmarshalJSON(d []byte) (err error) {
 	var s string
 	if err = json.Unmarshal(d, &s); err != nil {
@@ -275,7 +293,7 @@ func (ci *configIPNet) parse(s string) error {
 	return nil
 }
 
-// UnmarshalJSON implements [encoding.json.Unmarshaler].
+// UnmarshalJSON implements [json.Unmarshaler].
 func (ci *configIPNet) UnmarshalJSON(d []byte) error {
 	var s string
 	err := json.Unmarshal(d, &s)
@@ -289,6 +307,11 @@ func (ci *configIPNet) UnmarshalJSON(d []byte) error {
 // UnmarshalText implements [encoding.TextUnmarshaler].
 func (ci *configIPNet) UnmarshalText(text []byte) error {
 	return ci.parse(string(text))
+}
+
+// MarshalJSON implements [json.Marshaler].
+func (ci *configIPNet) MarshalJSON() ([]byte, error) {
+	return json.Marshal(ci.String())
 }
 
 type configProxyMatch struct {
@@ -358,15 +381,6 @@ var Config = config{
 	Database: configDB{},
 	Email: configEmail{
 		Port: 25,
-	},
-	Auth: configAuth{
-		Forwarded: configForwardedAuth{
-			Enabled:             false,
-			HeaderUser:          "Remote-User",
-			HeaderEmail:         "Remote-Email",
-			HeaderGroup:         "Remote-Groups",
-			ProvisioningEnabled: true,
-		},
 	},
 	Bookmarks: configBookmarks{
 		PublicShareTTL: 24,

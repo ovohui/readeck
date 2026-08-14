@@ -299,7 +299,8 @@ func TestSQLBuilder(t *testing.T) {
 				sql, args, err := ds.Prepared(true).ToSQL()
 				require.NoError(t, err)
 
-				require.Equal(t,
+				require.Equal(
+					t,
 					rxSpace.ReplaceAllString(strings.TrimSpace(test.expected[dialect].sql), " "),
 					sql,
 				)

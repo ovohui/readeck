@@ -24,7 +24,8 @@ func TestAPI(t *testing.T) {
 	require.NoError(t, err)
 
 	t.Run("users", func(t *testing.T) {
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget("/api/admin/users"),
 			AssertStatus(200),
 			AssertJSON(`[
@@ -37,6 +38,8 @@ func TestAPI(t *testing.T) {
 					"username": "admin",
 					"email": "admin@localhost",
 					"group": "admin",
+					"has_totp": false,
+					"is_external": false,
 					"is_deleted": false
 				},
 				{
@@ -48,6 +51,8 @@ func TestAPI(t *testing.T) {
 					"username": "disabled",
 					"email": "disabled@localhost",
 					"group": "none",
+					"has_totp": false,
+					"is_external": false,
 					"is_deleted": false
 				},
 				{
@@ -59,6 +64,8 @@ func TestAPI(t *testing.T) {
 					"username": "staff",
 					"email": "staff@localhost",
 					"group": "staff",
+					"has_totp": false,
+					"is_external": false,
 					"is_deleted": false
 				},
 				{
@@ -70,6 +77,8 @@ func TestAPI(t *testing.T) {
 					"username": "test1",
 					"email": "test1@localhost",
 					"group": "user",
+					"has_totp": false,
+					"is_external": false,
 					"is_deleted": false
 				},
 				{
@@ -81,12 +90,15 @@ func TestAPI(t *testing.T) {
 					"username": "user",
 					"email": "user@localhost",
 					"group": "user",
+					"has_totp": false,
+					"is_external": false,
 					"is_deleted": false
 				}
 			]`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget("/api/admin/users/"+u1.User.UID),
 			AssertStatus(200),
 			AssertJSON(`{
@@ -101,18 +113,22 @@ func TestAPI(t *testing.T) {
 				"username": "test1",
 				"email": "test1@localhost",
 				"group": "user",
+				"has_totp": false,
+				"is_external": false,
 				"is_deleted": false,
 				"settings": "<<PRESENCE>>"
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget("/api/admin/users/sdfgsgsgergergerge"),
 			AssertStatus(404),
 			AssertJSON(`{"status":404,"message":"Not Found"}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/api/admin/users"),
 			WithBody(map[string]any{}),
@@ -123,7 +139,7 @@ func TestAPI(t *testing.T) {
 				"fields": {
 					"email": {
 						"is_bound": false,
-						"is_null": true,
+						"is_null": false,
 						"value": "",
 						"errors": [
 							"field is required"
@@ -137,7 +153,7 @@ func TestAPI(t *testing.T) {
 					},
 					"password": {
 						"is_bound": false,
-						"is_null": true,
+						"is_null": false,
 						"value": "",
 						"errors": [
 							"field is required"
@@ -145,7 +161,7 @@ func TestAPI(t *testing.T) {
 					},
 					"username": {
 						"is_bound": false,
-						"is_null": true,
+						"is_null": false,
 						"value": "",
 						"errors": [
 							"field is required"
@@ -155,7 +171,8 @@ func TestAPI(t *testing.T) {
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/api/admin/users"),
 			WithBody(map[string]any{
@@ -168,7 +185,7 @@ func TestAPI(t *testing.T) {
 				"fields": {
 					"email": {
 						"is_bound": false,
-						"is_null": true,
+						"is_null": false,
 						"value": "",
 						"errors": [
 							"field is required"
@@ -178,11 +195,11 @@ func TestAPI(t *testing.T) {
 						"is_bound": true,
 						"is_null": false,
 						"value": "foo",
-						"errors": ["foo is not one of none, admin, staff, user"]
+						"errors": ["foo is not one of \"none\", \"admin\", \"staff\", \"user\""]
 					},
 					"password": {
 						"is_bound": false,
-						"is_null": true,
+						"is_null": false,
 						"value": "",
 						"errors": [
 							"field is required"
@@ -190,7 +207,7 @@ func TestAPI(t *testing.T) {
 					},
 					"username": {
 						"is_bound": false,
-						"is_null": true,
+						"is_null": false,
 						"value": "",
 						"errors": [
 							"field is required"
@@ -200,14 +217,15 @@ func TestAPI(t *testing.T) {
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/api/admin/users"),
 			WithBody(map[string]any{
 				"username": "test3@localhost",
 				"email":    "test3",
 				"group":    "user",
-				"password": "1234",
+				"password": "  ",
 			}),
 			AssertStatus(422),
 			AssertJSON(`{
@@ -231,8 +249,8 @@ func TestAPI(t *testing.T) {
 					"password": {
 						"is_bound": true,
 						"is_null": false,
-						"value": "1234",
-						"errors": null
+						"value": "  ",
+						"errors": ["password is empty"]
 					},
 					"username": {
 						"is_bound": true,
@@ -246,7 +264,8 @@ func TestAPI(t *testing.T) {
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/api/admin/users"),
 			WithBody(map[string]any{
@@ -290,7 +309,8 @@ func TestAPI(t *testing.T) {
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/api/admin/users"),
 			WithBody(map[string]any{
@@ -332,7 +352,8 @@ func TestAPI(t *testing.T) {
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/api/admin/users"),
 			WithBody(map[string]any{
@@ -374,7 +395,8 @@ func TestAPI(t *testing.T) {
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/api/admin/users"),
 			WithBody(map[string]any{
@@ -387,7 +409,8 @@ func TestAPI(t *testing.T) {
 			AssertJSON(`{"status":201,"message":"User created"}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/api/admin/users"),
 			WithBody(map[string]any{
@@ -400,7 +423,8 @@ func TestAPI(t *testing.T) {
 			AssertJSON(`{"status":201,"message":"User created"}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPatch),
 			WithTarget("/api/admin/users/"+u1.User.UID),
 			WithBody(map[string]any{}),
@@ -408,7 +432,8 @@ func TestAPI(t *testing.T) {
 			AssertJSON(`{"id": "<<PRESENCE>>"}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPatch),
 			WithTarget("/api/admin/users/"+u1.User.UID),
 			WithBody(map[string]any{
@@ -454,7 +479,51 @@ func TestAPI(t *testing.T) {
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
+			WithMethod(http.MethodPatch),
+			WithTarget("/api/admin/users/"+u1.User.UID),
+			WithBody(map[string]any{
+				"username": "test3",
+				"email":    "test3@localhost",
+				"group":    "user",
+				"password": "    ",
+			}),
+			AssertStatus(422),
+			AssertJSON(`{
+				"is_valid":false,
+				"errors":null,
+				"fields":{
+					"email":{
+						"is_null":false,
+						"is_bound":true,
+						"value":"test3@localhost",
+						"errors":null
+					},
+					"group":{
+						"is_null":false,
+						"is_bound":true,
+						"value":"user",
+						"errors":null
+					},
+					"password":{
+						"is_null":false,
+						"is_bound":true,
+						"value":"    ",
+						"errors":["password is empty"]
+					},
+					"username":{
+						"is_null":false,
+						"is_bound":true,
+						"value":"test3",
+						"errors":null
+					}
+				}
+			}`),
+		)
+
+		client.RT(
+			t,
 			WithMethod(http.MethodPatch),
 			WithTarget("/api/admin/users/"+u1.User.UID),
 			WithBody(map[string]any{
@@ -474,13 +543,15 @@ func TestAPI(t *testing.T) {
 			}`),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodDelete),
 			WithTarget("/api/admin/users/"+u1.User.UID),
 			AssertStatus(204),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodDelete),
 			WithTarget("/api/admin/users/"+app.Users["admin"].User.UID),
 			AssertStatus(409),

@@ -11,6 +11,23 @@ import (
 	"net/http"
 
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
+	"codeberg.org/readeck/readeck/pkg/ctxr"
+)
+
+// SharingFlag is a sharing option flag.
+type SharingFlag byte
+
+// Bookmark sharing flags.
+const (
+	SharingWithHighlights SharingFlag = 1 << iota
+	SharingWithNotes
+)
+
+type ctxSharingFlagsKey struct{}
+
+// Context setter and checker for [dataset.SharingFlag].
+var (
+	WithSharingFlags, checkSharingFlags = ctxr.WithChecker[SharingFlag](ctxSharingFlagsKey{})
 )
 
 // Exporter describes a bookmarks exporter.

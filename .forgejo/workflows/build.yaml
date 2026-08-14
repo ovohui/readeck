@@ -4,6 +4,13 @@ name: Readeck Build
 run-name: ${{ github.actor }} build
 on:
   workflow_dispatch:
+    inputs:
+      translation_cutoff:
+        description: |
+          Translation cutoff.
+        type: string
+        required: false
+        default: ""
 
 jobs:
   tests:
@@ -31,7 +38,7 @@ jobs:
         GOLANGCI_LINT_CACHE: /workspace/.cache/golangci-lint
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -41,7 +48,7 @@ jobs:
 
       - name: Generate assets
         run: |
-          make setup generate
+          make TRANSLATION_CUTOFF=${{ inputs.translation_cutoff }} setup generate
 
       - name: Copy workdir
         run: |

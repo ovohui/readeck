@@ -29,9 +29,9 @@ A video is a page that was identified as a video container (ie. a link to Youtub
 
 ## Navigation and presentation settings
 
-On top of the bookmark view, a link takes you back to the previous page.
+On the side or on top of the bookmark view, a link takes you back to the previous page.
 
-If the bookmark contains an article, a button on the other side lets you change some typography settings.
+If the bookmark contains an article, a button lets you change some typography settings.
 
 ![Bookmark typography settings](./img/bookmark-typography.webp)
 Typography settings.
@@ -40,10 +40,9 @@ There you can set the font used for the text, the font size and the line height.
 This settings are automatically saved for you and will apply to any article you read later.
 
 
-## Change the title
+## Edit information
 
-The bookmark's title is automatically grabbed when you create it. If, for some reason, you need something else, you can change it by clicking on it and then click the button on the title side.
-
+Several information such as the title or description are automatically grabbed when you create a bookmark. If you need to change these properties, you can click on the edit side button to open a form.
 
 ## Actions
 

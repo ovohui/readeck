@@ -20,7 +20,9 @@ CREATE TABLE IF NOT EXISTS "user" (
     "group"     varchar(64)  NOT NULL DEFAULT 'user',
     settings    jsonb        NOT NULL DEFAULT '{}',
     seed        integer      NOT NULL DEFAULT 0,
-    totp_secret bytea        NULL
+    totp_secret bytea        NULL,
+    ext_id      varchar(128) UNIQUE NULL,
+    ext_info    jsonb        NULL
 );
 
 CREATE TABLE IF NOT EXISTS token (
@@ -73,6 +75,7 @@ CREATE TABLE IF NOT EXISTS bookmark (
     dir           varchar(3)  NOT NULL DEFAULT '',
     type          varchar(64) NOT NULL DEFAULT '',
     description   text        NOT NULL DEFAULT '',
+    note          text        NOT NULL DEFAULT '',
     "text"        text        NOT NULL DEFAULT '',
     word_count    integer     NOT NULL DEFAULT 0,
     duration      integer     NOT NULL DEFAULT 0,
@@ -166,7 +169,7 @@ BEGIN
                     ELSE '[]' END
                 ) as x
                 WHERE x->>'note' <> ''
-            ), 'A')
+            ) || to_tsvector('ts', NEW.note), 'A')
         );
     END IF;
     RETURN NEW;

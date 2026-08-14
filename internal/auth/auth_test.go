@@ -75,13 +75,13 @@ func TestHandler(t *testing.T) {
 		{
 			[]Provider{},
 			func(t *testing.T, _ *httptest.ResponseRecorder, r *http.Request) {
-				require.IsType(t, (*NullProvider)(nil), GetRequestProvider(r))
+				require.IsType(t, (*NullProvider)(nil), GetProvider(r.Context()))
 				require.Equal(t, &Info{
 					Provider: &ProviderInfo{},
 					User:     &users.User{},
-				}, GetRequestAuthInfo(r))
-				require.Equal(t, &users.User{}, GetRequestUser(r))
-				require.True(t, GetRequestUser(r).IsAnonymous())
+				}, GetAuthInfo(r.Context()))
+				require.Equal(t, &users.User{}, GetUser(r.Context()))
+				require.True(t, GetUser(r.Context()).IsAnonymous())
 			},
 		},
 		{
@@ -89,13 +89,13 @@ func TestHandler(t *testing.T) {
 				&emptyProvider{},
 			},
 			func(t *testing.T, _ *httptest.ResponseRecorder, r *http.Request) {
-				require.IsType(t, (*NullProvider)(nil), GetRequestProvider(r))
+				require.IsType(t, (*NullProvider)(nil), GetProvider(r.Context()))
 				require.Equal(t, &Info{
 					Provider: &ProviderInfo{},
 					User:     &users.User{},
-				}, GetRequestAuthInfo(r))
-				require.Equal(t, &users.User{}, GetRequestUser(r))
-				require.True(t, GetRequestUser(r).IsAnonymous())
+				}, GetAuthInfo(r.Context()))
+				require.Equal(t, &users.User{}, GetUser(r.Context()))
+				require.True(t, GetUser(r.Context()).IsAnonymous())
 			},
 		},
 		{
@@ -104,7 +104,7 @@ func TestHandler(t *testing.T) {
 				&defaultProvider{},
 			},
 			func(t *testing.T, _ *httptest.ResponseRecorder, r *http.Request) {
-				require.IsType(t, (*defaultProvider)(nil), GetRequestProvider(r))
+				require.IsType(t, (*defaultProvider)(nil), GetProvider(r.Context()))
 			},
 		},
 		{
@@ -114,7 +114,7 @@ func TestHandler(t *testing.T) {
 				&otherProvider{},
 			},
 			func(t *testing.T, _ *httptest.ResponseRecorder, r *http.Request) {
-				require.IsType(t, (*defaultProvider)(nil), GetRequestProvider(r))
+				require.IsType(t, (*defaultProvider)(nil), GetProvider(r.Context()))
 			},
 		},
 		{
@@ -123,7 +123,7 @@ func TestHandler(t *testing.T) {
 				&otherProvider{},
 			},
 			func(t *testing.T, _ *httptest.ResponseRecorder, r *http.Request) {
-				require.IsType(t, (*otherProvider)(nil), GetRequestProvider(r))
+				require.IsType(t, (*otherProvider)(nil), GetProvider(r.Context()))
 			},
 		},
 		{
@@ -134,7 +134,7 @@ func TestHandler(t *testing.T) {
 			func(t *testing.T, w *httptest.ResponseRecorder, r *http.Request) {
 				require.Equal(t, 204, w.Code)
 				require.Equal(t, "abcd", w.Header().Get("Test"))
-				require.Nil(t, GetRequestProvider(r))
+				require.Nil(t, GetProvider(r.Context()))
 			},
 		},
 	}
@@ -225,7 +225,7 @@ func TestAuthenticate(t *testing.T) {
 			map[string]string{},
 			func(t *testing.T, w *httptest.ResponseRecorder, r *http.Request) {
 				require.Equal(t, 403, w.Code)
-				require.Nil(t, GetRequestAuthInfo(r))
+				require.Nil(t, GetAuthInfo(r.Context()))
 			},
 		},
 		{
@@ -233,7 +233,7 @@ func TestAuthenticate(t *testing.T) {
 			map[string]string{},
 			func(t *testing.T, w *httptest.ResponseRecorder, r *http.Request) {
 				require.Equal(t, 403, w.Code)
-				require.Nil(t, GetRequestAuthInfo(r))
+				require.Nil(t, GetAuthInfo(r.Context()))
 			},
 		},
 		{
@@ -248,7 +248,7 @@ func TestAuthenticate(t *testing.T) {
 						Name: "header",
 					},
 					User: &users.User{ID: 1, Username: "alice"},
-				}, GetRequestAuthInfo(r))
+				}, GetAuthInfo(r.Context()))
 			},
 		},
 		{
@@ -258,7 +258,7 @@ func TestAuthenticate(t *testing.T) {
 			},
 			func(t *testing.T, w *httptest.ResponseRecorder, r *http.Request) {
 				require.Equal(t, 403, w.Code)
-				require.Nil(t, GetRequestAuthInfo(r))
+				require.Nil(t, GetAuthInfo(r.Context()))
 			},
 		},
 		{
@@ -268,7 +268,7 @@ func TestAuthenticate(t *testing.T) {
 			},
 			func(t *testing.T, w *httptest.ResponseRecorder, r *http.Request) {
 				require.Equal(t, 403, w.Code)
-				require.Nil(t, GetRequestAuthInfo(r))
+				require.Nil(t, GetAuthInfo(r.Context()))
 			},
 		},
 		{
@@ -283,7 +283,7 @@ func TestAuthenticate(t *testing.T) {
 						Name: "x-header",
 					},
 					User: &users.User{ID: 1, Username: "test"},
-				}, GetRequestAuthInfo(r))
+				}, GetAuthInfo(r.Context()))
 			},
 		},
 	}

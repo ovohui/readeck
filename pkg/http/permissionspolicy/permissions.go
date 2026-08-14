@@ -125,7 +125,7 @@ func (p Policy) String() string {
 	return strings.TrimRight(w.String(), ", ")
 }
 
-// Write sets the CSP header to an http.Header.
+// Write sets the Permissions-Policy header to an http.Header.
 func (p Policy) Write(h http.Header) {
 	h.Set(HeaderName, p.String())
 }

@@ -47,6 +47,18 @@
   "next_page_link_selectors": null,
   "replace_strings": [
     [
+      "aria-hidden='true'",
+      "data-randomotherstring='true'"
+    ],
+    [
+      "dfp",
+      "randomotherstring"
+    ],
+    [
+      "inread",
+      "randomotherstring"
+    ],
+    [
       "\u003ca target='_blank' onclick='return false;' class='lien_interne conjug'",
       "\u003cinput type='hidden' style='display:none;'"
     ],

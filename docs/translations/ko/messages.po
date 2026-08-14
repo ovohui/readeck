@@ -3,20 +3,21 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 # dewyeyed <dewyeyed@noreply.codeberg.org>, 2025, 2026.
+# olivier <olivier@noreply.codeberg.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2025-12-18 21:31+0100\n"
-"PO-Revision-Date: 2026-03-17 22:29+0000\n"
-"Last-Translator: dewyeyed <dewyeyed@noreply.codeberg.org>\n"
+"POT-Creation-Date: 2026-07-22 09:42+0200\n"
+"PO-Revision-Date: 2026-07-24 15:51+0000\n"
+"Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
 "Language-Team: Korean <https://translate.codeberg.org/projects/readeck/documentation/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -37,7 +38,7 @@ msgstr "마음에 드는 웹 페이지를 찾으셨나요? 좋아요! 해당 링
 
 #: en/bookmark-list.md:9
 msgid "![New Bookmark form](./img/bookmark-new.webp)"
-msgstr "![New Bookmark form](./img/bookmark-new.webp)"
+msgstr "![새 북마크 양식](./img/bookmark-new.webp)"
 
 #: en/bookmark-list.md:11
 msgid "After a few seconds, your bookmark will be ready. You can then open it to read or watch its content, add labels, highlight text or export an ebook. For more information, please read the [Bookmark View](./bookmark.md) section."
@@ -77,7 +78,7 @@ msgstr "동영상은 동영상 컨테이너(예: 유튜브 또는 비메오 링�
 
 #: en/bookmark-list.md:30
 msgid "## Bookmark List"
-msgstr "## Bookmark List"
+msgstr "## 북마크 목록"
 
 #: en/bookmark-list.md:32
 msgid "The [bookmark list](readeck-instance://bookmarks) is where you'll find all your saved bookmarks."
@@ -93,7 +94,7 @@ msgstr "사이드바에는 검색 필드와 필터링된 북마크 목록으로 
 
 #: en/bookmark-list.md:38
 msgid "![Bookmark list sidebar](./img/bookmark-sidebar.webp)"
-msgstr "![Bookmark list sidebar](./img/bookmark-sidebar.webp)"
+msgstr "![북마크 목록 사이드바](./img/bookmark-sidebar.webp)"
 
 #: en/bookmark-list.md:40
 msgid ""
@@ -161,7 +162,7 @@ msgstr ""
 
 #: en/bookmark-list.md:70
 msgid "### Bookmark Cards"
-msgstr "### Bookmark Cards"
+msgstr "### 북마크 카드"
 
 #: en/bookmark-list.md:72
 msgid "Each item on a list is called a Bookmark Card."
@@ -268,9 +269,13 @@ msgid ""
 "  Search in the author list only.\n"
 "- **Site**\\\n"
 "  Search in the site title and the site domain name.\n"
+"- **Language**\\\n"
+"  Filter the list by bookmark language as an two letter code.\n"
 "- **Label**\\\n"
 "  Search for specific labels.\n"
-"- **Is Favorite**, **Is Archived**, **Type**\\\n"
+"- **Note**\\\n"
+"  Search for a note or annotation.\n"
+"- **Type**, **Progress**, **Is Favorite**, **Is Archived**, **Is Loaded**, **With Labels**, **With Notes**, **With Errors** \\\n"
 "  This filters let you restrict your search to any of these criteria.\n"
 "- **From date**, **To date**\\\n"
 "  This last filters let you restrict from when and to when the bookmark was saved. For example, this lets you retrieve the bookmark list saved during the past 4 weeks but not after the last week."
@@ -290,15 +295,15 @@ msgstr ""
 "- **시작 날짜**, **종료 날짜**\\\n"
 "이 마지막 필터는 북마크가 저장된 시기를 제한합니다. 예를 들어, 지난 4주 동안 저장된 북마크 목록을 검색하되 지난주 이후 저장된 항목은 제외할 수 있습니다."
 
-#: en/bookmark-list.md:129
+#: en/bookmark-list.md:133
 msgid "### Search query"
 msgstr "### 검색어"
 
-#: en/bookmark-list.md:131
+#: en/bookmark-list.md:135
 msgid "The **Search**, **Title**, **Author**, **Site** and **Label** fields understand search criteria the same way:"
 msgstr "**검색**, **제목**, **저자**, **사이트** 및 **라벨** 필드는 검색 기준이 동일합니다.:"
 
-#: en/bookmark-list.md:133
+#: en/bookmark-list.md:137
 msgid ""
 "- `startled cat` will find the content with the words **startled** and **cat**\n"
 "- `\"startled cat\"` will find the content with the exact words **startled cat** together.\n"
@@ -310,15 +315,15 @@ msgstr ""
 "- `cat*`은 **cat**으로 시작하는 단어가 포함된 콘텐츠를 찾습니다 (cat, catnip, caterpillar 등이 일치합니다).\n"
 "- `-startled cat`은 **cat**이라는 단어는 포함하지만 **startled**라는 단어는 포함하지 않는 콘텐츠를 찾습니다."
 
-#: en/bookmark-list.md:139
+#: en/bookmark-list.md:143
 msgid "After you performed a search, you can save it into a new [collection](./collections.md) to make it permanent."
 msgstr "검색을 수행한 후에는 이를 새로운 [컬렉션](./collections.md)에 저장하여 영구적으로 보관할 수 있습니다."
 
-#: en/bookmark-list.md:141
+#: en/bookmark-list.md:145
 msgid "## Export and Import Bookmarks"
 msgstr "## 북마크 내보내기 및 가져오기"
 
-#: en/bookmark-list.md:143
+#: en/bookmark-list.md:147
 msgid ""
 "![Menu](./img/bookmark-list-menu.webp)\n"
 "Bookmark list menu"
@@ -326,19 +331,19 @@ msgstr ""
 "![메뉴](./img/bookmark-list-menu.webp)\n"
 "북마크 목록 메뉴"
 
-#: en/bookmark-list.md:146
+#: en/bookmark-list.md:150
 msgid "### Export bookmarks"
 msgstr "### 북마크 내보내기"
 
-#: en/bookmark-list.md:148
+#: en/bookmark-list.md:152
 msgid "The menu button next to the filters button let you download an EPUB file of the current list of bookmarks. It exports one e-book containing all the articles organized in chapters."
 msgstr "필터 버튼 옆의 메뉴 버튼을 누르면 현재 북마크 목록의 EPUB 파일을 다운로드할 수 있습니다. 이 기능은 모든 기사를 장(章)별로 정리한 하나의 전자책을 내보냅니다."
 
-#: en/bookmark-list.md:150
+#: en/bookmark-list.md:154
 msgid "### Import bookmarks"
 msgstr "### 북마크 가져오기"
 
-#: en/bookmark-list.md:152
+#: en/bookmark-list.md:156
 msgid "In the same menu, you'll find a [Import bookmarks](readeck-instance://bookmarks/import) link. It will take you to an import wizard that lets you import your existing bookmarks from various sources."
 msgstr "동일한 메뉴에서 [북마크 가져오기](readeck-instance://bookmarks/import) 링크를 찾을 수 있습니다. 이 링크를 클릭하면 다양한 출처에서 기존 북마크를 가져올 수 있는 가져오기 마법사로 이동합니다."
 
@@ -381,12 +386,12 @@ msgid "## Navigation and presentation settings"
 msgstr "## 탐색 및 표시 설정"
 
 #: en/bookmark.md:32
-msgid "On top of the bookmark view, a link takes you back to the previous page."
-msgstr "북마크 보기 상단에 있는 링크를 클릭하면 이전 페이지로 돌아갈 수 있습니다."
+msgid "On the side or on top of the bookmark view, a link takes you back to the previous page."
+msgstr "북마크 보기 화면의 옆쪽이나 상단에 있는 링크를 클릭하면 이전 페이지로 돌아갈 수 있습니다."
 
 #: en/bookmark.md:34
-msgid "If the bookmark contains an article, a button on the other side lets you change some typography settings."
-msgstr "북마크에 문서가 포함된 경우, 반대쪽에 있는 버튼을 통해 일부 타이포그래피 설정을 변경할 수 있습니다."
+msgid "If the bookmark contains an article, a button lets you change some typography settings."
+msgstr "북마크에 기사가 포함되어 있는 경우, 버튼을 통해 일부 서식 설정을 변경할 수 있습니다."
 
 #: en/bookmark.md:36
 msgid ""
@@ -405,54 +410,54 @@ msgstr ""
 "이 설정은 자동으로 저장되며, 이후 읽는 모든 문서에 적용됩니다."
 
 #: en/bookmark.md:43
-msgid "## Change the title"
-msgstr "## 제목변경 방법"
+msgid "## Edit information"
+msgstr "## 정보 수정"
 
 #: en/bookmark.md:45
-msgid "The bookmark's title is automatically grabbed when you create it. If, for some reason, you need something else, you can change it by clicking on it and then click the button on the title side."
-msgstr "북마크 제목은 생성 시 자동으로 생성됩니다. 어떤 이유로든 다른 제목이 필요하다면, 북마크를 클릭한 후 제목 옆의 버튼을 클릭하여 변경할 수 있습니다."
+msgid "Several information such as the title or description are automatically grabbed when you create a bookmark. If you need to change these properties, you can click on the edit side button to open a form."
+msgstr "북마크를 생성하면 제목이나 설명과 같은 몇 가지 정보가 자동으로 가져옵니다. 이러한 속성을 변경해야 할 경우, 편집 버튼을 클릭하세요."
 
-#: en/bookmark.md:48
+#: en/bookmark.md:47
 msgid "## Actions"
 msgstr "## 작업 목록"
 
-#: en/bookmark.md:50
+#: en/bookmark.md:49
 msgid "On the bookmark sidebar, you can perform actions."
 msgstr "북마크 사이드바에서 특정 동작을 수행할 수 있습니다."
 
-#: en/bookmark.md:52
+#: en/bookmark.md:51
 msgid "### Favorite"
 msgstr "### 즐겨찾기"
 
-#: en/bookmark.md:54
+#: en/bookmark.md:53
 msgid "This toggles the favorite status of the bookmark."
 msgstr "이것은 북마크의 즐겨찾기 상태를 전환합니다."
 
-#: en/bookmark.md:56
+#: en/bookmark.md:55
 msgid "### Archive"
 msgstr "### 보관함"
 
-#: en/bookmark.md:58
+#: en/bookmark.md:57
 msgid "This moves the bookmark to the archives (or removes it from there)."
 msgstr "이 작업은 북마크를 보관함으로 이동하거나(또는 보관함에서 제거합니다)."
 
-#: en/bookmark.md:60
+#: en/bookmark.md:59
 msgid "### Share"
 msgstr "### 공유"
 
-#: en/bookmark.md:62
+#: en/bookmark.md:61
 msgid "The share button opens a menu from which you can create a link if you want to share an article with someone."
 msgstr "공유 버튼을 누르면 메뉴가 열리며, 문서를 다른 사람과 공유하고 싶을 때 링크를 생성할 수 있습니다."
 
-#: en/bookmark.md:64
+#: en/bookmark.md:63
 msgid "On the same menu, you can export your bookmark (only EPUB for now) to read it on a different device."
 msgstr "동일한 메뉴에서 북마크를 내보내(현재는 EPUB형식으로만 내보내기 가능) 다른 기기에서 읽을 수 있습니다."
 
-#: en/bookmark.md:67
+#: en/bookmark.md:66
 msgid "### Delete"
 msgstr "### 삭제"
 
-#: en/bookmark.md:69
+#: en/bookmark.md:68
 msgid ""
 "This marks the bookmark for deletion.\\\n"
 "No worries if you click on this by mistake! This action can be canceled before actual deletion."
@@ -460,15 +465,15 @@ msgstr ""
 "이것은 삭제 예정 표시 입니다.\\\n"
 "실수로 클릭하셔도 걱정하지 마세요! 실제 삭제 전에 이 작업을 취소할 수 있습니다."
 
-#: en/bookmark.md:73
+#: en/bookmark.md:72
 msgid "## Labels"
 msgstr "## 라벨"
 
-#: en/bookmark.md:75
+#: en/bookmark.md:74
 msgid "You can add as many labels as you want to a bookmark. To do so, enter some text in the label field and click on **Add label**. There is no limit as to what can be a label. You can even add emojis if you like them."
 msgstr "북마크에는 원하는 만큼 라벨을 추가할 수 있습니다. 라벨 필드에 텍스트를 입력한 후 **라벨 추가**를 클릭하세요. 라벨로 사용할 수 있는 내용에는 제한이 없습니다. 원한다면 이모티콘도 추가할 수 있습니다."
 
-#: en/bookmark.md:77
+#: en/bookmark.md:76
 msgid ""
 "![Bookmark labels form](./img/bookmark-labels.webp)\n"
 "Add a new label."
@@ -476,15 +481,15 @@ msgstr ""
 "![북마크 라벨 양식](./img/bookmark-labels.webp)\n"
 "새 라벨 추가."
 
-#: en/bookmark.md:80
+#: en/bookmark.md:79
 msgid "Please read the [Labels](./labels.md) section for more information."
 msgstr "자세한 내용은 [라벨](./labels.md) 섹션을 참고하십시오."
 
-#: en/bookmark.md:82
+#: en/bookmark.md:81
 msgid "## Highlights"
 msgstr "## 강조"
 
-#: en/bookmark.md:84
+#: en/bookmark.md:83
 msgid ""
 "Found some interesting part in an article? You can highlight it!\\\n"
 "When you select any text in the article, a menu appears that lets you create a new highlight."
@@ -492,7 +497,7 @@ msgstr ""
 "문서에서 흥미로운 부분을 발견하셨나요? 강조 표시를 할 수 있습니다!\n"
 "기사에서 텍스트를 선택하면 새 강조표시를 생성할 수 있는 메뉴가 나타납니다."
 
-#: en/bookmark.md:87
+#: en/bookmark.md:86
 msgid ""
 "![Bookmark highlight creation](./img/bookmark-highlight.webp)\n"
 "Create a new highlight."
@@ -500,11 +505,11 @@ msgstr ""
 "![북마크 강조 생성](./img/bookmark-highlight.webp)\n"
 "새 강조 표시를 생성하세요."
 
-#: en/bookmark.md:90
+#: en/bookmark.md:89
 msgid "Your highlights appear in the sidebar."
 msgstr "강조표시 항목은 사이드바에 표시됩니다."
 
-#: en/bookmark.md:92
+#: en/bookmark.md:91
 msgid "When you need to remove an highlight, you can do it from the sidebar or by selecting it in the article."
 msgstr "강조표시를 제거해야 할 때는 사이드바에서 또는 문서에서 해당 강조표시를 선택하여 제거할 수 있습니다."
 
@@ -835,3 +840,9 @@ msgstr "서비스나 앱에 Readeck 계정 접근 권한을 부여해야 할 경
 #: en/user-profile.md:21
 msgid "Instead, you can give your username and a token of your choice as authentication credentials."
 msgstr "대신 사용자 이름과 선택한 토큰을 인증 자격 증명서로 제공할 수 있습니다."
+
+#~ msgid "## Change the title"
+#~ msgstr "## 제목변경 방법"
+
+#~ msgid "The bookmark's title is automatically grabbed when you create it. If, for some reason, you need something else, you can change it by clicking on it and then click the button on the title side."
+#~ msgstr "북마크 제목은 생성 시 자동으로 생성됩니다. 어떤 이유로든 다른 제목이 필요하다면, 북마크를 클릭한 후 제목 옆의 버튼을 클릭하여 변경할 수 있습니다."

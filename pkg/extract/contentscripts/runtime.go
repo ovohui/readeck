@@ -44,6 +44,8 @@ var (
 	withRuntime, getRuntime     = ctxr.WithGetter[*Runtime](runtimeCtxKey{})
 )
 
+var errAbort = errors.New("abort function")
+
 // Program is a wrapper around goja.Program, with a script name.
 type Program struct {
 	*goja.Program
@@ -97,9 +99,7 @@ func getPriority(prg *ast.Program) (res int) {
 
 	// We loop in reversed order because we want the last
 	// defined "exports.priority" and return fast
-	for i := len(body.Body.List) - 1; i >= 0; i-- {
-		item := body.Body.List[i]
-
+	for _, item := range slices.Backward(body.Body.List) {
 		xps, ok := item.(*ast.ExpressionStatement)
 		if !ok {
 			continue
@@ -225,7 +225,23 @@ func (vm *Runtime) exec(p *Program, fn execFunc) error {
 				vm.GlobalObject().Delete("requests") //nolint:errcheck
 			}()
 		}
-		return fn()
+		err := fn()
+
+		// unwrap errors from "throw abort"
+		if exp, ok := err.(*goja.Exception); ok {
+			if err, ok := exp.Value().Export().(error); ok {
+				if errors.Is(err, errAbort) {
+					attrs := []slog.Attr{slog.Any("err", err)}
+					if stack := exp.Stack(); len(stack) > 0 {
+						attrs = append(attrs, slog.Int("line", stack[0].Position().Line))
+					}
+					vm.GetLogger().LogAttrs(context.Background(), slog.LevelDebug, "stopped", attrs...)
+					return err
+				}
+			}
+		}
+
+		return err
 	}
 	return nil
 }
@@ -235,6 +251,12 @@ func (vm *Runtime) execEach(fn execFunc) error {
 
 	for _, p := range vm.programs {
 		if err := vm.exec(p, fn); err != nil {
+			// An [errAbort] stops all further execution while
+			// returning any error from previous function calls.
+			if errors.Is(err, errAbort) {
+				break
+			}
+
 			// A failing script only logs its error
 			// and let the other scripts carry on.
 			errList = append(errList, err)

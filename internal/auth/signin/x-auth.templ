@@ -1,0 +1,197 @@
+// SPDX-FileCopyrightText: © 2026 Olivier Meunier <olivier@neokraft.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
+package signin
+
+import (
+	. "codeberg.org/readeck/readeck/components"
+	F "codeberg.org/readeck/readeck/components/forms"
+	"codeberg.org/readeck/readeck/internal/auth/oidc"
+)
+
+type Views struct{}
+
+type Components struct{}
+
+templ (_ Components) OIDC() {
+	if providers := oidc.Providers.Items(); len(providers) > 0 {
+		<form action={ URL(ctx, "/login/oidc") } method="post">
+			<fieldset class="mt-8 border-t">
+				<legend class="mx-auto px-2">{ L(ctx).Gettext("Or continue with") }</legend>
+				{ children... }
+				<ul class="mt-4">
+					for _, p := range providers {
+						<li>
+							<button
+								class="btn btn-outlined font-semibold w-full mb-4 rounded-md"
+								type="submit"
+								name="id"
+								value={ p.ID }
+							>{ p.Name }</button>
+						</li>
+					}
+				</ul>
+			</fieldset>
+		</form>
+	}
+}
+
+templ (v Views) signIn(f *loginForm) {
+	@AuthPage(L(ctx).Gettext("Sign in")) {
+		<h1 class="text-h3 mb-8 text-center">{ L(ctx).Gettext("Sign in to Readeck") }</h1>
+		<form
+			action={ URL(ctx, "/login") }
+			method="post"
+			data-controller="login-form"
+			data-action="login-form#validate"
+		>
+			@F.Errors(f)
+			<input type="hidden" name={ f.Redirect.Name() } value={ f.Redirect.Value() }/>
+			@F.TextField(&f.Username,
+				F.Label(L(ctx).Gettext("Username or email address")),
+				F.Classes("max"),
+				F.InputAttrs(templ.Attributes{
+					"data-login-form-target": "username",
+					"autocapitalize":         "off",
+					"autocomplete":           "username",
+				}),
+			)
+			@F.PasswordField(&f.Password,
+				F.Label(L(ctx).Gettext("Password")),
+				F.Classes("max"),
+				F.InputAttrs(templ.Attributes{
+					"data-login-form-target": "password",
+					"autocomplete":           "current-password",
+				}),
+			)
+			<button class="btn btn-default block mt-6 w-full rounded-md" type="submit">{ L(ctx).Gettext("Sign in") }</button>
+		</form>
+		if HasPermission(ctx, "email", "send") {
+			<p class="mt-4 text-center">
+				<a href={ URL(ctx, "/login/recover") } class="link">
+					{ L(ctx).Gettext("Forgot your password?") }
+				</a>
+			</p>
+		}
+		@Components{}.OIDC() {
+			<input type="hidden" name={ f.Redirect.Name() } value={ f.Redirect.Value() }/>
+		}
+	}
+}
+
+templ (v Views) mfa(f *totpForm) {
+	{{ title := L(ctx).Gettext("Two-factor authentication") }}
+	@AuthPage(title) {
+		<h2 class="text-h3 mb-8 text-center">{ title }</h2>
+		<form action={ URL(ctx, "/login/mfa") } method="post">
+			@F.Errors(f)
+			<input type="hidden" name={ f.Redirect.Name() } value={ f.Redirect.Value() }/>
+			@F.TextField(&f.Code,
+				F.Label(L(ctx).Gettext("Passcode")),
+				F.Classes("max"),
+				F.InputClasses("form-input w-full text-center text-lg font-bold"),
+				F.InputAttrs(templ.Attributes{
+					"minlength":      "6",
+					"maxlength":      "6",
+					"autocapitalize": "off",
+					"autocomplete":   "one-time-code",
+				}),
+			)
+			<button class="btn btn-default block mt-6 w-full rounded-md" type="submit">
+				{ L(ctx).Gettext("Verify") }
+			</button>
+		</form>
+		<form action={ URL(ctx, "/") } method="post">
+			<p class="mt-4 text-center">
+				<button class="link" type="submit">
+					{ L(ctx).Gettext("Cancel and go back to sign in") }
+				</button>
+			</p>
+		</form>
+	}
+}
+
+templ (v Views) recover(f *recoverForm, err error) {
+	{{
+		title := L(ctx).Gettext("Password recovery")
+		step := f.Step.Value()
+	}}
+	@AuthPage(title) {
+		<h2 class="text-h3 mb-8 text-center">{ title }</h2>
+		switch step {
+			case 0:
+				<form action="" method="post">
+					@F.Errors(f)
+					<input type="hidden" name={ f.Step.Name() } value={ step }/>
+					<input type="hidden" id={ f.Antispam.Name() } name={ f.Antispam.Name() }/>
+					<p class="mt-4">{ L(ctx).Gettext("No worries, it happens to anyone.") }</p>
+					<p class="mt-2 mb-6">
+						{ L(ctx).Gettext(`
+							Please provide the email address you used to create
+							your account and we'll send you a message with a link
+							to recover your password.
+						`) }
+					</p>
+					@F.TextField(&f.Email,
+						F.Label(L(ctx).Gettext("Email address")),
+						F.Classes("max"),
+					)
+					<button class="btn btn-default block mt-6 w-full rounded-md" type="submit">
+						{ L(ctx).Gettext("Send me a recovery link") }
+					</button>
+					<p class="mt-4 text-center">
+						<a href={ URL(ctx, "/login") } class="link">
+							{ L(ctx).Gettext("Cancel and go back to sign in") }
+						</a>
+					</p>
+				</form>
+				<script nonce={ CSPNonce(ctx) }>
+					document.getElementById({{ f.Antispam.Name() }}).value = {{ rAntispamValue }}
+				</script>
+			case 1:
+				@Message(WithMessageType("success")) {
+					<p>{ L(ctx).Gettext("Almost there!") }</p>
+					<p class="mt-2">
+						@templ.Raw(L(ctx).Gettext(
+							"We have sent an email to <strong>%s</strong> with further instructions.",
+							templ.EscapeString(f.Email.Value()),
+						))
+					</p>
+				}
+			case 2:
+				if err != nil {
+					@Message(WithMessageType("error")) {
+						{ err.Error() }
+					}
+				} else {
+					<form action="" method="post">
+						@F.Errors(f)
+						<input type="hidden" name={ f.Step.Name() } value={ step }/>
+						@F.PasswordField(&f.Password,
+							F.Label(L(ctx).Gettext("New password")),
+							F.Classes("max"),
+							F.Help(L(ctx).Gettext("must be at least 8 characters long")),
+						)
+						<button class="btn btn-default block mt-6 w-full rounded-md" type="submit">
+							{ L(ctx).Gettext("Update your password") }
+						</button>
+						<p class="mt-4 text-center">
+							<a href={ URL(ctx, "/login") } class="link">
+								{ L(ctx).Gettext("Cancel and go back to sign in") }
+							</a>
+						</p>
+					</form>
+				}
+			case 3:
+				@Message(WithMessageType("success")) {
+					<p>{ L(ctx).Gettext("Your password has been changed.") }</p>
+					<p class="mt-2">
+						<a class="link" href={ URL(ctx, "/login") }>
+							{ L(ctx).Gettext("Go to the sign in page") }
+						</a>
+					</p>
+				}
+		}
+	}
+}

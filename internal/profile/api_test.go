@@ -19,7 +19,8 @@ func TestAPI(t *testing.T) {
 
 	client := app.Client(WithToken("user"))
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithTarget("/api/profile"),
 		AssertStatus(200),
 		AssertJSON(`{
@@ -40,7 +41,8 @@ func TestAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget("/api/profile"),
 		WithBody(map[string]any{}),
@@ -50,7 +52,8 @@ func TestAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget("/api/profile"),
 		WithBody(map[string]any{
@@ -66,7 +69,8 @@ func TestAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget("/api/profile"),
 		WithBody(map[string]any{
@@ -82,7 +86,8 @@ func TestAPI(t *testing.T) {
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget("/api/profile"),
 		WithBody(map[string]any{
@@ -108,21 +113,16 @@ func TestAPI(t *testing.T) {
 						"username is not valid"
 					]
 				},
-				"settings_lang": "<<PRESENCE>>",
-				"settings_addon_reminder": "<<PRESENCE>>",
-				"settings_reader_width": "<<PRESENCE>>",
-				"settings_reader_font": "<<PRESENCE>>",
-				"settings_reader_font_size": "<<PRESENCE>>",
-				"settings_reader_line_height": "<<PRESENCE>>",
-				"settings_reader_justify": "<<PRESENCE>>",
-				"settings_reader_hyphenation": "<<PRESENCE>>",
-				"settings_email_epub_to": "<<PRESENCE>>",
-				"settings_email_reply_to": "<<PRESENCE>>"
+				"settings.lang": "<<PRESENCE>>",
+				"settings.addon_reminder": "<<PRESENCE>>",
+				"settings.email_epub_to": "<<PRESENCE>>",
+				"settings.email_reply_to": "<<PRESENCE>>"
 			}
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget("/api/profile"),
 		WithBody(map[string]any{
@@ -147,21 +147,16 @@ func TestAPI(t *testing.T) {
 						"field is required"
 					]
 				},
-				"settings_lang": "<<PRESENCE>>",
-				"settings_addon_reminder": "<<PRESENCE>>",
-				"settings_reader_width": "<<PRESENCE>>",
-				"settings_reader_font": "<<PRESENCE>>",
-				"settings_reader_font_size": "<<PRESENCE>>",
-				"settings_reader_line_height": "<<PRESENCE>>",
-				"settings_reader_justify": "<<PRESENCE>>",
-				"settings_reader_hyphenation": "<<PRESENCE>>",
-				"settings_email_epub_to": "<<PRESENCE>>",
-				"settings_email_reply_to": "<<PRESENCE>>"
+				"settings.lang": "<<PRESENCE>>",
+				"settings.addon_reminder": "<<PRESENCE>>",
+				"settings.email_epub_to": "<<PRESENCE>>",
+				"settings.email_reply_to": "<<PRESENCE>>"
 			}
 		}`),
 	)
 
-	client.RT(t,
+	client.RT(
+		t,
 		WithMethod(http.MethodPatch),
 		WithTarget("/api/profile"),
 		WithBody(map[string]any{
@@ -189,16 +184,10 @@ func TestAPI(t *testing.T) {
 						"username is not valid"
 					]
 				},
-				"settings_lang": "<<PRESENCE>>",
-				"settings_addon_reminder": "<<PRESENCE>>",
-				"settings_reader_width": "<<PRESENCE>>",
-				"settings_reader_font": "<<PRESENCE>>",
-				"settings_reader_font_size": "<<PRESENCE>>",
-				"settings_reader_line_height": "<<PRESENCE>>",
-				"settings_reader_justify": "<<PRESENCE>>",
-				"settings_reader_hyphenation": "<<PRESENCE>>",
-				"settings_email_epub_to": "<<PRESENCE>>",
-				"settings_email_reply_to": "<<PRESENCE>>"
+				"settings.lang": "<<PRESENCE>>",
+				"settings.addon_reminder": "<<PRESENCE>>",
+				"settings.email_epub_to": "<<PRESENCE>>",
+				"settings.email_reply_to": "<<PRESENCE>>"
 			}
 		}`),
 	)
@@ -216,7 +205,8 @@ func TestAPIDeleteToken(t *testing.T) {
 	t.Run("delete foreign token", func(t *testing.T) {
 		client := app.Client(WithToken("user"))
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodDelete),
 			WithTarget("/api/profile/tokens/"+u1.Token.UID),
 			AssertStatus(404),
@@ -228,7 +218,8 @@ func TestAPIDeleteToken(t *testing.T) {
 
 		client.RT(t, WithTarget("/api/profile"), AssertStatus(200))
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodDelete),
 			WithTarget("/api/profile/tokens/"+u1.Token.UID),
 			AssertStatus(204),

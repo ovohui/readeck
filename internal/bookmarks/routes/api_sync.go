@@ -5,11 +5,9 @@
 package routes
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/doug-martin/goqu/v9"
-	goquExp "github.com/doug-martin/goqu/v9/exp"
 
 	"codeberg.org/readeck/readeck/internal/auth"
 	"codeberg.org/readeck/readeck/internal/bookmarks"
@@ -22,8 +20,7 @@ import (
 )
 
 func (api *apiRouter) bookmarkSyncList(w http.ResponseWriter, r *http.Request) {
-	f := newSyncListForm(server.Locale(r))
-	forms.BindURL(f, r)
+	f := forms.BindAs[syncListForm](r)
 
 	if !f.IsValid() {
 		server.Render(w, r, http.StatusUnprocessableEntity, f)
@@ -36,12 +33,12 @@ func (api *apiRouter) bookmarkSyncList(w http.ResponseWriter, r *http.Request) {
 			goqu.C("updated").Table("b").As("time"),
 			goqu.V("update").As("type"),
 		).
-		Where(goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID))
+		Where(goqu.C("user_id").Table("b").Eq(auth.GetUser(r.Context()).ID))
 
-	if !f.Get("since").IsEmpty() {
+	if !f.Since.Value().IsZero() {
 		// When querying with ?since=, we perform a union with bookmark_removed
 		// to build some kind of update/delete log.
-		since := f.Get("since").(*forms.DatetimeField).V().UTC()
+		since := f.Since.Value().UTC()
 
 		ds = ds.Where(
 			exp.DateTime(goqu.C("updated").Table("b")).
@@ -56,7 +53,7 @@ func (api *apiRouter) bookmarkSyncList(w http.ResponseWriter, r *http.Request) {
 					goqu.V("delete").As("type"),
 				).
 				Where(
-					goqu.C("user_id").Table("r").Eq(auth.GetRequestUser(r).ID),
+					goqu.C("user_id").Table("r").Eq(auth.GetUser(r.Context()).ID),
 					exp.DateTime(goqu.C("deleted").Table("r")).
 						Gte(exp.DateTime(since)),
 				),
@@ -79,15 +76,8 @@ func (api *apiRouter) bookmarkSyncList(w http.ResponseWriter, r *http.Request) {
 }
 
 func (api *apiRouter) bookmarkSync(w http.ResponseWriter, r *http.Request) {
-	of := newOrderForm("sort", map[string]goquExp.Orderable{
-		"updated": exp.DateTime(goqu.C("updated")),
-		"created": exp.DateTime(goqu.C("created")),
-	})
-	f := forms.Join(context.Background(),
-		newSyncForm(server.Locale(r)),
-		of,
-	)
-	forms.Bind(f, r)
+	f := newSyncForm(r.Context())
+	forms.Bind(r, f)
 
 	if !f.IsValid() {
 		server.Render(w, r, http.StatusUnprocessableEntity, f)
@@ -96,26 +86,23 @@ func (api *apiRouter) bookmarkSync(w http.ResponseWriter, r *http.Request) {
 
 	ds := bookmarks.Bookmarks.Query().
 		Where(
-			goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID),
-		).
-		Order(exp.DateTime(goqu.C("updated")).Asc())
+			goqu.C("user_id").Table("b").Eq(auth.GetUser(r.Context()).ID),
+		)
 
-	if order := of.toOrderedExpressions(); order != nil {
-		ds = ds.Order(order...)
-	}
+	ds = ds.Order(f.getOrder()...)
 
-	ids := f.Get("id").(*forms.TextListField).V()
+	ids := f.ID.Value()
 	if len(ids) > 0 {
 		ds = ds.Where(goqu.C("uid").In(ids))
 	}
 
 	seq := dataset.NewBookmarkIterator(r.Context(), ds)
 	if err := converter.NewSyncExporter(
-		converter.WithSyncJSON(f.Get("with_json").(*forms.BooleanField).V()),
-		converter.WithSyncHTML(f.Get("with_html").(*forms.BooleanField).V()),
-		converter.WithSyncMarkdown(f.Get("with_markdown").(*forms.BooleanField).V()),
-		converter.WithSyncResources(f.Get("with_resources").(*forms.BooleanField).V()),
-		converter.WithSyncResourcePrefix(f.Get("resource_prefix").String()),
+		converter.WithSyncJSON(f.WithJSON.Value()),
+		converter.WithSyncHTML(f.WithHTML.Value()),
+		converter.WithSyncMarkdown(f.WithMarkdown.Value()),
+		converter.WithSyncResources(f.WithResources.Value()),
+		converter.WithSyncResourcePrefix(f.ResourcePrefix.Value()),
 	).IterExport(r.Context(), w, r, seq); err != nil {
 		server.Err(w, r, err)
 	}

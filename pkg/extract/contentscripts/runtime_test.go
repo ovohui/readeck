@@ -121,4 +121,41 @@ func TestRuntime(t *testing.T) {
 		assert.ErrorContains(err, "script 1")
 		assert.ErrorContains(err, "script 2")
 	})
+
+	t.Run("abort", func(t *testing.T) {
+		require := require.New(t)
+
+		p1, err := contentscripts.NewProgram("1", strings.NewReader(`
+		exports.priority = 10
+
+		exports.isActive = function() { return true }
+
+		exports.setConfig = function(config) {
+			config.titleSelectors = ["/html/head/title"]
+			config.bodySelectors = ["//body"]
+		}
+		`))
+		require.NoError(err)
+
+		p2, err := contentscripts.NewProgram("2", strings.NewReader(`
+		exports.priority = 5
+
+		exports.isActive = function() { return true }
+
+		exports.setConfig = function(config) {
+			config.bodySelectors = ["//body/div"]
+			throw abort
+		}
+		`))
+		require.NoError(err)
+
+		vm, err := contentscripts.New(p1, p2)
+		require.NoError(err)
+
+		cf := &contentscripts.SiteConfig{}
+		require.NoError(vm.SetConfig(cf))
+
+		require.Equal([]string(nil), cf.TitleSelectors)
+		require.Equal([]string{"//body/div"}, cf.BodySelectors)
+	})
 }

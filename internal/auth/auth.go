@@ -10,6 +10,7 @@ import (
 	"errors"
 	"log/slog"
 	"net/http"
+	"slices"
 
 	"codeberg.org/readeck/readeck/internal/auth/users"
 	"codeberg.org/readeck/readeck/pkg/ctxr"
@@ -66,8 +67,8 @@ type FeatureCsrfProvider interface {
 // FeaturePermissionProvider allows a provider to implement a permission
 // check of its own. Usually providing scoped permissions.
 type FeaturePermissionProvider interface {
-	HasPermission(*http.Request, string, string) bool
-	GetPermissions(*http.Request) []string
+	HasPermission(context.Context, string, string) bool
+	GetPermissions(context.Context) []string
 }
 
 // LoggerProvider described a [Provider] that can return an [slog.Logger].
@@ -102,17 +103,12 @@ func Init(providers ...Provider) func(next http.Handler) http.Handler {
 		next = defaultProviderHandler(next)
 
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			var h http.Handler
+			h := next
 
-			if len(providers) == 0 {
-				h = next
-			} else {
-				// Build the final handler with each provider wrapped in a handler
-				// that allows to skip them when necessary.
-				h = skipNextProviderHandler(providers[len(providers)-1].Handler(next), next)
-				for i := len(providers) - 2; i >= 0; i-- {
-					h = skipNextProviderHandler(providers[i].Handler(h), next)
-				}
+			// Build the final handler with each provider wrapped in a handler
+			// that allows to skip them when necessary.
+			for _, x := range slices.Backward(providers) {
+				h = skipNextProviderHandler(x.Handler(h), next)
 			}
 
 			h.ServeHTTP(w, r)
@@ -135,7 +131,8 @@ func Required(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		provider, ok := CheckProvider(r.Context())
 		if !ok {
-			slog.Error("authentication",
+			slog.Error(
+				"authentication",
 				slog.Any("err", errors.New("no authentication provider")),
 			)
 			w.WriteHeader(http.StatusForbidden)
@@ -155,14 +152,15 @@ func Required(next http.Handler) http.Handler {
 			return
 		}
 
-		if _, ok := CheckAuthInfo(r.Context()); !ok || GetRequestUser(r).IsAnonymous() {
+		if _, ok := CheckAuthInfo(r.Context()); !ok || GetUser(r.Context()).IsAnonymous() {
 			w.WriteHeader(http.StatusForbidden)
 			return
 		}
 
 		if p, ok := provider.(LoggerProvider); ok && slog.Default().Enabled(context.Background(), slog.LevelDebug) {
-			authInfo := GetRequestAuthInfo(r)
-			p.Log(r).Debug("authenticated user",
+			authInfo := GetAuthInfo(r.Context())
+			p.Log(r).Debug(
+				"authenticated user",
 				slog.String("provider", authInfo.Provider.Name),
 				slog.String("id", authInfo.Provider.ID),
 				slog.String("user", authInfo.User.Username),
@@ -171,41 +169,6 @@ func Required(next http.Handler) http.Handler {
 
 		next.ServeHTTP(w, r)
 	})
-}
-
-// HasPermission returns true if the user that's connected can perform
-// the action "act" on object "obj". It will check the user permissions
-// and any scope given by the authentication provider.
-func HasPermission(r *http.Request, obj, act string) bool {
-	info := GetRequestAuthInfo(r)
-
-	// Checked the scoped permissions if any
-	// Note that the provider permission must be in the user's scope
-	// to succeed.
-	if p, ok := GetRequestProvider(r).(FeaturePermissionProvider); ok {
-		return info.User.HasPermission(obj, act) && p.HasPermission(r, obj, act)
-	}
-
-	// Fallback to user permissions
-	return info.User.HasPermission(obj, act)
-}
-
-// GetPermissions returns all the permissions available for the request.
-// If the authentication provider implements it, a subset of permissions
-// is sent, otherwise, the user own permissions is returned.
-func GetPermissions(r *http.Request) []string {
-	info := GetRequestAuthInfo(r)
-	if info.User.IsAnonymous() {
-		return []string{}
-	}
-
-	if p, ok := GetRequestProvider(r).(FeaturePermissionProvider); ok {
-		if res := p.GetPermissions(r); res != nil {
-			return res
-		}
-	}
-
-	return info.User.Permissions()
 }
 
 // defaultProviderHandler is a final handler that sets [NullProvider]
@@ -245,22 +208,61 @@ func skipNextProviderHandler(next http.Handler, last http.Handler) http.Handler 
 	})
 }
 
-// GetRequestProvider returns the current request's authentication
-// provider.
-func GetRequestProvider(r *http.Request) Provider {
-	if p, ok := CheckProvider(r.Context()); ok {
+// HasPermission returns true if the context's user can perform the action "act" on object "obj".
+// It will check the user permissions and any scope given by the authentication provider.
+func HasPermission(ctx context.Context, obj, act string) bool {
+	info := GetAuthInfo(ctx)
+
+	// Checked the scoped permissions if any
+	// Note that the provider permission must be in the user's scope
+	// to succeed.
+	if p, ok := GetProvider(ctx).(FeaturePermissionProvider); ok {
+		return info.User.HasPermission(obj, act) && p.HasPermission(ctx, obj, act)
+	}
+
+	// Fallback to user permissions
+	return info.User.HasPermission(obj, act)
+}
+
+// GetPermissions returns all the permissions available for the context's user.
+// If the authentication provider implements it, a subset of permissions
+// is sent, otherwise, the user own permissions is returned.
+func GetPermissions(ctx context.Context) []string {
+	info := GetAuthInfo(ctx)
+	if info.User.IsAnonymous() {
+		return []string{}
+	}
+
+	if p, ok := GetProvider(ctx).(FeaturePermissionProvider); ok {
+		if res := p.GetPermissions(ctx); res != nil {
+			return res
+		}
+	}
+
+	return info.User.Permissions()
+}
+
+// GetProvider returns the current context's authentication provider.
+func GetProvider(ctx context.Context) Provider {
+	if p, ok := CheckProvider(ctx); ok {
 		return p
 	}
 	return nil
 }
 
-// GetRequestAuthInfo returns the current request's auth info.
-func GetRequestAuthInfo(r *http.Request) *Info {
-	info, _ := CheckAuthInfo(r.Context())
+// GetAuthInfo returns the contetx's [Info].
+func GetAuthInfo(ctx context.Context) *Info {
+	info, _ := CheckAuthInfo(ctx)
 	return info
 }
 
-// GetRequestUser returns the current request's user.
-func GetRequestUser(r *http.Request) *users.User {
-	return GetRequestAuthInfo(r).User
+// GetUser returns the context's [users.User].
+func GetUser(ctx context.Context) *users.User {
+	if info, ok := CheckAuthInfo(ctx); ok {
+		return info.User
+	}
+
+	// we should never reach this since [defaultProviderHandler] sets
+	// an empty user already.
+	return &users.User{}
 }

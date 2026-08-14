@@ -69,6 +69,30 @@ This function runs before readability, when an HTML document exists.
 
 This function runs after readability, when an HTML document exists.
 
+## Override an existing script
+
+If you want to override a built-in content script exported function you can do that with a special `abort` exception.
+
+The script must have a priority lower than `10`, and each defined function that needs to be overridden must end with `throw abort`.
+
+For example, to provide your own Reddit processing:
+
+```js
+exports.priority = 0 // will run first
+
+exports.isActive = function () {
+  // same match as in the built-in reddit script
+  return $.domain == "reddit.com" && !!new URL($.url).pathname.match(/^\/r\//)
+}
+
+exports.documentLoaded = (document) => {
+  // ... your own process here
+
+  // this prevents `documentLoaded` function from the built-in script to run.
+  throw abort
+}
+```
+
 ## Global variables and functions
 
 ### `$`: extractor information
@@ -394,6 +418,9 @@ read only -
 #### `Node.cloneNode(): Node`
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Node/cloneNode)
 
+#### `Node.closest(): Node`
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/closest)
+
 #### `Node.contains(node: Node): boolean`
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Node/contains)
 
@@ -417,6 +444,9 @@ read only -
 
 #### `Node.insertBefore(newChild: Node, oldChild: Node): Node`
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Node/insertBefore)
+
+#### `Node.remove(node: Node): Node`
+[MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/remove)
 
 #### `Node.removeChild(node: Node): Node`
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Node/removeChild)

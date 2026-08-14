@@ -14,7 +14,9 @@ import (
 	"github.com/doug-martin/goqu/v9"
 	"github.com/go-chi/chi/v5"
 
+	"codeberg.org/readeck/readeck/components"
 	"codeberg.org/readeck/readeck/configs"
+	"codeberg.org/readeck/readeck/internal/auth/oidc"
 	"codeberg.org/readeck/readeck/internal/auth/users"
 	"codeberg.org/readeck/readeck/internal/server"
 	"codeberg.org/readeck/readeck/pkg/forms"
@@ -28,19 +30,19 @@ func SetupRoutes(s *server.Server) {
 
 type authHandler struct {
 	chi.Router
-	srv *server.Server
 }
 
-func newAuthHandler(s *server.Server) *authHandler {
+func newAuthHandler(srv *server.Server) *authHandler {
 	// Non authenticated routes
 	r := chi.NewRouter()
 	r.Use(
 		server.Csrf,
 		server.WithSession(),
+		server.WithCustomErrorComponent(components.AuthError),
 	)
 
-	h := &authHandler{r, s}
-	s.AddRoute("/login", r)
+	h := &authHandler{r}
+	srv.AddRoute("/login", r)
 	r.Get("/", h.login)
 	r.Post("/", h.login)
 	r.Get("/mfa", h.mfa)
@@ -56,50 +58,35 @@ func newAuthHandler(s *server.Server) *authHandler {
 
 	// Authenticated routes
 	ar := server.AuthenticatedRouter(server.WithRedirectLogin)
-	s.AddRoute("/logout", ar)
+	srv.AddRoute("/logout", ar)
 	ar.Post("/", h.logout)
 
 	return h
 }
 
-func (h *authHandler) redirTo(w http.ResponseWriter, r *http.Request, redir string) {
-	// Get redirection from a form "redirect" parameter
-	// Since it goes to Redirect(), it will be sanitized there
-	// and can only stay within the app.
-	if redir == "" || strings.HasPrefix(redir, "/login") {
-		redir = "/"
-	}
-	server.Redirect(w, r, redir)
-}
-
-func (h *authHandler) redirToMFA(w http.ResponseWriter, r *http.Request, redir string) {
-	v := url.Values{"r": {redir}}
-	server.Redirect(w, r, "/login/mfa?"+v.Encode())
-}
-
 func (h *authHandler) login(w http.ResponseWriter, r *http.Request) {
-	f := newLoginForm(server.Locale(r))
+	f := forms.New[loginForm](r.Context())
 
 	if r.Method == http.MethodGet {
 		// Set the redirect value from the query string
-		f.Get("redirect").Set(r.URL.Query().Get("r"))
+		_ = forms.UnmarshalValues(r.URL.Query()[f.Redirect.Name()], &f.Redirect)
 
 		// Do we have a session already?
 		if sess := server.GetSession(r); sess.Payload.User != 0 {
 			if sess.Payload.RequiresMFA {
-				h.redirToMFA(w, r, f.Get("redirect").String())
+				server.RedirectToMFA(w, r, f.Redirect.Value())
 				return
 			}
-			h.redirTo(w, r, f.Get("redirect").String())
+			server.RedirectNoLogin(w, r, f.Redirect.Value())
 			return
 		}
 	}
 
 	if r.Method == http.MethodPost {
-		forms.Bind(f, r)
+		forms.Bind(r, f)
 
 		if f.IsValid() {
-			user := checkUser(f)
+			user := f.checkUser()
 
 			if user != nil {
 				// User is authenticated, let's carry on
@@ -110,7 +97,7 @@ func (h *authHandler) login(w http.ResponseWriter, r *http.Request) {
 				sess.Save(w, r)
 
 				if sess.Payload.RequiresMFA {
-					h.redirToMFA(w, r, f.Get("redirect").String())
+					server.RedirectToMFA(w, r, f.Redirect.Value())
 					return
 				}
 
@@ -118,7 +105,7 @@ func (h *authHandler) login(w http.ResponseWriter, r *http.Request) {
 					"last_login": time.Now().UTC(),
 				})
 
-				h.redirTo(w, r, f.Get("redirect").String())
+				server.RedirectNoLogin(w, r, f.Redirect.Value())
 				return
 			}
 			// we must set the content type to avoid the
@@ -129,9 +116,10 @@ func (h *authHandler) login(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnprocessableEntity)
 	}
 
-	server.RenderTemplate(w, r, http.StatusOK, "/auth/login", server.TC{
-		"Form": f,
-	})
+	policy := oidc.Providers.CSP(server.GetCSPHeader(r.Context()))
+	policy.Write(w.Header())
+
+	server.RenderComponent(w, r, http.StatusOK, Views{}.signIn(f))
 }
 
 func (h *authHandler) mfa(w http.ResponseWriter, r *http.Request) {
@@ -155,21 +143,17 @@ func (h *authHandler) mfa(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	f := forms.Must(
-		forms.WithTranslator(r.Context(), server.Locale(r)),
-		forms.NewTextField("code", forms.Required, forms.Len(6)),
-		forms.NewTextField("redirect", forms.Trim, forms.MaxLen(512)),
-	)
+	f := forms.New[totpForm](r.Context())
 
 	if r.Method == http.MethodGet {
 		// Set the redirect value from the query string
-		f.Get("redirect").Set(r.URL.Query().Get("r"))
+		_ = forms.UnmarshalValues(r.URL.Query()[f.Redirect.Name()], &f.Redirect)
 	}
 
 	status := http.StatusOK
 
 	if r.Method == http.MethodPost {
-		forms.Bind(f, r)
+		forms.Bind(r, f)
 		if f.IsValid() {
 			code := new(totp.Code)
 			if err := configs.Keys.TOTPKey().DecodeJSON(user.TOTPSecret, code); err != nil {
@@ -177,7 +161,7 @@ func (h *authHandler) mfa(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
-			ok, err := code.Verify(f.Get("code").String(), time.Now().UTC(), 1)
+			ok, err := code.Verify(f.Code.Value(), time.Now().UTC(), 1)
 			if err != nil {
 				server.Err(w, r, err)
 				return
@@ -186,7 +170,7 @@ func (h *authHandler) mfa(w http.ResponseWriter, r *http.Request) {
 				sess.Payload.RequiresMFA = false
 				sess.Save(w, r)
 
-				redir := f.Get("redirect").String()
+				redir := f.Redirect.Value()
 				if redir == "" || strings.HasPrefix(redir, "/login") {
 					redir = "/"
 				}
@@ -198,20 +182,25 @@ func (h *authHandler) mfa(w http.ResponseWriter, r *http.Request) {
 				server.Redirect(w, r, redir)
 				return
 			}
-			f.Get("code").AddErrors(forms.Gettext("Invalid code"))
+			f.Code.AddErrors(forms.Gettext("Invalid code"))
 		}
 		status = http.StatusUnprocessableEntity
 	}
 
-	server.RenderTemplate(w, r, status, "/auth/totp", server.TC{
-		"Form": f,
-	})
+	server.RenderComponent(w, r, status, Views{}.mfa(f))
 }
 
 func (h *authHandler) logout(w http.ResponseWriter, r *http.Request) {
+	redir := "/login"
+	f := forms.BindAs[logoutForm](r)
+
+	if f.IsValid() {
+		redir += "?" + url.Values{"r": {f.Redirect.Value()}}.Encode()
+	}
+
 	// Clear session
 	sess := server.GetSession(r)
 	sess.Clear(w, r)
 
-	server.Redirect(w, r, "/login")
+	server.Redirect(w, r, redir)
 }

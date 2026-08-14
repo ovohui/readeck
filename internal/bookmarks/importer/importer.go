@@ -14,8 +14,10 @@ import (
 	"log/slog"
 	"net/url"
 	"slices"
+	"strings"
 	"time"
 
+	"github.com/a-h/templ"
 	"github.com/doug-martin/goqu/v9"
 
 	"codeberg.org/readeck/readeck/internal/auth/users"
@@ -25,17 +27,17 @@ import (
 	"codeberg.org/readeck/readeck/pkg/forms"
 )
 
+// Adapter identifiers.
 const (
-	importBrowser    = "browser"
-	importCSV        = "csv"
-	importGoodLinks  = "goodlinks"
-	importPinboard   = "pinboard"
-	importLinkwarden = "linkwarden"
-	importOmnivore   = "omnivore"
-	importPocketFile = "pocket-file"
-	importReadwise   = "readwise"
-	importText       = "text"
-	importWallabag   = "wallabag"
+	ImportBrowser    = "browser"
+	ImportCSV        = "csv"
+	ImportGoodLinks  = "goodlinks"
+	ImportPinboard   = "pinboard"
+	ImportLinkwarden = "linkwarden"
+	ImportPocketFile = "pocket-file"
+	ImportReadwise   = "readwise"
+	ImportText       = "text"
+	ImportWallabag   = "wallabag"
 )
 
 var (
@@ -54,9 +56,10 @@ var allowedSchemes = []string{"http", "https"}
 
 // ImportLoader describes an import loader.
 type ImportLoader interface {
-	Name(forms.Translator) string
-	Form() forms.Binder
-	Params(forms.Binder) ([]byte, error)
+	Name(ctx context.Context) string
+	Form(ctx context.Context) importBinder
+	Params(form forms.FormBinder) ([]byte, error)
+	Component(form forms.FormBinder) templ.Component
 }
 
 // ImportWorker describes an import worker.
@@ -78,6 +81,45 @@ type BookmarkEnhancer interface {
 // BookmarkResourceProvider describes an item providing attached resources.
 type BookmarkResourceProvider interface {
 	Resources() []tasks.MultipartResource
+}
+
+type importBinder interface {
+	forms.FormBinder
+	Options() ImportOptions
+}
+
+// ImportOptions is an option list passed to [ImportBookmarksTask].
+type ImportOptions struct {
+	Label            string
+	IgnoreDuplicates bool
+	Archive          bool
+	MarkRead         bool
+}
+
+// BaseImportForm is a form with common options.
+// Every adapter form must extend it.
+type BaseImportForm struct {
+	forms.Form
+	Label            forms.TextField    `json:"label"             validate:"trim max_len:128"`
+	IgnoreDuplicates forms.BooleanField `json:"ignore_duplicates"`
+	Archive          forms.BooleanField `json:"archive"`
+	MarkRead         forms.BooleanField `json:"mark_read"`
+}
+
+// Options returns an [ImportOptions].
+func (f *BaseImportForm) Options() ImportOptions {
+	return ImportOptions{
+		Label:            f.Label.Value(),
+		IgnoreDuplicates: f.IgnoreDuplicates.Value(),
+		Archive:          f.Archive.Value(),
+		MarkRead:         f.MarkRead.Value(),
+	}
+}
+
+// FileImportForm is a form that can receive a file.
+type FileImportForm struct {
+	BaseImportForm
+	Data forms.FileField `json:"data" validate:"required"`
 }
 
 // BookmarkReadabilityToggler describes an item than disable readability.
@@ -134,45 +176,27 @@ func (b urlBookmarkItem) URL() string {
 // LoadAdapter returns an import loader based on a given name.
 func LoadAdapter(name string) ImportLoader {
 	switch name {
-	case importBrowser:
+	case ImportBrowser:
 		return &browserAdapter{}
-	case importCSV:
+	case ImportCSV:
 		return newCsvAdapter()
-	case importGoodLinks:
+	case ImportGoodLinks:
 		return newGoodlinksAdapter()
-	case importPinboard:
-		return newPinboardAdapter()
-	case importLinkwarden:
+	case ImportLinkwarden:
 		return newLinkwardenAdapter()
-	case importOmnivore:
-		return &omnivoreAPIAdapter{}
-	case importPocketFile:
+	case ImportPinboard:
+		return newPinboardAdapter()
+	case ImportPocketFile:
 		return newPocketAdapter()
-	case importReadwise:
+	case ImportReadwise:
 		return newReadwiseAdapter()
-	case importText:
+	case ImportText:
 		return &textAdapter{}
-	case importWallabag:
+	case ImportWallabag:
 		return &wallabagAdapter{}
 	default:
 		return nil
 	}
-}
-
-// NewImportForm returns a [forms.Form] combining common fields
-// and fields defined by the import adapter.
-func NewImportForm(ctx context.Context, adapter ImportLoader) *forms.JoinedForms {
-	return forms.Join(
-		ctx,
-		adapter.Form(),
-		forms.Must(
-			ctx,
-			forms.NewTextField("label", forms.Trim, forms.MaxLen(128)),
-			forms.NewBooleanField("ignore_duplicates", forms.Default(true)),
-			forms.NewBooleanField("archive"),
-			forms.NewBooleanField("mark_read"),
-		),
-	)
 }
 
 // Import performs the iteration on its adapter and import every item.
@@ -284,6 +308,12 @@ func (imp importer) createBookmark(next func() (BookmarkImporter, error)) (*book
 	if imp.label != "" {
 		b.Labels = append(b.Labels, imp.label)
 	}
+
+	b.Labels = slices.DeleteFunc(b.Labels, func(s string) bool {
+		return strings.TrimSpace(s) == ""
+	})
+	slices.Sort(b.Labels)
+	b.Labels = slices.Compact(b.Labels)
 
 	if b.IsArchived || imp.markRead {
 		b.ReadProgress = 100

@@ -2,1972 +2,513 @@
 # SPDX-FileCopyrightText: © 2024 Readeck <translate@readeck.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-only
-# Anonymous <anonymous@noreply.codeberg.org>, 2025.
+# Anonymous <anonymous@noreply.codeberg.org>, 2025, 2026.
 # Gusted <postmaster@gusted.xyz>, 2025, 2026.
-# γλωσσολαλιά <glossolalia@noreply.codeberg.org>, 2025.
-# olivier <olivier@noreply.codeberg.org>, 2025.
+# γλωσσολαλιά <glossolalia@noreply.codeberg.org>, 2025, 2026.
+# olivier <olivier@noreply.codeberg.org>, 2025, 2026.
+# Кнⷫѧⷷ̈зⷮьⷬ Кропоткинъ <kropotkin@noreply.codeberg.org>, 2026.
+# billieb <billieb@noreply.codeberg.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-02-04 20:03+0100\n"
-"PO-Revision-Date: 2026-02-11 19:29+0000\n"
-"Last-Translator: Gusted <postmaster@gusted.xyz>\n"
-"Language-Team: Dutch <https://translate.codeberg.org/projects/readeck/application/nl/>\n"
+"POT-Creation-Date: 2026-08-02 21:32+0200\n"
+"PO-Revision-Date: 2026-08-03 08:35+0000\n"
+"Last-Translator: notDavid <notdavid@noreply.codeberg.org>\n"
 "Language: nl\n"
+"Language-Team: Dutch <https://translate.codeberg.org/projects/readeck/application/nl/>\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.2\n"
 "Generated-By: Babel 2.17.0\n"
+"X-Generator: Weblate 2026.7.1\n"
 
-#: assets/templates/_layouts/sidemenu.jet.html:29
-#: assets/templates/bookmarks/bookmark.jet.html:26
-#: assets/templates/error.jet.html:12
-msgid "Menu"
-msgstr "Menu"
-
-#: assets/templates/_layouts/sidemenu.jet.html:30
-msgid "Secondary Menu"
-msgstr "Onderliggend menu"
-
-#: assets/templates/_layouts/sidemenu.jet.html:31
-#: assets/templates/bookmarks/bookmark.jet.html:27
-#: assets/templates/error.jet.html:13
-msgid "Main content"
-msgstr "Hoofdinhoud"
-
-#: assets/templates/_layouts/sidemenu.jet.html:46
-msgid "Close menu"
-msgstr "Menu sluiten"
-
-#: assets/templates/_libs/common.jet.html:1
-msgid "Quick access menu"
-msgstr "Snelmenu"
-
-#: assets/templates/_libs/common.jet.html:1
+#: components/breadcrumbs.templ:13 components/layout.templ:71
+#: components/layout.templ:78 components/layout.templ:79
+#: internal/dashboard/x-dashboard.templ:21
 msgid "Home Page"
 msgstr "Startpagina"
 
-#: assets/templates/_libs/forms.jet.html:1
-#: assets/templates/_libs/forms.jet.html:42
-#: assets/templates/bookmarks/import/form-csv.jet.html:55
-msgid "Required"
-msgstr "Vereist"
+#: components/errors.templ:10 components/errors.templ:12
+#: components/layout.templ:243 internal/auth/oauth2/x-oauth.templ:29
+msgid "Error"
+msgstr "Foutmelding"
 
-#: assets/templates/_libs/forms.jet.html:10
+#: components/errors.templ:16
+msgid "Permission denied."
+msgstr "De toegang is geweigerd."
+
+#: components/errors.templ:18
+msgid "Page not found."
+msgstr "De pagina kan niet worden gevonden."
+
+#: components/errors.templ:20 components/layout.templ:246
+#: internal/bookmarks/converter/x-html-public.templ:122
+msgid "An error occurred."
+msgstr "Er is een fout opgetreden."
+
+#: components/errors.templ:24
+msgid "Back to home page"
+msgstr "Terug naar startpagina"
+
+#: components/forms/forms.templ:21
 msgid "Errors"
 msgstr "Foutmeldingen"
 
-#: assets/templates/_libs/forms.jet.html:16
+#: components/forms/forms.templ:28
 msgid "Please check your form for errors."
 msgstr "Los de foutmeldingen op."
 
-#: assets/templates/_libs/forms.jet.html:262
+#: components/forms/forms.templ:48 components/forms/forms.templ:52
+#: internal/bookmarks/importer/x-forms.templ:126
+msgid "Required"
+msgstr "Vereist"
+
+#: components/forms/forms.templ:349
 msgid "The previous"
 msgstr "Afgelopen"
 
-#: assets/templates/_libs/forms.jet.html:271
+#: components/forms/forms.templ:364
 msgid "Day(s)"
 msgstr "dag(en)"
 
-#: assets/templates/_libs/forms.jet.html:272
+#: components/forms/forms.templ:365
 msgid "Week(s)"
 msgstr "week/weken"
 
-#: assets/templates/_libs/forms.jet.html:273
+#: components/forms/forms.templ:366
 msgid "Month(s)"
 msgstr "maand(en)"
 
-#: assets/templates/_libs/forms.jet.html:274
+#: components/forms/forms.templ:367
 msgid "Year(s)"
 msgstr "jaar"
 
-#: assets/templates/_libs/forms.jet.html:277
+#: components/forms/forms.templ:370
 msgctxt "word"
 msgid "or"
 msgstr "of"
 
-#: assets/templates/_libs/forms.jet.html:307
+#: components/forms/forms.templ:399
 msgid "Select or drop file"
 msgstr "Kies een bestand/Sleep een bestand hierheen"
 
-#: assets/templates/_libs/forms.jet.html:311
+#: components/forms/forms.templ:407
 msgid "remove"
 msgstr "verwijderen"
 
-#: assets/templates/_libs/pagination.jet.html:1
-msgid "Go to previous page"
-msgstr "Ga naar vorige pagina"
+#: components/layout.templ:63
+msgid "Open Menu"
+msgstr "Open Menu"
 
-#: assets/templates/_libs/pagination.jet.html:1
-#, python-format
-msgid "Go to page %d"
-msgstr "Ga naar pagina %d"
+#: components/layout.templ:82 components/layout.templ:83
+#: internal/admin/x-users.templ:190
+#: internal/bookmarks/routes/views_bookmarks.go:320
+#: internal/bookmarks/routes/views_bookmarks.go:340
+#: internal/bookmarks/routes/views_bookmarks.go:370
+#: internal/bookmarks/routes/views_import.go:23
+#: internal/bookmarks/routes/views_import.go:36
+#: internal/bookmarks/routes/views_import.go:68
+#: internal/bookmarks/routes/x-base.templ:21
+#: internal/bookmarks/routes/x-bookmark.templ:50
+msgid "Bookmarks"
+msgstr "Bladwijzers"
 
-#: assets/templates/_libs/pagination.jet.html:1
-msgid "Go to next page"
-msgstr "Ga naar volgende pagina"
+#: components/layout.templ:94 components/layout.templ:99
+msgid "Change color theme"
+msgstr "Kleurenschema wĳzigen"
 
-#: assets/templates/_libs/pagination.jet.html:10
+#: components/layout.templ:112 components/layout.templ:113
+#: internal/profile/x-base.templ:14
+msgid "Settings"
+msgstr "Instellingen"
+
+#: components/layout.templ:116 components/layout.templ:117
+#: internal/bookmarks/routes/x-bookmark-list.templ:127
+#: internal/bookmarks/routes/x-collections.templ:216 internal/docs/http.go:179
+#: internal/docs/http.go:256 internal/docs/http.go:307
+msgid "Documentation"
+msgstr "Documentatie"
+
+#: components/layout.templ:153
+msgid "Quick access menu"
+msgstr "Snelmenu"
+
+#: components/layout.templ:176 internal/bookmarks/routes/x-bookmark.templ:34
+msgid "Menu"
+msgstr "Menu"
+
+#: components/layout.templ:177
+msgid "Secondary Menu"
+msgstr "Onderliggend menu"
+
+#: components/layout.templ:178
+msgid "Main content"
+msgstr "Hoofdinhoud"
+
+#: components/layout.templ:206
+msgid "Close menu"
+msgstr "Menu sluiten"
+
+#: components/layout.templ:249 internal/auth/oauth2/x-oauth.templ:87
+msgid "Go back to Readeck"
+msgstr "Ga terug naar Readeck"
+
+#: components/pagination.templ:15
 msgctxt "page"
 msgid "Previous"
 msgstr "Vorige"
 
-#: assets/templates/_libs/pagination.jet.html:15
+#: components/pagination.templ:22
 msgctxt "page"
 msgid "Next"
 msgstr "Volgende"
 
-#: assets/templates/admin/user.jet.html:9
-#: assets/templates/admin/user_list.jet.html:9
-#: assets/templates/profile/base.jet.html:45 internal/admin/views.go:59
-#: internal/admin/views.go:89 internal/admin/views.go:134
+#: components/pagination.templ:28
+msgid "Go to previous page"
+msgstr "Ga naar vorige pagina"
+
+#: components/pagination.templ:39
+#, python-format
+msgid "Go to page %d"
+msgstr "Ga naar pagina %d"
+
+#: components/pagination.templ:48
+msgid "Go to next page"
+msgstr "Ga naar volgende pagina"
+
+# | msgid "Password ID"
+#: internal/admin/forms.go:39
+msgid "password is empty"
+msgstr "Geen wachtwoord ingevoerd"
+
+#: internal/admin/forms.go:73
+msgid "User is external and can't be updated."
+msgstr "Gebruiker is extern en kan niet worden bijgewerkt."
+
+#: internal/admin/forms.go:85 internal/profile/forms.go:98
+msgid "username is already in use"
+msgstr "gebruikersnaam is al in gebruik"
+
+#: internal/admin/forms.go:92 internal/profile/forms.go:105
+msgid "email address is already in use"
+msgstr "e-mailadres is al in gebruik"
+
+#: internal/admin/views.go:61 internal/admin/views.go:86
+#: internal/admin/views.go:127 internal/admin/x-users.templ:16
+#: internal/admin/x-users.templ:121 internal/dashboard/x-dashboard.templ:76
+#: internal/profile/x-base.templ:70
 msgid "Users"
 msgstr "Gebruikers"
 
-#: assets/templates/admin/user.jet.html:18
-msgid "User will be removed in a few seconds"
-msgstr "De gebruiker wordt over enkele seconden verwijderd"
+#: internal/admin/views.go:77
+msgid "User created."
+msgstr "De gebruiker is aangemaakt."
 
-#: assets/templates/admin/user.jet.html:19
-#: assets/templates/admin/user_list.jet.html:48
-#: assets/templates/bookmarks/collection.jet.html:27
-#: assets/templates/bookmarks/components/card.jet.html:99
-#: assets/templates/bookmarks/import/form-browser.jet.html:48
-#: assets/templates/bookmarks/import/form-csv.jet.html:34
-#: assets/templates/bookmarks/import/form-goodlinks.jet.html:34
-#: assets/templates/bookmarks/import/form-linkwarden.jet.html:34
-#: assets/templates/bookmarks/import/form-omnivore.jet.html:43
-#: assets/templates/bookmarks/import/form-pocket-file.jet.html:50
-#: assets/templates/bookmarks/import/form-readwise.jet.html:34
-#: assets/templates/bookmarks/import/form-text.jet.html:35
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:69
-#: assets/templates/bookmarks/label.jet.html:57
-#: assets/templates/profile/app_list.jet.html:66
-#: assets/templates/profile/token.jet.html:19
-#: assets/templates/profile/token_list.jet.html:63
-msgid "Cancel"
-msgstr "Annuleren"
-
-#: assets/templates/admin/user.jet.html:29
-#: assets/templates/admin/user_create.jet.html:19
-#: assets/templates/auth/onboarding.jet.html:23
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:40
-#: assets/templates/profile/index.jet.html:32
-msgid "Username"
-msgstr "Gebruikersnaam"
-
-#: assets/templates/admin/user.jet.html:35
-#: assets/templates/admin/user_create.jet.html:25
-#: assets/templates/auth/onboarding.jet.html:36
-#: assets/templates/auth/recover.jet.html:28
-msgid "Email address"
-msgstr "E-mailadres"
-
-#: assets/templates/admin/user.jet.html:39
-#: assets/templates/admin/user_create.jet.html:30
-msgid "Group"
-msgstr "Groep"
-
-#: assets/templates/admin/user.jet.html:44
-#: assets/templates/admin/user_create.jet.html:35
-#: assets/templates/auth/login.jet.html:30
-#: assets/templates/auth/onboarding.jet.html:28
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:47
-msgid "Password"
-msgstr "Wachtwoord"
-
-#: assets/templates/admin/user.jet.html:47
-msgid "will not change if empty"
-msgstr "Laat leeg om niet te wĳzigen"
-
-#: assets/templates/admin/user.jet.html:50
-#: assets/templates/bookmarks/bookmark_update.jet.html:17
-#: assets/templates/bookmarks/collection.jet.html:82
-#: assets/templates/bookmarks/collection_create.jet.html:29
-#: assets/templates/bookmarks/components/content_block.jet.html:71
-#: assets/templates/bookmarks/components/content_block.jet.html:73
-#: assets/templates/bookmarks/components/title_block.jet.html:29
-#: assets/templates/profile/index.jet.html:100
-#: assets/templates/profile/password.jet.html:38
-#: assets/templates/profile/token.jet.html:73
-msgid "Save"
-msgstr "Opslaan"
-
-#: assets/templates/admin/user.jet.html:53
-msgid "Delete this user"
-msgstr "Gebruiker verwijderen"
-
-#: assets/templates/admin/user.jet.html:60
-msgid "Last login"
-msgstr "Laatste login"
-
-#: assets/templates/admin/user.jet.html:69
-msgid "Last Activity"
-msgstr "Laatste activiteit"
-
-#: assets/templates/admin/user.jet.html:75
-#: assets/templates/bookmarks/base.jet.html:15
-#: assets/templates/bookmarks/bookmark.jet.html:15
-#: assets/templates/menu.jet.html:20
-#: internal/bookmarks/routes/views_bookmarks.go:208
-#: internal/bookmarks/routes/views_import.go:28
-#: internal/bookmarks/routes/views_import.go:37
-#: internal/bookmarks/routes/views_import.go:68
-msgid "Bookmarks"
-msgstr "Bladwijzers"
-
-#: assets/templates/admin/user.jet.html:80
-msgid "Disk usage"
-msgstr "Schijfgebruik"
-
-#: assets/templates/admin/user_create.jet.html:9 internal/admin/views.go:90
+#: internal/admin/views.go:87 internal/admin/x-users.templ:85
 msgid "New User"
 msgstr "Nieuwe gebruiker"
 
-#: assets/templates/admin/user_create.jet.html:41
-msgid "Create user"
-msgstr "Gebruiker aanmaken"
+#: internal/admin/views.go:112
+msgid "User updated."
+msgstr "De gebruiker is bijgewerkt."
 
-#: assets/templates/admin/user_list.jet.html:14
+#: internal/admin/views.go:163
+msgid "User detached."
+msgstr "Gebruiker losgekoppeld."
+
+#: internal/admin/views.go:186
+msgid "User signed out."
+msgstr "Gebruiker uitgelogd."
+
+#: internal/admin/x-users.templ:19
 msgid "Add a new user"
 msgstr "Gebruiker toevoegen"
 
-#: assets/templates/admin/user_list.jet.html:32
-#: assets/templates/profile/token_list.jet.html:44
-#, python-format
-msgid "Created on: %s"
-msgstr "Aangemaakt op %s"
+#: internal/admin/x-users.templ:38
+msgid "External User"
+msgstr "Externe gebruiker"
 
-#: assets/templates/admin/user_list.jet.html:33
-#, python-format
-msgid "Last update: %s"
-msgstr "Bijgewerkt op %s"
+#: internal/admin/x-users.templ:44 internal/admin/x-users.templ:174
+msgid "TOTP is enabled"
+msgstr "TOTP is ingeschakeld"
 
-#: assets/templates/admin/user_list.jet.html:35
+#: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
+msgid "This is you!"
+msgstr "Dit ben jij!"
+
+#: internal/admin/x-users.templ:56
 #, python-format
 msgid "Last login: %s"
 msgstr "Laatste login: %s"
 
-#: assets/templates/admin/user_list.jet.html:43
+#: internal/admin/x-users.templ:63
 msgid "This user will be removed in a few seconds."
 msgstr "De gebruiker wordt over enkele seconden verwijderd."
 
-#: assets/templates/auth/login.jet.html:9
-#: assets/templates/auth/login.jet.html:37
-msgid "Sign in"
-msgstr "Inloggen"
+#: internal/admin/x-users.templ:70 internal/admin/x-users.templ:207
+#: internal/bookmarks/importer/x-forms.templ:23
+#: internal/bookmarks/routes/x-bookmark-list.templ:542
+#: internal/bookmarks/routes/x-collections.templ:161
+#: internal/bookmarks/routes/x-labels.templ:131
+#: internal/profile/x-applications.templ:84 internal/profile/x-tokens.templ:83
+#: internal/profile/x-tokens.templ:106
+msgid "Cancel"
+msgstr "Annuleren"
 
-#: assets/templates/auth/login.jet.html:12
-msgid "Sign in to Readeck"
-msgstr "Inloggen op Readeck"
+#: internal/admin/x-users.templ:91 internal/admin/x-users.templ:130
+#: internal/auth/onboarding/x-onboarding.templ:26
+#: internal/bookmarks/importer/x-forms.templ:284
+#: internal/profile/x-profile.templ:42
+msgid "Username"
+msgstr "Gebruikersnaam"
 
-#: assets/templates/auth/login.jet.html:21
-msgid "Username or email address"
-msgstr "Gebruikersnaam of e-mailadres"
+#: internal/admin/x-users.templ:97 internal/admin/x-users.templ:137
+#: internal/auth/onboarding/x-onboarding.templ:39
+#: internal/auth/signin/x-auth.templ:136
+msgid "Email address"
+msgstr "E-mailadres"
 
-#: assets/templates/auth/login.jet.html:41
-msgid "Forgot your password?"
-msgstr "Wachtwoord vergeten?"
+#: internal/admin/x-users.templ:102 internal/admin/x-users.templ:143
+msgid "Group"
+msgstr "Groep"
 
-#: assets/templates/auth/oauth/auth-code.jet.html:8
-#: assets/templates/auth/oauth/device-code.jet.html:9
-#: assets/templates/auth/oauth/form.jet.html:14
+#: internal/admin/x-users.templ:107 internal/admin/x-users.templ:150
+#: internal/auth/onboarding/x-onboarding.templ:31
+#: internal/auth/signin/x-auth.templ:61
+#: internal/bookmarks/importer/x-forms.templ:289
+msgid "Password"
+msgstr "Wachtwoord"
+
+#: internal/admin/x-users.templ:113
+msgid "Create user"
+msgstr "Gebruiker aanmaken"
+
+#: internal/admin/x-users.templ:126
+msgid "User information"
+msgstr "Gebruikersinformatie"
+
+#: internal/admin/x-users.templ:153
+msgid "will not change if empty"
+msgstr "Laat leeg om niet te wĳzigen"
+
+#: internal/admin/x-users.templ:158
+#: internal/bookmarks/routes/x-bookmark.templ:225
+#: internal/bookmarks/routes/x-collections.templ:138
+#: internal/bookmarks/routes/x-collections.templ:232
+#: internal/bookmarks/routes/x-components.templ:49
+#: internal/bookmarks/routes/x-components.templ:181
+#: internal/bookmarks/routes/x-components.templ:186
+#: internal/profile/x-profile.templ:105 internal/profile/x-security.templ:41
+#: internal/profile/x-tokens.templ:153
+msgid "Save"
+msgstr "Opslaan"
+
+#: internal/admin/x-users.templ:178
+msgid "Created on"
+msgstr "Aangemaakt op"
+
+#: internal/admin/x-users.templ:182
+msgid "Last Login"
+msgstr "Laatste login"
+
+#: internal/admin/x-users.templ:186
+msgid "Last Activity"
+msgstr "Laatste activiteit"
+
+#: internal/admin/x-users.templ:194
+msgid "Disk Usage"
+msgstr "Gebruikte ruimte"
+
+#: internal/admin/x-users.templ:198
+msgid "User Administration"
+msgstr "Gebruikersadministratie"
+
+#: internal/admin/x-users.templ:204
+msgid "User will be removed in a few seconds"
+msgstr "De gebruiker wordt over enkele seconden verwijderd"
+
+#: internal/admin/x-users.templ:214
+msgid "This will sign this user out of all active sessions on the web application."
+msgstr "Dit zal deze gebruiker uitloggen van alle actieve sessies op de webapplicatie."
+
+#: internal/admin/x-users.templ:219
+msgid "Sign this user out"
+msgstr "Deze gebruiker uitloggen"
+
+#: internal/admin/x-users.templ:227
+msgid ""
+"\n"
+"\t\t\t\t\t\t\t\t\tThis user is attached to an external authentication provider:<br />\n"
+"\t\t\t\t\t\t\t\t\t<strong>%[1]s</strong>.<br />\n"
+"\t\t\t\t\t\t\t\t\tTherefore, some of their properties are not editable.<br />\n"
+"\t\t\t\t\t\t\t\t\tThis will detach the user <strong>%[2]s</strong>.\n"
+"\t\t\t\t\t\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\t\t\t\t\t\tDeze gebruiker zit vast aan een externe authenticatieprovider:<br />\n"
+"\t\t\t\t\t\t\t\t\t<strong>%[1]s</strong>.<br />\n"
+"\t\t\t\t\t\t\t\t\tDaarom zijn sommige eigenschappen niet bewerkbaar.<br />\n"
+"\t\t\t\t\t\t\t\t\tDit zal de gebruiker <strong>%[2]s</strong> loskoppelen.\n"
+"\t\t\t\t\t\t\t\t"
+
+#: internal/admin/x-users.templ:240
+msgid "Detach this user"
+msgstr "Gebruiker loskoppelen"
+
+#: internal/admin/x-users.templ:249
+#, python-format
+msgid "This will delete the user <strong>%s</strong> and all their contents."
+msgstr "Dit zal de gebruiker <strong>%s</strong> en al hun inhoud verwijderen."
+
+#: internal/admin/x-users.templ:257
+msgid "Delete this user"
+msgstr "Gebruiker verwijderen"
+
+#: internal/auth/oauth2/x-oauth.templ:17 internal/auth/oauth2/x-oauth.templ:26
+#: internal/auth/oauth2/x-oauth.templ:110
 msgid "Authorization required"
 msgstr "Autorisatie vereist"
 
-#: assets/templates/auth/oauth/device-code.jet.html:13
-msgid "Go back to Readeck"
-msgstr "Ga terug naar Readeck"
+#: internal/auth/oauth2/x-oauth.templ:30
+msgid "This code has expired or is not valid"
+msgstr "Deze code is verlopen of is niet geldig"
 
-#: assets/templates/auth/oauth/device-code.jet.html:28
-#: assets/templates/auth/oauth/device-code.jet.html:47
-#: assets/templates/auth/oauth/device-code.jet.html:54
+#: internal/auth/oauth2/x-oauth.templ:33 internal/auth/oauth2/x-oauth.templ:50
+#: internal/auth/oauth2/x-oauth.templ:58
 msgid "Connect a device"
 msgstr "Een apparaat aansluiten"
 
-#: assets/templates/auth/oauth/device-code.jet.html:32
+#: internal/auth/oauth2/x-oauth.templ:36
 msgid "Enter the code displayed on your device"
 msgstr "Voer de code in die op uw apparaat wordt weergegeven"
 
-#: assets/templates/auth/oauth/device-code.jet.html:37
+#: internal/auth/oauth2/x-oauth.templ:42
 msgid "Next"
 msgstr "Volgende"
 
-#: assets/templates/auth/oauth/device-code.jet.html:49
+#: internal/auth/oauth2/x-oauth.templ:52
 msgid "Authorization request was denied."
 msgstr "Autorisatieverzoek is geweigerd."
 
-#: assets/templates/auth/oauth/device-code.jet.html:49
+#: internal/auth/oauth2/x-oauth.templ:54 internal/auth/oauth2/x-oauth.templ:76
 msgid " You can now close this page."
 msgstr " U kunt deze pagina nu sluiten."
 
-#: assets/templates/auth/oauth/device-code.jet.html:57
+#: internal/auth/oauth2/x-oauth.templ:60
 msgid "Authorization granted. Connecting device..."
 msgstr "Autorisatie is toegekend. Apparaat aansluiten..."
 
-#: assets/templates/auth/oauth/device-code.jet.html:61
+#: internal/auth/oauth2/x-oauth.templ:67
 #, python-format
 msgid "<a href=\"%s\">Reload this page</a> if it doesn't refresh after a few seconds."
 msgstr "<a href=\"%s\">Vernieuw deze pagina</a> als deze niet na een paar seconden wordt vernieuwd."
 
-#: assets/templates/auth/oauth/device-code.jet.html:66
+#: internal/auth/oauth2/x-oauth.templ:74
 msgid "Device is connected!"
 msgstr "Apparaat is verbonden!"
 
-#: assets/templates/auth/oauth/device-code.jet.html:66
-msgid "You can now close this page."
-msgstr "U kunt deze pagina nu sluiten."
-
-#: assets/templates/auth/oauth/form.jet.html:12
+#: internal/auth/oauth2/x-oauth.templ:98
 #, python-format
 msgid "Signed in as: <strong>%s</strong>"
 msgstr "Aangemeld als: <strong>%s</strong>"
 
-#: assets/templates/auth/oauth/form.jet.html:20
+#: internal/auth/oauth2/x-oauth.templ:106
+#: internal/dashboard/x-dashboard.templ:97 internal/profile/x-profile.templ:32
+msgid "Sign out"
+msgstr "Uitloggen"
+
+#: internal/auth/oauth2/x-oauth.templ:116
 #, python-format
 msgid ""
 "\n"
-"      <strong>%s</strong> would like permission to access your account.\n"
-"      Only approve this request if you recognize and trust this source.\n"
-"    "
+"\t\t\t\t<strong>%s</strong> would like permission to access your account.\n"
+"\t\t\t\tOnly approve this request if you recognize and trust this source.\n"
+"\t\t\t"
 msgstr ""
 "\n"
-"      <strong>%s</strong> wil graag toegang tot uw account.\n"
-"      Keur dit verzoek alleen goed als u deze bron herkent en vertrouwt.\n"
-"    "
+"\t\t\t\t<strong>%s</strong> wil graag toegang tot uw account.\n"
+"\t\t\t\tKeur dit verzoek alleen goed als u deze bron herkent en vertrouwt.\n"
+"\t\t\t"
 
-#: assets/templates/auth/oauth/form.jet.html:26
+#: internal/auth/oauth2/x-oauth.templ:122
 msgid "Review permissions"
 msgstr "Bekijk machtigingen"
 
-#: assets/templates/auth/oauth/form.jet.html:33
+#: internal/auth/oauth2/x-oauth.templ:132
 msgid "Application information"
 msgstr "Informatie over de applicatie"
 
-#: assets/templates/auth/oauth/form.jet.html:35
-#: assets/templates/bookmarks/collection.jet.html:72
-#: assets/templates/bookmarks/collection_create.jet.html:22
-#: assets/templates/profile/token.jet.html:42
+#: internal/auth/oauth2/x-oauth.templ:134
+#: internal/bookmarks/routes/x-collections.templ:131
+#: internal/bookmarks/routes/x-collections.templ:226
+#: internal/profile/x-tokens.templ:128
 msgid "Name"
 msgstr "Naam"
 
-#: assets/templates/auth/oauth/form.jet.html:36
+#: internal/auth/oauth2/x-oauth.templ:135
 msgid "Website"
 msgstr "Website"
 
-#: assets/templates/auth/oauth/form.jet.html:37
+#: internal/auth/oauth2/x-oauth.templ:136
 msgid "Version"
 msgstr "Versie"
 
-#: assets/templates/auth/oauth/form.jet.html:42
+#: internal/auth/oauth2/x-oauth.templ:145
 msgid "Authorize"
 msgstr "Autoriseer"
 
-#: assets/templates/auth/oauth/form.jet.html:44
+#: internal/auth/oauth2/x-oauth.templ:153
 msgid "Deny"
 msgstr "Weiger"
 
-#: assets/templates/auth/onboarding.jet.html:9
-#: assets/templates/bookmarks/index.jet.html:75
+#: internal/auth/onboarding/x-onboarding.templ:17
+#: internal/bookmarks/routes/x-bookmark-list.templ:235
+#: internal/dashboard/x-dashboard.templ:113
 msgid "Welcome to Readeck!"
 msgstr "Welkom in Readeck!"
 
-#: assets/templates/auth/onboarding.jet.html:15
+#: internal/auth/onboarding/x-onboarding.templ:21
 msgid "We're delighted to have you on board; one more step and you're good to go."
 msgstr "We zijn blij met je komst! Nog één stap te gaan en dan kun je aan de slag."
 
-#: assets/templates/auth/onboarding.jet.html:31
-#: assets/templates/auth/recover.jet.html:54
-#: assets/templates/profile/password.jet.html:34
+#: internal/auth/onboarding/x-onboarding.templ:35
+#: internal/auth/signin/x-auth.templ:170 internal/profile/x-security.templ:37
 msgid "must be at least 8 characters long"
 msgstr "dient minimaal 8 tekens te bevatten"
 
-#: assets/templates/auth/onboarding.jet.html:38
+#: internal/auth/onboarding/x-onboarding.templ:43
 msgid "Please note:"
 msgstr "Let op:"
 
-#: assets/templates/auth/onboarding.jet.html:39
+#: internal/auth/onboarding/x-onboarding.templ:44
 msgid ""
 "\n"
-"  Your email address is optional and will never leave this installation.\n"
-"  It will never be collected, transferred or sold.\n"
-"  It will <strong>only</strong> be used, should you need it, for password recovery and internal notifications.\n"
-"  "
+"\t\t\t\t\t\tYour email address is optional and will never leave this installation.\n"
+"\t\t\t\t\t\tIt will never be collected, transferred or sold.\n"
+"\t\t\t\t\t\tIt will <strong>only</strong> be used, should you need it, for password recovery and internal notifications.\n"
+"\t\t\t\t\t"
 msgstr ""
 "\n"
-"  Je e-mailadres is optioneel en wordt alléén binnen deze instantie bewaard.\n"
-"  Er is dus geen sprake van extern bewaren, overdragen of verkoop ervan.\n"
-"  Het wordt <strong>slechts</strong> gebruikt voor wachtwoordherstel en interne meldingen.\n"
-"  "
+"\t\t\t\t\t\tJe e-mailadres is optioneel en wordt alléén binnen deze instantie bewaard.\n"
+"\t\t\t\t\t\tHet wordt nooit verzameld, overgedragen of verkocht.\n"
+"\t\t\t\t\t\tHet wordt <strong>enkel</strong> gebruikt, mocht je het nodig hebben, voor wachtwoordherstel en interne meldingen..\n"
+"\t\t\t\t\t"
 
-#: assets/templates/auth/onboarding.jet.html:46
+#: internal/auth/onboarding/x-onboarding.templ:52
 msgid "Finish installation"
 msgstr "Installatie afronden"
 
-#: assets/templates/auth/recover.jet.html:9
-msgid "Password recovery"
-msgstr "Wachtwoordherstel"
-
-#: assets/templates/auth/recover.jet.html:20
-msgid "No worries, it happens to anyone."
-msgstr "Geen zorgen: dit kan een ieder overkomen."
-
-#: assets/templates/auth/recover.jet.html:21
-msgid ""
-"\n"
-"        Please provide the email address you used to create\n"
-"        your account and we'll send you a message with a link\n"
-"        to recover your password.\n"
-"      "
-msgstr ""
-"\n"
-"        Voer het e-mailadres in dat je hebt gebruikt om je\n"
-"        account aan te maken. We sturen je een e-mail met link\n"
-"        waarmee je je wachtwoord kunt herstellen.\n"
-"      "
-
-#: assets/templates/auth/recover.jet.html:31
-msgid "Send me a recovery link"
-msgstr "Herstellink versturen"
-
-#: assets/templates/auth/recover.jet.html:32
-#: assets/templates/auth/recover.jet.html:56
-msgid "Cancel and go back to sign in"
-msgstr "Annuleren en terug naar inlogpagina"
-
-#: assets/templates/auth/recover.jet.html:36
-msgid "Almost there!"
-msgstr "Bijna klaar!"
-
-#: assets/templates/auth/recover.jet.html:37
-#, python-format
-msgid ""
-"\n"
-"        We have sent an email to\n"
-"        <strong>%s</strong>\n"
-"        with further instructions.\n"
-"      "
-msgstr ""
-"\n"
-"        We hebben een e-mail gestuurd naar\n"
-"        <strong>%s</strong>\n"
-"        met instructies.\n"
-"      "
-
-#: assets/templates/auth/recover.jet.html:52
-#: assets/templates/profile/password.jet.html:31
-msgid "New password"
-msgstr "Nieuw wachtwoord"
-
-#: assets/templates/auth/recover.jet.html:55
-msgid "Update your password"
-msgstr "Wachtwoord bijwerken"
-
-#: assets/templates/auth/recover.jet.html:60
-msgid "Your password has been changed."
-msgstr "Je wachtwoord is gewijzigd."
-
-#: assets/templates/auth/recover.jet.html:61
-msgid "Go to the sign in page"
-msgstr "Ga naar inlogpagina"
-
-#: assets/templates/auth/totp.jet.html:9
-msgid "Two-factor authentication"
-msgstr "Tweefactorauthenticatie"
-
-#: assets/templates/auth/totp.jet.html:20
-msgid "Passcode"
-msgstr "Wachtwoord"
-
-#: assets/templates/auth/totp.jet.html:31
-msgid "Verify"
-msgstr "Verifiëren"
-
-#: assets/templates/bookmarks/annotation_list.jet.html:8
-msgid "Bookmark Highlights"
-msgstr "Bladwijzermarkeringen"
-
-#: assets/templates/bookmarks/annotation_list.jet.html:17
-msgid "You don't have any highlights yet."
-msgstr "Je hebt nog niets gemarkeerd."
-
-#: assets/templates/bookmarks/annotation_list.jet.html:18
-msgid ""
-"\n"
-"        Once you start highlighting parts of your saved articles, they will appear on this page\n"
-"        for you to easily find them.\n"
-"      "
-msgstr ""
-"\n"
-"        Zodra je delen van opgeslagen artikelen markeert, worden ze hier getoond,\n"
-"        zodat je ze makkelijk kunt terugvinden.\n"
-"      "
-
-#: assets/templates/bookmarks/annotation_list.jet.html:23
-#, python-format
-msgid "Read more about highlights in the <a class=\"%s\" href=\"%s\">documentation</a>."
-msgstr "Meer informatie hierover is te vinden in de <a class=\"%s\" href=\"%s\">documentatie</a>."
-
-#: assets/templates/bookmarks/base.jet.html:1
-#: assets/templates/bookmarks/components/filters.jet.html:9
-msgid "Search"
-msgstr "Zoeken"
-
-#: assets/templates/bookmarks/base.jet.html:31
-msgid "All"
-msgstr "Alle"
-
-#: assets/templates/bookmarks/base.jet.html:34
-msgid "Unread"
-msgstr "Ongelezen"
-
-#: assets/templates/bookmarks/base.jet.html:37
-msgid "Archive"
-msgstr "Archiveren"
-
-#: assets/templates/bookmarks/base.jet.html:40
-msgid "Favorites"
-msgstr "Favorieten"
-
-#: assets/templates/bookmarks/base.jet.html:48
-#: internal/bookmarks/routes/views_bookmarks.go:115
-msgid "Articles"
-msgstr "Artikelen"
-
-#: assets/templates/bookmarks/base.jet.html:54
-#: internal/bookmarks/routes/views_bookmarks.go:119
-msgid "Videos"
-msgstr "Video's"
-
-#: assets/templates/bookmarks/base.jet.html:60
-#: internal/bookmarks/routes/views_bookmarks.go:117
-msgid "Pictures"
-msgstr "Afbeeldingen"
-
-#: assets/templates/bookmarks/base.jet.html:70
-#: assets/templates/bookmarks/components/sidebar.jet.html:117
-#: assets/templates/bookmarks/label.jet.html:25
-msgid "Labels"
-msgstr "Labels"
-
-#: assets/templates/bookmarks/base.jet.html:72
-#: assets/templates/bookmarks/components/annotation_list.jet.html:9
-msgid "Highlights"
-msgstr "Markeringen"
-
-#: assets/templates/bookmarks/base.jet.html:74
-#: assets/templates/bookmarks/collection.jet.html:11
-#: assets/templates/bookmarks/collection.jet.html:38
-msgid "Collections"
-msgstr "Verzamelingen"
-
-#: assets/templates/bookmarks/base.jet.html:90
-msgid "Did you know?"
-msgstr "Wist je dat?"
-
-#: assets/templates/bookmarks/base.jet.html:91
-#: assets/templates/bookmarks/index.jet.html:91
-msgid ""
-"\n"
-"            With the Browser Extension, you can save pages, images and selections\n"
-"            directly from your browser!"
-msgstr ""
-"\n"
-"            Met behulp van de browserextensie kun je pagina's, afbeelding en selecties opslaan\n"
-"            vanuit je browser!"
-
-#: assets/templates/bookmarks/base.jet.html:98
-#: assets/templates/bookmarks/components/sidebar.jet.html:24
-#: assets/templates/bookmarks/index.jet.html:98
-msgid "Learn more"
-msgstr "Meer informatie"
-
-#: assets/templates/bookmarks/base.jet.html:107
-msgid "Don't remind me"
-msgstr "Niet meer tonen"
-
-#: assets/templates/bookmarks/bookmark.jet.html:1
-#: assets/templates/bookmarks/bookmark.jet.html:90
-msgid "Close panel"
-msgstr "Paneel sluiten"
-
-#: assets/templates/bookmarks/bookmark.jet.html:1
-#: assets/templates/bookmarks/bookmark.jet.html:135
-msgid "Bookmark information"
-msgstr "Bladwijzerinformatie"
-
-#: assets/templates/bookmarks/bookmark.jet.html:1
-#: assets/templates/bookmarks/components/title_block.jet.html:1
-msgid "Close dialog"
-msgstr "Dialoogvenster sluiten"
-
-#: assets/templates/bookmarks/bookmark.jet.html:12
-msgid "Bookmark loading"
-msgstr "Bezig met laden…"
-
-#: assets/templates/bookmarks/bookmark.jet.html:43
-msgid "Bookmark is loading"
-msgstr "Bezig met laden…"
-
-#: assets/templates/bookmarks/bookmark.jet.html:116
-#: assets/templates/bookmarks/collection.jet.html:47
-#: assets/templates/bookmarks/collection.jet.html:60
-msgid "Edit"
-msgstr "Bewerken"
-
-#: assets/templates/bookmarks/bookmark_atom.jet.html:7
-#: assets/templates/bookmarks/components/sidebar.jet.html:1
-#: assets/templates/bookmarks/components/sidebar.jet.html:66
-#: assets/templates/emails/bookmark.jet.html:16
-#: assets/templates/epub/bookmark.jet.html:34
-msgid "no site name"
-msgstr "Geen websitenaam"
-
-#: assets/templates/bookmarks/bookmark_atom.jet.html:9
-#: assets/templates/bookmarks/bookmark_public.jet.html:122
-#: assets/templates/bookmarks/components/sidebar.jet.html:82
-#: assets/templates/emails/bookmark.jet.html:20
-#: assets/templates/epub/bookmark.jet.html:37
-#, python-format
-msgid "Published on %s"
-msgstr "Gepubliceerd op %s"
-
-#: assets/templates/bookmarks/bookmark_atom.jet.html:12
-#: assets/templates/bookmarks/bookmark_public.jet.html:127
-#: assets/templates/bookmarks/components/sidebar.jet.html:87
-#: assets/templates/emails/bookmark.jet.html:23
-#: assets/templates/epub/bookmark.jet.html:40
-#, python-format
-msgid "By %s"
-msgstr "Door %s"
-
-#: assets/templates/bookmarks/bookmark_atom.jet.html:17
-#: assets/templates/bookmarks/components/sidebar.jet.html:95
-#: assets/templates/emails/bookmark.jet.html:27
-#: assets/templates/epub/bookmark.jet.html:45
-#, python-format
-msgid "About %d minute read"
-msgid_plural "About %d minutes read"
-msgstr[0] "Ongeveer %d min. leestijd"
-msgstr[1] "Ongeveer %d min. leestijd"
-
-#: assets/templates/bookmarks/bookmark_missing.jet.html:9
-#: assets/templates/bookmarks/bookmark_missing.jet.html:14
-msgid "Bookmark not found"
-msgstr "De bladwijzer is niet aangetroffen"
-
-#: assets/templates/bookmarks/bookmark_public.jet.html:1
-#: assets/templates/bookmarks/bookmark_public.jet.html:101
-#: assets/templates/menu.jet.html:1
-msgid "Change theme"
-msgstr "Thema wĳzigen"
-
-#: assets/templates/bookmarks/bookmark_public.jet.html:17
-msgid "Shared link"
-msgstr "Gedeelde link"
-
-#: assets/templates/bookmarks/bookmark_public.jet.html:83
-msgid "Page not found"
-msgstr "De pagina kan niet worden gevonden"
-
-#: assets/templates/bookmarks/bookmark_public.jet.html:85
-msgid "Page has expired"
-msgstr "De pagina is verlopen"
-
-#: assets/templates/bookmarks/bookmark_public.jet.html:135
-#, python-format
-msgid "%d min"
-msgstr "%d min."
-
-#: assets/templates/bookmarks/bookmark_public.jet.html:141
-msgid "Shared by %[1]s with %[2]s"
-msgstr "Gedeeld door %[1]s met %[2]s"
-
-# | msgid "Saved with Readeck"
-#: assets/templates/bookmarks/bookmark_public.jet.html:194
-#, python-format
-msgid "Saved with %s"
-msgstr "Bewaard met %s"
-
-# | msgid "Share by Link"
-#: assets/templates/bookmarks/bookmark_share_email.jet.html:8
-msgid "Share by email"
-msgstr "Delen via e-mail"
-
-#: assets/templates/bookmarks/bookmark_share_email.jet.html:18
-#: assets/templates/bookmarks/bookmark_share_link.jet.html:19
-#, python-format
-msgid "Share: %s"
-msgstr "Delen: %s"
-
-#: assets/templates/bookmarks/bookmark_share_link.jet.html:8
-msgid "Share link"
-msgstr "Link delen"
-
-#: assets/templates/bookmarks/bookmark_update.jet.html:9
-msgid "Edit bookmark"
-msgstr "Bladwijzer bewerken"
-
-# | msgid "Saved with Readeck"
-#: assets/templates/bookmarks/bookmark_update.jet.html:14
-#, python-format
-msgid "Edit: %s"
-msgstr "Bewerken: %s"
-
-#: assets/templates/bookmarks/collection.jet.html:22
-#, python-format
-msgid "Collection %s"
-msgstr "Verzameling: %s"
-
-#: assets/templates/bookmarks/collection.jet.html:26
-msgid "Collection will be removed in a few seconds."
-msgstr "De verzameling wordt over enkele seconden verwijderd."
-
-#: assets/templates/bookmarks/collection.jet.html:62
-#: assets/templates/bookmarks/index.jet.html:133
-#: assets/templates/bookmarks/index.jet.html:167
-#: assets/templates/bookmarks/index.jet.html:170
-msgid "Filters"
-msgstr "Filters"
-
-#: assets/templates/bookmarks/collection.jet.html:65
-#: assets/templates/bookmarks/index.jet.html:173
-#: assets/templates/menu.jet.html:43 docs/http.go:182 docs/http.go:269
-#: docs/http.go:308
-msgid "Documentation"
-msgstr "Documentatie"
-
-#: assets/templates/bookmarks/collection.jet.html:84
-msgid "Delete collection"
-msgstr "Verzameling verwijderen"
-
-#: assets/templates/bookmarks/collection_create.jet.html:9
-msgid "New Collection"
-msgstr "Nieuwe verzameling"
-
-#: assets/templates/bookmarks/collection_list.jet.html:9
-#: internal/opds/http.go:75
-msgid "Bookmark Collections"
-msgstr "Verzamelingen toevoegen aan bladwijzers"
-
-#: assets/templates/bookmarks/collection_list.jet.html:15
-msgid "Create a new collection"
-msgstr "Verzameling samenstellen"
-
-#: assets/templates/bookmarks/collection_list.jet.html:24
-msgid ""
-"\n"
-"          Collections let you easily organize and export your bookmarks\n"
-"          by saving search requests of your choice.\n"
-"          When you create a new bookmark that matches a collection's\n"
-"          criteria, it will appear immediately.\n"
-"          Here are some examples:\n"
-"        "
-msgstr ""
-"\n"
-"          Met behulp van verzamelingen kun je je bladwijzers op een eenvoudige manier\n"
-"          ordenen en exporteren, door ze te bewaren als zoekopdrachten.\n"
-"          Zodra je een bladwijzer toevoegt die overeenkomt met een bepaalde verzameling,\n"
-"          wordt deze daar getoond.\n"
-"          Hieronder vind je enkele voorbeelden:\n"
-"        "
-
-#: assets/templates/bookmarks/collection_list.jet.html:33
-msgid "The unread articles (no photos or videos)"
-msgstr "Ongelezen artikelen (geen foto's of video's)"
-
-#: assets/templates/bookmarks/collection_list.jet.html:34
-msgid "The archived articles from \"wikipedia.org\""
-msgstr "Gearchiveerde artikelen van wikipedia.org"
-
-#: assets/templates/bookmarks/collection_list.jet.html:35
-msgid "The pictures with the label \"cat\""
-msgstr "Foto's met het label ‘cat’"
-
-#: assets/templates/bookmarks/collection_list.jet.html:36
-msgid "The articles that contain \"shelter\" in their title"
-msgstr "Artikelen met de term ‘shelter’ in de naam"
-
-#: assets/templates/bookmarks/collection_list.jet.html:39
-#, python-format
-msgid "Read more about collections in the <a class=\"%s\" href=\"%s\">documentation</a>."
-msgstr "Meer informatie is te vinden in de <a class=\"%s\" href=\"%s\">documentatie</a>."
-
-#: assets/templates/bookmarks/components/actions.jet.html:1
-msgid "Export and Share"
-msgstr "Exporteren en delen"
-
-#: assets/templates/bookmarks/components/actions.jet.html:1
-#: assets/templates/bookmarks/components/card.jet.html:1
-msgid "Delete this bookmark"
-msgstr "Bladwijzer verwijderen"
-
-#: assets/templates/bookmarks/components/actions.jet.html:7
-msgid "Mark as unread"
-msgstr "Markeren als ongelezen"
-
-#: assets/templates/bookmarks/components/actions.jet.html:7
-msgid "Mark as read"
-msgstr "Markeren als gelezen"
-
-#: assets/templates/bookmarks/components/actions.jet.html:8
-#: assets/templates/bookmarks/components/bottom_actions.jet.html:7
-#: assets/templates/bookmarks/components/card.jet.html:9
-msgid "Remove from archive"
-msgstr "Verwijderen uit archief"
-
-#: assets/templates/bookmarks/components/actions.jet.html:8
-#: assets/templates/bookmarks/components/bottom_actions.jet.html:7
-#: assets/templates/bookmarks/components/card.jet.html:9
-msgid "Move to archive"
-msgstr "Verplaatsen naar archief"
-
-#: assets/templates/bookmarks/components/actions.jet.html:9
-#: assets/templates/bookmarks/components/bottom_actions.jet.html:8
-#: assets/templates/bookmarks/components/card.jet.html:10
-msgid "Remove from favorites"
-msgstr "Verwijderen uit favorieten"
-
-#: assets/templates/bookmarks/components/actions.jet.html:9
-#: assets/templates/bookmarks/components/bottom_actions.jet.html:8
-#: assets/templates/bookmarks/components/card.jet.html:10
-msgid "Add to favorites"
-msgstr "Toevoegen aan favorieten"
-
-#: assets/templates/bookmarks/components/actions.jet.html:15
-#: assets/templates/bookmarks/components/card.jet.html:92
-msgid "This bookmark will be removed in a few seconds."
-msgstr "De bladwijzer wordt over enkele seconden verwijderd."
-
-#: assets/templates/bookmarks/components/actions.jet.html:22
-msgid "Undo"
-msgstr "Ongedaan maken"
-
-#: assets/templates/bookmarks/components/actions.jet.html:55
-#: assets/templates/bookmarks/components/list_actions.jet.html:79
-msgid "Download EPUB"
-msgstr "Epub-bestand downloaden"
-
-#: assets/templates/bookmarks/components/actions.jet.html:58
-msgid "Share by Link"
-msgstr "Delen via link"
-
-#: assets/templates/bookmarks/components/actions.jet.html:61
-msgid "Send article by Email"
-msgstr "Artikel versturen via e-mail"
-
-#: assets/templates/bookmarks/components/actions.jet.html:63
-msgid "Send e-book by Email"
-msgstr "E-boek versturen via e-mail"
-
-#: assets/templates/bookmarks/components/annotation_list.jet.html:1
-msgid "Delete highlight"
-msgstr "Markering verwijderen"
-
-#: assets/templates/bookmarks/components/annotation_list.jet.html:12
-msgid "Start selecting text in the article to create a new highlight."
-msgstr "Selecteer tekst in een artikel om een markering toe te voegen."
-
-#: assets/templates/bookmarks/components/bookmark_qrcode.jet.html:8
-msgid "Saved with Readeck"
-msgstr "Bewaard met Readeck"
-
-#: assets/templates/bookmarks/components/bookmark_update.jet.html:16
-#: assets/templates/bookmarks/components/filters.jet.html:14
-msgid "Title"
-msgstr "Titel"
-
-# | msgid "Distribution"
-#: assets/templates/bookmarks/components/bookmark_update.jet.html:21
-#: assets/templates/bookmarks/import/form-csv.jet.html:50
-msgid "Description"
-msgstr "Beschrijving"
-
-#: assets/templates/bookmarks/components/bookmark_update.jet.html:28
-msgid "Site Name"
-msgstr "Naam van de site"
-
-#: assets/templates/bookmarks/components/bookmark_update.jet.html:34
-msgid "Authors"
-msgstr "Auteurs"
-
-#: assets/templates/bookmarks/components/bookmark_update.jet.html:35
-msgid "One value per line"
-msgstr "Eén waarde per regel"
-
-#: assets/templates/bookmarks/components/bookmark_update.jet.html:41
-msgid "Published"
-msgstr "Gepubliceerd"
-
-#: assets/templates/bookmarks/components/bookmark_update.jet.html:46
-#: assets/templates/profile/index.jet.html:49
-msgid "Language"
-msgstr "Taal"
-
-#: assets/templates/bookmarks/components/bookmark_update.jet.html:51
-msgid "Text Direction"
-msgstr "Tekstrichting"
-
-#: assets/templates/bookmarks/components/card.jet.html:1
-msgid "Go to original page"
-msgstr "Oorspronkelijke pagina openen"
-
-#: assets/templates/bookmarks/components/card.jet.html:33
-msgctxt "bookmark"
-msgid "Loading"
-msgstr "Bezig met laden…"
-
-#: assets/templates/bookmarks/components/card.jet.html:75
-#, python-format
-msgctxt "abbr"
-msgid "%d min"
-msgid_plural "%d min"
-msgstr[0] "%d min."
-msgstr[1] "%d min."
-
-#: assets/templates/bookmarks/components/content_block.jet.html:1
-msgid "Close"
-msgstr "Sluiten"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:1
-msgid "Show image"
-msgstr "Afbeelding tonen"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:1
-msgid "Play video"
-msgstr "Video afspelen"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:46
-msgid "Yellow"
-msgstr "Geel"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:47
-msgid "Red"
-msgstr "Rood"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:48
-msgid "Blue"
-msgstr "Blauw"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:49
-msgid "Green"
-msgstr "Groen"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:50
-msgid "Transparent"
-msgstr "Transparant"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:55
-msgid "Highlight"
-msgstr "Markeren"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:63
-#: assets/templates/bookmarks/components/filters.jet.html:103
-msgid "Note"
-msgstr "Opmerking"
-
-#: assets/templates/bookmarks/components/content_block.jet.html:78
-#: assets/templates/bookmarks/label.jet.html:43
-msgid "Delete"
-msgstr "Verwijderen"
-
-#: assets/templates/bookmarks/components/diagnosis.jet.html:13
-#: assets/templates/docs/about.jet.html:37
-msgid "copy to clipboard"
-msgstr "Kopiëren naar klembord"
-
-#: assets/templates/bookmarks/components/filters.jet.html:36
-msgid "Author"
-msgstr "Auteur"
-
-#: assets/templates/bookmarks/components/filters.jet.html:58
-msgid "Site"
-msgstr "Website"
-
-#: assets/templates/bookmarks/components/filters.jet.html:80
-#: assets/templates/bookmarks/import/options.jet.html:10
-#: assets/templates/bookmarks/label.jet.html:11
-msgid "Label"
-msgstr "Label"
-
-#: assets/templates/bookmarks/components/filters.jet.html:108
-msgid "From date"
-msgstr "Vanaf datum"
-
-#: assets/templates/bookmarks/components/filters.jet.html:114
-msgid "To date"
-msgstr "Tot datum"
-
-#: assets/templates/bookmarks/components/filters.jet.html:119
-msgid "Type"
-msgstr "Type"
-
-#: assets/templates/bookmarks/components/filters.jet.html:124
-msgctxt "filter"
-msgid "Progress"
-msgstr "Voortgang"
-
-#: assets/templates/bookmarks/components/filters.jet.html:129
-msgid "Is Favorite"
-msgstr "Favoriet (ja/nee)"
-
-#: assets/templates/bookmarks/components/filters.jet.html:133
-#: assets/templates/bookmarks/components/filters.jet.html:142
-#: assets/templates/bookmarks/components/filters.jet.html:152
-#: assets/templates/bookmarks/components/filters.jet.html:162
-#: assets/templates/bookmarks/components/filters.jet.html:172
-#: assets/templates/bookmarks/components/reader_control.jet.html:142
-#: assets/templates/bookmarks/components/reader_control.jet.html:168
-msgid "yes"
-msgstr "ja"
-
-#: assets/templates/bookmarks/components/filters.jet.html:134
-#: assets/templates/bookmarks/components/filters.jet.html:143
-#: assets/templates/bookmarks/components/filters.jet.html:153
-#: assets/templates/bookmarks/components/filters.jet.html:163
-#: assets/templates/bookmarks/components/filters.jet.html:173
-#: assets/templates/bookmarks/components/reader_control.jet.html:142
-#: assets/templates/bookmarks/components/reader_control.jet.html:168
-msgid "no"
-msgstr "nee"
-
-#: assets/templates/bookmarks/components/filters.jet.html:138
-msgid "Is Archived"
-msgstr "Gearchiveerd (ja/nee)"
-
-#: assets/templates/bookmarks/components/filters.jet.html:148
-msgid "Is Loaded"
-msgstr "Is geladen"
-
-#: assets/templates/bookmarks/components/filters.jet.html:158
-msgid "With Labels"
-msgstr "Met labels"
-
-#: assets/templates/bookmarks/components/filters.jet.html:168
-msgid "With Errors"
-msgstr "Met foutmeldingen"
-
-#: assets/templates/bookmarks/components/labels.jet.html:1
-msgid "Remove label"
-msgstr "Label wissen"
-
-#: assets/templates/bookmarks/components/labels_form.jet.html:1
-msgid "Add a label"
-msgstr "Label toekennen"
-
-#: assets/templates/bookmarks/components/labels_form.jet.html:33
-msgid "Add label"
-msgstr "Label toekennen"
-
-#: assets/templates/bookmarks/components/list_actions.jet.html:1
-msgid "Grid view"
-msgstr "Roosterweergave"
-
-#: assets/templates/bookmarks/components/list_actions.jet.html:1
-msgid "Compact view"
-msgstr "Compacte weergave"
-
-# | msgid "Grid view"
-#: assets/templates/bookmarks/components/list_actions.jet.html:1
-msgid "Mosaic view"
-msgstr "Tegelweergave"
-
-# | msgid "Import bookmarks"
-#: assets/templates/bookmarks/components/list_actions.jet.html:1
-msgid "Sort bookmarks"
-msgstr "Bladwijzers sorteren"
-
-# | msgid "Options"
-#: assets/templates/bookmarks/components/list_actions.jet.html:1
-msgid "Sort options"
-msgstr "Sorteeropties"
-
-# | msgid "Import links and articles"
-#: assets/templates/bookmarks/components/list_actions.jet.html:1
-msgid "Import and export"
-msgstr "Importeren en exporteren"
-
-#: assets/templates/bookmarks/components/list_actions.jet.html:80
-msgid "Atom Feed"
-msgstr "Atomfeed"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "Decrease width"
-msgstr "Breedte verkleinen"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "Current Width"
-msgstr "Huidige breedte"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "Increase width"
-msgstr "Breedte vergroten"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "Decrease font size"
-msgstr "Lettergrootte verkleinen"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "Current font size"
-msgstr "Huidige lettergrootte"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "Increase font size"
-msgstr "Lettergrootte vergroten"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "Decrease line height"
-msgstr "Regelhoogte verkleinen"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "Current line height"
-msgstr "Huidige regelhoogte"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "Increase line height"
-msgstr "Regelafstand vergroten"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "Justify text"
-msgstr "Tekst uitvullen"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "Don't justify text"
-msgstr "Tekst niet uitvullen"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "With hyphenation"
-msgstr "Met koppelteken"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:1
-msgid "Without hyphenation"
-msgstr "Zonder koppelteken"
-
-# | msgid "Options"
-#: assets/templates/bookmarks/components/reader_control.jet.html:13
-msgid "Display options"
-msgstr "Weergaveopties"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:25
-msgid "Font"
-msgstr "Lettertype"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:56
-msgid "Width"
-msgstr "Breedte"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:81
-msgid "Size"
-msgstr "Grootte"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:106
-msgid "Line height"
-msgstr "Regelhoogte"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:130
-msgid "Justify"
-msgstr "Uitvullen"
-
-#: assets/templates/bookmarks/components/reader_control.jet.html:156
-msgid "Hyphenation"
-msgstr "Interpunctie"
-
-#: assets/templates/bookmarks/components/share_email.jet.html:16
-msgid "Sends this bookmark's content in the message."
-msgstr "Verstuur de inhoud van deze bladwijzer via een bericht."
-
-# | msgid "Sends this bookmarks as an attached EPUB file."
-#: assets/templates/bookmarks/components/share_email.jet.html:18
-msgid "Sends this bookmark as an attached EPUB file."
-msgstr "Verstuur deze bladwijzer als bijgevoegd epub-bestand."
-
-# | msgid "From date"
-#: assets/templates/bookmarks/components/share_email.jet.html:29
-msgid "Format"
-msgstr "Formaat"
-
-#: assets/templates/bookmarks/components/share_email.jet.html:39
-msgid "Send To"
-msgstr "Versturen naar"
-
-#: assets/templates/bookmarks/components/share_email.jet.html:44
-msgid "Send message"
-msgstr "Bericht versturen"
-
-#: assets/templates/bookmarks/components/share_email.jet.html:48
-#, python-format
-msgid "The bookmark was sent to %s"
-msgstr "De bladwijzer is verstuurd naar %s"
-
-#: assets/templates/bookmarks/components/share_email.jet.html:55
-#: assets/templates/bookmarks/components/share_link.jet.html:28
-msgid "Go back to the bookmark"
-msgstr "Ga terug naar bladwijzer"
-
-#: assets/templates/bookmarks/components/share_link.jet.html:9
-msgid "You can share the following link with your friends."
-msgstr "Je kunt de volgende link met je vrienden delen."
-
-#: assets/templates/bookmarks/components/share_link.jet.html:10
-#, python-format
-msgid "It expires on %s"
-msgstr "De link vervalt op %s"
-
-#: assets/templates/bookmarks/components/share_link.jet.html:24
-msgid "Copy the link"
-msgstr "Link kopiëren"
-
-#: assets/templates/bookmarks/components/sidebar.jet.html:13
-msgid "Errors occurred during extraction."
-msgstr "Er zijn fouten opgetreden tijdens het extraheren."
-
-#: assets/templates/bookmarks/components/sidebar.jet.html:19
-msgid ""
-"\n"
-"          Depending on the error, Readeck's browser extension may provide\n"
-"          a workaround."
-msgstr ""
-"\n"
-"          Readecks browserextensie kan - afhankelijk van de precieze foutmelding -\n"
-"          een tussenoplossing bieden."
-
-#: assets/templates/bookmarks/components/sidebar.jet.html:31
-msgid "View log"
-msgstr "Logboek bekijken"
-
-#: assets/templates/bookmarks/components/sidebar.jet.html:127
-msgid "Links"
-msgstr "Links"
-
-#: assets/templates/bookmarks/import/form-browser.jet.html:9
-msgid "Import your Browser's Bookmarks"
-msgstr "Bladwijzers uit webbrowser importeren"
-
-#: assets/templates/bookmarks/import/form-browser.jet.html:15
-msgid ""
-"\n"
-"    In your web browser, export your bookmarks as an HTML file.<br>\n"
-"    Upload this file in the form below and Readeck will create and fetch\n"
-"    every bookmark found it the file.\n"
-"  "
-msgstr ""
-"\n"
-"    Exporteer de bladwijzers van je webbrowser naar een html-bestand.<br>\n"
-"    Upload het bestand hieronder om Readeck alle bladwijzers uit\n"
-"    het bestand te laten importeren.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-browser.jet.html:22
-msgid "Instructions for Firefox"
-msgstr "Uitleg voor Firefox"
-
-#: assets/templates/bookmarks/import/form-browser.jet.html:23
-msgid "Instructions for Chrome"
-msgstr "Uitleg voor Chrome"
-
-#: assets/templates/bookmarks/import/form-browser.jet.html:33
-#: assets/templates/bookmarks/import/form-csv.jet.html:26
-#: assets/templates/bookmarks/import/form-goodlinks.jet.html:26
-#: assets/templates/bookmarks/import/form-linkwarden.jet.html:26
-#: assets/templates/bookmarks/import/form-pocket-file.jet.html:41
-#: assets/templates/bookmarks/import/form-readwise.jet.html:26
-#: assets/templates/bookmarks/import/form-text.jet.html:27
-#: assets/templates/profile/import.jet.html:24
-msgid "File"
-msgstr "Bestand"
-
-#: assets/templates/bookmarks/import/form-browser.jet.html:41
-msgid "Convert section titles to labels"
-msgstr "Sectietitels omzetten in labels"
-
-#: assets/templates/bookmarks/import/form-browser.jet.html:43
-msgid "Adds a label on links, based on their section title"
-msgstr "Kent een label aan links toe op basis van de sectietitel"
-
-#: assets/templates/bookmarks/import/form-browser.jet.html:47
-#: assets/templates/bookmarks/import/form-csv.jet.html:33
-#: assets/templates/bookmarks/import/form-goodlinks.jet.html:33
-#: assets/templates/bookmarks/import/form-linkwarden.jet.html:33
-#: assets/templates/bookmarks/import/form-omnivore.jet.html:42
-#: assets/templates/bookmarks/import/form-pocket-file.jet.html:49
-#: assets/templates/bookmarks/import/form-readwise.jet.html:33
-#: assets/templates/bookmarks/import/form-text.jet.html:34
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:68
-msgid "Import Bookmarks"
-msgstr "Bladwijzers importeren"
-
-# | msgid "Import Links from a Text File"
-#: assets/templates/bookmarks/import/form-csv.jet.html:9
-msgid "Import Links from a CSV File"
-msgstr "Links importeren uit csv-bestand"
-
-# | msgid "" "\n" "    Upload a CSV file from Instapaper or any CSV that
-# matches
-# | the format specified bellow.\n" "  "
-#: assets/templates/bookmarks/import/form-csv.jet.html:15
-msgid ""
-"\n"
-"    Upload a CSV file from Instapaper or any CSV that matches the format specified below.\n"
-"  "
-msgstr ""
-"\n"
-"    Upload een csv-bestand vanuit Instapaper of elders dat overeenkomt met onderstaande opmaak.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-csv.jet.html:40
-#, python-format
-msgid ""
-"\n"
-"    The uploaded file must contain a first row with the column names. Column names are case\n"
-"    insensitive and, except for <code>%s</code>, every column is optional.\n"
-"  "
-msgstr ""
-"\n"
-"    Het geüploade bestand dient over een eerste rij met kolomnamen te beschikken. Kolomnamen zijn\n"
-"    hoofdletterongevoelig en alle kolommen zijn optioneel, behalve <code>%s</code>.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-csv.jet.html:44
-msgid "Here are the columns you can set:"
-msgstr "Dit zijn de kolommen die je kunt gebruiken:"
-
-# | msgid "File"
-#: assets/templates/bookmarks/import/form-csv.jet.html:48
-msgid "Field"
-msgstr "Veld"
-
-# | msgid "Links"
-#: assets/templates/bookmarks/import/form-csv.jet.html:49
-msgid "Alias"
-msgstr "Alias"
-
-# | msgid "Email Address"
-#: assets/templates/bookmarks/import/form-csv.jet.html:57
-msgid "Link address"
-msgstr "Linkadres"
-
-# | msgid "Bookmark Labels"
-#: assets/templates/bookmarks/import/form-csv.jet.html:62
-msgid "Bookmark title"
-msgstr "Bladwijzertitel"
-
-#: assets/templates/bookmarks/import/form-csv.jet.html:67
-#, python-format
-msgid "Bookmark's archived state; only valid value is \"%s\""
-msgstr "De archiefstatus van de bladwijzer - enige geldige waarde: ‘%s’"
-
-#: assets/templates/bookmarks/import/form-csv.jet.html:72
-msgid "Creation date, can be a UNIX timestamp or an RFC-3339 formatted date"
-msgstr "De aanmaakdatum - dit kan een UNIX-tijdstempel of een met RFC-3339 opgemaakte datum zijn"
-
-#: assets/templates/bookmarks/import/form-csv.jet.html:77
-msgid "A JSON encoded list of labels"
-msgstr "Een json-lijst met labels"
-
-#: assets/templates/bookmarks/import/form-csv.jet.html:82
-msgid "Example"
-msgstr "Voorbeeld"
-
-#: assets/templates/bookmarks/import/form-goodlinks.jet.html:9
-msgid "Import Links from a GoodLinks export file"
-msgstr "Links importeren uit GoodLinks-bestand"
-
-#: assets/templates/bookmarks/import/form-goodlinks.jet.html:15
-msgid ""
-"\n"
-"    Upload a JSON file obtained from your GoodLinks app.\n"
-"  "
-msgstr ""
-"\n"
-"    Upload een door de GoodLinks-app samengesteld json-bestand.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-linkwarden.jet.html:9
-msgid "Import Bookmarks from a Linkwarden export file"
-msgstr "Bladwijzers importeren uit Linkwarden-bestand"
-
-#: assets/templates/bookmarks/import/form-linkwarden.jet.html:15
-msgid ""
-"\n"
-"    Upload a JSON file obtained from your Linkwarden app.\n"
-"  "
-msgstr ""
-"\n"
-"    Upload een door de Linkwarden-app samengesteld json-bestand.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-omnivore.jet.html:9
-#: assets/templates/bookmarks/import/index.jet.html:63
-msgid "Import your Omnivore Articles"
-msgstr "Omnivore-artikelen importeren"
-
-#: assets/templates/bookmarks/import/form-omnivore.jet.html:15
-msgid ""
-"\n"
-"    To import your articles from Omnivore, you must first create an API Key in your\n"
-"    Omnivore's settings and enter it in the the form below.\n"
-"  "
-msgstr ""
-"\n"
-"    Open Omnivore, ga naar de instellingen en maak een api-sleutel aan.\n"
-"    Voer de sleutel vervolgens in onderstaand vak in.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-omnivore.jet.html:27
-msgid "Omnivore URL"
-msgstr "Omnivore-url"
-
-#: assets/templates/bookmarks/import/form-omnivore.jet.html:29
-msgid "URL of your Omnivore homepage"
-msgstr "De url van je Omnivore-pagina"
-
-#: assets/templates/bookmarks/import/form-omnivore.jet.html:35
-msgid "API Key"
-msgstr "Api-sleutel"
-
-#: assets/templates/bookmarks/import/form-pocket-file.jet.html:9
-#: assets/templates/bookmarks/import/index.jet.html:70
-msgid "Import your Pocket Articles"
-msgstr "Pocket-artikelen importeren"
-
-#: assets/templates/bookmarks/import/form-pocket-file.jet.html:15
-msgid ""
-"\n"
-"    You can export your articles on Pocket by visiting:<br>\n"
-"    <a class=\"%[1]s\" href=\"%[2]s\">%[2]s</a>.\n"
-"  "
-msgstr ""
-"\n"
-"    Je kunt je artikelen op Pocket exporteren door naar het volgende adres te gaan:<br>\n"
-"    <a class=\"%[1]s\" href=\"%[2]s\">%[2]s</a>.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-pocket-file.jet.html:21
-msgid ""
-"\n"
-"    Upload this file in the form below and Readeck will fetch and save\n"
-"    every link found it the file.\n"
-"  "
-msgstr ""
-"\n"
-"    Upload het bestand hieronder om Readeck alle links uit het bestand\n"
-"    te laten importeren.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-pocket-file.jet.html:27
-msgid ""
-"\n"
-"    Please note that Pocket does not allow the article content to be exported.\n"
-"    This could lead to different results in Readeck than what you currently\n"
-"    see in Pocket.\n"
-"  "
-msgstr ""
-"\n"
-"    Let op: Pocket heeft geen ondersteuning voor het exporteren van artikelinhoud.\n"
-"    Hierdoor kunnen zoekresultaten in Readeck afwijken van die\n"
-"    van Pocket.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-pocket-file.jet.html:43
-msgid "Note: upload the ZIP file directly, not its contents"
-msgstr "Let op: upload het zipbestand, dus niet de inhoud daarvan"
-
-# | msgid "Import Links from a Text File"
-#: assets/templates/bookmarks/import/form-readwise.jet.html:9
-msgid "Import Links from Readwise Reader CSV export"
-msgstr "Links importeren uit Readwise Reader-csv-bestand"
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:15
-msgid ""
-"\n"
-"    Upload a CSV file exported from your Readwise Reader account below.\n"
-"  "
-msgstr ""
-"\n"
-"    Upload hieronder een csv-bestand uit Readwise Reader.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:38
-msgid "Which information is imported"
-msgstr "Welke informatie wordt geïmporteerd"
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:41
-msgid "Article title, URL, and when it was first saved,"
-msgstr "Artikelnaam, url en eerste keer opslaan,"
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:42
-msgid "The archived state of an article,"
-msgstr "Archiefstatus van een artikel,"
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:43
-#, python-format
-msgid "\"%s\" as Readeck labels,"
-msgstr "‘%s’ als Readeck-labels,"
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:44
-#, python-format
-msgid "When a document tag contains \"%s\", the bookmark will be added to Readeck Favorites."
-msgstr "Als een document het label ‘%s’ bevat, wordt de bladwijzer toegevoegd aan de Readeck-favorieten."
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:46
-msgid "What is not imported:"
-msgstr "Wat niet wordt geïmporteerd:"
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:48
-msgid "Article reading progress and seen status,"
-msgstr "Leesvoortgang en -status,"
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:49
-msgid "Articles forwarded to Readwise Reader by email,"
-msgstr "Artikelen die doorgestuurd zijn via e-mail,"
-
-#: assets/templates/bookmarks/import/form-readwise.jet.html:50
-msgid "Uploaded documents such as PDFs or EPUB."
-msgstr "Geüploade documenten, zoals pdf- en epub-bestanden."
-
-#: assets/templates/bookmarks/import/form-text.jet.html:9
-#: assets/templates/bookmarks/import/index.jet.html:84
-msgid "Import Links from a Text File"
-msgstr "Links importeren uit tekstbestand"
-
-#: assets/templates/bookmarks/import/form-text.jet.html:15
-msgid ""
-"\n"
-"    Upload a text file that contains one link per line and Readeck will fetch\n"
-"    all of them and save them in your bookmark list.\n"
-"  "
-msgstr ""
-"\n"
-"    Upload een tekstbestand met één link per regel om Readeck alle links\n"
-"    uit het bestand te laten importeren naar je bladwijzerlijst.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:9
-#: assets/templates/bookmarks/import/index.jet.html:91
-msgid "Import your Wallabag Articles"
-msgstr "Wallabag-artikelen importeren"
-
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:15
-msgid ""
-"\n"
-"    To import your articles from Wallabag, you must first create an API client\n"
-"    in Wallabag's <strong>API clients management</strong> menu. This will give you\n"
-"    a <strong>Client ID</strong> and <strong>Client secret</strong>.\n"
-"  "
-msgstr ""
-"\n"
-"    Voor het importeren van Wallabag-artikelen is een api-client vereist.\n"
-"    Deze kan worden aangemaakt via het Wallabag-menuitem <strong>API clients management</strong>.\n"
-"    Dit hulpmiddel geeft een  <strong>Client ID</strong> en <strong>Client secret</strong>.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:21
-msgid ""
-"\n"
-"    You can then enter all the necessary information in the form below.\n"
-"  "
-msgstr ""
-"\n"
-"    Voer nadien alle benodigde informatie hieronder in.\n"
-"  "
-
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:32
-msgid "Wallabag URL"
-msgstr "Wallabag-url"
-
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:34
-msgid "URL of your Wallabag homepage"
-msgstr "Url van je Wallabag-site"
-
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:54
-msgid "Client ID"
-msgstr "Client-id"
-
-#: assets/templates/bookmarks/import/form-wallabag.jet.html:61
-msgid "Client Secret"
-msgstr "Clientgeheim"
-
-#: assets/templates/bookmarks/import/index.jet.html:9
-msgid "Import your Bookmarks"
-msgstr "Bladwijzers importeren"
-
-#: assets/templates/bookmarks/import/index.jet.html:25
-msgid ""
-"\n"
-"    Here you can import your existing bookmark collection from various sources into Readeck.\n"
-"  "
-msgstr ""
-"\n"
-"    Hier kun je je bladwijzers vanuit verschillende diensten importeren naar Readeck.\n"
-"  "
-
-#: assets/templates/bookmarks/import/index.jet.html:34
-#: assets/templates/profile/export.jet.html:35
-#: internal/bookmarks/importer/browser.go:51
-msgid "Browser Bookmarks"
-msgstr "Browserbladwijzers"
-
-#: assets/templates/bookmarks/import/index.jet.html:35
-msgid "Import your Browser's Bookmarks, Pinboard, Instapaper"
-msgstr "Importeer de bladwijzers van je webbrowser, Pinboard of Instapaper"
-
-# | msgid "File"
-#: assets/templates/bookmarks/import/index.jet.html:41
-#: assets/templates/profile/export.jet.html:43
-#: internal/bookmarks/importer/csv.go:55
-msgid "CSV File"
-msgstr "Csv-bestand"
-
-# | msgid "Import Links from a Text File"
-#: assets/templates/bookmarks/import/index.jet.html:42
-msgid "Import Links from a CSV File and Instapaper"
-msgstr "Links importeren uit csv-bestand en Instapaper"
-
-#: assets/templates/bookmarks/import/index.jet.html:49
-msgid "Import your GoodLinks Articles"
-msgstr "Importeer je GoodLinks-artikelen"
-
-#: assets/templates/bookmarks/import/index.jet.html:56
-msgid "Import your Linkwarden Bookmarks"
-msgstr "Linkwarden-bladwijzers importeren"
-
-#: assets/templates/bookmarks/import/index.jet.html:77
-msgid "Import your Readwise Reader Library"
-msgstr "Readwise Reader-bibliotheek importeren"
-
-#: assets/templates/bookmarks/import/index.jet.html:83
-#: internal/bookmarks/importer/text.go:24
-msgid "Text File"
-msgstr "Tekstbestand"
-
-#: assets/templates/bookmarks/import/options.jet.html:7
-msgid "Options"
-msgstr "Opties"
-
-#: assets/templates/bookmarks/import/options.jet.html:12
-msgid "A label to add to all imported bookmarks"
-msgstr "Label voor alle geïmporteerde bladwijzers"
-
-#: assets/templates/bookmarks/import/options.jet.html:16
-msgid "Ignore links already in your bookmarks"
-msgstr "Reeds toegevoegde links negeren"
-
-# | msgid "Archived Bookmarks"
-#: assets/templates/bookmarks/import/options.jet.html:21
-msgid "Archive all links"
-msgstr "Alle links archiveren"
-
-#: assets/templates/bookmarks/import/options.jet.html:23
-msgid "Moves all links to archive, regardless of their original status"
-msgstr "Archiveer alle links, ongeacht de status"
-
-# | msgid "Mark as read"
-#: assets/templates/bookmarks/import/options.jet.html:27
-msgid "Mark all links as read"
-msgstr "Alle links markeren als gelezen"
-
-#: assets/templates/bookmarks/import/options.jet.html:29
-msgid "Marks all links as read, regardless of their original status"
-msgstr "Markeer alle links als gelezen, ongeacht de status"
-
-#: assets/templates/bookmarks/import/progress.jet.html:15
-msgid "Import operation will launch momentarily."
-msgstr "Het importeren begint zo spoedig mogelijk."
-
-#: assets/templates/bookmarks/import/progress.jet.html:17
-msgid "Import operation has started!"
-msgstr "Het importeren is begonnen!"
-
-#: assets/templates/bookmarks/import/progress.jet.html:21
-msgid "You can keep using Readeck while the import is running."
-msgstr "Je kunt Readeck tijdens het importeren gewoon blijven gebruiken."
-
-#: assets/templates/bookmarks/import/progress.jet.html:24
-msgid "Import is finished!"
-msgstr "Het importeren is voltooid!"
-
-#: assets/templates/bookmarks/import/progress.jet.html:25
-#, python-format
-msgid ""
-"\n"
-"      Your bookmarks are now available in your <a class=\"%s\" href=\"%s\">bookmark list</a>.\n"
-"      "
-msgstr ""
-"\n"
-"      De bladwijzers zijn toegevoegd aan je <a class=\"%s\" href=\"%s\">bladwijzerlijst</a>.\n"
-"      "
-
-# | msgid "Bookmark Labels"
-#: assets/templates/bookmarks/index.jet.html:1
-msgid "Bookmark filters"
-msgstr "Bladwijzers filteren"
-
-#: assets/templates/bookmarks/index.jet.html:32
-msgid "Save a new link"
-msgstr "Link bewaren"
-
-#: assets/templates/bookmarks/index.jet.html:44
-msgctxt "button"
-msgid "Save link"
-msgstr "Link bewaren"
-
-#: assets/templates/bookmarks/index.jet.html:53
-msgid "\"%[1]s\" is not a valid address. Did you mean to search your bookmarks for %[2]s?"
-msgstr "\"%[1]s\" is geen geldig adres. Wilt u in uw bladwijzers zoeken naar %[2]s?"
-
-#: assets/templates/bookmarks/index.jet.html:77
-msgid "You don't have any bookmarks yet.<br> Copy a link in the field above and start saving."
-msgstr "Je hebt nog geen bladwijzers.<br>Plak een link in bovenstaand veld om te beginnen."
-
-#: assets/templates/bookmarks/index.jet.html:79
-#, python-format
-msgid "Read more about bookmarks in the <a class=\"%s\" href=\"%s\">documentation</a>."
-msgstr "Meer informatie is te vinden in de <a class=\"%s\" href=\"%s\">documentatie</a>."
-
-# | msgid "Readeck Bookmark Collections"
-#: assets/templates/bookmarks/index.jet.html:89
-msgid "Readeck Browser Extension"
-msgstr "Readeck-browserextensie"
-
-# | msgid "Import bookmarks"
-#: assets/templates/bookmarks/index.jet.html:105
-msgid "Import existing bookmarks"
-msgstr "Bladwijzers importeren"
-
-# | msgid "" "\n" "          Would you like to import from a similar tool or
-# | from a file with existing bookmarks?\n" "          Try Readeck's import
-# | tool.\n" "        "
-#: assets/templates/bookmarks/index.jet.html:107
-msgid ""
-"\n"
-"              Would you like to import from a similar tool or from a file with existing bookmarks?\n"
-"              Try Readeck's import tool.\n"
-"            "
-msgstr ""
-"\n"
-"              Wil je bladwijzers importeren uit een vergelijkbare dienst of een bestand?\n"
-"          Maak dan gebruik van Readecks importhulpmiddel.\n"
-"            "
-
-#: assets/templates/bookmarks/index.jet.html:114
-msgid "Import links and articles"
-msgstr "Links en artikelen importeren"
-
-#: assets/templates/bookmarks/index.jet.html:141
-msgid "Import bookmarks"
-msgstr "Bladwijzers importeren"
-
-#: assets/templates/bookmarks/index.jet.html:150
-msgid "Your search query yielded <strong>no results</strong>."
-msgstr "Er zijn geen <strong>zoekresultaten</strong>."
-
-#: assets/templates/bookmarks/index.jet.html:152
-#, python-format
-msgid "Your search query yielded <strong>%d result</strong>."
-msgid_plural "Your search query yielded <strong>%d results</strong>."
-msgstr[0] "Er is <strong>%d zoekresultaat</strong>."
-msgstr[1] "Er zijn <strong>%d zoekresultaten</strong>."
-
-#: assets/templates/bookmarks/index.jet.html:183
-msgctxt "action"
-msgid "Search"
-msgstr "Zoeken"
-
-#: assets/templates/bookmarks/index.jet.html:185
-msgid "Reset search"
-msgstr "Zoekopdracht wissen"
-
-#: assets/templates/bookmarks/index.jet.html:188
-msgid "Create a collection"
-msgstr "Verzameling aanmaken"
-
-#: assets/templates/bookmarks/label.jet.html:56
-msgid "Label will be removed in a few seconds."
-msgstr "Het label wordt over enkele seconden verwijderd."
-
-#: assets/templates/bookmarks/labels.jet.html:8
-msgid "Bookmark Labels"
-msgstr "Bladwijzerlabels"
-
-#: assets/templates/bookmarks/labels.jet.html:14
-msgid ""
-"\n"
-"  Labels let your organize your bookmarks the way you want.\n"
-"  You can set anything to a label, including emojis!\n"
-msgstr ""
-"\n"
-"  Je kunt je bladwijzers ordenen met behulp van labels.\n"
-"  Alles kan een label zijn, zelfs emoji's!\n"
-
-#: assets/templates/docs/about.jet.html:20
-#: assets/templates/docs/base.jet.html:27 docs/http.go:270
-msgid "About Readeck"
-msgstr "Over Readeck"
-
-#: assets/templates/docs/about.jet.html:26
-msgid "Version:"
-msgstr "Versie:"
-
-#: assets/templates/docs/about.jet.html:27
-msgid "Built Date:"
-msgstr "Bouwdatum:"
-
-#: assets/templates/docs/about.jet.html:30
-msgid "System Information"
-msgstr "Systeeminformatie"
-
-#: assets/templates/docs/about.jet.html:33
-msgid "Here are your current system information. Please include them if you report a bug."
-msgstr "Hier vind je de systeeminformatie. Stuur deze mee bij het melden van een bug."
-
-#: assets/templates/docs/about.jet.html:42
-msgid "Storage"
-msgstr "Opslag"
-
-#: assets/templates/docs/about.jet.html:46
-msgid "Database Size:"
-msgstr "Databasegrootte:"
-
-#: assets/templates/docs/about.jet.html:50
-msgid "Bookmarks Disk Usage:"
-msgstr "Bladwijzers Schijfgebruik:"
-
-#: assets/templates/docs/about.jet.html:56
-msgid "Project"
-msgstr "Project"
-
-#: assets/templates/docs/about.jet.html:59
-msgid "Main website:"
-msgstr "Officiële website:"
-
-#: assets/templates/docs/about.jet.html:60
-msgid "Sources and issues:"
-msgstr "Broncode en problemen:"
-
-#: assets/templates/docs/about.jet.html:61
-msgid "How to contribute:"
-msgstr "Hoe kunt u bijdragen:"
-
-#: assets/templates/docs/about.jet.html:62
-msgid "Community Forum:"
-msgstr "Gemeenschapsforum:"
-
-#: assets/templates/docs/about.jet.html:63
-msgid "Matrix Chat:"
-msgstr "Matrix-chat:"
-
-#: assets/templates/docs/about.jet.html:66
-msgid "License"
-msgstr "Licentie"
-
-#: assets/templates/docs/about.jet.html:68
-#, python-format
-msgid "Readeck is distributed under the terms of the license \"%s\""
-msgstr "Readeck wordt verspreid onder de voorwaarden van de %s-licentie"
-
-#: assets/templates/docs/about.jet.html:72
-msgid "Here's a short summary of the license conditions:"
-msgstr "Hieronder vind je een korte samenvatting van de voorwaarden:"
-
-#: assets/templates/docs/about.jet.html:77
-#: assets/templates/profile/app_list.jet.html:51
-msgid "Permissions"
-msgstr "Rechten"
-
-#: assets/templates/docs/about.jet.html:78
-msgid "Conditions"
-msgstr "Voorwaarden"
-
-#: assets/templates/docs/about.jet.html:79
-msgid "Limitations"
-msgstr "Beperkingen"
-
-#: assets/templates/docs/about.jet.html:87
-msgid "Commercial use"
-msgstr "Commercieel gebruik"
-
-#: assets/templates/docs/about.jet.html:90
-msgid "Distribution"
-msgstr "Verspreiding"
-
-#: assets/templates/docs/about.jet.html:93
-msgid "Modification"
-msgstr "Aanpassing"
-
-#: assets/templates/docs/about.jet.html:96
-msgid "Patent use"
-msgstr "Patentgebruik"
-
-#: assets/templates/docs/about.jet.html:99
-msgid "Private use"
-msgstr "Privégebruik"
-
-#: assets/templates/docs/about.jet.html:106
-msgid "Disclose source"
-msgstr "Bron benoemen"
-
-#: assets/templates/docs/about.jet.html:109
-msgid "License and copyright notice"
-msgstr "Licentie- en auteursrechtvermelding"
-
-#: assets/templates/docs/about.jet.html:112
-msgid "Network use is distribution"
-msgstr "Netwerkgebruik is verspreiding"
-
-#: assets/templates/docs/about.jet.html:115
-msgid "Same license"
-msgstr "Dezelfde licentie"
-
-#: assets/templates/docs/about.jet.html:118
-msgid "State changes"
-msgstr "Statuswijzigingen"
-
-#: assets/templates/docs/about.jet.html:125
-msgid "Liability"
-msgstr "Aansprakelijkheid"
-
-#: assets/templates/docs/about.jet.html:128
-msgid "Warranty"
-msgstr "Garantie"
-
-#: assets/templates/docs/about.jet.html:155
-msgid "Third-Party Licenses"
-msgstr "Licenties van externe partijen"
-
-#: assets/templates/docs/about.jet.html:157
-msgid "Readeck includes and/or uses the following open source assets:"
-msgstr "Readeck bevat en/of maakt gebruik van de volgende opensourceitems:"
-
-#: assets/templates/docs/api-docs.jet.html:8
-#: assets/templates/docs/base.jet.html:21
-msgid "API Documentation"
-msgstr "Api-documentatie"
-
-#: assets/templates/docs/base.jet.html:9
-msgid "Readeck Help"
-msgstr "Hulp"
-
-#: assets/templates/docs/base.jet.html:28
-msgid "Changelog"
-msgstr "Wijzigingslog"
-
-#: assets/templates/emails/bookmark_epub.jet.md:6
-#, python-format
-msgid ""
-"\n"
-"Hi,\n"
-"\n"
-"Here is your ebook for: **%s**\n"
-msgstr ""
-"\n"
-"Hoi,\n"
-"\n"
-"Hier is je e-boek van: **%s**\n"
-
-#: assets/templates/emails/recover.jet.md:7
+#: internal/auth/signin/forms.go:19
+msgid "Invalid user and/or password"
+msgstr "Ongeldige gebruikersnaam en/of wachtwoord"
+
+#: internal/auth/signin/http.go:185 internal/profile/forms.go:228
+msgid "Invalid code"
+msgstr "Ongeldig code"
+
+#: internal/auth/signin/recover.go:257
 msgid ""
 "\n"
 "Hi,\n"
@@ -1991,7 +532,7 @@ msgstr ""
 "\n"
 "%[2]s\n"
 
-#: assets/templates/emails/recover.jet.md:19
+#: internal/auth/signin/recover.go:271
 msgid ""
 "\n"
 "Hi,\n"
@@ -2023,783 +564,2374 @@ msgstr ""
 "\n"
 "Als je geen gebruikmaakt van Readeck, kunt u dit bericht negeren.\n"
 
-#: assets/templates/epub/bookmark.jet.html:62
-msgid "Notes"
-msgstr "Notities"
+#: internal/auth/signin/x-auth.templ:21
+msgid "Or continue with"
+msgstr "Of ga door met"
 
-#: assets/templates/error.jet.html:8
-msgid "Error"
-msgstr "Foutmelding"
+#: internal/auth/signin/x-auth.templ:41 internal/auth/signin/x-auth.templ:68
+msgid "Sign in"
+msgstr "Inloggen"
 
-#: assets/templates/error.jet.html:22
-msgid "Permission denied."
-msgstr "De toegang is geweigerd."
+#: internal/auth/signin/x-auth.templ:42
+msgid "Sign in to Readeck"
+msgstr "Inloggen op Readeck"
 
-#: assets/templates/error.jet.html:24
-msgid "Page not found."
-msgstr "De pagina kan niet worden gevonden."
+#: internal/auth/signin/x-auth.templ:52
+msgid "Username or email address"
+msgstr "Gebruikersnaam of e-mailadres"
 
-#: assets/templates/error.jet.html:26
-msgid "An error occurred."
-msgstr "Er is een fout opgetreden."
+#: internal/auth/signin/x-auth.templ:73
+msgid "Forgot your password?"
+msgstr "Wachtwoord vergeten?"
 
-#: assets/templates/menu.jet.html:10
-msgid "Open menu"
-msgstr "Menu openen"
+#: internal/auth/signin/x-auth.templ:84
+msgid "Two-factor authentication"
+msgstr "Tweefactorauthenticatie"
 
-#: assets/templates/menu.jet.html:33
-msgid "Change color theme"
-msgstr "Kleurenschema wĳzigen"
+#: internal/auth/signin/x-auth.templ:91
+msgid "Passcode"
+msgstr "Wachtwoord"
 
-#: assets/templates/menu.jet.html:40 assets/templates/profile/base.jet.html:11
-msgid "Settings"
-msgstr "Instellingen"
+#: internal/auth/signin/x-auth.templ:102
+msgid "Verify"
+msgstr "Verifiëren"
 
-#: assets/templates/profile/app_list.jet.html:10
-#: assets/templates/profile/base.jet.html:23 internal/profile/views.go:244
-msgid "Applications"
-msgstr "Applicaties"
+#: internal/auth/signin/x-auth.templ:108 internal/auth/signin/x-auth.templ:144
+#: internal/auth/signin/x-auth.templ:177
+msgid "Cancel and go back to sign in"
+msgstr "Annuleren en terug naar inlogpagina"
 
-#: assets/templates/profile/app_list.jet.html:16
+#: internal/auth/signin/x-auth.templ:117
+msgid "Password recovery"
+msgstr "Wachtwoordherstel"
+
+#: internal/auth/signin/x-auth.templ:127
+msgid "No worries, it happens to anyone."
+msgstr "Geen zorgen: dit kan een ieder overkomen."
+
+#: internal/auth/signin/x-auth.templ:129
 msgid ""
 "\n"
-"  Applications are registered clients that have permissions to access your Readeck account.\n"
-"  If there are applications you do not recognize here, or an application is misbehaving,\n"
-"  you can revoke its access.\n"
+"\t\t\t\t\t\t\tPlease provide the email address you used to create\n"
+"\t\t\t\t\t\t\tyour account and we'll send you a message with a link\n"
+"\t\t\t\t\t\t\tto recover your password.\n"
+"\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"  Applicaties zijn geregistreerde clients die toegang hebben tot uw Readeck account.\n"
-"  Als er applicaties zijn die u hier niet herkent, of als een applicatie zich misdraagt,\n"
-"  kunt u de toegang intrekken.\n"
+"\t\t\t\t\t\t\tVul het e-mailadres in dat je hebt gebruikt om je\n"
+"\t\t\t\t\t\t\taccount aan te maken en we sturen je een bericht met een link \n"
+"\t\t\t\t\t\t\tom je wachtwoord te herstellen.\n"
+"\t\t\t\t\t\t"
 
-#: assets/templates/profile/app_list.jet.html:24
-msgid "You have no registered application at the moment."
-msgstr "U heeft momenteel geen geregistreerde applicaties."
+#: internal/auth/signin/x-auth.templ:140
+msgid "Send me a recovery link"
+msgstr "Herstellink versturen"
 
-#: assets/templates/profile/app_list.jet.html:46
+#: internal/auth/signin/x-auth.templ:150
+msgid "Almost there!"
+msgstr "Bijna klaar!"
+
+#: internal/auth/signin/x-auth.templ:152
 #, python-format
-msgid "Authorized on: %s"
-msgstr "Geautoriseerd op: %s"
+msgid "We have sent an email to <strong>%s</strong> with further instructions."
+msgstr "We hebben een e-mail naar <strong>%s</strong> gestuurd met verdere instructies."
 
-#: assets/templates/profile/app_list.jet.html:48
-#: assets/templates/profile/token_list.jet.html:50
-#, python-format
-msgid "Last used on: %s"
-msgstr "Laatst gebruikt op %s"
+#: internal/auth/signin/x-auth.templ:168 internal/profile/x-security.templ:33
+msgid "New password"
+msgstr "Nieuw wachtwoord"
 
-#: assets/templates/profile/app_list.jet.html:60
-msgid "This client will be revoked in a few seconds."
-msgstr "De autorisatie van deze client wordt binnen enkele seconden ingetrokken."
+#: internal/auth/signin/x-auth.templ:173
+msgid "Update your password"
+msgstr "Wachtwoord bijwerken"
 
-#: assets/templates/profile/app_list.jet.html:74
-msgid "Revoke application"
-msgstr "Autorisatie intrekken"
+#: internal/auth/signin/x-auth.templ:184
+msgid "Your password has been changed."
+msgstr "Je wachtwoord is gewijzigd."
 
-#: assets/templates/profile/app_list.jet.html:87
-msgid "Developer information"
-msgstr "Informatie voor ontwikkelaars"
+#: internal/auth/signin/x-auth.templ:187
+msgid "Go to the sign in page"
+msgstr "Ga naar inlogpagina"
 
-#: assets/templates/profile/app_list.jet.html:88
-#, python-format
-msgid ""
-"\n"
-"    If you plan to build an application, please refer to the\n"
-"    <a href=\"%s\">API Documentation</a>.\n"
-"  "
-msgstr ""
-"\n"
-"    Als u van plan bent om een applicatie te bouwen, raadpleeg dan de\n"
-"    <a href=\"%s\">API Documentatie</a>.\n"
-"  "
+#: internal/auth/users/forms.go:18
+msgid "username is not valid"
+msgstr "gebruikersnaam is niet geldig"
 
-#: assets/templates/profile/base.jet.html:16 internal/profile/views.go:97
-#: internal/profile/views.go:113 internal/profile/views.go:167
-#: internal/profile/views.go:243 internal/profile/views.go:259
-#: internal/profile/views.go:319 internal/profile/views.go:370
-#: internal/profile/views.go:401
-msgid "Profile"
-msgstr "Profiel"
+#: internal/auth/users/forms.go:19
+msgid "username is not available"
+msgstr "gebruikersnaam is niet beschikbaar"
 
-#: assets/templates/profile/base.jet.html:19
-#: assets/templates/profile/password.jet.html:9 internal/profile/views.go:114
-#: internal/profile/views.go:168
-msgid "Security"
-msgstr "Beveiliging"
+#: internal/auth/users/forms.go:34
+msgid "password must be at least 8 characters long"
+msgstr "moet minimaal 8 tekens bevatten"
 
-#: assets/templates/profile/base.jet.html:26 internal/profile/views.go:260
-#: internal/profile/views.go:320
-msgid "API Tokens"
-msgstr "Api-toegangssleutels"
-
-#: assets/templates/profile/base.jet.html:34
-#: assets/templates/profile/export.jet.html:10 internal/profile/views.go:371
-msgid "Export"
-msgstr "Exporteren"
-
-#: assets/templates/profile/base.jet.html:37
-#: assets/templates/profile/import.jet.html:9
-#: assets/templates/profile/import.jet.html:44
-#: internal/bookmarks/routes/views_import.go:29
-#: internal/bookmarks/routes/views_import.go:38
-#: internal/bookmarks/routes/views_import.go:69 internal/profile/views.go:402
-msgid "Import"
-msgstr "Importeren"
-
-#: assets/templates/profile/export.jet.html:15
-msgid "Export your Readeck Profile"
-msgstr "Exorteer je Readeck-profiel"
-
-#: assets/templates/profile/export.jet.html:19
-msgid ""
-"\n"
-"    This lets you download a zip file containing all your profile's data, including\n"
-"    bookmarks, collections, etc.\n"
-"    "
-msgstr ""
-"\n"
-"    Hiermee kun je een zipbestand downloaden, met daarin al je profielgegevens, zoals\n"
-"    bladwijzers, verzamelingen, etc.\n"
-"    "
-
-#: assets/templates/profile/export.jet.html:24
-msgid "Export Data"
-msgstr "Gegevens exporteren"
-
-#: assets/templates/profile/export.jet.html:36
-msgid "Bookmark List in Browser Bookmarks Format"
-msgstr "Bladwijzerlijst in browser-bestandsformaat"
-
-#: assets/templates/profile/export.jet.html:44
-msgid "Bookmark List as Comma Separated Values"
-msgstr "Kommagescheiden bladwijzerlijst"
-
-#: assets/templates/profile/export.jet.html:49
-msgid "Export Bookmarks"
-msgstr "Bladwijzers exporteren"
-
-#: assets/templates/profile/export.jet.html:51
-msgid "You can export your bookmark list in the following formats:"
-msgstr "Je kunt je bladwijzerlijst exporteren naar de volgende indelingen:"
-
-#: assets/templates/profile/import.jet.html:14
-msgid "Import a Readeck Profile"
-msgstr "Readeck-profiel importeren"
-
-#: assets/templates/profile/import.jet.html:16
-msgid "Import a file obtained through a previous profile export."
-msgstr "Importeer een bestand uit een eerdere export."
-
-#: assets/templates/profile/import.jet.html:30
-msgid "Confirm your user name"
-msgstr "Gebruikersnaam bevestigen"
-
-#: assets/templates/profile/import.jet.html:35
-msgid "Attention"
-msgstr "Let op"
-
-#: assets/templates/profile/import.jet.html:37
-msgid ""
-"\n"
-"      This will empty your current profile and all its data will be\n"
-"      replaced with the file's content.\n"
-"      "
-msgstr ""
-"\n"
-"      Hierdoor wordt je huidige profiel overschreven door de gegevens\n"
-"      uit het bestand.\n"
-"      "
-
-#: assets/templates/profile/import.jet.html:49
-msgid "Import bookmarks from other services"
-msgstr "Bladwijzers van andere diensten importeren"
-
-#: assets/templates/profile/import.jet.html:52
-#, python-format
-msgid ""
-"\n"
-"  If you have bookmarks from another service you can import them in the\n"
-"  <a href=\"%s\">dedicated section</a>.\n"
-"  "
-msgstr ""
-"\n"
-"  Als je over bladwijzers op een andere dienst beschikt, dan kun je ze importeren in de\n"
-"  <a href=\"%s\">daarvoor bestemde sectie</a>.\n"
-"  "
-
-#: assets/templates/profile/index.jet.html:9
-msgid "My profile"
-msgstr "Mijn profiel"
-
-#: assets/templates/profile/index.jet.html:17
-#, python-format
-msgid "You are connected as <strong>%s</strong>"
-msgstr "U bent verbonden als <strong>%s</strong>"
-
-#: assets/templates/profile/index.jet.html:19
-msgid "Sign out"
-msgstr "Uitloggen"
-
-# | msgid "Settings"
-#: assets/templates/profile/index.jet.html:29
-msgid "Base settings"
-msgstr "Algemene instellingen"
-
-#: assets/templates/profile/index.jet.html:41
-msgid "Email Address"
-msgstr "E-mailadres"
-
-# | msgid "Settings"
-#: assets/templates/profile/index.jet.html:66
-msgid "Email settings"
-msgstr "E-mailinstellingen"
-
-#: assets/templates/profile/index.jet.html:67
-msgid ""
-"\n"
-"    These, optional, parameters are used when Readeck sends emails.\n"
-"    "
-msgstr ""
-"\n"
-"    Deze optionele opties worden gebruikt bij het versturen van e-mails.\n"
-"    "
-
-#: assets/templates/profile/index.jet.html:73
-msgid "Reply To"
-msgstr "Antwoordadres"
-
-#: assets/templates/profile/index.jet.html:74
-msgid "Add this email address in your outgoing emails so recipients can reply."
-msgstr "Naar dit e-mailadres kunnen gebruikers antwoorden versturen."
-
-#: assets/templates/profile/index.jet.html:79
-msgid "Send EPUB to"
-msgstr "Epub versturen naar"
-
-#: assets/templates/profile/index.jet.html:80
-msgid "This address is used to prefill the recipient when you send an e-book by email."
-msgstr "Dit adres wordt gebruikt als ontvanger van het e-boek."
-
-#: assets/templates/profile/index.jet.html:87
-msgid "Sending e-books to an Amazon Kindle"
-msgstr "E-books verzenden naar een Amazon Kindle"
-
-#: assets/templates/profile/index.jet.html:88
-msgid ""
-"\n"
-"          If you plan to send e-books to a Kindle device, you must approve the\n"
-"          following email address within your Kindle Account:\n"
-"          "
-msgstr ""
-"\n"
-"          Als je van plan bent om e-boeken naar een Kindle-apparaat te versturen,\n"
-"        dan moet je eerst dit e-mailadres bevestigen via je Kindle-account:\n"
-"          "
-
-#: assets/templates/profile/password.jet.html:19
-msgid "Change my password"
-msgstr "Wachtwoord wĳzigen"
-
-#: assets/templates/profile/password.jet.html:23
-msgid "Current password"
-msgstr "Huidig wachtwoord"
-
-#: assets/templates/profile/password.jet.html:46
-msgid "Verification Code (TOTP)"
-msgstr "Verificatiecode (TOTP)"
-
-#: assets/templates/profile/password.jet.html:47
-msgid "A verification code is a one time code generated by an application, such as Google Authenticator."
-msgstr "Een verificatiecode is een eenmalige code die wordt gegenereerd door een applicatie, zoals Google Authenticator."
-
-#: assets/templates/profile/password.jet.html:52
-msgid "The verification code is enabled on this account."
-msgstr "De verificatiecode is ingeschakeld voor dit account."
-
-#: assets/templates/profile/password.jet.html:57
-msgid "Remove Verification Code"
-msgstr "Verificatiecode verwijderen"
-
-#: assets/templates/profile/password.jet.html:59
-msgid "Removing your verification code will make your account less secure."
-msgstr "Als u uw verificatiecode verwijdert, wordt uw account minder veilig."
-
-#: assets/templates/profile/password.jet.html:64
-msgid "Remove"
-msgstr "Verwijderen"
-
-#: assets/templates/profile/password.jet.html:70
-#: assets/templates/profile/totp.jet.html:9
-msgid "Setup Verification Code"
-msgstr "Verificatiecode instellen"
-
-# | msgid "API Token"
-#: assets/templates/profile/token.jet.html:1
-msgid "copy token"
-msgstr "Toegangssleutel kopiëren"
-
-#: assets/templates/profile/token.jet.html:1
-msgid "copy HTTP header"
-msgstr "Http-kop kopiëren"
-
-#: assets/templates/profile/token.jet.html:9
-msgid "API Token"
-msgstr "Api-toegangssleutel"
-
-#: assets/templates/profile/token.jet.html:18
-msgid "Token will be removed in a few seconds."
-msgstr "De toegangssleutel wordt over enkele seconden gewist."
-
-#: assets/templates/profile/token.jet.html:24
-msgid "Properties"
-msgstr "Eigenschappen"
-
-#: assets/templates/profile/token.jet.html:30
-msgid "Token ID"
-msgstr "Toegangssleutel"
-
-#: assets/templates/profile/token.jet.html:35
-msgid "Last used"
-msgstr "Laatst gebruikt"
-
-#: assets/templates/profile/token.jet.html:36
-msgid "never used"
-msgstr "nooit gebruikt"
-
-#: assets/templates/profile/token.jet.html:48
-msgid "Enabled"
-msgstr "Ingeschakeld"
-
-#: assets/templates/profile/token.jet.html:54
-msgid "Expires on"
-msgstr "Vervalt op"
-
-#: assets/templates/profile/token.jet.html:60
-msgid ""
-"\n"
-"    You can limit the permissions granted to this token by choosing one or more\n"
-"    group of permissions below.<br>\n"
-"    Leave all the choices blank to grant all your permissions to this token.\n"
-"  "
-msgstr ""
-"\n"
-"    Met behulp van onderstaande opties kun je beperkingen op deze toegangssleutel\n"
-"    instellen.<br>\n"
-"    Als je niets instelt, worden alle rechten toegekend.\n"
-"  "
-
-#: assets/templates/profile/token.jet.html:68
-msgid "Roles"
-msgstr "Functies"
-
-#: assets/templates/profile/token.jet.html:76
-msgid "Delete token"
-msgstr "Toegangssleutel wissen"
-
-#: assets/templates/profile/token.jet.html:81
-msgid "Authentication"
-msgstr "Verificatie"
-
-#: assets/templates/profile/token.jet.html:84
-msgid "Your API token"
-msgstr "Mijn api-sleutel"
-
-#: assets/templates/profile/token.jet.html:97
-msgid "Download as a text file"
-msgstr "Downloaden als tekstbestand"
-
-#: assets/templates/profile/token.jet.html:101
-msgid "How to use it"
-msgstr "Hoe te gebruiken"
-
-#: assets/templates/profile/token.jet.html:103
-msgid "As a Bearer Token"
-msgstr "Als sleutelhouder"
-
-#: assets/templates/profile/token.jet.html:105
-msgid "You can use this token by passing it as an <strong>Authorization: Bearer</strong> HTTP header."
-msgstr "Je kunt deze toegangssleutel gebruiken met behulp van de http-kop <strong>Authorization: Bearer</strong>."
-
-#: assets/templates/profile/token.jet.html:107
-msgid "HTTP Header"
-msgstr "Http-kop"
-
-#: assets/templates/profile/token.jet.html:118
-msgid "As a password"
-msgstr "Als wachtwoord"
-
-#: assets/templates/profile/token.jet.html:120
-msgid "Alternatively, you can use this token as a password for HTTP Basic Authentication."
-msgstr "Ook kun je deze sleutel als wachtwoord gebruiken i.c.m. HTTP Basic Authentication."
-
-#: assets/templates/profile/token.jet.html:121
-msgid ""
-"For example, if an application only accepts a username and password, you can provide this token as a password.\n"
-"  The username is ignored and can be anything, including an empty value."
-msgstr ""
-"Voorbeeld: als een app alleen een gebruikersnaam en wachtwoord accepteert, kun je deze sleutel als wachtwoord gebruiken.\n"
-"  De gebruikersnaam wordt genegeerd en kan van alles zijn, zelfs een lege."
-
-#: assets/templates/profile/token_list.jet.html:10
-msgid "My API Tokens"
-msgstr "Mijn api-sleutels"
-
-#: assets/templates/profile/token_list.jet.html:16
-msgid "An API Token is a key that grants you access to the Readeck API."
-msgstr "Een API Token is een sleutel die u toegang geeft tot de Readeck API."
-
-#: assets/templates/profile/token_list.jet.html:17
-#, python-format
-msgid "Please read the <a href=\"%s\">API Documentation</a> if you plan to use it."
-msgstr "Neem de <a href=\"%s\">api-documentatie</a> door als je hiervan gebruik wilt maken."
-
-#: assets/templates/profile/token_list.jet.html:22
-msgid "Create a new API token"
-msgstr "Api-sleutel genereren"
-
-#: assets/templates/profile/token_list.jet.html:46
-#, python-format
-msgid "Expires on: %s"
-msgstr "Vervalt op %s"
-
-#: assets/templates/profile/token_list.jet.html:58
-msgid "This token will be removed in a few seconds."
-msgstr "Deze sleutel wordt over enkele seconden verwijderd."
-
-#: assets/templates/profile/totp.jet.html:17
-msgid "Scan this QR code with your app"
-msgstr "Scan deze QR-code met uw app"
-
-#: assets/templates/profile/totp.jet.html:18
-msgid "Scan the QR code below with a two-factor authentication app on your phone."
-msgstr "Scan de onderstaande QR-code met een app voor tweefactorauthenticatie op uw telefoon."
-
-#: assets/templates/profile/totp.jet.html:25
-msgid "If you can't use the QR code, enter the code below instead."
-msgstr "Als u de QR-code niet kunt gebruiken, voer dan de onderstaande code in."
-
-#: assets/templates/profile/totp.jet.html:29
-msgid "Enter the code from your application."
-msgstr "Voer de code uit uw applicatie in."
-
-#: assets/templates/profile/totp.jet.html:30
-msgid "After scanning the QR code, the app will display a six-digit code that you need to enter below."
-msgstr "Na het scannen van de QR-code geeft de app een zescijferige code weer die u hieronder moet invoeren."
-
-#: assets/templates/profile/totp.jet.html:35
-msgid "Code from your device"
-msgstr "Code van uw apparaat"
-
-#: assets/templates/profile/totp.jet.html:41
-msgid "Finish"
-msgstr "Klaar"
-
-#: internal/admin/views.go:77
-msgid "User created."
-msgstr "De gebruiker is aangemaakt."
-
-#: internal/admin/views.go:115
-msgid "User updated."
-msgstr "De gebruiker is bijgewerkt."
-
-#: internal/auth/signin/forms.go:17
-msgid "Invalid user and/or password"
-msgstr "Ongeldige gebruikersnaam en/of wachtwoord"
-
-#: internal/auth/signin/http.go:197 internal/profile/forms.go:296
-msgid "Invalid code"
-msgstr "Ongeldig code"
-
-#: internal/auth/users/forms.go:56 internal/auth/users/forms.go:219
+#: internal/auth/users/forms.go:89
 msgctxt "role"
 msgid "no group"
 msgstr "geen groep"
 
-# | msgid "Password ID"
-#: internal/auth/users/forms.go:75
-msgid "password is empty"
-msgstr "Geen wachtwoord ingevoerd"
-
-#: internal/auth/users/groups.go:19
+#: internal/auth/users/groups.go:14
 msgctxt "role"
 msgid "user"
 msgstr "gebruiker"
 
-#: internal/auth/users/groups.go:20
+#: internal/auth/users/groups.go:15
 msgctxt "role"
 msgid "staff"
 msgstr "personeel"
 
-#: internal/auth/users/groups.go:21
+#: internal/auth/users/groups.go:16
 msgctxt "role"
 msgid "admin"
 msgstr "beheerder"
 
-#: internal/auth/users/groups.go:23
+#: internal/auth/users/groups.go:18
 msgctxt "role"
 msgid "Profile : Read Only"
 msgstr "Profiel: Alleen Lezen"
 
-#: internal/auth/users/groups.go:24
+#: internal/auth/users/groups.go:19
 msgctxt "role"
 msgid "Bookmarks : Read Only"
 msgstr "Bladwijzers : Alleen lezen"
 
-#: internal/auth/users/groups.go:25
+#: internal/auth/users/groups.go:20
 msgctxt "role"
 msgid "Bookmarks : Write Only"
 msgstr "Bladwijzers : Alleen schrijven"
 
-#: internal/auth/users/groups.go:26
+#: internal/auth/users/groups.go:21
 msgctxt "role"
 msgid "Admin : Read Only"
 msgstr "Beheerder : Alleen lezen"
 
-#: internal/auth/users/groups.go:27
+#: internal/auth/users/groups.go:22
 msgctxt "role"
 msgid "Admin : Write Only"
 msgstr "Admin : Alleen schrijven"
 
-#: internal/bookmarks/importer/browser.go:75
+#: internal/bookmarks/converter/email.go:223
+#, python-format
+msgid ""
+"\n"
+"Hi,\n"
+"\n"
+"Here is your ebook for: **%s**\n"
+msgstr ""
+"\n"
+"Hoi,\n"
+"\n"
+"Hier is je e-boek van: **%s**\n"
+
+#: internal/bookmarks/converter/x-atom.templ:22
+#: internal/bookmarks/routes/x-bookmark-list.templ:505
+#: internal/bookmarks/routes/x-sidebar.templ:258
+msgid "no site name"
+msgstr "Geen websitenaam"
+
+#: internal/bookmarks/converter/x-atom.templ:25
+#: internal/bookmarks/converter/x-email.templ:30
+#: internal/bookmarks/converter/x-epub.templ:51
+#: internal/bookmarks/converter/x-html-public.templ:182
+#: internal/bookmarks/routes/x-sidebar.templ:281
+#, python-format
+msgid "Published on %s"
+msgstr "Gepubliceerd op %s"
+
+#: internal/bookmarks/converter/x-atom.templ:28
+#: internal/bookmarks/converter/x-email.templ:33
+#: internal/bookmarks/converter/x-epub.templ:54
+#: internal/bookmarks/converter/x-html-public.templ:186
+#: internal/bookmarks/routes/x-sidebar.templ:286
+#, python-format
+msgid "By %s"
+msgstr "Door %s"
+
+#: internal/bookmarks/converter/x-atom.templ:32
+#: internal/bookmarks/converter/x-email.templ:37
+#: internal/bookmarks/converter/x-epub.templ:58
+#: internal/bookmarks/converter/x-html-public.templ:195
+#: internal/bookmarks/routes/x-sidebar.templ:303
+#, python-format
+msgid "About %d minute read"
+msgid_plural "About %d minutes read"
+msgstr[0] "Ongeveer %d min. leestijd"
+msgstr[1] "Ongeveer %d min. leestijd"
+
+#: internal/bookmarks/converter/x-atom.templ:42
+#: internal/bookmarks/converter/x-email.templ:42
+#: internal/bookmarks/converter/x-epub.templ:63
+#: internal/bookmarks/converter/x-html-public.templ:216
+#: internal/bookmarks/routes/x-bookmark.templ:298
+#: internal/bookmarks/routes/x-components.templ:164
+#: internal/bookmarks/routes/x-components.templ:208
+#: internal/bookmarks/routes/x-filters.templ:36
+msgid "Note"
+msgstr "Notitie"
+
+#: internal/bookmarks/converter/x-epub.templ:83
+#: internal/bookmarks/converter/x-html-public.templ:252
+msgid "Notes"
+msgstr "Notities"
+
+#: internal/bookmarks/converter/x-html-public.templ:31
+msgid "Shared link"
+msgstr "Gedeelde link"
+
+# | msgid "Saved with Readeck"
+#: internal/bookmarks/converter/x-html-public.templ:92
+#, python-format
+msgid "Saved with %s"
+msgstr "Bewaard met %s"
+
+#: internal/bookmarks/converter/x-html-public.templ:118
+msgid "Page not found"
+msgstr "De pagina kan niet worden gevonden"
+
+#: internal/bookmarks/converter/x-html-public.templ:120
+msgid "Page has expired"
+msgstr "De pagina is verlopen"
+
+#: internal/bookmarks/converter/x-html-public.templ:148
+msgid "Change theme"
+msgstr "Thema wĳzigen"
+
+#: internal/bookmarks/converter/x-html-public.templ:200
+msgid "Shared by %[1]s with %[2]s"
+msgstr "Gedeeld door %[1]s met %[2]s"
+
+#: internal/bookmarks/importer/browser.go:56
+#: internal/bookmarks/routes/x-import.templ:36
+#: internal/profile/x-export.templ:22
+msgid "Browser Bookmarks"
+msgstr "Browserbladwijzers"
+
+#: internal/bookmarks/importer/browser.go:77
 msgid "Unable to read HTML content"
 msgstr "De html-inhoud kan niet worden gelezen"
 
-#: internal/bookmarks/importer/goodlinks.go:40
+# | msgid "File"
+#: internal/bookmarks/importer/csv.go:57
+#: internal/bookmarks/routes/x-import.templ:43
+#: internal/profile/x-export.templ:29
+msgid "CSV File"
+msgstr "Csv-bestand"
+
+#: internal/bookmarks/importer/goodlinks.go:41
 msgid "GoodLinks Export File"
 msgstr "GoodLink-exportbestand"
 
-#: internal/bookmarks/importer/importer.go:47
+#: internal/bookmarks/importer/importer.go:50
 msgid "Empty or invalid import file"
 msgstr "Het bestand is blanco of ongeldig"
 
-#: internal/bookmarks/importer/omnivore.go:248
-msgid "Invalid API Key"
-msgstr "De api-sleutel is ongeldig"
+#: internal/bookmarks/importer/pinboard.go:44
+msgid "Pinboard JSON backup File"
+msgstr "Pinboard JSON backup bestand"
 
-#: internal/bookmarks/importer/readwise.go:61
+#: internal/bookmarks/importer/readwise.go:62
 msgid "Readwise Reader CSV"
 msgstr "Readwise Reader-csv"
 
-#: internal/bookmarks/importer/wallabag.go:255
+#: internal/bookmarks/importer/text.go:24
+#: internal/bookmarks/routes/x-import.templ:85
+msgid "Text File"
+msgstr "Tekstbestand"
+
+#: internal/bookmarks/importer/wallabag.go:268
 msgid "Invalid URL"
 msgstr "De url is ongeldig"
 
-#: internal/bookmarks/importer/wallabag.go:260
+#: internal/bookmarks/importer/wallabag.go:273
 msgid "Invalid credentials"
 msgstr "De inloggegevens zijn onjuist"
 
-#: internal/bookmarks/importer/wallabag.go:271
+#: internal/bookmarks/importer/wallabag.go:284
 msgid "No access token found"
 msgstr "Er is geen toegangssleutel gevonden"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:191
-#: internal/bookmarks/routes/forms_bookmarks.go:210
+#: internal/bookmarks/importer/x-forms.templ:21
+#: internal/dashboard/x-dashboard.templ:66
+msgid "Import Bookmarks"
+msgstr "Bladwijzers importeren"
+
+#: internal/bookmarks/importer/x-forms.templ:32
+#: internal/bookmarks/importer/x-forms.templ:209
+#: internal/profile/x-import.templ:21
+msgid "File"
+msgstr "Bestand"
+
+#: internal/bookmarks/importer/x-forms.templ:42
+msgid "Options"
+msgstr "Opties"
+
+#: internal/bookmarks/importer/x-forms.templ:44
+#: internal/bookmarks/routes/x-filters.templ:35
+#: internal/bookmarks/routes/x-labels.templ:57
+msgid "Label"
+msgstr "Label"
+
+#: internal/bookmarks/importer/x-forms.templ:46
+msgid "A label to add to all imported bookmarks"
+msgstr "Label voor alle geïmporteerde bladwijzers"
+
+#: internal/bookmarks/importer/x-forms.templ:49
+msgid "Ignore links already in your bookmarks"
+msgstr "Reeds toegevoegde links negeren"
+
+# | msgid "Archived Bookmarks"
+#: internal/bookmarks/importer/x-forms.templ:53
+msgid "Archive all links"
+msgstr "Alle links archiveren"
+
+#: internal/bookmarks/importer/x-forms.templ:55
+msgid "Moves all links to archive, regardless of their original status"
+msgstr "Archiveer alle links, ongeacht de status"
+
+# | msgid "Mark as read"
+#: internal/bookmarks/importer/x-forms.templ:58
+msgid "Mark all links as read"
+msgstr "Alle links markeren als gelezen"
+
+#: internal/bookmarks/importer/x-forms.templ:60
+msgid "Marks all links as read, regardless of their original status"
+msgstr "Markeer alle links als gelezen, ongeacht de status"
+
+#: internal/bookmarks/importer/x-forms.templ:65
+msgid "Import your Browser's Bookmarks"
+msgstr "Bladwijzers uit webbrowser importeren"
+
+#: internal/bookmarks/importer/x-forms.templ:68
+msgid ""
+"\n"
+"\t\t\t\t\tIn your web browser, export your bookmarks as an HTML file.<br>\n"
+"\t\t\t\t\tUpload this file in the form below and Readeck will create and fetch\n"
+"\t\t\t\t\tevery bookmark found it the file.\n"
+"\t\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\t\tExporteer je bladwijzers als een HTML-bestand in je webbrowser.<br>\n"
+"\t\t\t\t\tUpload dit bestand in het formulier hieronder en Readeck zal elke bladwijzer\n"
+"\t\t\t\t\tdie in het bestand wordt gevonden, aanmaken en ophalen.\n"
+"\t\t\t\t"
+
+#: internal/bookmarks/importer/x-forms.templ:77
+msgid "Instructions for Firefox"
+msgstr "Uitleg voor Firefox"
+
+#: internal/bookmarks/importer/x-forms.templ:82
+msgid "Instructions for Chrome"
+msgstr "Uitleg voor Chrome"
+
+#: internal/bookmarks/importer/x-forms.templ:90
+msgid "Convert section titles to labels"
+msgstr "Sectietitels omzetten in labels"
+
+#: internal/bookmarks/importer/x-forms.templ:92
+msgid "Adds a label on links, based on their section title"
+msgstr "Kent een label aan links toe op basis van de sectietitel"
+
+# | msgid "Import Links from a Text File"
+#: internal/bookmarks/importer/x-forms.templ:98
+msgid "Import Links from a CSV File"
+msgstr "Links importeren uit csv-bestand"
+
+# | msgid "" "\n" "    Upload a CSV file from Instapaper or any CSV that
+# matches
+# | the format specified bellow.\n" "  "
+#: internal/bookmarks/importer/x-forms.templ:101
+msgid "Upload a CSV file from Instapaper or any CSV that matches the format specified below."
+msgstr "Upload een CSV-bestand vanuit Instapaper of elders dat overeenkomt met onderstaande opmaak."
+
+# | msgid "From date"
+#: internal/bookmarks/importer/x-forms.templ:107
+msgid "CSV Format"
+msgstr "CSV Formaat"
+
+#: internal/bookmarks/importer/x-forms.templ:110
+#, python-format
+msgid ""
+"\n"
+"\t\t\t\tThe uploaded file must contain a first row with the column names. Column names are case\n"
+"\t\t\t\tinsensitive and, except for <code>%s</code>, every column is optional.\n"
+"\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\tHet geüploade bestand moet een eerste rij met de kolomnamen bevatten. Kolomnamen zijn niet\n"
+"\t\t\t\thoofdlettergevoelig en, op <code>%s</code> na, is elke kolom optioneel.\n"
+"\t\t\t"
+
+#: internal/bookmarks/importer/x-forms.templ:115
+msgid "Here are the columns you can set:"
+msgstr "Dit zijn de kolommen die je kunt gebruiken:"
+
+# | msgid "File"
+#: internal/bookmarks/importer/x-forms.templ:119
+msgid "Field"
+msgstr "Veld"
+
+# | msgid "Links"
+#: internal/bookmarks/importer/x-forms.templ:120
+msgid "Alias"
+msgstr "Alias"
+
+# | msgid "Distribution"
+#: internal/bookmarks/importer/x-forms.templ:121
+#: internal/bookmarks/routes/x-bookmark.templ:261
+msgid "Description"
+msgstr "Beschrijving"
+
+# | msgid "Email Address"
+#: internal/bookmarks/importer/x-forms.templ:128
+msgid "Link address"
+msgstr "Linkadres"
+
+# | msgid "Bookmark Labels"
+#: internal/bookmarks/importer/x-forms.templ:133
+msgid "Bookmark title"
+msgstr "Bladwijzertitel"
+
+#: internal/bookmarks/importer/x-forms.templ:138
+#, python-format
+msgid "Bookmark's archived state; only valid value is \"%s\""
+msgstr "De archiefstatus van de bladwijzer - enige geldige waarde: ‘%s’"
+
+#: internal/bookmarks/importer/x-forms.templ:143
+msgid "Creation date, can be a UNIX timestamp or an RFC-3339 formatted date"
+msgstr "De aanmaakdatum - dit kan een UNIX-tijdstempel of een met RFC-3339 opgemaakte datum zijn"
+
+#: internal/bookmarks/importer/x-forms.templ:148
+msgid "A JSON encoded list of labels"
+msgstr "Een json-lijst met labels"
+
+#: internal/bookmarks/importer/x-forms.templ:152
+msgid "Example"
+msgstr "Voorbeeld"
+
+#: internal/bookmarks/importer/x-forms.templ:161
+msgid "Import Links from a GoodLinks export file"
+msgstr "Links importeren uit GoodLinks-bestand"
+
+#: internal/bookmarks/importer/x-forms.templ:164
+msgid "Upload a JSON file obtained from your GoodLinks app."
+msgstr "Upload een JSON bestand verkregen van uw GoodLinks app."
+
+#: internal/bookmarks/importer/x-forms.templ:173
+msgid "Import Bookmarks from a Linkwarden export file"
+msgstr "Bladwijzers importeren uit Linkwarden-bestand"
+
+#: internal/bookmarks/importer/x-forms.templ:176
+msgid "Upload a JSON file obtained from your Linkwarden app."
+msgstr "Upload een JSON-bestand verkregen uit je Linkwarden-app."
+
+# | msgid "Import Links from a Text File"
+#: internal/bookmarks/importer/x-forms.templ:185
+msgid "Import Links from a Pinboard JSON backup file"
+msgstr "Links importeren uit Pinboard JSON-back-upbestand"
+
+#: internal/bookmarks/importer/x-forms.templ:188
+msgid "Upload a JSON file obtained from your Pinboard account."
+msgstr "Upload een door de Linkwarden-app samengesteld json-bestand."
+
+#: internal/bookmarks/importer/x-forms.templ:197
+#: internal/bookmarks/routes/x-import.templ:72
+msgid "Import your Pocket Articles"
+msgstr "Pocket-artikelen importeren"
+
+#: internal/bookmarks/importer/x-forms.templ:200
+msgid ""
+"\n"
+"\t\t\t\tUpload a Pocket export file in the form below and Readeck will fetch and save\n"
+"\t\t\t\tevery link found in the file.\n"
+"\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\tUpload hieronder een Pocket exportbestand en Readeck zal elke link die in \n"
+"\t\t\t\thet bestand gevonden wordt ophalen en opslaan.\n"
+"\t\t\t"
+
+#: internal/bookmarks/importer/x-forms.templ:212
+msgid "Note: upload the ZIP file directly, not its contents"
+msgstr "Let op: upload het zipbestand, dus niet de inhoud daarvan"
+
+# | msgid "Import Links from a Text File"
+#: internal/bookmarks/importer/x-forms.templ:220
+msgid "Import Links from Readwise Reader CSV export"
+msgstr "Links importeren uit Readwise Reader-csv-bestand"
+
+#: internal/bookmarks/importer/x-forms.templ:223
+msgid "Upload a CSV file exported from your Readwise Reader account below."
+msgstr "Upload hieronder een csv-bestand uit Readwise Reader."
+
+#: internal/bookmarks/importer/x-forms.templ:229
+msgid "Which information is imported"
+msgstr "Welke informatie wordt geïmporteerd"
+
+#: internal/bookmarks/importer/x-forms.templ:232
+msgid "Article title, URL, and when it was first saved,"
+msgstr "Artikelnaam, url en eerste keer opslaan,"
+
+#: internal/bookmarks/importer/x-forms.templ:233
+msgid "The archived state of an article,"
+msgstr "Archiefstatus van een artikel,"
+
+#: internal/bookmarks/importer/x-forms.templ:234
+#, python-format
+msgid "\"%s\" as Readeck labels,"
+msgstr "‘%s’ als Readeck-labels,"
+
+#: internal/bookmarks/importer/x-forms.templ:235
+#, python-format
+msgid "When a document tag contains \"%s\", the bookmark will be added to Readeck Favorites."
+msgstr "Als een document het label ‘%s’ bevat, wordt de bladwijzer toegevoegd aan de Readeck-favorieten."
+
+#: internal/bookmarks/importer/x-forms.templ:237
+msgid "What is not imported:"
+msgstr "Wat niet wordt geïmporteerd:"
+
+#: internal/bookmarks/importer/x-forms.templ:239
+msgid "Article reading progress and seen status,"
+msgstr "Leesvoortgang en -status,"
+
+#: internal/bookmarks/importer/x-forms.templ:240
+msgid "Articles forwarded to Readwise Reader by email,"
+msgstr "Artikelen die doorgestuurd zijn via e-mail,"
+
+#: internal/bookmarks/importer/x-forms.templ:241
+msgid "Uploaded documents such as PDFs or EPUB."
+msgstr "Geüploade documenten, zoals pdf- en epub-bestanden."
+
+#: internal/bookmarks/importer/x-forms.templ:247
+#: internal/bookmarks/routes/x-import.templ:86
+msgid "Import Links from a Text File"
+msgstr "Links importeren uit tekstbestand"
+
+#: internal/bookmarks/importer/x-forms.templ:250
+msgid ""
+"\n"
+"\t\t\t\tUpload a text file that contains one link per line and Readeck will fetch\n"
+"\t\t\t\tall of them and save them in your bookmark list.\n"
+"\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\tUpload een tekstbestand dat één link per regel bevat en Readeck zal\n"
+"\t\t\t\tze allemaal ophalen en opslaan in je bladwijzerlijst.\n"
+"\t\t\t"
+
+#: internal/bookmarks/importer/x-forms.templ:260
+#: internal/bookmarks/routes/x-import.templ:93
+msgid "Import your Wallabag Articles"
+msgstr "Wallabag-artikelen importeren"
+
+#: internal/bookmarks/importer/x-forms.templ:263
+msgid ""
+"\n"
+"\t\t\t\tTo import your articles from Wallabag, you must first create an API client\n"
+"\t\t\t\tin Wallabag's <strong>API clients management</strong> menu. This will give you\n"
+"\t\t\t\ta <strong>Client ID</strong> and <strong>Client secret</strong>.\n"
+"\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\tOm je artikelen uit Wallabag te importeren, moet je eerst een API-client aanmaken\n"
+"\t\t\t\tin het menu <strong>API-clientsbeheer</strong> van Wallabag. Dit geeft je\n"
+"\t\t\t\teen <strong>Client ID</strong> en <strong>Client secret</strong>.\n"
+"\t\t\t"
+
+#: internal/bookmarks/importer/x-forms.templ:270
+msgid "You can then enter all the necessary information in the form below."
+msgstr "Voer nadien alle benodigde informatie hieronder in."
+
+#: internal/bookmarks/importer/x-forms.templ:278
+msgid "Wallabag URL"
+msgstr "Wallabag-url"
+
+#: internal/bookmarks/importer/x-forms.templ:281
+msgid "URL of your Wallabag homepage"
+msgstr "Url van je Wallabag-site"
+
+#: internal/bookmarks/importer/x-forms.templ:295
+msgid "Client ID"
+msgstr "Client-id"
+
+#: internal/bookmarks/importer/x-forms.templ:300
+msgid "Client Secret"
+msgstr "Clientgeheim"
+
+#: internal/bookmarks/routes/forms_bookmarks.go:170
+#: internal/bookmarks/routes/forms_bookmarks.go:188
 msgid "Unable to process input data"
 msgstr "De invoer kan niet worden verwerkt"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:289
+#: internal/bookmarks/routes/forms_bookmarks.go:279
 msgid "invalid language code"
 msgstr "ongeldige taalcode"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:292
+#: internal/bookmarks/routes/forms_bookmarks.go:284
 msgid "Left to right"
 msgstr "Links naar rechts"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:293
+#: internal/bookmarks/routes/forms_bookmarks.go:285
 msgid "Right to left"
 msgstr "Rechts naar links"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:632
-msgid "Article"
-msgstr "Artikel"
-
-#: internal/bookmarks/routes/forms_bookmarks.go:633
-msgid "Picture"
-msgstr "Afbeelding"
-
-#: internal/bookmarks/routes/forms_bookmarks.go:634
-msgid "Video"
-msgstr "Video"
-
-#: internal/bookmarks/routes/forms_bookmarks.go:642
-msgctxt "status"
-msgid "Unviewed"
-msgstr "Onbehandeld"
-
-#: internal/bookmarks/routes/forms_bookmarks.go:643
-msgctxt "status"
-msgid "In-Progress"
-msgstr "In behandeling"
-
-#: internal/bookmarks/routes/forms_bookmarks.go:644
-msgctxt "status"
-msgid "Completed"
-msgstr "Afgerond"
-
-#: internal/bookmarks/routes/forms_bookmarks.go:871
+#: internal/bookmarks/routes/forms_bookmarks.go:626
 msgctxt "sort"
 msgid "Added, most recent first"
 msgstr "Toevoegdatum - nieuwste bovenaan"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:872
+#: internal/bookmarks/routes/forms_bookmarks.go:627
 msgctxt "sort"
 msgid "Added, oldest first"
 msgstr "Toevoegdatum - oudste bovenaan"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:873
+#: internal/bookmarks/routes/forms_bookmarks.go:628
 msgctxt "sort"
 msgid "Published, most recent first"
 msgstr "Publicatiedatum - nieuwste bovenaan"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:874
+#: internal/bookmarks/routes/forms_bookmarks.go:629
 msgctxt "sort"
 msgid "Published, oldest first"
 msgstr "Publicatiedatum - oudste bovenaan"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:875
+#: internal/bookmarks/routes/forms_bookmarks.go:630
 msgctxt "sort"
 msgid "Title, A to Z"
 msgstr "Titel - A–Z"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:876
+#: internal/bookmarks/routes/forms_bookmarks.go:631
 msgctxt "sort"
 msgid "Title, Z to A"
 msgstr "Titel - Z–A"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:877
+#: internal/bookmarks/routes/forms_bookmarks.go:632
 msgctxt "sort"
 msgid "Site Name, A to Z"
 msgstr "Websitenaam - A–Z"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:878
+#: internal/bookmarks/routes/forms_bookmarks.go:633
 msgctxt "sort"
 msgid "Site Name, Z to A"
 msgstr "Websitenaam - Z–A"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:879
+#: internal/bookmarks/routes/forms_bookmarks.go:634
 msgctxt "sort"
 msgid "Duration, shortest first"
 msgstr "Duur - kortste eerst"
 
-#: internal/bookmarks/routes/forms_bookmarks.go:880
+#: internal/bookmarks/routes/forms_bookmarks.go:635
 msgctxt "sort"
 msgid "Duration, longest first"
 msgstr "Duur - langste eerst"
 
-#: internal/bookmarks/routes/opds.go:57
+#: internal/bookmarks/routes/forms_bookmarks.go:636
+msgctxt "sort"
+msgid "Random"
+msgstr "Willekeurig"
+
+#: internal/bookmarks/routes/forms_bookmarks.go:742
+#: internal/bookmarks/routes/forms_filters.go:53
+msgid "Article"
+msgstr "Artikel"
+
+#: internal/bookmarks/routes/forms_bookmarks.go:743
+msgid "E-Book"
+msgstr "E-Boek"
+
+#: internal/bookmarks/routes/forms_filters.go:54
+msgid "Picture"
+msgstr "Afbeelding"
+
+#: internal/bookmarks/routes/forms_filters.go:55
+msgid "Video"
+msgstr "Video"
+
+#: internal/bookmarks/routes/forms_filters.go:61
+msgctxt "status"
+msgid "Unviewed"
+msgstr "Onbehandeld"
+
+#: internal/bookmarks/routes/forms_filters.go:62
+msgctxt "status"
+msgid "In-Progress"
+msgstr "In behandeling"
+
+#: internal/bookmarks/routes/forms_filters.go:63
+msgctxt "status"
+msgid "Completed"
+msgstr "Afgerond"
+
+#: internal/bookmarks/routes/forms_filters.go:72
+#, python-format
+msgid "\"%s\" is not a valid date value"
+msgstr "\"%s\" is geen geldige datumwaarde"
+
+#: internal/bookmarks/routes/opds.go:58
 msgid "Readeck Bookmarks"
 msgstr "Readeck-bladwijzers"
 
-#: internal/bookmarks/routes/opds.go:102
+#: internal/bookmarks/routes/opds.go:104
 msgid "Readeck Bookmark Collections"
 msgstr "Readeck-bladwijzerverzamelingen"
 
-#: internal/bookmarks/routes/opds.go:139
+#: internal/bookmarks/routes/opds.go:142
 #, python-format
 msgid "Readeck Collection: %s"
 msgstr "Readeck-verzameling: %s"
 
-#: internal/bookmarks/routes/opds.go:145
+#: internal/bookmarks/routes/opds.go:148
 #, python-format
 msgid "Collection ebook - %s"
 msgstr "E-boekverzameling: %s"
 
-#: internal/bookmarks/routes/opds.go:152
+#: internal/bookmarks/routes/opds.go:155
 #, python-format
 msgid "Browse collection: %s"
 msgstr "Surfverzameling: %s"
 
-#: internal/bookmarks/routes/views_bookmarks.go:100
+#: internal/bookmarks/routes/views_bookmarks.go:90
 msgid "All your Bookmarks"
 msgstr "Alle bladwijzers"
 
-#: internal/bookmarks/routes/views_bookmarks.go:105
+#: internal/bookmarks/routes/views_bookmarks.go:94
 msgid "Bookmark Search"
 msgstr "Bladwijzers doorzoeken"
 
-#: internal/bookmarks/routes/views_bookmarks.go:109 internal/opds/http.go:59
+#: internal/bookmarks/routes/views_bookmarks.go:98
+#: internal/dashboard/x-dashboard.templ:142 internal/opds/http.go:60
 msgid "Unread Bookmarks"
 msgstr "Ongelezen bladwijzers"
 
-#: internal/bookmarks/routes/views_bookmarks.go:111 internal/opds/http.go:63
+#: internal/bookmarks/routes/views_bookmarks.go:100 internal/opds/http.go:64
 msgid "Archived Bookmarks"
 msgstr "Gearchiveerde bladwijzers"
 
-#: internal/bookmarks/routes/views_bookmarks.go:113 internal/opds/http.go:67
+#: internal/bookmarks/routes/views_bookmarks.go:102 internal/opds/http.go:68
 msgid "Favorite Bookmarks"
 msgstr "Favoriete bladwijzers"
 
-#: internal/bookmarks/routes/views_bookmarks.go:210
-msgid "Update"
-msgstr "Bijwerken"
+#: internal/bookmarks/routes/views_bookmarks.go:104
+#: internal/bookmarks/routes/x-base.templ:61
+#: internal/dashboard/x-dashboard.templ:148
+msgid "Articles"
+msgstr "Artikelen"
+
+#: internal/bookmarks/routes/views_bookmarks.go:106
+#: internal/bookmarks/routes/x-base.templ:69
+#: internal/dashboard/x-dashboard.templ:152
+msgid "Pictures"
+msgstr "Afbeeldingen"
+
+#: internal/bookmarks/routes/views_bookmarks.go:108
+#: internal/bookmarks/routes/x-base.templ:65
+#: internal/dashboard/x-dashboard.templ:150
+msgid "Videos"
+msgstr "Video's"
 
 # | msgid "Bookmark Labels"
-#: internal/bookmarks/routes/views_bookmarks.go:319
+#: internal/bookmarks/routes/views_bookmarks.go:299
 msgid "Bookmark updated"
 msgstr "Bladwijzer bijgewerkt"
 
-#: internal/bookmarks/routes/views_collections.go:70
+#: internal/bookmarks/routes/views_bookmarks.go:322
+msgid "Update"
+msgstr "Bijwerken"
+
+#: internal/bookmarks/routes/views_bookmarks.go:342
+#: internal/bookmarks/routes/x-bookmark.templ:232
+msgid "Share link"
+msgstr "Link delen"
+
+# | msgid "Share by Link"
+#: internal/bookmarks/routes/views_bookmarks.go:372
+#: internal/bookmarks/routes/x-bookmark.templ:239
+msgid "Share by email"
+msgstr "Delen via e-mail"
+
+#: internal/bookmarks/routes/views_collections.go:39
+msgid "Collection created."
+msgstr "Verzameling aangemaakt."
+
+#: internal/bookmarks/routes/views_collections.go:66
 msgid "Collection updated."
 msgstr "De verzameling is bijgewerkt."
 
-#: internal/bookmarks/routes/views_import.go:30
+#: internal/bookmarks/routes/views_import.go:24
+#: internal/bookmarks/routes/views_import.go:37
+#: internal/bookmarks/routes/views_import.go:69
+#: internal/bookmarks/routes/x-import.templ:175 internal/profile/views.go:372
+#: internal/profile/x-base.templ:59 internal/profile/x-import.templ:13
+#: internal/profile/x-import.templ:41
+msgid "Import"
+msgstr "Importeren"
+
+#: internal/bookmarks/routes/views_import.go:38
 msgid "Progress"
 msgstr "Voortgang"
 
-#: internal/opds/http.go:71
+#: internal/bookmarks/routes/x-annotations.templ:14
+msgid "Bookmark Highlights"
+msgstr "Bladwijzermarkeringen"
+
+#: internal/bookmarks/routes/x-annotations.templ:20
+msgid "You don't have any highlights yet."
+msgstr "Je hebt nog niets gemarkeerd."
+
+#: internal/bookmarks/routes/x-annotations.templ:22
+msgid ""
+"\n"
+"\t\t\t\t\t\t\tOnce you start highlighting parts of your saved articles, they will appear on this page\n"
+"\t\t\t\t\t\t\tfor you to easily find them.\n"
+"\t\t\t\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\t\t\t\tZodra je delen van opgeslagen artikelen markeert, worden ze hier getoond,\n"
+"\t\t\t\t\t\t\tzodat je ze eenvoudig kunt terugvinden.\n"
+"\t\t\t\t\t\t"
+
+#: internal/bookmarks/routes/x-annotations.templ:29
+#, python-format
+msgid "Read more about highlights in the <a class=\"%s\" href=\"%s\">documentation</a>."
+msgstr "Meer informatie hierover is te vinden in de <a class=\"%s\" href=\"%s\">documentatie</a>."
+
+#: internal/bookmarks/routes/x-base.templ:27
+msgid "search in bookmarks"
+msgstr "zoeken in bladwijzers"
+
+#: internal/bookmarks/routes/x-base.templ:31
+#: internal/bookmarks/routes/x-filters.templ:22
+msgid "Search"
+msgstr "Zoeken"
+
+#: internal/bookmarks/routes/x-base.templ:49
+msgid "All"
+msgstr "Alle"
+
+#: internal/bookmarks/routes/x-base.templ:51
+msgid "Unread"
+msgstr "Ongelezen"
+
+#: internal/bookmarks/routes/x-base.templ:53
+msgid "Archive"
+msgstr "Archiveren"
+
+#: internal/bookmarks/routes/x-base.templ:55
+#: internal/dashboard/x-dashboard.templ:144
+msgid "Favorites"
+msgstr "Favorieten"
+
+#: internal/bookmarks/routes/x-base.templ:76
+#: internal/bookmarks/routes/x-labels.templ:72
+#: internal/bookmarks/routes/x-sidebar.templ:318
+#: internal/dashboard/x-dashboard.templ:62
+msgid "Labels"
+msgstr "Labels"
+
+#: internal/bookmarks/routes/x-base.templ:78
+#: internal/bookmarks/routes/x-sidebar.templ:404
+#: internal/dashboard/x-dashboard.templ:63
+msgid "Highlights"
+msgstr "Markeringen"
+
+#: internal/bookmarks/routes/x-base.templ:80
+#: internal/bookmarks/routes/x-collections.templ:256
+#: internal/dashboard/x-dashboard.templ:64
+msgid "Collections"
+msgstr "Verzamelingen"
+
+#: internal/bookmarks/routes/x-base.templ:95
+msgid "Did you know?"
+msgstr "Wist je dat?"
+
+#: internal/bookmarks/routes/x-base.templ:103
+#: internal/bookmarks/routes/x-bookmark-list.templ:258
+#: internal/bookmarks/routes/x-sidebar.templ:58
+#: internal/dashboard/x-dashboard.templ:251
+msgid "Learn more"
+msgstr "Meer informatie"
+
+#: internal/bookmarks/routes/x-base.templ:114
+msgid "Don't remind me"
+msgstr "Niet meer tonen"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:71
+#: internal/bookmarks/routes/x-bookmark-list.templ:117
+#: internal/bookmarks/routes/x-bookmark-list.templ:120
+#: internal/bookmarks/routes/x-collections.templ:206
+#: internal/bookmarks/routes/x-collections.templ:209
+msgid "Filters"
+msgstr "Filters"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:86
+msgid "Import bookmarks"
+msgstr "Bladwijzers importeren"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:97
+msgid "Your search query yielded <strong>no results</strong>."
+msgstr "Er zijn geen <strong>zoekresultaten</strong>."
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:99
+#, python-format
+msgid "Your search query yielded <strong>%d result</strong>."
+msgid_plural "Your search query yielded <strong>%d results</strong>."
+msgstr[0] "Er is <strong>%d zoekresultaat</strong>."
+msgstr[1] "Er zijn <strong>%d zoekresultaten</strong>."
+
+# | msgid "Bookmark Labels"
+#: internal/bookmarks/routes/x-bookmark-list.templ:130
+msgid "Bookmark filters"
+msgstr "Bladwijzers filteren"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:139
+msgctxt "action"
+msgid "Search"
+msgstr "Zoeken"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:142
+msgid "Reset search"
+msgstr "Zoekopdracht wissen"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:149
+msgid "Create a collection"
+msgstr "Verzameling aanmaken"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:165
+#: internal/dashboard/x-dashboard.templ:32
+msgid "Save a new link"
+msgstr "Link bewaren"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:188
+#: internal/dashboard/x-dashboard.templ:50
+msgctxt "button"
+msgid "Save link"
+msgstr "Link bewaren"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:204
+msgid "\"%[1]s\" is not a valid address. Did you mean to search your bookmarks for %[2]s?"
+msgstr "\"%[1]s\" is geen geldig adres. Wilt u in uw bladwijzers zoeken naar %[2]s?"
+
+# | msgid "Readeck Bookmark Collections"
+#: internal/bookmarks/routes/x-bookmark-list.templ:247
+msgid "Readeck Browser Extension"
+msgstr "Readeck-browserextensie"
+
+# | msgid "Import bookmarks"
+#: internal/bookmarks/routes/x-bookmark-list.templ:267
+#: internal/dashboard/x-dashboard.templ:126
+msgid "Import existing bookmarks"
+msgstr "Bladwijzers importeren"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:277
+#: internal/dashboard/x-dashboard.templ:134
+msgid "Import links and articles"
+msgstr "Links en artikelen importeren"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:305
+msgid "Grid view"
+msgstr "Roosterweergave"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:306
+msgid "Compact view"
+msgstr "Compacte weergave"
+
+# | msgid "Grid view"
+#: internal/bookmarks/routes/x-bookmark-list.templ:307
+msgid "Mosaic view"
+msgstr "Tegelweergave"
+
+# | msgid "Import bookmarks"
+#: internal/bookmarks/routes/x-bookmark-list.templ:348
+msgid "Sort bookmarks"
+msgstr "Bladwijzers sorteren"
+
+# | msgid "Options"
+#: internal/bookmarks/routes/x-bookmark-list.templ:352
+msgid "Sort options"
+msgstr "Sorteeropties"
+
+# | msgid "Import links and articles"
+#: internal/bookmarks/routes/x-bookmark-list.templ:387
+msgid "Import and export"
+msgstr "Importeren en exporteren"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:398
+#: internal/bookmarks/routes/x-sidebar.templ:182
+msgid "Download EPUB"
+msgstr "Epub-bestand downloaden"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:417
+msgid "Atom Feed"
+msgstr "Atomfeed"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:465
+msgctxt "bookmark"
+msgid "Loading"
+msgstr "Bezig met laden…"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:500
+#: internal/dashboard/x-dashboard.templ:184
+msgid "untitled"
+msgstr "naamloos"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:513
+#, python-format
+msgctxt "abbr"
+msgid "%d min"
+msgid_plural "%d min"
+msgstr[0] "%d min."
+msgstr[1] "%d min."
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:529
+#: internal/bookmarks/routes/x-sidebar.templ:117
+msgid "This bookmark will be removed in a few seconds."
+msgstr "De bladwijzer wordt over enkele seconden verwijderd."
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:548
+#: internal/bookmarks/routes/x-components.templ:246
+#: internal/bookmarks/routes/x-sidebar.templ:106
+msgid "Remove from archive"
+msgstr "Verwijderen uit archief"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:548
+#: internal/bookmarks/routes/x-components.templ:247
+#: internal/bookmarks/routes/x-sidebar.templ:107
+msgid "Move to archive"
+msgstr "Verplaatsen naar archief"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:549
+#: internal/bookmarks/routes/x-components.templ:234
+#: internal/bookmarks/routes/x-sidebar.templ:110
+msgid "Remove from favorites"
+msgstr "Verwijderen uit favorieten"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:549
+#: internal/bookmarks/routes/x-components.templ:235
+#: internal/bookmarks/routes/x-sidebar.templ:111
+msgid "Add to favorites"
+msgstr "Toevoegen aan favorieten"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:574
+msgid "Go to original page"
+msgstr "Oorspronkelijke pagina openen"
+
+#: internal/bookmarks/routes/x-bookmark-list.templ:584
+#: internal/bookmarks/routes/x-sidebar.templ:232
+msgid "Delete this bookmark"
+msgstr "Bladwijzer verwijderen"
+
+#: internal/bookmarks/routes/x-bookmark.templ:22
+msgid "Bookmark not found"
+msgstr "De bladwijzer is niet aangetroffen"
+
+#: internal/bookmarks/routes/x-bookmark.templ:23
+#: internal/bookmarks/routes/x-bookmark.templ:220
+msgid "Edit bookmark"
+msgstr "Bladwijzer bewerken"
+
+#: internal/bookmarks/routes/x-bookmark.templ:40
+msgid "Bookmark loading"
+msgstr "Bezig met laden…"
+
+#: internal/bookmarks/routes/x-bookmark.templ:43
+#: internal/bookmarks/routes/x-bookmark.templ:133
+#: internal/bookmarks/routes/x-bookmark.templ:146
+msgid "Bookmark information"
+msgstr "Bladwijzerinformatie"
+
+# | msgid "Bookmark Labels"
+#: internal/bookmarks/routes/x-bookmark.templ:44
+msgid "Bookmark content"
+msgstr "Bladwijzerinhoud"
+
+#: internal/bookmarks/routes/x-bookmark.templ:74
+msgid "Bookmark is loading"
+msgstr "Bezig met laden…"
+
+#: internal/bookmarks/routes/x-bookmark.templ:110
+#: internal/bookmarks/routes/x-bookmark.templ:116
+msgid "Go back"
+msgstr "Ga terug"
+
+#: internal/bookmarks/routes/x-bookmark.templ:120
+#: internal/bookmarks/routes/x-bookmark.templ:126
+#: internal/bookmarks/routes/x-collections.templ:187
+msgid "Edit"
+msgstr "Bewerken"
+
+#: internal/bookmarks/routes/x-bookmark.templ:169
+#: internal/bookmarks/routes/x-bookmark.templ:181
+msgid "Close panel"
+msgstr "Paneel sluiten"
+
+#: internal/bookmarks/routes/x-bookmark.templ:210
+#: internal/bookmarks/routes/x-components.templ:36
+#: internal/bookmarks/routes/x-components.templ:363
+msgid "Close dialog"
+msgstr "Dialoogvenster sluiten"
+
+# | msgid "Saved with Readeck"
+#: internal/bookmarks/routes/x-bookmark.templ:221
+#, python-format
+msgid "Edit: %s"
+msgstr "Bewerken: %s"
+
+#: internal/bookmarks/routes/x-bookmark.templ:233
+#: internal/bookmarks/routes/x-bookmark.templ:240
+#, python-format
+msgid "Share: %s"
+msgstr "Delen: %s"
+
+#: internal/bookmarks/routes/x-bookmark.templ:256
+#: internal/bookmarks/routes/x-filters.templ:23
+msgid "Title"
+msgstr "Titel"
+
+#: internal/bookmarks/routes/x-bookmark.templ:266
+msgid "Site Name"
+msgstr "Naam van de site"
+
+#: internal/bookmarks/routes/x-bookmark.templ:271
+msgid "Authors"
+msgstr "Auteurs"
+
+#: internal/bookmarks/routes/x-bookmark.templ:274
+msgid "One value per line"
+msgstr "Eén waarde per regel"
+
+#: internal/bookmarks/routes/x-bookmark.templ:278
+msgid "Published"
+msgstr "Gepubliceerd"
+
+#: internal/bookmarks/routes/x-bookmark.templ:282
+#: internal/bookmarks/routes/x-filters.templ:27
+#: internal/profile/x-profile.templ:55
+msgid "Language"
+msgstr "Taal"
+
+#: internal/bookmarks/routes/x-bookmark.templ:292
+msgid "Text Direction"
+msgstr "Tekstrichting"
+
+#: internal/bookmarks/routes/x-bookmark.templ:316
+msgid "You can share the following link with your friends."
+msgstr "Je kunt de volgende link met je vrienden delen."
+
+#: internal/bookmarks/routes/x-bookmark.templ:318
+#, python-format
+msgid "It expires on %s"
+msgstr "De link vervalt op %s"
+
+#: internal/bookmarks/routes/x-bookmark.templ:333
+msgid "This link is shared without annotations."
+msgstr "Deze link is gedeeld zonder annotaties."
+
+#: internal/bookmarks/routes/x-bookmark.templ:334
+msgid "Share with annotations"
+msgstr "Delen met annotaties"
+
+#: internal/bookmarks/routes/x-bookmark.templ:336
+msgid "This link is shared with annotations."
+msgstr "Deze link is gedeeld met annotaties."
+
+#: internal/bookmarks/routes/x-bookmark.templ:337
+msgid "Share without annotations"
+msgstr "Delen zonder annotaties"
+
+#: internal/bookmarks/routes/x-bookmark.templ:357
+msgid "Copy the link"
+msgstr "Link kopiëren"
+
+#: internal/bookmarks/routes/x-bookmark.templ:366
+#: internal/bookmarks/routes/x-bookmark.templ:430
+msgid "Go back to the bookmark"
+msgstr "Ga terug naar bladwijzer"
+
+#: internal/bookmarks/routes/x-bookmark.templ:391
+msgid "Sends this bookmark's content in the message."
+msgstr "Verstuur de inhoud van deze bladwijzer via een bericht."
+
+# | msgid "Sends this bookmarks as an attached EPUB file."
+#: internal/bookmarks/routes/x-bookmark.templ:393
+msgid "Sends this bookmark as an attached EPUB file."
+msgstr "Verstuur deze bladwijzer als bijgevoegd epub-bestand."
+
+# | msgid "From date"
+#: internal/bookmarks/routes/x-bookmark.templ:401
+msgid "Format"
+msgstr "Formaat"
+
+#: internal/bookmarks/routes/x-bookmark.templ:407
+msgid "Send To"
+msgstr "Versturen naar"
+
+#: internal/bookmarks/routes/x-bookmark.templ:413
+msgid "Include annotations and notes"
+msgstr "Annotaties en notities toevoegen"
+
+#: internal/bookmarks/routes/x-bookmark.templ:418
+#, python-format
+msgid "The bookmark was sent to %s"
+msgstr "De bladwijzer is verstuurd naar %s"
+
+#: internal/bookmarks/routes/x-bookmark.templ:423
+msgid "Send message"
+msgstr "Bericht versturen"
+
+#: internal/bookmarks/routes/x-collections.templ:28 internal/opds/http.go:76
+msgid "Bookmark Collections"
+msgstr "Verzamelingen toevoegen aan bladwijzers"
+
+#: internal/bookmarks/routes/x-collections.templ:36
+msgid "Create a new collection"
+msgstr "Verzameling samenstellen"
+
+#: internal/bookmarks/routes/x-collections.templ:50
+msgid ""
+"\n"
+"\t\t\t\t\t\t\t\tCollections let you easily organize and export your bookmarks\n"
+"\t\t\t\t\t\t\t\tby saving search requests of your choice.\n"
+"\t\t\t\t\t\t\t\tWhen you create a new bookmark that matches a collection's\n"
+"\t\t\t\t\t\t\t\tcriteria, it will appear immediately.\n"
+"\t\t\t\t\t\t\t\tHere are some examples:\n"
+"\t\t\t\t\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\t\t\t\t\tMet verzamelingen kun je eenvoudig je bladwijzers organiseren en exporteren\n"
+"\t\t\t\t\t\t\t\tdoor zoekopdrachten naar keuze op te slaan.\n"
+"\t\t\t\t\t\t\t\tWanneer je een nieuwe bladwijzer aanmaakt die voldoet aan de criteria van een collectie,\n"
+"\t\t\t\t\t\t\t\tverschijnt deze automatisch.\n"
+"\t\t\t\t\t\t\t\tHier zijn enkele voorbeelden:\n"
+"\t\t\t\t\t\t\t"
+
+#: internal/bookmarks/routes/x-collections.templ:59
+msgid "The unread articles (no photos or videos)"
+msgstr "Ongelezen artikelen (geen foto's of video's)"
+
+#: internal/bookmarks/routes/x-collections.templ:60
+msgid "The archived articles from \"wikipedia.org\""
+msgstr "Gearchiveerde artikelen van wikipedia.org"
+
+#: internal/bookmarks/routes/x-collections.templ:61
+msgid "The pictures with the label \"cat\""
+msgstr "Foto's met het label ‘cat’"
+
+#: internal/bookmarks/routes/x-collections.templ:62
+msgid "The articles that contain \"shelter\" in their title"
+msgstr "Artikelen met de term ‘shelter’ in de naam"
+
+#: internal/bookmarks/routes/x-collections.templ:66
+#, python-format
+msgid "Read more about collections in the <a class=\"%s\" href=\"%s\">documentation</a>."
+msgstr "Meer informatie is te vinden in de <a class=\"%s\" href=\"%s\">documentatie</a>."
+
+#: internal/bookmarks/routes/x-collections.templ:88
+#: internal/profile/x-tokens.templ:52
+#, python-format
+msgid "Created on: %s"
+msgstr "Aangemaakt op %s"
+
+#: internal/bookmarks/routes/x-collections.templ:97
+msgid "This collection will be removed in a few seconds."
+msgstr "Deze verzameling wordt over enkele seconden verwijderd."
+
+#: internal/bookmarks/routes/x-collections.templ:107
+#: internal/bookmarks/routes/x-sidebar.templ:131
+msgid "Undo"
+msgstr "Ongedaan maken"
+
+#: internal/bookmarks/routes/x-collections.templ:122
+msgid "New Collection"
+msgstr "Nieuwe verzameling"
+
+#: internal/bookmarks/routes/x-collections.templ:149
+#, python-format
+msgid "Collection %s"
+msgstr "Verzameling: %s"
+
+#: internal/bookmarks/routes/x-collections.templ:158
+msgid "Collection will be removed in a few seconds."
+msgstr "De verzameling wordt over enkele seconden verwijderd."
+
+#: internal/bookmarks/routes/x-collections.templ:240
+msgid "Delete collection"
+msgstr "Verzameling verwijderen"
+
+#: internal/bookmarks/routes/x-components.templ:140
+msgid "Yellow"
+msgstr "Geel"
+
+#: internal/bookmarks/routes/x-components.templ:141
+msgid "Red"
+msgstr "Rood"
+
+#: internal/bookmarks/routes/x-components.templ:142
+msgid "Blue"
+msgstr "Blauw"
+
+#: internal/bookmarks/routes/x-components.templ:143
+msgid "Green"
+msgstr "Groen"
+
+#: internal/bookmarks/routes/x-components.templ:144
+msgid "Transparent"
+msgstr "Transparant"
+
+#: internal/bookmarks/routes/x-components.templ:151
+msgid "Highlight"
+msgstr "Markeren"
+
+#: internal/bookmarks/routes/x-components.templ:193
+#: internal/bookmarks/routes/x-labels.templ:110
+msgid "Delete"
+msgstr "Verwijderen"
+
+#: internal/bookmarks/routes/x-components.templ:257
+#: internal/bookmarks/routes/x-components.templ:287
+msgid "Close"
+msgstr "Sluiten"
+
+#: internal/bookmarks/routes/x-components.templ:269
+msgid "Show image"
+msgstr "Afbeelding tonen"
+
+#: internal/bookmarks/routes/x-components.templ:299
+msgid "Play video"
+msgstr "Video afspelen"
+
+#: internal/bookmarks/routes/x-components.templ:326
+msgid "Extraction log"
+msgstr "Extractielogboek"
+
+#: internal/bookmarks/routes/x-components.templ:330
+#: internal/bookmarks/routes/x-components.templ:381
+#: internal/docs/x-about.templ:70
+msgid "copy to clipboard"
+msgstr "Kopiëren naar klembord"
+
+#: internal/bookmarks/routes/x-components.templ:342
+#: internal/profile/x-tokens.templ:110
+msgid "Properties"
+msgstr "Eigenschappen"
+
+#: internal/bookmarks/routes/x-components.templ:351
+msgid "Saved with Readeck"
+msgstr "Bewaard met Readeck"
+
+#: internal/bookmarks/routes/x-components.templ:368
+msgid "This feed provides the latest entries from this bookmark list"
+msgstr "Deze feed toont de nieuwste items uit deze bladwijzerlijst"
+
+#: internal/bookmarks/routes/x-components.templ:369
+msgid "Subscribe to this feed by copying the URL below:"
+msgstr "Abonneer je op deze feed door de onderstaande URL te kopiëren:"
+
+#: internal/bookmarks/routes/x-components.templ:388
+msgid "Open link"
+msgstr "Link openen"
+
+#: internal/bookmarks/routes/x-components.templ:396
+msgid "Access to this feed is restricted."
+msgstr "De toegang tot deze feed is afgeschermd.."
+
+#: internal/bookmarks/routes/x-components.templ:398
+msgid ""
+"\n"
+"\t\t\t\t\t\tYou must provide your newsreader app a username and an\n"
+"\t\t\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">API Token</a> to load this feed.\n"
+"\t\t\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\t\t\tJe moet je nieuwslezer app voorzien van een gebruikersnaam en een\n"
+"\t\t\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">API Token</a> om deze feed te laden.\n"
+"\t\t\t\t\t"
+
+#: internal/bookmarks/routes/x-components.templ:409
+msgid "You don't have any bookmarks yet.<br> Copy a link in the field above and start saving."
+msgstr "Je hebt nog geen bladwijzers.<br>Plak een link in bovenstaand veld om te beginnen."
+
+#: internal/bookmarks/routes/x-components.templ:415
+#, python-format
+msgid "Read more about bookmarks in the <a class=\"%s\" href=\"%s\">documentation</a>."
+msgstr "Meer informatie is te vinden in de <a class=\"%s\" href=\"%s\">documentatie</a>."
+
+#: internal/bookmarks/routes/x-components.templ:423
+msgid ""
+"\n"
+"\t\tWith the Browser Extension, you can save pages, images and selections\n"
+"\t\tdirectly from your browser!"
+msgstr ""
+"\n"
+"\t\tMet de browserextensie kun je pagina's, afbeeldingen en selecties\n"
+"\t\tdirect vanuit je browser opslaan!"
+
+# | msgid "" "\n" "          Would you like to import from a similar tool or
+# | from a file with existing bookmarks?\n" "          Try Readeck's import
+# | tool.\n" "        "
+#: internal/bookmarks/routes/x-components.templ:430
+msgid ""
+"\n"
+"\t\tWould you like to import from a similar tool or from a file with existing bookmarks?\n"
+"\t\tTry Readeck's import tool.\n"
+"\t"
+msgstr ""
+"\n"
+"\t\tWil je importeren uit een vergelijkbare tool of uit een bestand met bestaande bladwijzers?\n"
+"\t\tProbeer de importtool van Readeck.\n"
+"\t"
+
+#: internal/bookmarks/routes/x-filters.templ:24
+msgid "Author"
+msgstr "Auteur"
+
+#: internal/bookmarks/routes/x-filters.templ:25
+msgid "Site"
+msgstr "Website"
+
+#: internal/bookmarks/routes/x-filters.templ:37
+msgctxt "date"
+msgid "Since"
+msgstr "Sinds"
+
+#: internal/bookmarks/routes/x-filters.templ:41
+msgctxt "date"
+msgid "Until"
+msgstr "Tot"
+
+#: internal/bookmarks/routes/x-filters.templ:45
+msgid "Type"
+msgstr "Type"
+
+#: internal/bookmarks/routes/x-filters.templ:49
+msgctxt "filter"
+msgid "Progress"
+msgstr "Voortgang"
+
+#: internal/bookmarks/routes/x-filters.templ:52
+msgid "Is Favorite"
+msgstr "Favoriet (ja/nee)"
+
+#: internal/bookmarks/routes/x-filters.templ:53
+msgid "Is Archived"
+msgstr "Gearchiveerd (ja/nee)"
+
+#: internal/bookmarks/routes/x-filters.templ:54
+msgid "Is Loaded"
+msgstr "Is geladen"
+
+#: internal/bookmarks/routes/x-filters.templ:55
+msgid "With Labels"
+msgstr "Met labels"
+
+#: internal/bookmarks/routes/x-filters.templ:56
+msgid "With Notes"
+msgstr "Met notities"
+
+#: internal/bookmarks/routes/x-filters.templ:57
+msgid "With Errors"
+msgstr "Met foutmeldingen"
+
+#: internal/bookmarks/routes/x-filters.templ:90
+#: internal/bookmarks/routes/x-reader-control.templ:180
+msgid "yes"
+msgstr "ja"
+
+#: internal/bookmarks/routes/x-filters.templ:91
+#: internal/bookmarks/routes/x-reader-control.templ:180
+msgid "no"
+msgstr "nee"
+
+#: internal/bookmarks/routes/x-import.templ:24
+msgid "Import your Bookmarks"
+msgstr "Bladwijzers importeren"
+
+#: internal/bookmarks/routes/x-import.templ:37
+msgid "Import your Browser's Bookmarks, Pinboard, Instapaper"
+msgstr "Importeer de bladwijzers van je webbrowser, Pinboard of Instapaper"
+
+# | msgid "Import Links from a Text File"
+#: internal/bookmarks/routes/x-import.templ:44
+msgid "Import Links from a CSV File and Instapaper"
+msgstr "Links importeren uit csv-bestand en Instapaper"
+
+#: internal/bookmarks/routes/x-import.templ:51
+msgid "Import your GoodLinks Articles"
+msgstr "Importeer je GoodLinks-artikelen"
+
+#: internal/bookmarks/routes/x-import.templ:58
+msgid "Import your Linkwarden Bookmarks"
+msgstr "Linkwarden-bladwijzers importeren"
+
+#: internal/bookmarks/routes/x-import.templ:65
+msgid "Import your Pinboard bookmarks"
+msgstr "Pinboard-bladwijzers importeren"
+
+#: internal/bookmarks/routes/x-import.templ:79
+msgid "Import your Readwise Reader Library"
+msgstr "Readwise Reader-bibliotheek importeren"
+
+#: internal/bookmarks/routes/x-import.templ:100
+msgid "Here you can import your existing bookmark collection from various sources into Readeck."
+msgstr "Hier kun je je bladwijzers vanuit verschillende diensten importeren naar Readeck."
+
+#: internal/bookmarks/routes/x-import.templ:125
+msgid "Import status"
+msgstr "Importstatus"
+
+#: internal/bookmarks/routes/x-import.templ:145
+msgid "Import operation will launch momentarily."
+msgstr "Het importeren begint zo spoedig mogelijk."
+
+#: internal/bookmarks/routes/x-import.templ:147
+msgid "Import operation has started!"
+msgstr "Het importeren is begonnen!"
+
+#: internal/bookmarks/routes/x-import.templ:151
+msgid "You can keep using Readeck while the import is running."
+msgstr "Je kunt Readeck tijdens het importeren gewoon blijven gebruiken."
+
+#: internal/bookmarks/routes/x-import.templ:162
+msgid "Import is finished!"
+msgstr "Het importeren is voltooid!"
+
+#: internal/bookmarks/routes/x-import.templ:165
+#, python-format
+msgid ""
+"\n"
+"\t\t\t\t\t\tYour bookmarks are now available in your <a class=\"%s\" href=\"%s\">bookmark list</a>.\n"
+"\t\t\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\t\t\tDe bladwijzers zijn toegevoegd aan je <a class=\"%s\" href=\"%s\">bladwijzerlijst</a>.\n"
+"\t\t\t\t\t"
+
+#: internal/bookmarks/routes/x-labels.templ:27
+msgid "Bookmarks Labels"
+msgstr "Bladwijzerlabels"
+
+#: internal/bookmarks/routes/x-labels.templ:31
+msgid ""
+"\n"
+"\t\t\t\tLabels let your organize your bookmarks the way you want.\n"
+"\t\t\t\tYou can set anything to a label, including emojis!\n"
+"\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\tJe kunt je bladwijzers ordenen met behulp van labels.\n"
+"\t\t\t\tAlles kan een label zijn, zelfs emoji's!\n"
+"\t\t\t"
+
+#: internal/bookmarks/routes/x-labels.templ:128
+msgid "Label will be removed in a few seconds."
+msgstr "Het label wordt over enkele seconden verwijderd."
+
+# | msgid "Options"
+#: internal/bookmarks/routes/x-reader-control.templ:25
+#: internal/bookmarks/routes/x-reader-control.templ:27
+msgid "Display options"
+msgstr "Weergaveopties"
+
+#: internal/bookmarks/routes/x-reader-control.templ:34
+msgid "Width"
+msgstr "Breedte"
+
+#: internal/bookmarks/routes/x-reader-control.templ:35
+msgid "Current Width"
+msgstr "Huidige breedte"
+
+#: internal/bookmarks/routes/x-reader-control.templ:36
+msgid "Decrease width"
+msgstr "Breedte verkleinen"
+
+#: internal/bookmarks/routes/x-reader-control.templ:37
+msgid "Increase width"
+msgstr "Breedte vergroten"
+
+#: internal/bookmarks/routes/x-reader-control.templ:42
+msgid "Size"
+msgstr "Grootte"
+
+#: internal/bookmarks/routes/x-reader-control.templ:43
+msgid "Current font size"
+msgstr "Huidige lettergrootte"
+
+#: internal/bookmarks/routes/x-reader-control.templ:44
+msgid "Decrease font size"
+msgstr "Lettergrootte verkleinen"
+
+#: internal/bookmarks/routes/x-reader-control.templ:45
+msgid "Increase font size"
+msgstr "Lettergrootte vergroten"
+
+#: internal/bookmarks/routes/x-reader-control.templ:50
+msgid "Line height"
+msgstr "Regelhoogte"
+
+#: internal/bookmarks/routes/x-reader-control.templ:51
+msgid "Current line height"
+msgstr "Huidige regelhoogte"
+
+#: internal/bookmarks/routes/x-reader-control.templ:52
+msgid "Decrease line height"
+msgstr "Regelhoogte verkleinen"
+
+#: internal/bookmarks/routes/x-reader-control.templ:53
+msgid "Increase line height"
+msgstr "Regelafstand vergroten"
+
+#: internal/bookmarks/routes/x-reader-control.templ:58
+msgid "Justify"
+msgstr "Uitvullen"
+
+#: internal/bookmarks/routes/x-reader-control.templ:59
+msgid "Justify text"
+msgstr "Tekst uitvullen"
+
+#: internal/bookmarks/routes/x-reader-control.templ:60
+msgid "Don't justify text"
+msgstr "Tekst niet uitvullen"
+
+#: internal/bookmarks/routes/x-reader-control.templ:65
+msgid "Hyphenation"
+msgstr "Interpunctie"
+
+#: internal/bookmarks/routes/x-reader-control.templ:66
+msgid "With hyphenation"
+msgstr "Met koppelteken"
+
+#: internal/bookmarks/routes/x-reader-control.templ:67
+msgid "Without hyphenation"
+msgstr "Zonder koppelteken"
+
+#: internal/bookmarks/routes/x-reader-control.templ:82
+msgid "Font"
+msgstr "Lettertype"
+
+#: internal/bookmarks/routes/x-sidebar.templ:44
+msgid "Errors occurred during extraction."
+msgstr "Er zijn fouten opgetreden tijdens het extraheren."
+
+#: internal/bookmarks/routes/x-sidebar.templ:51
+msgid ""
+"\n"
+"\t\t\t\t\t\tDepending on the error, Readeck's browser extension may provide\n"
+"\t\t\t\t\t\ta workaround."
+msgstr ""
+"\n"
+"\t\t\t\t\t\tReadecks browserextensie kan - afhankelijk van de precieze foutmelding -\n"
+"\t\t\t\t\t\teen tussenoplossing bieden."
+
+#: internal/bookmarks/routes/x-sidebar.templ:67
+msgid "View log"
+msgstr "Logboek bekijken"
+
+#: internal/bookmarks/routes/x-sidebar.templ:102
+msgid "Mark as unread"
+msgstr "Markeren als ongelezen"
+
+#: internal/bookmarks/routes/x-sidebar.templ:103
+msgid "Mark as read"
+msgstr "Markeren als gelezen"
+
+#: internal/bookmarks/routes/x-sidebar.templ:173
+msgid "Export and Share"
+msgstr "Exporteren en delen"
+
+#: internal/bookmarks/routes/x-sidebar.templ:194
+msgid "Share by Link"
+msgstr "Delen via link"
+
+#: internal/bookmarks/routes/x-sidebar.templ:206
+msgid "Send article by Email"
+msgstr "Artikel versturen via e-mail"
+
+#: internal/bookmarks/routes/x-sidebar.templ:217
+msgid "Send e-book by Email"
+msgstr "E-boek versturen via e-mail"
+
+#: internal/bookmarks/routes/x-sidebar.templ:345
+msgid "Add a label"
+msgstr "Label toekennen"
+
+#: internal/bookmarks/routes/x-sidebar.templ:366
+msgid "Add label"
+msgstr "Label toekennen"
+
+#: internal/bookmarks/routes/x-sidebar.templ:390
+msgid "Remove label"
+msgstr "Label wissen"
+
+#: internal/bookmarks/routes/x-sidebar.templ:408
+msgid "Start selecting text in the article to create a new highlight."
+msgstr "Selecteer tekst in een artikel om een markering toe te voegen."
+
+#: internal/bookmarks/routes/x-sidebar.templ:440
+msgid "Delete highlight"
+msgstr "Markering verwijderen"
+
+#: internal/bookmarks/routes/x-sidebar.templ:458
+msgid "Links"
+msgstr "Links"
+
+#: internal/dashboard/x-dashboard.templ:26
+#, python-format
+msgid "Hi %s!"
+msgstr "Hallo %s!"
+
+#: internal/dashboard/x-dashboard.templ:60 internal/opds/http.go:72
 msgid "All Bookmarks"
 msgstr "Alle bladwijzers"
+
+#: internal/dashboard/x-dashboard.templ:72
+msgid "Readeck"
+msgstr "Readeck"
+
+#: internal/dashboard/x-dashboard.templ:74 internal/profile/views.go:98
+#: internal/profile/views.go:151 internal/profile/views.go:187
+#: internal/profile/views.go:228 internal/profile/views.go:239
+#: internal/profile/views.go:290 internal/profile/views.go:342
+#: internal/profile/views.go:371 internal/profile/x-base.templ:20
+msgid "Profile"
+msgstr "Profiel"
+
+#: internal/dashboard/x-dashboard.templ:78
+msgid "Help"
+msgstr "Help"
+
+#: internal/dashboard/x-dashboard.templ:146
+msgid "Archived"
+msgstr "Gearchiveerd"
+
+#: internal/dashboard/x-dashboard.templ:201
+msgid "See all"
+msgstr "Toon alle"
+
+#: internal/dashboard/x-dashboard.templ:224
+msgid "Applications for Readeck"
+msgstr "Apps voor Readeck"
+
+#: internal/dashboard/x-dashboard.templ:226
+msgid ""
+"\n"
+"\t\t\t\tYou can use Readeck, not only in your browser, but also\n"
+"\t\t\t\ton your smartphone, your e-book reader or\n"
+"\t\t\t\tin other apps through plugins."
+msgstr ""
+"\n"
+"\t\t\t\tJe kunt Readeck niet alleen in je browser gebruiken, maar ook\n"
+"\t\t\t\top je smartphone, je e-reader of\n"
+"\t\t\t\tin andere apps via plug-ins."
+
+#: internal/dashboard/x-dashboard.templ:236
+msgid "Discover applications"
+msgstr "Ontdek apps"
+
+# | msgid "Readeck Bookmark Collections"
+#: internal/dashboard/x-dashboard.templ:243
+msgid "Readeck in your Browser"
+msgstr "Readeck in je browser"
+
+#: internal/docs/http.go:257 internal/docs/x-about.templ:53
+#: internal/docs/x-base.templ:43
+msgid "About Readeck"
+msgstr "Over Readeck"
+
+#: internal/docs/x-about.templ:57
+msgid "Version:"
+msgstr "Versie:"
+
+#: internal/docs/x-about.templ:58
+msgid "Build Date:"
+msgstr "Bouwdatum:"
+
+#: internal/docs/x-about.templ:60
+msgid "System Information"
+msgstr "Systeeminformatie"
+
+#: internal/docs/x-about.templ:62
+msgid "Here are your current system information. Please include them if you report a bug."
+msgstr "Hier vind je de systeeminformatie. Stuur deze mee bij het melden van een bug."
+
+#: internal/docs/x-about.templ:75
+msgid "Storage"
+msgstr "Opslag"
+
+#: internal/docs/x-about.templ:79
+msgid "Database Size:"
+msgstr "Databasegrootte:"
+
+#: internal/docs/x-about.templ:83
+msgid "Bookmarks Disk Usage:"
+msgstr "Bladwijzers Schijfgebruik:"
+
+#: internal/docs/x-about.templ:88
+msgid "Project"
+msgstr "Project"
+
+#: internal/docs/x-about.templ:91
+msgid "Main website:"
+msgstr "Officiële website:"
+
+#: internal/docs/x-about.templ:95
+msgid "Sources and issues:"
+msgstr "Broncode en problemen:"
+
+#: internal/docs/x-about.templ:99
+msgid "How to contribute:"
+msgstr "Hoe kunt u bijdragen:"
+
+#: internal/docs/x-about.templ:103
+msgid "Community Forum:"
+msgstr "Gemeenschapsforum:"
+
+#: internal/docs/x-about.templ:107
+msgid "Matrix Chat:"
+msgstr "Matrix-chat:"
+
+#: internal/docs/x-about.templ:111
+msgid "License"
+msgstr "Licentie"
+
+#: internal/docs/x-about.templ:113
+#, python-format
+msgid "Readeck is distributed under the terms of the license \"%s\""
+msgstr "Readeck wordt verspreid onder de voorwaarden van de %s-licentie"
+
+#: internal/docs/x-about.templ:118
+msgid "Here's a short summary of the license conditions:"
+msgstr "Hieronder vind je een korte samenvatting van de voorwaarden:"
+
+#: internal/docs/x-about.templ:123 internal/profile/x-applications.templ:56
+msgid "Permissions"
+msgstr "Rechten"
+
+#: internal/docs/x-about.templ:124
+msgid "Conditions"
+msgstr "Voorwaarden"
+
+#: internal/docs/x-about.templ:125
+msgid "Limitations"
+msgstr "Beperkingen"
+
+#: internal/docs/x-about.templ:135
+msgid "Commercial use"
+msgstr "Commercieel gebruik"
+
+#: internal/docs/x-about.templ:140
+msgid "Distribution"
+msgstr "Verspreiding"
+
+#: internal/docs/x-about.templ:145
+msgid "Modification"
+msgstr "Aanpassing"
+
+#: internal/docs/x-about.templ:150
+msgid "Patent use"
+msgstr "Patentgebruik"
+
+#: internal/docs/x-about.templ:155
+msgid "Private use"
+msgstr "Privégebruik"
+
+#: internal/docs/x-about.templ:164
+msgid "Disclose source"
+msgstr "Bron benoemen"
+
+#: internal/docs/x-about.templ:169
+msgid "License and copyright notice"
+msgstr "Licentie- en auteursrechtvermelding"
+
+#: internal/docs/x-about.templ:174
+msgid "Network use is distribution"
+msgstr "Netwerkgebruik is verspreiding"
+
+#: internal/docs/x-about.templ:179
+msgid "Same license"
+msgstr "Dezelfde licentie"
+
+#: internal/docs/x-about.templ:184
+msgid "State changes"
+msgstr "Statuswijzigingen"
+
+#: internal/docs/x-about.templ:193
+msgid "Liability"
+msgstr "Aansprakelijkheid"
+
+#: internal/docs/x-about.templ:198
+msgid "Warranty"
+msgstr "Garantie"
+
+#: internal/docs/x-about.templ:229
+msgid "Third-Party Licenses"
+msgstr "Licenties van externe partijen"
+
+#: internal/docs/x-about.templ:230
+msgid "Readeck includes and/or uses the following open source assets:"
+msgstr "Readeck bevat en/of maakt gebruik van de volgende opensourceitems:"
+
+#: internal/docs/x-api.templ:18 internal/docs/x-base.templ:34
+msgid "API Documentation"
+msgstr "Api-documentatie"
+
+#: internal/docs/x-base.templ:17
+msgid "Readeck Help"
+msgstr "Hulp"
+
+#: internal/docs/x-base.templ:48
+msgid "Changelog"
+msgstr "Wijzigingslog"
 
 #: internal/portability/import.go:351
 msgid "The import file must contain one user only"
 msgstr "Het importbestand kan slechts van één gebruiker zijn"
 
-#: internal/profile/forms.go:41
-msgid "invalid username and/or email"
-msgstr "Ongeldige gebruikersnaam en/of e-mailadres"
-
-#: internal/profile/forms.go:42
+#: internal/profile/forms.go:30
 msgid "invalid password"
 msgstr "Ongeldig wachtwoord"
 
-#: internal/profile/forms.go:471
+#: internal/profile/forms.go:357
 msgid "username does not match"
 msgstr "De gebruikersnaam komt niet overeen"
 
-#: internal/profile/views.go:84
+#: internal/profile/views.go:89
 msgid "Profile updated."
 msgstr "Het profiel is bijgewerkt."
 
-#: internal/profile/views.go:138
+#: internal/profile/views.go:131
 msgid "Your password was changed."
 msgstr "Het wachtwoord is gewijzigd."
 
-#: internal/profile/views.go:149
+#: internal/profile/views.go:142
 msgid "Your verification code was removed."
 msgstr "Uw verificatiecode is verwijderd."
 
-#: internal/profile/views.go:169
-msgid "Verification Code"
-msgstr "Verificatiecode"
+#: internal/profile/views.go:152 internal/profile/views.go:188
+#: internal/profile/x-base.templ:26
+msgid "Security"
+msgstr "Beveiliging"
 
-#: internal/profile/views.go:197
+#: internal/profile/views.go:181
 msgid "Verification Code is now enabled."
 msgstr "De verificatiecode is nu ingeschakeld."
 
-#: internal/profile/views.go:275
+#: internal/profile/views.go:189
+msgid "Verification Code"
+msgstr "Verificatiecode"
+
+#: internal/profile/views.go:229 internal/profile/x-applications.templ:10
+#: internal/profile/x-base.templ:33
+msgid "Applications"
+msgstr "Applicaties"
+
+#: internal/profile/views.go:240 internal/profile/views.go:291
+#: internal/profile/x-base.templ:39
+msgid "API Tokens"
+msgstr "Api-toegangssleutels"
+
+#: internal/profile/views.go:255
 msgid "An error occurred while creating your token."
 msgstr "Er is een fout opgetreden tijdens het genereren van de sleutel."
 
-#: internal/profile/views.go:280
+#: internal/profile/views.go:260
 msgid "New token created."
 msgstr "Er is een nieuwe sleutel gegenereerd."
 
-#: internal/profile/views.go:299
+#: internal/profile/views.go:275
 msgid "Token was updated."
 msgstr "De sleutel is bijgewerkt."
 
-#: internal/profile/views.go:388
+#: internal/profile/views.go:343 internal/profile/x-base.templ:51
+#: internal/profile/x-export.templ:11
+msgid "Export"
+msgstr "Exporteren"
+
+#: internal/profile/views.go:361
 msgid "Profile imported."
 msgstr "Het profiel is geïmporteerd."
+
+#: internal/profile/x-applications.templ:15
+msgid ""
+"\n"
+"\t\t\t\t\tApplications are registered clients that have permissions to access your Readeck account.\n"
+"\t\t\t\t\tIf there are applications you do not recognize here, or an application is misbehaving,\n"
+"\t\t\t\t\tyou can revoke its access.\n"
+"\t\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\t\tApplicaties zijn geregistreerde clients die toegang hebben tot je Readeck-account.\n"
+"\t\t\t\t\tAls er applicaties zijn die je hier niet herkent, of als een applicatie zich misdraagt,\n"
+"\t\t\t\t\tkun je de toegang intrekken.\n"
+"\t\t\t\t"
+
+#: internal/profile/x-applications.templ:23
+msgid "You have no registered application at the moment."
+msgstr "U heeft momenteel geen geregistreerde applicaties."
+
+#: internal/profile/x-applications.templ:46
+#, python-format
+msgid "Authorized on: %s"
+msgstr "Geautoriseerd op: %s"
+
+#: internal/profile/x-applications.templ:52 internal/profile/x-tokens.templ:63
+#, python-format
+msgid "Last used on: %s"
+msgstr "Laatst gebruikt op %s"
+
+#: internal/profile/x-applications.templ:73
+msgid "This client will be revoked in a few seconds."
+msgstr "De autorisatie van deze client wordt binnen enkele seconden ingetrokken."
+
+#: internal/profile/x-applications.templ:94
+msgid "Revoke application"
+msgstr "Autorisatie intrekken"
+
+#: internal/profile/x-applications.templ:105
+msgid "Developer information"
+msgstr "Informatie voor ontwikkelaars"
+
+#: internal/profile/x-applications.templ:107
+#, python-format
+msgid ""
+"\n"
+"\t\t\t\t\t\t\tIf you plan to build an application, please refer to the\n"
+"\t\t\t\t\t\t\t<a href=\"%s\">API Documentation</a>.\n"
+"\t\t\t\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\t\t\t\tAls je van plan bent om een applicatie te bouwen, raadpleeg dan de\n"
+"\t\t\t\t\t\t\t<a href=\"%s\">API-documentatie</a>.\n"
+"\t\t\t\t\t\t"
+
+#: internal/profile/x-export.templ:23
+msgid "Bookmark List in Browser Bookmarks Format"
+msgstr "Bladwijzerlijst in browser-bestandsformaat"
+
+#: internal/profile/x-export.templ:30
+msgid "Bookmark List as Comma Separated Values"
+msgstr "Kommagescheiden bladwijzerlijst"
+
+#: internal/profile/x-export.templ:37
+msgid "Export your Readeck Profile"
+msgstr "Exorteer je Readeck-profiel"
+
+#: internal/profile/x-export.templ:41
+msgid ""
+"\n"
+"\t\t\t\t\t\tThis lets you download a zip file containing all your profile's data, including\n"
+"\t\t\t\t\t\tbookmarks, collections, etc.\n"
+"\t\t\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\t\t\tHiermee kun je een zipbestand downloaden met daarin al je profielgegevens, zoals\n"
+"\t\t\t\t\t\tbladwijzers, verzamelingen, etc.\n"
+"\t\t\t\t\t"
+
+#: internal/profile/x-export.templ:47
+msgid "Export Data"
+msgstr "Gegevens exporteren"
+
+#: internal/profile/x-export.templ:52
+msgid "Export Bookmarks"
+msgstr "Bladwijzers exporteren"
+
+#: internal/profile/x-export.templ:53
+msgid "You can export your bookmark list in the following formats:"
+msgstr "Je kunt je bladwijzerlijst exporteren naar de volgende indelingen:"
+
+#: internal/profile/x-import.templ:16
+msgid "Import a Readeck Profile"
+msgstr "Readeck-profiel importeren"
+
+#: internal/profile/x-import.templ:17
+msgid "Import a file obtained through a previous profile export."
+msgstr "Importeer een bestand uit een eerdere export."
+
+#: internal/profile/x-import.templ:26
+msgid "Confirm your user name"
+msgstr "Gebruikersnaam bevestigen"
+
+#: internal/profile/x-import.templ:32
+msgid "Attention"
+msgstr "Let op"
+
+#: internal/profile/x-import.templ:34
+msgid ""
+"\n"
+"\t\t\t\t\t\t\tThis will empty your current profile and all its data will be\n"
+"\t\t\t\t\t\t\treplaced with the file's content.\n"
+"\t\t\t\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\t\t\t\tHiermee wordt je huidige profiel leeggemaakt en worden alle gegevens\n"
+"\t\t\t\t\t\t\tvervangen door de inhoud van het bestand.\n"
+"\t\t\t\t\t\t"
+
+#: internal/profile/x-import.templ:46
+msgid "Import bookmarks from other services"
+msgstr "Bladwijzers van andere diensten importeren"
+
+#: internal/profile/x-import.templ:49
+#, python-format
+msgid ""
+"\n"
+"\t\t\t\t\t\tIf you have bookmarks from another service you can import them in the\n"
+"\t\t\t\t\t\t<a href=\"%s\">dedicated section</a>.\n"
+"\t\t\t\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\t\t\tAls je over bladwijzers op een andere dienst beschikt, dan kun je ze importeren in de\n"
+"\t\t\t\t\t\t<a href=\"%s\">daarvoor bestemde sectie</a>.\n"
+"\t\t\t\t\t\t"
+
+#: internal/profile/x-profile.templ:17 internal/profile/x-security.templ:16
+msgid "My profile"
+msgstr "Mijn profiel"
+
+#: internal/profile/x-profile.templ:25
+#, python-format
+msgid "You are connected as <strong>%s</strong>"
+msgstr "U bent verbonden als <strong>%s</strong>"
+
+# | msgid "Settings"
+#: internal/profile/x-profile.templ:40
+msgid "Base settings"
+msgstr "Algemene instellingen"
+
+#: internal/profile/x-profile.templ:49
+msgid "Email Address"
+msgstr "E-mailadres"
+
+# | msgid "Settings"
+#: internal/profile/x-profile.templ:72
+msgid "Email settings"
+msgstr "E-mailinstellingen"
+
+#: internal/profile/x-profile.templ:75
+msgid "Reply To"
+msgstr "Antwoordadres"
+
+#: internal/profile/x-profile.templ:77
+msgid "Add this email address in your outgoing emails so recipients can reply."
+msgstr "Naar dit e-mailadres kunnen gebruikers antwoorden versturen."
+
+#: internal/profile/x-profile.templ:81
+msgid "Send EPUB to"
+msgstr "Epub versturen naar"
+
+#: internal/profile/x-profile.templ:83
+msgid "This address is used to prefill the recipient when you send an e-book by email."
+msgstr "Dit adres wordt gebruikt als ontvanger van het e-boek."
+
+#: internal/profile/x-profile.templ:90
+msgid "Sending e-books to an Amazon Kindle"
+msgstr "E-books verzenden naar een Amazon Kindle"
+
+#: internal/profile/x-profile.templ:93
+msgid ""
+"\n"
+"\t\t\t\t\t\t\t\t\t\tIf you plan to send e-books to a Kindle device, you must approve the\n"
+"\t\t\t\t\t\t\t\t\t\tfollowing email address within your Kindle Account:\n"
+"\t\t\t\t\t\t\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\t\t\t\t\t\t\tAls je van plan bent om e-boeken naar een Kindle-apparaat te versturen,\n"
+"\t\t\t\t\t\t\t\t\t\tdan moet je eerst dit e-mailadres goedkeuren via je Kindle-account:\n"
+"\t\t\t\t\t\t\t\t\t"
+
+#: internal/profile/x-security.templ:25
+msgid "Change my password"
+msgstr "Wachtwoord wĳzigen"
+
+#: internal/profile/x-security.templ:27
+msgid "Current password"
+msgstr "Huidig wachtwoord"
+
+#: internal/profile/x-security.templ:49
+msgid "Verification Code (TOTP)"
+msgstr "Verificatiecode (TOTP)"
+
+#: internal/profile/x-security.templ:50
+msgid "A verification code is a one time code generated by an application, such as Google Authenticator."
+msgstr "Een verificatiecode is een eenmalige code die wordt gegenereerd door een applicatie, zoals Google Authenticator."
+
+#: internal/profile/x-security.templ:55
+msgid "The verification code is enabled on this account."
+msgstr "De verificatiecode is ingeschakeld voor dit account."
+
+#: internal/profile/x-security.templ:59
+msgid "Remove Verification Code"
+msgstr "Verificatiecode verwijderen"
+
+#: internal/profile/x-security.templ:61
+msgid "Removing your verification code will make your account less secure."
+msgstr "Als u uw verificatiecode verwijdert, wordt uw account minder veilig."
+
+#: internal/profile/x-security.templ:67
+msgid "Remove"
+msgstr "Verwijderen"
+
+#: internal/profile/x-security.templ:75 internal/profile/x-security.templ:85
+msgid "Setup Verification Code"
+msgstr "Verificatiecode instellen"
+
+#: internal/profile/x-security.templ:91
+msgid "Scan this QR code with your app"
+msgstr "Scan deze QR-code met uw app"
+
+#: internal/profile/x-security.templ:92
+msgid "Scan the QR code below with a two-factor authentication app on your phone."
+msgstr "Scan de onderstaande QR-code met een app voor tweefactorauthenticatie op uw telefoon."
+
+#: internal/profile/x-security.templ:101
+msgid "If you can't use the QR code, enter the code below instead."
+msgstr "Als u de QR-code niet kunt gebruiken, voer dan de onderstaande code in."
+
+#: internal/profile/x-security.templ:104
+msgid "Enter the code from your application."
+msgstr "Voer de code uit uw applicatie in."
+
+#: internal/profile/x-security.templ:106
+msgid "After scanning the QR code, the app will display a six-digit code that you need to enter below."
+msgstr "Na het scannen van de QR-code geeft de app een zescijferige code weer die u hieronder moet invoeren."
+
+#: internal/profile/x-security.templ:109
+msgid "Code from your device"
+msgstr "Code van uw apparaat"
+
+#: internal/profile/x-security.templ:115
+msgid "Finish"
+msgstr "Klaar"
+
+#: internal/profile/x-tokens.templ:13
+msgid "My API Tokens"
+msgstr "Mijn api-sleutels"
+
+#: internal/profile/x-tokens.templ:17
+msgid "An API Token is a key that grants you access to the Readeck API."
+msgstr "Een API Token is een sleutel die u toegang geeft tot de Readeck API."
+
+#: internal/profile/x-tokens.templ:19
+#, python-format
+msgid "Please read the <a href=\"%s\">API Documentation</a> if you plan to use it."
+msgstr "Neem de <a href=\"%s\">api-documentatie</a> door als je hiervan gebruik wilt maken."
+
+#: internal/profile/x-tokens.templ:28
+msgid "Create a new API token"
+msgstr "Api-sleutel genereren"
+
+#: internal/profile/x-tokens.templ:57
+#, python-format
+msgid "Expires on: %s"
+msgstr "Vervalt op %s"
+
+#: internal/profile/x-tokens.templ:73
+msgid "This token will be removed in a few seconds."
+msgstr "Deze sleutel wordt over enkele seconden verwijderd."
+
+#: internal/profile/x-tokens.templ:98
+msgid "API Token"
+msgstr "Api-toegangssleutel"
+
+#: internal/profile/x-tokens.templ:105
+msgid "Token will be removed in a few seconds."
+msgstr "De toegangssleutel wordt over enkele seconden gewist."
+
+#: internal/profile/x-tokens.templ:114
+msgid "Token ID"
+msgstr "Toegangssleutel"
+
+#: internal/profile/x-tokens.templ:118
+msgid "Last used"
+msgstr "Laatst gebruikt"
+
+#: internal/profile/x-tokens.templ:123
+msgid "never used"
+msgstr "nooit gebruikt"
+
+#: internal/profile/x-tokens.templ:133
+msgid "Enabled"
+msgstr "Ingeschakeld"
+
+#: internal/profile/x-tokens.templ:137
+msgid "Expires on"
+msgstr "Vervalt op"
+
+#: internal/profile/x-tokens.templ:140 internal/profile/x-tokens.templ:149
+msgid "Roles"
+msgstr "Functies"
+
+#: internal/profile/x-tokens.templ:142
+msgid ""
+"\n"
+"\t\t\t\t\tYou can limit the permissions granted to this token by choosing one or more\n"
+"\t\t\t\t\tgroup of permissions below.<br>\n"
+"\t\t\t\t\tLeave all the choices blank to grant all your permissions to this token.\n"
+"\t\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\t\tJe kunt de aan deze toegangssleutel verleende rechten beperken door hieronder één of meer\n"
+"\t\t\t\t\trechtengroepen te kiezen.<br>\n"
+"\t\t\t\t\tLaat alle keuzes leeg om al je rechten aan deze toegangssleutel te verlenen.\n"
+"\t\t\t\t"
+
+#: internal/profile/x-tokens.templ:158
+msgid "Delete token"
+msgstr "Toegangssleutel wissen"
+
+#: internal/profile/x-tokens.templ:162
+msgid "Authentication"
+msgstr "Verificatie"
+
+#: internal/profile/x-tokens.templ:164
+msgid "Your API token"
+msgstr "Mijn api-sleutel"
+
+# | msgid "API Token"
+#: internal/profile/x-tokens.templ:177
+msgid "copy token"
+msgstr "Toegangssleutel kopiëren"
+
+#: internal/profile/x-tokens.templ:191
+msgid "Download as a text file"
+msgstr "Downloaden als tekstbestand"
+
+#: internal/profile/x-tokens.templ:194
+msgid "How to use it"
+msgstr "Hoe te gebruiken"
+
+#: internal/profile/x-tokens.templ:195
+msgid "As a Bearer Token"
+msgstr "Als sleutelhouder"
+
+#: internal/profile/x-tokens.templ:197
+msgid "You can use this token by passing it as an <strong>Authorization: Bearer</strong> HTTP header."
+msgstr "Je kunt deze toegangssleutel gebruiken met behulp van de http-kop <strong>Authorization: Bearer</strong>."
+
+#: internal/profile/x-tokens.templ:200
+msgid "HTTP Header"
+msgstr "Http-kop"
+
+#: internal/profile/x-tokens.templ:213
+msgid "copy HTTP header"
+msgstr "Http-kop kopiëren"
+
+#: internal/profile/x-tokens.templ:219
+msgid "As a password"
+msgstr "Als wachtwoord"
+
+#: internal/profile/x-tokens.templ:220
+msgid "Alternatively, you can use this token as a password for HTTP Basic Authentication."
+msgstr "Ook kun je deze sleutel als wachtwoord gebruiken i.c.m. HTTP Basic Authentication."
+
+#: internal/profile/x-tokens.templ:222
+msgid ""
+"\n"
+"\t\t\t\tFor example, if an application only accepts a username and password, you can provide this token as a password.\n"
+"\t\t\t\tThe username is ignored and can be anything, including an empty value.\n"
+"\t\t\t"
+msgstr ""
+"\n"
+"\t\t\t\tVoorbeeld: als een app alleen een gebruikersnaam en wachtwoord accepteert, kun je deze sleutel als wachtwoord gebruiken.\n"
+"\t\t\t\tDe gebruikersnaam wordt genegeerd en kan van alles zijn, zelfs een lege.\n"
+"\t\t\t"
 
 #: pkg/forms/forms.go:28
 msgid "an unexpected error has occurred"
@@ -2809,40 +2941,40 @@ msgstr "Er is een onverwachte fout opgetreden"
 msgid "field is required"
 msgstr "Veld is vereist"
 
-#: pkg/forms/validators.go:20
+#: pkg/forms/validators.go:19
 msgid "not a valid email address"
 msgstr "Ongeldig e-mailadres"
 
-#: pkg/forms/validators.go:22
+#: pkg/forms/validators.go:20
 msgid "invalid URL"
 msgstr "Ongeldige url"
 
-#: pkg/forms/validators.go:331
+#: pkg/forms/validators.go:290
 #, python-format
-msgid "must be greater or equal than %d"
-msgstr "Moet meer zijn dan of gelijk aan %d"
+msgid "must be greater or equal than %g"
+msgstr "Moet meer zijn dan of gelijk aan %g"
 
-#: pkg/forms/validators.go:339
+#: pkg/forms/validators.go:307
 #, python-format
-msgid "must be lower or equal than %d"
-msgstr "Moet minder zijn dan of gelijk aan %d"
+msgid "must be lower or equal than %g"
+msgstr "Moet minder zijn dan of gelijk aan %g"
 
-#: pkg/forms/validators.go:347
+#: pkg/forms/validators.go:315
 #, python-format
 msgid "text must contain at least %d characters"
 msgstr "tekst moet ten minste %d tekens bevatten"
 
-#: pkg/forms/validators.go:355
+#: pkg/forms/validators.go:323
 #, python-format
 msgid "text must contain at most %d characters"
 msgstr "tekst mag maximaal %d tekens bevatten"
 
-#: pkg/forms/validators.go:363
+#: pkg/forms/validators.go:331
 #, python-format
 msgid "text must contain %d characters"
 msgstr "tekst moet %d tekens bevatten"
 
-#: pkg/forms/validators.go:443
+#: pkg/forms/validators.go:394
 #, python-format
 msgid "%v is not one of %s"
 msgstr "%v is niet een %s"
@@ -3186,4 +3318,109 @@ msgstr "%H:%M:%S"
 #~ msgstr "Markering(en) verwijderen"
 
 #~ msgid "Verification Code Setup"
+#~ msgstr ""
+
+#~ msgid "Last update: %s"
+#~ msgstr "Bijgewerkt op %s"
+
+#~ msgid "You can now close this page."
+#~ msgstr "U kunt deze pagina nu sluiten."
+
+#~ msgid "%d min"
+#~ msgstr "%d min."
+
+#~ msgid "From date"
+#~ msgstr "Vanaf datum"
+
+#~ msgid "To date"
+#~ msgstr "Tot datum"
+
+#~ msgid ""
+#~ "\n"
+#~ "    These, optional, parameters are used when Readeck sends emails.\n"
+#~ "    "
+#~ msgstr ""
+#~ "\n"
+#~ "    Deze optionele opties worden gebruikt bij het versturen van e-mails.\n"
+#~ "    "
+
+#~ msgid "invalid username and/or email"
+#~ msgstr "Ongeldige gebruikersnaam en/of e-mailadres"
+
+#~ msgid "Home page"
+#~ msgstr "Startpagina"
+
+#~ msgid "Invalid API Key"
+#~ msgstr "De api-sleutel is ongeldig"
+
+#~ msgid "Import your Omnivore Articles"
+#~ msgstr "Omnivore-artikelen importeren"
+
+#~ msgid ""
+#~ "\n"
+#~ "\t\t\t\tTo import your articles from Omnivore, you must first create an API Key in your\n"
+#~ "\t\t\t\tOmnivore's settings and enter it in the the form below.\n"
+#~ "\t\t\t"
+#~ msgstr ""
+#~ "\n"
+#~ "    Open Omnivore, ga naar de instellingen en maak een api-sleutel aan.\n"
+#~ "    Voer de sleutel vervolgens in onderstaand vak in.\n"
+#~ "  "
+
+#~ msgid "Omnivore URL"
+#~ msgstr "Omnivore-url"
+
+#~ msgid "URL of your Omnivore homepage"
+#~ msgstr "De url van je Omnivore-pagina"
+
+#~ msgid "API Key"
+#~ msgstr "Api-sleutel"
+
+#~ msgid ""
+#~ "\n"
+#~ "\t\t\t\tYou can export your articles on Pocket by visiting:<br>\n"
+#~ "\t\t\t\t<a class=\"%[1]s\" href=\"%[2]s\">%[2]s</a>.\n"
+#~ "\t\t\t"
+#~ msgstr ""
+#~ "\n"
+#~ "    Je kunt je artikelen op Pocket exporteren door naar het volgende adres te gaan:<br>\n"
+#~ "    <a class=\"%[1]s\" href=\"%[2]s\">%[2]s</a>.\n"
+#~ "  "
+
+#~ msgid ""
+#~ "\n"
+#~ "\t\t\t\tPlease note that Pocket does not allow the article content to be exported.\n"
+#~ "\t\t\t\tThis could lead to different results in Readeck than what you currently\n"
+#~ "\t\t\t\tsee in Pocket.\n"
+#~ "\t\t\t"
+#~ msgstr ""
+#~ "\n"
+#~ "    Let op: Pocket heeft geen ondersteuning voor het exporteren van artikelinhoud.\n"
+#~ "    Hierdoor kunnen zoekresultaten in Readeck afwijken van die\n"
+#~ "    van Pocket.\n"
+#~ "  "
+
+#~ msgid "New bookmarks"
+#~ msgstr "Ongelezen bladwijzers"
+
+#~ msgid ""
+#~ "\n"
+#~ "\t\t\t\t\t\t\t\t\tYou can not only use Readeck in your browser but also on\n"
+#~ "\t\t\t\t\t\t\t\t\tyour smartphone, your e-book reader or in other apps through\n"
+#~ "\t\t\t\t\t\t\t\t\tplugins."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "\t\t\t\tYou can use Readeck, not only in your browser, but also\n"
+#~ "\t\t\t\ton your smartphone, your e-book reader or\n"
+#~ "\t\t\t\tin other apps through\tplugins."
+#~ msgstr ""
+
+#~ msgctxt "datetime"
+#~ msgid "%e %B %Y"
+#~ msgstr ""
+
+#~ msgctxt "date"
+#~ msgid "To"
 #~ msgstr ""

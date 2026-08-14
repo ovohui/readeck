@@ -6,7 +6,6 @@
 package bleach
 
 import (
-	"regexp"
 	"strings"
 	"unicode"
 
@@ -16,34 +15,53 @@ import (
 	"github.com/go-shiori/dom"
 )
 
+// attrBlocker is a function that returns true for HTML attribute names that should be stripped.
+type attrBlocker func(string) bool
+
 // Policy holds the cleaning rules and provides methods to
 // perform the DOM cleaning.
 type Policy struct {
-	blockAttrs []*regexp.Regexp
-	elementMap map[string]tagRule
+	blockAttrs []attrBlocker
 }
 
-// New creates a new cleaning policy.
-func New(blockAttrs []*regexp.Regexp, elements map[string]tagRule) Policy {
-	return Policy{
-		blockAttrs: blockAttrs,
-		elementMap: elements,
-	}
+// New instantiates a new cleaning Policy.
+func New(blockAttrs []attrBlocker) Policy {
+	return Policy{blockAttrs: blockAttrs}
 }
 
 // DefaultPolicy is the default bleach policy.
 var DefaultPolicy = New(
-	[]*regexp.Regexp{
-		// Remove all class and style attributes
-		regexp.MustCompile(`^(class|style)$`),
-		// Remove all data-* attributes
-		regexp.MustCompile(`^data-`),
+	[]attrBlocker{
+		// Remove "class", "style", "rel", and "sizes" attributes
+		func(attr string) bool {
+			switch attr {
+			case "class", "style", "rel", "sizes":
+				return true
+			default:
+				return false
+			}
+		},
+		// Remove "data-*" attributes except some "data-readeck-" ones
+		func(attr string) bool {
+			if !strings.HasPrefix(attr, "data-") {
+				return false
+			}
+			switch attr {
+			case "data-readeck-width", "data-readeck-height":
+				return false
+			default:
+				return true
+			}
+		},
 		// Remove all on* (JS events) attributes
-		regexp.MustCompile(`^on[a-z]+`),
-		// Remove "rel" and "sizes" attributes
-		regexp.MustCompile(`^(rel|sizes)$`),
+		func(attr string) bool {
+			if len(attr) < 3 {
+				return false
+			}
+			r := attr[2]
+			return attr[0:2] == "on" && r >= 'a' && r <= 'z'
+		},
 	},
-	elementMap,
 )
 
 // SanitizeString replaces any control character in a string by a space.
@@ -51,106 +69,122 @@ func SanitizeString(s string) string {
 	return ctrlReplacer.Replace(s)
 }
 
-// Clean cleans removes unwanted tags and attributes from the document.
+// Clean removes unwanted tags and attributes from the document.
 func (p Policy) Clean(top *html.Node) {
-	p.cleanTags(top)
-	p.cleanAttributes(top)
-}
+	var traverse func(*html.Node)
+	traverse = func(parent *html.Node) {
+		var nextSibling *html.Node
+		for node := parent.FirstChild; node != nil; node = nextSibling {
+			nextSibling = node.NextSibling
+			if node.Type != html.ElementNode {
+				continue
+			}
 
-// cleanTags cleans up all the [html.Node] children.
-// It applies, in one pass, a removal or renaming of elements.
-func (p *Policy) cleanTags(top *html.Node) {
-	dom.RemoveNodes(dom.QuerySelectorAll(top, "*"), func(node *html.Node) bool {
-		if node.Type != html.ElementNode {
-			return false
-		}
-		name := node.Data
+			// Remove tags explicitly marked for removal.
+			rule, exists := p.getTagRule(node)
+			if rule&tagRemove > 0 {
+				node.Parent.RemoveChild(node)
+				continue
+			}
 
-		rule, exists := p.elementMap[name]
-		if rule&tagRemove > 0 {
-			// Remove tag, done
-			return true
-		}
-
-		// Rename tag when it's unknown or has the [tagRename] flag.
-		if !exists || rule&tagRename > 0 {
-			if _, ok := blockTags[name]; ok || !exists {
+			// Rename disallowed or unrecognized tags.
+			if !exists || (rule&tagRename > 0 && rule&tagIsBlock > 0) {
 				// a block or unknown tag becomes a div
 				node.Data = "div"
 				node.DataAtom = atom.Div
-			} else {
+			} else if rule&tagRename > 0 {
 				// otherwise, a span
 				node.Data = "span"
 				node.DataAtom = atom.Span
 			}
-		}
 
-		return false
-	})
-}
+			traverse(node)
 
-// cleanAttributes discards unwanted attributes from all nodes.
-func (p *Policy) cleanAttributes(top *html.Node) {
-	for i := len(top.Attr) - 1; i >= 0; i-- {
-		k := top.Attr[i].Key
-		for _, r := range p.blockAttrs {
-			if r.MatchString(k) {
-				dom.RemoveAttribute(top, k)
-				break
+			// Apply blockAttrs rules on element attributes.
+			for i := len(node.Attr) - 1; i >= 0; i-- {
+				for _, r := range p.blockAttrs {
+					if r(node.Attr[i].Key) {
+						node.Attr = append(node.Attr[0:i], node.Attr[i+1:]...)
+						break
+					}
+				}
+			}
+
+			if p.isEmptyNode(node, rule) {
+				node.Parent.RemoveChild(node)
+				continue
+			}
+
+			if node.DataAtom == atom.A && dom.HasAttribute(node, "href") {
+				dom.SetAttribute(node, "rel", "nofollow noopener noreferrer")
 			}
 		}
 	}
-
-	for child := dom.FirstElementChild(top); child != nil; child = dom.NextElementSibling(child) {
-		p.Clean(child)
-	}
+	traverse(top)
 }
 
-// RemoveEmptyNodes removes the nodes that are empty.
-// empty means: no child nodes, no attributes and no text content.
-func (p Policy) RemoveEmptyNodes(top *html.Node) {
-	dom.RemoveNodes(dom.QuerySelectorAll(top, "*"), func(node *html.Node) bool {
-		if node.Type != html.ElementNode {
-			return false
-		}
-		name := node.Data
+// isEmptyNode returns true for elements with no child elements nodes and blank text content, with a
+// few exceptions such as tags that were marked as [tagKeepEmpty].
+func (p Policy) isEmptyNode(node *html.Node, rule tagRule) bool {
+	// Never remove the document body.
+	if node.DataAtom == atom.Body {
+		return false
+	}
 
-		// Keep tags that are explicitly allowed to be empty, e.g. <hr>
-		if p.elementMap[name]&tagKeepEmpty > 0 {
-			return false
-		}
+	// Keep <a name> tags
+	if node.DataAtom == atom.A && dom.GetAttribute(node, "name") != "" {
+		return false
+	}
 
-		// Keep <a name> tags
-		if name == "a" && dom.GetAttribute(node, "name") != "" {
-			return false
-		}
+	// Keep tags that are explicitly allowed to be empty, e.g. <hr>
+	if rule&tagKeepEmpty > 0 {
+		return false
+	}
 
-		// Keep nodes with children
-		if len(dom.Children(node)) > 0 {
-			return false
-		}
+	isBlockTag := rule&tagIsBlock > 0
 
-		// Keep nodes with any text
-		if _, ok := blockTags[name]; ok {
-			// We can remove block tags with only spaces
-			if strings.TrimFunc(dom.TextContent(node), isHTMLSpace) != "" {
+	// Inspect element contents
+	for child := node.FirstChild; child != nil; child = child.NextSibling {
+		switch child.Type {
+		case html.ElementNode:
+			// Keep tags with child elements
+			return false
+		case html.TextNode:
+			if isBlockTag {
+				if hasPrintableText(child) {
+					// Keep block elements with non-blank text.
+					return false
+				}
+			} else if len(child.Data) > 0 {
+				// Keep inline elements with any text, including spaces.
 				return false
 			}
-		} else if dom.TextContent(node) != "" {
-			// Only remove inline tags when they contain nothing
-			return false
 		}
+	}
 
-		// Remove node unless it's the document body
-		return name != "body"
-	})
+	return true
 }
 
-// SetLinkRel adds a default "rel" attribute on all "a" tags.
-func (p Policy) SetLinkRel(top *html.Node) {
-	dom.ForEachNode(dom.QuerySelectorAll(top, "a[href]"), func(node *html.Node, _ int) {
-		dom.SetAttribute(node, "rel", "nofollow noopener noreferrer")
-	})
+func (p Policy) getTagRule(node *html.Node) (tagRule, bool) {
+	if node.DataAtom == 0 {
+		// Nodes that were created manually or by using [dom.CreateElement] might have their
+		// DataAtom field uninitialized.
+		node.DataAtom = atom.Lookup([]byte(node.Data))
+	}
+	if rule, exists := elementMap[node.DataAtom]; exists {
+		return rule, true
+	}
+	rule, exists := elementMap2[node.Data]
+	return rule, exists
+}
+
+func hasPrintableText(node *html.Node) bool {
+	for _, r := range node.Data {
+		if !isHTMLSpace(r) {
+			return true
+		}
+	}
+	return false
 }
 
 // isHTMLSpace returns true if a rune is a space as defined by the HTML spec.

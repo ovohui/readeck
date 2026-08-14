@@ -1,17 +1,19 @@
 {
   "title_selectors": null,
   "body_selectors": [
+    "//main[@id='main']//article",
     "//div[@class='vodl-region-article']/div[1]"
   ],
-  "date_selectors": null,
+  "date_selectors": [
+    "//meta[@property=\"article:published_time\"]/@content"
+  ],
   "author_selectors": null,
   "strip_selectors": [
     "//svg",
     "//button",
     "//div[@data-type='embed']",
     "//div[@data-type='video']",
-    "//picture/source",
-    "//picture/img/@srcset"
+    "//picture/source"
   ],
   "strip_id_or_class": [
     "vodl-region-article__category-label",
@@ -22,7 +24,7 @@
   "strip_image_src": null,
   "native_ad_selectors": null,
   "tidy": false,
-  "prune": false,
+  "prune": true,
   "autodetect_on_failure": true,
   "single_page_link_selectors": null,
   "next_page_link_selectors": null,
@@ -32,7 +34,10 @@
       ""
     ]
   ],
-  "http_headers": null,
+  "http_headers": {
+    "cookie": "__cmpcc=1",
+    "referer": "https://www.vienna.at/"
+  },
   "tests": [
     {
       "url": "https://www.vienna.at/s-bahn-ring-mit-zwei-linien-in-wien-plane-nehmen-form-an/8464186",
@@ -40,6 +45,10 @@
     },
     {
       "url": "https://www.vienna.at/erste-e-busse-der-wiener-linien-in-der-stadt-unterwegs/8455546",
+      "contains": []
+    },
+    {
+      "url": "https://www.vienna.at/zweiter-vorfall-binnen-zwei-tagen-us-maschinen-dringen-in-oesterreichischen-luftraum-ein/10165364",
       "contains": []
     }
   ]

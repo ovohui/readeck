@@ -16,15 +16,23 @@ func TestScan(t *testing.T) {
 		<!DOCTYPE html>
 		<meta charset="utf-8"/>
 		<base href="/path">
-		<title>Demystifying the <base> element</title>
+		<title>Demystifying the <base> <br />
+element</head></title>
 		<script>document.write("hello!")</script>
 		<!-- a comment -->
 		<link rel=stylesheet href="/style.css">
 		<meta content="Hi &larr; social media" property="twitter:title">
 		<style>body { font-size: 16px }</style>
 		<meta name="og:description" content="Some &lt;description&gt; here"/>
+		<noscript>
+			<META http-equiv="refresh" content="30"/>
+			<meta http-equiv="x-ua-compatible" content="IE=edge">
+		</noscript>
+		<svg>
+			<title>SVG title</title>
+		</svg>
 		<p>
-			This is where the body starts.
+			The document body had already started.
 			<meta name="ignored" content="does not matter">
 		</p>
 	`)
@@ -33,7 +41,8 @@ func TestScan(t *testing.T) {
 	for key, value := range tinymeta.Scan(r) {
 		got = append(got, [2]string{key, value})
 	}
-	if len(got) != 3 {
+
+	if len(got) != 5 {
 		t.Fatalf("expected 3 results, got %#v", got)
 	}
 
@@ -46,7 +55,9 @@ func TestScan(t *testing.T) {
 		}
 	}
 
-	assert(0, "title", "Demystifying the <base> element")
+	assert(0, "title", "Demystifying the <base> <br />\nelement</head>")
 	assert(1, "twitter:title", "Hi ← social media")
 	assert(2, "og:description", "Some <description> here")
+	assert(3, "refresh", "30")
+	assert(4, "x-ua-compatible", "IE=edge")
 }

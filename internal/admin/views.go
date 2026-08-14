@@ -7,11 +7,13 @@ package admin
 import (
 	"log/slog"
 	"net/http"
+	"time"
 
+	"github.com/doug-martin/goqu/v9"
 	"github.com/go-chi/chi/v5"
 
+	"codeberg.org/readeck/readeck/components"
 	"codeberg.org/readeck/readeck/internal/auth"
-	"codeberg.org/readeck/readeck/internal/auth/users"
 	"codeberg.org/readeck/readeck/internal/server"
 	"codeberg.org/readeck/readeck/internal/server/urls"
 	"codeberg.org/readeck/readeck/pkg/forms"
@@ -36,8 +38,12 @@ func newAdminViews(api *adminAPI) *adminViews {
 
 	r.With(server.WithPermission("admin:users", "write")).Group(func(r chi.Router) {
 		r.Post("/users/add", h.userCreate)
-		r.With(api.withUser).Post("/users/{uid:[a-zA-Z0-9]{18,22}}", h.userInfo)
-		r.With(api.withUser).Post("/users/{uid:[a-zA-Z0-9]{18,22}}/delete", h.userDelete)
+		r.With(api.withUser).Group(func(r chi.Router) {
+			r.Post("/users/{uid:[a-zA-Z0-9]{18,22}}", h.userInfo)
+			r.Post("/users/{uid:[a-zA-Z0-9]{18,22}}/delete", h.userDelete)
+			r.Post("/users/{uid:[a-zA-Z0-9]{18,22}}/detach", h.userDetach)
+			r.Post("/users/{uid:[a-zA-Z0-9]{18,22}}/signout", h.userSignout)
+		})
 	})
 
 	return h
@@ -48,29 +54,23 @@ func (h *adminViews) main(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *adminViews) userList(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	ul := getUserList(r.Context())
 
-	ctx := server.TC{
-		"Pagination": ul.Pagination,
-		"Users":      ul.Items,
-	}
-	ctx.SetBreadcrumbs([][2]string{
+	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
 		{tr.Gettext("Users")},
 	})
-
-	server.RenderTemplate(w, r, 200, "/admin/user_list", ctx)
+	server.RenderComponent(w, r.WithContext(ctx), http.StatusOK, Views{}.userList(ul))
 }
 
 func (h *adminViews) userCreate(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
-	f := users.NewUserForm(server.Locale(r))
-	f.Get("group").Set("user")
+	tr := server.Locale(r.Context())
+	f := forms.New[userForm](r.Context())
 
 	if r.Method == http.MethodPost {
-		forms.Bind(f, r)
+		forms.Bind(r, f)
 		if f.IsValid() {
-			u, err := f.CreateUser()
+			u, err := f.createUser()
 			if err != nil {
 				server.Log(r).Error("", slog.Any("err", err))
 			} else {
@@ -82,32 +82,29 @@ func (h *adminViews) userCreate(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnprocessableEntity)
 	}
 
-	ctx := server.TC{
-		"Form": f,
-	}
-	ctx.SetBreadcrumbs([][2]string{
+	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
 		{tr.Gettext("Users"), urls.AbsoluteURL(r, "/admin/users").String()},
 		{tr.Gettext("New User")},
 	})
-	server.RenderTemplate(w, r, 200, "/admin/user_create", ctx)
+	server.RenderComponent(w, r.WithContext(ctx), http.StatusOK, Views{}.userCreate(f))
 }
 
 func (h *adminViews) userInfo(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
 	u := getUser(r.Context())
 
-	f := users.NewUserForm(server.Locale(r))
+	f := forms.New[userForm](r.Context())
 	f.SetUser(u)
 
 	if r.Method == http.MethodPost {
-		forms.Bind(f, r)
+		forms.Bind(r, f)
 
 		if f.IsValid() {
-			if _, err := f.UpdateUser(u); err != nil {
+			if _, err := f.updateUser(u); err != nil {
 				server.Log(r).Error("", slog.Any("err", err))
 			} else {
 				// Refresh session if same user
-				if auth.GetRequestUser(r).ID == u.ID {
+				if auth.GetUser(r.Context()).ID == u.ID {
 					sess := server.GetSession(r)
 					sess.Payload.User = u.ID
 					sess.Payload.Seed = u.Seed
@@ -126,25 +123,20 @@ func (h *adminViews) userInfo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ctx := server.TC{
-		"User": item,
-		"Form": f,
-	}
-	ctx.SetBreadcrumbs([][2]string{
+	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
 		{tr.Gettext("Users"), urls.AbsoluteURL(r, "/admin/users").String()},
 		{item.Username},
 	})
-
-	server.RenderTemplate(w, r, 200, "/admin/user", ctx)
+	server.RenderComponent(w, r.WithContext(ctx), http.StatusOK, Views{}.userInfo(f, item))
 }
 
 func (h *adminViews) userDelete(w http.ResponseWriter, r *http.Request) {
-	f := newDeleteForm(server.Locale(r))
-	f.Get("_to").Set("/admin/users")
-	forms.Bind(f, r)
+	f := forms.New[deleteForm](r.Context())
+	f.To.Set("/admin/users")
+	forms.Bind(r, f)
 
 	u := getUser(r.Context())
-	if u.ID == auth.GetRequestUser(r).ID {
+	if u.ID == auth.GetUser(r.Context()).ID {
 		server.Err(w, r, errSameUser)
 		return
 	}
@@ -153,5 +145,44 @@ func (h *adminViews) userDelete(w http.ResponseWriter, r *http.Request) {
 		server.Err(w, r, err)
 		return
 	}
-	server.Redirect(w, r, f.Get("_to").String())
+	server.Redirect(w, r, f.To.String())
+}
+
+func (h *adminViews) userDetach(w http.ResponseWriter, r *http.Request) {
+	tr := server.Locale(r.Context())
+	u := getUser(r.Context())
+	if err := u.Update(goqu.Record{
+		"ext_id":   nil,
+		"ext_info": nil,
+		"updated":  time.Now().UTC(),
+	}); err != nil {
+		server.Err(w, r, err)
+		return
+	}
+
+	server.AddFlash(w, r, "success", tr.Gettext("User detached."))
+	server.Redirect(w, r, "..", u.UID)
+}
+
+func (h *adminViews) userSignout(w http.ResponseWriter, r *http.Request) {
+	tr := server.Locale(r.Context())
+	u := getUser(r.Context())
+	u.SetSeed()
+	if err := u.Update(goqu.Record{
+		"seed":    u.Seed,
+		"updated": time.Now().UTC(),
+	}); err != nil {
+		server.Err(w, r, err)
+		return
+	}
+
+	// Refresh session if same user
+	if auth.GetUser(r.Context()).ID == u.ID {
+		sess := server.GetSession(r)
+		sess.Payload.User = u.ID
+		sess.Payload.Seed = u.Seed
+	}
+
+	server.AddFlash(w, r, "success", tr.Gettext("User signed out."))
+	server.Redirect(w, r, "..", u.UID)
 }

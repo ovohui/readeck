@@ -68,10 +68,10 @@ func StoragePath() string {
 
 // Bookmark is a bookmark record in database.
 type Bookmark struct {
-	ID            int                 `db:"id" goqu:"skipinsert,skipupdate"`
+	ID            int                 `db:"id"            goqu:"skipinsert,skipupdate"`
 	UID           string              `db:"uid"`
 	UserID        *int                `db:"user_id"`
-	Created       time.Time           `db:"created" goqu:"skipupdate"`
+	Created       time.Time           `db:"created"       goqu:"skipupdate"`
 	Updated       time.Time           `db:"updated"`
 	State         BookmarkState       `db:"state"`
 	URL           string              `db:"url"`
@@ -98,6 +98,7 @@ type Bookmark struct {
 	ReadAnchor    string              `db:"read_anchor"`
 	IsArchived    bool                `db:"is_archived"`
 	IsMarked      bool                `db:"is_marked"`
+	Note          string              `db:"note"`
 	Annotations   BookmarkAnnotations `db:"annotations"`
 	Links         BookmarkLinks       `db:"links"`
 }

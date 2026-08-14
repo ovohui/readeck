@@ -30,6 +30,9 @@ func registerExported(vm *Runtime) (err error) {
 	if p, err = newProcessMessageProxy(vm); err != nil {
 		return
 	}
+	if err = vm.Set("abort", errAbort); err != nil {
+		return
+	}
 	if err = vm.Set("$", p); err != nil {
 		return
 	}
@@ -224,7 +227,8 @@ func (p *processMessageProxy) setHTML(val string) error {
 	}
 	p.getProcessMessage().Dom = node
 	p.getDrop().ContentType = "text/html"
-	p.vm.GetLogger().Debug("set property",
+	p.vm.GetLogger().Debug(
+		"set property",
 		slog.String("html", val[0:min(50, len(val))]+"..."),
 	)
 	return nil

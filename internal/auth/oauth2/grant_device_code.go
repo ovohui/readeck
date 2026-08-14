@@ -55,6 +55,16 @@ func newDeviceViewRouter() *deviceViewRouter {
 	return router
 }
 
+type deviceCodeStep uint8
+
+const (
+	stepCode deviceCodeStep = iota
+	stepPending
+	stepGranted
+	stepDenied
+	stepInvalid
+)
+
 type userCode string
 
 type deviceAuthorizationResponse struct {
@@ -137,68 +147,46 @@ func (c userCode) toDeviceCode() (string, error) {
 // the end user. Depending on the request status, it performs different
 // tasks.
 func (h *deviceViewRouter) authorizeHandler(w http.ResponseWriter, r *http.Request) {
-	f := forms.Must(r.Context(),
-		forms.NewTextField("user_code", forms.Trim, forms.CleanerFunc(func(v any) any {
-			if v, ok := v.(string); ok {
-				// a code can be lower cased with or without dashes
-				return strings.ToUpper(strings.ReplaceAll(v, "-", ""))
-			}
-			return v
-		}), forms.MaxLen(16)),
-		forms.NewBooleanField("granted"),
-	)
+	f := forms.BindAs[deviceAuthorizationForm](r)
 
-	// Note: we use the same form for GET and POST requests.
-	// "granted" is received and parsed during GET but is only
-	// used in POST requests so it can't be silently processed.
-	switch r.Method {
-	case http.MethodGet:
-		forms.BindURL(f, r)
-	case http.MethodPost:
-		forms.Bind(f, r)
-	}
-
-	tc := server.TC{
-		"Form": f,
-		"Step": "code",
-	}
+	var err error
 	status := http.StatusOK
+	scopes := []string{}
+	step := stepCode
+	var client *oauthClient
+	var req *deviceAuthorizationRequest
 
-	if f.Get("user_code").String() != "" {
-		code := userCode(f.Get("user_code").String())
-		req, err := loadDeviceAuthorizationRequest(code)
+	if f.UserCode.Value() != "" {
+		code := userCode(f.UserCode.Value())
+		req, err = loadDeviceAuthorizationRequest(code)
 		if err != nil {
-			tc["Error"] = err
 			status = http.StatusBadRequest
+			step = stepInvalid
 			goto RENDER
 		}
 
-		tc["Request"] = req
-
 		switch req.Status {
 		case codeRequestPending:
-			client, err := loadClient(req.ClientID, grantTypeDeviceCode)
+			client, err = loadClient(req.ClientID, grantTypeDeviceCode)
 			if err != nil {
 				server.Err(w, r, err)
 				return
 			}
 
-			tc["Step"] = "pending"
-			tc["Client"] = client
+			step = stepPending
 
-			availableScopes := users.GroupList(server.Locale(r), "@oauth_scope", auth.GetRequestUser(r))
-			tc["Scopes"] = []string{}
+			availableScopes := users.GroupList(server.Locale(r.Context()), "@oauth_scope", auth.GetUser(r.Context()))
 			for _, x := range availableScopes {
 				if slices.Contains(req.Scopes, x[0]) {
-					tc["Scopes"] = append(tc["Scopes"].([]string), x[1])
+					scopes = append(scopes, x[1])
 				}
 			}
 
 			if r.Method == http.MethodPost {
-				if !f.Get("granted").IsNil() {
-					if f.Get("granted").(*forms.BooleanField).V() {
+				if f.Granted.IsBound() {
+					if f.Granted.Value() {
 						req.Status = codeRequestGranted
-						req.UserID = auth.GetRequestUser(r).ID
+						req.UserID = auth.GetUser(r.Context()).ID
 					} else {
 						req.Status = codeRequestDenied
 					}
@@ -219,23 +207,25 @@ func (h *deviceViewRouter) authorizeHandler(w http.ResponseWriter, r *http.Reque
 			}
 			goto RENDER
 		case codeRequestGranted:
-			tc["Step"] = "granted"
+			step = stepGranted
 			if req.TokenID < 0 {
 				// Refresh the page until the token is created
 				w.Header().Set("Refresh", "6")
 			}
 			goto RENDER
 		case codeRequestDenied:
-			tc["Step"] = "denied"
+			step = stepDenied
 			goto RENDER
 		default:
 			status = http.StatusBadRequest
-			tc["Error"] = "This code has expired or is not valid"
+			step = stepInvalid
 		}
 	}
 
 RENDER:
-	server.RenderTemplate(w, r, status, "auth/oauth/device-code", tc)
+	server.RenderComponent(w, r, status, Views{}.deviceCode(
+		step, f, client, req, scopes,
+	))
 }
 
 // deviceHandler is the handler that creates a new device code and
@@ -244,15 +234,14 @@ func (api *oauthAPI) deviceHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Cache-Control", "no-store")
 	w.Header().Set("Pragma", "no-cache")
 
-	f := newDeviceForm(server.Locale(r))
-	forms.Bind(f, r)
+	f := forms.BindAs[deviceForm](r)
 
 	if !f.IsValid() {
 		server.Err(w, r, f.getError())
 		return
 	}
 
-	client, err := loadClient(f.Get("client_id").String(), grantTypeDeviceCode)
+	client, err := loadClient(f.ClientID.Value(), grantTypeDeviceCode)
 	if err != nil {
 		server.Err(w, r, err)
 		return
@@ -280,7 +269,7 @@ func (api *oauthAPI) deviceHandler(w http.ResponseWriter, r *http.Request) {
 		Status:      "pending",
 		Expires:     time.Now().UTC().Add(time.Second * deviceCodeTTL),
 		LastChecked: time.Now().UTC().Add(-time.Second * deviceCodeInterval),
-		Scopes:      f.Get("scope").Value().([]string),
+		Scopes:      f.Scope.Value(),
 	}).store(code); err != nil {
 		server.Err(w, r, errServerError.withError(err))
 		return
@@ -300,13 +289,13 @@ func (api *oauthAPI) deviceHandler(w http.ResponseWriter, r *http.Request) {
 // "urn:ietf:params:oauth:grant-type:device_code" grant_type.
 func (api *oauthAPI) deviceCodeHandler(w http.ResponseWriter, r *http.Request) {
 	f := getTokenForm(r.Context())
-	client, err := loadClient(f.Get("client_id").String(), grantTypeDeviceCode)
+	client, err := loadClient(f.ClientID.Value(), grantTypeDeviceCode)
 	if err != nil {
 		server.Err(w, r, err)
 		return
 	}
 
-	code, err := userCodeFromDeviceCode(f.Get("device_code").String())
+	code, err := userCodeFromDeviceCode(f.DeviceCode.Value())
 	if err != nil {
 		server.Err(w, r, errServerError.withError(err))
 		return
@@ -355,7 +344,8 @@ func (api *oauthAPI) deviceCodeHandler(w http.ResponseWriter, r *http.Request) {
 				ClientInfo:  client.toClientInfo(),
 			}
 			if err = tokens.Tokens.Create(t); err != nil {
-				server.Err(w, r,
+				server.Err(
+					w, r,
 					errServerError.withDescription("can't create token").withError(err),
 				)
 				return
@@ -378,7 +368,8 @@ func (api *oauthAPI) deviceCodeHandler(w http.ResponseWriter, r *http.Request) {
 
 		token, err := configs.Keys.TokenKey().Encode(t.UID)
 		if err != nil {
-			server.Err(w, r,
+			server.Err(
+				w, r,
 				errServerError.withDescription("can't encode token").withError(err),
 			)
 			return

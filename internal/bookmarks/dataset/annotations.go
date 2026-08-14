@@ -72,7 +72,8 @@ func NewAnnotationList(ctx context.Context, ds *goqu.SelectDataset) (*Annotation
 	}
 
 	if limit, ok := ds.GetClauses().Limit().(uint); ok {
-		res.Pagination = server.NewPagination(ctx,
+		res.Pagination = server.NewPagination(
+			ctx,
 			int(res.Count), int(limit), int(ds.GetClauses().Offset()),
 		)
 	}

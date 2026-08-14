@@ -66,22 +66,18 @@ func (api *apiRouter) bookmarkArticle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if server.IsTurboRequest(r) {
-		server.RenderTurboStream(w, r,
-			"/bookmarks/components/content_block", "replace",
-			"bookmark-content-"+b.UID, map[string]any{
-				"Item": bi,
-				"HTML": buf,
-				"Out":  w,
-			},
-			map[string]string{"method": "morph"},
-		)
-		server.RenderTurboStream(w, r,
-			"/bookmarks/components/annotation_list", "replace",
-			"bookmark-annotation-list-"+b.UID, map[string]any{
-				"Item": bi,
-			},
-			map[string]string{"method": "morph"},
-		)
+		server.RenderTurboStreamComponent(w, r,
+			Components{}.articleContent(bi, buf),
+			"replace", "bookmark-content-"+b.UID,
+			map[string]string{
+				"method": "morph",
+			})
+		server.RenderTurboStreamComponent(w, r,
+			SidebarComponent{}.annotationList(bi),
+			"replace", "bookmark-annotation-list-"+b.UID,
+			map[string]string{
+				"method": "morph",
+			})
 		return
 	}
 
@@ -115,17 +111,10 @@ func (api *apiRouter) bookmarkListFeed(w http.ResponseWriter, r *http.Request) {
 		}
 	})
 
-	if _, ok := auth.GetRequestProvider(r).(*server.SessionAuthProvider); ok {
-		// Add an XSL stylesheet.
-		ctx = converter.WithAtomStylesheet(ctx, urls.PathOnly(urls.AbsoluteURL(r, "/assets/feed.xsl")))
-
-		// The stylesheet is considered a script by browsers,
-		// so we need to relax the CSP for it to work.
-		policy := server.GetCSPHeader(r).Clone()
-		policy.Set("style-src", csp.Self)
-		policy.Set("script-src", csp.Self)
-		policy.Write(w.Header())
-	}
+	// Chromium needs style-src unsafe-inline to show the XML tree.
+	policy := server.GetCSPHeader(r.Context())
+	policy.Set("style-src", csp.UnsafeInline)
+	policy.Write(w.Header())
 
 	if err := converter.NewAtomExporter().Export(ctx, w, r, bl); err != nil {
 		server.Err(w, r, err)
@@ -172,23 +161,21 @@ func (api *apiRouter) bookmarkExport(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ctx := converter.WithEnableEPUBNotes(r.Context(), true)
-	if err := exporter.IterExport(ctx, w, r, seq); err != nil {
+	if err := exporter.IterExport(r.Context(), w, r, seq); err != nil {
 		server.Err(w, r, err)
 	}
 }
 
 // bookmarkCreate creates a new bookmark.
 func (api *apiRouter) bookmarkCreate(w http.ResponseWriter, r *http.Request) {
-	f := newCreateForm(r)
-	forms.Bind(f, r)
+	f := forms.BindAs[createForm](r)
 
 	if !f.IsValid() {
 		server.Render(w, r, http.StatusUnprocessableEntity, f)
 		return
 	}
 
-	b, err := f.createBookmark()
+	b, err := f.createBookmark(r)
 	if err != nil {
 		server.Err(w, r, err)
 		return
@@ -209,11 +196,10 @@ func (api *apiRouter) bookmarkCreate(w http.ResponseWriter, r *http.Request) {
 
 // bookmarkUpdate updates an existing bookmark.
 func (api *apiRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
-	f := newUpdateForm(server.Locale(r))
-	forms.Bind(f, r)
+	f := forms.BindAs[updateForm](r)
 
 	if !f.IsValid() {
-		server.Render(w, r, http.StatusBadRequest, f)
+		server.Render(w, r, http.StatusUnprocessableEntity, f)
 		return
 	}
 
@@ -262,7 +248,7 @@ func (api *apiRouter) bookmarkShareEmail(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	server.TextMsg(w, r, http.StatusOK, "Email sent to "+info.Form.Get("email").String())
+	server.TextMsg(w, r, http.StatusOK, "Email sent to "+info.Form.(*shareForm).Email.Value())
 }
 
 // bookmarkResource is the route returning any resource
@@ -285,15 +271,14 @@ func (api *apiRouter) bookmarkResource(w http.ResponseWriter, r *http.Request) {
 }
 
 func (api *apiRouter) autocompleteHelper(w http.ResponseWriter, r *http.Request) {
-	f := newPropLookupForm(server.Locale(r))
-	forms.BindURL(f, r)
+	f := forms.BindAs[autocompleteHelperForm](r)
 	if !f.IsValid() {
 		server.Render(w, r, http.StatusUnprocessableEntity, f)
 		return
 	}
 
 	values := []string{}
-	ds := f.getQuerySet(auth.GetRequestUser(r))
+	ds := f.getQuerySet(auth.GetUser(r.Context()))
 	if ds != nil {
 		if err := ds.ScanVals(&values); err != nil {
 			server.Err(w, r, err)
@@ -314,7 +299,7 @@ func (api *apiRouter) labelInfo(w http.ResponseWriter, r *http.Request) {
 	label := getLabel(r.Context())
 	ds := bookmarks.Bookmarks.GetLabels().
 		Where(
-			goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID),
+			goqu.C("user_id").Table("b").Eq(auth.GetUser(r.Context()).ID),
 			goqu.I("name").Eq(label),
 		)
 
@@ -334,15 +319,14 @@ func (api *apiRouter) labelInfo(w http.ResponseWriter, r *http.Request) {
 
 func (api *apiRouter) labelUpdate(w http.ResponseWriter, r *http.Request) {
 	label := getLabel(r.Context())
-	f := newLabelForm(server.Locale(r))
-	forms.Bind(f, r)
+	f := forms.BindAs[labelForm](r)
 
 	if !f.IsValid() {
 		server.Render(w, r, http.StatusBadRequest, f)
 		return
 	}
 
-	ids, err := bookmarks.Bookmarks.RenameLabel(auth.GetRequestUser(r), label, f.Get("name").String())
+	ids, err := bookmarks.Bookmarks.RenameLabel(auth.GetUser(r.Context()), label, f.Name.Value())
 	if err != nil {
 		server.Err(w, r, err)
 		return
@@ -353,14 +337,14 @@ func (api *apiRouter) labelUpdate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	server.Render(w, r, http.StatusOK, map[string]string{
-		"name": f.Get("name").String(),
+		"name": f.Name.Value(),
 	})
 }
 
 func (api *apiRouter) labelDelete(w http.ResponseWriter, r *http.Request) {
 	label := getLabel(r.Context())
 
-	ids, err := bookmarks.Bookmarks.RenameLabel(auth.GetRequestUser(r), label, "")
+	ids, err := bookmarks.Bookmarks.RenameLabel(auth.GetUser(r.Context()), label, "")
 	if err != nil {
 		server.Err(w, r, err)
 		return
@@ -385,8 +369,7 @@ func (api *apiRouter) bookmarkAnnotations(w http.ResponseWriter, r *http.Request
 
 func (api *apiRouter) annotationCreate(w http.ResponseWriter, r *http.Request) {
 	b := getBookmark(r.Context())
-	f := newAnnotationForm(server.Locale(r))
-	forms.Bind(f, r)
+	f := forms.BindAs[annotationForm](r)
 	if !f.IsValid() {
 		server.Render(w, r, http.StatusUnprocessableEntity, f)
 		return
@@ -423,17 +406,16 @@ func (api *apiRouter) annotationUpdate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	f := newAnnotationUpdateForm(server.Locale(r))
-	forms.Bind(f, r)
+	f := forms.BindAs[annotationUpdateForm](r)
 	if !f.IsValid() {
 		server.Render(w, r, http.StatusUnprocessableEntity, f)
 		return
 	}
 
 	annotation := b.Annotations.Get(id)
-	annotation.Color = f.Get("color").String()
-	if !f.Get("note").IsNil() {
-		annotation.Note = f.Get("note").String()
+	annotation.Color = f.Color.Value()
+	if f.Note.IsBound() {
+		annotation.Note = f.Note.Value()
 	}
 	update := map[string]any{
 		"annotations": b.Annotations,
@@ -486,7 +468,7 @@ func (api *apiRouter) withBookmark(next http.Handler) http.Handler {
 
 		b, err := bookmarks.Bookmarks.GetOne(
 			goqu.C("uid").Eq(uid),
-			goqu.C("user_id").Eq(auth.GetRequestUser(r).ID),
+			goqu.C("user_id").Eq(auth.GetUser(r.Context()).ID),
 		)
 		if err != nil {
 			server.Status(w, r, http.StatusNotFound)
@@ -495,8 +477,8 @@ func (api *apiRouter) withBookmark(next http.Handler) http.Handler {
 		ctx := withBookmark(r.Context(), b)
 
 		if b.State == bookmarks.StateLoaded {
-			server.WriteLastModified(w, r, b, auth.GetRequestUser(r))
-			server.WriteEtag(w, r, b, auth.GetRequestUser(r))
+			server.WriteLastModified(w, r, b, auth.GetUser(r.Context()))
+			server.WriteEtag(w, r, b, auth.GetUser(r.Context()))
 		}
 
 		w.Header().Add("bookmark-id", b.UID)
@@ -512,7 +494,7 @@ func (api *apiRouter) withBookmark(next http.Handler) http.Handler {
 func (api *apiRouter) withBookmarkFilters(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		filter := chi.URLParam(r, "filter")
-		filters := newFilterForm(server.Locale(r))
+		filters := newFilterForm(r.Context())
 
 		switch filter {
 		case "unread":
@@ -520,7 +502,7 @@ func (api *apiRouter) withBookmarkFilters(next http.Handler) http.Handler {
 		case "archives":
 			filters.setArchived(true)
 		case "favorites":
-			filters.setMarked(true)
+			filters.setMarked()
 		case "articles":
 			filters.setType("article")
 		case "pictures":
@@ -542,8 +524,8 @@ func (api *apiRouter) withLabel(next http.Handler) http.Handler {
 		}
 		ctx := withLabel(r.Context(), label)
 
-		filters := newFilterForm(server.Locale(r))
-		filters.Get("labels").Set(strconv.Quote(label))
+		filters := newFilterForm(r.Context())
+		filters.Labels.Set(strconv.Quote(label))
 		ctx = withFilterForm(ctx, filters)
 
 		next.ServeHTTP(w, r.WithContext(ctx))
@@ -561,7 +543,7 @@ func (api *apiRouter) withDefaultLimit(limit int) func(next http.Handler) http.H
 
 func (api *apiRouter) withoutPagination(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		f := newContextFilterForm(r.Context(), server.Locale(r))
+		f := newContextFilterForm(r.Context())
 		f.noPagination = true
 		next.ServeHTTP(w, r.WithContext(withFilterForm(r.Context(), f)))
 	})
@@ -570,7 +552,7 @@ func (api *apiRouter) withoutPagination(next http.Handler) http.Handler {
 func (api *apiRouter) withFixedLimit(limit uint) func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			f := newContextFilterForm(r.Context(), server.Locale(r))
+			f := newContextFilterForm(r.Context())
 			f.fixedLimit = limit
 			next.ServeHTTP(w, r.WithContext(withFilterForm(r.Context(), f)))
 		})
@@ -594,7 +576,7 @@ func (api *apiRouter) withCollectionFilters(next http.Handler) http.Handler {
 
 			c, err = bookmarks.Collections.GetOne(
 				goqu.C("uid").Eq(uid),
-				goqu.C("user_id").Eq(auth.GetRequestUser(r).ID),
+				goqu.C("user_id").Eq(auth.GetUser(r.Context()).ID),
 			)
 			if err != nil {
 				server.Status(w, r, http.StatusNotFound)
@@ -604,15 +586,11 @@ func (api *apiRouter) withCollectionFilters(next http.Handler) http.Handler {
 		}
 
 		// Apply filters
-		f := newCollectionForm(server.Locale(r), r)
+		f := newCollectionForm(r)
 		f.setCollection(c)
-		filters := newContextFilterForm(r.Context(), server.Locale(r))
-		f.setFilters(filters)
+		filters := newContextFilterForm(r.Context())
+		*filters = f.FilterForm
 		ctx = withFilterForm(ctx, filters)
-
-		if _, ok := checkBookmarkOrder(ctx); !ok {
-			ctx = withBookmarkOrder(ctx, orderExpressionList{goqu.T("b").Col("created").Desc()})
-		}
 
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
@@ -620,21 +598,13 @@ func (api *apiRouter) withCollectionFilters(next http.Handler) http.Handler {
 
 func (api *apiRouter) withBookmarkOrdering(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		f := newBookmarkOrderForm()
-		forms.BindURL(f, r)
-
-		order := f.toOrderedExpressions()
-		ctx := r.Context()
-		if order != nil {
-			ctx = withBookmarkOrder(ctx, order)
+		f, ok := checkOrderForm(r.Context())
+		if !ok {
+			f = newBookmarkOrderForm(r.Context())
 		}
+		forms.BindValues(r.URL.Query(), f)
 
-		// When we have a template context, we add the current order
-		// and ordering options
-		if c, ok := checkBaseContext(ctx); ok {
-			f.addToTemplateContext(r, server.Locale(r), c)
-		}
-
+		ctx := withOrderForm(r.Context(), f)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
@@ -658,34 +628,35 @@ func (api *apiRouter) withBookmarkListSelectDataset(next http.Handler) http.Hand
 				"b.url", "b.title", "b.domain", "b.site", "b.site_name", "b.authors",
 				"b.lang", "b.dir", "b.type", "b.is_marked", "b.is_archived", "b.read_progress",
 				"b.labels", "b.description", "b.word_count", "b.duration", "b.file_path", "b.files",
-				"b.annotations").
+				"b.note", "b.annotations",
+			).
 			Where(
-				goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID),
+				goqu.C("user_id").Table("b").Eq(auth.GetUser(r.Context()).ID),
 			)
 
 		ds = ds.Order(exp.DateTime(goqu.I("created")).Desc())
 
 		// Filters (search and other filterForm)
-		filterForm := newContextFilterForm(r.Context(), server.Locale(r))
-		forms.BindURL(filterForm, r)
+		filterForm := newContextFilterForm(r.Context())
+		forms.BindValues(r.URL.Query(), filterForm)
 
 		if !filterForm.IsValid() {
 			// When the form is invalid and we're not in a view, render the form's error list.
-			// Not having a base template context is a good indicator for that.
-			if _, ok := checkBaseContext(r.Context()); !ok {
+			// Not having the counters a good indicator for that, as they are only
+			// set for views in [viewsRouter.withBaseContext].
+			if _, ok := checkCounters(r.Context()); !ok {
 				server.Render(w, r, http.StatusUnprocessableEntity, filterForm)
 				return
 			}
 		} else {
-			filters := bookmarks.NewFiltersFromForm(filterForm)
-			filters.UpdateForm(filterForm)
+			filters := filterForm.toFilters()
 			ds = filters.ToSelectDataSet(ds)
 		}
 
 		// Filtering by ids. In this case we include all the given IDs and we sort the
 		// result according to the IDs order.
-		if !filterForm.Get("id").IsNil() {
-			ids := filterForm.Get("id").Value().([]string)
+		if filterForm.ID.IsBound() {
+			ids := filterForm.ID.Value()
 			ds = ds.Where(goqu.C("uid").Table("b").In(ids))
 
 			orderging := goqu.Case().Value(goqu.C("uid").Table("b"))
@@ -696,12 +667,19 @@ func (api *apiRouter) withBookmarkListSelectDataset(next http.Handler) http.Hand
 		}
 
 		ds = ds.
-			Limit(uint(pf.Limit())).
-			Offset(uint(pf.Offset()))
+			Limit(uint(pf.Limit.Value())).
+			Offset(uint(pf.Offset.Value()))
 
 		// Apply sorting given by a query string
-		if order, ok := checkBookmarkOrder(r.Context()); ok {
-			ds = ds.Order(order...)
+		if of, ok := checkOrderForm(r.Context()); ok {
+			// Using the same trick as with [filterForm] above.
+			if _, ok := checkCounters(r.Context()); !ok && !of.IsValid() {
+				server.Render(w, r, http.StatusUnprocessableEntity, of)
+				return
+			}
+			if order := of.getOrder(); len(order) > 0 {
+				ds = ds.Order(order...)
+			}
 		}
 
 		// If pagination is disabled, remove all limits.
@@ -745,7 +723,7 @@ func (api *apiRouter) withBookmarkSeq(next http.Handler) http.Handler {
 		uid := chi.URLParam(r, "uid")
 		if uid != "" {
 			ds := bookmarks.Bookmarks.Query().Where(
-				goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID),
+				goqu.C("user_id").Table("b").Eq(auth.GetUser(r.Context()).ID),
 				goqu.C("uid").Table("b").Eq(uid),
 			)
 			serve(w, r, ds)
@@ -803,12 +781,12 @@ func (api *apiRouter) withAnnotationList(next http.Handler) http.Handler {
 
 		ds := bookmarks.Bookmarks.GetAnnotations().
 			Where(
-				goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID),
+				goqu.C("user_id").Table("b").Eq(auth.GetUser(r.Context()).ID),
 			)
 
 		ds = ds.
-			Limit(uint(pf.Limit())).
-			Offset(uint(pf.Offset())).
+			Limit(uint(pf.Limit.Value())).
+			Offset(uint(pf.Offset.Value())).
 			Order(exp.DateTime(goqu.I("annotation_created")).Desc())
 
 		res, err := dataset.NewAnnotationList(r.Context(), ds)
@@ -827,13 +805,12 @@ func (api *apiRouter) withLabelList(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ds := bookmarks.Bookmarks.GetLabels().
 			Where(
-				goqu.C("user_id").Table("b").Eq(auth.GetRequestUser(r).ID),
+				goqu.C("user_id").Table("b").Eq(auth.GetUser(r.Context()).ID),
 			)
 
-		f := newLabelSearchForm(server.Locale(r))
-		forms.BindURL(f, r)
-		if f.Get("q").String() != "" {
-			q := strings.ReplaceAll(f.Get("q").String(), "*", "%")
+		f := forms.BindAs[labelSearchForm](r)
+		if f.Query.Value() != "" {
+			q := strings.ReplaceAll(f.Query.Value(), "*", "%")
 			ds = ds.Where(goqu.I("name").ILike(q))
 		}
 
@@ -864,18 +841,32 @@ func (api *apiRouter) withShareLink(next http.Handler) http.Handler {
 			time.Duration(configs.Config.Bookmarks.PublicShareTTL) * time.Hour,
 		)
 
-		rr, err := bookmarks.EncodeID(uint64(b.ID), expires)
+		f := forms.BindAs[shareLinkForm](r)
+		if !f.IsValid() {
+			server.Render(w, r, http.StatusUnprocessableEntity, f)
+			return
+		}
+
+		info := dataset.SharedLink{
+			Form:    f,
+			Expires: expires,
+			Title:   b.Title,
+			ID:      b.UID,
+		}
+
+		var flags converter.SharingFlag
+		if info.Form.(*shareLinkForm).WithNotes.Value() {
+			flags = converter.SharingWithHighlights | converter.SharingWithNotes
+		}
+
+		code, err := bookmarks.EncodeID(uint64(b.ID), expires, byte(flags))
 		if err != nil {
 			server.Err(w, r, err)
 			return
 		}
 
-		info := dataset.SharedLink{
-			URL:     urls.AbsoluteURL(r, "/@b", rr).String(),
-			Expires: expires,
-			Title:   b.Title,
-			ID:      b.UID,
-		}
+		info.URL = urls.AbsoluteURL(r, "/@b", code).String()
+
 		ctx := withSharedLink(r.Context(), info)
 		w.Header().Set("Location", info.URL)
 		next.ServeHTTP(w, r.WithContext(ctx))
@@ -895,13 +886,13 @@ func (api *apiRouter) withShareEmail(next http.Handler) http.Handler {
 		}
 
 		info := dataset.SharedEmail{
-			Form:  newShareForm(server.Locale(r)),
+			Form:  forms.New[shareForm](r.Context()),
 			Title: b.Title,
 			ID:    b.UID,
 		}
 
 		if r.Method == http.MethodPost {
-			forms.Bind(info.Form, r)
+			forms.Bind(r, info.Form)
 
 			if info.Form.IsValid() {
 				info.Error = info.Form.(*shareForm).sendBookmark(r, b)
@@ -912,6 +903,7 @@ func (api *apiRouter) withShareEmail(next http.Handler) http.Handler {
 			if !info.Form.IsValid() {
 				w.WriteHeader(http.StatusUnprocessableEntity)
 			}
+			info.Sent = true
 		}
 
 		ctx := withSharedEmail(r.Context(), info)

@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"errors"
 	"io"
+	"net/http"
 	"net/url"
 	"os"
 	"path"
@@ -116,7 +117,7 @@ func TestMeta(t *testing.T) {
 			assert.Equal(t, "When Amazon Web Services went offline, people lost control of their cloud-connected smart beds, getting stuck in reclined positions or roasting with the heat turned all the way up.", ex.Drop().Description)
 			assert.Equal(t, []string{"Matthew Gault", "Samantha Cole"}, ex.Drop().Authors)
 			assert.Equal(t, "404 Media", ex.Drop().Site)
-			assert.Equal(t, time.Date(2025, time.October, 22, 13, 40, 3, 0, time.Local).UTC(), ex.Drop().Date)
+			assert.Equal(t, time.Date(2025, time.October, 22, 13, 40, 3, 0, time.UTC), ex.Drop().Date)
 			assert.Equal(t, "en", ex.Drop().Lang)
 
 			assert.Equal(t, extract.DropMeta{
@@ -137,6 +138,7 @@ func TestMeta(t *testing.T) {
 			pm.Dom, _ = html.Parse(bytes.NewReader(getFileContents("meta/meta4.html")))
 
 			ExtractMeta(pm, nil)
+			SetDropProperties(pm, nil)
 
 			assert.Equal(t, "Issues list such as unescaped </script> or -->", ex.Drop().Title)
 			assert.Empty(t, ex.Drop().Description)
@@ -149,6 +151,63 @@ func TestMeta(t *testing.T) {
 				"ld.headline": []string{"Issues list such as unescaped </script> or -->"},
 				"ld.lang":     []string{"zh"}, "ld.publisher": []string{"It's FOSS"},
 			}, ex.Drop().Meta)
+		})
+
+		t.Run("process fediverse meta", func(t *testing.T) {
+			ex, _ := extract.New("http://example.com", nil)
+			pm := ex.NewProcessMessage(extract.StepDom)
+
+			pm.Dom, _ = html.Parse(strings.NewReader(`
+				<meta name="fediverse:creator" content="Monkey One" />
+				<meta name="fediverse:creator" content="Ape Two" />
+				<meta property="fediverse:creator" content="Primate Ignored" />
+			`))
+
+			ExtractMeta(pm, nil)
+			SetDropProperties(pm, nil)
+
+			assert.Equal(t, []string{"Ape Two", "Monkey One"}, ex.Drop().Authors)
+		})
+
+		t.Run("process Open Graph article", func(t *testing.T) {
+			ex, _ := extract.New("http://example.com", nil)
+			pm := ex.NewProcessMessage(extract.StepDom)
+
+			pm.Dom, _ = html.Parse(strings.NewReader(`
+				<meta property="og:type" content="article">
+				<meta property="og:title" content="My Open Graph example">
+				<meta property="og:description" content="Article description goes here">
+				<meta property="article:published_time" content="2026-06-16T10:16:46.123Z">
+				<meta property="article:author" content="Monkey One">
+				<meta property="article:author" content="Ape Two">
+			`))
+
+			ExtractMeta(pm, nil)
+			SetDropProperties(pm, nil)
+
+			assert.Equal(t, "article", ex.Drop().DocumentType)
+			assert.Equal(t, "My Open Graph example", ex.Drop().Title)
+			assert.Equal(t, "Article description goes here", ex.Drop().Description)
+			assert.Equal(t, time.Date(2026, 6, 16, 10, 16, 46, 123000000, time.UTC), ex.Drop().Date)
+			assert.Equal(t, []string{"Ape Two", "Monkey One"}, ex.Drop().Authors)
+		})
+
+		t.Run("ignore SVG title", func(t *testing.T) {
+			ex, _ := extract.New("http://example.com", nil)
+			pm := ex.NewProcessMessage(extract.StepDom)
+
+			pm.Dom, _ = html.Parse(strings.NewReader(`
+				<title>Actual document title</title>
+				<svg>
+					<title>The title of the SVG, do not be fooled</title>
+				</svg>
+			`))
+
+			ExtractMeta(pm, nil)
+			SetDropProperties(pm, nil)
+
+			assert.Equal(t, "article", ex.Drop().DocumentType)
+			assert.Equal(t, "Actual document title", ex.Drop().Title)
 		})
 
 		t.Run("text direction", func(t *testing.T) {
@@ -616,6 +675,57 @@ func TestMeta(t *testing.T) {
 			assert.Equal("http://example.net/icon.ico", p.Href)
 			assert.Equal("image/png", p.Type)
 			assert.Equal([]byte{137, 80, 78, 71, 13, 10, 26, 10}, p.Bytes()[0:8])
+		})
+	})
+
+	t.Run("RefreshRedirect", func(t *testing.T) {
+		tests := []struct {
+			value    string
+			expected string
+			replaced bool
+		}{
+			{"0;URL=https://example.org/redirected", "https://example.org/redirected", true},
+			{"0;  URL= https://example.org/redirected ", "https://example.org/redirected", true},
+			{"20;url=/redirected ", "https://example.net/redirected", true},
+			{"0;url=/", "https://example.net/", false},
+			{"5", "https://example.net/", false},
+		}
+
+		t.Run("process header", func(t *testing.T) {
+			for i, test := range tests {
+				t.Run(strconv.Itoa(i+1), func(t *testing.T) {
+					ex, err := extract.New("https://example.net/")
+					orig := ex.Drop()
+
+					ex.Drop().Header = http.Header{"Refresh": []string{test.value}}
+					require.NoError(t, err)
+					pm := ex.NewProcessMessage(extract.StepDom)
+
+					ProcessRefreshRedirect(pm, nil)
+					assert := assert.New(t)
+					assert.Equal(test.expected, ex.Drop().URL.String())
+					assert.Equal(test.replaced, orig != ex.Drop())
+					t.Log(pm.Step())
+				})
+			}
+		})
+
+		t.Run("process meta", func(t *testing.T) {
+			for i, test := range tests {
+				t.Run(strconv.Itoa(i+1), func(t *testing.T) {
+					ex, err := extract.New("https://example.net/")
+					orig := ex.Drop()
+
+					ex.Drop().Body = []byte(`<head><noscript><META http-equiv="refresh" content="` + test.value + `"></noscript></head>`)
+					require.NoError(t, err)
+					pm := ex.NewProcessMessage(extract.StepDom)
+
+					ProcessRefreshRedirect(pm, nil)
+					assert := assert.New(t)
+					assert.Equal(test.expected, ex.Drop().URL.String())
+					assert.Equal(test.replaced, orig != ex.Drop())
+				})
+			}
 		})
 	})
 }

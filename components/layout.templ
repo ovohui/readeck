@@ -1,0 +1,253 @@
+// SPDX-FileCopyrightText: © 2026 Olivier Meunier <olivier@neokraft.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
+package components
+
+import "net/http"
+
+// Base renders the layout's base page with head elements.
+templ (c *Layout) Base(title string) {
+	<!DOCTYPE html>
+	<html
+		lang={ L(ctx).Tag.String() }
+		class="overscroll-y-none scroll-pt-20 max-sm:scroll-pt-40"
+	>
+		<head>
+			<meta charset="UTF-8"/>
+			<title>{ title } - Readeck</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<meta name="csp-nonce" content={ CSPNonce(ctx) }/>
+			<meta name="robots" content="noindex nofollow noarchive"/>
+			<link rel="stylesheet" href={ Asset(ctx, "bundle.css") } nonce={ CSPNonce(ctx) }/>
+			<script type="module" src={ Asset(ctx, "bundle.js") } nonce={ CSPNonce(ctx) }></script>
+			<script nonce={ CSPNonce(ctx) }>
+				if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+					document.documentElement.classList.add('dark')
+				} else {
+					document.documentElement.classList.remove('dark')
+				}
+			</script>
+			<link rel="icon" href={ Asset(ctx, "img/fi/favicon.ico") } sizes="48x48"/>
+			<link rel="icon" href={ Asset(ctx, `img/fi/favicon.svg`) } sizes="any" type="image/svg+xml"/>
+			<link rel="apple-touch-icon" href={ Asset(ctx, `img/fi/apple-touch-icon.png`) }/>
+			<link rel="manifest" href={ URL(ctx, "/manifest.webmanifest") }/>
+			<meta name="theme-color" content="#064c5c"/>
+			if c.head != nil {
+				@c.head
+			}
+			@CustomTemplate("layout/head.html.tmpl", nil)
+		</head>
+		<body
+			class={ "no-js", "body-base", c.bodyClasses }
+			data-turbo="false"
+			data-turbo-prefetch="false"
+			data-controller="scroll-tracker"
+			data-scroll-tracker-down-class="scrolled-down"
+		>
+			<script nonce={ CSPNonce(ctx) }>
+				if ('noModule' in HTMLScriptElement.prototype) {
+					document.body.classList.remove("no-js")
+					document.body.classList.add("js")
+				}
+			</script>
+			{ children... }
+		</body>
+	</html>
+}
+
+templ (c *Layout) Menu() {
+	<div class="topnav--grid" id="menu">
+		if c.sideMenu != nil {
+			@c.menuButton(L(ctx).Gettext("Open Menu")) {
+				@Icon("o-menu", WithIconClass("w-6 h-6"), WithIconSvgClass("w-6 h-6"))
+			}
+		}
+		<div class="logo">
+			if HasCustomTemplate("layout/menu-icon.html.tmpl") {
+				@CustomTemplate("layout/menu-icon.html.tmpl", nil)
+			} else {
+				<a href={ URL(ctx, "/") } title={ L(ctx).Gettext("Home Page") }>
+					@Icon("o-logo-square", WithIconClass(), WithIconSvgClass("h-11 w-11"))
+				</a>
+			}
+		</div>
+		<div class="mainmenu">
+			<menu class="grow">
+				@c.mainMenuItem(L(ctx).Gettext("Home Page"), "/dashboard", "o-home", PathIs(ctx, "/dashboard")) {
+					<span class="sr-only">{ L(ctx).Gettext("Home Page") }</span>
+				}
+				if HasPermission(ctx, "bookmarks", "read") {
+					@c.mainMenuItem(L(ctx).Gettext("Bookmarks"), "/bookmarks/unread", "o-library", PathIs(ctx, "/bookmarks", "/bookmarks/*")) {
+						<span class="max-sm:sr-only">{ L(ctx).Gettext("Bookmarks") }</span>
+					}
+				}
+			</menu>
+			if !IsAnonymous(ctx) {
+				<menu class="flex-shrink-0">
+					<li class="no-js:hidden">
+						<button
+							type="button"
+							data-controller="theme"
+							data-action="theme#toggleTheme"
+							title={ L(ctx).Gettext("Change color theme") }
+						>
+							<span data-theme-target="icon">
+								@Icon("o-theme-system")
+							</span>
+							<span class="sr-only">{ L(ctx).Gettext("Change color theme") }</span>
+							<template data-theme-target="iconLight">
+								@Icon("o-theme-light")
+							</template>
+							<template data-theme-target="iconDark">
+								@Icon("o-theme-dark")
+							</template>
+							<template data-theme-target="iconSystem">
+								@Icon("o-theme-system")
+							</template>
+						</button>
+					</li>
+					if HasPermission(ctx, "profile", "read") {
+						@c.mainMenuItem(L(ctx).Gettext("Settings"), "/profile", "o-settings", PathIs(ctx, "/admin", "/admin/*", "/profile", "/profile/*")) {
+							<span class="sr-only">{ L(ctx).Gettext("Settings") }</span>
+						}
+					}
+					@c.mainMenuItem(L(ctx).Gettext("Documentation"), "/docs/", "o-help", PathIs(ctx, "/docs/*")) {
+						<span class="sr-only">{ L(ctx).Gettext("Documentation") }</span>
+					}
+				</menu>
+			}
+		</div>
+	</div>
+}
+
+templ (c *Layout) menuButton(name string) {
+	<button
+		type="button"
+		title={ name }
+		class="sidemenu--button"
+		data-action="click->panel#toggle"
+		data-panel-target="button"
+		aria-expanded="false"
+		aria-controls="sidemenu"
+	>
+		{ children... }
+		<span class="sr-only">{ name }</span>
+	</button>
+}
+
+templ (c *Layout) mainMenuItem(name, path, icon string, current bool) {
+	<li>
+		<a href={ URL(ctx, path) } title={ name } data-current={ current }>
+			@Icon(icon)
+			{ " " }
+			{ children... }
+		</a>
+	</li>
+}
+
+// QuickAccessMenu renders an a11y menu.
+templ QuickAccessMenu(items [][2]string) {
+	if len(items) > 0 {
+		<ul label={ L(ctx).Gettext("Quick access menu") } class="a11y-nav">
+			for _, item := range items {
+				if item[0] != "" {
+					<li><a href={ "#" + item[0] } class="link">{ item[1] }</a></li>
+				}
+			}
+		</ul>
+	}
+}
+
+// SideMenuTitle renders a title used in side menus.
+templ SideMenuTitle() {
+	<h2 id="sidemenu--title" class="sidemenu--title">
+		{ children... }
+	</h2>
+}
+
+// Page renders a layout with an optional side menu.
+templ (c *Layout) Page(title string) {
+	{{
+		qam := c.accessMenu
+		if len(qam) == 0 {
+			qam = [][2]string{
+				{"menu", L(ctx).Gettext("Menu")},
+				{"sidemenu", L(ctx).Gettext("Secondary Menu")},
+				{"content", L(ctx).Gettext("Main content")},
+			}
+			if c.sideMenu == nil {
+				qam[1] = [2]string{}
+			}
+		}
+	}}
+	@c.Base(title) {
+		@QuickAccessMenu(qam)
+		<div
+			class="layout"
+			data-controller="panel"
+			data-panel-hidden-class="sidemenu--hidden"
+			data-panel-body-class="max-sm:overflow-hidden"
+		>
+			<div class="topnav">
+				@c.Menu()
+			</div>
+			<div class="layout--grid">
+				if c.sideMenu != nil {
+					<nav
+						id="sidemenu"
+						tabindex="-1"
+						data-panel-target="panel"
+						aria-labelledby="sidemenu-title"
+						data-action="keydown.esc->panel#toggle"
+						class="sidemenu sidemenu--hidden"
+					>
+						@c.menuButton(L(ctx).Gettext("Close menu")) {
+							@Icon("o-close", WithIconClass("inline-block"), WithIconSvgClass("w-8 h-8"))
+						}
+						@c.sideMenu
+					</nav>
+				}
+				<div id="content" class={ "content", c.contentClasses }>
+					@Flashes()
+					@Breadcrumbs()
+					{ children... }
+				</div>
+			</div>
+		</div>
+	}
+}
+
+templ (c *Layout) authHeader() {
+	<h1 class="max-w-sm mt-12 mx-auto px-8">
+		<div>
+			<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 567 128" class="w-full fill-gray-900">
+				<use href={ Asset(ctx, "img/logo-text.svg") + "#main" }></use>
+			</svg>
+		</div>
+	</h1>
+}
+
+templ (c *Layout) AuthPage(title string) {
+	@c.Base(title) {
+		@c.authHeader()
+		<main class="w-full max-w-sm p-8 mt-6 mx-auto bg-gray-100 text-gray-dark rounded-md shadow-md" id="content">
+			{ children... }
+		</main>
+		@CustomTemplate("auth/footer.html.tmpl", nil)
+	}
+}
+
+templ (c *Layout) AuthError(status int) {
+	@c.Base(L(ctx).Gettext("Error")) {
+		@c.authHeader()
+		<main class="w-full max-w-sm p-8 mt-6 mx-auto text-center border border-red-800 bg-red-100 rounded-md" id="content">
+			<h2 class="title text-h3">{ L(ctx).Gettext("An error occurred.") }</h2>
+			<p>{ http.StatusText(status) }</p>
+			<p class="mt-8">
+				<a class="link font-semibold" href={ URL(ctx, "/") }>{ L(ctx).Gettext("Go back to Readeck") }</a>
+			</p>
+		</main>
+	}
+}

@@ -12,6 +12,7 @@ import (
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
 
+	"github.com/andybalholm/cascadia"
 	"github.com/dop251/goja"
 	"github.com/go-shiori/dom"
 )
@@ -134,7 +135,8 @@ func (m *domModule) valueToNode(v goja.Value) *domNodeObj {
 }
 
 func (m *domModule) defineNodeGetter(p *goja.Object, name string, getter func(*domNodeObj) any) {
-	_ = p.DefineAccessorProperty(name,
+	_ = p.DefineAccessorProperty(
+		name,
 		m.r.ToValue(func(call goja.FunctionCall) goja.Value {
 			return m.r.ToValue(getter(m.valueToNode(call.This)))
 		}),
@@ -144,7 +146,8 @@ func (m *domModule) defineNodeGetter(p *goja.Object, name string, getter func(*d
 }
 
 func (m *domModule) defineNodeSetter(p *goja.Object, name string, getter func(*domNodeObj) any, setter func(*domNodeObj, goja.Value)) {
-	_ = p.DefineAccessorProperty(name,
+	_ = p.DefineAccessorProperty(
+		name,
 		m.r.ToValue(func(call goja.FunctionCall) goja.Value {
 			return m.r.ToValue(getter(m.valueToNode(call.This)))
 		}),
@@ -396,6 +399,7 @@ func (m *domModule) createNodePrototype() *goja.Object { //nolint:gocognit,gocyc
 		if !ok {
 			panic(m.r.ToValue("argument must be a node"))
 		}
+		dom.DetachChild(arg.node)
 		np.node.AppendChild(arg.node)
 		return goja.Undefined()
 	}))
@@ -416,6 +420,7 @@ func (m *domModule) createNodePrototype() *goja.Object { //nolint:gocognit,gocyc
 				continue
 			}
 
+			dom.DetachChild(n)
 			np.node.AppendChild(n)
 		}
 		return goja.Undefined()
@@ -526,6 +531,17 @@ func (m *domModule) createNodePrototype() *goja.Object { //nolint:gocognit,gocyc
 		return m.r.ToValue(arg)
 	}))
 
+	// https://developer.mozilla.org/en-US/docs/Web/API/Element/remove
+	_ = p.Set("remove", m.r.ToValue(func(call goja.FunctionCall) goja.Value {
+		np := m.valueToNode(call.This)
+		if np.node.Parent == nil {
+			panic(m.r.ToValue("remove called for orphaned Node"))
+		}
+
+		np.node.Parent.RemoveChild(np.node)
+		return goja.Undefined()
+	}))
+
 	// https://developer.mozilla.org/en-US/docs/Web/API/Element/querySelector
 	_ = p.Set("querySelector", m.r.ToValue(func(call goja.FunctionCall) goja.Value {
 		np := m.valueToNode(call.This)
@@ -554,6 +570,27 @@ func (m *domModule) createNodePrototype() *goja.Object { //nolint:gocognit,gocyc
 		}
 
 		return m.r.ToValue(res)
+	}))
+
+	// https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
+	_ = p.Set("closest", m.r.ToValue(func(call goja.FunctionCall) goja.Value {
+		np := m.valueToNode(call.This)
+		arg, ok := call.Argument(0).Export().(string)
+		if !ok {
+			panic(m.r.ToValue("selector must be a string"))
+		}
+
+		matcher, err := cascadia.ParseGroup(arg)
+		if err != nil {
+			panic(m.r.ToValue("error parsing CSS selector: " + err.Error()))
+		}
+
+		for n := np.node; n != nil; n = n.Parent {
+			if matcher.Match(n) {
+				return m.newNodeValue(n)
+			}
+		}
+		return goja.Null()
 	}))
 
 	// https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild

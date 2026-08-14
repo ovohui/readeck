@@ -95,48 +95,61 @@ schemas:
               debug_info:
                 type: boolean
                 description: Enable debug information
-              reader_settings:
-                description: Reader settings
+              lang:
+                type: string
+                description: User language
+              addon_reminder:
+                type: boolean
+                description: Reminder to install the addon is shown
+              email_settings:
                 type: object
                 properties:
-                  font:
+                  reply_to:
                     type: string
-                  font_size:
-                    type: integer
-                  line_height:
-                    type: integer
+                    format: email
+                    description: Reply-To address used in emails sent when sharing a bookmark
+                  epub_to:
+                    type: string
+                    format: email
+                    description: Default address to send exported EPUB by email
     example:
       {
         "provider": {
           "name": "bearer token",
-          "id": "X4bmnMRcnDhQtu5y33qzTp",
-          "application": "internal",
+          "id": "YVfNreHpJLg4tkbQqnCDCh",
+          "application": "api doc",
           "roles": [
             "bookmarks:read",
-            "bookmarks:write"
+            "bookmarks:write",
+            "profile:read"
           ],
           "permissions": [
             "api:bookmarks:collections:read",
             "api:bookmarks:collections:write",
             "api:bookmarks:export",
             "api:bookmarks:read",
+            "api:bookmarks:share",
             "api:bookmarks:write",
             "api:opds:read",
+            "api:profile:info",
             "api:profile:read",
-            "api:profile:tokens:delete"
+            "api:profile:tokens:delete",
+            "bookmarks:read",
+            "email:send"
           ]
         },
         "user": {
           "username": "alice",
           "email": "alice@localhost",
           "created": "2023-08-27T13:32:11.704606963Z",
-          "updated": "2023-12-17T09:08:31.909723372Z",
+          "updated": "2026-04-07T23:20:02.197979988Z",
           "settings": {
             "debug_info": false,
-            "reader_settings": {
-              "font": "serif",
-              "font_size": 3,
-              "line_height": 3
+            "lang": "en",
+            "addon_reminder": false,
+            "email_settings": {
+              "reply_to": "",
+              "epub_to": ""
             }
           }
         }

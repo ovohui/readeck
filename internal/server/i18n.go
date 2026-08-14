@@ -11,6 +11,7 @@ import (
 	"codeberg.org/readeck/readeck/internal/auth"
 	"codeberg.org/readeck/readeck/locales"
 	"codeberg.org/readeck/readeck/pkg/ctxr"
+	"codeberg.org/readeck/readeck/pkg/forms"
 )
 
 type (
@@ -23,7 +24,7 @@ var withLocale, getLocale = ctxr.WithChecker[*locales.Locale](ctxLocaleKey{})
 // It defaults to English if no user is connected or no language is set.
 func LoadLocale(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		user := auth.GetRequestUser(r)
+		user := auth.GetUser(r.Context())
 		lang := "en"
 		var tr *locales.Locale
 		if !user.IsAnonymous() {
@@ -35,17 +36,13 @@ func LoadLocale(next http.Handler) http.Handler {
 
 		tr = locales.LoadTranslation(lang)
 		ctx := withLocale(r.Context(), tr)
+		ctx = forms.WithTranslator(ctx, tr)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 
-// Locale returns the current request's locale.
-func Locale(r *http.Request) *locales.Locale {
-	return LocaleContext(r.Context())
-}
-
-// LocaleContext returns the given context's locale or defaults to en-US.
-func LocaleContext(ctx context.Context) *locales.Locale {
+// Locale returns the given context's locale or defaults to en-US.
+func Locale(ctx context.Context) *locales.Locale {
 	if t, ok := getLocale(ctx); ok {
 		return t
 	}

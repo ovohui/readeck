@@ -17,9 +17,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/araddon/dateparse"
 	"github.com/doug-martin/goqu/v9"
 	"github.com/hlandau/passlib"
+	"github.com/itlightning/dateparse"
 
 	"codeberg.org/readeck/readeck/configs"
 	"codeberg.org/readeck/readeck/internal/acls"
@@ -47,10 +47,9 @@ var (
 
 // User is a user record in database.
 type User struct {
-	locked     bool
-	ID         int           `db:"id" goqu:"skipinsert,skipupdate"`
+	ID         int           `db:"id"          goqu:"skipinsert,skipupdate"`
 	UID        string        `db:"uid"`
-	Created    time.Time     `db:"created" goqu:"skipupdate"`
+	Created    time.Time     `db:"created"     goqu:"skipupdate"`
 	Updated    time.Time     `db:"updated"`
 	LastLogin  time.Time     `db:"last_login"`
 	Username   string        `db:"username"`
@@ -60,6 +59,8 @@ type User struct {
 	Settings   *UserSettings `db:"settings"`
 	Seed       int           `db:"seed"`
 	TOTPSecret []byte        `db:"totp_secret"`
+	ExtID      *string       `db:"ext_id"`
+	ExtInfo    *ExtInfo      `db:"ext_info"`
 }
 
 // Manager is a query helper for user entries.
@@ -251,14 +252,9 @@ func (u *User) Lang() string {
 	return locales.LoadTranslation(u.Settings.Lang).Tag.String()
 }
 
-// Lock locks the user's username, email and password change.
-func (u *User) Lock(v bool) {
-	u.locked = v
-}
-
-// Locked returns the user's locked status.
-func (u *User) Locked() bool {
-	return u.locked
+// IsExternal returns whether the user was provisionned by a 3rd pary authentication method.
+func (u *User) IsExternal() bool {
+	return u.ExtID != nil
 }
 
 // LastActivity returns a [time.Time] of the last known user activity.
@@ -322,11 +318,10 @@ func MakePassword(n int) string {
 
 // UserSettings contains some user settings.
 type UserSettings struct {
-	DebugInfo      bool           `json:"debug_info"`
-	Lang           string         `json:"lang"`
-	AddonReminder  bool           `json:"addon_reminder"`
-	EmailSettings  EmailSettings  `json:"email_settings"`
-	ReaderSettings ReaderSettings `json:"reader_settings"`
+	DebugInfo     bool          `json:"debug_info"`
+	Lang          string        `json:"lang"`
+	AddonReminder bool          `json:"addon_reminder"`
+	EmailSettings EmailSettings `json:"email_settings"`
 }
 
 // EmailSettings contains the user's email settings.
@@ -347,15 +342,12 @@ type ReaderSettings struct {
 
 // Scan loads a UserSettings instance from a column.
 func (s *UserSettings) Scan(value any) error {
+	// Default values
+	s.AddonReminder = true
+
 	if value == nil {
 		return nil
 	}
-
-	// Default values
-	s.AddonReminder = true
-	s.ReaderSettings.Font = "lora"
-	s.ReaderSettings.FontSize = 3
-	s.ReaderSettings.LineHeight = 3
 
 	v, err := types.JSONBytes(value)
 	if err != nil {
@@ -367,6 +359,42 @@ func (s *UserSettings) Scan(value any) error {
 
 // Value encodes a UserSettings value for storage.
 func (s *UserSettings) Value() (driver.Value, error) {
+	v, err := json.Marshal(s)
+	if err != nil {
+		return "", err
+	}
+	return string(v), nil
+}
+
+// ExtInfo contains information about the external authentication provider.
+type ExtInfo struct {
+	AddedOn time.Time `json:"added_on"`
+	Issuer  string    `json:"issuer"`
+}
+
+// Scan loads a [ExtInfo] instance from a column.
+func (s *ExtInfo) Scan(value any) error {
+	if value == nil {
+		return nil
+	}
+
+	v, err := types.JSONBytes(value)
+	if err != nil {
+		return err
+	}
+	json.Unmarshal(v, s) //nolint:errcheck
+	return nil
+}
+
+// Value encodes a [ExtInfo] value for storage.
+func (s *ExtInfo) Value() (driver.Value, error) {
+	if s == nil {
+		return nil, nil
+	}
+
+	if s.AddedOn.IsZero() {
+		s.AddedOn = time.Now().UTC()
+	}
 	v, err := json.Marshal(s)
 	if err != nil {
 		return "", err

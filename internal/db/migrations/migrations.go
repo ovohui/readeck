@@ -58,7 +58,8 @@ func updateBookmarkZipFiles(fn fileUpdateFunc) (err error) {
 
 		newpath, err := fn(path)
 		if err != nil {
-			slog.Error("",
+			slog.Error(
+				"",
 				slog.String("path", path),
 				slog.Any("err", err),
 			)
@@ -78,7 +79,8 @@ func updateBookmarkZipFiles(fn fileUpdateFunc) (err error) {
 		// Remove temporary files
 		for _, x := range files {
 			if err := os.Remove(x[1]); err != nil {
-				slog.Error("deleting file",
+				slog.Error(
+					"deleting file",
 					slog.String("file", x[1]),
 					slog.Any("err", err),
 				)
@@ -160,7 +162,8 @@ func updateArchiveHTML(fn domUpdateFunc) fileUpdateFunc {
 			return dest, err
 		}
 
-		slog.Info("file updated",
+		slog.Info(
+			"file updated",
 			slog.Int("changes", changes),
 			slog.String("path", path),
 			slog.String("dest", dest),

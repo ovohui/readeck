@@ -68,8 +68,8 @@ func (api *adminAPI) withUserList(next http.Handler) http.Handler {
 
 		ds := users.Users.Query().
 			Order(goqu.I("username").Asc()).
-			Limit(uint(pf.Limit())).
-			Offset(uint(pf.Offset()))
+			Limit(uint(pf.Limit.Value())).
+			Offset(uint(pf.Offset.Value()))
 
 		res, err := newUserList(r.Context(), ds)
 		if err != nil {
@@ -100,7 +100,7 @@ func (api *adminAPI) withUser(next http.Handler) http.Handler {
 }
 
 func (api *adminAPI) deleteUser(r *http.Request, u *users.User) error {
-	if u.ID == auth.GetRequestUser(r).ID {
+	if u.ID == auth.GetUser(r.Context()).ID {
 		return errSameUser
 	}
 
@@ -132,14 +132,13 @@ func (api *adminAPI) userInfo(w http.ResponseWriter, r *http.Request) {
 }
 
 func (api *adminAPI) userCreate(w http.ResponseWriter, r *http.Request) {
-	f := users.NewUserForm(server.Locale(r))
-	forms.Bind(f, r)
+	f := forms.BindAs[userForm](r)
 	if !f.IsValid() {
 		server.Render(w, r, http.StatusUnprocessableEntity, f)
 		return
 	}
 
-	u, err := f.CreateUser()
+	u, err := f.createUser()
 	if err != nil {
 		server.Err(w, r, err)
 		return
@@ -151,18 +150,18 @@ func (api *adminAPI) userCreate(w http.ResponseWriter, r *http.Request) {
 }
 
 func (api *adminAPI) userUpdate(w http.ResponseWriter, r *http.Request) {
-	f := users.NewUserForm(server.Locale(r))
-
 	u := getUser(r.Context())
+
+	f := forms.New[userForm](r.Context())
 	f.SetUser(u)
 
-	forms.Bind(f, r)
+	forms.Bind(r, f)
 	if !f.IsValid() {
 		server.Render(w, r, http.StatusUnprocessableEntity, f)
 		return
 	}
 
-	updated, err := f.UpdateUser(u)
+	updated, err := f.updateUser(u)
 	if err != nil {
 		server.Err(w, r, err)
 		return
@@ -203,7 +202,8 @@ func newUserList(ctx context.Context, ds *goqu.SelectDataset) (*userList, error)
 	}
 
 	if limit, ok := ds.GetClauses().Limit().(uint); ok {
-		res.Pagination = server.NewPagination(ctx,
+		res.Pagination = server.NewPagination(
+			ctx,
 			int(res.Count), int(limit), int(ds.GetClauses().Offset()),
 		)
 	}
@@ -219,29 +219,33 @@ func newUserList(ctx context.Context, ds *goqu.SelectDataset) (*userList, error)
 }
 
 type userItem struct {
-	ID        string              `json:"id"`
-	Href      string              `json:"href"`
-	Username  string              `json:"username"`
-	Email     string              `json:"email"`
-	Group     string              `json:"group"`
-	Created   time.Time           `json:"created"`
-	Updated   time.Time           `json:"updated"`
-	LastLogin time.Time           `json:"last_login"`
-	Settings  *users.UserSettings `json:"settings,omitempty"`
-	IsDeleted bool                `json:"is_deleted"`
+	ID         string              `json:"id"`
+	Href       string              `json:"href"`
+	Username   string              `json:"username"`
+	Email      string              `json:"email"`
+	Group      string              `json:"group"`
+	Created    time.Time           `json:"created"`
+	Updated    time.Time           `json:"updated"`
+	LastLogin  time.Time           `json:"last_login"`
+	Settings   *users.UserSettings `json:"settings,omitempty"`
+	HasTOTP    bool                `json:"has_totp"`
+	IsExternal bool                `json:"is_external"`
+	IsDeleted  bool                `json:"is_deleted"`
 }
 
 func newUserItem(ctx context.Context, u *users.User) *userItem {
 	return &userItem{
-		ID:        u.UID,
-		Href:      urls.AbsoluteURLContext(ctx, "/api/admin/users", u.UID).String(),
-		Username:  u.Username,
-		Email:     u.Email,
-		Group:     u.Group,
-		Created:   u.Created,
-		Updated:   u.Updated,
-		LastLogin: u.LastLogin,
-		IsDeleted: deleteUserTask.IsRunning(u.ID),
+		ID:         u.UID,
+		Href:       urls.AbsoluteURLContext(ctx, "/api/admin/users", u.UID).String(),
+		Username:   u.Username,
+		Email:      u.Email,
+		Group:      u.Group,
+		Created:    u.Created,
+		Updated:    u.Updated,
+		LastLogin:  u.LastLogin,
+		HasTOTP:    u.HasTOTP(),
+		IsExternal: u.IsExternal(),
+		IsDeleted:  deleteUserTask.IsRunning(u.ID),
 	}
 }
 

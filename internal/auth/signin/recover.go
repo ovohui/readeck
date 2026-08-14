@@ -13,6 +13,7 @@ import (
 	"errors"
 	"log/slog"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/doug-martin/goqu/v9"
@@ -28,15 +29,10 @@ import (
 )
 
 const (
-	rCodeSize     = 6
-	rVerifierSize = 12
+	rCodeSize      = 6
+	rVerifierSize  = 12
+	rAntispamValue = -1
 )
-
-type recoverForm struct {
-	*forms.Form
-	ttl    time.Duration
-	prefix string
-}
 
 // recoverCode is the data stored in the K/V store.
 // We only store the user ID and a hash of the code+verifier.
@@ -116,46 +112,10 @@ func (c *recoverCode) key() string {
 	return base64.RawURLEncoding.EncodeToString(c.code[:])
 }
 
-func newRecoverForm(tr forms.Translator) *recoverForm {
-	return &recoverForm{
-		Form: forms.Must(
-			forms.WithTranslator(context.Background(), tr),
-			forms.NewIntegerField("step",
-				forms.Required,
-				forms.TypedValidator(func(v int) bool {
-					return 0 <= v || v <= 3
-				}, errors.New("invalid step")),
-			),
-			forms.NewTextField("email",
-				forms.Trim,
-				forms.When(func(f forms.Field, _ string) bool {
-					step := forms.GetForm(f).Get("step").(forms.TypedField[int]).V()
-					return step == 0 || step == 1
-				}).
-					True(forms.Required),
-				forms.MaxLen(128),
-			),
-			forms.NewTextField("password",
-				forms.When(func(f forms.Field, _ string) bool {
-					step := forms.GetForm(f).Get("step").(forms.TypedField[int]).V()
-					return step == 2 || step == 3
-				}).
-					True(forms.Required, users.IsValidPassword),
-			),
-		),
-		ttl:    time.Duration(1 * time.Hour),
-		prefix: "recover_code",
-	}
-}
-
 func (h *authHandler) recover(w http.ResponseWriter, r *http.Request) {
-	f := newRecoverForm(server.Locale(r))
-	f.Get("step").Set(0)
+	f := newRecoverForm(r.Context())
 
-	tc := server.TC{
-		"Form": f,
-	}
-
+	var recoverErr error
 	userCode := chi.URLParam(r, "code")
 
 	step0 := func() {
@@ -164,12 +124,15 @@ func (h *authHandler) recover(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		user, err := users.Users.GetOne(goqu.C("email").Eq(f.Get("email").String()))
+		user, err := users.Users.GetOne(
+			goqu.C("email").Eq(f.Email.Value()),
+			goqu.C("ext_id").IsNull(),
+		)
 
 		defer func() {
 			if err != nil {
 				server.Log(r).Error("recover step 0", slog.Any("err", err))
-				f.AddErrors("", forms.ErrUnexpected)
+				f.AddErrors(forms.ErrUnexpected)
 			}
 		}()
 
@@ -177,41 +140,49 @@ func (h *authHandler) recover(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		mailTc := server.TC{
-			"SiteURL":   urls.AbsoluteURL(r, "/"),
-			"EmailAddr": f.Get("email").String(),
-		}
+		ctx := email.WithSiteURL(r.Context(), urls.AbsoluteURL(r, "/"))
 
-		if user != nil {
+		to := f.Email.Value()
+		var body string
+
+		switch {
+		case user != nil:
+			// User exists, create the code and prepare the message.
 			code := newCode(user.ID)
 			if err = code.save(f.prefix, f.ttl); err != nil {
 				return
 			}
-
-			mailTc["RecoverLink"] = urls.AbsoluteURL(r, "/login/recover", code.String())
+			recoverLink := urls.AbsoluteURL(r, "/login/recover", code.String())
+			body = recoverMsg(ctx, recoverLink)
+		case f.Antispam.Value() != rAntispamValue:
+			err = nil
+			// Only when the user doesn't exist, we check a hidden field's value
+			// that's only set with JS. This prevent bots from turning an instance
+			// into an involuntary spam machine.
+			//
+			// We connect to the server and send a Hello. This helps to
+			// prevent user enumaration by using the time it takes for the route to return.
+			if s, ok := email.Sender.(interface{ Helo() error }); ok {
+				err = s.Helo()
+			}
+			f.Step.Set(1)
+			return
+		default:
+			body = recoverNoTokenMsg(ctx)
 		}
 
-		msg, err := email.NewMsg(
+		err = email.SendMessage(
+			ctx,
 			configs.Config.Email.FromNoReply.String(),
-			f.Get("email").String(),
+			to,
 			"[Readeck] Password Recovery",
-			email.WithMDTemplate(
-				"/emails/recover.jet.md",
-				server.TemplateVars(r),
-				mailTc,
-			),
+			email.WithMDText(body),
 		)
 		if err != nil {
-			server.Err(w, r, err)
 			return
 		}
 
-		if err = email.Sender.SendEmail(msg); err != nil {
-			server.Err(w, r, err)
-			return
-		}
-
-		f.Get("step").Set(1)
+		f.Step.Set(1)
 	}
 
 	step2 := func() {
@@ -221,13 +192,13 @@ func (h *authHandler) recover(w http.ResponseWriter, r *http.Request) {
 		code := new(recoverCode)
 		if err = code.load(f.prefix, userCode); err != nil {
 			server.Log(r).Warn("load code", slog.Any("err", err))
-			tc["Error"] = "Invalid recovery code"
+			recoverErr = errors.New("Invalid recovery code")
 			return
 		}
 
 		user, err = users.Users.GetOne(goqu.C("id").Eq(code.UserID))
 		if err != nil {
-			tc["Error"] = "Invalid recovery code"
+			recoverErr = errors.New("Invalid recovery code")
 			server.Log(r).Error("get user", slog.Any("err", err))
 			return
 		}
@@ -244,11 +215,11 @@ func (h *authHandler) recover(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if err != nil {
 				server.Log(r).Error("password update", slog.Any("err", err))
-				f.AddErrors("", forms.ErrUnexpected)
+				f.AddErrors(forms.ErrUnexpected)
 			}
 		}()
 
-		if err = user.SetPassword(f.Get("password").String()); err != nil {
+		if err = user.SetPassword(f.Password.Value()); err != nil {
 			return
 		}
 		user.SetSeed()
@@ -263,18 +234,18 @@ func (h *authHandler) recover(w http.ResponseWriter, r *http.Request) {
 		if err = code.delete(f.prefix); err != nil {
 			return
 		}
-		f.Get("step").Set(3)
+		f.Step.Set(3)
 	}
 
 	switch r.Method {
 	case http.MethodGet:
 		if userCode != "" {
-			f.Get("step").Set(2)
+			f.Step.Set(2)
 			step2()
 		}
 	case http.MethodPost:
-		forms.Bind(f, r)
-		switch f.Get("step").Value() {
+		forms.Bind(r, f)
+		switch f.Step.Value() {
 		case 0:
 			step0()
 		case 1:
@@ -295,5 +266,37 @@ func (h *authHandler) recover(w http.ResponseWriter, r *http.Request) {
 
 	}
 
-	server.RenderTemplate(w, r, http.StatusOK, "/auth/recover", tc)
+	server.RenderComponent(w, r, http.StatusOK, Views{}.recover(f, recoverErr))
+}
+
+func recoverMsg(ctx context.Context, recoverLink *url.URL) string {
+	return server.Locale(ctx).Gettext(`
+Hi,
+
+You (or someone else) entered this email address when trying to
+change the password of a Readeck account (%[1]s).
+
+If you are expecting this email, please follow this link to set
+a new password for your readeck account.
+
+%[2]s
+`, email.GetSiteURL(ctx), recoverLink)
+}
+
+func recoverNoTokenMsg(ctx context.Context) string {
+	return server.Locale(ctx).Gettext(`
+Hi,
+
+You (or someone else) entered this email address when trying to
+change the password of a Readeck account (%[1]s).
+
+However, this email address is not associated with any account and
+therefore, the attempted password change has failed.
+
+If you are a Readeck user on %[1]s and you are
+expecting this email, please try again using the email address
+you used when creating your account.
+
+If you are not a Readeck user, please ignore this message.
+`, email.GetSiteURL(ctx))
 }

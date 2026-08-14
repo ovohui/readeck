@@ -10,6 +10,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
+
+	"github.com/itlightning/dateparse"
 )
 
 // JSONBytes converts a string or a []uint8 to a []byte value.
@@ -76,5 +78,31 @@ func (t *TimeString) Scan(value any) error {
 	}
 
 	*t = TimeString(res)
+	return nil
+}
+
+// DateTime is a [time.Time] that uses [dateparse.ParseStrict] to scan
+// string values (as returned by SQLite when querying single dates).
+type DateTime time.Time
+
+// Scan loads the [DateTime] instance from a given value.
+func (t *DateTime) Scan(value any) error {
+	if value == nil {
+		return nil
+	}
+
+	res := time.Time{}
+	var err error
+	switch v := value.(type) {
+	case string:
+		res, err = dateparse.ParseStrict(v)
+		if err != nil {
+			return err
+		}
+	case time.Time:
+		res = v
+	}
+
+	*t = DateTime(res)
 	return nil
 }

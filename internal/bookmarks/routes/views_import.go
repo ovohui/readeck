@@ -5,11 +5,11 @@
 package routes
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
 
+	"codeberg.org/readeck/readeck/components"
 	"codeberg.org/readeck/readeck/internal/auth"
 	"codeberg.org/readeck/readeck/internal/bookmarks/importer"
 	"codeberg.org/readeck/readeck/internal/server"
@@ -18,32 +18,34 @@ import (
 )
 
 func (h *viewsRouter) bookmarksImportMain(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
+	tr := server.Locale(r.Context())
+	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
+		{tr.Gettext("Bookmarks"), urls.AbsoluteURL(r, "/bookmarks").String()},
+		{tr.Gettext("Import")},
+	})
+
+	server.RenderComponent(w, r.WithContext(ctx), http.StatusOK, importViews{}.main())
+}
+
+func (h *viewsRouter) bookmarksImportStatus(w http.ResponseWriter, r *http.Request) {
 	trackID := chi.URLParam(r, "trackID")
+	tr := server.Locale(r.Context())
+	progress, _ := importer.NewImportProgress(trackID)
 
-	tc := getBaseContext(r.Context())
+	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
+		{tr.Gettext("Bookmarks"), urls.AbsoluteURL(r, "/bookmarks").String()},
+		{tr.Gettext("Import"), urls.AbsoluteURL(r, "/bookmarks/import").String()},
+		{tr.Gettext("Progress")},
+	})
 
-	if trackID != "" {
-		tc.SetBreadcrumbs([][2]string{
-			{tr.Gettext("Bookmarks"), urls.AbsoluteURL(r, "/bookmarks").String()},
-			{tr.Gettext("Import"), urls.AbsoluteURL(r, "/bookmarks/import").String()},
-			{tr.Gettext("Progress")},
-		})
-		tc["TrackID"] = trackID
-		tc["Running"] = importer.ImportBookmarksTask.IsRunning(trackID)
-		tc["Progress"], _ = importer.NewImportProgress(trackID)
-	} else {
-		tc.SetBreadcrumbs([][2]string{
-			{tr.Gettext("Bookmarks"), urls.AbsoluteURL(r, "/bookmarks").String()},
-			{tr.Gettext("Import")},
-		})
-	}
-
-	server.RenderTemplate(w, r, 200, "/bookmarks/import/index", tc)
+	server.RenderComponent(w, r.WithContext(ctx), http.StatusOK, importViews{}.status(
+		trackID,
+		importer.ImportBookmarksTask.IsRunning(trackID),
+		progress,
+	))
 }
 
 func (h *viewsRouter) bookmarksImport(w http.ResponseWriter, r *http.Request) {
-	tr := server.Locale(r)
 	source := chi.URLParam(r, "source")
 	if source == "" {
 		server.Status(w, r, http.StatusNotFound)
@@ -56,22 +58,20 @@ func (h *viewsRouter) bookmarksImport(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	f := importer.NewImportForm(
-		forms.WithTranslator(context.Background(), tr),
-		adapter,
-	)
+	f := adapter.Form(r.Context())
+	if f, ok := f.Fields()["ignore_duplicates"]; ok {
+		f.(*forms.BooleanField).Set(true)
+	}
 
-	templateName := "/bookmarks/import/form-" + source
-	tc := getBaseContext(r.Context())
-	tc["Form"] = f
-	tc.SetBreadcrumbs([][2]string{
+	tr := server.Locale(r.Context())
+	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
 		{tr.Gettext("Bookmarks"), urls.AbsoluteURL(r, "/bookmarks").String()},
 		{tr.Gettext("Import"), urls.AbsoluteURL(r, "/bookmarks/import").String()},
-		{adapter.Name(tr)},
+		{adapter.Name(r.Context())},
 	})
 
 	if r.Method == http.MethodPost {
-		forms.Bind(f, r)
+		forms.Bind(r, f)
 
 		var data []byte
 		var err error
@@ -84,23 +84,26 @@ func (h *viewsRouter) bookmarksImport(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if !f.IsValid() {
-			server.RenderTemplate(w, r, http.StatusUnprocessableEntity, templateName, tc)
+			server.RenderComponent(
+				w, r.WithContext(ctx),
+				http.StatusUnprocessableEntity,
+				importViews{}.form(adapter, f),
+			)
 			return
 		}
 
-		ignoreDuplicates := f.Get("ignore_duplicates").(forms.TypedField[bool]).V()
-
 		// Create the import task
+		options := f.Options()
 		trackID := importer.GetTrackID(server.GetReqID(r))
 		err = importer.ImportBookmarksTask.Run(trackID, importer.ImportParams{
 			Source:          source,
 			Data:            data,
-			UserID:          auth.GetRequestUser(r).ID,
+			UserID:          auth.GetUser(r.Context()).ID,
 			RequestID:       server.GetReqID(r),
-			AllowDuplicates: !ignoreDuplicates,
-			Label:           f.Get("label").String(),
-			Archive:         f.Get("archive").(forms.TypedField[bool]).V(),
-			MarkRead:        f.Get("mark_read").(forms.TypedField[bool]).V(),
+			Label:           options.Label,
+			AllowDuplicates: !options.IgnoreDuplicates,
+			Archive:         options.Archive,
+			MarkRead:        options.MarkRead,
 		})
 		if err != nil {
 			server.Err(w, r, err)
@@ -111,5 +114,5 @@ func (h *viewsRouter) bookmarksImport(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	server.RenderTemplate(w, r, 200, templateName, tc)
+	server.RenderComponent(w, r.WithContext(ctx), http.StatusOK, importViews{}.form(adapter, f))
 }

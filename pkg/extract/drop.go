@@ -275,7 +275,8 @@ func (d *Drop) loadTextPlain(rsp *http.Response) error {
 
 	title := strings.TrimSuffix(path.Base(d.URL.Path), path.Ext(d.URL.Path))
 	title = rxTitleSpaces.ReplaceAllLiteralString(title, " ")
-	d.Body = fmt.Appendf(nil, "<html><head><title>%s</title><body><pre>%s",
+	d.Body = fmt.Appendf(
+		nil, "<html><head><title>%s</title><body><pre>%s",
 		title,
 		string(d.Body),
 	)
@@ -541,6 +542,11 @@ type DropProperties map[string]any
 // DropMeta is a map of list of strings that contains the
 // collected metadata.
 type DropMeta map[string][]string
+
+// Set sets a key-value pair in the raw metadata list, overriding any previous value for that key.
+func (m DropMeta) Set(name, value string) {
+	m[name] = []string{value}
+}
 
 // Add adds a value to the raw metadata list.
 func (m DropMeta) Add(name, value string) {

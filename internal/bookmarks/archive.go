@@ -96,7 +96,8 @@ func ConvertCollectedImage(ctx context.Context, c archiver.Collector, res *archi
 
 	// First pass ignoring icons
 	if readabilityEnabled && contents.IsIcon(node, res.Width, res.Height, 64) {
-		l.Debug("remove icon image",
+		l.Debug(
+			"remove icon image",
 			slog.Int("w", res.Width),
 			slog.Int("h", res.Height),
 		)
@@ -105,7 +106,8 @@ func ConvertCollectedImage(ctx context.Context, c archiver.Collector, res *archi
 
 	// Direct copy of small enough images and in a compatible format.
 	if _, ok := directCopyFormats[res.ContentType]; ok && res.Width <= extract.ImageSizeWide {
-		l.Debug("copy image", slog.Group("resource",
+		l.Debug("copy image", slog.Group(
+			"resource",
 			slog.String("type", res.ContentType),
 			slog.Int("w", res.Width),
 			slog.Int("h", res.Height),
@@ -123,7 +125,8 @@ func ConvertCollectedImage(ctx context.Context, c archiver.Collector, res *archi
 	im, err := img.New(res.ContentType, io.TeeReader(r, buf))
 	r.Close() //nolint:errcheck
 	if err != nil {
-		l.Warn("open image",
+		l.Warn(
+			"open image",
 			slog.String("format", res.ContentType),
 			slog.Any("err", err),
 		)
@@ -137,7 +140,8 @@ func ConvertCollectedImage(ctx context.Context, c archiver.Collector, res *archi
 
 	// Direct copy of animated images
 	if im, ok := im.(img.MultiFrameImage); ok && im.Frames() > 1 {
-		l.Debug("copy image", slog.Group("resource",
+		l.Debug("copy image", slog.Group(
+			"resource",
 			slog.String("type", im.ContentType()),
 			slog.Int("w", int(im.Width())),
 			slog.Int("h", int(im.Height())),
@@ -147,14 +151,16 @@ func ConvertCollectedImage(ctx context.Context, c archiver.Collector, res *archi
 
 	// Second pass ignoring icons
 	if readabilityEnabled && contents.IsIcon(node, int(im.Width()), int(im.Height()), 64) {
-		l.Debug("remove icon image",
+		l.Debug(
+			"remove icon image",
 			slog.Int("w", int(im.Width())),
 			slog.Int("h", int(im.Height())),
 		)
 		return nil, archiver.ErrRemoveSrc
 	}
 
-	if err = img.Pipeline(im,
+	if err = img.Pipeline(
+		im,
 		func(im img.Image) error { return im.Clean() },
 		func(im img.Image) error { return im.SetQuality(75) },
 		func(im img.Image) error { return im.SetCompression(img.CompressionBest) },
@@ -176,13 +182,16 @@ func ConvertCollectedImage(ctx context.Context, c archiver.Collector, res *archi
 		return nil, archiver.ErrRemoveSrc
 	}
 
-	l.Debug("convert image",
-		slog.Group("resource",
+	l.Debug(
+		"convert image",
+		slog.Group(
+			"resource",
 			slog.String("type", res.ContentType),
 			slog.Int("w", res.Width),
 			slog.Int("h", res.Height),
 		),
-		slog.Group("image",
+		slog.Group(
+			"image",
 			slog.String("type", ct),
 			slog.Int("w", int(im.Width())),
 			slog.Int("h", int(im.Height())),

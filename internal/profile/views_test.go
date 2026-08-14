@@ -14,9 +14,11 @@ import (
 
 	"github.com/doug-martin/goqu/v9"
 	"github.com/go-shiori/dom"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	"codeberg.org/readeck/readeck/internal/auth/tokens"
+	"codeberg.org/readeck/readeck/internal/profile/preferences"
 	"codeberg.org/readeck/readeck/pkg/superbus"
 	"codeberg.org/readeck/readeck/pkg/totp"
 
@@ -36,7 +38,8 @@ func TestViews(t *testing.T) {
 
 		client.RT(t, WithTarget("/profile"), AssertStatus(200))
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget(client.History.PrevURL()),
 			WithBody(url.Values{
@@ -48,7 +51,8 @@ func TestViews(t *testing.T) {
 			AssertContains("not a valid email address"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget(client.History.PrevURL()),
 			WithBody(url.Values{
@@ -59,7 +63,8 @@ func TestViews(t *testing.T) {
 			AssertContains("username is not valid"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget(client.History.PrevURL()),
 			WithBody(url.Values{
@@ -69,7 +74,8 @@ func TestViews(t *testing.T) {
 			AssertRedirect("/profile"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget(client.History.PrevURL()),
 			WithBody(url.Values{
@@ -79,7 +85,8 @@ func TestViews(t *testing.T) {
 			AssertRedirect("/profile"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget(client.History.PrevURL()),
 			WithBody(url.Values{
@@ -88,7 +95,8 @@ func TestViews(t *testing.T) {
 			AssertStatus(422),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget(client.History.PrevURL()),
 			WithBody(url.Values{
@@ -98,16 +106,27 @@ func TestViews(t *testing.T) {
 			AssertStatus(422),
 		)
 
-		client.RT(t,
-			WithMethod(http.MethodPost),
+		client.RT(
+			t,
+			WithMethod(http.MethodPatch),
 			WithTarget("/profile/session"),
 			WithBody(url.Values{
-				"bookmark_list_display": {"grid"},
+				"bookmark_list.layout": {"1"},
+				"bookmark.font_family": {"2"},
 			}),
 			AssertStatus(200),
-			AssertJSON(`{
-				"bookmark_list_display":"grid"
-			}`),
+		)
+
+		client.RT(
+			t,
+			WithMethod(http.MethodGet),
+			WithTarget("/profile"),
+			AssertStatus(200),
+			WithAssert(func(t *testing.T, rsp *Response) {
+				p := preferences.Load(rsp.Request)
+				assert.Equal(t, preferences.ListCompact, p.BookmarkList.Layout)
+				assert.Equal(t, preferences.FontMerriweather, p.Bookmark.FontFamily)
+			}),
 		)
 	})
 
@@ -118,7 +137,8 @@ func TestViews(t *testing.T) {
 
 		client := app.Client(WithSession("user"))
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/profile/password"),
 			WithBody(url.Values{
@@ -139,20 +159,23 @@ func TestViews(t *testing.T) {
 
 		client.RT(t, WithTarget("/profile/tokens"), AssertStatus(200))
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/profile/tokens"),
 			AssertStatus(303),
 			AssertRedirect("/profile/tokens/.+"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget(client.History[0].Response.Redirect),
 			AssertStatus(200),
 			AssertContains("New token created"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget(client.History.PrevURL()),
 			WithBody(url.Values{"application": {"test"}}),
@@ -163,14 +186,16 @@ func TestViews(t *testing.T) {
 		)
 
 		// Delete token
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget(client.History.PrevURL()+"/delete"),
 			AssertStatus(303),
 			AssertRedirect("/profile/tokens"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget(client.History[1].URL.String()),
 			AssertStatus(200),
 			WithAssert(func(t *testing.T, rsp *Response) {
@@ -201,7 +226,8 @@ func TestViews(t *testing.T) {
 		)
 
 		// Cancel deletion
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget(client.History.PrevURL()+"/delete"),
 			WithBody(url.Values{"cancel": {"1"}}),
@@ -209,7 +235,8 @@ func TestViews(t *testing.T) {
 			AssertRedirect("/profile/tokens"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget(client.History[1].URL.String()),
 			AssertStatus(200),
 			WithAssert(func(t *testing.T, rsp *Response) {
@@ -235,13 +262,15 @@ func TestViews(t *testing.T) {
 
 		client := app.Client(WithSession("user"))
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget("/profile/password"),
 			AssertStatus(200),
 			AssertContains("Setup Verification Code</a>"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget("/profile/otp"),
 			AssertStatus(200),
 		)
@@ -258,7 +287,8 @@ func TestViews(t *testing.T) {
 		otp, err := code.OTP(time.Now().UTC())
 		require.NoError(t, err)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/profile/otp"),
 			WithBody(url.Values{
@@ -269,14 +299,16 @@ func TestViews(t *testing.T) {
 			AssertRedirect("/profile/password"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget(client.History[0].Response.Redirect),
 			AssertStatus(200),
 			AssertContains("Verification Code is now enabled"),
 			AssertContains("Remove</button>"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithMethod(http.MethodPost),
 			WithTarget("/profile/password"),
 			WithBody(url.Values{"action": {"remove-totp"}}),
@@ -284,7 +316,8 @@ func TestViews(t *testing.T) {
 			AssertRedirect("/profile/password"),
 		)
 
-		client.RT(t,
+		client.RT(
+			t,
 			WithTarget(client.History.PrevURL()),
 			AssertStatus(200),
 			AssertContains("Setup Verification Code</a>"),
@@ -357,7 +390,8 @@ func TestViews(t *testing.T) {
 				otp, err := test.code()
 				require.NoError(t, err)
 
-				client.RT(t,
+				client.RT(
+					t,
 					append([]TestOption{
 						WithMethod(http.MethodPost),
 						WithTarget("/profile/otp"),

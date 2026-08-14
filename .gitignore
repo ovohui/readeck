@@ -20,3 +20,5 @@
 
 /web/dist
 /web/node_modules
+
+*_templ.go

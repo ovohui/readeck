@@ -27,7 +27,6 @@ import (
 
 	"github.com/kinbiko/jsonassert"
 	"github.com/stretchr/testify/require"
-	"github.com/wneessen/go-mail"
 
 	"codeberg.org/readeck/readeck/configs"
 	"codeberg.org/readeck/readeck/internal/app"
@@ -223,11 +222,10 @@ func (tu *TestUser) APIToken() string {
 func (tu *TestUser) sessionCookie() *http.Cookie {
 	// Create and encoded a session cookie
 	encoded, err := server.SessionHandler().Encode(&sessions.Payload{
-		Seed:        tu.User.Seed,
-		User:        tu.User.ID,
-		LastUpdate:  time.Now().UTC(),
-		Flashes:     []sessions.FlashMessage{},
-		Preferences: sessions.Preferences{},
+		Seed:       tu.User.Seed,
+		User:       tu.User.ID,
+		LastUpdate: time.Now().UTC().UnixMilli(),
+		Flashes:    []sessions.FlashMessage{},
 	})
 	if err != nil {
 		panic(err)
@@ -335,8 +333,8 @@ func (ta *TestApp) Client(options ...ClientOption) *Client {
 	return c
 }
 
-// SendEmail implements email.sender interface and stores the last sent message.
-func (ta *TestApp) SendEmail(msg *mail.Msg) error {
+// SendEmail implements [email.sender] interface and stores the last sent message.
+func (ta *TestApp) SendEmail(msg *email.Message) error {
 	buf := new(bytes.Buffer)
 	msg.WriteTo(buf) // nolint:errcheck
 	ta.LastEmail = buf.String()

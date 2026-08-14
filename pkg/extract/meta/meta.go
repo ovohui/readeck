@@ -7,22 +7,24 @@
 package meta
 
 import (
-	"fmt"
+	"bytes"
 	"iter"
 	"log/slog"
 	"maps"
+	"net/http"
 	"regexp"
 	"strings"
 	"sync"
 
 	"golang.org/x/net/html"
+	"golang.org/x/net/html/atom"
 
-	"github.com/antchfx/htmlquery"
-	"github.com/araddon/dateparse"
 	"github.com/go-shiori/dom"
 	"github.com/gobwas/glob"
+	"github.com/itlightning/dateparse"
 
 	"codeberg.org/readeck/readeck/pkg/extract"
+	"codeberg.org/readeck/readeck/pkg/extract/meta/tinymeta"
 	"codeberg.org/readeck/readeck/pkg/extract/microdata"
 )
 
@@ -105,6 +107,7 @@ func ExtractMeta(m *extract.ProcessMessage, next extract.Processor) extract.Proc
 
 	d.AddAuthors(d.Meta.Lookup(
 		"ld.author",
+		"graph.author",
 		"dc.creator",
 		"html.author",
 		"html.byl",
@@ -135,6 +138,74 @@ func ExtractMeta(m *extract.ProcessMessage, next extract.Processor) extract.Proc
 	return next
 }
 
+// ProcessRefreshRedirect looks for a Refresh header or its metadata counterpart.
+// When found with a "URL=" parameter, this resets the extraction process with
+// the new URL.
+func ProcessRefreshRedirect(m *extract.ProcessMessage, next extract.Processor) extract.Processor {
+	if m.Step() != extract.StepDom || m.Position() > 0 {
+		return next
+	}
+
+	refresh := m.Extractor.Drop().Header.Get("refresh")
+	var refreshURL string
+
+	if refresh == "" {
+		for k, v := range tinymeta.Scan(bytes.NewReader(m.Extractor.Drop().Body)) {
+			if strings.ToLower(k) == "refresh" {
+				refresh = v
+				break
+			}
+		}
+	}
+
+	if refresh != "" {
+		_, s, _ := strings.Cut(refresh, ";")
+		s = strings.TrimSpace(s)
+		if len(s) > 4 && strings.ToLower(s[0:4]) == "url=" {
+			refreshURL = strings.TrimSpace(s[4:])
+		}
+	}
+
+	if refreshURL == "" {
+		return next
+	}
+
+	u, err := m.Extractor.Drop().URL.Parse(refreshURL)
+	if err != nil {
+		return next
+	}
+	u.Fragment = ""
+
+	// Same URL, carry on
+	origin := m.Extractor.Drop().URL.String()
+	if u.String() == origin {
+		return next
+	}
+
+	// Already seen
+	if m.Extractor.Visited.IsPresent(u) {
+		m.Log().Debug("page already visited", slog.String("url", u.String()))
+		return next
+	}
+
+	// Proceed with reset
+	m.Log().Debug("found redirection through refresh", slog.String("url", refreshURL))
+	if err = m.Extractor.ReplaceDrop(u); err != nil {
+		m.Log().Error("cannot replace page", slog.Any("err", err))
+		return nil
+	}
+
+	// Set referer header
+	if t, ok := m.Extractor.Client().Transport.(interface{ SetHeader(func(http.Header)) }); ok {
+		t.SetHeader(func(h http.Header) {
+			h.Set("Referer", origin)
+		})
+	}
+
+	m.ResetPosition()
+	return nil
+}
+
 // SetDropProperties will set some Drop properties bases on the retrieved
 // metadata. It must be run after ExtractMeta and ExtractOembed.
 func SetDropProperties(m *extract.ProcessMessage, next extract.Processor) extract.Processor {
@@ -145,7 +216,7 @@ func SetDropProperties(m *extract.ProcessMessage, next extract.Processor) extrac
 	d := m.Extractor.Drop()
 
 	// Set publication date
-	for _, htmlDate := range d.Meta.Lookup("ld.published", "html.date") {
+	for _, htmlDate := range d.Meta.Lookup("ld.published", "graph.published_time", "html.date") {
 		if dt, err := dateparse.ParseLocal(htmlDate); err == nil && !dt.IsZero() {
 			d.Date = dt.UTC()
 			break
@@ -204,99 +275,122 @@ func SetDropProperties(m *extract.ProcessMessage, next extract.Processor) extrac
 	return next
 }
 
-func extMeta(k, v, sep string) func(*html.Node) (string, string) {
-	return func(n *html.Node) (string, string) {
-		_, k, _ := strings.Cut(strings.TrimSpace(dom.GetAttribute(n, k)), sep)
-		return k, strings.TrimSpace(dom.GetAttribute(n, v))
-	}
-}
-
-var specList = []struct {
-	name     string
-	selector string
-	fn       func(*html.Node) (string, string)
-}{
-	{"html", "//title", func(n *html.Node) (string, string) {
-		return "title", dom.TextContent(n)
-	}},
-	{"html", "/html[@lang]/@lang", func(n *html.Node) (string, string) {
-		return "lang", dom.TextContent(n)
-	}},
-	{"html", "/*[self::html or self::body][@dir]/@dir", func(n *html.Node) (string, string) {
-		if c := strings.ToLower(strings.TrimSpace(dom.TextContent(n))); c == "rtl" || c == "ltr" {
-			return "dir", c
-		}
-		return "dir", ""
-	}},
-
-	// Common HTML meta tags
-	{"html", `//meta[@content][
-		@name='author' or
-		@name='byl' or
-		@name='copyright' or
-		@name='date' or
-		@name='description' or
-		@name='keywords' or
-		@name='language' or
-		@name='subtitle'
-	]`, extMeta("name", "content", "")},
-
-	// Dublin Core
-	{"dc", `//meta[@content][
-		starts-with(@name, 'DC.') or
-		starts-with(@name, 'dc.')
-	]`, extMeta("name", "content", ".")},
-
-	// Facebook opengraph
-	{
-		"graph", "//meta[@content][starts-with(@property, 'og:')]",
-		extMeta("property", "content", ":"),
-	},
-	{
-		"graph", "//meta[@content][starts-with(@name, 'og:')]",
-		extMeta("name", "content", ":"),
-	},
-
-	// Twitter cards
-	{
-		"twitter", "//meta[@content][starts-with(@name, 'twitter:')]",
-		extMeta("name", "content", ":"),
-	},
-
-	// Fediverse meta tags
-	{
-		"fediverse", "//meta[@content][starts-with(@name, 'fediverse:')]",
-		extMeta("name", "content", ":"),
-	},
-
-	// Header links (excluding icons and stylesheets)
-	{"link", `//link[@href][@rel][
-		not(contains(translate(@rel, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'icon')) and
-		not(contains(@rel, 'stylesheet'))
-	]`, extMeta("rel", "href", "")},
-}
-
 // ParseMeta parses page metadata.
 func ParseMeta(doc *html.Node) extract.DropMeta {
 	res := extract.DropMeta{}
 
-	for _, x := range specList {
-		nodes, _ := htmlquery.QueryAll(doc, x.selector)
-
-		for _, node := range nodes {
-			name, value := x.fn(node)
-			name = strings.TrimSpace(name)
-			value = strings.TrimSpace(value)
-			if name == "" || value == "" {
+	for node := range eachElement(doc) {
+		switch node.DataAtom {
+		case atom.Html, atom.Body:
+			// Extract "dir" and "lang" attributes from <html> and <body>
+			for _, attr := range node.Attr {
+				switch attr.Key {
+				case "dir":
+					dir := strings.ToLower(strings.TrimSpace(attr.Val))
+					switch dir {
+					case "rtl", "ltr":
+						res.Set("html.dir", dir)
+					}
+				case "lang":
+					res.Set("html.lang", strings.TrimSpace(attr.Val))
+				}
+			}
+		case atom.Title:
+			// Extract the document <title>
+			res.Set("html.title", strings.TrimSpace(dom.TextContent(node)))
+		case atom.Link:
+			// Extract "rel" and "href" attributes from <link> other than stylesheets and favicon
+			var href string
+			var rel string
+			for _, attr := range node.Attr {
+				switch attr.Key {
+				case "href":
+					href = strings.TrimSpace(attr.Val)
+				case "rel":
+					rel = strings.TrimSpace(attr.Val)
+				}
+			}
+			if href != "" && rel != "" && !strings.Contains(rel, "stylesheet") && !strings.Contains(strings.ToLower(rel), "icon") {
+				res.Add("link."+rel, href)
+			}
+		case atom.Meta:
+			// Extract "content" value from <meta> tags according to:
+			// - old HTML document conventions,
+			// - Open Graph protocol,
+			// - Twitter cards,
+			// - Mastodon "fediverse:creator" convention,
+			// - Dublin Core
+			var content string
+			var name string
+			var nameOrProperty string
+			for _, attr := range node.Attr {
+				switch attr.Key {
+				case "content":
+					content = strings.TrimSpace(attr.Val)
+				case "name":
+					name = strings.TrimSpace(attr.Val)
+					fallthrough
+				case "property":
+					nameOrProperty = strings.TrimSpace(attr.Val)
+				}
+			}
+			if content == "" {
 				continue
 			}
-
-			name = fmt.Sprintf("%s.%s", x.name, name)
-			res.Add(name, value)
+			switch name {
+			case "author", "byl", "copyright", "date", "description", "keywords", "language", "subtitle":
+				// e.g. "html.author", "html.description"
+				res.Add("html."+name, content)
+			default:
+				switch {
+				case strings.HasPrefix(name, "dc.") || strings.HasPrefix(name, "DC."):
+					// e.g. "dc.creator"
+					res.Add("dc."+name[3:], content)
+				case strings.HasPrefix(name, "twitter:"):
+					// e.g. "twitter:title" → "twitter.title"
+					res.Add(strings.Replace(name, ":", ".", 1), content)
+				case strings.HasPrefix(name, "fediverse:"):
+					// e.g. "fediverse:creator" → "fediverse.creator"
+					res.Add(strings.Replace(name, ":", ".", 1), content)
+				case strings.HasPrefix(nameOrProperty, "og:"):
+					// e.g. "og:image" → "graph.image"
+					res.Add("graph."+nameOrProperty[3:], content)
+				case strings.HasPrefix(nameOrProperty, "article:"):
+					// e.g. "article:published_time" → "graph.published_time"
+					res.Add("graph."+nameOrProperty[8:], content)
+				}
+			}
 		}
 	}
 
 	return res
+}
+
+// eachElement iterates over all elements contained in doc, with the exception of the descendants of
+// SVG and MATH elements which are skipped.
+func eachElement(doc *html.Node) iter.Seq[*html.Node] {
+	return func(yield func(*html.Node) bool) {
+		var traverse func(*html.Node) bool
+		traverse = func(parent *html.Node) bool {
+			for node := parent.FirstChild; node != nil; node = node.NextSibling {
+				if node.Type != html.ElementNode {
+					continue
+				}
+				if !yield(node) {
+					return false
+				}
+				switch node.DataAtom {
+				case atom.Svg, atom.Math:
+					continue
+				}
+				if !traverse(node) {
+					return false
+				}
+			}
+			return true
+		}
+		traverse(doc)
+	}
 }
 
 var mdGlobCache sync.Map

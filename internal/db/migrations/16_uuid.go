@@ -192,7 +192,8 @@ func M16uuidFields(db *goqu.TxDatabase, _ fs.FS) error {
 			newpath = filepath.Join(newroot, newpath) + ".zip"
 			oldpath = filepath.Join(curroot, oldpath) + ".zip"
 
-			slog.Debug("link file",
+			slog.Debug(
+				"link file",
 				slog.String("old", oldpath),
 				slog.String("new", newpath),
 			)

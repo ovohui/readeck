@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
+exports.priority = 10
+
 /**
  * @returns {boolean}
  */
@@ -15,6 +17,27 @@ exports.isActive = function () {
 exports.setConfig = function (config) {
   // there's no need for custom headers, on the contrary
   config.httpHeaders = {}
+}
+
+/**
+ *
+ * @param {Node} document
+ */
+exports.documentLoaded = function (document) {
+  // on pages with timestamps, youtube doesn't send timestamps in the oembed
+  // add it here by setting the "url" parameter to the document url as given (including timestamps)
+  const videoURL = new URL($.url)
+  document
+    .querySelectorAll("link[href][type='application/json+oembed']")
+    .forEach((e) => {
+      const url = new URL(e.getAttribute("href"))
+      const innerURL = new URL(url.searchParams.get("url"))
+
+      if (innerURL) {
+        url.searchParams.set("url", videoURL.href)
+        e.setAttribute("href", url.toString())
+      }
+    })
 }
 
 exports.processMeta = function () {

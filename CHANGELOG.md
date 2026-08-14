@@ -1,5 +1,53 @@
 # Changelog
 
+## [Unreleased]
+### Added
+- OIDC authentication
+- Dashboard view
+- "config" command for diagnosis
+- Bookmark list random ordering, by [@bilgincoskun](https://codeberg.org/bilgincoskun)
+- Bookmark's user note
+- Option to share a bookmark with or without annotations and note
+- Note presence and language filters in bookmark lists and collections
+- Content Script for Hackernews, by [@mislav](https://codeberg.org/mislav)
+- Content Script override system
+- Fullscreen bookmark view
+
+### Improved
+- Refreshed user interface
+- CSS only title truncation in bookmark cards, by [@mislav](https://codeberg.org/mislav)
+- Do not style <time> elements as bold text, by [@mislav](https://codeberg.org/mislav)
+- Support for Open Graph article metadata, by [@mislav](https://codeberg.org/mislav)
+- Set language on single article EPUBs, by [@billieb](https://codeberg.org/billieb)
+- Follow system when theme is automatic, by [@billieb](https://codeberg.org/billieb)
+- Keep timestamp when saving a Youtube video, by [@voidlily](https://codeberg.org/voidlily)
+- Smoother progress bar, by [@billieb](https://codeberg.org/billieb)
+- Autofocus on form submit button when the bookmark list has an "url" query parameter, by [@billieb](https://codeberg.org/billieb)
+- Bookmark placeholder images (with better colors and a letter)
+- Optimized metadata discovery, by [@mislav](https://codeberg.org/mislav)
+- Reset pagination when switching sort option
+- Makefile for NetBSD, by [@m33](https://codeberg.org/m33)
+- Language list in bookmark edit form
+- Periodically run ANALYZE on SQLite
+- Case insensitive folder value in CSV import
+- Handle "Refresh" header or meta when used as a redirect, by [@mislav](https://codeberg.org/mislav)
+- Reddit Content Script, by [0xEArl](https://codeberg.org/0xEArl)
+- Send password recovery email to non existing users only when JS is enabled
+
+### Changed
+- HTML rendering using Templ
+- New, type safe, form and input validation library
+- Timestamp parsing now done with `github.com/itlightning/dateparse`, by [@mislav](https://codeberg.org/mislav)
+- client-bound UI preferences (bookmark font, list layout, etc.)
+
+### Fixed
+- Generated EPUB embedded security policy for web based engines
+- Disable the Fediverse content script on Wordpress blog posts
+
+### Removed
+- Forwarded authentication
+- Global FiveFilters ruleset
+
 ## [0.22.3] - 2026-04-16
 ### Improved
 - New internal data exchange format (CBOR)

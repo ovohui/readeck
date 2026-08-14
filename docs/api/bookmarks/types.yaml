@@ -85,6 +85,10 @@ schemas:
         type: string
         description: |
           Bookmark's short description, when it exists. It's always an unformatted text.
+      note:
+        type: string
+        description: |
+          Bookmark's user note. Can be parsed as Markdown.
       is_deleted:
         type: boolean
         description: |
@@ -114,7 +118,7 @@ schemas:
       reading_time:
         type: integer
         minimum: 0
-        description: | 
+        description: |
           Duration of the article, in minutes. Either the actual duration for a
           video or a reading time based on the word count.
       resources:
@@ -236,7 +240,6 @@ schemas:
           - "%/img"
           - images
 
-
   bookmarkInfo:
     allOf:
       - $ref: "#/components/schemas/bookmarkSummary"
@@ -336,9 +339,13 @@ schemas:
         enum: [ltr, rtl]
         description: |
           Direction of the article's text.
+      note:
+        type: string
+        description: |
+          Bookmark's user note, text only.
       is_marked:
         type: boolean
-        description: Favortie state
+        description: Favorite state
       is_archived:
         type: boolean
         description: Archive state
@@ -433,9 +440,13 @@ schemas:
       format:
         type: string
         enum: ["html", "epub"]
+      with_notes:
+        type: boolean
+        description: Include annotations and notes
     example:
       email: alice@localhost
       format: html
+      with_notes: true
 
   labelInfo:
     properties:
@@ -627,7 +638,6 @@ schemas:
             format: date-time
             description: Creation date
       - $ref: "#/components/schemas/collectionSummary"
-
 
   collectionCreate:
     required: [name]

@@ -69,6 +69,11 @@ routes:
           description: Bookmark site name or domain
           schema:
             type: string
+        - name: lang
+          in: query
+          description: Bookmark language code
+          schema:
+            type: string
         - name: type
           in: query
           description: Bookmark type
@@ -95,6 +100,11 @@ routes:
         - name: has_labels
           in: query
           description: Filter bookmarks with or without labels
+          schema:
+            type: boolean
+        - name: has_notes
+          in: query
+          description: Filter bookmarks with a note and/or annotations
           schema:
             type: boolean
         - name: is_marked
@@ -300,6 +310,13 @@ routes:
 
       summary: Share by link
       description: This route produces a publicly accessible link to share a bookmark.
+
+      parameters:
+        - name: with_notes
+          in: query
+          description: Include annotations and notes
+          schema:
+            type: boolean
 
       responses:
         200:

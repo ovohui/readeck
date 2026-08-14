@@ -1,0 +1,58 @@
+// SPDX-FileCopyrightText: © 2026 Olivier Meunier <olivier@neokraft.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
+package onboarding
+
+import (
+	"codeberg.org/readeck/readeck/internal/auth/signin"
+
+	. "codeberg.org/readeck/readeck/components"
+	F "codeberg.org/readeck/readeck/components/forms"
+)
+
+type Views struct{}
+
+templ (_ Views) onboarding(f *onboardingForm) {
+	{{ title := L(ctx).Gettext("Welcome to Readeck!") }}
+	@AuthPage(title) {
+		<h1 class="text-h3 text-center">{ title }</h1>
+		<p class="my-4">
+			{ L(ctx).Gettext("We're delighted to have you on board; one more step and you're good to go.") }
+		</p>
+		<form action={ URL(ctx) } method="post">
+			@F.Errors(f)
+			@F.TextField(&f.Username,
+				F.Label(L(ctx).Gettext("Username")),
+				F.Required(true),
+				F.Classes("max"),
+			)
+			@F.PasswordField(&f.Password,
+				F.Label(L(ctx).Gettext("Password")),
+				F.Required(true),
+				F.Classes("max"),
+				F.InputAttr("autocomplete", "new-password"),
+				F.Help(L(ctx).Gettext("must be at least 8 characters long")),
+			)
+			<hr class="my-8"/>
+			@F.TextField(&f.Email,
+				F.Label(L(ctx).Gettext("Email address")),
+				F.Classes("max"),
+			)
+			<p class="text-sm mb-8">
+				<strong>{ L(ctx).Gettext("Please note:") }</strong>
+				@templ.Raw(L(ctx).Gettext(`
+						Your email address is optional and will never leave this installation.
+						It will never be collected, transferred or sold.
+						It will <strong>only</strong> be used, should you need it, for password recovery and internal notifications.
+					`))
+			</p>
+			<p>
+				<button class="btn btn-primary block w-full" type="submit">
+					{ L(ctx).Gettext("Finish installation") }
+				</button>
+			</p>
+		</form>
+		@signin.Components{}.OIDC()
+	}
+}

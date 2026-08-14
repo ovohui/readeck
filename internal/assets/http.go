@@ -6,6 +6,7 @@
 package assets
 
 import (
+	"encoding/hex"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -18,9 +19,11 @@ import (
 	"github.com/go-chi/chi/v5"
 
 	"codeberg.org/readeck/readeck/assets"
+	"codeberg.org/readeck/readeck/components/randsvg"
 	"codeberg.org/readeck/readeck/configs"
 	"codeberg.org/readeck/readeck/internal/server"
 	"codeberg.org/readeck/readeck/pkg/http/accept"
+	"codeberg.org/readeck/readeck/pkg/http/csp"
 )
 
 var reAssetHashed = regexp.MustCompile(`\.[a-z0-9]{8}\.[a-z0-9]+$`)
@@ -31,8 +34,7 @@ func SetupRoutes(s *server.Server) {
 	s.AddRoute("/assets", r)
 
 	r.Mount("/", serveAssets())
-	r.Get("/feed.xsl", serverFeedXsl)
-	r.Get("/rnd/{name}.svg", randomSvg)
+	r.Get("/rnd/{seed:[a-f0-9]{8}}.svg", randomSvg)
 }
 
 func serveAssets() http.HandlerFunc {
@@ -50,15 +52,6 @@ func serveAssets() http.HandlerFunc {
 		r2.URL.Path = p
 
 		fs.ServeHTTP(w, r2)
-	}
-}
-
-func serverFeedXsl(w http.ResponseWriter, r *http.Request) {
-	server.WriteLastModified(w, r, nil)
-	server.WriteEtag(w, r, nil)
-	w.Header().Set("Content-Type", "application/xml")
-	if !server.HandleCaching(w, r) {
-		server.RenderTemplate(w, r, http.StatusOK, "xsl/feed.jet.xsl", nil)
 	}
 }
 
@@ -152,4 +145,30 @@ func (f *directFileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		fd.Close()
 		return
 	}
+}
+
+// randomSvg sends an SVG image with a gradient. The gradient's color
+// is based on the name.
+func randomSvg(w http.ResponseWriter, r *http.Request) {
+	seed := chi.URLParam(r, "seed")
+	data := make([]byte, 8)
+	_, err := hex.Decode(data, []byte(seed))
+	if err != nil {
+		server.Err(w, r, err)
+		return
+	}
+
+	svg := randsvg.New(data, randsvg.WithLetter(r.URL.Query().Get("n")))
+	server.WriteEtag(w, r, svg)
+	server.WriteLastModified(w, r, svg)
+	csp.Policy{
+		"base-uri":    {csp.None},
+		"default-src": {csp.None},
+	}.Write(w.Header())
+
+	if server.HandleCaching(w, r) {
+		return
+	}
+
+	svg.ServeHTTP(w, r)
 }

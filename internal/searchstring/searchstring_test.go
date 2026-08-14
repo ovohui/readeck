@@ -29,7 +29,8 @@ func TestParseQuery(t *testing.T) {
 			{Exact: false, Field: "", Value: "multiple"},
 			{Exact: true, Field: "", Value: `unclosed`},
 		}},
-		{fmt.Sprintf("%s %s %s %s",
+		{fmt.Sprintf(
+			"%s %s %s %s",
 			strconv.Quote("quoted"),
 			strconv.Quote(`q "test`),
 			strconv.Quote(`tt\Ab`),
@@ -40,7 +41,8 @@ func TestParseQuery(t *testing.T) {
 			{Exact: true, Field: "", Value: `tt\Ab`},
 			{Exact: true, Field: "", Value: `test]\`},
 		}},
-		{fmt.Sprintf("%s %s %s label:%s",
+		{fmt.Sprintf(
+			"%s %s %s label:%s",
 			strconv.Quote("quoted"),
 			strconv.Quote(`q "test`),
 			strconv.Quote(`tt\Ab`),

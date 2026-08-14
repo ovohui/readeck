@@ -98,7 +98,8 @@ func NewBookmarkList(ctx context.Context, ds *goqu.SelectDataset) (*BookmarkList
 	}
 
 	if limit, ok := ds.GetClauses().Limit().(uint); ok {
-		res.Pagination = server.NewPagination(ctx,
+		res.Pagination = server.NewPagination(
+			ctx,
 			int(res.Count), int(limit), int(ds.GetClauses().Offset()),
 		)
 	}
@@ -165,6 +166,7 @@ type Bookmark struct {
 	HasArticle      bool                          `json:"has_article"`
 	Description     string                        `json:"description"`
 	OmitDescription *bool                         `json:"omit_description,omitempty"`
+	Note            string                        `json:"note"`
 	IsDeleted       bool                          `json:"is_deleted"`
 	IsMarked        bool                          `json:"is_marked"`
 	IsArchived      bool                          `json:"is_archived"`
@@ -215,6 +217,7 @@ func NewBookmark(ctx context.Context, b *bookmarks.Bookmark) *Bookmark {
 		TextDirection: b.TextDirection,
 		DocumentType:  b.DocumentType,
 		Description:   b.Description,
+		Note:          b.Note,
 		IsDeleted:     tasks.DeleteBookmarkTask.IsRunning(b.ID),
 		IsMarked:      b.IsMarked,
 		IsArchived:    b.IsArchived,
@@ -303,7 +306,7 @@ func (bi Bookmark) GetArticle() (*strings.Reader, error) {
 	})
 
 	// Set default annotation tag and callback
-	if tag, _ := getAnnotationTag(ctx); tag == "" {
+	if _, _, ok := getAnnotationTag(ctx); !ok {
 		ctx = WithAnnotationTag(ctx, AnnotationTag, AnnotationCallback(true))
 	}
 
@@ -348,8 +351,8 @@ func (bi *Bookmark) SetEmbed() error {
 	case "iframe":
 		// Set the embed block and its hostname
 		dom.SetAttribute(embed, "src", src.String())
-		dom.SetAttribute(embed, "credentialless", "true")
-		dom.SetAttribute(embed, "allowfullscreen", "true")
+		dom.SetAttribute(embed, "credentialless", "")
+		dom.SetAttribute(embed, "allowfullscreen", "")
 		dom.SetAttribute(embed, "referrerpolicy", "strict-origin-when-cross-origin")
 		dom.SetAttribute(embed, "sandbox", "allow-scripts allow-same-origin")
 		dom.SetAttribute(embed, "allow", "accelerometer 'none'; ambient-light-sensor 'none'; autoplay 'none'; battery 'none'; browsing-topics 'none'; camera 'none'; display-capture 'none'; domain-agent 'none'; document-domain 'none'; encrypted-media 'none'; execution-while-not-rendered 'none'; execution-while-out-of-viewport ''; gamepad 'none'; geolocation 'none'; gyroscope 'none'; hid 'none'; identity-credentials-get 'none'; idle-detection 'none'; local-fonts 'none'; magnetometer 'none'; microphone 'none'; midi 'none'; otp-credentials 'none'; payment 'none'; publickey-credentials-create 'none'; publickey-credentials-get 'none'; screen-wake-lock 'none'; serial 'none'; speaker-selection 'none'; usb 'none'; window-management 'none'; xr-spatial-tracking 'none'")
@@ -429,23 +432,25 @@ func (bsl BookmarkSyncList) UpdateEtag(h hash.Hash) {
 
 // BookmarkSync represent a bookmark's ID and last update time.
 type BookmarkSync struct {
-	ID   string    `json:"id" db:"uid"`
+	ID   string    `json:"id"   db:"uid"`
 	Time time.Time `json:"time" db:"time"`
 	Type string    `json:"type" db:"type"`
 }
 
 // SharedLink contains the publicly shared bookmark information.
 type SharedLink struct {
-	URL     string    `json:"url"`
-	Expires time.Time `json:"expires"`
-	Title   string    `json:"title"`
-	ID      string    `json:"id"`
+	Form    forms.FormBinder `json:"-"`
+	URL     string           `json:"url"`
+	Expires time.Time        `json:"expires"`
+	Title   string           `json:"title"`
+	ID      string           `json:"id"`
 }
 
 // SharedEmail contains the informat for sending a bookmark by email.
 type SharedEmail struct {
-	Form  forms.Binder
+	Form  forms.FormBinder
 	Title string
 	ID    string
 	Error error
+	Sent  bool
 }

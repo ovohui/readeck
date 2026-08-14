@@ -31,14 +31,16 @@ func (sl *httpLogger) NewLogEntry(r *http.Request) middleware.LogEntry {
 
 	attrs := httpAttrs{
 		slog.String("@id", GetReqID(r)),
-		slog.Group("request",
+		slog.Group(
+			"request",
 			slog.String("method", r.Method),
 			slog.String("path", r.RequestURI),
 			slog.String("proto", r.Proto),
 			slog.String("remote_addr", realIP),
 		),
 	}
-	slog.LogAttrs(context.TODO(), slog.LevelDebug,
+	slog.LogAttrs(
+		context.TODO(), slog.LevelDebug,
 		"http "+r.Method,
 		attrs...,
 	)
@@ -49,10 +51,13 @@ func (sl *httpLogger) NewLogEntry(r *http.Request) middleware.LogEntry {
 type httpAttrs []slog.Attr
 
 func (attrs httpAttrs) Write(status, bytes int, _ http.Header, elapsed time.Duration, _ any) {
-	slog.LogAttrs(context.TODO(), slog.LevelInfo,
+	slog.LogAttrs(
+		context.TODO(), slog.LevelInfo,
 		"http "+strconv.Itoa(status)+" "+http.StatusText(status),
-		append(attrs,
-			slog.Group("response",
+		append(
+			attrs,
+			slog.Group(
+				"response",
 				slog.Int("status", status),
 				slog.Int("length", bytes),
 				slog.Float64("elapsed_ms", float64(elapsed.Nanoseconds())/1000000.0),

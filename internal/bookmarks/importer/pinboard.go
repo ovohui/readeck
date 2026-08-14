@@ -5,9 +5,10 @@
 package importer
 
 import (
+	"context"
 	"strings"
 
-	"github.com/araddon/dateparse"
+	"github.com/itlightning/dateparse"
 
 	"codeberg.org/readeck/readeck/internal/db/types"
 	"codeberg.org/readeck/readeck/pkg/forms"
@@ -39,8 +40,8 @@ func newPinboardAdapter() *pinboardAdapter {
 	}
 }
 
-func (adapter *pinboardAdapter) Name(tr forms.Translator) string {
-	return tr.Gettext("Pinboard JSON backup File")
+func (adapter *pinboardAdapter) Name(ctx context.Context) string {
+	return forms.GetTranslator(ctx).Gettext("Pinboard JSON backup File")
 }
 
 func (bi *pinboardItem) URL() string {

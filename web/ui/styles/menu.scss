@@ -3,11 +3,34 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 @layer components {
-  details.menu {
-    > ul {
-      @apply absolute z-30;
+  .dropdown-menu {
+    anchor-scope: --dropdown-menu;
+    anchor-name: --dropdown-menu;
+
+    [popover] {
+      position-anchor: --dropdown-menu;
+
+      position-area: end span-all;
+      position-try:
+        bottom span-right,
+        bottom span-left,
+        bottom,
+        top span-right,
+        top span-left,
+        top;
       @apply w-[max-content];
       @apply shadow-lg bg-gray-50 border border-gray-300 rounded-md;
+      @apply my-1;
+
+      transition: opacity 0.25s;
+      @starting-style {
+        &:popover-open {
+          opacity: 0;
+        }
+      }
+    }
+
+    & > ul[popover] {
       @apply py-1;
 
       > li {
@@ -30,6 +53,18 @@
           @apply border-t border-t-gray-300;
           @apply my-1;
         }
+      }
+    }
+
+    &.dropdown-menu-right {
+      & > [popover] {
+        position-area: bottom span-left;
+      }
+    }
+
+    &.dropdown-menu-left {
+      & > [popover] {
+        position-area: bottom span-right;
       }
     }
   }

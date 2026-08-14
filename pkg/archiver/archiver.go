@@ -324,7 +324,8 @@ func (arc *Archiver) saveResource(ctx context.Context, r io.ReadCloser, res *Res
 		// when we're done writing.
 		if w, ok := w.(io.Closer); ok {
 			if err := w.Close(); err != nil {
-				arc.log().Error("could not close file",
+				arc.log().Error(
+					"could not close file",
 					slog.String("name", res.Name),
 					slog.Any("err", err),
 				)
@@ -343,7 +344,9 @@ func (arc *Archiver) saveResource(ctx context.Context, r io.ReadCloser, res *Res
 		c.PostWrite(res, w)
 	}
 
-	arc.log().LogAttrs(ctx, slog.LevelDebug, "save resource",
+	arc.log().LogAttrs(
+		ctx, slog.LevelDebug,
+		"save resource",
 		slog.String("name", res.Name),
 		slog.Any("url", URLLogValue(res.URL())),
 	)

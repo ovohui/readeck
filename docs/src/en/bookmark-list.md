@@ -119,9 +119,13 @@ You can combine the following filters:
   Search in the author list only.
 - **Site**\
   Search in the site title and the site domain name.
+- **Language**\
+  Filter the list by bookmark language as an two letter code.
 - **Label**\
   Search for specific labels.
-- **Is Favorite**, **Is Archived**, **Type**\
+- **Note**\
+  Search for a note or annotation.
+- **Type**, **Progress**, **Is Favorite**, **Is Archived**, **Is Loaded**, **With Labels**, **With Notes**, **With Errors** \
   This filters let you restrict your search to any of these criteria.
 - **From date**, **To date**\
   This last filters let you restrict from when and to when the bookmark was saved. For example, this lets you retrieve the bookmark list saved during the past 4 weeks but not after the last week.

@@ -150,8 +150,8 @@ func decode(r io.Reader, configOnly bool) (image.Image, image.Config, error) {
 }
 
 func readAlpha(chunkData io.Reader, widthMinusOne, heightMinusOne uint32, compression byte) (
-	alpha []byte, alphaStride int, err error) {
-
+	alpha []byte, alphaStride int, err error,
+) {
 	switch compression {
 	case 0:
 		w := int(widthMinusOne) + 1

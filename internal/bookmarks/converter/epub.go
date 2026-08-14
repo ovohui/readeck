@@ -22,18 +22,9 @@ import (
 	"codeberg.org/readeck/readeck/assets"
 	"codeberg.org/readeck/readeck/internal/bookmarks"
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
-	"codeberg.org/readeck/readeck/internal/server"
 	"codeberg.org/readeck/readeck/internal/server/urls"
-	"codeberg.org/readeck/readeck/pkg/ctxr"
 	"codeberg.org/readeck/readeck/pkg/epub"
 	"codeberg.org/readeck/readeck/pkg/utils"
-)
-
-type ctxEnableEPUBNotesKey struct{}
-
-// Context helpers.
-var (
-	WithEnableEPUBNotes, getEnableEPUBNotes = ctxr.WithChecker[bool](ctxEnableEPUBNotesKey{})
 )
 
 // EPUBExporter is a content exporter that produces EPUB files.
@@ -52,10 +43,11 @@ func NewEPUBExporter() EPUBExporter {
 // IterExport implements [IterExporter].
 // It writes an EPUB file on the provided [io.Writer].
 func (e EPUBExporter) IterExport(ctx context.Context, w io.Writer, r *http.Request, bookmarkSeq *dataset.BookmarkIterator) error {
-	// Define a title, date, siteName and filename
+	// Define a title, date, siteName, language and filename
 	title := "Readeck Bookmarks"
 	date := time.Now().UTC()
 	siteName := "Readeck"
+	language := "en"
 	if e.Collection != nil {
 		title = e.Collection.Name
 		siteName = "Readeck Collection"
@@ -72,6 +64,7 @@ func (e EPUBExporter) IterExport(ctx context.Context, w io.Writer, r *http.Reque
 		if err == nil {
 			m.SetTitle(title)
 			m.SetCreator(siteName)
+			m.SetLanguage(language)
 			err = m.WritePackage()
 		}
 		m.Close() //nolint:errcheck
@@ -79,7 +72,7 @@ func (e EPUBExporter) IterExport(ctx context.Context, w io.Writer, r *http.Reque
 
 	ctx = dataset.WithURLReplacer(ctx, func(_ *bookmarks.Bookmark) func(name string) string {
 		return func(name string) string {
-			return "./Images/" + path.Base(name)
+			return "../Images/" + path.Base(name)
 		}
 	})
 
@@ -98,6 +91,7 @@ func (e EPUBExporter) IterExport(ctx context.Context, w io.Writer, r *http.Reque
 			title = b.Title
 			date = b.Created
 			siteName = b.SiteName
+			language = b.Lang
 		}
 
 		// Send header before first item
@@ -158,11 +152,11 @@ func (m *epubMaker) addStylesheet() error {
 		return err
 	}
 	defer f.Close()
-	return m.AddFile("stylesheet", "styles/stylesheet.css", "text/css", f)
+	return m.AddFile("stylesheet", "Styles/stylesheet.css", "text/css", f)
 }
 
 // addBookmark adds a bookmark, with all its resources, to the epub file.
-func (m *epubMaker) addBookmark(ctx context.Context, r *http.Request, e EPUBExporter, b *dataset.Bookmark) (err error) {
+func (m *epubMaker) addBookmark(ctx context.Context, _ *http.Request, e EPUBExporter, b *dataset.Bookmark) (err error) {
 	var c *bookmarks.BookmarkContainer
 	if c, err = b.OpenContainer(); err != nil {
 		return
@@ -221,47 +215,51 @@ func (m *epubMaker) addBookmark(ctx context.Context, r *http.Request, e EPUBExpo
 	}
 
 	// Set highlights and notes
-	withNotes, _ := getEnableEPUBNotes(ctx)
+	// We default to sharing highlights and notes and only use the context's values
+	// when they exist. This lets us use this converter when exporting (includes all)
+	// or sharing (includes by flag).
 	notes := []string{}
 
-	ctx = dataset.WithAnnotationTag(ctx, "mark", func(a *bookmarks.BookmarkAnnotation, n *html.Node, index, ln int) {
-		if withNotes && a.Note != "" && index+1 == ln {
-			notes = append(notes, a.Note)
-			link := dom.CreateElement("a")
-			link.Attr = []html.Attribute{
-				{Key: "id", Val: "noteref" + strconv.Itoa(len(notes))},
-				{Key: "href", Val: "#note" + strconv.Itoa(len(notes))},
-				{Namespace: "epub", Key: "type", Val: "noteref"},
-			}
-			dom.AppendChild(link, dom.CreateTextNode(strconv.Itoa(len(notes))))
-			n.Parent.InsertBefore(link, n.NextSibling)
-		}
-	})
+	flags := SharingFlag(SharingWithHighlights | SharingWithNotes)
+	if f, ok := checkSharingFlags(ctx); ok {
+		flags = f
+	}
+	ctx = WithSharingFlags(ctx, flags)
+
+	if flags&SharingWithHighlights > 0 {
+		ctx = dataset.WithAnnotationTag(
+			ctx,
+			"mark",
+			func(a *bookmarks.BookmarkAnnotation, n *html.Node, index, ln int) {
+				if flags&SharingWithNotes > 0 && a.Note != "" && index+1 == ln {
+					notes = append(notes, a.Note)
+					link := dom.CreateElement("a")
+					link.Attr = []html.Attribute{
+						{Key: "id", Val: "noteref" + strconv.Itoa(len(notes))},
+						{Key: "href", Val: "#note" + strconv.Itoa(len(notes))},
+						{Namespace: "epub", Key: "type", Val: "noteref"},
+					}
+					dom.AppendChild(link, dom.CreateTextNode(strconv.Itoa(len(notes))))
+					n.Parent.InsertBefore(link, n.NextSibling)
+				}
+			},
+		)
+	}
 
 	buf := new(bytes.Buffer)
 	html, err := e.GetArticle(ctx, b.Bookmark)
 	if err != nil {
 		return err
 	}
-	tpl, err := server.GetTemplate("epub/bookmark.jet.html")
+	err = epubViews{}.bookmark(b, resources, notes, html).Render(ctx, buf)
 	if err != nil {
-		return err
-	}
-	tc := map[string]any{
-		"HTML":      html,
-		"Item":      b,
-		"ItemURL":   urls.AbsoluteURL(r, "/bookmarks", b.UID).String(),
-		"Resources": resources,
-		"Notes":     notes,
-	}
-	if err := tpl.Execute(buf, server.TemplateVars(r), tc); err != nil {
 		return err
 	}
 
 	return m.AddChapter(
 		"page-"+b.UID,
 		b.Title,
-		b.UID+".html",
+		path.Join("Text", b.UID+".html"),
 		buf,
 	)
 }

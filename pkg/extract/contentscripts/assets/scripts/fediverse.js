@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
+exports.priority = 10
+
 /**
  * @returns {boolean}
  */
@@ -14,6 +16,11 @@ exports.isActive = function () {
 }
 
 exports.processMeta = function () {
+  // Don't process wordpress posts
+  if (($.properties.link || []).find(x => x["@rel"] == "pingback")) {
+    return
+  }
+
   const link = ($.properties.link || []).find(
     (x) => x["@type"] == "application/activity+json",
   )["@href"]

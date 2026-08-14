@@ -24,23 +24,25 @@ import (
 	"time"
 
 	"github.com/cristalhq/acmd"
-	"golang.org/x/net/http2"
-	"golang.org/x/net/http2/h2c"
 
+	"codeberg.org/readeck/readeck/components"
 	"codeberg.org/readeck/readeck/configs"
-	"codeberg.org/readeck/readeck/docs"
 	"codeberg.org/readeck/readeck/internal/admin"
 	"codeberg.org/readeck/readeck/internal/assets"
 	"codeberg.org/readeck/readeck/internal/auth/oauth2"
+	"codeberg.org/readeck/readeck/internal/auth/oidc"
 	"codeberg.org/readeck/readeck/internal/auth/onboarding"
 	"codeberg.org/readeck/readeck/internal/auth/signin"
 	bookmark_routes "codeberg.org/readeck/readeck/internal/bookmarks/routes"
 	"codeberg.org/readeck/readeck/internal/bus"
 	"codeberg.org/readeck/readeck/internal/cookbook"
 	"codeberg.org/readeck/readeck/internal/dashboard"
+	"codeberg.org/readeck/readeck/internal/db"
+	"codeberg.org/readeck/readeck/internal/docs"
 	"codeberg.org/readeck/readeck/internal/metrics"
 	"codeberg.org/readeck/readeck/internal/opds"
 	"codeberg.org/readeck/readeck/internal/profile"
+	"codeberg.org/readeck/readeck/internal/profile/preferences"
 	"codeberg.org/readeck/readeck/internal/server"
 	"codeberg.org/readeck/readeck/internal/server/urls"
 	"codeberg.org/readeck/readeck/internal/videoplayer"
@@ -108,7 +110,8 @@ func runServer(_ context.Context, args []string) error { // nolint:gocognit,gocy
 	// Start the metrics HTTP server
 	startMetrics := configs.Config.Metrics.Port > 0
 	if startMetrics {
-		slog.Info("metrics endpoint",
+		slog.Info(
+			"metrics endpoint",
 			slog.String("host", configs.Config.Metrics.Host),
 			slog.Int("port", configs.Config.Metrics.Port),
 		)
@@ -135,7 +138,11 @@ func runServer(_ context.Context, args []string) error { // nolint:gocognit,gocy
 		Handler:           s,
 		MaxHeaderBytes:    1 << 20,
 		ReadHeaderTimeout: time.Second * 5,
+		Protocols:         new(http.Protocols),
 	}
+	srv.Protocols.SetHTTP1(true)
+	srv.Protocols.SetHTTP2(true)
+
 	var listenURL *url.URL
 	serverURL := &url.URL{
 		Scheme: "http",
@@ -163,7 +170,7 @@ func runServer(_ context.Context, args []string) error { // nolint:gocognit,gocy
 				fatal("failed to listen on "+host, err)
 			}
 
-			mode := fs.FileMode(0666) // nolint:gofumpt
+			mode := fs.FileMode(0o666)
 			if m, err := strconv.ParseUint(socketURL.Query().Get("mode"), 0, 32); err == nil {
 				mode = fs.FileMode(m)
 			}
@@ -224,13 +231,8 @@ func runServer(_ context.Context, args []string) error { // nolint:gocognit,gocy
 			serverURL.Scheme = "https"
 			err = srv.ServeTLS(ln, "", "")
 		} else {
-			// Wrap http/2 h2c
-			h2 := &http2.Server{}
-			srv.Handler = h2c.NewHandler(srv.Handler, h2)
-			if err := http2.ConfigureServer(srv, h2); err != nil {
-				fatal("cannot configure server", err)
-			}
-
+			// Enable h2c on plain server
+			srv.Protocols.SetUnencryptedHTTP2(true)
 			err = srv.Serve(ln)
 		}
 
@@ -252,15 +254,25 @@ func runServer(_ context.Context, args []string) error { // nolint:gocognit,gocy
 		case "0.0.0.0", "127.0.0.1", "::", "::1":
 			serverURL.Host = fmt.Sprintf("localhost:%d", configs.Config.Server.Port)
 		}
-		slog.Info("server started",
+		slog.Info(
+			"server started",
 			slog.String("addr", listenURL.String()),
 			slog.String("url", serverURL.String()),
 		)
 	}
 
+	// Start ticker
+	tickerCtx, tickerStop := context.WithCancel(context.Background())
+	if db.Driver().Dialect() == "sqlite" {
+		go sqliteAnalyze(tickerCtx)
+	}
+
 	// Server shutdown
 	<-stop
 	slog.Info("shutting down...")
+
+	// Stop ticker
+	tickerStop()
 
 	// Graceful http shutdown
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -282,16 +294,21 @@ func runServer(_ context.Context, args []string) error { // nolint:gocognit,gocy
 
 // InitServer setups all the routes.
 func InitServer(s *server.Server) error {
+	components.InitCustomTemplates()
+	server.DefaultErrorComponent = components.DefaultError
+
 	// Init session store
-	if err := server.InitSession(); err != nil {
-		return err
-	}
+	server.InitSession()
+
+	// Init preferences store
+	preferences.InitHandler()
 
 	// Static asserts
 	assets.SetupRoutes(s)
 
 	// Auth routes
 	signin.SetupRoutes(s)
+	oidc.SetupRoutes(s)
 	oauth2.SetupRoutes(s)
 
 	// Onboarding routes

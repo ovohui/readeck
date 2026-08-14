@@ -6,9 +6,7 @@
 package videoplayer
 
 import (
-	"context"
 	"net/http"
-	"net/url"
 
 	"github.com/go-chi/chi/v5"
 
@@ -27,48 +25,48 @@ func SetupRoutes(s *server.Server) {
 }
 
 func videoPlayerHandler(w http.ResponseWriter, r *http.Request) {
-	f := forms.Must(
-		forms.WithTranslator(context.Background(), server.Locale(r)),
-		forms.NewTextField("src", forms.Trim, forms.Required, forms.IsURL("http", "https")),
-		forms.NewTextField("type",
-			forms.Trim,
-			forms.RequiredOrNil,
-			forms.Default("video"),
-			forms.ChoicesPairs([][2]string{
-				{"hls", "hls"},
-				{"embed", "embed"},
-				{"video", "video"},
-			})),
-		forms.NewIntegerField("w", forms.Gte(1)),
-		forms.NewIntegerField("h", forms.Gte(1)),
-	)
+	type videoPlayerForm struct {
+		forms.Form
+		SRC    forms.URLField     `json:"src"  validate:"trim required is_url"`
+		Type   forms.TextField    `json:"type" validate:"trim required_or_nil"`
+		Width  forms.IntegerField `json:"w"    validate:"gte:0"`
+		Height forms.IntegerField `json:"h"    validate:"gte:0"`
+	}
 
-	forms.BindURL(f, r)
+	f := forms.New[videoPlayerForm](r.Context())
+	forms.Choices(
+		&f.Type,
+		forms.Choice("hls", "hls"),
+		forms.Choice("embed", "embed"),
+		forms.Choice("video", "video"),
+	)
+	f.Type.Set("video")
+
+	forms.Bind(r, f)
+
 	if !f.IsValid() {
 		server.Render(w, r, http.StatusUnprocessableEntity, f)
 		return
 	}
 
-	srcURL, _ := url.Parse(f.Get("src").String())
-
-	ctx := server.TC{
-		"Src":    f.Get("src").String(),
-		"Type":   f.Get("type").String(),
-		"Width":  f.Get("w").Value(),
-		"Height": f.Get("h").Value(),
-	}
+	src := (&f.SRC).Value()
 
 	// Set appropriate CSP values for this ressource to work
 	// as a video play in an iframe.
-	policy := server.GetCSPHeader(r)
-	policy.Set("connect-src", srcURL.Hostname())
+	policy := server.GetCSPHeader(r.Context())
+	policy.Set("connect-src", src.Hostname())
 	policy.Set("worker-src", "blob:")
-	policy.Add("media-src", "blob:", srcURL.Hostname())
-	policy.Add("frame-src", "blob:", srcURL.Hostname())
+	policy.Add("media-src", "blob:", src.Hostname())
+	policy.Add("frame-src", "blob:", src.Hostname())
 	policy.Set("frame-ancestors", csp.Self)
 
 	policy.Write(w.Header())
 	w.Header().Set("X-Frame-Options", "SAMEORIGIN")
 
-	server.RenderTemplate(w, r, 200, "videoplayer/index", ctx)
+	server.RenderComponent(w, r, http.StatusOK, Views{}.player(
+		src.String(),
+		f.Type.Value(),
+		f.Width.Value(),
+		f.Height.Value(),
+	))
 }

@@ -1,0 +1,37 @@
+{
+  "title_selectors": [
+    "//h1[contains(concat(' ',normalize-space(@class),' '),' entry-title ')]"
+  ],
+  "body_selectors": [
+    "//div[contains(concat(' ',normalize-space(@class),' '),' entry-content ')]"
+  ],
+  "date_selectors": null,
+  "author_selectors": [
+    "//div[@class=\"po-author-data\"]/h2/a/text()"
+  ],
+  "strip_selectors": null,
+  "strip_id_or_class": [
+    "post-after-part",
+    "secondary-sidebar",
+    "taglist",
+    "widget_text",
+    "comments-area"
+  ],
+  "strip_image_src": null,
+  "native_ad_selectors": null,
+  "tidy": false,
+  "prune": false,
+  "autodetect_on_failure": true,
+  "single_page_link_selectors": null,
+  "next_page_link_selectors": null,
+  "replace_strings": null,
+  "http_headers": {
+    "User-Agent": "Wallabag/2"
+  },
+  "tests": [
+    {
+      "url": "https://publicorthodoxy.org/2026/05/14/why-the-ecumenical-patriarchate-must-remain-in-constantinople/",
+      "contains": []
+    }
+  ]
+}

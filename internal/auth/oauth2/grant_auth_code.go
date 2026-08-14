@@ -10,7 +10,6 @@ package oauth2
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"net/url"
 	"slices"
@@ -70,23 +69,16 @@ func (h *authorizeViewRouter) authorizeHandler(w http.ResponseWriter, r *http.Re
 	w.Header().Set("Cache-Control", "nostore")
 	w.Header().Set("Pragma", "no-cache")
 
-	f := newAuthorizationForm(server.Locale(r), auth.GetRequestUser(r))
+	f := forms.BindAs[authorizationForm](r)
 
-	switch r.Method {
-	case http.MethodGet:
-		forms.BindURL(f, r)
-	case http.MethodPost:
-		forms.Bind(f, r)
-	}
-
-	client, err := loadClient(f.Get("client_id").String(), grantTypeAuthCode)
+	client, err := loadClient(f.ClientID.Value(), grantTypeAuthCode)
 	if err != nil {
 		server.Err(w, r, err)
 		return
 	}
 
 	// Validate redirect URI first
-	redir, _ := url.Parse(f.Get("redirect_uri").String())
+	redir, _ := url.Parse(f.RedirectURI.Value())
 	if !slices.Contains(client.RedirectURIs, redir.String()) {
 		// This error can't obviouvsly be sent through a redirection.
 		server.TextMsg(w, r, http.StatusBadRequest, "invalid redirect URI")
@@ -96,54 +88,46 @@ func (h *authorizeViewRouter) authorizeHandler(w http.ResponseWriter, r *http.Re
 	if !f.IsValid() {
 		// Errors other than an invalid redirect URI are added to the redirect URL
 		// https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.2.1
-		f.getError().redirect(w, r, redir, url.Values{"state": []string{f.Get("state").String()}})
+		f.getError().redirect(w, r, redir, url.Values{"state": []string{f.State.Value()}})
 		return
 	}
 
-	tc := server.TC{
-		"Client": client,
-		"Redir":  fmt.Sprintf("%s://%s", redir.Scheme, redir.Hostname()),
-	}
-
-	availableScopes := f.Get("scope").(interface {
-		Choices() forms.ValueChoices[string]
-	}).Choices()
-	providedScopes := f.Get("scope").Value().([]string)
+	availableScopes := f.Scope.Choices()
+	providedScopes := f.Scope.Value()
 	scopes := []string{}
 	for _, x := range availableScopes {
 		if x.In(providedScopes) {
 			scopes = append(scopes, x.Name)
 		}
 	}
-	tc["Scopes"] = scopes
 
 	// Remove form-action CSP directive
-	policy := server.GetCSPHeader(r)
+	policy := server.GetCSPHeader(r.Context())
 	policy.Del("form-action")
 	policy.Write(w.Header())
 
 	if r.Method == http.MethodPost {
 		params := redir.Query()
 		params.Set("code", "")
-		if f.Get("state").String() != "" {
-			params.Set("state", f.Get("state").String())
+		if f.State.Value() != "" {
+			params.Set("state", f.State.Value())
 		}
 
-		if !f.Get("granted").(*forms.BooleanField).V() {
+		if !f.Granted.Value() {
 			client.remove() //nolint:errcheck
 			errAccessDenied.withDescription("access denied").redirect(w, r, redir, params)
 			return
 		}
 
 		// Add encrypted code to the redirect_uri parameter.
-		code, err := f.getCode(auth.GetRequestUser(r))
+		code, err := f.getCode(auth.GetUser(r.Context()))
 		if err != nil {
 			errServerError.withError(err).redirect(w, r, redir, params)
 			return
 		}
 
 		params.Set("code", code)
-		if state := f.Get("state").String(); state != "" {
+		if state := f.State.Value(); state != "" {
 			params.Set("state", state)
 		}
 		redir.RawQuery = params.Encode()
@@ -152,7 +136,7 @@ func (h *authorizeViewRouter) authorizeHandler(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	server.RenderTemplate(w, r, http.StatusOK, "auth/oauth/auth-code", tc)
+	server.RenderComponent(w, r, http.StatusOK, Views{}.authCode(client, scopes))
 }
 
 // authorizationCodeHandler is the api route that receives the authorization code
@@ -187,7 +171,8 @@ func (api *oauthAPI) authorizationCodeHandler(w http.ResponseWriter, r *http.Req
 		ClientInfo:  client.toClientInfo(),
 	}
 	if err = tokens.Tokens.Create(t); err != nil {
-		server.Err(w, r,
+		server.Err(
+			w, r,
 			errServerError.withDescription("can't create token").withError(err),
 		)
 		return
@@ -195,7 +180,8 @@ func (api *oauthAPI) authorizationCodeHandler(w http.ResponseWriter, r *http.Req
 
 	token, err := configs.Keys.TokenKey().Encode(t.UID)
 	if err != nil {
-		server.Err(w, r,
+		server.Err(
+			w, r,
 			errServerError.withDescription("can't encode token").withError(err),
 		)
 		return

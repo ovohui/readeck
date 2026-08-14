@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-package importer_test
+package importer
 
 import (
 	"bytes"
@@ -13,6 +13,7 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
+	"net/url"
 	"os"
 	"regexp"
 	"strconv"
@@ -24,8 +25,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"codeberg.org/readeck/readeck/internal/bookmarks/importer"
-	"codeberg.org/readeck/readeck/internal/db/types"
 	"codeberg.org/readeck/readeck/pkg/forms"
 )
 
@@ -52,7 +51,7 @@ func (data dataFile) Open() (fileOpener, error) {
 	return io.NopCloser(strings.NewReader(string(data))), nil
 }
 
-func loadFile(t *testing.T, file fileLoader, adapter importer.ImportLoader) (forms.Binder, []importer.BookmarkImporter) {
+func loadFile(t *testing.T, file fileLoader, adapter ImportLoader) (forms.FormBinder, []BookmarkImporter) {
 	require := require.New(t)
 	fl, err := file.Open()
 	require.NoError(err)
@@ -67,8 +66,8 @@ func loadFile(t *testing.T, file fileLoader, adapter importer.ImportLoader) (for
 	req, _ := http.NewRequest(http.MethodPost, "/", body)
 	req.Header.Set("Content-Type", writer.FormDataContentType())
 
-	f := importer.NewImportForm(context.Background(), adapter)
-	forms.Bind(f, req)
+	f := adapter.Form(context.Background())
+	forms.Bind(req, f)
 
 	if !f.IsValid() {
 		return f, nil
@@ -81,12 +80,12 @@ func loadFile(t *testing.T, file fileLoader, adapter importer.ImportLoader) (for
 		return f, nil
 	}
 
-	err = adapter.(importer.ImportWorker).LoadData(data)
+	err = adapter.(ImportWorker).LoadData(data)
 	require.NoError(err)
 
-	res := []importer.BookmarkImporter{}
+	res := []BookmarkImporter{}
 	for {
-		bi, err := adapter.(importer.ImportWorker).Next()
+		bi, err := adapter.(ImportWorker).Next()
 		if errors.Is(err, io.EOF) {
 			break
 		}
@@ -105,7 +104,7 @@ type fileTest struct {
 
 type bookmarkItem struct {
 	URL  string
-	Meta *importer.BookmarkMeta
+	Meta *BookmarkMeta
 }
 
 func testFileAdapter(t *testing.T, adapterName string, tests []fileTest) {
@@ -114,13 +113,14 @@ func testFileAdapter(t *testing.T, adapterName string, tests []fileTest) {
 	for i, test := range tests {
 		t.Run(strconv.Itoa(i+1), func(t *testing.T) {
 			require := require.New(t)
-			adapter := importer.LoadAdapter(adapterName)
+			adapter := LoadAdapter(adapterName)
 			f, items := loadFile(t, test.file, adapter)
+			field := f.Fields()["data"]
 
 			if test.formError != "" {
-				require.Equal(test.formError, f.Get("data").Errors().Error())
+				require.Equal(test.formError, field.Errors().Error())
 			} else {
-				require.Empty(f.Get("data").Errors().Error())
+				require.Empty(field.Errors().Error())
 				require.True(f.IsValid())
 			}
 
@@ -128,7 +128,7 @@ func testFileAdapter(t *testing.T, adapterName string, tests []fileTest) {
 			res := make([]bookmarkItem, len(items))
 			for i, x := range items {
 				v := bookmarkItem{URL: x.URL()}
-				if x, ok := x.(importer.BookmarkEnhancer); ok {
+				if x, ok := x.(BookmarkEnhancer); ok {
 					v.Meta, err = x.Meta()
 					require.NoError(err)
 				}
@@ -761,191 +761,19 @@ func TestText(t *testing.T) {
 	})
 }
 
-func TestOmnivore(t *testing.T) {
-	t.Setenv("TZ", "Europe/Paris")
-
-	httpmock.Activate()
-	defer httpmock.DeactivateAndReset()
-
-	httpmock.RegisterResponder(
-		"POST",
-		"/api/graphql",
-		func(r *http.Request) (*http.Response, error) {
-			token := r.Header.Get("Authorization")
-
-			var payload struct {
-				Query         string         `json:"query"`
-				OperationName string         `json:"operationName"`
-				Variables     map[string]any `json:"variables"`
-			}
-			if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
-				return nil, err
-			}
-
-			switch {
-			case payload.OperationName == "" && strings.HasPrefix(payload.Query, "query Viewer{me"):
-				if token == "failed" {
-					return httpmock.NewJsonResponse(500, map[string]any{
-						"errors": []any{},
-					})
-				}
-				return httpmock.NewJsonResponse(200, map[string]any{
-					"data": map[string]any{
-						"me": map[string]any{
-							"id":   "abc",
-							"name": "alice",
-						},
-					},
-				})
-			case payload.OperationName == "Search":
-				after, _ := strconv.Atoi(payload.Variables["after"].(string))
-				first := int(payload.Variables["first"].(float64))
-
-				items := []map[string]any{}
-				for x := range 25 {
-					node := map[string]any{
-						"id":          strconv.Itoa(after + x),
-						"title":       fmt.Sprintf("Article %d", after+x),
-						"url":         fmt.Sprintf("https://example.net/article-%d", after+x),
-						"createdAt":   "2024-01-02 12:23:43",
-						"publishedAt": "2022-01-02 12:23:43",
-						"content":     fmt.Sprintf("<p>Some content %d</p>", after+x),
-						"pageType":    "ARTICLE",
-						"author":      "",
-						"image":       fmt.Sprintf("https://example.net/picture-%d.webp", after+x),
-						"siteIcon":    "https://example.net/icon.png",
-						"description": fmt.Sprintf("Description %d", after+x),
-						"labels":      []any{},
-						"state":       "SUCCEEDED",
-					}
-					if after+x == 0 {
-						node["author"] = "Someone"
-						node["state"] = "ARCHIVED"
-						node["labels"] = []map[string]string{
-							{"name": "label 1"}, {"name": "label 2"},
-						}
-					}
-
-					items = append(items, map[string]any{
-						"cursor": strconv.Itoa(after + first),
-						"node":   node,
-					})
-				}
-				response := map[string]any{
-					"data": map[string]any{
-						"search": map[string]any{
-							"edges": items,
-							"pageInfo": map[string]any{
-								"hasNextPage": after < 60,
-								"startCursor": strconv.Itoa(after),
-								"endCursor":   strconv.Itoa(after + first),
-							},
-						},
-					},
-				}
-
-				return httpmock.NewJsonResponse(200, response)
-			}
-
-			return httpmock.NewJsonResponse(200, nil)
-		},
-	)
-
-	t.Run("auth failed", func(t *testing.T) {
-		adapter := importer.LoadAdapter("omnivore")
-		f := importer.NewImportForm(context.Background(), adapter)
-		_ = f.Get("url").UnmarshalValues([]string{"https://omnivore.app/"})
-		_ = f.Get("token").UnmarshalValues([]string{"failed"})
-		f.Bind()
-
-		require := require.New(t)
-
-		_, err := adapter.Params(f)
-		require.NoError(err)
-		require.False(f.IsValid())
-		require.EqualError(f.Get("token").Errors(), "Invalid API Key")
-	})
-
-	t.Run("auth ok", func(t *testing.T) {
-		adapter := importer.LoadAdapter("omnivore")
-		f := importer.NewImportForm(context.Background(), adapter)
-		_ = f.Get("url").UnmarshalValues([]string{"https://omnivore.app/"})
-		_ = f.Get("token").UnmarshalValues([]string{"abcd"})
-		f.Bind()
-
-		require := require.New(t)
-
-		_, err := adapter.Params(f)
-		require.NoError(err)
-		require.True(f.IsValid())
-	})
-
-	t.Run("import", func(t *testing.T) {
-		adapter := importer.LoadAdapter("omnivore")
-		f := importer.NewImportForm(context.Background(), adapter)
-		_ = f.Get("url").UnmarshalValues([]string{"https://omnivore.app/"})
-		_ = f.Get("token").UnmarshalValues([]string{"abcd"})
-		f.Bind()
-
-		require := require.New(t)
-
-		data, err := adapter.Params(f)
-		require.NoError(err)
-		require.True(f.IsValid())
-
-		worker := adapter.(importer.ImportWorker)
-		err = worker.LoadData(data)
-		require.NoError(err)
-
-		i := -1
-		for {
-			i++
-			item, err := worker.Next()
-			if err == io.EOF {
-				break
-			}
-			require.NoError(err)
-
-			require.Equal(fmt.Sprintf("https://example.net/article-%d", i), item.URL())
-			bi, err := item.(importer.BookmarkEnhancer).Meta()
-			require.NoError(err)
-
-			require.Equal(fmt.Sprintf("Article %d", i), bi.Title)
-			require.Equal(fmt.Sprintf("Description %d", i), bi.Description)
-			require.Equal(time.Date(2024, time.January, 2, 12, 23, 43, 0, time.UTC), bi.Created)
-			require.Equal(time.Date(2022, time.January, 2, 12, 23, 43, 0, time.UTC), bi.Published)
-
-			if i == 0 {
-				require.Equal(types.Strings{"Someone"}, bi.Authors)
-				require.Equal(types.Strings{"label 1", "label 2"}, bi.Labels)
-				require.True(bi.IsArchived)
-			} else {
-				require.False(bi.IsArchived)
-			}
-
-			resources := item.(importer.BookmarkResourceProvider).Resources()
-			require.Len(resources, 1)
-			require.Equal(
-				fmt.Sprintf(
-					`<html><head><meta property="og:image" content="https://example.net/picture-%d.webp"/><link rel="icon" href="https://example.net/icon.png"/></head><body><p>Some content %d</p></body></html>`,
-					i, i,
-				),
-				string(resources[0].Data),
-			)
-		}
-	})
-}
-
 func TestWallabag(t *testing.T) {
 	t.Setenv("TZ", "Europe/Paris")
 
-	adapter := importer.LoadAdapter("wallabag")
-	f := importer.NewImportForm(context.Background(), adapter)
-	_ = f.Get("url").UnmarshalValues([]string{"https://wallabag/"})
-	_ = f.Get("username").UnmarshalValues([]string{"user"})
-	_ = f.Get("password").UnmarshalValues([]string{"pass"})
-	_ = f.Get("client_id").UnmarshalValues([]string{"client_id"})
-	_ = f.Get("client_secret").UnmarshalValues([]string{"client_secret"})
+	adapter := LoadAdapter("wallabag")
+	f := adapter.Form(context.Background()).(*wallabagAdapterForm)
+	forms.BindValues(url.Values{
+		"url":           {"https://wallabag/"},
+		"username":      {"user"},
+		"password":      {"pass"},
+		"client_id":     {"client_id"},
+		"client_secret": {"client_secret"},
+	}, f)
+
 	f.Bind()
 
 	httpmock.Activate()
@@ -1017,7 +845,7 @@ func TestWallabag(t *testing.T) {
 	require.True(f.IsValid())
 	require.JSONEq(`{"url":"https://wallabag","token":"1234"}`, string(data))
 
-	worker := adapter.(importer.ImportWorker)
+	worker := adapter.(ImportWorker)
 	err = worker.LoadData(data)
 	require.NoError(err)
 
@@ -1035,14 +863,14 @@ func TestWallabag(t *testing.T) {
 		i++
 
 		require.Equal(fmt.Sprintf("https://example.net/%d/article-%s", page, x), item.URL())
-		bi, err := item.(importer.BookmarkEnhancer).Meta()
+		bi, err := item.(BookmarkEnhancer).Meta()
 		require.NoError(err)
 
 		require.Equal(fmt.Sprintf("Article %d/%s", page, x), bi.Title)
 		require.Equal(time.Date(2024, time.January, 2, 12, 23, 43, 0, time.UTC), bi.Created)
 		require.Equal(time.Date(2022, time.January, 2, 12, 23, 43, 0, time.UTC), bi.Published)
 
-		resources := item.(importer.BookmarkResourceProvider).Resources()
+		resources := item.(BookmarkResourceProvider).Resources()
 		require.Len(resources, 1)
 
 		require.Equal(

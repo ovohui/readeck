@@ -46,13 +46,12 @@ func New() *Server {
 		InitRequest(),
 		Logger(),
 		metrics.Middleware,
-		SetSecurityHeaders,
+		SetSecurityHeaders(),
 		CompressResponse,
 		WithCacheControl,
 		CannonicalPaths,
 		auth.Init(
 			&TokenAuthProvider{},
-			&ForwardedAuthProvider{},
 			&SessionAuthProvider{},
 		),
 		LoadLocale,
@@ -72,9 +71,6 @@ func (s *Server) Init() {
 
 	// web manifest
 	s.AddRoute("/manifest.webmanifest", manifestRoutes())
-
-	// Init templates
-	initTemplates()
 }
 
 // InitRequest returns a midleware that sets the absolute request URL
@@ -146,7 +142,7 @@ func infoRoutes() http.Handler {
 			},
 		}
 
-		if auth.HasPermission(r, "email", "send") {
+		if auth.HasPermission(r.Context(), "email", "send") {
 			res.Features = append(res.Features, "email")
 		}
 		slices.Sort(res.Features)

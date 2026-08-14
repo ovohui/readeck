@@ -1,0 +1,192 @@
+// SPDX-FileCopyrightText: © 2026 Olivier Meunier <olivier@neokraft.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
+package routes
+
+import (
+	"strconv"
+
+	"codeberg.org/readeck/readeck/internal/profile/preferences"
+
+	. "codeberg.org/readeck/readeck/components"
+)
+
+type ReaderControlComponent struct{}
+
+templ (c ReaderControlComponent) controls() {
+	{{ prefs := Preferences(ctx) }}
+	<div
+		class="bookmark-reader-control"
+		data-controller="request"
+		data-request-url-value={ URL(ctx, "/profile/session") }
+		data-request-method-value="patch"
+	>
+		<button popovertarget="reader-options" title={ L(ctx).Gettext("Display options") }>
+			@Icon("o-font-family", WithIconClass("inline-block"), WithIconSvgClass("h-6 w-6"))
+			<span class="sr-only">{ L(ctx).Gettext("Display options") }</span>
+		</button>
+		<div popover id="reader-options">
+			@c.fontChoice()
+			@c.numericChoice("bookmark.reader_width",
+				uint(prefs.Bookmark.ReaderWidth), preferences.WidthChoices.Classes(),
+				"o-width",
+				L(ctx).Gettext("Width"),
+				L(ctx).Gettext("Current Width"),
+				L(ctx).Gettext("Decrease width"),
+				L(ctx).Gettext("Increase width"),
+			)
+			@c.numericChoice("bookmark.font_size",
+				uint(prefs.Bookmark.FontSize), preferences.FontSizeChoices.Classes(),
+				"o-font-size",
+				L(ctx).Gettext("Size"),
+				L(ctx).Gettext("Current font size"),
+				L(ctx).Gettext("Decrease font size"),
+				L(ctx).Gettext("Increase font size"),
+			)
+			@c.numericChoice("bookmark.line_height",
+				uint(prefs.Bookmark.LineHeight), preferences.LineHeightChoices.Classes(),
+				"o-line-height",
+				L(ctx).Gettext("Line height"),
+				L(ctx).Gettext("Current line height"),
+				L(ctx).Gettext("Decrease line height"),
+				L(ctx).Gettext("Increase line height"),
+			)
+			@c.booleanChoice("bookmark.justified",
+				bool(prefs.Bookmark.Justified), [2]string(preferences.JustifiedChoices.Classes()),
+				"o-text-justify",
+				L(ctx).Gettext("Justify"),
+				L(ctx).Gettext("Justify text"),
+				L(ctx).Gettext("Don't justify text"),
+			)
+			@c.booleanChoice("bookmark.hyphenated",
+				bool(prefs.Bookmark.Hyphenated), [2]string(preferences.HyphenatedChoices.Classes()),
+				"o-text-hyphen",
+				L(ctx).Gettext("Hyphenation"),
+				L(ctx).Gettext("With hyphenation"),
+				L(ctx).Gettext("Without hyphenation"),
+			)
+		</div>
+	</div>
+}
+
+templ (c ReaderControlComponent) fontChoice() {
+	{{ prefs := Preferences(ctx) }}
+	<details
+		class="flex flex-col gap-2 border-b pb-2"
+		data-controller="styler-option"
+		data-styler-option-styler-outlet="[data-controller~='styler']"
+	>
+		<summary class="flex items-center gap-2 p-2 -mx-2 rounded-sm border border-transparent hover:border-gray-300">
+			@Icon("o-font")
+			<span class="flex-grow font-semibold">{ L(ctx).Gettext("Font") }</span>
+			@Icon("o-chevron-r")
+		</summary>
+		<div class="flex flex-col gap-1 mt-1 -mx-2" role="menu">
+			for _, x := range preferences.FontChoices {
+				<button
+					class={ templ.Classes(
+						"capitalize py-1 px-2 text-left text-lg rounded-sm border border-transparent",
+						"hf:border-gray-300 data-[current]:bg-gray-200",
+						x.Value.Class(),
+					) }
+					value={ x.Value }
+					data-choice-value={ x.Value.Class() }
+					data-styler-option-target="choices"
+					data-action="styler-option#setChoice"
+					data-current?={ prefs.Bookmark.FontFamily == x.Value }
+					aria-current={ strconv.FormatBool(prefs.Bookmark.FontFamily == x.Value) }
+				>
+					{ x.Name }
+				</button>
+			}
+		</div>
+		<input
+			type="hidden"
+			name="bookmark.font_family"
+			value={ prefs.Bookmark.FontFamily }
+			data-styler-option-target="value"
+			data-action="styler-option:setValue->request#fetch"
+		/>
+	</details>
+}
+
+templ (c ReaderControlComponent) numericChoice(
+	prefName string, currentValue uint, choices []string,
+	iconName, label, labelCurrent, labelDecrease, labelIncrease string,
+) {
+	<div
+		class="mt-4 flex items-center gap-2"
+		data-controller="styler-option"
+		data-styler-option-styler-outlet="[data-controller~='styler']"
+		data-styler-option-values-value={ JSON(choices, false) }
+	>
+		@Icon(iconName)
+		{ " " }
+		<span class="flex-grow">{ label }</span>
+		<button
+			class="btn-outlined py-1.5 w-9 rounded"
+			aria-label={ labelDecrease }
+			data-action="styler-option#decreaseValue"
+		>
+			@Icon("o-minus")
+		</button>
+		<input
+			class="p-1 min-w-7 text-center text-sm bg-gray-200 rounded-full"
+			type="text"
+			size="1"
+			disabled
+			name={ prefName }
+			value={ currentValue }
+			aria-label={ labelCurrent }
+			aria-live="polite"
+			data-styler-option-target="value"
+			data-action="styler-option:setValue->request#fetch"
+		/>
+		<button
+			class="btn-outlined py-1.5 w-9 rounded"
+			aria-label={ labelIncrease }
+			data-action="styler-option#increaseValue"
+		>
+			@Icon("o-plus")
+		</button>
+	</div>
+}
+
+templ (c ReaderControlComponent) booleanChoice(
+	prefName string, currentValue bool, choices [2]string,
+	iconName, label, labelYes, labelNo string,
+) {
+	<div
+		class="mt-4 flex items-center gap-2"
+		data-controller="styler-option"
+		data-styler-option-styler-outlet="[data-controller~='styler']"
+	>
+		@Icon(iconName)
+		<span class="flex-grow">{ label }</span>
+		<div class="btn-group">
+			for i, name := range choices {
+				{{ v := i > 0 }}
+				<button
+					class="btn-outlined data-[current]:bg-gray-200 data-[current]:text-app-fg"
+					value={ v }
+					data-choice-value={ name }
+					aria-label={ Tern(func() bool { return i == 1 }, labelYes, labelNo) }
+					data-styler-option-target="choices"
+					data-action="styler-option#setChoice"
+					data-current?={ v == currentValue }
+					aria-current={ strconv.FormatBool(v == currentValue) }
+				>
+					{ Tern(func() bool { return i == 1 }, L(ctx).Gettext("yes"), L(ctx).Gettext("no")) }
+				</button>
+			}
+		</div>
+		<input
+			type="hidden"
+			name={ prefName }
+			value={ currentValue }
+			data-styler-option-target="value"
+			data-action="styler-option:setValue->request#fetch"
+		/>
+	</div>
+}

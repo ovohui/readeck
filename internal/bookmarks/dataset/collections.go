@@ -38,7 +38,8 @@ func NewCollectionList(ctx context.Context, ds *goqu.SelectDataset) (*Collection
 	}
 
 	if limit, ok := ds.GetClauses().Limit().(uint); ok {
-		res.Pagination = server.NewPagination(ctx,
+		res.Pagination = server.NewPagination(
+			ctx,
 			int(res.Count), int(limit), int(ds.GetClauses().Offset()),
 		)
 	}
@@ -75,6 +76,7 @@ type Collection struct {
 	Title      string        `json:"title"`
 	Author     string        `json:"author"`
 	Site       string        `json:"site"`
+	Lang       string        `json:"lang"`
 	Type       types.Strings `json:"type"`
 	Labels     string        `json:"labels"`
 	ReadStatus types.Strings `json:"read_status"`
@@ -83,6 +85,7 @@ type Collection struct {
 	IsLoaded   *bool         `json:"is_loaded"`
 	HasErrors  *bool         `json:"has_errors"`
 	HasLabels  *bool         `json:"has_labels"`
+	HasNotes   *bool         `json:"has_notes"`
 	RangeStart string        `json:"range_start"`
 	RangeEnd   string        `json:"range_end"`
 }
@@ -104,6 +107,7 @@ func NewCollection(ctx context.Context, c *bookmarks.Collection) *Collection {
 		Title:      c.Filters.Title,
 		Author:     c.Filters.Author,
 		Site:       c.Filters.Site,
+		Lang:       c.Filters.Lang,
 		Type:       c.Filters.Type,
 		Labels:     c.Filters.Labels,
 		ReadStatus: c.Filters.ReadStatus,
@@ -112,6 +116,7 @@ func NewCollection(ctx context.Context, c *bookmarks.Collection) *Collection {
 		IsLoaded:   c.Filters.IsLoaded,
 		HasErrors:  c.Filters.HasErrors,
 		HasLabels:  c.Filters.HasLabels,
+		HasNotes:   c.Filters.HasNotes,
 		RangeStart: c.Filters.RangeStart,
 		RangeEnd:   c.Filters.RangeEnd,
 	}

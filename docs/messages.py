@@ -10,6 +10,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 
 import os
+import re
 import sys
 from argparse import ArgumentParser
 from operator import itemgetter
@@ -19,8 +20,9 @@ from babel.messages.catalog import Catalog, Locale
 from babel.messages.extract import extract_from_file
 from babel.messages.pofile import read_po, write_po
 
-# Percentage of translated content under which a translation won't be loaded.
-COMPLETION_CUTOFF = 0.90
+# Maximum number of untranslated strings.
+# Can be a float (percentage) or an int (fixed number of strings)
+COMPLETION_CUTOFF = 0.10
 
 HERE = Path(__file__).parent
 ROOT = HERE / "src"
@@ -28,7 +30,6 @@ ROOT = HERE / "src"
 CATALOG_HEADER = """\
 # Translations template for PROJECT.
 # SPDX-FileCopyrightText: © YEAR Readeck <translate@readeck.com>
-#
 # SPDX-License-Identifier: AGPL-3.0-only
 #"""
 
@@ -41,6 +42,13 @@ CATALOG_OPTIONS = {
     "last_translator": "Readeck <translate@readeck.com>",
     "language_team": "Readeck <translate@readeck.com>",
 }
+
+if os.environ.get("TRANSLATION_CUTOFF", None) is not None:
+    c = os.environ.get("TRANSLATION_CUTOFF")
+    if re.match(r"^[0-9]+$", c) is not None:
+        COMPLETION_CUTOFF = int(c)
+    elif re.match(r"^[0-9]\.[0-9]+$", c) is not None:
+        COMPLETION_CUTOFF = float(c)
 
 
 def extract_blocks(fileobj, keywords, comment_tags, options):
@@ -164,6 +172,11 @@ def generate(_):
         template = read_po(fp)
     total_strings = len(template)
 
+    if isinstance(COMPLETION_CUTOFF, float):
+        print(f"::: completion cutoff: untranslated > {COMPLETION_CUTOFF * 100}%\n")
+    else:
+        print(f"::: completion cutoff: untranslated > {COMPLETION_CUTOFF} strings\n")
+
     for po_file in sorted(po_files):
         code = po_file.parent.name
 
@@ -188,10 +201,17 @@ def generate(_):
             nb_translated += 1
 
         pct = float(nb_translated / total_strings)
-        count_info = "{:>4}/{:<4} {:>4}%".format(
-            nb_translated, total_strings, round(pct * 100)
+        count_info = "{:>4}|{:<4} {:>4}%".format(
+            total_strings, total_strings - nb_translated, round(pct * 100)
         )
-        if round(pct, 2) < COMPLETION_CUTOFF:
+
+        do_compile = False
+        if isinstance(COMPLETION_CUTOFF, float):
+            do_compile = pct >= 1 - COMPLETION_CUTOFF
+        elif isinstance(COMPLETION_CUTOFF, int):
+            do_compile = total_strings - nb_translated <= COMPLETION_CUTOFF
+
+        if not do_compile:
             print("[-] {:8} {}".format(code, count_info))
             continue
 

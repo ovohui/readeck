@@ -47,12 +47,18 @@ func WriteEtag(w http.ResponseWriter, r *http.Request, taggers ...Etagger) {
 
 	h := fnv.New64()
 	h.Write([]byte(strconv.FormatInt(configs.BuildTime().Unix(), 10)))
+	if IsTurboRequest(r) {
+		h.Write([]byte{1})
+	}
 
-	if user := auth.GetRequestUser(r); user.ID != 0 {
+	if user := auth.GetUser(r.Context()); user.ID != 0 {
 		taggers = append(taggers, user)
 	}
 	if sess := GetSession(r); sess != nil {
 		taggers = append(taggers, sess)
+	}
+	if p := GetPreferences(r.Context()); p != nil {
+		taggers = append(taggers, p)
 	}
 
 	for _, tagger := range taggers {
@@ -81,11 +87,14 @@ func WriteLastModified(w http.ResponseWriter, r *http.Request, moders ...LastMod
 		mtimes = append(mtimes, m.GetLastModified()...)
 	}
 
-	if user := auth.GetRequestUser(r); user.ID != 0 {
+	if user := auth.GetUser(r.Context()); user.ID != 0 {
 		mtimes = append(mtimes, user.GetLastModified()...)
 	}
 	if sess := GetSession(r); sess != nil {
 		mtimes = append(mtimes, sess.GetLastModified()...)
+	}
+	if p := GetPreferences(r.Context()); p != nil {
+		mtimes = append(mtimes, p.GetLastModified()...)
 	}
 
 	sort.Slice(mtimes, func(i, j int) bool {
@@ -120,7 +129,7 @@ func HandleCaching(w http.ResponseWriter, r *http.Request) bool {
 
 	// Cancel the caching headers when there are messages.
 	// It prevents the message to stay on the page forever.
-	if len(Flashes(r)) > 0 {
+	if len(Flashes(r.Context())) > 0 {
 		w.Header().Del("Last-Modified")
 		w.Header().Del("Etag")
 	}

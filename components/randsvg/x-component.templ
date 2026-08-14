@@ -1,0 +1,111 @@
+// SPDX-FileCopyrightText: © 2026 Olivier Meunier <olivier@neokraft.net>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
+package randsvg
+
+import (
+	"math/rand/v2"
+	"strconv"
+	"strings"
+)
+
+var rotations = []string{"-12", "-10", " -8", " -6", "6", "8", "10", "12"}
+
+templ (s *SVG) image() {
+	{{
+		suffix := strconv.FormatUint(rand.Uint64(), 16)
+		hue := s.IntN(360)
+	}}
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		version="1.1"
+		viewBox="0 0 1024 576"
+		width="1024"
+		height="576"
+	>
+		<defs>
+			<linearGradient
+				id={ "gradient-" + suffix }
+				x1="0%"
+				y1="0%"
+				x2="0%"
+				y2="100%"
+				gradientTransform={ "rotate(" + rotations[s.IntN(len(rotations)-1)] + " 0.5 0.5)" }
+			>
+				<stop
+					stop-color={ "hsl(" + strconv.Itoa(hue) + ",92%,70%)" }
+					offset="0"
+				></stop>
+				<stop
+					stop-color={ "hsl(" + strconv.Itoa(hue-60) + ",88%,60%)" }
+					offset="1"
+				></stop>
+			</linearGradient>
+			<filter
+				id={ "filters-" + suffix }
+				x="-20%"
+				y="-20%"
+				width="140%"
+				height="140%"
+				filterUnits="objectBoundingBox"
+				primitiveUnits="userSpaceOnUse"
+				color-interpolation-filters="sRGB"
+			>
+				<feTurbulence
+					type="fractalNoise"
+					baseFrequency="0.001 0.002"
+					numOctaves="1"
+					seed={ s.IntN(50) }
+					stitchTiles="stitch"
+					result="noise"
+				></feTurbulence>
+				<feColorMatrix
+					type="matrix"
+					values="
+						0.2126  0.7152 0.0722  0 0
+						0.2126  0.7152 0.0722  0 0
+						0.2126  0.7152 0.0722  0 0
+						0 0 0 0 1"
+					in="noise"
+					result="mask"
+				></feColorMatrix>
+				<feGaussianBlur
+					stdDeviation="80"
+					in="mask"
+					edgeMode="duplicate"
+					result="blur"
+				></feGaussianBlur>
+				<feBlend
+					mode="soft-light"
+					in="SourceGraphic"
+					in2="blur"
+					result="blend"
+				></feBlend>
+			</filter>
+		</defs>
+		<rect width="100%" height="100%" fill={ "url(#gradient-" + suffix + ")" } filter={ "url(#filters-" + suffix + ")" } opacity="0.85"></rect>
+		if s.letter != 0 {
+			{{ letter := strings.ToUpper(string(s.letter)) }}
+			<svg height="200" y="188" overflow="visible">
+				{{ fill := "hsl(" + strconv.Itoa(hue-30) + ",80%,95%)" }}
+				@svgLetter(letter, fill, svgLetterDefault(letter, fill))
+			</svg>
+		}
+	</svg>
+}
+
+templ svgLetterDefault(letter, fill string) {
+	<text
+		x="50%"
+		y="50%"
+		dominant-baseline="central"
+		text-anchor="middle"
+		font-family="sans-serif"
+		font-size="200px"
+		font-weight="300"
+		fill={ fill }
+	>
+		{ letter }
+	</text>
+}

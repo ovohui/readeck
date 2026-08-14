@@ -11,9 +11,11 @@ import (
 	"net/url"
 	"path"
 
+	"github.com/a-h/templ"
 	"github.com/go-chi/chi/v5"
 
 	"codeberg.org/readeck/readeck/internal/bookmarks"
+	"codeberg.org/readeck/readeck/internal/bookmarks/converter"
 	"codeberg.org/readeck/readeck/internal/server"
 	"codeberg.org/readeck/readeck/pkg/http/csp"
 	"codeberg.org/readeck/readeck/pkg/zipfs"
@@ -79,7 +81,8 @@ func newAPIRouter() *apiRouter {
 						server.WithPermission("email", "send"),
 						api.withShareEmail,
 					).Post("/email", api.bookmarkShareEmail)
-				})
+				},
+			)
 			r.Get("/x/*", api.bookmarkResource)
 		})
 
@@ -185,7 +188,14 @@ func newViewsRouter(api *apiRouter) *viewsRouter {
 			).Get("/{filter:(unread|archives|favorites|articles|videos|pictures)}", h.bookmarkList)
 
 			r.With(
-				server.WithCustomErrorTemplate(404, "/bookmarks/bookmark_missing"),
+				server.WithCustomErrorComponent(func(status int) templ.Component {
+					switch status {
+					case 404:
+						return Views{}.bookmarkMissing()
+					default:
+						return nil
+					}
+				}),
 				api.withBookmark,
 			).Route("/{uid:[a-zA-Z0-9]{18,22}}", func(r chi.Router) {
 				r.Get("/", h.bookmarkInfo)
@@ -203,7 +213,8 @@ func newViewsRouter(api *apiRouter) *viewsRouter {
 							r.Get("/", h.bookmarkShareEmail)
 							r.Post("/", h.bookmarkShareEmail)
 						})
-					})
+					},
+				)
 			})
 
 			r.With(api.withAnnotationList).Route("/highlights", func(r chi.Router) {
@@ -273,7 +284,7 @@ func newViewsRouter(api *apiRouter) *viewsRouter {
 		r.With(server.WithPermission("bookmarks", "import")).Group(func(r chi.Router) {
 			r.With(h.withBaseContext).Group(func(r chi.Router) {
 				r.Get("/", h.bookmarksImportMain)
-				r.Get("/{trackID:[a-zA-Z0-9]{18,22}}", h.bookmarksImportMain)
+				r.Get("/{trackID:[a-zA-Z0-9]{18,22}}", h.bookmarksImportStatus)
 				r.Get("/{source}", h.bookmarksImport)
 				r.Post("/{source}", h.bookmarksImport)
 			})
@@ -286,8 +297,9 @@ func newViewsRouter(api *apiRouter) *viewsRouter {
 func newSharedViewsRouter(api *apiRouter) *publicViewsRouter {
 	r := chi.NewRouter()
 	h := &publicViewsRouter{r, api}
+	r.Use(server.WithCustomErrorComponent(converter.PublicViews{}.Error))
 
-	r.With(h.withBookmark).Get("/{id:[a-zA-Z0-9_-]+}", h.get)
+	r.Get("/{id:[a-zA-Z0-9_-]+}", h.get)
 	return h
 }
 

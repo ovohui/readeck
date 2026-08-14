@@ -60,7 +60,7 @@ func TestAnimatedGIF(t *testing.T) {
 
 	c, err = png.DecodeConfig(w)
 	assert.NoError(err)
-	assert.IsType((color.Palette)(nil), c.ColorModel)
+	assert.IsType(color.Palette(nil), c.ColorModel)
 
 	assert.NoError(im.Close())
 	assert.NoError(ff.Close())
@@ -92,5 +92,5 @@ func TestSingleFrameGIF(t *testing.T) {
 	assert.NoError(err)
 	assert.Equal(125, c.Width)
 	assert.Equal(148, c.Height)
-	assert.IsType((color.Palette)(nil), c.ColorModel)
+	assert.IsType(color.Palette(nil), c.ColorModel)
 }

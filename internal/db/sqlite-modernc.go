@@ -52,7 +52,8 @@ func (c *sqliteConnector) Open(dsn *url.URL) (*sql.DB, error) {
 	query.Set("_time_format", "sqlite")
 	uri.RawQuery = query.Encode()
 
-	slog.Debug("connect to database",
+	slog.Debug(
+		"connect to database",
 		slog.String("driver", c.Name()),
 		slog.String("dsn", uri.Redacted()),
 	)
@@ -71,6 +72,7 @@ func (c *sqliteConnector) Open(dsn *url.URL) (*sql.DB, error) {
 		PRAGMA synchronous = NORMAL;
 		PRAGMA busy_timeout = 5000;
 		PRAGMA temp_store = memory;
+		PRAGMA optimize = 0x10002;
 	`)
 	if err != nil {
 		return nil, err
@@ -91,7 +93,8 @@ func (c *sqliteConnector) Version() string {
 func (c *sqliteConnector) DiskUsage() (uint64, error) {
 	var sizeBytes uint64
 	if _, err := Q().Select(
-		goqu.L("page_count * page_size")).
+		goqu.L("page_count * page_size"),
+	).
 		From(goqu.L("pragma_page_count()")).
 		CrossJoin(goqu.L("pragma_page_size()")).
 		ScanVal(&sizeBytes); err != nil {

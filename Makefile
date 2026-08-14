@@ -8,13 +8,13 @@
 
 ifeq (, $(shell which git && git status))
 VERSION ?= dev
-DATE ?= $(shell date --rfc-3339=seconds)
+DATE ?= $(shell date '+%Y-%m-%dT%H:%M:%S%:z')
 else
 VERSION := $(shell git describe --tags)
 DATE := $(shell git log -1 --format=%cI)
 endif
 
-BUILD_TAGS := netgo osusergo sqlite_omit_load_extension sqlite_foreign_keys sqlite_json1 sqlite_fts5 sqlite_secure_delete
+BUILD_TAGS ?= netgo osusergo sqlite_omit_load_extension sqlite_foreign_keys sqlite_json1 sqlite_fts5 sqlite_secure_delete
 VERSION_FLAGS := \
 	-X 'codeberg.org/readeck/readeck/configs.version=$(VERSION)' \
 	-X 'codeberg.org/readeck/readeck/configs.buildTimeStr=$(DATE)'
@@ -32,9 +32,10 @@ export GOARCH?=
 SITECONFIG_SRC=./ftr-site-config
 SITECONFIG_DEST=pkg/extract/contentscripts/assets/site-config
 
-GOLANGCI_PKG ?= github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.9.0
-AIR_PKG ?= github.com/air-verse/air@v1.64.5
-SLOC_PKG ?= github.com/boyter/scc/v3@v3.6.0
+TEMPL ?= $(GO) run github.com/a-h/templ/cmd/templ@v0.3.1020
+GOLANGCI_LINT ?= $(GO) run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.12.2
+AIR ?= $(GO) run github.com/air-verse/air@v1.65.3
+SCC ?= $(GO) run github.com/boyter/scc/v3@latest
 
 # -------------------------------------------------------------------
 # Base targets
@@ -55,7 +56,7 @@ all: generate build
 
 # Generate files (web and documentation artifacts)
 .PHONY: generate
-generate: web-build docs-build
+generate: templ web-build docs-build
 	${MAKE} -C locales compile
 	mkdir -p $(DIST)
 	touch $(DIST)/.generate
@@ -63,18 +64,24 @@ generate: web-build docs-build
 # Setup prepares the environment
 .PHONY: setup
 setup:
-	@echo "GOVERSION: $(shell go env GOVERSION)"
-	@echo "GOOS: $(shell go env GOOS)"
-	@echo "GOARCH: $(shell go env GOARCH)"
+	@echo "GOVERSION: $(shell $(GO) env GOVERSION)"
+	@echo "GOOS: $(shell $(GO) env GOOS)"
+	@echo "GOARCH: $(shell $(GO) env GOARCH)"
 	$(GO) mod download
 	${MAKE} -C web setup
+
+templ:
+	$(TEMPL) generate
+
+templ/fmt: templ
+	$(TEMPL) fmt -fail .
 
 # Build the server
 .PHONY: build
 build:
-	@echo "GOVERSION: $(shell go env GOVERSION)"
-	@echo "GOOS: $(shell go env GOOS)"
-	@echo "GOARCH: $(shell go env GOARCH)"
+	@echo "GOVERSION: $(shell $(GO) env GOVERSION)"
+	@echo "GOOS: $(shell $(GO) env GOOS)"
+	@echo "GOARCH: $(shell $(GO) env GOARCH)"
 	@echo "CGO_ENABLED: $(CGO_ENABLED)"
 	@echo "CC: $(CC)"
 	@echo "CXX: $(CXX)"
@@ -99,9 +106,9 @@ web-build:
 
 # Launch tests
 .PHONY: test
-test: docs-build
+test: templ docs-build
 	test -f assets/www/manifest.json || echo "{}" > assets/www/manifest.json
-	GOTOOLCHAIN=$(shell go env GOVERSION) $(GO) test \
+	GOTOOLCHAIN=$(shell $(GO) env GOVERSION) $(GO) test \
 		-tags "$(BUILD_TAGS)" \
 		-ldflags="$(VERSION_FLAGS) $(LDFLAGS)" \
 		-cover ./...
@@ -110,10 +117,16 @@ test: docs-build
 .PHONY: clean
 clean:
 	rm -rf $(DIST)
+	${MAKE} clean/templ
 	rm -rf assets/www/*
-	make -C docs clean
-	make -C locales clean
-	make -C web clean
+	${MAKE} -C docs clean
+	${MAKE} -C locales clean
+	${MAKE} -C web clean
+
+# Clean generated templ files
+.PHONY: clean/templ
+clean/templ:
+	find ./ -name '*_templ.go' -delete
 
 # List all the modules included by the build
 list:
@@ -124,12 +137,12 @@ list:
 
 # Run the linter and print a report
 .PHONY: lint
-lint: docs-build
+lint: templ docs-build
 	test -f assets/www/manifest.json || echo "{}" > assets/www/manifest.json
-	$(GO) run $(GOLANGCI_PKG) run
+	$(GOLANGCI_LINT) run
 
 .PHONY: vulncheck
-vulncheck:
+vulncheck: templ
 	$(GO) run golang.org/x/vuln/cmd/govulncheck@latest \
 		-show color,verbose,version \
 		./...
@@ -137,7 +150,7 @@ vulncheck:
 # Single lines of code
 .PHONY: sloc
 sloc:
-	$(GO) run $(SLOC_PKG) -i go,js,scss,html,md
+	$(SCC) -i go,js,scss,html,md
 
 
 # Update site-config folder with definitions from
@@ -155,41 +168,67 @@ update-site-config:
 # These targets provide helper for autoreload during development.
 # `make dev` starts all the needed watch/autoreload and is only
 # needed when working on web/* or docs/src/*.
-# When working only on go files, `make serve` is enough.
+# When working only on go and templ files, `make serve` is enough.
+
+# Starts the HTTP server
+# It runs air watching the source files and the assets. It builds and reloads
+# the server on any change.
+.PHONY: serve
+serve:
+	${MAKE} -j2 watch/templ watch/server
 
 # Starts 3 watchers/reloaders for a full autoreload
 # dev server.
 # The initial errors during startup are normal
 .PHONY: dev
 dev:
-	${MAKE} -j3 docs-watch web-watch serve
+	${MAKE} -j3 watch/docs watch/web serve
 
 # Starts the HTTP server
 # It runs air watching the source files and the assets. It builds and reloads
 # the server on any change.
-.PHONY: serve
-serve: SERVE_CMD ?= serve
-serve:
-	$(GO) run $(AIR_PKG) \
+.PHONY: watch/server
+watch/server: SERVE_CMD ?= serve
+watch/server:
+	$(AIR) \
 		--tmp_dir "dist" \
 		--build.log "" \
 		--build.cmd "${MAKE} DATE= build" \
-		--build.bin "dist/readeck" \
-		--build.args_bin "$(SERVE_CMD)" \
+		--build.full_bin "dist/readeck $(SERVE_CMD)" \
+		--build.delay 2000 \
 		--build.exclude_dir "" \
-		--build.include_dir "assets,configs,docs/api,docs/assets,locales,internal,pkg" \
+		--build.include_dir "assets,components,configs,docs/assets,locales,internal,pkg" \
 		--build.include_ext "go,html,json,js,mo,tmpl,toml,xsl" \
-		--build.delay 2000
+		--build.kill_delay "10s" \
+		--build.stop_on_error "false" \
+		--misc.clean_on_exit false
+
+# Rebuild components on change.
+# It runs air watching the .templ files and rebuilds them on any change.
+watch/templ:
+	$(AIR) \
+		--tmp_dir "dist" \
+		--build.log "" \
+		--build.cmd "$(TEMPL) generate -lazy" \
+		--build.full_bin "/usr/bin/true" \
+		--build.delay 1000 \
+		--build.include_dir "components,internal" \
+		--build.include_ext "templ" \
+		--build.exclude_regex ".*_templ.go" \
+		--build.kill_delay "0s" \
+		--build.send_interrupt "false" \
+		--build.stop_on_error "true" \
+		--misc.clean_on_exit false
 
 # Watch the docs/src folder and rebuild the documentation
 # on changes.
-.PHONY: docs-watch
-docs-watch:
-	$(GO) run $(AIR_PKG) \
+.PHONY: watch/docs
+watch/docs:
+	$(AIR) \
 		--tmp_dir "dist" \
 		--build.log "" \
 		--build.cmd "${MAKE} docs-build" \
-		--build.bin "" \
+		--build.full_bin "/usr/bin/true" \
 		--build.exclude_dir "" \
 		--build.include_file "CHANGELOG.md" \
 		--build.include_dir "docs/src/en,docs/translations,docs/api" \
@@ -197,8 +236,8 @@ docs-watch:
 		--build.delay 100
 
 # Starts the watcher on the web folder.
-.PHONY: web-watch
-web-watch:
+.PHONY: watch/web
+watch/web:
 	@$(MAKE) -C web watch
 
 

@@ -9,11 +9,11 @@ import (
 	"testing"
 
 	"codeberg.org/readeck/readeck/pkg/http/permissionspolicy"
-	"github.com/stretchr/testify/require"
+	"github.com/stretchr/testify/assert"
 )
 
-func TestPP(t *testing.T) {
-	assert := require.New(t)
+func TestHeader(t *testing.T) {
+	assert := assert.New(t)
 
 	p := permissionspolicy.Policy{}
 	assert.Empty(p.String())

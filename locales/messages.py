@@ -9,7 +9,7 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
-import io
+import os
 import re
 import sys
 from argparse import ArgumentParser
@@ -20,8 +20,9 @@ from babel.messages.extract import extract_from_file
 from babel.messages.mofile import write_mo
 from babel.messages.pofile import read_po, write_po
 
-# Percentage of translated content under which a translation won't be loaded.
-COMPLETION_CUTOFF = 0.90
+# Maximum number of untranslated strings.
+# Can be a float (percentage) or an int (fixed number of strings)
+COMPLETION_CUTOFF = 30
 
 HERE = Path(__file__).parent
 ROOT = (HERE / "..").resolve()
@@ -29,7 +30,6 @@ ROOT = (HERE / "..").resolve()
 CATALOG_HEADER = """\
 # Translations template for PROJECT.
 # SPDX-FileCopyrightText: © YEAR Readeck <translate@readeck.com>
-#
 # SPDX-License-Identifier: AGPL-3.0-only
 #"""
 
@@ -42,6 +42,14 @@ CATALOG_OPTIONS = {
     "last_translator": "Readeck <translate@readeck.com>",
     "language_team": "Readeck <translate@readeck.com>",
 }
+
+
+if os.environ.get("TRANSLATION_CUTOFF", None) is not None:
+    c = os.environ.get("TRANSLATION_CUTOFF")
+    if re.match(r"^[0-9]+$", c) is not None:
+        COMPLETION_CUTOFF = int(c)
+    elif re.match(r"^[0-9]\.[0-9]+$", c) is not None:
+        COMPLETION_CUTOFF = float(c)
 
 
 def tok(name: str):
@@ -196,101 +204,15 @@ class GoScanner:
         return "".join(res)
 
 
-class JetScanner(GoScanner):
-    scanner = re.Scanner(
-        [
-            (r'"(?:[^"\\]|\\.)*"', tok("STRING")),
-            (r"`", tok("RAW_DELIM")),
-            (r"[0-9]+", tok("INT")),
-            (r",", tok("COMMA")),
-            (r"\+", tok("PLUS")),
-            (r"\(", tok("OPEN")),
-            (r"\)", tok("CLOSE")),
-            (r"gettext|ngettext|pgettext|npgettext", tok("FUNC")),
-            (r".", None),
-        ],
-        flags=re.DOTALL,
-    )
-
-    def extract(self):
-        while not self.eof:
-            if self.token in ("STRING", "RAW_DELIM"):
-                # We can have function calls in attributes (double quoted strings)
-                # The easy/dirty path is to parse again the string content.
-                s = (
-                    self.visit_string()
-                    if self.token == "STRING"
-                    else self.visit_raw_string()
-                )
-
-                sub = JetScanner(io.BytesIO(s.encode()))
-                for x in sub.extract():
-                    yield x
-            if self.token == "FUNC":
-                res = self.visit_function()
-                if res is not None:
-                    yield res
-            self._next()
-
-
-class TmplScanner(JetScanner):
-    scanner = re.Scanner(
-        [
-            (r'"(?:[^"\\]|\\.)*"', tok("STRING")),
-            (r"`", tok("RAW_DELIM")),
-            (r"[0-9]+", tok("INT")),
-            (r",", tok("COMMA")),
-            (r"\ ", tok("SPACE")),
-            (r"\+", tok("PLUS")),
-            (r"\(", tok("OPEN")),
-            (r"\}\}", tok("CLOSE")),
-            (r"Gettext|Ngettext|Pgettext|Npgettext", tok("FUNC")),
-            (r".", None),
-        ],
-        flags=re.DOTALL,
-    )
-
-    def visit_function(self):
-        name = self.value
-        lineno = self.lineno
-        self._next()
-        self._next()
-
-        args = []
-        s = None
-        while self.token:
-            if self.token in ("STRING", "RAW_DELIM"):
-                s = self.visit_string()
-            if self.token in ("SPACE", "CLOSE"):
-                args.append(s)
-                s = None
-
-            if self.token == "CLOSE":
-                break
-
-            self._next()
-
-        return (lineno, name, args)
-
-
 def extract_go(fileobj, keywords, comment_tags, options):
     return GoScanner(fileobj).extract_strings()
 
 
-def extract_jet(fileobj, keywords, comment_tags, options):
-    return JetScanner(fileobj).extract_strings()
-
-
-def extract_tmpl(fileobj, keywords, comment_tags, options):
-    return TmplScanner(fileobj).extract_strings()
-
-
 METHODS = {
     "_test.go": None,
+    "_templ.go": None,
     ".go": extract_go,
-    ".jet.html": extract_jet,
-    ".jet.md": extract_jet,
-    ".tmpl": extract_tmpl,
+    ".templ": extract_go,
 }
 
 KEYWORDS = {
@@ -391,6 +313,11 @@ def compile(_):
         template = read_po(fp)
     total_strings = len(template)
 
+    if isinstance(COMPLETION_CUTOFF, float):
+        print(f"::: completion cutoff: untranslated > {COMPLETION_CUTOFF * 100}%\n")
+    else:
+        print(f"::: completion cutoff: untranslated > {COMPLETION_CUTOFF} strings\n")
+
     for po_file in sorted(po_files):
         code = po_file.parent.name
 
@@ -420,10 +347,17 @@ def compile(_):
             nb_translated += 1
 
         pct = float(nb_translated / total_strings)
-        count_info = "{:>4}/{:<4} {:>4}%".format(
-            nb_translated, total_strings, round(pct * 100)
+        count_info = "{:>4}|{:<4} {:>4}%".format(
+            total_strings, total_strings - nb_translated, round(pct * 100)
         )
-        if round(pct, 2) < COMPLETION_CUTOFF:
+
+        do_compile = False
+        if isinstance(COMPLETION_CUTOFF, float):
+            do_compile = pct >= 1 - COMPLETION_CUTOFF
+        elif isinstance(COMPLETION_CUTOFF, int):
+            do_compile = total_strings - nb_translated <= COMPLETION_CUTOFF
+
+        if not do_compile:
             print("[-] {:8} {}".format(code, count_info))
             continue
 

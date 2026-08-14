@@ -8,6 +8,7 @@ package app
 import (
 	"bufio"
 	"bytes"
+	"context"
 	"errors"
 	"flag"
 	"fmt"
@@ -26,6 +27,7 @@ import (
 
 	"codeberg.org/readeck/readeck/configs"
 	"codeberg.org/readeck/readeck/internal/acls"
+	"codeberg.org/readeck/readeck/internal/auth/oidc"
 	"codeberg.org/readeck/readeck/internal/auth/users"
 	"codeberg.org/readeck/readeck/internal/bookmarks"
 	"codeberg.org/readeck/readeck/internal/db"
@@ -42,6 +44,8 @@ var (
 	colorYellow = console.ToANSICode(console.Yellow)
 	bold        = console.ToANSICode(console.Bold)
 )
+
+const sqliteAnalyzePeriod = 6 // interval (in hours) between each SQLite ANALYZE
 
 type appFlags struct {
 	ConfigFile string
@@ -159,6 +163,12 @@ func InitApp() {
 	// Init ACLs
 	acls.Load(configs.Config.Customize.ExtraPermissions...)
 
+	// Init OIDC
+	oidc.InitCookieHandler(configs.Keys.OIDCKey())
+	for _, v := range configs.Config.Auth.OIDC.Providers {
+		oidc.Providers.Add(v.Name, v.URL, v.ClientID, v.ClientSecret, v.Groups, v.ProvisioningEnabled)
+	}
+
 	// Init email sending
 	email.InitSender()
 	if !email.CanSendEmail() {
@@ -199,6 +209,23 @@ func enforceChecks(flags *appFlags) error {
 }
 
 func appPreRun(flags *appFlags) error {
+	if err := loadConfig(flags); err != nil {
+		return err
+	}
+
+	InitApp()
+	return nil
+}
+
+func appPostRun() {
+	if err := db.Close(); err != nil {
+		slog.Error("closing database", slog.Any("err", err))
+	} else {
+		slog.Debug("database is closed")
+	}
+}
+
+func loadConfig(flags *appFlags) error {
 	if flags.ConfigFile == "" {
 		flags.ConfigFile = "config.toml"
 	}
@@ -210,21 +237,7 @@ func appPreRun(flags *appFlags) error {
 		return fmt.Errorf("error loading configuration: %w", err)
 	}
 
-	if err := initConfig(flags.ConfigFile); err != nil {
-		return err
-	}
-
-	InitApp()
-
-	return nil
-}
-
-func appPostRun() {
-	if err := db.Close(); err != nil {
-		slog.Error("closing database", slog.Any("err", err))
-	} else {
-		slog.Debug("database is closed")
-	}
+	return initConfig(flags.ConfigFile)
 }
 
 func createConfigFile(filename string) error {
@@ -308,7 +321,8 @@ func copyContentScriptHelpers(dest string) error {
 			}
 			defer dst.Close() //nolint:errcheck
 
-			slog.Debug("copying helper",
+			slog.Debug(
+				"copying helper",
 				slog.String("src", name),
 				slog.String("dst", filepath.Join(dest, name)),
 			)
@@ -320,6 +334,26 @@ func copyContentScriptHelpers(dest string) error {
 	}
 
 	return nil
+}
+
+// sqliteAnalyze runs a [time.Ticker] that performs an ANALYZE query
+// on the SQLite db every [sqliteAnalyzePeriod] hours.
+func sqliteAnalyze(ctx context.Context) {
+	ticker := time.NewTicker(time.Hour * sqliteAnalyzePeriod)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case <-ticker.C:
+			if _, err := db.DB().Exec("ANALYZE"); err != nil {
+				slog.Error("sqlite analyze", slog.Any("err", err))
+			} else {
+				slog.Debug("sqlite analyze done")
+			}
+		}
+	}
 }
 
 func confirmPrompt(label string, defaultV bool) bool {

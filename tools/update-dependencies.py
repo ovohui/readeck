@@ -125,7 +125,7 @@ def update_go_dependencies():
 
 def update_js_dependencies():
     with chdir("web"):
-        # fmt:off
+        # fmt: off
         check_call(
             [
                 "npm", "exec", "-y", "--",

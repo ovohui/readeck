@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/araddon/dateparse"
+	"github.com/itlightning/dateparse"
 )
 
 var relativeTokenRx = regexp.MustCompile(`^([+-])(\d+)([dwmy])$`)

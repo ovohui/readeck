@@ -32,15 +32,15 @@ func (api *apiRouter) collectionInfo(w http.ResponseWriter, r *http.Request) {
 }
 
 func (api *apiRouter) collectionCreate(w http.ResponseWriter, r *http.Request) {
-	f := newCollectionForm(server.Locale(r), r)
+	f := newCollectionForm(r)
+	forms.Bind(r, f)
 
-	forms.Bind(f, r)
 	if !f.IsValid() {
 		server.Render(w, r, http.StatusUnprocessableEntity, f)
 		return
 	}
 
-	c, err := f.createCollection(auth.GetRequestUser(r).ID)
+	c, err := f.createCollection(auth.GetUser(r.Context()).ID)
 	if err != nil {
 		server.Err(w, r, err)
 		return
@@ -53,9 +53,9 @@ func (api *apiRouter) collectionCreate(w http.ResponseWriter, r *http.Request) {
 func (api *apiRouter) collectionUpdate(w http.ResponseWriter, r *http.Request) {
 	c := getCollection(r.Context())
 
-	f := newCollectionForm(server.Locale(r), r)
+	f := newCollectionForm(r)
 	f.setCollection(c)
-	forms.Bind(f, r)
+	forms.Bind(r, f)
 
 	if !f.IsValid() {
 		server.Render(w, r, http.StatusUnprocessableEntity, f)
@@ -95,12 +95,12 @@ func (api *apiRouter) withColletionList(next http.Handler) http.Handler {
 				"c.name", "c.is_pinned", "c.filters",
 			).
 			Where(
-				goqu.C("user_id").Table("c").Eq(auth.GetRequestUser(r).ID),
+				goqu.C("user_id").Table("c").Eq(auth.GetUser(r.Context()).ID),
 			)
 
 		ds = ds.Order(goqu.I("name").Asc()).
-			Limit(uint(pf.Limit())).
-			Offset(uint(pf.Offset()))
+			Limit(uint(pf.Limit.Value())).
+			Offset(uint(pf.Offset.Value()))
 
 		res, err := dataset.NewCollectionList(r.Context(), ds)
 		if err != nil {
@@ -123,7 +123,7 @@ func (api *apiRouter) withCollection(next http.Handler) http.Handler {
 
 		c, err := bookmarks.Collections.GetOne(
 			goqu.C("uid").Eq(uid),
-			goqu.C("user_id").Eq(auth.GetRequestUser(r).ID),
+			goqu.C("user_id").Eq(auth.GetUser(r.Context()).ID),
 		)
 		if err != nil {
 			server.Status(w, r, http.StatusNotFound)
@@ -132,10 +132,6 @@ func (api *apiRouter) withCollection(next http.Handler) http.Handler {
 
 		ctx := withCollection(r.Context(), c)
 		ctx = withBookmarkListTaggers(ctx, []server.Etagger{c})
-
-		if _, ok := checkBookmarkOrder(ctx); !ok {
-			ctx = withBookmarkOrder(ctx, orderExpressionList{goqu.T("b").Col("created").Desc()})
-		}
 
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})

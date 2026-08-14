@@ -33,6 +33,7 @@
     "//button",
     "//div[contains(@style, 'background-image')]",
     "//img[@width='1']",
+    "//a[contains(@href, '//google.com/preferences/')]/parent::div",
     "//div[@data-module=\"teaser\"]",
     "//footer[@class='tsr-Base_ContentMeta']",
     "//div[contains(concat(' ',normalize-space(@class),' '),' intro ')]"
@@ -125,7 +126,9 @@
       "src="
     ]
   ],
-  "http_headers": null,
+  "http_headers": {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:152.0) Gecko/20100101 Firefox/152.0"
+  },
   "tests": [
     {
       "url": "https://www.faz.net/aktuell/feuilleton/bilder-und-zeiten/lord-byron-in-venedig-als-pilger-popstar-und-poet-19648440.html",

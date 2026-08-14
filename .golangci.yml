@@ -48,6 +48,7 @@ linters:
     - revive
     - sloglint
     - staticcheck
+    - tagalign
     - testifylint
     - unused
   settings:
@@ -83,7 +84,10 @@ linters:
       excludes:
         - G104
         - G115
+        - G124
         - G304
+        - G710
+        - G704
       config:
         G304: null
     misspell:
@@ -135,6 +139,17 @@ linters:
       checks:
         - all
         - "-ST1005"
+    tagalign:
+      align: true
+      sort: true
+      strict: false
+      order:
+        - json
+        - env
+        - db
+        - validate
+        - csv
+        - case
     testifylint:
       enable-all: true
   exclusions:

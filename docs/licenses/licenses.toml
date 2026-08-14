@@ -6,12 +6,12 @@
 # Go Modules
 # -------------------------------------------------------------------
 [[licenses]]
-name = "jet"
-license = "Apache-2.0"
-author = "José Santos <henrique_1609@me.com>"
-url = "https://github.com/CloudyKit/jet"
+name = "templ"
+license = "MIT"
+author = "Adrian Hesketh"
+url = "https://github.com/a-h/templ"
 copyright = """
-Copyright 2016 José Santos <henrique_1609@me.com>
+Copyright (c) 2021 Adrian Hesketh
 """
 
 [[licenses]]
@@ -33,9 +33,10 @@ Copyright (c) 2021 Anthony Najjar Simon
 name = "dateparse"
 license = "MIT"
 author = "Aaron Raddon"
-url = "https://github.com/araddon/dateparse"
+url = "https://github.com/itlightning/dateparse"
 copyright = """
 Copyright (c) 2015-2017 Aaron Raddon
+Copyright (c) 2023-2024 IT Lightning, LLC
 """
 
 [[licenses]]
@@ -251,6 +252,15 @@ All rights reserved.
 """
 
 [[licenses]]
+name = "libcap"
+license = "BSD-3-Clause"
+author = "Andrew G. Morgan"
+url = "https://sites.google.com/site/fullycapable/"
+copyright = """
+Copyright (c) 2019-21 Andrew G. Morgan <morgan@kernel.org>
+"""
+
+[[licenses]]
 name = "x/image"
 license = "BSD-3-Clause"
 author = "Google Inc."
@@ -448,6 +458,15 @@ author = "Pictogrammers icon collective"
 url = "https://pictogrammers.com/library/mdi/"
 copyright = """
 Icons: Apache 2.0
+"""
+
+[[licenses]]
+name = "solar icons"
+license = "CC-BY-4.0"
+author = "480 Design"
+url = "https://www.figma.com/community/file/1166831539721848736"
+copyright = """
+480 Design
 """
 
 [[licenses]]

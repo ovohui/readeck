@@ -47,7 +47,8 @@ func OriginalLinkProcessor(m *extract.ProcessMessage, next extract.Processor) ex
 
 	u, err := url.Parse(original.URL)
 	if err != nil {
-		m.Log().Error("cannot parse URL",
+		m.Log().Error(
+			"cannot parse URL",
 			slog.String("url", original.URL),
 			slog.Any("err", err),
 		)
@@ -98,8 +99,6 @@ func CleanDomProcessor(m *extract.ProcessMessage, next extract.Processor) extrac
 	})
 
 	bleach.DefaultPolicy.Clean(m.Dom)
-	bleach.DefaultPolicy.RemoveEmptyNodes(m.Dom)
-	bleach.DefaultPolicy.SetLinkRel(m.Dom)
 
 	return next
 }

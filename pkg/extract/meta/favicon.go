@@ -56,7 +56,8 @@ func ExtractFavicon(m *extract.ProcessMessage, next extract.Processor) extract.P
 		timer.Stop()
 
 		m.Extractor.Drop().Pictures["icon"] = icon
-		m.Log().Debug("icon loaded",
+		m.Log().Debug(
+			"icon loaded",
 			slog.String("href", icon.Href),
 			slog.Any("size", icon.Size[:]),
 		)

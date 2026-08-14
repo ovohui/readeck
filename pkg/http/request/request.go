@@ -46,8 +46,10 @@ var (
 	withURL  = ctxr.Setter[*url.URL](ctxURLKey{})
 
 	// GetReqID returns the request's ID.
-	GetReqID  = ctxr.Getter[string](ctxRequestIDKey{})
-	withReqID = ctxr.Setter[string](ctxRequestIDKey{})
+	GetReqID = ctxr.Getter[string](ctxRequestIDKey{})
+	// CheckReqID checks for the request's ID.
+	CheckReqID = ctxr.Checker[string](ctxRequestIDKey{})
+	withReqID  = ctxr.Setter[string](ctxRequestIDKey{})
 )
 
 var (
@@ -174,7 +176,7 @@ func InitRequest(trustedProxies ...*net.IPNet) func(next http.Handler) http.Hand
 			}
 
 			// Set the request's URL
-			*(r.URL) = *cu
+			*r.URL = *cu
 
 			// Add request's ID to context
 			ctx = withReqID(ctx, makeRequestID())

@@ -91,7 +91,7 @@ type profileInfo struct {
 
 // profileInfo returns the current user information.
 func (api *profileAPI) profileInfo(w http.ResponseWriter, r *http.Request) {
-	info := auth.GetRequestAuthInfo(r)
+	info := auth.GetAuthInfo(r.Context())
 
 	res := profileInfo{
 		Provider: profileInfoProvider{
@@ -99,14 +99,14 @@ func (api *profileAPI) profileInfo(w http.ResponseWriter, r *http.Request) {
 			Application: info.Provider.Application,
 			ID:          info.Provider.ID,
 			Roles:       info.Provider.Roles,
-			Permissions: auth.GetPermissions(r),
+			Permissions: auth.GetPermissions(r.Context()),
 		},
 		User: profileInfoUser{
 			Username: info.User.Username,
 		},
 	}
 
-	if auth.HasPermission(r, "api:profile", "read") {
+	if auth.HasPermission(r.Context(), "api:profile", "read") {
 		res.User.Email = info.User.Email
 		res.User.Created = &info.User.Created
 		res.User.Updated = &info.User.Updated
@@ -122,17 +122,15 @@ func (api *profileAPI) profileInfo(w http.ResponseWriter, r *http.Request) {
 
 // profileUpdate updates the current user profile information.
 func (api *profileAPI) profileUpdate(w http.ResponseWriter, r *http.Request) {
-	user := auth.GetRequestUser(r)
-	f := newProfileForm(server.Locale(r))
-	f.setUser(user)
-	forms.Bind(f, r)
+	user := auth.GetUser(r.Context())
+	f := forms.BindAs[profileForm](r, withProfileUser(user))
 
 	if !f.IsValid() {
 		server.Render(w, r, http.StatusUnprocessableEntity, f)
 		return
 	}
 
-	updated, err := f.updateUser(user)
+	updated, err := f.update()
 	if err != nil {
 		server.Err(w, r, err)
 		return
@@ -152,14 +150,14 @@ func (api *profileAPI) withTokenList(t tokenType) func(next http.Handler) http.H
 
 			ds := tokens.Tokens.Query().
 				Where(
-					goqu.C("user_id").Eq(auth.GetRequestUser(r).ID),
+					goqu.C("user_id").Eq(auth.GetUser(r.Context()).ID),
 				).
 				Order(
 					exp.DateTime(goqu.C("last_used").Table("t")).Desc().NullsLast(),
 					exp.DateTime(goqu.C("created").Table("t")).Desc(),
 				).
-				Limit(uint(pf.Limit())).
-				Offset(uint(pf.Offset()))
+				Limit(uint(pf.Limit.Value())).
+				Offset(uint(pf.Offset.Value()))
 
 			switch t {
 			case userToken:
@@ -189,7 +187,7 @@ func (api *profileAPI) withToken(t tokenType) func(next http.Handler) http.Handl
 			ds := tokens.Tokens.Query().
 				Where(
 					goqu.C("uid").Table("t").Eq(uid),
-					goqu.C("user_id").Eq(auth.GetRequestUser(r).ID),
+					goqu.C("user_id").Eq(auth.GetUser(r.Context()).ID),
 				)
 
 			switch t {
@@ -259,7 +257,7 @@ type tokenItem struct {
 }
 
 func newTokenItem(ctx context.Context, t *tokens.Token) *tokenItem {
-	tr := server.LocaleContext(ctx)
+	tr := server.Locale(ctx)
 	res := &tokenItem{
 		Token:     t,
 		ID:        t.UID,
@@ -293,7 +291,8 @@ func newTokenItemList(ctx context.Context, ds *goqu.SelectDataset) (*tokenItemLi
 	}
 
 	if limit, ok := ds.GetClauses().Limit().(uint); ok {
-		res.Pagination = server.NewPagination(ctx,
+		res.Pagination = server.NewPagination(
+			ctx,
 			int(res.Count), int(limit), int(ds.GetClauses().Offset()),
 		)
 	}

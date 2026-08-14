@@ -132,7 +132,8 @@ func (m *ProcessMessage) Cancel(reason string, args ...any) {
 
 // Log returns the message's [slog.Logger].
 func (m *ProcessMessage) Log() *slog.Logger {
-	return m.logger.With(slog.Group("step",
+	return m.logger.With(slog.Group(
+		"step",
 		slog.Int("id", int(m.step)),
 		slog.String("name", m.step.String()),
 	))
@@ -370,7 +371,8 @@ func (e *Extractor) Run() {
 
 		// Start extraction
 		m.step = StepStart
-		m.Log().Info("start",
+		m.Log().Info(
+			"start",
 			slog.Int("idx", i),
 			slog.String("url", d.URL.String()),
 		)

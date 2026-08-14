@@ -40,8 +40,8 @@ func WithAnnotationTag(ctx context.Context, tag string, callback bookmarks.Annot
 	return ctx
 }
 
-func getAnnotationTag(ctx context.Context) (tag string, callback bookmarks.AnnotationCallback) {
-	tag, _ = ctx.Value(ctxAnnotationTagKey{}).(string)
+func getAnnotationTag(ctx context.Context) (tag string, callback bookmarks.AnnotationCallback, found bool) {
+	tag, found = ctx.Value(ctxAnnotationTagKey{}).(string)
 	callback, _ = ctx.Value(ctxAnnotationCallbackKey{}).(bookmarks.AnnotationCallback)
 	return
 }
@@ -96,7 +96,7 @@ func (c HTMLConverter) GetArticle(ctx context.Context, b *bookmarks.Bookmark) (*
 
 // addAnnotations marks the given document with its annotations.
 func (c HTMLConverter) addAnnotations(ctx context.Context, b *bookmarks.Bookmark, input *strings.Reader) (*strings.Reader, error) {
-	tag, callback := getAnnotationTag(ctx)
+	tag, callback, _ := getAnnotationTag(ctx)
 	if tag == "" {
 		return input, nil
 	}

@@ -135,7 +135,6 @@ h6 {
 }
 
 strong,
-time,
 b {
   font-weight: bold;
 }
@@ -215,6 +214,20 @@ table.info {
   }
 }
 
+div.note {
+  margin-bottom: 1em;
+  padding: 1em 1em 0 1em;
+  border: 1px solid $gray-default;
+  font-size: 0.85em;
+
+  h3 {
+    font-size: 1.2em;
+  }
+  blockquote {
+    margin: 0;
+  }
+}
+
 /* ------------------------------------------------------------------
     Pictures
     --------------------------------------------------------------- */
@@ -225,7 +238,7 @@ main.photo img {
 /* ------------------------------------------------------------------
     Article Content
     --------------------------------------------------------------- */
-main.content {
+.content {
   line-height: $line-height;
 
   h1 {
@@ -267,24 +280,7 @@ main.content {
     padding: 0;
   }
 
-  &.bookmark-display--align-justify {
-    p,
-    li,
-    dd {
-      text-align: justify;
-    }
-  }
-
-  &.bookmark-display--hyphen-auto {
-    p,
-    li,
-    dd {
-      hyphens: auto;
-    }
-  }
-
   strong,
-  time,
   b {
     font-weight: bold;
   }
@@ -338,6 +334,17 @@ main.content {
     content: close-quote;
   }
 
+  code,
+  kbd,
+  samp,
+  var {
+    font-size: 0.875em;
+    line-height: 1;
+    padding: 1px 3px;
+    border-radius: $radius;
+    background-color: $gray-light;
+  }
+
   pre {
     @flow-block;
     padding: math.div($line-height, 0.9) * 1em;
@@ -354,17 +361,6 @@ main.content {
       background-color: transparent;
       color: inherit;
     }
-  }
-
-  code,
-  kbd,
-  samp,
-  var {
-    font-size: 0.875em;
-    line-height: 1;
-    padding: 1px 3px;
-    border-radius: $radius;
-    background-color: $gray-light;
   }
 
   mark {
@@ -489,14 +485,30 @@ main.content {
     background-color: $gray-light;
   }
 
-  thead tr:last-child th {
-    border-bottom-color: #000;
-  }
-
   tfoot {
     td,
     th {
       font-style: italic;
+    }
+  }
+
+  thead tr:last-child th {
+    border-bottom-color: #000;
+  }
+
+  &.bookmark-display--align-justify {
+    p,
+    li,
+    dd {
+      text-align: justify;
+    }
+  }
+
+  &.bookmark-display--hyphen-auto {
+    p,
+    li,
+    dd {
+      hyphens: auto;
     }
   }
 }
