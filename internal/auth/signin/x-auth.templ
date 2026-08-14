@@ -123,7 +123,8 @@ templ (v Views) recover(f *recoverForm, err error) {
 			case 0:
 				<form action="" method="post">
 					@F.Errors(f)
-					<input type="hidden" name="step" value={ step }/>
+					<input type="hidden" name={ f.Step.Name() } value={ step }/>
+					<input type="hidden" id={ f.Antispam.Name() } name={ f.Antispam.Name() }/>
 					<p class="mt-4">{ L(ctx).Gettext("No worries, it happens to anyone.") }</p>
 					<p class="mt-2 mb-6">
 						{ L(ctx).Gettext(`
@@ -145,6 +146,9 @@ templ (v Views) recover(f *recoverForm, err error) {
 						</a>
 					</p>
 				</form>
+				<script nonce={ CSPNonce(ctx) }>
+					document.getElementById({{ f.Antispam.Name() }}).value = {{ rAntispamValue }}
+				</script>
 			case 1:
 				@Message(WithMessageType("success")) {
 					<p>{ L(ctx).Gettext("Almost there!") }</p>
@@ -163,7 +167,7 @@ templ (v Views) recover(f *recoverForm, err error) {
 				} else {
 					<form action="" method="post">
 						@F.Errors(f)
-						<input type="hidden" name="step" value={ step }/>
+						<input type="hidden" name={ f.Step.Name() } value={ step }/>
 						@F.PasswordField(&f.Password,
 							F.Label(L(ctx).Gettext("New password")),
 							F.Classes("max"),

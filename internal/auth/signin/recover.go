@@ -29,8 +29,9 @@ import (
 )
 
 const (
-	rCodeSize     = 6
-	rVerifierSize = 12
+	rCodeSize      = 6
+	rVerifierSize  = 12
+	rAntispamValue = -1
 )
 
 // recoverCode is the data stored in the K/V store.
@@ -144,14 +145,29 @@ func (h *authHandler) recover(w http.ResponseWriter, r *http.Request) {
 		to := f.Email.Value()
 		var body string
 
-		if user != nil {
+		switch {
+		case user != nil:
+			// User exists, create the code and prepare the message.
 			code := newCode(user.ID)
 			if err = code.save(f.prefix, f.ttl); err != nil {
 				return
 			}
 			recoverLink := urls.AbsoluteURL(r, "/login/recover", code.String())
 			body = recoverMsg(ctx, recoverLink)
-		} else {
+		case f.Antispam.Value() != rAntispamValue:
+			err = nil
+			// Only when the user doesn't exist, we check a hidden field's value
+			// that's only set with JS. This prevent bots from turning an instance
+			// into an involuntary spam machine.
+			//
+			// We connect to the server and send a Hello. This helps to
+			// prevent user enumaration by using the time it takes for the route to return.
+			if s, ok := email.Sender.(interface{ Helo() error }); ok {
+				err = s.Helo()
+			}
+			f.Step.Set(1)
+			return
+		default:
 			body = recoverNoTokenMsg(ctx)
 		}
 
