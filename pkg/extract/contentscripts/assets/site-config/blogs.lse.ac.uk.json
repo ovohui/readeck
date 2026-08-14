@@ -1,10 +1,20 @@
 {
   "title_selectors": null,
-  "body_selectors": null,
+  "body_selectors": [
+    "//div[@class='single-post__main-content']"
+  ],
   "date_selectors": null,
-  "author_selectors": null,
-  "strip_selectors": null,
-  "strip_id_or_class": null,
+  "author_selectors": [
+    "//div[@class='author__main']//h3"
+  ],
+  "strip_selectors": [
+    "//h3[starts-with(. , 'by ')]"
+  ],
+  "strip_id_or_class": [
+    "comments",
+    "read-next",
+    "pf-button"
+  ],
   "strip_image_src": null,
   "native_ad_selectors": null,
   "tidy": false,
