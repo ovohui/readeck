@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-08-02 21:32+0200\n"
-"PO-Revision-Date: 2026-08-15 20:25+0000\n"
+"PO-Revision-Date: 2026-08-03 08:35+0000\n"
 "Last-Translator: olivier <olivier@noreply.codeberg.org>\n"
 "Language: fr\n"
 "Language-Team: French <https://translate.codeberg.org/projects/readeck/application/fr/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
-"X-Generator: Weblate 2026.8.1\n"
+"X-Generator: Weblate 2026.7.1\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
 #: components/layout.templ:78 components/layout.templ:79
@@ -42,11 +42,11 @@ msgstr "Page non trouvée."
 #: components/errors.templ:20 components/layout.templ:246
 #: internal/bookmarks/converter/x-html-public.templ:122
 msgid "An error occurred."
-msgstr "Une erreur s’est produite."
+msgstr "Une erreur s'est produite."
 
 #: components/errors.templ:24
 msgid "Back to home page"
-msgstr "Retour à l’accueil"
+msgstr "Retour à l'accueil"
 
 #: components/forms/forms.templ:21
 msgid "Errors"
@@ -129,7 +129,7 @@ msgstr "Documentation"
 
 #: components/layout.templ:153
 msgid "Quick access menu"
-msgstr "Menu d’accès rapide"
+msgstr "Menu d'accès rapide"
 
 #: components/layout.templ:176 internal/bookmarks/routes/x-bookmark.templ:34
 msgid "Menu"
@@ -180,15 +180,15 @@ msgstr "le mot de passe est vide"
 
 #: internal/admin/forms.go:73
 msgid "User is external and can't be updated."
-msgstr "L’utilisateur est externe et ne peut pas être mis à jour."
+msgstr "L'utilisateur est externe et ne peut pas être mis à jour."
 
 #: internal/admin/forms.go:85 internal/profile/forms.go:98
 msgid "username is already in use"
-msgstr "le nom d’utilisateur est déjà utilisé"
+msgstr "le nom d'utilisateur est déjà utilisé"
 
 #: internal/admin/forms.go:92 internal/profile/forms.go:105
 msgid "email address is already in use"
-msgstr "l’adresse email est déjà utilisé"
+msgstr "l'adresse email est déjà utilisé"
 
 #: internal/admin/views.go:61 internal/admin/views.go:86
 #: internal/admin/views.go:127 internal/admin/x-users.templ:16
@@ -231,7 +231,7 @@ msgstr "TOTP est actif"
 
 #: internal/admin/x-users.templ:50 internal/admin/x-users.templ:167
 msgid "This is you!"
-msgstr "C’est vous !"
+msgstr "C'est vous !"
 
 #: internal/admin/x-users.templ:56
 #, python-format
@@ -257,7 +257,7 @@ msgstr "Annuler"
 #: internal/bookmarks/importer/x-forms.templ:284
 #: internal/profile/x-profile.templ:42
 msgid "Username"
-msgstr "Nom d’utilisateur"
+msgstr "Nom d'utilisateur"
 
 #: internal/admin/x-users.templ:97 internal/admin/x-users.templ:137
 #: internal/auth/onboarding/x-onboarding.templ:39
@@ -286,7 +286,7 @@ msgstr "Informations utilisateur"
 
 #: internal/admin/x-users.templ:153
 msgid "will not change if empty"
-msgstr "n’est pas modifié si non renseigné"
+msgstr "n'est pas modifié si non renseigné"
 
 #: internal/admin/x-users.templ:158
 #: internal/bookmarks/routes/x-bookmark.templ:225
@@ -318,15 +318,15 @@ msgstr "Espace disque"
 
 #: internal/admin/x-users.templ:198
 msgid "User Administration"
-msgstr "Administration de l’utilisateur"
+msgstr "Administration de l'utilisateur"
 
 #: internal/admin/x-users.templ:204
 msgid "User will be removed in a few seconds"
-msgstr "L’utilisateur sera supprimé dans quelques secondes"
+msgstr "L'utilisateur sera supprimé dans quelques secondes"
 
 #: internal/admin/x-users.templ:214
 msgid "This will sign this user out of all active sessions on the web application."
-msgstr "Ceci va déconnecter l’utilisateur de toutes ses sessions sur l’application web."
+msgstr "Ceci va déconnecter l'utilisateur de toutes ses sessions sur l'application web."
 
 #: internal/admin/x-users.templ:219
 msgid "Sign this user out"
@@ -355,7 +355,7 @@ msgstr "Détacher cet utilisateur"
 #: internal/admin/x-users.templ:249
 #, python-format
 msgid "This will delete the user <strong>%s</strong> and all their contents."
-msgstr "Ceci va supprimer l’utilisateur <strong>%s</strong> et tous ses contenus."
+msgstr "Ceci va supprimer l'utilisateur <strong>%s</strong> et tout ses contenus."
 
 #: internal/admin/x-users.templ:257
 msgid "Delete this user"
@@ -368,7 +368,7 @@ msgstr "Autorisation nécessaire"
 
 #: internal/auth/oauth2/x-oauth.templ:30
 msgid "This code has expired or is not valid"
-msgstr "Ce code a expiré ou n’est plus valide."
+msgstr "Ce code a expiré ou n'est plus valide"
 
 #: internal/auth/oauth2/x-oauth.templ:33 internal/auth/oauth2/x-oauth.templ:50
 #: internal/auth/oauth2/x-oauth.templ:58
@@ -393,7 +393,7 @@ msgstr " Vous pouvez maintenant fermer cette page."
 
 #: internal/auth/oauth2/x-oauth.templ:60
 msgid "Authorization granted. Connecting device..."
-msgstr "Autorisation accordée. Connexion de l’appareil..."
+msgstr "Autorisation accordée. Connection de l'appareil..."
 
 #: internal/auth/oauth2/x-oauth.templ:67
 #, python-format
@@ -402,7 +402,7 @@ msgstr "<a href=\"%s\">Rechargez cette page</a> si elle ne se rafraîchit pas ap
 
 #: internal/auth/oauth2/x-oauth.templ:74
 msgid "Device is connected!"
-msgstr "L’appareil est connecté !"
+msgstr "L'appareil est connecté !"
 
 #: internal/auth/oauth2/x-oauth.templ:98
 #, python-format
@@ -424,7 +424,7 @@ msgid ""
 msgstr ""
 "\n"
 "\t\t\t\t<strong>%s</strong> souhaite accéder à votre compte.\n"
-" N’approuvez cette demande que si vous reconnaissez cette source et lui faites confiance.\n"
+" N'approuvez cette demande que si vous reconnaissez cette source et lui faites confiance.\n"
 "\t\t\t"
 
 #: internal/auth/oauth2/x-oauth.templ:122
@@ -433,7 +433,7 @@ msgstr "Vérifiez les permissions"
 
 #: internal/auth/oauth2/x-oauth.templ:132
 msgid "Application information"
-msgstr "Informations sur l’application"
+msgstr "Informations sur l'application"
 
 #: internal/auth/oauth2/x-oauth.templ:134
 #: internal/bookmarks/routes/x-collections.templ:131
@@ -493,7 +493,7 @@ msgstr ""
 
 #: internal/auth/onboarding/x-onboarding.templ:52
 msgid "Finish installation"
-msgstr "Terminer l’installation"
+msgstr "Terminer l'installation"
 
 #: internal/auth/signin/forms.go:19
 msgid "Invalid user and/or password"
@@ -520,7 +520,7 @@ msgstr ""
 "Bonjour,\n"
 "\n"
 "Vous (ou une autre personne) a indiqué cette adresse e-mail en\n"
-"lors d’une procédure de récupération de mot de passe d'un compte Readeck (%[1]s).\n"
+"lors d'une procédure de récupération de mot de passe d'un compte Readeck (%[1]s).\n"
 "\n"
 "Si vous attendiez ce message, veuillez suivre le lien suivant\n"
 "afin de réinitialiser le mot de passe de votre compte Readeck.\n"
@@ -1066,7 +1066,7 @@ msgstr "Quand les tags contiennent \"%s\", le bookmark sera ajouté aux favoris 
 
 #: internal/bookmarks/importer/x-forms.templ:237
 msgid "What is not imported:"
-msgstr "Ce qui n’est pas importé :"
+msgstr "Ce qui n'est pas importé :"
 
 #: internal/bookmarks/importer/x-forms.templ:239
 msgid "Article reading progress and seen status,"
@@ -1643,7 +1643,7 @@ msgstr "Fermer le dialogue"
 #: internal/bookmarks/routes/x-bookmark.templ:221
 #, python-format
 msgid "Edit: %s"
-msgstr "Modifier : %s"
+msgstr "Modifer : %s"
 
 #: internal/bookmarks/routes/x-bookmark.templ:233
 #: internal/bookmarks/routes/x-bookmark.templ:240
@@ -1892,7 +1892,7 @@ msgstr "Ce flux contient les derniers bookmarks de cette liste"
 
 #: internal/bookmarks/routes/x-components.templ:369
 msgid "Subscribe to this feed by copying the URL below:"
-msgstr "Abonnez-vous à ce flux en copiant l’adresse ci-dessous :"
+msgstr "Abonnez-vous à ce flux en copiant l'adresse ci-dessous :"
 
 #: internal/bookmarks/routes/x-components.templ:388
 msgid "Open link"
@@ -2695,8 +2695,8 @@ msgid ""
 "\t\t\t\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"\t\t\t\t\t\t\t\t\t\tSi vous prévoyez d’envoyer des e-books à un appareil Kindle, vous devez autoriser\n"
-"\t\t\t\t\t\t\t\t\t\tl’adresse e-mail suivante dans votre compte Kindle :\n"
+"\t\t\t\t\t\t\t\t\t\tSi vous prévoyez d'envoyer des e-books à un appareil Kindle, vous devez autoriser\n"
+"\t\t\t\t\t\t\t\t\t\tl'adresse e-mail suivante dans votre compte Kindle :\n"
 "\t\t\t\t\t\t\t\t\t"
 
 #: internal/profile/x-security.templ:25
@@ -2865,7 +2865,7 @@ msgstr "Comme jeton API"
 
 #: internal/profile/x-tokens.templ:197
 msgid "You can use this token by passing it as an <strong>Authorization: Bearer</strong> HTTP header."
-msgstr "Vous pouvez utiliser ce jeton en tant qu’en-tête HTTP <strong>Authorization: Bearer</strong>."
+msgstr "Vous pouvez utiliser ce jeton en tant qu'en-tête HTTP <strong>Authorization: Bearer</strong>."
 
 #: internal/profile/x-tokens.templ:200
 msgid "HTTP Header"
