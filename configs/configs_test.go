@@ -18,7 +18,7 @@ func FuzzGenerateKey(f *testing.F) {
 	}
 
 	f.Fuzz(func(t *testing.T, _ int) {
-		k := GenerateKey()
+		k := generateKey()
 		if len(k) != 64 {
 			t.Fatalf("wrong length, got: %d, wanted %d", len(k), 64)
 		}
