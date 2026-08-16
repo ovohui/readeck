@@ -108,6 +108,7 @@ type providerConfig struct {
 	// Other claims properties
 	CodeChallengeMethodsSupported []string `json:"code_challenge_methods_supported"`
 	GrantTypesSupported           []string `json:"grant_types_supported"`
+	ScopesSupported               []string `json:"scopes_supported"`
 	ResponseTypesSupported        []string `json:"response_types_supported"`
 }
 
@@ -222,12 +223,40 @@ func (p *providerInfo) load(ctx context.Context) (err error) {
 		)
 	}
 
+	scopes := make([]string, 0, 4)
+	requiredScopes := 0
+	if len(p.Config.ScopesSupported) == 0 {
+		// if the provider doesn't announce anything, stick to the basics
+		scopes = append(scopes, oidc.ScopeOpenID, oidc.ScopeEmail)
+		requiredScopes = 2
+	} else {
+		// otherwise, only use what it supports
+		for _, x := range p.Config.ScopesSupported {
+			switch x {
+			case oidc.ScopeOpenID, oidc.ScopeEmail:
+				requiredScopes++
+				fallthrough
+			case oidc.ScopeProfile, "groups":
+				scopes = append(scopes, x)
+			}
+		}
+	}
+
+	if requiredScopes < 2 {
+		return newError(
+			errors.New("provider doesn't support required scopes"),
+			withStatus(http.StatusNotImplemented),
+			withAttrs(slog.Any("scopes", scopes)),
+			withAttrs(slog.Any("scopes_supported", p.Config.ScopesSupported)),
+		)
+	}
+
 	p.OAuth = oauth2.Config{
 		ClientID:     p.ClientID,
 		ClientSecret: p.ClientSecret,
 		RedirectURL:  urls.AbsoluteURLContext(ctx, "/login/oidc").String(),
 		Endpoint:     oidcProvider.Endpoint(),
-		Scopes:       []string{oidc.ScopeOpenID, "profile", "email", "groups"},
+		Scopes:       scopes,
 	}
 
 	return nil
