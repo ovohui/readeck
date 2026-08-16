@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+### Fixed
+- Dropdown menus in label details
+- Highlight dialog position on mobile
+- Use generated secret key during first run
+
 ## [0.23.0] - 2026-08-14
 ### Added
 - OIDC authentication
