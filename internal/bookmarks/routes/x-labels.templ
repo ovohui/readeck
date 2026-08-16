@@ -58,57 +58,57 @@ templ (v Views) labelInfo(label string, bl *dataset.BookmarkList, isDeleted bool
 		WithSideMenu(v.menu()),
 		WithHead(v.labelInfoHead(label)),
 	) {
-		<form
-			action={ URL(ctx) }
-			method="post"
-			class="flex flex-wrap items-center gap-2"
-			data-controller="inplace-input"
-			data-inplace-input-hidden-class="hidden"
-		>
-			<h1 class="flex flex-grow items-center gap-2 group title mb-0 text-h2 max-md:w-full">
-				// JS context
-				<span class="font-normal">
-					<a href={ URL(ctx, "/bookmarks/labels") } class="link">
-						{ L(ctx).Gettext("Labels") }
-					</a> /
-				</span>
-				<span
-					class="no-js:hidden text-h2 mr-2 cursor-pointer hover:outline-std"
-					data-inplace-input-target="editable"
-				>
-					{ label }
-				</span>
-				// Classic input field shown in no-JS
-				<input
-					type="text"
-					name="name"
-					value={ label }
-					class="js:hidden form-input font-semibold w-full max-w-md"
-					data-inplace-input-target="value"
-				/>
-				<button
-					type="submit"
-					class="text-h2 text-gray-300 group-hover:text-primary group-fw:text-primary"
-					data-inplace-input-target="button"
-				>
-					@Icon("o-pencil", WithIconSvgClass("w-6"),
-						WithIconAttrs(templ.Attributes{"data-inplace-input-target": "iconOff"}))
-					@Icon("o-check-on", WithIconClass("hidden"), WithIconSvgClass("w-6"),
-						WithIconAttrs(templ.Attributes{"data-inplace-input-target": "iconOn"}))
-				</button>
-			</h1>
+		<div class="flex flex-wrap items-center gap-2">
+			<form
+				action={ URL(ctx) }
+				method="post"
+				class="flex-grow"
+				data-controller="inplace-input"
+				data-inplace-input-hidden-class="hidden"
+			>
+				<h1 class="flex items-center gap-2 group title mb-0 text-h2 max-md:w-full">
+					// JS context
+					<span class="font-normal">
+						<a href={ URL(ctx, "/bookmarks/labels") } class="link">
+							{ L(ctx).Gettext("Labels") }
+						</a> /
+					</span>
+					<span
+						class="no-js:hidden text-h2 mr-2 cursor-pointer hover:outline-std"
+						data-inplace-input-target="editable"
+					>
+						{ label }
+					</span>
+					// Classic input field shown in no-JS
+					<input
+						type="text"
+						name="name"
+						value={ label }
+						class="js:hidden form-input font-semibold w-full max-w-md"
+						data-inplace-input-target="value"
+					/>
+					<button
+						type="submit"
+						class="text-h2 text-gray-300 group-hover:text-primary group-fw:text-primary"
+						data-inplace-input-target="button"
+					>
+						@Icon("o-pencil", WithIconSvgClass("w-6"),
+							WithIconAttrs(templ.Attributes{"data-inplace-input-target": "iconOff"}))
+						@Icon("o-check-on", WithIconClass("hidden"), WithIconSvgClass("w-6"),
+							WithIconAttrs(templ.Attributes{"data-inplace-input-target": "iconOn"}))
+					</button>
+				</h1>
+			</form>
 			@Components{}.listActions() {
 				{{ q := url.Values{"name": {label}} }}
 				if !isDeleted {
-					<button
-						class="btn-outlined btn-danger py-1"
-						formaction={ string(URL(ctx, "./delete")) + "?" + q.Encode() }
-						formmethod="post"
-					>
-						@Icon("o-trash")
-						{ " " }
-						{ L(ctx).Gettext("Delete") }
-					</button>
+					<form action={ string(URL(ctx, "./delete")) + "?" + q.Encode() } method="post">
+						<button class="btn-outlined btn-danger py-1">
+							@Icon("o-trash")
+							{ " " }
+							{ L(ctx).Gettext("Delete") }
+						</button>
+					</form>
 					if HasPermission(ctx, "api:bookmarks", "export") {
 						{{
 							q := url.Values{"labels": {`"` + label + `"`}}
@@ -120,7 +120,7 @@ templ (v Views) labelInfo(label string, bl *dataset.BookmarkList, isDeleted bool
 					}
 				}
 			}
-		</form>
+		</div>
 		if isDeleted {
 			{{ q := url.Values{"name": {label}} }}
 			<form action={ string(URL(ctx, "./delete")) + "?" + q.Encode() } method="post" class="mb-4">

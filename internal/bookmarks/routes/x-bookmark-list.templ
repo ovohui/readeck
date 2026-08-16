@@ -338,6 +338,7 @@ templ (c Components) listActions() {
 			}}
 			<div class="flex items-center dropdown-menu dropdown-menu-right">
 				<button
+					type="button"
 					class="btn-outlined py-1"
 					popovertarget="sort-menu"
 					title={ L(ctx).Gettext("Sort bookmarks") }
@@ -372,6 +373,7 @@ templ (c Components) exportMenu(q url.Values) {
 	}}
 	<div class="flex items-center dropdown-menu dropdown-menu-right">
 		<button
+			type="button"
 			class="btn-outlined py-1"
 			popovertarget="import-export-menu"
 			title={ L(ctx).Gettext("Import and export") }
