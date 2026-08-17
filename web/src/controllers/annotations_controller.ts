@@ -279,7 +279,7 @@ export default class extends Controller {
         // On a fixed position, try not to cover the selection
         this.controlsTarget.style.bottom = "0"
         this.controlsTarget.style.top = "unset"
-        if (rangeRect.top > this.controlsTarget.getBoundingClientRect().top) {
+        if (rangeRect.bottom > this.controlsTarget.getBoundingClientRect().top) {
           this.controlsTarget.style.bottom = "unset"
           this.controlsTarget.style.top = "0"
         }

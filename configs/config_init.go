@@ -7,6 +7,7 @@ package configs
 import (
 	"crypto/rand"
 	"encoding/base64"
+	"errors"
 	"os"
 	"text/template"
 )
@@ -25,8 +26,12 @@ port = {{ .Server.Port }}
 source = "{{ .Database.Source }}"
 `
 
-// WriteConfig writes configuration to a file.
-func WriteConfig(filename string) error {
+// CreateFile writes an initial configuration to a file.
+func CreateFile(filename string) error {
+	if Config.Main.SecretKey != "" {
+		return errors.New("secret key is not empty")
+	}
+
 	tmpl, err := template.New("cfg").Parse(initialConfiguration)
 	if err != nil {
 		return err
@@ -37,6 +42,9 @@ func WriteConfig(filename string) error {
 		return err
 	}
 
+	Config.Main.SecretKey = generateKey()
+	loadKeys() // we must reload the IKM with the new key
+
 	if err = tmpl.Execute(fd, Config); err != nil {
 		defer fd.Close() //nolint:errcheck
 		return err
@@ -45,8 +53,8 @@ func WriteConfig(filename string) error {
 	return fd.Close()
 }
 
-// GenerateKey returns a random key.
-func GenerateKey() string {
+// generateKey returns a random key.
+func generateKey() string {
 	// 48 bytes = 384 bits
 	d := make([]byte, 48)
 	rand.Read(d)

@@ -125,6 +125,15 @@ func (s *oidcServer) wellKnown(w http.ResponseWriter, _ *http.Request) {
 		},
 	}
 
+	switch s.clientID {
+	case "unsupported-grant-types":
+		res["grant_types_supported"] = []string{"refresh_token"}
+	case "unsupported-response-types":
+		res["response_types_supported"] = []string{"id_token"}
+	case "unsupported-scopes":
+		res["scopes_supported"] = []string{"profile"}
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 	_ = json.NewEncoder(w).Encode(res)
@@ -454,6 +463,51 @@ func TestSigninKo(t *testing.T) {
 			WithName("redir"),
 			WithTarget(redir),
 			AssertStatus(500),
+		)
+	})
+
+	t.Run("unsupported grant types", func(t *testing.T) {
+		client := app.Client()
+
+		srv := newOIDCServer()
+		t.Cleanup(srv.start("unsupported-grant-types"))
+
+		client.RT(
+			t,
+			WithMethod(http.MethodPost),
+			WithTarget("/login/oidc"),
+			WithBody(url.Values{"id": {oidc.Providers.Items()[0].ID}}),
+			AssertStatus(http.StatusNotImplemented),
+		)
+	})
+
+	t.Run("unsupported response types", func(t *testing.T) {
+		client := app.Client()
+
+		srv := newOIDCServer()
+		t.Cleanup(srv.start("unsupported-response-types"))
+
+		client.RT(
+			t,
+			WithMethod(http.MethodPost),
+			WithTarget("/login/oidc"),
+			WithBody(url.Values{"id": {oidc.Providers.Items()[0].ID}}),
+			AssertStatus(http.StatusNotImplemented),
+		)
+	})
+
+	t.Run("unsupported scopes", func(t *testing.T) {
+		client := app.Client()
+
+		srv := newOIDCServer()
+		t.Cleanup(srv.start("unsupported-scopes"))
+
+		client.RT(
+			t,
+			WithMethod(http.MethodPost),
+			WithTarget("/login/oidc"),
+			WithBody(url.Values{"id": {oidc.Providers.Items()[0].ID}}),
+			AssertStatus(http.StatusNotImplemented),
 		)
 	})
 }
