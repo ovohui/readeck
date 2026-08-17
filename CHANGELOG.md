@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.23.1] - 2026-08-17
 ### Fixed
 - Dropdown menus in label details
 - Highlight dialog position on mobile
