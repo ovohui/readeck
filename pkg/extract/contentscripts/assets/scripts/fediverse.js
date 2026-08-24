@@ -108,7 +108,7 @@ exports.processMeta = function () {
 }
 
 function loadNotes(url, notes) {
-  const rsp = requests.get(url, { Accept: "application/json" })
+  const rsp = requests.get(url, { Accept: "application/activity+json, application/json;q=0.9" })
   if (((rsp.status / 100) | 0) != 2) {
     console.warn("Could not load notes.", { status: rsp.status })
     return
