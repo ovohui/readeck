@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-08-02 21:32+0200\n"
-"PO-Revision-Date: 2026-08-24 16:25+0000\n"
-"Last-Translator: rkehnen <rkehnen@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-08-26 18:25+0000\n"
+"Last-Translator: gallegonovato <gallegonovato@noreply.codeberg.org>\n"
 "Language: de\n"
 "Language-Team: German <https://translate.codeberg.org/projects/readeck/application/de/>\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
@@ -333,9 +333,8 @@ msgid "This will sign this user out of all active sessions on the web applicatio
 msgstr "Dies wird den Benutzer aus allen aktiven Sitzungen der Webanwendung ausloggen."
 
 #: internal/admin/x-users.templ:219
-#, fuzzy
 msgid "Sign this user out"
-msgstr "Abmelden"
+msgstr "Benutzer abmelden"
 
 #: internal/admin/x-users.templ:227
 msgid ""
@@ -346,11 +345,16 @@ msgid ""
 "\t\t\t\t\t\t\t\t\tThis will detach the user <strong>%[2]s</strong>.\n"
 "\t\t\t\t\t\t\t\t"
 msgstr ""
+"\n"
+"\t\t\t\t\t\t\t\t\tDieser Benutzer ist mit einem externen Authentifizierungsanbieter verknüpft:<br />\n"
+"\t\t\t\t\t\t\t\t\t<strong>%[1]s</strong>.<br />\n"
+"\t\t\t\t\t\t\t\t\tDaher können einige seiner Eigenschaften nicht bearbeitet werden.<br />\n"
+"\t\t\t\t\t\t\t\t\tDadurch wird der Benutzer <strong>%[2]s</strong> getrennt.\n"
+"\t\t\t\t\t\t\t\t"
 
 #: internal/admin/x-users.templ:240
-#, fuzzy
 msgid "Detach this user"
-msgstr "Benutzer löschen"
+msgstr "Benutzer trennen"
 
 #: internal/admin/x-users.templ:249
 #, python-format
@@ -971,7 +975,7 @@ msgstr "Beschreibung"
 
 #: internal/bookmarks/importer/x-forms.templ:128
 msgid "Link address"
-msgstr "URL"
+msgstr "Link-Adresse"
 
 #: internal/bookmarks/importer/x-forms.templ:133
 msgid "Bookmark title"
@@ -1558,8 +1562,8 @@ msgstr "ohne Titel"
 msgctxt "abbr"
 msgid "%d min"
 msgid_plural "%d min"
-msgstr[0] "%d min"
-msgstr[1] "%d min"
+msgstr[0] "%d Min."
+msgstr[1] "%d Min."
 
 #: internal/bookmarks/routes/x-bookmark-list.templ:529
 #: internal/bookmarks/routes/x-sidebar.templ:117
@@ -1610,7 +1614,7 @@ msgstr "Lesezeichen bearbeiten"
 
 #: internal/bookmarks/routes/x-bookmark.templ:40
 msgid "Bookmark loading"
-msgstr "Lesezeichen lädt"
+msgstr "Lesezeichen-Ladevorgang"
 
 #: internal/bookmarks/routes/x-bookmark.templ:43
 #: internal/bookmarks/routes/x-bookmark.templ:133
@@ -1624,7 +1628,7 @@ msgstr "Lesezeichen Inhalt"
 
 #: internal/bookmarks/routes/x-bookmark.templ:74
 msgid "Bookmark is loading"
-msgstr "Lesezeichen lädt"
+msgstr "Lesezeichen wird geladen"
 
 #: internal/bookmarks/routes/x-bookmark.templ:110
 #: internal/bookmarks/routes/x-bookmark.templ:116
@@ -1701,15 +1705,15 @@ msgstr "Er verfällt am %s"
 
 #: internal/bookmarks/routes/x-bookmark.templ:333
 msgid "This link is shared without annotations."
-msgstr ""
+msgstr "Dieser Link wurde ohne Anmerkungen geteilt."
 
 #: internal/bookmarks/routes/x-bookmark.templ:334
 msgid "Share with annotations"
-msgstr ""
+msgstr "Mit Anmerkungen teilen"
 
 #: internal/bookmarks/routes/x-bookmark.templ:336
 msgid "This link is shared with annotations."
-msgstr ""
+msgstr "Dieser Link wurde mit Anmerkungen geteilt."
 
 #: internal/bookmarks/routes/x-bookmark.templ:337
 msgid "Share without annotations"
@@ -1744,7 +1748,7 @@ msgstr "Senden an"
 
 #: internal/bookmarks/routes/x-bookmark.templ:413
 msgid "Include annotations and notes"
-msgstr ""
+msgstr "Anmerkungen und Notizen beinhalten"
 
 #: internal/bookmarks/routes/x-bookmark.templ:418
 #, python-format
@@ -1877,9 +1881,8 @@ msgid "Play video"
 msgstr "Video abspielen"
 
 #: internal/bookmarks/routes/x-components.templ:326
-#, fuzzy
 msgid "Extraction log"
-msgstr "Textausrichtung"
+msgstr "Extraktionsprotokoll"
 
 #: internal/bookmarks/routes/x-components.templ:330
 #: internal/bookmarks/routes/x-components.templ:381
@@ -1898,11 +1901,11 @@ msgstr "Gespeichert mit Readeck"
 
 #: internal/bookmarks/routes/x-components.templ:368
 msgid "This feed provides the latest entries from this bookmark list"
-msgstr ""
+msgstr "Dieser Feed enthält die neuesten Einträge dieser Lesezeichenliste"
 
 #: internal/bookmarks/routes/x-components.templ:369
 msgid "Subscribe to this feed by copying the URL below:"
-msgstr ""
+msgstr "Abonniere diesen Feed, indem du die unten stehende URL kopierst:"
 
 #: internal/bookmarks/routes/x-components.templ:388
 msgid "Open link"
@@ -1910,7 +1913,7 @@ msgstr "Link öffnen"
 
 #: internal/bookmarks/routes/x-components.templ:396
 msgid "Access to this feed is restricted."
-msgstr ""
+msgstr "Der Zugriff auf diesen Feed ist eingeschränkt."
 
 #: internal/bookmarks/routes/x-components.templ:398
 msgid ""
@@ -2002,9 +2005,8 @@ msgid "With Labels"
 msgstr "Mit Tags"
 
 #: internal/bookmarks/routes/x-filters.templ:56
-#, fuzzy
 msgid "With Notes"
-msgstr "Mit Tags"
+msgstr "Mit Notizen"
 
 #: internal/bookmarks/routes/x-filters.templ:57
 msgid "With Errors"
@@ -2053,9 +2055,8 @@ msgid "Here you can import your existing bookmark collection from various source
 msgstr "Hier kannst du deine bestehenden Lesezeichen-Sammlungen aus verschiedenen Quellen in Readeck importieren."
 
 #: internal/bookmarks/routes/x-import.templ:125
-#, fuzzy
 msgid "Import status"
-msgstr "Importieren"
+msgstr "Importstatus"
 
 #: internal/bookmarks/routes/x-import.templ:145
 msgid "Import operation will launch momentarily."
@@ -2085,9 +2086,8 @@ msgstr ""
 "\t\t\t\t\t"
 
 #: internal/bookmarks/routes/x-labels.templ:27
-#, fuzzy
 msgid "Bookmarks Labels"
-msgstr "Lesezeichen Tags"
+msgstr "Lesezeichen-Labels"
 
 #: internal/bookmarks/routes/x-labels.templ:31
 msgid ""
@@ -2262,9 +2262,8 @@ msgid "All Bookmarks"
 msgstr "Alle Lesezeichen"
 
 #: internal/dashboard/x-dashboard.templ:72
-#, fuzzy
 msgid "Readeck"
-msgstr "Readeck-Hilfe"
+msgstr "Readeck"
 
 #: internal/dashboard/x-dashboard.templ:74 internal/profile/views.go:98
 #: internal/profile/views.go:151 internal/profile/views.go:187
@@ -2276,21 +2275,19 @@ msgstr "Profil"
 
 #: internal/dashboard/x-dashboard.templ:78
 msgid "Help"
-msgstr ""
+msgstr "Hilfe"
 
 #: internal/dashboard/x-dashboard.templ:146
 msgid "Archived"
 msgstr "Archiviert"
 
 #: internal/dashboard/x-dashboard.templ:201
-#, fuzzy
 msgid "See all"
-msgstr "Alle"
+msgstr "Alles sehen"
 
 #: internal/dashboard/x-dashboard.templ:224
-#, fuzzy
 msgid "Applications for Readeck"
-msgstr "Anwendungsinformationen"
+msgstr "Apps für Readeck"
 
 #: internal/dashboard/x-dashboard.templ:226
 msgid ""
@@ -2305,15 +2302,13 @@ msgstr ""
 "\t\t\t\tüber Plugins in anderen Anwendungen verwenden."
 
 #: internal/dashboard/x-dashboard.templ:236
-#, fuzzy
 msgid "Discover applications"
-msgstr "Anwendungen"
+msgstr "Apps entdecken"
 
 # | msgid "Readeck Bookmark Collections"
 #: internal/dashboard/x-dashboard.templ:243
-#, fuzzy
 msgid "Readeck in your Browser"
-msgstr "Readeck Browser-Erweiterung"
+msgstr "Readeck in deinem Browser"
 
 #: internal/docs/http.go:257 internal/docs/x-about.templ:53
 #: internal/docs/x-base.templ:43
@@ -2325,7 +2320,6 @@ msgid "Version:"
 msgstr "Version:"
 
 #: internal/docs/x-about.templ:58
-#, fuzzy
 msgid "Build Date:"
 msgstr "Erstellungsdatum:"
 
