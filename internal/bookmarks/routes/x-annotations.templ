@@ -42,7 +42,7 @@ templ (v Views) annotationList(annotations *dataset.AnnotationList) {
 						data-annotation-color={ Tern(func() bool { return item.Color != "" }, item.Color, "yellow") }
 						href={ string(URL(ctx, "/bookmarks", item.BookmarkID)) + "#annotation-" + item.ID }
 					>
-						<p class="block mb-1 text-sm text-yellow-800">{ Strftime(ctx, item.Created, "%e %B %Y, %H:%M") }</p>
+						<p class="block mb-1 text-sm text-yellow-800">{ DateTime(ctx, item.Created) }</p>
 						<div class="flex flex-col">
 							if item.Note != "" {
 								<p class="flex items-baseline gap-1 border-b pb-2 mb-2 font-semibold">

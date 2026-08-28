@@ -53,7 +53,7 @@ templ (v Views) userList(ul *userList) {
 								</span>
 								<small class="block sm:text-right">
 									if !u.LastLogin.IsZero() {
-										{ L(ctx).Gettext("Last login: %s", Strftime(ctx, u.LastLogin, "%e %B %Y %H:%M")) }
+										{ L(ctx).Gettext("Last login: %s", DateTime(ctx, u.LastLogin)) }
 									}
 								</small>
 							</a>
@@ -176,15 +176,15 @@ templ (v Views) userInfo(f *userForm, u *extendedUserItem) {
 			}
 			@ListItem("p-4 flex gap-1 items-center") {
 				<span class="grow">{ L(ctx).Gettext("Created on") }</span>
-				{ Strftime(ctx, u.Created, "%e %B %Y %H:%M") }
+				{ DateTimeFull(ctx, u.Created) }
 			}
 			@ListItem("p-4 flex gap-1 items-center") {
 				<span class="grow">{ L(ctx).Gettext("Last Login") }</span>
-				{ Strftime(ctx, u.LastLogin, "%e %B %Y %H:%M") }
+				{ DateTimeFull(ctx, u.LastLogin) }
 			}
 			@ListItem("p-4 flex gap-1 items-center") {
 				<span class="grow">{ L(ctx).Gettext("Last Activity") }</span>
-				{ Strftime(ctx, u.LastActivity, "%e %B %Y %H:%M") }
+				{ DateTimeFull(ctx, u.LastActivity) }
 			}
 			@ListItem("p-4 flex gap-1 items-center") {
 				<span class="grow">{ L(ctx).Gettext("Bookmarks") }</span>
