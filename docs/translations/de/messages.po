@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Readeck User Documentation 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-07-22 09:42+0200\n"
-"PO-Revision-Date: 2026-07-24 15:51+0000\n"
-"Last-Translator: Anonymous <anonymous@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-08-26 18:25+0000\n"
+"Last-Translator: gallegonovato <gallegonovato@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/readeck/documentation/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: en/bookmark-list.md:1
@@ -58,7 +58,7 @@ msgstr "### Artikel"
 
 #: en/bookmark-list.md:19 en/bookmark.md:19
 msgid "An article is a page from which the text content was extracted. It renders as a readable version of its content."
-msgstr "Ein Artikel ist eine Seite, aus der der Textinhalt extrahiert wurde. Er wird als lesbare Version seines Inhalts gerendert."
+msgstr "Ein Artikel ist eine Seite, aus der der Textinhalt extrahiert wurde. Er wird als gut lesbare Version seines Inhalts dargestellt."
 
 #: en/bookmark-list.md:21 en/bookmark.md:21
 msgid "### Picture"
@@ -260,7 +260,6 @@ msgid "You can combine the following filters:"
 msgstr "Sie können folgende Filter kombinieren:"
 
 #: en/bookmark-list.md:114
-#, fuzzy
 msgid ""
 "- **Search**\\\n"
 "  Search in the bookmark's text, its title, its authors, its site name and domain and the labels.\n"
@@ -281,20 +280,24 @@ msgid ""
 "- **From date**, **To date**\\\n"
 "  This last filters let you restrict from when and to when the bookmark was saved. For example, this lets you retrieve the bookmark list saved during the past 4 weeks but not after the last week."
 msgstr ""
-"- **Suchen**\\\n"
-"  Suchen Sie im Text des Lesezeichens, seinem Titel, seinen Autoren, seinem Site-Namen und seiner Domain sowie den Labels.\n"
+"- **Suche**\\\n"
+"  Sucht im Text des Lesezeichens, im Titel, in den Autoren, im Namen und der Domain der Website sowie in den Labels.\n"
 "- **Titel**\\\n"
-"  Nur im Titel suchen.\n"
+"  Sucht nur im Titel.\n"
 "- **Autor**\\\n"
-"  Nur in der Autorenliste suchen.\n"
-"- **Seite**\\\n"
-"  Suchen Sie im Website-Titel und im Website-Domainnamen.\n"
-"- **Tag**\\\n"
-"  Suchen Sie nach bestimmten Tags.\n"
-"- **Ist Favorit**, **Ist archiviert**, **Typ**\\\n"
-"  Mit diesen Filtern können Sie Ihre Suche auf eines dieser Kriterien einschränken.\n"
-"- **Ab Datum**, **Bis Datum**\\\n"
-"  Mit diesen letzten Filtern können Sie den Zeitpunkt und die Speicherung des Lesezeichens einschränken. Auf diese Weise können Sie beispielsweise die Lesezeichenliste abrufen, die in den letzten 4 Wochen gespeichert wurde, jedoch nicht nach der letzten Woche."
+"  Sucht nur in der Autorenliste.\n"
+"- **Website**\\\n"
+"  Sucht im Website-Titel und im Domainnamen der Website.\n"
+"- **Sprache**\\\n"
+"  Filtert die Liste nach der Sprache des Lesezeichens als zweistelliger Ländercode.\n"
+"- **Label**\\\n"
+"  Sucht nach spezifischen Labels.\n"
+"- **Notiz**\\\n"
+"  Sucht nach einer Notiz oder Anmerkung.\n"
+"- **Typ**, **Fortschritt**, **Ist Favorit**, **Ist archiviert**, **Ist geladen**, **Mit Labels**, **Mit Notizen**, **Mit Fehlern** \\\n"
+"  Mit diesen Filtern kannst du deine Suche auf jedes dieser Kriterien einschränken.\n"
+"- **Von Datum**, **Bis Datum**\\\n"
+"  Diese letzten Filter ermöglichen es dir, den Zeitraum einzuschränken, in dem das Lesezeichen gespeichert wurde. So kannst du beispielsweise die Liste der Lesezeichen abrufen, die in den letzten 4 Wochen, aber nicht nach der letzten Woche gespeichert wurden."
 
 #: en/bookmark-list.md:133
 msgid "### Search query"
@@ -387,14 +390,12 @@ msgid "## Navigation and presentation settings"
 msgstr "## Navigations- und Präsentationseinstellungen"
 
 #: en/bookmark.md:32
-#, fuzzy
 msgid "On the side or on top of the bookmark view, a link takes you back to the previous page."
-msgstr "Oben in der Lesezeichenansicht führt Sie ein Link zurück zur vorherigen Seite."
+msgstr "An der Seite oder am oberen Rand der Lesezeichenansicht führt dich ein Link zurück zur vorherigen Seite."
 
 #: en/bookmark.md:34
-#, fuzzy
 msgid "If the bookmark contains an article, a button lets you change some typography settings."
-msgstr "Wenn das Lesezeichen einen Artikel enthält, können Sie über eine Schaltfläche auf der anderen Seite einige Typografieeinstellungen ändern."
+msgstr "Wenn das Lesezeichen einen Artikel enthält, kannst du über eine Schaltfläche einige Typografie-Einstellungen ändern."
 
 #: en/bookmark.md:36
 msgid ""
@@ -414,11 +415,11 @@ msgstr ""
 
 #: en/bookmark.md:43
 msgid "## Edit information"
-msgstr ""
+msgstr "## Informationen bearbeiten"
 
 #: en/bookmark.md:45
 msgid "Several information such as the title or description are automatically grabbed when you create a bookmark. If you need to change these properties, you can click on the edit side button to open a form."
-msgstr ""
+msgstr "Verschiedene Informationen wie der Titel oder die Beschreibung werden beim Erstellen eines Lesezeichens automatisch erfasst. Wenn du diese Eigenschaften ändern möchtest, kannst du auf die Schaltfläche Bearbeiten an der Seite klicken, um ein Formular zu öffnen."
 
 #: en/bookmark.md:47
 msgid "## Actions"
@@ -842,7 +843,7 @@ msgstr "Wenn Sie einem Dienst oder einer App Zugriff auf Ihr Readeck-Konto gewä
 
 #: en/user-profile.md:21
 msgid "Instead, you can give your username and a token of your choice as authentication credentials."
-msgstr "Stattdessen können Sie Ihren Benutzernamen und ein API-Token Ihrer Wahl zur Legitimation verwenden."
+msgstr "Stattdessen kannst du deinen Benutzernamen und ein Token deiner Wahl als Authentifizierungsdaten angeben."
 
 #~ msgid "## Application Passwords"
 #~ msgstr "## Anwendungskennwörter"
