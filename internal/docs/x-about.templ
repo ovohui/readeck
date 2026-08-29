@@ -55,7 +55,11 @@ templ (v Views) about(toc [][2]string, lang string, info aboutInfo) {
 		<div class="text-center my-4">
 			<h1 class="title text-h1">{ title }</h1>
 			<p class="my-1"><strong>{ L(ctx).Gettext("Version:") }</strong><br/>{ info.version }</p>
-			<p class="my-1"><strong>{ L(ctx).Gettext("Build Date:") }</strong><br/>{ Strftime(ctx, info.buildTime, "%A, %e %B %Y %H:%M:%S %Z") }</p>
+			<p class="my-1">
+				<strong>{ L(ctx).Gettext("Build Date:") }</strong>
+				<br/>
+				{ DateTimeFull(ctx, info.buildTime) }
+			</p>
 		</div>
 		<h2 class="title text-h2">{ L(ctx).Gettext("System Information") }</h2>
 		<div class="my-4" data-controller="clipboard">

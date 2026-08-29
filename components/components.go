@@ -12,7 +12,6 @@ import (
 	"fmt"
 	"io"
 	"strings"
-	"time"
 
 	"github.com/a-h/templ"
 
@@ -21,7 +20,6 @@ import (
 	"codeberg.org/readeck/readeck/internal/server/urls"
 	"codeberg.org/readeck/readeck/locales"
 	"codeberg.org/readeck/readeck/pkg/glob"
-	"codeberg.org/readeck/readeck/pkg/strftime"
 )
 
 // S is a shortcut to [fmt.Sprintf].
@@ -73,11 +71,6 @@ func HasPermission(ctx context.Context, obj, act string) bool {
 // IsAnonymous returns whether the current user is anonymous.
 func IsAnonymous(ctx context.Context) bool {
 	return server.GetUser(ctx).IsAnonymous()
-}
-
-// Strftime calls [strftime.Formatter.Strftime] with the user's locale.
-func Strftime(ctx context.Context, t time.Time, f string) string {
-	return strftime.New(L(ctx)).Strftime(f, t)
 }
 
 // Preferences returns the session-bound preferences.
