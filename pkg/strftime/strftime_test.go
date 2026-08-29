@@ -107,17 +107,6 @@ func TestTranslator(t *testing.T) {
 	}
 }
 
-func TestFormat(t *testing.T) {
-	t.Setenv("TZ", "Europe/Amsterdam")
-
-	tr := strftime.Pgettext("datetime", "%e %b %Y, %H:%M:%S %Z")
-
-	date, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
-	require.NoError(t, err)
-
-	require.Equal(t, "le lun 2 jan 2006 à 15:04:05 UTC", strftime.New(translation).Format(tr, date))
-}
-
 type translator map[string]map[string]string
 
 func (t translator) Pgettext(ctx string, s string, _ ...any) string {

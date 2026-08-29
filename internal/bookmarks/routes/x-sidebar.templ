@@ -262,8 +262,8 @@ templ (c SidebarComponent) info(b *dataset.Bookmark) {
 			>{ siteName }</strong>
 		</li>
 		@c.lineIcon("o-download") {
-			<span class="text-gray-700 inline-flex items-center gap-2 group" title={ DateTimeFull(ctx, b.Created) }>
-				{ Date(ctx, b.Created) }
+			<span class="text-gray-700 inline-flex items-center gap-2 group" title={ LocalDateTimeFull(ctx, b.Created) }>
+				{ LocalDate(ctx, b.Created) }
 				<button
 					class="opacity-0 group-hfw:opacity-100 text-gray-300 hf:text-gray-700"
 					title="diagnosis"
