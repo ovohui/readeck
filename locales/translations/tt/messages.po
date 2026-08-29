@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-08-02 21:32+0200\n"
+"POT-Creation-Date: 2026-08-29 18:11+0200\n"
 "PO-Revision-Date: 2026-08-03 18:40+0000\n"
 "Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language: tt\n"
@@ -21,13 +21,30 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
-"X-Generator: Weblate 2026.7.1\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
 #: components/layout.templ:78 components/layout.templ:79
 #: internal/dashboard/x-dashboard.templ:21
 msgid "Home Page"
 msgstr "Төп бит"
+
+#: components/datetime.go:23
+#, fuzzy, python-format
+msgctxt "datetime"
+msgid "%e %b %Y"
+msgstr "%e %b %Y"
+
+#: components/datetime.go:24
+#, fuzzy, python-format
+msgctxt "datetime"
+msgid "%e %b %Y, %H:%M"
+msgstr "%e %b %Y, %H:%M"
+
+#: components/datetime.go:25
+#, fuzzy, python-format
+msgctxt "datetime"
+msgid "%e %b %Y, %H:%M:%S %Z"
+msgstr "%e %b %Y, %H:%M:%S %Z"
 
 #: components/errors.templ:10 components/errors.templ:12
 #: components/layout.templ:243 internal/auth/oauth2/x-oauth.templ:29
@@ -247,7 +264,7 @@ msgstr "Бу кулланучы берничә секундтан соң бет�
 
 #: internal/admin/x-users.templ:70 internal/admin/x-users.templ:207
 #: internal/bookmarks/importer/x-forms.templ:23
-#: internal/bookmarks/routes/x-bookmark-list.templ:542
+#: internal/bookmarks/routes/x-bookmark-list.templ:534
 #: internal/bookmarks/routes/x-collections.templ:161
 #: internal/bookmarks/routes/x-labels.templ:131
 #: internal/profile/x-applications.templ:84 internal/profile/x-tokens.templ:83
@@ -264,7 +281,7 @@ msgstr "Кулланучы исеме"
 
 #: internal/admin/x-users.templ:97 internal/admin/x-users.templ:137
 #: internal/auth/onboarding/x-onboarding.templ:39
-#: internal/auth/signin/x-auth.templ:136
+#: internal/auth/signin/x-auth.templ:137
 msgid "Email address"
 msgstr "E-mail"
 
@@ -292,7 +309,7 @@ msgid "will not change if empty"
 msgstr "буш булса үзгәрмәячәк"
 
 #: internal/admin/x-users.templ:158
-#: internal/bookmarks/routes/x-bookmark.templ:225
+#: internal/bookmarks/routes/x-bookmark.templ:238
 #: internal/bookmarks/routes/x-collections.templ:138
 #: internal/bookmarks/routes/x-collections.templ:232
 #: internal/bookmarks/routes/x-components.templ:49
@@ -472,7 +489,7 @@ msgid "We're delighted to have you on board; one more step and you're good to go
 msgstr "Сезне үзебезгә кушылуыгызга шатланабыз; тагын бер адым һәм сез яхшы буласыз."
 
 #: internal/auth/onboarding/x-onboarding.templ:35
-#: internal/auth/signin/x-auth.templ:170 internal/profile/x-security.templ:37
+#: internal/auth/signin/x-auth.templ:174 internal/profile/x-security.templ:37
 msgid "must be at least 8 characters long"
 msgstr "кем дә 8 символдан кем дә күбрәк булырга тиеш"
 
@@ -506,7 +523,7 @@ msgstr "Яраксыз кулланучы һәм/яки серсүз"
 msgid "Invalid code"
 msgstr "Дөрес булмаган код"
 
-#: internal/auth/signin/recover.go:257
+#: internal/auth/signin/recover.go:273
 msgid ""
 "\n"
 "Hi,\n"
@@ -530,7 +547,7 @@ msgstr ""
 "\n"
 "%[2]s\n"
 
-#: internal/auth/signin/recover.go:271
+#: internal/auth/signin/recover.go:287
 msgid ""
 "\n"
 "Hi,\n"
@@ -594,8 +611,8 @@ msgstr "Серсүз"
 msgid "Verify"
 msgstr "Тикшерү"
 
-#: internal/auth/signin/x-auth.templ:108 internal/auth/signin/x-auth.templ:144
-#: internal/auth/signin/x-auth.templ:177
+#: internal/auth/signin/x-auth.templ:108 internal/auth/signin/x-auth.templ:145
+#: internal/auth/signin/x-auth.templ:181
 msgid "Cancel and go back to sign in"
 msgstr "Кире кайту һәм керүгә кайту"
 
@@ -603,11 +620,11 @@ msgstr "Кире кайту һәм керүгә кайту"
 msgid "Password recovery"
 msgstr "Парольне тергеү"
 
-#: internal/auth/signin/x-auth.templ:127
+#: internal/auth/signin/x-auth.templ:128
 msgid "No worries, it happens to anyone."
 msgstr "Кайгырмайгыз, бу һәркемгә дә була."
 
-#: internal/auth/signin/x-auth.templ:129
+#: internal/auth/signin/x-auth.templ:130
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tPlease provide the email address you used to create\n"
@@ -621,32 +638,32 @@ msgstr ""
 "\t\t\t\t\t\t\tбелән хәбәр җибәрербез.\n"
 "\t\t\t\t\t\t"
 
-#: internal/auth/signin/x-auth.templ:140
+#: internal/auth/signin/x-auth.templ:141
 msgid "Send me a recovery link"
 msgstr "Минә үзгәртү сызыгын җибәрегез"
 
-#: internal/auth/signin/x-auth.templ:150
+#: internal/auth/signin/x-auth.templ:154
 msgid "Almost there!"
 msgstr "Якында!"
 
-#: internal/auth/signin/x-auth.templ:152
+#: internal/auth/signin/x-auth.templ:156
 #, python-format
 msgid "We have sent an email to <strong>%s</strong> with further instructions."
 msgstr "Без <strong>%s</strong> адресына алдагы инструкцияләр белән э-хат җибәрдек."
 
-#: internal/auth/signin/x-auth.templ:168 internal/profile/x-security.templ:33
+#: internal/auth/signin/x-auth.templ:172 internal/profile/x-security.templ:33
 msgid "New password"
 msgstr "Яңа пароль"
 
-#: internal/auth/signin/x-auth.templ:173
+#: internal/auth/signin/x-auth.templ:177
 msgid "Update your password"
 msgstr "Парольне яңарту"
 
-#: internal/auth/signin/x-auth.templ:184
+#: internal/auth/signin/x-auth.templ:188
 msgid "Your password has been changed."
 msgstr "Парольгыз үзгәртелде."
 
-#: internal/auth/signin/x-auth.templ:187
+#: internal/auth/signin/x-auth.templ:191
 msgid "Go to the sign in page"
 msgstr "Керү битенә күчү"
 
@@ -721,8 +738,8 @@ msgstr ""
 "Менә сезнең **%s** өчен электрон китабыгыз.\n"
 
 #: internal/bookmarks/converter/x-atom.templ:22
-#: internal/bookmarks/routes/x-bookmark-list.templ:505
-#: internal/bookmarks/routes/x-sidebar.templ:258
+#: internal/bookmarks/routes/x-bookmark-list.templ:497
+#: internal/bookmarks/routes/x-sidebar.templ:257
 msgid "no site name"
 msgstr "сайт исеме юк"
 
@@ -730,7 +747,7 @@ msgstr "сайт исеме юк"
 #: internal/bookmarks/converter/x-email.templ:30
 #: internal/bookmarks/converter/x-epub.templ:51
 #: internal/bookmarks/converter/x-html-public.templ:182
-#: internal/bookmarks/routes/x-sidebar.templ:281
+#: internal/bookmarks/routes/x-sidebar.templ:280
 #, python-format
 msgid "Published on %s"
 msgstr "%s дата буенча басылган"
@@ -739,7 +756,7 @@ msgstr "%s дата буенча басылган"
 #: internal/bookmarks/converter/x-email.templ:33
 #: internal/bookmarks/converter/x-epub.templ:54
 #: internal/bookmarks/converter/x-html-public.templ:186
-#: internal/bookmarks/routes/x-sidebar.templ:286
+#: internal/bookmarks/routes/x-sidebar.templ:285
 #, python-format
 msgid "By %s"
 msgstr "%s тарафыннан"
@@ -748,7 +765,7 @@ msgstr "%s тарафыннан"
 #: internal/bookmarks/converter/x-email.templ:37
 #: internal/bookmarks/converter/x-epub.templ:58
 #: internal/bookmarks/converter/x-html-public.templ:195
-#: internal/bookmarks/routes/x-sidebar.templ:303
+#: internal/bookmarks/routes/x-sidebar.templ:305
 #, python-format
 msgid "About %d minute read"
 msgid_plural "About %d minutes read"
@@ -758,7 +775,7 @@ msgstr[0] "Якынча %d минут укыу"
 #: internal/bookmarks/converter/x-email.templ:42
 #: internal/bookmarks/converter/x-epub.templ:63
 #: internal/bookmarks/converter/x-html-public.templ:216
-#: internal/bookmarks/routes/x-bookmark.templ:298
+#: internal/bookmarks/routes/x-bookmark.templ:311
 #: internal/bookmarks/routes/x-components.templ:164
 #: internal/bookmarks/routes/x-components.templ:208
 #: internal/bookmarks/routes/x-filters.templ:36
@@ -957,7 +974,7 @@ msgid "Alias"
 msgstr "Алиас"
 
 #: internal/bookmarks/importer/x-forms.templ:121
-#: internal/bookmarks/routes/x-bookmark.templ:261
+#: internal/bookmarks/routes/x-bookmark.templ:274
 msgid "Description"
 msgstr "Тасвирлама"
 
@@ -1301,12 +1318,12 @@ msgid "Update"
 msgstr "Яңарту"
 
 #: internal/bookmarks/routes/views_bookmarks.go:342
-#: internal/bookmarks/routes/x-bookmark.templ:232
+#: internal/bookmarks/routes/x-bookmark.templ:245
 msgid "Share link"
 msgstr "Ссылка уртаклаштыру"
 
 #: internal/bookmarks/routes/views_bookmarks.go:372
-#: internal/bookmarks/routes/x-bookmark.templ:239
+#: internal/bookmarks/routes/x-bookmark.templ:252
 msgid "Share by email"
 msgstr "Э-почта аркылы уртаклаштыру"
 
@@ -1381,14 +1398,14 @@ msgid "Favorites"
 msgstr "Сайланмалар"
 
 #: internal/bookmarks/routes/x-base.templ:76
-#: internal/bookmarks/routes/x-labels.templ:72
-#: internal/bookmarks/routes/x-sidebar.templ:318
+#: internal/bookmarks/routes/x-labels.templ:73
+#: internal/bookmarks/routes/x-sidebar.templ:320
 #: internal/dashboard/x-dashboard.templ:62
 msgid "Labels"
 msgstr "Ярлыклар"
 
 #: internal/bookmarks/routes/x-base.templ:78
-#: internal/bookmarks/routes/x-sidebar.templ:404
+#: internal/bookmarks/routes/x-sidebar.templ:406
 #: internal/dashboard/x-dashboard.templ:63
 msgid "Highlights"
 msgstr "Төпнокталар"
@@ -1405,7 +1422,7 @@ msgstr "Билгеле ме?"
 
 #: internal/bookmarks/routes/x-base.templ:103
 #: internal/bookmarks/routes/x-bookmark-list.templ:258
-#: internal/bookmarks/routes/x-sidebar.templ:58
+#: internal/bookmarks/routes/x-sidebar.templ:56
 #: internal/dashboard/x-dashboard.templ:251
 msgid "Learn more"
 msgstr "Күбрәк белергә"
@@ -1494,79 +1511,81 @@ msgstr "Тыгыз күренеш"
 msgid "Mosaic view"
 msgstr "Мозаика күренеш"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:348
+#: internal/bookmarks/routes/x-bookmark-list.templ:344
+#: internal/bookmarks/routes/x-bookmark-list.templ:347
 msgid "Sort bookmarks"
 msgstr "Билгеләр сортларга"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:352
+#: internal/bookmarks/routes/x-bookmark-list.templ:349
 msgid "Sort options"
 msgstr "Соралу өчен вариантлар"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:387
+#: internal/bookmarks/routes/x-bookmark-list.templ:379
+#: internal/bookmarks/routes/x-bookmark-list.templ:382
 msgid "Import and export"
 msgstr "Импорт һәм экспорт"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:398
+#: internal/bookmarks/routes/x-bookmark-list.templ:391
 #: internal/bookmarks/routes/x-sidebar.templ:182
 msgid "Download EPUB"
 msgstr "EPUB өчен үткәрү"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:417
+#: internal/bookmarks/routes/x-bookmark-list.templ:410
 msgid "Atom Feed"
 msgstr "Atom Feed"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:465
+#: internal/bookmarks/routes/x-bookmark-list.templ:457
 msgctxt "bookmark"
 msgid "Loading"
 msgstr "Йөкләнү"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:500
+#: internal/bookmarks/routes/x-bookmark-list.templ:492
 #: internal/dashboard/x-dashboard.templ:184
 msgid "untitled"
 msgstr "исемсез"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:513
+#: internal/bookmarks/routes/x-bookmark-list.templ:505
 #, python-format
 msgctxt "abbr"
 msgid "%d min"
 msgid_plural "%d min"
 msgstr[0] "%d мин"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:529
-#: internal/bookmarks/routes/x-sidebar.templ:117
+#: internal/bookmarks/routes/x-bookmark-list.templ:521
+#: internal/bookmarks/routes/x-sidebar.templ:115
 msgid "This bookmark will be removed in a few seconds."
 msgstr "Бу вакытлы булышма берничә секундтан соң бетереләчәк."
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:548
+#: internal/bookmarks/routes/x-bookmark-list.templ:540
 #: internal/bookmarks/routes/x-components.templ:246
-#: internal/bookmarks/routes/x-sidebar.templ:106
+#: internal/bookmarks/routes/x-sidebar.templ:104
 msgid "Remove from archive"
 msgstr "Архивтан чыгару"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:548
+#: internal/bookmarks/routes/x-bookmark-list.templ:540
 #: internal/bookmarks/routes/x-components.templ:247
-#: internal/bookmarks/routes/x-sidebar.templ:107
+#: internal/bookmarks/routes/x-sidebar.templ:105
 msgid "Move to archive"
 msgstr "Архивка күчерү"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:549
+#: internal/bookmarks/routes/x-bookmark-list.templ:541
 #: internal/bookmarks/routes/x-components.templ:234
-#: internal/bookmarks/routes/x-sidebar.templ:110
+#: internal/bookmarks/routes/x-sidebar.templ:108
 msgid "Remove from favorites"
 msgstr "Төп тәртипкән чыгару"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:549
+#: internal/bookmarks/routes/x-bookmark-list.templ:541
 #: internal/bookmarks/routes/x-components.templ:235
-#: internal/bookmarks/routes/x-sidebar.templ:111
+#: internal/bookmarks/routes/x-sidebar.templ:109
 msgid "Add to favorites"
 msgstr "Төп тәртипкә өстәү"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:574
+#: internal/bookmarks/routes/x-bookmark-list.templ:566
 msgid "Go to original page"
 msgstr "Оригиналь биткә күчү"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:584
-#: internal/bookmarks/routes/x-sidebar.templ:232
+#: internal/bookmarks/routes/x-bookmark-list.templ:576
+#: internal/bookmarks/routes/x-sidebar.templ:231
 msgid "Delete this bookmark"
 msgstr "Бу вакытлы булышманы бетерү"
 
@@ -1575,7 +1594,7 @@ msgid "Bookmark not found"
 msgstr "Вакытлык табылмады"
 
 #: internal/bookmarks/routes/x-bookmark.templ:23
-#: internal/bookmarks/routes/x-bookmark.templ:220
+#: internal/bookmarks/routes/x-bookmark.templ:233
 #, fuzzy
 msgid "Edit bookmark"
 msgstr "Укылмаган билгеләр"
@@ -1585,8 +1604,8 @@ msgid "Bookmark loading"
 msgstr "Вакытлык йөкләнә"
 
 #: internal/bookmarks/routes/x-bookmark.templ:43
-#: internal/bookmarks/routes/x-bookmark.templ:133
-#: internal/bookmarks/routes/x-bookmark.templ:146
+#: internal/bookmarks/routes/x-bookmark.templ:134
+#: internal/bookmarks/routes/x-bookmark.templ:147
 msgid "Bookmark information"
 msgstr "Вакытлык белешмә"
 
@@ -1605,129 +1624,134 @@ msgid "Go back"
 msgstr "Кайту"
 
 #: internal/bookmarks/routes/x-bookmark.templ:120
-#: internal/bookmarks/routes/x-bookmark.templ:126
+#: internal/bookmarks/routes/x-bookmark.templ:127
 #: internal/bookmarks/routes/x-collections.templ:187
 msgid "Edit"
 msgstr "Төзәтү"
 
-#: internal/bookmarks/routes/x-bookmark.templ:169
-#: internal/bookmarks/routes/x-bookmark.templ:181
+#: internal/bookmarks/routes/x-bookmark.templ:151
+#: internal/bookmarks/routes/x-bookmark.templ:159
+msgid "Fullscreen"
+msgstr ""
+
+#: internal/bookmarks/routes/x-bookmark.templ:182
+#: internal/bookmarks/routes/x-bookmark.templ:194
 msgid "Close panel"
 msgstr "Панельне ябу"
 
-#: internal/bookmarks/routes/x-bookmark.templ:210
+#: internal/bookmarks/routes/x-bookmark.templ:223
 #: internal/bookmarks/routes/x-components.templ:36
 #: internal/bookmarks/routes/x-components.templ:363
 msgid "Close dialog"
 msgstr "Диалогны ябу"
 
-#: internal/bookmarks/routes/x-bookmark.templ:221
+#: internal/bookmarks/routes/x-bookmark.templ:234
 #, fuzzy, python-format
 msgid "Edit: %s"
 msgstr "%s белән сакланды"
 
-#: internal/bookmarks/routes/x-bookmark.templ:233
-#: internal/bookmarks/routes/x-bookmark.templ:240
+#: internal/bookmarks/routes/x-bookmark.templ:246
+#: internal/bookmarks/routes/x-bookmark.templ:253
 #, python-format
 msgid "Share: %s"
 msgstr "Уртаклаштыру: %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:256
+#: internal/bookmarks/routes/x-bookmark.templ:269
 #: internal/bookmarks/routes/x-filters.templ:23
 msgid "Title"
 msgstr "Башлык"
 
-#: internal/bookmarks/routes/x-bookmark.templ:266
+#: internal/bookmarks/routes/x-bookmark.templ:279
 #, fuzzy
 msgid "Site Name"
 msgstr "сайт исеме юк"
 
-#: internal/bookmarks/routes/x-bookmark.templ:271
+#: internal/bookmarks/routes/x-bookmark.templ:284
 #, fuzzy
 msgid "Authors"
 msgstr "Автор"
 
-#: internal/bookmarks/routes/x-bookmark.templ:274
+#: internal/bookmarks/routes/x-bookmark.templ:287
 msgid "One value per line"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark.templ:278
+#: internal/bookmarks/routes/x-bookmark.templ:291
 #, fuzzy
 msgid "Published"
 msgstr "%s дата буенча басылган"
 
-#: internal/bookmarks/routes/x-bookmark.templ:282
+#: internal/bookmarks/routes/x-bookmark.templ:295
 #: internal/bookmarks/routes/x-filters.templ:27
 #: internal/profile/x-profile.templ:55
 msgid "Language"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark.templ:292
+#: internal/bookmarks/routes/x-bookmark.templ:305
 #, fuzzy
 msgid "Text Direction"
 msgstr "Текст файлы"
 
-#: internal/bookmarks/routes/x-bookmark.templ:316
+#: internal/bookmarks/routes/x-bookmark.templ:329
 msgid "You can share the following link with your friends."
 msgstr "Сез дусларыгызга түбәндәге сылтаманы уртаклашырга мөмкин."
 
-#: internal/bookmarks/routes/x-bookmark.templ:318
+#: internal/bookmarks/routes/x-bookmark.templ:331
 #, python-format
 msgid "It expires on %s"
 msgstr "Ул %s дата белән тәмамлана"
 
-#: internal/bookmarks/routes/x-bookmark.templ:333
+#: internal/bookmarks/routes/x-bookmark.templ:346
 msgid "This link is shared without annotations."
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark.templ:334
+#: internal/bookmarks/routes/x-bookmark.templ:347
 msgid "Share with annotations"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark.templ:336
+#: internal/bookmarks/routes/x-bookmark.templ:349
 msgid "This link is shared with annotations."
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark.templ:337
+#: internal/bookmarks/routes/x-bookmark.templ:350
 #, fuzzy
 msgid "Share without annotations"
 msgstr "Сүзләрне бүлү"
 
-#: internal/bookmarks/routes/x-bookmark.templ:357
+#: internal/bookmarks/routes/x-bookmark.templ:370
 msgid "Copy the link"
 msgstr "Сылтаманы копияләү"
 
-#: internal/bookmarks/routes/x-bookmark.templ:366
-#: internal/bookmarks/routes/x-bookmark.templ:430
+#: internal/bookmarks/routes/x-bookmark.templ:379
+#: internal/bookmarks/routes/x-bookmark.templ:443
 msgid "Go back to the bookmark"
 msgstr "Вакытлы булышмага кайту"
 
-#: internal/bookmarks/routes/x-bookmark.templ:391
+#: internal/bookmarks/routes/x-bookmark.templ:404
 msgid "Sends this bookmark's content in the message."
 msgstr "Бу вакытлы булышманың эчтәлеген хәбәрдә җибәрә."
 
-#: internal/bookmarks/routes/x-bookmark.templ:393
+#: internal/bookmarks/routes/x-bookmark.templ:406
 msgid "Sends this bookmark as an attached EPUB file."
 msgstr "Бу вакытлы булышманы EPUB файлы буларак җибәрә."
 
-#: internal/bookmarks/routes/x-bookmark.templ:401
+#: internal/bookmarks/routes/x-bookmark.templ:414
 msgid "Format"
 msgstr "Формат"
 
-#: internal/bookmarks/routes/x-bookmark.templ:407
+#: internal/bookmarks/routes/x-bookmark.templ:420
 msgid "Send To"
 msgstr "Кимәлгә җибәрү"
 
-#: internal/bookmarks/routes/x-bookmark.templ:413
+#: internal/bookmarks/routes/x-bookmark.templ:426
 msgid "Include annotations and notes"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark.templ:418
+#: internal/bookmarks/routes/x-bookmark.templ:431
 #, python-format
 msgid "The bookmark was sent to %s"
 msgstr "Вакытлы булышма %s кына җибәрелде"
 
-#: internal/bookmarks/routes/x-bookmark.templ:423
+#: internal/bookmarks/routes/x-bookmark.templ:436
 msgid "Send message"
 msgstr "Хәбәр җибәрү"
 
@@ -1783,7 +1807,7 @@ msgid "This collection will be removed in a few seconds."
 msgstr "Коллекция берничә секундтан соң бетереләчәк."
 
 #: internal/bookmarks/routes/x-collections.templ:107
-#: internal/bookmarks/routes/x-sidebar.templ:131
+#: internal/bookmarks/routes/x-sidebar.templ:129
 msgid "Undo"
 msgstr "Кайтару"
 
@@ -1829,7 +1853,7 @@ msgid "Highlight"
 msgstr "Төс бирү"
 
 #: internal/bookmarks/routes/x-components.templ:193
-#: internal/bookmarks/routes/x-labels.templ:110
+#: internal/bookmarks/routes/x-labels.templ:109
 msgid "Delete"
 msgstr ""
 
@@ -1853,7 +1877,7 @@ msgstr "Текст файлы"
 
 #: internal/bookmarks/routes/x-components.templ:330
 #: internal/bookmarks/routes/x-components.templ:381
-#: internal/docs/x-about.templ:70
+#: internal/docs/x-about.templ:74
 msgid "copy to clipboard"
 msgstr ""
 
@@ -2148,30 +2172,31 @@ msgstr "Сүзләрне бүлү"
 msgid "Font"
 msgstr "Шрифт"
 
-#: internal/bookmarks/routes/x-sidebar.templ:44
+#: internal/bookmarks/routes/x-sidebar.templ:42
 msgid "Errors occurred during extraction."
 msgstr "Эчтәлек чыгару вакытында хаталар күзәтелде."
 
-#: internal/bookmarks/routes/x-sidebar.templ:51
+#: internal/bookmarks/routes/x-sidebar.templ:49
 msgid ""
 "\n"
 "\t\t\t\t\t\tDepending on the error, Readeck's browser extension may provide\n"
 "\t\t\t\t\t\ta workaround."
 msgstr ""
 
-#: internal/bookmarks/routes/x-sidebar.templ:67
+#: internal/bookmarks/routes/x-sidebar.templ:65
 msgid "View log"
 msgstr ""
 
-#: internal/bookmarks/routes/x-sidebar.templ:102
+#: internal/bookmarks/routes/x-sidebar.templ:100
 msgid "Mark as unread"
 msgstr "Укылмаган дип билгеләү"
 
-#: internal/bookmarks/routes/x-sidebar.templ:103
+#: internal/bookmarks/routes/x-sidebar.templ:101
 msgid "Mark as read"
 msgstr "Укылган дип билгеләү"
 
-#: internal/bookmarks/routes/x-sidebar.templ:173
+#: internal/bookmarks/routes/x-sidebar.templ:172
+#: internal/bookmarks/routes/x-sidebar.templ:175
 msgid "Export and Share"
 msgstr "Экспорт һәм Уртаклашу"
 
@@ -2187,28 +2212,33 @@ msgstr "Мәкаләне электрон почта белән җибәрү"
 msgid "Send e-book by Email"
 msgstr "Электрон китапны e-mail белән җибәрү"
 
-#: internal/bookmarks/routes/x-sidebar.templ:345
+#: internal/bookmarks/routes/x-sidebar.templ:296
+#, fuzzy
+msgid "Initial URL:"
+msgstr "яраксыз URL"
+
+#: internal/bookmarks/routes/x-sidebar.templ:347
 msgid "Add a label"
 msgstr "Ярлык өстәү"
 
-#: internal/bookmarks/routes/x-sidebar.templ:366
+#: internal/bookmarks/routes/x-sidebar.templ:368
 msgid "Add label"
 msgstr "Ярлык өстәү"
 
-#: internal/bookmarks/routes/x-sidebar.templ:390
+#: internal/bookmarks/routes/x-sidebar.templ:392
 msgid "Remove label"
 msgstr "Ярлыкны бетерү"
 
-#: internal/bookmarks/routes/x-sidebar.templ:408
+#: internal/bookmarks/routes/x-sidebar.templ:410
 msgid "Start selecting text in the article to create a new highlight."
 msgstr ""
 
-#: internal/bookmarks/routes/x-sidebar.templ:440
+#: internal/bookmarks/routes/x-sidebar.templ:442
 #, fuzzy
 msgid "Delete highlight"
 msgstr "Төс бирү"
 
-#: internal/bookmarks/routes/x-sidebar.templ:458
+#: internal/bookmarks/routes/x-sidebar.templ:460
 msgid "Links"
 msgstr ""
 
@@ -2279,132 +2309,132 @@ msgstr "Readeck турында"
 msgid "Version:"
 msgstr ""
 
-#: internal/docs/x-about.templ:58
+#: internal/docs/x-about.templ:59
 msgid "Build Date:"
 msgstr ""
 
-#: internal/docs/x-about.templ:60
+#: internal/docs/x-about.templ:64
 msgid "System Information"
 msgstr ""
 
-#: internal/docs/x-about.templ:62
+#: internal/docs/x-about.templ:66
 msgid "Here are your current system information. Please include them if you report a bug."
 msgstr ""
 
-#: internal/docs/x-about.templ:75
+#: internal/docs/x-about.templ:79
 msgid "Storage"
 msgstr ""
 
-#: internal/docs/x-about.templ:79
+#: internal/docs/x-about.templ:83
 msgid "Database Size:"
 msgstr ""
 
-#: internal/docs/x-about.templ:83
+#: internal/docs/x-about.templ:87
 msgid "Bookmarks Disk Usage:"
 msgstr "Билгеләре диск кулланылышы:"
 
-#: internal/docs/x-about.templ:88
+#: internal/docs/x-about.templ:92
 msgid "Project"
 msgstr ""
 
-#: internal/docs/x-about.templ:91
+#: internal/docs/x-about.templ:95
 msgid "Main website:"
 msgstr "Төп веб-сайт:"
 
-#: internal/docs/x-about.templ:95
+#: internal/docs/x-about.templ:99
 msgid "Sources and issues:"
 msgstr ""
 
-#: internal/docs/x-about.templ:99
+#: internal/docs/x-about.templ:103
 msgid "How to contribute:"
 msgstr ""
 
-#: internal/docs/x-about.templ:103
+#: internal/docs/x-about.templ:107
 msgid "Community Forum:"
 msgstr ""
 
-#: internal/docs/x-about.templ:107
+#: internal/docs/x-about.templ:111
 msgid "Matrix Chat:"
 msgstr ""
 
-#: internal/docs/x-about.templ:111
+#: internal/docs/x-about.templ:115
 msgid "License"
 msgstr ""
 
-#: internal/docs/x-about.templ:113
+#: internal/docs/x-about.templ:117
 #, python-format
 msgid "Readeck is distributed under the terms of the license \"%s\""
 msgstr ""
 
-#: internal/docs/x-about.templ:118
+#: internal/docs/x-about.templ:122
 msgid "Here's a short summary of the license conditions:"
 msgstr ""
 
-#: internal/docs/x-about.templ:123 internal/profile/x-applications.templ:56
+#: internal/docs/x-about.templ:127 internal/profile/x-applications.templ:56
 msgid "Permissions"
 msgstr ""
 
-#: internal/docs/x-about.templ:124
+#: internal/docs/x-about.templ:128
 msgid "Conditions"
 msgstr ""
 
-#: internal/docs/x-about.templ:125
+#: internal/docs/x-about.templ:129
 msgid "Limitations"
 msgstr ""
 
-#: internal/docs/x-about.templ:135
+#: internal/docs/x-about.templ:139
 msgid "Commercial use"
 msgstr ""
 
-#: internal/docs/x-about.templ:140
+#: internal/docs/x-about.templ:144
 msgid "Distribution"
 msgstr ""
 
-#: internal/docs/x-about.templ:145
+#: internal/docs/x-about.templ:149
 msgid "Modification"
 msgstr ""
 
-#: internal/docs/x-about.templ:150
+#: internal/docs/x-about.templ:154
 msgid "Patent use"
 msgstr ""
 
-#: internal/docs/x-about.templ:155
+#: internal/docs/x-about.templ:159
 msgid "Private use"
 msgstr ""
 
-#: internal/docs/x-about.templ:164
+#: internal/docs/x-about.templ:168
 msgid "Disclose source"
 msgstr ""
 
-#: internal/docs/x-about.templ:169
+#: internal/docs/x-about.templ:173
 msgid "License and copyright notice"
 msgstr ""
 
-#: internal/docs/x-about.templ:174
+#: internal/docs/x-about.templ:178
 msgid "Network use is distribution"
 msgstr ""
 
-#: internal/docs/x-about.templ:179
+#: internal/docs/x-about.templ:183
 msgid "Same license"
 msgstr ""
 
-#: internal/docs/x-about.templ:184
+#: internal/docs/x-about.templ:188
 msgid "State changes"
 msgstr ""
 
-#: internal/docs/x-about.templ:193
+#: internal/docs/x-about.templ:197
 msgid "Liability"
 msgstr ""
 
-#: internal/docs/x-about.templ:198
+#: internal/docs/x-about.templ:202
 msgid "Warranty"
 msgstr ""
 
-#: internal/docs/x-about.templ:229
+#: internal/docs/x-about.templ:233
 msgid "Third-Party Licenses"
 msgstr ""
 
-#: internal/docs/x-about.templ:230
+#: internal/docs/x-about.templ:234
 msgid "Readeck includes and/or uses the following open source assets:"
 msgstr ""
 
@@ -3500,3 +3530,4 @@ msgstr "%H:%M:%S"
 #~ msgctxt "date"
 #~ msgid "To"
 #~ msgstr ""
+
