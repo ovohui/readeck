@@ -50,6 +50,8 @@ func (c *sqliteConnector) Open(dsn *url.URL) (*sql.DB, error) {
 
 	query.Set("_txtlock", "immediate")
 	query.Set("_time_format", "sqlite")
+	query.Set("_texttotime", "1")
+	query.Set("_timezone", "UTC")
 	uri.RawQuery = query.Encode()
 
 	slog.Debug(

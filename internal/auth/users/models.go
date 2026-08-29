@@ -302,7 +302,7 @@ func (u *User) LastActivity() (time.Time, error) {
 		_, err = ds.ScanVal(&res)
 	}
 
-	return res, err
+	return res.UTC(), err
 }
 
 // MakePassword generates a password of the given length.

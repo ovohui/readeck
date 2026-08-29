@@ -328,7 +328,7 @@ templ (c Components) shareByLink(link dataset.SharedLink) {
 	>
 		<p>{ L(ctx).Gettext("You can share the following link with your friends.") }</p>
 		<p class="mb-2">
-			{ L(ctx).Gettext("It expires on %s", DateTimeFull(ctx, link.Expires)) }
+			{ L(ctx).Gettext("It expires on %s", LocalDateTimeFull(ctx, link.Expires)) }
 		</p>
 		<p class="mb-2">
 			<a class="link break-all" href={ link.URL } data-turbo="false" target="_blank">{ link.URL }</a>

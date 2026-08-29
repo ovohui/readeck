@@ -77,9 +77,9 @@ var (
 	timeRepresentation     = Pgettext("datetime", "%H:%M:%S")
 )
 
-// translator is an interface for type implementing a pgettext method without extra argument.
+// translator is an interface for type implementing a Pgettext method.
 type translator interface {
-	Pgettext(string, string) string
+	Pgettext(string, string, ...any) string
 }
 
 // Translatable is an interface for type implementing a Translate method.
@@ -110,7 +110,7 @@ type gettextWrapper struct {
 	Translator localeTranslator
 }
 
-func (l *gettextWrapper) Pgettext(ctx, s string) string {
+func (l *gettextWrapper) Pgettext(ctx, s string, _ ...any) string {
 	return l.Translator.Pgettext(ctx, s)
 }
 
@@ -125,11 +125,6 @@ type Formatter struct {
 // New returns a new [Formatter] with a given translator.
 func New(tr localeTranslator) *Formatter {
 	return &Formatter{&gettextWrapper{tr}}
-}
-
-// Format returns the time formatted using a [translatable].
-func (f *Formatter) Format(s Translatable, t time.Time) string {
-	return f.Strftime(s.Translate(f.tr), t)
 }
 
 // Strftime returns a formatted time string.
