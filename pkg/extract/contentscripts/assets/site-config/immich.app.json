@@ -1,0 +1,41 @@
+{
+  "title_selectors": [
+    "//h1"
+  ],
+  "body_selectors": [
+    "//div[contains(@class, 'max-w-3xl')] | //div[contains(@class, 'max-w-2xl')]"
+  ],
+  "date_selectors": [
+    "//div[contains(concat(' ',normalize-space(@class),' '),' mt-4 ')]/p[1]"
+  ],
+  "author_selectors": [
+    "substring-after(//div[contains(concat(' ',normalize-space(@class),' '),' mt-4 ')]/p[2] , '— ')"
+  ],
+  "strip_selectors": [
+    "//div[contains(@class, 'max-w-3xl')]/div[1]",
+    "//ul[contains(@class, 'text-muted')]",
+    "//div[contains(concat(' ',normalize-space(@class),' '),' mt-4 ')]"
+  ],
+  "strip_id_or_class": [
+    "mt-2"
+  ],
+  "strip_image_src": null,
+  "native_ad_selectors": null,
+  "tidy": false,
+  "prune": false,
+  "autodetect_on_failure": true,
+  "single_page_link_selectors": null,
+  "next_page_link_selectors": null,
+  "replace_strings": null,
+  "http_headers": null,
+  "tests": [
+    {
+      "url": "https://immich.app/blog/v3.1.0-release",
+      "contains": []
+    },
+    {
+      "url": "https://immich.app/blog/2026-june-recap",
+      "contains": []
+    }
+  ]
+}

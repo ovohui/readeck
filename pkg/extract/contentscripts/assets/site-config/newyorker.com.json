@@ -1,7 +1,7 @@
 {
   "title_selectors": null,
   "body_selectors": [
-    "//em[@data-testid='SplitScreenContentHeaderWrapper'] | //div[@class='body__inner-container']"
+    "//header[@data-testid='SplitScreenContentHeaderWrapper'] | //div[@class='body__inner-container']"
   ],
   "date_selectors": [
     "//meta[@property=\"article:published_time\"]/@content",
@@ -18,8 +18,6 @@
     "//div[@data-testid=\"BylinesWrapper\"]",
     "//time",
     "//ul[@data-testid=\"socialIconslist\"]",
-    "//div[contains(concat(' ', normalize-space(@class), ' '), ' caption ')]",
-    "//div[@data-testid=\"GenericCallout\"]",
     "//figure[@data-testid=\"IframeEmbed\"]",
     "//div[contains(concat(' ', normalize-space(@class), ' '), ' responsive-cartoon ')]"
   ],
@@ -33,12 +31,7 @@
   "autodetect_on_failure": true,
   "single_page_link_selectors": null,
   "next_page_link_selectors": null,
-  "replace_strings": [
-    [
-      "\u003cheader",
-      "\u003cem"
-    ]
-  ],
+  "replace_strings": null,
   "http_headers": {
     "Cookie": "pay_ent_msmp=1"
   },
@@ -48,7 +41,7 @@
       "contains": []
     },
     {
-      "url": "https://www.newyorker.com/online/blogs/culture/2012/06/mug-shot-web-sites.html",
+      "url": "https://www.newyorker.com/culture/culture-desk/hotties-hunks-beat-up-celebrities-the-allure-of-the-mug-shot",
       "contains": []
     },
     {
