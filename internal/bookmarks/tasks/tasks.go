@@ -321,6 +321,14 @@ func saveBookmark(b *bookmarks.Bookmark, saved *bool, resourceCount *int) extrac
 			return next
 		}
 
+		// Reload the bookmark in case it was updated.
+		if bm, err := bookmarks.Bookmarks.GetOne(goqu.C("id").Eq(b.ID)); err == nil {
+			*b = *bm
+		} else {
+			m.Log().Error("", slog.Any("err", err))
+			return next
+		}
+
 		ex := m.Extractor
 		var err error
 		drop := ex.Drop()
@@ -341,6 +349,8 @@ func saveBookmark(b *bookmarks.Bookmark, saved *bool, resourceCount *int) extrac
 		b.Description = utils.NormalizeSpaces(drop.Description)
 		b.Text = utils.NormalizeSpaces(ex.Text)
 		b.WordCount = len(strings.Fields(b.Text))
+		b.ReadProgress = 0
+		b.ReadAnchor = ""
 
 		if b.Title == "" {
 			b.Title = drop.Title
