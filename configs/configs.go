@@ -486,7 +486,7 @@ func Version() string {
 // when the application started.
 func BuildTime() time.Time {
 	if buildTime.IsZero() {
-		return startTime
+		return startTime.UTC()
 	}
-	return buildTime
+	return buildTime.UTC()
 }
