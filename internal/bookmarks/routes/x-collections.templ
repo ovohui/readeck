@@ -85,7 +85,7 @@ templ (v Views) collectionList(cl *dataset.CollectionList) {
 							<a class="block flex-grow p-4" href={ URL(ctx, ".", c.ID) }>
 								<strong class="link font-semibold">{ c.Name }</strong>
 								<small class="block">
-									{ L(ctx).Gettext("Created on: %s", Strftime(ctx, c.Created, "%e %B %Y")) }
+									{ L(ctx).Gettext("Created on: %s", LocalDate(ctx, c.Created)) }
 								</small>
 							</a>
 							if c.IsDeleted {

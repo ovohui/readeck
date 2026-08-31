@@ -44,12 +44,12 @@ templ (v Views) applicationList(tokenList *tokenItemList) {
 								<p><a class="link" href={ app.ClientURI } target="_blank">{ app.ClientURI }</a></p>
 								<p class="mt-1 text-sm">
 									{ L(ctx).Gettext("Authorized on: %s",
-										Strftime(ctx, app.Created, "%e %B %Y"),
+										LocalDate(ctx, app.Created),
 									) }
 									if app.LastUsed != nil {
 										<br/>
 										<strong class="font-semibold">
-											{ L(ctx).Gettext("Last used on: %s", Strftime(ctx, *app.LastUsed, "%c")) }
+											{ L(ctx).Gettext("Last used on: %s", LocalDateTimeFull(ctx, *app.LastUsed)) }
 										</strong>
 									}
 								</p>

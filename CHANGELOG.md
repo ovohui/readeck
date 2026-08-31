@@ -1,5 +1,16 @@
 # Changelog
 
+## [Unreleased]
+### Added
+- Server timezone support (frontend only), with the help of [@boronology](https://codeberg.org/boronology)
+
+### Improved
+- Accept header used by Fediverse content script, by [@mislav](https://codeberg.org/mislav)
+
+### Fixed
+- Unified and localized time formats on the frontend
+- Prevent updated properties override between submitting a new link and its final state
+
 ## [0.23.1] - 2026-08-17
 ### Fixed
 - Dropdown menus in label details

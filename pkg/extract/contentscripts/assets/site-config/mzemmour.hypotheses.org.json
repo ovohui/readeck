@@ -1,0 +1,35 @@
+{
+  "title_selectors": [
+    "//h1[@class=\"entry-title\"]"
+  ],
+  "body_selectors": [
+    "//div[@class=\"entry-content\"]"
+  ],
+  "date_selectors": [
+    "//time[contains(@class, 'published')]/@datetime"
+  ],
+  "author_selectors": null,
+  "strip_selectors": [
+    "//div[contains(@class, \"section_ppa\")]/following-sibling::div[@class=\"citation\"]/preceding-sibling::hr",
+    "//div[contains(@class, \"section_ppa\")]/following-sibling::div[@class=\"citation\"]/following-sibling::hr",
+    "//div[contains(@class, \"section_ppa\")]/following-sibling::div[@class=\"citation\"]",
+    "//div[contains(@class, \"section_ppa\")]",
+    "//ul[@class=\"soc\"]"
+  ],
+  "strip_id_or_class": null,
+  "strip_image_src": null,
+  "native_ad_selectors": null,
+  "tidy": false,
+  "prune": false,
+  "autodetect_on_failure": true,
+  "single_page_link_selectors": null,
+  "next_page_link_selectors": null,
+  "replace_strings": null,
+  "http_headers": null,
+  "tests": [
+    {
+      "url": "https://mzemmour.hypotheses.org/130",
+      "contains": []
+    }
+  ]
+}

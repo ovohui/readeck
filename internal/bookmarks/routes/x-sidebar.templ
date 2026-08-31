@@ -262,8 +262,8 @@ templ (c SidebarComponent) info(b *dataset.Bookmark) {
 			>{ siteName }</strong>
 		</li>
 		@c.lineIcon("o-download") {
-			<span class="text-gray-700 inline-flex items-center gap-2 group" title={ Strftime(ctx, b.Created, "%c") }>
-				{ Strftime(ctx, b.Created, "%e %B %Y") }
+			<span class="text-gray-700 inline-flex items-center gap-2 group" title={ LocalDateTimeFull(ctx, b.Created) }>
+				{ LocalDate(ctx, b.Created) }
 				<button
 					class="opacity-0 group-hfw:opacity-100 text-gray-300 hf:text-gray-700"
 					title="diagnosis"
@@ -277,7 +277,7 @@ templ (c SidebarComponent) info(b *dataset.Bookmark) {
 		}
 		if b.Published != nil {
 			@c.lineIcon("o-calendar") {
-				{ L(ctx).Gettext("Published on %s", Strftime(ctx, *b.Published, "%e %B %Y")) }
+				{ L(ctx).Gettext("Published on %s", Date(ctx, *b.Published)) }
 			}
 		}
 		if len(b.Authors) > 0 {

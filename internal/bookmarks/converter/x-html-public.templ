@@ -179,7 +179,7 @@ templ (v PublicViews) Bookmark(user *users.User, b *dataset.Bookmark, notes []st
 				</li>
 				if b.Published != nil {
 					@v.lineIcon("o-calendar") {
-						{ L(ctx).Gettext("Published on %s", Strftime(ctx, *b.Published, "%e %B %Y")) }
+						{ L(ctx).Gettext("Published on %s", Date(ctx, *b.Published)) }
 					}
 					if len(b.Authors) > 0 {
 						@v.lineIcon("o-pen") {

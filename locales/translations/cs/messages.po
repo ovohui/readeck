@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck CZ 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-08-02 21:32+0200\n"
+"POT-Creation-Date: 2026-08-29 18:11+0200\n"
 "PO-Revision-Date: 2026-08-05 12:00+0000\n"
 "Last-Translator: Joedmin <joedmin@joedmin.cz>\n"
 "Language: cs\n"
@@ -21,13 +21,30 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
-"X-Generator: Weblate 2026.7.1\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
 #: components/layout.templ:78 components/layout.templ:79
 #: internal/dashboard/x-dashboard.templ:21
 msgid "Home Page"
 msgstr "Domovská stránka"
+
+#: components/datetime.go:23
+#, fuzzy, python-format
+msgctxt "datetime"
+msgid "%e %b %Y"
+msgstr "%e %b %Y"
+
+#: components/datetime.go:24
+#, fuzzy, python-format
+msgctxt "datetime"
+msgid "%e %b %Y, %H:%M"
+msgstr "%e %b %Y, %H:%M"
+
+#: components/datetime.go:25
+#, fuzzy, python-format
+msgctxt "datetime"
+msgid "%e %b %Y, %H:%M:%S %Z"
+msgstr "%e %b %Y, %H:%M:%S %Z"
 
 #: components/errors.templ:10 components/errors.templ:12
 #: components/layout.templ:243 internal/auth/oauth2/x-oauth.templ:29
@@ -248,7 +265,7 @@ msgstr "Tento uživatel bude za několik sekund odebrán."
 
 #: internal/admin/x-users.templ:70 internal/admin/x-users.templ:207
 #: internal/bookmarks/importer/x-forms.templ:23
-#: internal/bookmarks/routes/x-bookmark-list.templ:542
+#: internal/bookmarks/routes/x-bookmark-list.templ:534
 #: internal/bookmarks/routes/x-collections.templ:161
 #: internal/bookmarks/routes/x-labels.templ:131
 #: internal/profile/x-applications.templ:84 internal/profile/x-tokens.templ:83
@@ -265,7 +282,7 @@ msgstr "Uživatelské jméno"
 
 #: internal/admin/x-users.templ:97 internal/admin/x-users.templ:137
 #: internal/auth/onboarding/x-onboarding.templ:39
-#: internal/auth/signin/x-auth.templ:136
+#: internal/auth/signin/x-auth.templ:137
 msgid "Email address"
 msgstr "E-mailová adresa"
 
@@ -293,7 +310,7 @@ msgid "will not change if empty"
 msgstr "nezmění se, pokud je prázdné"
 
 #: internal/admin/x-users.templ:158
-#: internal/bookmarks/routes/x-bookmark.templ:225
+#: internal/bookmarks/routes/x-bookmark.templ:238
 #: internal/bookmarks/routes/x-collections.templ:138
 #: internal/bookmarks/routes/x-collections.templ:232
 #: internal/bookmarks/routes/x-components.templ:49
@@ -473,7 +490,7 @@ msgid "We're delighted to have you on board; one more step and you're good to go
 msgstr "Jsme rádi, že vás máme na palubě; ještě jeden krok a můžete začít."
 
 #: internal/auth/onboarding/x-onboarding.templ:35
-#: internal/auth/signin/x-auth.templ:170 internal/profile/x-security.templ:37
+#: internal/auth/signin/x-auth.templ:174 internal/profile/x-security.templ:37
 msgid "must be at least 8 characters long"
 msgstr "musí být alespoň 8 znaků dlouhé"
 
@@ -507,7 +524,7 @@ msgstr "Neplatný uživatel a/nebo heslo"
 msgid "Invalid code"
 msgstr "Neplatný kód"
 
-#: internal/auth/signin/recover.go:257
+#: internal/auth/signin/recover.go:273
 msgid ""
 "\n"
 "Hi,\n"
@@ -531,7 +548,7 @@ msgstr ""
 "\n"
 "%[2]s\n"
 
-#: internal/auth/signin/recover.go:271
+#: internal/auth/signin/recover.go:287
 msgid ""
 "\n"
 "Hi,\n"
@@ -595,8 +612,8 @@ msgstr "Přístupový kód"
 msgid "Verify"
 msgstr "Ověřit"
 
-#: internal/auth/signin/x-auth.templ:108 internal/auth/signin/x-auth.templ:144
-#: internal/auth/signin/x-auth.templ:177
+#: internal/auth/signin/x-auth.templ:108 internal/auth/signin/x-auth.templ:145
+#: internal/auth/signin/x-auth.templ:181
 msgid "Cancel and go back to sign in"
 msgstr "Zrušit a přejít zpět na přihlášení"
 
@@ -604,11 +621,11 @@ msgstr "Zrušit a přejít zpět na přihlášení"
 msgid "Password recovery"
 msgstr "Obnovení hesla"
 
-#: internal/auth/signin/x-auth.templ:127
+#: internal/auth/signin/x-auth.templ:128
 msgid "No worries, it happens to anyone."
 msgstr "Nic se neděje, to se stane každému."
 
-#: internal/auth/signin/x-auth.templ:129
+#: internal/auth/signin/x-auth.templ:130
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tPlease provide the email address you used to create\n"
@@ -622,32 +639,32 @@ msgstr ""
 "\t\t\t\t\t\t\t s odkazem na obnovení hesla.\n"
 "\t\t\t\t\t\t"
 
-#: internal/auth/signin/x-auth.templ:140
+#: internal/auth/signin/x-auth.templ:141
 msgid "Send me a recovery link"
 msgstr "Pošlete mi odkaz pro obnovení"
 
-#: internal/auth/signin/x-auth.templ:150
+#: internal/auth/signin/x-auth.templ:154
 msgid "Almost there!"
 msgstr "Už to skoro je!"
 
-#: internal/auth/signin/x-auth.templ:152
+#: internal/auth/signin/x-auth.templ:156
 #, python-format
 msgid "We have sent an email to <strong>%s</strong> with further instructions."
 msgstr "Odeslali jsme e-mail na <strong>%s</strong> s dalšími pokyny."
 
-#: internal/auth/signin/x-auth.templ:168 internal/profile/x-security.templ:33
+#: internal/auth/signin/x-auth.templ:172 internal/profile/x-security.templ:33
 msgid "New password"
 msgstr "Nové heslo"
 
-#: internal/auth/signin/x-auth.templ:173
+#: internal/auth/signin/x-auth.templ:177
 msgid "Update your password"
 msgstr "Aktualizujte své heslo"
 
-#: internal/auth/signin/x-auth.templ:184
+#: internal/auth/signin/x-auth.templ:188
 msgid "Your password has been changed."
 msgstr "Vaše heslo bylo změněno."
 
-#: internal/auth/signin/x-auth.templ:187
+#: internal/auth/signin/x-auth.templ:191
 msgid "Go to the sign in page"
 msgstr "Přejít na přihlašovací stránku"
 
@@ -722,8 +739,8 @@ msgstr ""
 "Zde je vaše e-kniha pro: **%s**\n"
 
 #: internal/bookmarks/converter/x-atom.templ:22
-#: internal/bookmarks/routes/x-bookmark-list.templ:505
-#: internal/bookmarks/routes/x-sidebar.templ:258
+#: internal/bookmarks/routes/x-bookmark-list.templ:497
+#: internal/bookmarks/routes/x-sidebar.templ:257
 msgid "no site name"
 msgstr "žádný název stránky"
 
@@ -731,7 +748,7 @@ msgstr "žádný název stránky"
 #: internal/bookmarks/converter/x-email.templ:30
 #: internal/bookmarks/converter/x-epub.templ:51
 #: internal/bookmarks/converter/x-html-public.templ:182
-#: internal/bookmarks/routes/x-sidebar.templ:281
+#: internal/bookmarks/routes/x-sidebar.templ:280
 #, python-format
 msgid "Published on %s"
 msgstr "Zveřejněno %s"
@@ -740,7 +757,7 @@ msgstr "Zveřejněno %s"
 #: internal/bookmarks/converter/x-email.templ:33
 #: internal/bookmarks/converter/x-epub.templ:54
 #: internal/bookmarks/converter/x-html-public.templ:186
-#: internal/bookmarks/routes/x-sidebar.templ:286
+#: internal/bookmarks/routes/x-sidebar.templ:285
 #, python-format
 msgid "By %s"
 msgstr "Zveřejnil %s"
@@ -749,7 +766,7 @@ msgstr "Zveřejnil %s"
 #: internal/bookmarks/converter/x-email.templ:37
 #: internal/bookmarks/converter/x-epub.templ:58
 #: internal/bookmarks/converter/x-html-public.templ:195
-#: internal/bookmarks/routes/x-sidebar.templ:303
+#: internal/bookmarks/routes/x-sidebar.templ:305
 #, python-format
 msgid "About %d minute read"
 msgid_plural "About %d minutes read"
@@ -761,7 +778,7 @@ msgstr[2] "Asi %d minut čtení"
 #: internal/bookmarks/converter/x-email.templ:42
 #: internal/bookmarks/converter/x-epub.templ:63
 #: internal/bookmarks/converter/x-html-public.templ:216
-#: internal/bookmarks/routes/x-bookmark.templ:298
+#: internal/bookmarks/routes/x-bookmark.templ:311
 #: internal/bookmarks/routes/x-components.templ:164
 #: internal/bookmarks/routes/x-components.templ:208
 #: internal/bookmarks/routes/x-filters.templ:36
@@ -976,7 +993,7 @@ msgstr "Alias"
 
 # | msgid "Distribution"
 #: internal/bookmarks/importer/x-forms.templ:121
-#: internal/bookmarks/routes/x-bookmark.templ:261
+#: internal/bookmarks/routes/x-bookmark.templ:274
 msgid "Description"
 msgstr "Popis"
 
@@ -1337,13 +1354,13 @@ msgid "Update"
 msgstr "Aktualizovat"
 
 #: internal/bookmarks/routes/views_bookmarks.go:342
-#: internal/bookmarks/routes/x-bookmark.templ:232
+#: internal/bookmarks/routes/x-bookmark.templ:245
 msgid "Share link"
 msgstr "Sdílet odkaz"
 
 # | msgid "Share by Link"
 #: internal/bookmarks/routes/views_bookmarks.go:372
-#: internal/bookmarks/routes/x-bookmark.templ:239
+#: internal/bookmarks/routes/x-bookmark.templ:252
 msgid "Share by email"
 msgstr "Sdílet e-mailem"
 
@@ -1420,14 +1437,14 @@ msgid "Favorites"
 msgstr "Oblíbené"
 
 #: internal/bookmarks/routes/x-base.templ:76
-#: internal/bookmarks/routes/x-labels.templ:72
-#: internal/bookmarks/routes/x-sidebar.templ:318
+#: internal/bookmarks/routes/x-labels.templ:73
+#: internal/bookmarks/routes/x-sidebar.templ:320
 #: internal/dashboard/x-dashboard.templ:62
 msgid "Labels"
 msgstr "Štítky"
 
 #: internal/bookmarks/routes/x-base.templ:78
-#: internal/bookmarks/routes/x-sidebar.templ:404
+#: internal/bookmarks/routes/x-sidebar.templ:406
 #: internal/dashboard/x-dashboard.templ:63
 msgid "Highlights"
 msgstr "Zvýrazněné"
@@ -1444,7 +1461,7 @@ msgstr "Věděli jste?"
 
 #: internal/bookmarks/routes/x-base.templ:103
 #: internal/bookmarks/routes/x-bookmark-list.templ:258
-#: internal/bookmarks/routes/x-sidebar.templ:58
+#: internal/bookmarks/routes/x-sidebar.templ:56
 #: internal/dashboard/x-dashboard.templ:251
 msgid "Learn more"
 msgstr "Dozvědět se více"
@@ -1540,40 +1557,42 @@ msgid "Mosaic view"
 msgstr "Mozaikový pohled"
 
 # | msgid "Import bookmarks"
-#: internal/bookmarks/routes/x-bookmark-list.templ:348
+#: internal/bookmarks/routes/x-bookmark-list.templ:344
+#: internal/bookmarks/routes/x-bookmark-list.templ:347
 msgid "Sort bookmarks"
 msgstr "Třídit záložky"
 
 # | msgid "Options"
-#: internal/bookmarks/routes/x-bookmark-list.templ:352
+#: internal/bookmarks/routes/x-bookmark-list.templ:349
 msgid "Sort options"
 msgstr "Možnosti třídění"
 
 # | msgid "Import links and articles"
-#: internal/bookmarks/routes/x-bookmark-list.templ:387
+#: internal/bookmarks/routes/x-bookmark-list.templ:379
+#: internal/bookmarks/routes/x-bookmark-list.templ:382
 msgid "Import and export"
 msgstr "Import a export"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:398
+#: internal/bookmarks/routes/x-bookmark-list.templ:391
 #: internal/bookmarks/routes/x-sidebar.templ:182
 msgid "Download EPUB"
 msgstr "Stáhnout EPUB"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:417
+#: internal/bookmarks/routes/x-bookmark-list.templ:410
 msgid "Atom Feed"
 msgstr "Zdroj Atom"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:465
+#: internal/bookmarks/routes/x-bookmark-list.templ:457
 msgctxt "bookmark"
 msgid "Loading"
 msgstr "Načítání"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:500
+#: internal/bookmarks/routes/x-bookmark-list.templ:492
 #: internal/dashboard/x-dashboard.templ:184
 msgid "untitled"
 msgstr "bez názvu"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:513
+#: internal/bookmarks/routes/x-bookmark-list.templ:505
 #, python-format
 msgctxt "abbr"
 msgid "%d min"
@@ -1582,41 +1601,41 @@ msgstr[0] "%d min"
 msgstr[1] "%d min"
 msgstr[2] "%d min"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:529
-#: internal/bookmarks/routes/x-sidebar.templ:117
+#: internal/bookmarks/routes/x-bookmark-list.templ:521
+#: internal/bookmarks/routes/x-sidebar.templ:115
 msgid "This bookmark will be removed in a few seconds."
 msgstr "Tato záložka bude za několik sekund odebrána."
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:548
+#: internal/bookmarks/routes/x-bookmark-list.templ:540
 #: internal/bookmarks/routes/x-components.templ:246
-#: internal/bookmarks/routes/x-sidebar.templ:106
+#: internal/bookmarks/routes/x-sidebar.templ:104
 msgid "Remove from archive"
 msgstr "Odebrat z archivu"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:548
+#: internal/bookmarks/routes/x-bookmark-list.templ:540
 #: internal/bookmarks/routes/x-components.templ:247
-#: internal/bookmarks/routes/x-sidebar.templ:107
+#: internal/bookmarks/routes/x-sidebar.templ:105
 msgid "Move to archive"
 msgstr "Přesunout do archivu"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:549
+#: internal/bookmarks/routes/x-bookmark-list.templ:541
 #: internal/bookmarks/routes/x-components.templ:234
-#: internal/bookmarks/routes/x-sidebar.templ:110
+#: internal/bookmarks/routes/x-sidebar.templ:108
 msgid "Remove from favorites"
 msgstr "Odebrat z oblíbených"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:549
+#: internal/bookmarks/routes/x-bookmark-list.templ:541
 #: internal/bookmarks/routes/x-components.templ:235
-#: internal/bookmarks/routes/x-sidebar.templ:111
+#: internal/bookmarks/routes/x-sidebar.templ:109
 msgid "Add to favorites"
 msgstr "Přidat do oblíbených"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:574
+#: internal/bookmarks/routes/x-bookmark-list.templ:566
 msgid "Go to original page"
 msgstr "Přejít na původní stránku"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:584
-#: internal/bookmarks/routes/x-sidebar.templ:232
+#: internal/bookmarks/routes/x-bookmark-list.templ:576
+#: internal/bookmarks/routes/x-sidebar.templ:231
 msgid "Delete this bookmark"
 msgstr "Odstranit tuto záložku"
 
@@ -1625,7 +1644,7 @@ msgid "Bookmark not found"
 msgstr "Záložka nenalezena"
 
 #: internal/bookmarks/routes/x-bookmark.templ:23
-#: internal/bookmarks/routes/x-bookmark.templ:220
+#: internal/bookmarks/routes/x-bookmark.templ:233
 msgid "Edit bookmark"
 msgstr "Upravit záložku"
 
@@ -1634,8 +1653,8 @@ msgid "Bookmark loading"
 msgstr "Načítání záložky"
 
 #: internal/bookmarks/routes/x-bookmark.templ:43
-#: internal/bookmarks/routes/x-bookmark.templ:133
-#: internal/bookmarks/routes/x-bookmark.templ:146
+#: internal/bookmarks/routes/x-bookmark.templ:134
+#: internal/bookmarks/routes/x-bookmark.templ:147
 msgid "Bookmark information"
 msgstr "Informace o záložkách"
 
@@ -1654,127 +1673,132 @@ msgid "Go back"
 msgstr "Vrátit se zpět"
 
 #: internal/bookmarks/routes/x-bookmark.templ:120
-#: internal/bookmarks/routes/x-bookmark.templ:126
+#: internal/bookmarks/routes/x-bookmark.templ:127
 #: internal/bookmarks/routes/x-collections.templ:187
 msgid "Edit"
 msgstr "Upravit"
 
-#: internal/bookmarks/routes/x-bookmark.templ:169
-#: internal/bookmarks/routes/x-bookmark.templ:181
+#: internal/bookmarks/routes/x-bookmark.templ:151
+#: internal/bookmarks/routes/x-bookmark.templ:159
+msgid "Fullscreen"
+msgstr ""
+
+#: internal/bookmarks/routes/x-bookmark.templ:182
+#: internal/bookmarks/routes/x-bookmark.templ:194
 msgid "Close panel"
 msgstr "Zavřít panel"
 
-#: internal/bookmarks/routes/x-bookmark.templ:210
+#: internal/bookmarks/routes/x-bookmark.templ:223
 #: internal/bookmarks/routes/x-components.templ:36
 #: internal/bookmarks/routes/x-components.templ:363
 msgid "Close dialog"
 msgstr "Zavřít dialog"
 
 # | msgid "Saved with Readeck"
-#: internal/bookmarks/routes/x-bookmark.templ:221
+#: internal/bookmarks/routes/x-bookmark.templ:234
 #, python-format
 msgid "Edit: %s"
 msgstr "Upravit: %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:233
-#: internal/bookmarks/routes/x-bookmark.templ:240
+#: internal/bookmarks/routes/x-bookmark.templ:246
+#: internal/bookmarks/routes/x-bookmark.templ:253
 #, python-format
 msgid "Share: %s"
 msgstr "Sdílet: %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:256
+#: internal/bookmarks/routes/x-bookmark.templ:269
 #: internal/bookmarks/routes/x-filters.templ:23
 msgid "Title"
 msgstr "Nadpis"
 
-#: internal/bookmarks/routes/x-bookmark.templ:266
+#: internal/bookmarks/routes/x-bookmark.templ:279
 msgid "Site Name"
 msgstr "Název stránky"
 
-#: internal/bookmarks/routes/x-bookmark.templ:271
+#: internal/bookmarks/routes/x-bookmark.templ:284
 msgid "Authors"
 msgstr "Autoři"
 
-#: internal/bookmarks/routes/x-bookmark.templ:274
+#: internal/bookmarks/routes/x-bookmark.templ:287
 msgid "One value per line"
 msgstr "Jedna hodnota na řádek"
 
-#: internal/bookmarks/routes/x-bookmark.templ:278
+#: internal/bookmarks/routes/x-bookmark.templ:291
 msgid "Published"
 msgstr "Zveřejněno"
 
-#: internal/bookmarks/routes/x-bookmark.templ:282
+#: internal/bookmarks/routes/x-bookmark.templ:295
 #: internal/bookmarks/routes/x-filters.templ:27
 #: internal/profile/x-profile.templ:55
 msgid "Language"
 msgstr "Jazyk"
 
-#: internal/bookmarks/routes/x-bookmark.templ:292
+#: internal/bookmarks/routes/x-bookmark.templ:305
 msgid "Text Direction"
 msgstr "Směr textu"
 
-#: internal/bookmarks/routes/x-bookmark.templ:316
+#: internal/bookmarks/routes/x-bookmark.templ:329
 msgid "You can share the following link with your friends."
 msgstr "Následující odkaz můžete sdílet se svými přáteli."
 
-#: internal/bookmarks/routes/x-bookmark.templ:318
+#: internal/bookmarks/routes/x-bookmark.templ:331
 #, python-format
 msgid "It expires on %s"
 msgstr "Vyprší %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:333
+#: internal/bookmarks/routes/x-bookmark.templ:346
 msgid "This link is shared without annotations."
 msgstr "Tento odkaz je sdílen bez anotací."
 
-#: internal/bookmarks/routes/x-bookmark.templ:334
+#: internal/bookmarks/routes/x-bookmark.templ:347
 msgid "Share with annotations"
 msgstr "Sdílet s anotacemi"
 
-#: internal/bookmarks/routes/x-bookmark.templ:336
+#: internal/bookmarks/routes/x-bookmark.templ:349
 msgid "This link is shared with annotations."
 msgstr "Tento odkaz je sdílen s anotacemi."
 
-#: internal/bookmarks/routes/x-bookmark.templ:337
+#: internal/bookmarks/routes/x-bookmark.templ:350
 msgid "Share without annotations"
 msgstr "Sdílet bez anotací"
 
-#: internal/bookmarks/routes/x-bookmark.templ:357
+#: internal/bookmarks/routes/x-bookmark.templ:370
 msgid "Copy the link"
 msgstr "Kopírovat odkaz"
 
-#: internal/bookmarks/routes/x-bookmark.templ:366
-#: internal/bookmarks/routes/x-bookmark.templ:430
+#: internal/bookmarks/routes/x-bookmark.templ:379
+#: internal/bookmarks/routes/x-bookmark.templ:443
 msgid "Go back to the bookmark"
 msgstr "Přejít zpět na záložku"
 
-#: internal/bookmarks/routes/x-bookmark.templ:391
+#: internal/bookmarks/routes/x-bookmark.templ:404
 msgid "Sends this bookmark's content in the message."
 msgstr "Odešle obsah této záložky ve zprávě."
 
 # | msgid "Sends this bookmarks as an attached EPUB file."
-#: internal/bookmarks/routes/x-bookmark.templ:393
+#: internal/bookmarks/routes/x-bookmark.templ:406
 msgid "Sends this bookmark as an attached EPUB file."
 msgstr "Odešle tuto záložku jako přílohu ve formátu EPUB."
 
 # | msgid "From date"
-#: internal/bookmarks/routes/x-bookmark.templ:401
+#: internal/bookmarks/routes/x-bookmark.templ:414
 msgid "Format"
 msgstr "Formát"
 
-#: internal/bookmarks/routes/x-bookmark.templ:407
+#: internal/bookmarks/routes/x-bookmark.templ:420
 msgid "Send To"
 msgstr "Odeslat do"
 
-#: internal/bookmarks/routes/x-bookmark.templ:413
+#: internal/bookmarks/routes/x-bookmark.templ:426
 msgid "Include annotations and notes"
 msgstr "Zahrnout anotace a poznámky"
 
-#: internal/bookmarks/routes/x-bookmark.templ:418
+#: internal/bookmarks/routes/x-bookmark.templ:431
 #, python-format
 msgid "The bookmark was sent to %s"
 msgstr "Záložka byla odeslána na %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:423
+#: internal/bookmarks/routes/x-bookmark.templ:436
 msgid "Send message"
 msgstr "Odeslat zprávu"
 
@@ -1836,7 +1860,7 @@ msgid "This collection will be removed in a few seconds."
 msgstr "Tato sbírka bude za několik sekund odebrána."
 
 #: internal/bookmarks/routes/x-collections.templ:107
-#: internal/bookmarks/routes/x-sidebar.templ:131
+#: internal/bookmarks/routes/x-sidebar.templ:129
 msgid "Undo"
 msgstr "Vrátit"
 
@@ -1882,7 +1906,7 @@ msgid "Highlight"
 msgstr "Zvýraznění"
 
 #: internal/bookmarks/routes/x-components.templ:193
-#: internal/bookmarks/routes/x-labels.templ:110
+#: internal/bookmarks/routes/x-labels.templ:109
 msgid "Delete"
 msgstr "Odstranit"
 
@@ -1905,7 +1929,7 @@ msgstr "Log extrakce"
 
 #: internal/bookmarks/routes/x-components.templ:330
 #: internal/bookmarks/routes/x-components.templ:381
-#: internal/docs/x-about.templ:70
+#: internal/docs/x-about.templ:74
 msgid "copy to clipboard"
 msgstr "Kopírovat do schránky"
 
@@ -2207,11 +2231,11 @@ msgstr "Bez dělení slov"
 msgid "Font"
 msgstr "Font písma"
 
-#: internal/bookmarks/routes/x-sidebar.templ:44
+#: internal/bookmarks/routes/x-sidebar.templ:42
 msgid "Errors occurred during extraction."
 msgstr "Během extrahování se vyskytly chyby."
 
-#: internal/bookmarks/routes/x-sidebar.templ:51
+#: internal/bookmarks/routes/x-sidebar.templ:49
 msgid ""
 "\n"
 "\t\t\t\t\t\tDepending on the error, Readeck's browser extension may provide\n"
@@ -2221,19 +2245,20 @@ msgstr ""
 "\t\t\t\t\t\tV závislosti na chybě může rozšíření prohlížeče Readeck poskytnout\n"
 "\t\t\t\t\t\třešení."
 
-#: internal/bookmarks/routes/x-sidebar.templ:67
+#: internal/bookmarks/routes/x-sidebar.templ:65
 msgid "View log"
 msgstr "Zobrazit logy"
 
-#: internal/bookmarks/routes/x-sidebar.templ:102
+#: internal/bookmarks/routes/x-sidebar.templ:100
 msgid "Mark as unread"
 msgstr "Označit jako nepřečtené"
 
-#: internal/bookmarks/routes/x-sidebar.templ:103
+#: internal/bookmarks/routes/x-sidebar.templ:101
 msgid "Mark as read"
 msgstr "Označit jako přečtené"
 
-#: internal/bookmarks/routes/x-sidebar.templ:173
+#: internal/bookmarks/routes/x-sidebar.templ:172
+#: internal/bookmarks/routes/x-sidebar.templ:175
 msgid "Export and Share"
 msgstr "Exportovat a uložit"
 
@@ -2249,27 +2274,32 @@ msgstr "Odeslat článek e-mailem"
 msgid "Send e-book by Email"
 msgstr "Odeslat e-knihu e-mailem"
 
-#: internal/bookmarks/routes/x-sidebar.templ:345
+#: internal/bookmarks/routes/x-sidebar.templ:296
+#, fuzzy
+msgid "Initial URL:"
+msgstr "neplatné URL"
+
+#: internal/bookmarks/routes/x-sidebar.templ:347
 msgid "Add a label"
 msgstr "Přidat štítek"
 
-#: internal/bookmarks/routes/x-sidebar.templ:366
+#: internal/bookmarks/routes/x-sidebar.templ:368
 msgid "Add label"
 msgstr "Přidat štítek"
 
-#: internal/bookmarks/routes/x-sidebar.templ:390
+#: internal/bookmarks/routes/x-sidebar.templ:392
 msgid "Remove label"
 msgstr "Odebrat štítek"
 
-#: internal/bookmarks/routes/x-sidebar.templ:408
+#: internal/bookmarks/routes/x-sidebar.templ:410
 msgid "Start selecting text in the article to create a new highlight."
 msgstr "Začněte vybírat text ve článku pro vytvoření nového zvýraznění."
 
-#: internal/bookmarks/routes/x-sidebar.templ:440
+#: internal/bookmarks/routes/x-sidebar.templ:442
 msgid "Delete highlight"
 msgstr "Odebrat zvýraznění"
 
-#: internal/bookmarks/routes/x-sidebar.templ:458
+#: internal/bookmarks/routes/x-sidebar.templ:460
 msgid "Links"
 msgstr "Odkazy"
 
@@ -2340,132 +2370,132 @@ msgstr "O Readecku"
 msgid "Version:"
 msgstr "Verze:"
 
-#: internal/docs/x-about.templ:58
+#: internal/docs/x-about.templ:59
 msgid "Build Date:"
 msgstr "Datum sestavení:"
 
-#: internal/docs/x-about.templ:60
+#: internal/docs/x-about.templ:64
 msgid "System Information"
 msgstr "Informace o systému"
 
-#: internal/docs/x-about.templ:62
+#: internal/docs/x-about.templ:66
 msgid "Here are your current system information. Please include them if you report a bug."
 msgstr "Zde jsou vaše aktuální informace o systému. Uveďte je prosím, pokud hlásíte chybu."
 
-#: internal/docs/x-about.templ:75
+#: internal/docs/x-about.templ:79
 msgid "Storage"
 msgstr "Uložiště"
 
-#: internal/docs/x-about.templ:79
+#: internal/docs/x-about.templ:83
 msgid "Database Size:"
 msgstr "Velikost databáze:"
 
-#: internal/docs/x-about.templ:83
+#: internal/docs/x-about.templ:87
 msgid "Bookmarks Disk Usage:"
 msgstr "Použití disku pro záložky:"
 
-#: internal/docs/x-about.templ:88
+#: internal/docs/x-about.templ:92
 msgid "Project"
 msgstr "Projekt"
 
-#: internal/docs/x-about.templ:91
+#: internal/docs/x-about.templ:95
 msgid "Main website:"
 msgstr "Hlavní stránka:"
 
-#: internal/docs/x-about.templ:95
+#: internal/docs/x-about.templ:99
 msgid "Sources and issues:"
 msgstr "Zdrojové kódy a vydání:"
 
-#: internal/docs/x-about.templ:99
+#: internal/docs/x-about.templ:103
 msgid "How to contribute:"
 msgstr "Jak přispět:"
 
-#: internal/docs/x-about.templ:103
+#: internal/docs/x-about.templ:107
 msgid "Community Forum:"
 msgstr "Komunitní fórum:"
 
-#: internal/docs/x-about.templ:107
+#: internal/docs/x-about.templ:111
 msgid "Matrix Chat:"
 msgstr "Chat Matrix:"
 
-#: internal/docs/x-about.templ:111
+#: internal/docs/x-about.templ:115
 msgid "License"
 msgstr "Licence"
 
-#: internal/docs/x-about.templ:113
+#: internal/docs/x-about.templ:117
 #, python-format
 msgid "Readeck is distributed under the terms of the license \"%s\""
 msgstr "Readeck je šířen podle podmínek licence „%s“"
 
-#: internal/docs/x-about.templ:118
+#: internal/docs/x-about.templ:122
 msgid "Here's a short summary of the license conditions:"
 msgstr "Zde je krátké shrnutí licenčních podmínek:"
 
-#: internal/docs/x-about.templ:123 internal/profile/x-applications.templ:56
+#: internal/docs/x-about.templ:127 internal/profile/x-applications.templ:56
 msgid "Permissions"
 msgstr "Oprávnění"
 
-#: internal/docs/x-about.templ:124
+#: internal/docs/x-about.templ:128
 msgid "Conditions"
 msgstr "Podmínky"
 
-#: internal/docs/x-about.templ:125
+#: internal/docs/x-about.templ:129
 msgid "Limitations"
 msgstr "Omezení"
 
-#: internal/docs/x-about.templ:135
+#: internal/docs/x-about.templ:139
 msgid "Commercial use"
 msgstr "Komerční využití"
 
-#: internal/docs/x-about.templ:140
+#: internal/docs/x-about.templ:144
 msgid "Distribution"
 msgstr "Šíření"
 
-#: internal/docs/x-about.templ:145
+#: internal/docs/x-about.templ:149
 msgid "Modification"
 msgstr "Úpravy"
 
-#: internal/docs/x-about.templ:150
+#: internal/docs/x-about.templ:154
 msgid "Patent use"
 msgstr "Použití patentů"
 
-#: internal/docs/x-about.templ:155
+#: internal/docs/x-about.templ:159
 msgid "Private use"
 msgstr "Soukromé používání"
 
-#: internal/docs/x-about.templ:164
+#: internal/docs/x-about.templ:168
 msgid "Disclose source"
 msgstr "Zveřejnění zdroje"
 
-#: internal/docs/x-about.templ:169
+#: internal/docs/x-about.templ:173
 msgid "License and copyright notice"
 msgstr "Upozornění na licenci a autorská práva"
 
-#: internal/docs/x-about.templ:174
+#: internal/docs/x-about.templ:178
 msgid "Network use is distribution"
 msgstr "Využití sítě je šíření"
 
-#: internal/docs/x-about.templ:179
+#: internal/docs/x-about.templ:183
 msgid "Same license"
 msgstr "Stejná licence"
 
-#: internal/docs/x-about.templ:184
+#: internal/docs/x-about.templ:188
 msgid "State changes"
 msgstr "Změny stavu"
 
-#: internal/docs/x-about.templ:193
+#: internal/docs/x-about.templ:197
 msgid "Liability"
 msgstr "Odpovědnost"
 
-#: internal/docs/x-about.templ:198
+#: internal/docs/x-about.templ:202
 msgid "Warranty"
 msgstr "Záruka"
 
-#: internal/docs/x-about.templ:229
+#: internal/docs/x-about.templ:233
 msgid "Third-Party Licenses"
 msgstr "Licence třetích stran"
 
-#: internal/docs/x-about.templ:230
+#: internal/docs/x-about.templ:234
 msgid "Readeck includes and/or uses the following open source assets:"
 msgstr "Readeck obsahuje a/nebo používá následující prostředky s otevřeným zdrojovým kódem:"
 
@@ -3415,3 +3445,4 @@ msgstr "%H:%M:%S"
 #~ msgctxt "date"
 #~ msgid "To"
 #~ msgstr ""
+

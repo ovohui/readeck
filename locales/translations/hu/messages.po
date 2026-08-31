@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
-"POT-Creation-Date: 2026-08-02 21:32+0200\n"
+"POT-Creation-Date: 2026-08-29 18:11+0200\n"
 "PO-Revision-Date: 2026-08-03 14:47+0000\n"
 "Last-Translator: γλωσσολαλιά <glossolalia@noreply.codeberg.org>\n"
 "Language: hu\n"
@@ -20,13 +20,30 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
-"X-Generator: Weblate 2026.7.1\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
 #: components/layout.templ:78 components/layout.templ:79
 #: internal/dashboard/x-dashboard.templ:21
 msgid "Home Page"
 msgstr "Kezdőlap"
+
+#: components/datetime.go:23
+#, fuzzy, python-format
+msgctxt "datetime"
+msgid "%e %b %Y"
+msgstr "%e %b %Y"
+
+#: components/datetime.go:24
+#, fuzzy, python-format
+msgctxt "datetime"
+msgid "%e %b %Y, %H:%M"
+msgstr "%e %b %Y, %H:%M"
+
+#: components/datetime.go:25
+#, fuzzy, python-format
+msgctxt "datetime"
+msgid "%e %b %Y, %H:%M:%S %Z"
+msgstr "%e %b %Y, %H:%M:%S %Z"
 
 #: components/errors.templ:10 components/errors.templ:12
 #: components/layout.templ:243 internal/auth/oauth2/x-oauth.templ:29
@@ -248,7 +265,7 @@ msgstr "A felhasználó néhány másodpercen belül eltávolításra kerül."
 
 #: internal/admin/x-users.templ:70 internal/admin/x-users.templ:207
 #: internal/bookmarks/importer/x-forms.templ:23
-#: internal/bookmarks/routes/x-bookmark-list.templ:542
+#: internal/bookmarks/routes/x-bookmark-list.templ:534
 #: internal/bookmarks/routes/x-collections.templ:161
 #: internal/bookmarks/routes/x-labels.templ:131
 #: internal/profile/x-applications.templ:84 internal/profile/x-tokens.templ:83
@@ -265,7 +282,7 @@ msgstr "Felhasználónév"
 
 #: internal/admin/x-users.templ:97 internal/admin/x-users.templ:137
 #: internal/auth/onboarding/x-onboarding.templ:39
-#: internal/auth/signin/x-auth.templ:136
+#: internal/auth/signin/x-auth.templ:137
 msgid "Email address"
 msgstr "E-mail cím"
 
@@ -293,7 +310,7 @@ msgid "will not change if empty"
 msgstr "nem fog változni, ha üres"
 
 #: internal/admin/x-users.templ:158
-#: internal/bookmarks/routes/x-bookmark.templ:225
+#: internal/bookmarks/routes/x-bookmark.templ:238
 #: internal/bookmarks/routes/x-collections.templ:138
 #: internal/bookmarks/routes/x-collections.templ:232
 #: internal/bookmarks/routes/x-components.templ:49
@@ -474,7 +491,7 @@ msgid "We're delighted to have you on board; one more step and you're good to go
 msgstr "Örülünk, hogy a fedélzeten van; csak még egy lépés, és már készen is áll."
 
 #: internal/auth/onboarding/x-onboarding.templ:35
-#: internal/auth/signin/x-auth.templ:170 internal/profile/x-security.templ:37
+#: internal/auth/signin/x-auth.templ:174 internal/profile/x-security.templ:37
 msgid "must be at least 8 characters long"
 msgstr "legalább 8 karakter hosszúnak kell lennie"
 
@@ -508,7 +525,7 @@ msgstr "Érvénytelen felhasználó és/vagy jelszó"
 msgid "Invalid code"
 msgstr "Érvénytelen kód"
 
-#: internal/auth/signin/recover.go:257
+#: internal/auth/signin/recover.go:273
 msgid ""
 "\n"
 "Hi,\n"
@@ -532,7 +549,7 @@ msgstr ""
 "\n"
 "%[2]s\n"
 
-#: internal/auth/signin/recover.go:271
+#: internal/auth/signin/recover.go:287
 msgid ""
 "\n"
 "Hi,\n"
@@ -596,8 +613,8 @@ msgstr "Jelszó-kód"
 msgid "Verify"
 msgstr "Ellenőrzés"
 
-#: internal/auth/signin/x-auth.templ:108 internal/auth/signin/x-auth.templ:144
-#: internal/auth/signin/x-auth.templ:177
+#: internal/auth/signin/x-auth.templ:108 internal/auth/signin/x-auth.templ:145
+#: internal/auth/signin/x-auth.templ:181
 msgid "Cancel and go back to sign in"
 msgstr "Mégse és vissza a bejelentkezéshez"
 
@@ -605,11 +622,11 @@ msgstr "Mégse és vissza a bejelentkezéshez"
 msgid "Password recovery"
 msgstr "Jelszó visszaállítás"
 
-#: internal/auth/signin/x-auth.templ:127
+#: internal/auth/signin/x-auth.templ:128
 msgid "No worries, it happens to anyone."
 msgstr "Ne aggódjon, ez bárkivel megtörténhet."
 
-#: internal/auth/signin/x-auth.templ:129
+#: internal/auth/signin/x-auth.templ:130
 msgid ""
 "\n"
 "\t\t\t\t\t\t\tPlease provide the email address you used to create\n"
@@ -623,32 +640,32 @@ msgstr ""
 "\t\t\t\t\t\t\tvisszaállíthatja a jelszavát.\n"
 "\t\t\t\t\t\t"
 
-#: internal/auth/signin/x-auth.templ:140
+#: internal/auth/signin/x-auth.templ:141
 msgid "Send me a recovery link"
 msgstr "Küldjön egy helyreállítási linket"
 
-#: internal/auth/signin/x-auth.templ:150
+#: internal/auth/signin/x-auth.templ:154
 msgid "Almost there!"
 msgstr "Mindjárt kész!"
 
-#: internal/auth/signin/x-auth.templ:152
+#: internal/auth/signin/x-auth.templ:156
 #, python-format
 msgid "We have sent an email to <strong>%s</strong> with further instructions."
 msgstr "Elküldtünk egy e-mailt a következő címre: <strong>%s</strong>, további utasításokkal."
 
-#: internal/auth/signin/x-auth.templ:168 internal/profile/x-security.templ:33
+#: internal/auth/signin/x-auth.templ:172 internal/profile/x-security.templ:33
 msgid "New password"
 msgstr "Új jelszó"
 
-#: internal/auth/signin/x-auth.templ:173
+#: internal/auth/signin/x-auth.templ:177
 msgid "Update your password"
 msgstr "Jelszó frissítése"
 
-#: internal/auth/signin/x-auth.templ:184
+#: internal/auth/signin/x-auth.templ:188
 msgid "Your password has been changed."
 msgstr "Jelszava megváltozott."
 
-#: internal/auth/signin/x-auth.templ:187
+#: internal/auth/signin/x-auth.templ:191
 msgid "Go to the sign in page"
 msgstr "Tovább a bejelentkező oldalra"
 
@@ -724,8 +741,8 @@ msgstr ""
 "Itt az e-könyved ehhez: **%s**\n"
 
 #: internal/bookmarks/converter/x-atom.templ:22
-#: internal/bookmarks/routes/x-bookmark-list.templ:505
-#: internal/bookmarks/routes/x-sidebar.templ:258
+#: internal/bookmarks/routes/x-bookmark-list.templ:497
+#: internal/bookmarks/routes/x-sidebar.templ:257
 msgid "no site name"
 msgstr "nincs oldalnév"
 
@@ -733,7 +750,7 @@ msgstr "nincs oldalnév"
 #: internal/bookmarks/converter/x-email.templ:30
 #: internal/bookmarks/converter/x-epub.templ:51
 #: internal/bookmarks/converter/x-html-public.templ:182
-#: internal/bookmarks/routes/x-sidebar.templ:281
+#: internal/bookmarks/routes/x-sidebar.templ:280
 #, python-format
 msgid "Published on %s"
 msgstr "Közétéve %s"
@@ -742,7 +759,7 @@ msgstr "Közétéve %s"
 #: internal/bookmarks/converter/x-email.templ:33
 #: internal/bookmarks/converter/x-epub.templ:54
 #: internal/bookmarks/converter/x-html-public.templ:186
-#: internal/bookmarks/routes/x-sidebar.templ:286
+#: internal/bookmarks/routes/x-sidebar.templ:285
 #, python-format
 msgid "By %s"
 msgstr "%s által"
@@ -752,7 +769,7 @@ msgstr "%s által"
 #: internal/bookmarks/converter/x-email.templ:37
 #: internal/bookmarks/converter/x-epub.templ:58
 #: internal/bookmarks/converter/x-html-public.templ:195
-#: internal/bookmarks/routes/x-sidebar.templ:303
+#: internal/bookmarks/routes/x-sidebar.templ:305
 #, python-format
 msgid "About %d minute read"
 msgid_plural "About %d minutes read"
@@ -763,7 +780,7 @@ msgstr[1] "Hozzávetőleg %d perc elolvasni"
 #: internal/bookmarks/converter/x-email.templ:42
 #: internal/bookmarks/converter/x-epub.templ:63
 #: internal/bookmarks/converter/x-html-public.templ:216
-#: internal/bookmarks/routes/x-bookmark.templ:298
+#: internal/bookmarks/routes/x-bookmark.templ:311
 #: internal/bookmarks/routes/x-components.templ:164
 #: internal/bookmarks/routes/x-components.templ:208
 #: internal/bookmarks/routes/x-filters.templ:36
@@ -977,7 +994,7 @@ msgstr "Alias"
 
 # | msgid "Distribution"
 #: internal/bookmarks/importer/x-forms.templ:121
-#: internal/bookmarks/routes/x-bookmark.templ:261
+#: internal/bookmarks/routes/x-bookmark.templ:274
 msgid "Description"
 msgstr "Leírás"
 
@@ -1339,13 +1356,13 @@ msgid "Update"
 msgstr "Frissítés"
 
 #: internal/bookmarks/routes/views_bookmarks.go:342
-#: internal/bookmarks/routes/x-bookmark.templ:232
+#: internal/bookmarks/routes/x-bookmark.templ:245
 msgid "Share link"
 msgstr "Hivatkozás megosztása"
 
 # | msgid "Share by Link"
 #: internal/bookmarks/routes/views_bookmarks.go:372
-#: internal/bookmarks/routes/x-bookmark.templ:239
+#: internal/bookmarks/routes/x-bookmark.templ:252
 msgid "Share by email"
 msgstr "Megosztás e-mail-ben"
 
@@ -1422,14 +1439,14 @@ msgid "Favorites"
 msgstr "Kedvencek"
 
 #: internal/bookmarks/routes/x-base.templ:76
-#: internal/bookmarks/routes/x-labels.templ:72
-#: internal/bookmarks/routes/x-sidebar.templ:318
+#: internal/bookmarks/routes/x-labels.templ:73
+#: internal/bookmarks/routes/x-sidebar.templ:320
 #: internal/dashboard/x-dashboard.templ:62
 msgid "Labels"
 msgstr "Címkék"
 
 #: internal/bookmarks/routes/x-base.templ:78
-#: internal/bookmarks/routes/x-sidebar.templ:404
+#: internal/bookmarks/routes/x-sidebar.templ:406
 #: internal/dashboard/x-dashboard.templ:63
 msgid "Highlights"
 msgstr "Kiemelések"
@@ -1446,7 +1463,7 @@ msgstr "Tudtad?"
 
 #: internal/bookmarks/routes/x-base.templ:103
 #: internal/bookmarks/routes/x-bookmark-list.templ:258
-#: internal/bookmarks/routes/x-sidebar.templ:58
+#: internal/bookmarks/routes/x-sidebar.templ:56
 #: internal/dashboard/x-dashboard.templ:251
 msgid "Learn more"
 msgstr "Tudj meg többet"
@@ -1541,41 +1558,43 @@ msgid "Mosaic view"
 msgstr "Mozaik nézet"
 
 # | msgid "Import bookmarks"
-#: internal/bookmarks/routes/x-bookmark-list.templ:348
+#: internal/bookmarks/routes/x-bookmark-list.templ:344
+#: internal/bookmarks/routes/x-bookmark-list.templ:347
 msgid "Sort bookmarks"
 msgstr "Könyvjelzők rendezése"
 
 # | msgid "Options"
-#: internal/bookmarks/routes/x-bookmark-list.templ:352
+#: internal/bookmarks/routes/x-bookmark-list.templ:349
 msgid "Sort options"
 msgstr "Rendezési lehetőségek"
 
 # | msgid "Import links and articles"
-#: internal/bookmarks/routes/x-bookmark-list.templ:387
+#: internal/bookmarks/routes/x-bookmark-list.templ:379
+#: internal/bookmarks/routes/x-bookmark-list.templ:382
 msgid "Import and export"
 msgstr "Importálás és exportálás"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:398
+#: internal/bookmarks/routes/x-bookmark-list.templ:391
 #: internal/bookmarks/routes/x-sidebar.templ:182
 msgid "Download EPUB"
 msgstr "EPUB letöltése"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:417
+#: internal/bookmarks/routes/x-bookmark-list.templ:410
 msgid "Atom Feed"
 msgstr "Atom Feed"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:465
+#: internal/bookmarks/routes/x-bookmark-list.templ:457
 msgctxt "bookmark"
 msgid "Loading"
 msgstr "Betöltés"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:500
+#: internal/bookmarks/routes/x-bookmark-list.templ:492
 #: internal/dashboard/x-dashboard.templ:184
 msgid "untitled"
 msgstr "cím nélkül"
 
 # | msgid "%d min"
-#: internal/bookmarks/routes/x-bookmark-list.templ:513
+#: internal/bookmarks/routes/x-bookmark-list.templ:505
 #, python-format
 msgctxt "abbr"
 msgid "%d min"
@@ -1583,41 +1602,41 @@ msgid_plural "%d min"
 msgstr[0] "%d perc"
 msgstr[1] "%d perc"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:529
-#: internal/bookmarks/routes/x-sidebar.templ:117
+#: internal/bookmarks/routes/x-bookmark-list.templ:521
+#: internal/bookmarks/routes/x-sidebar.templ:115
 msgid "This bookmark will be removed in a few seconds."
 msgstr "Ez a könyvjelző néhány másodpercen belül eltávolításra kerül."
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:548
+#: internal/bookmarks/routes/x-bookmark-list.templ:540
 #: internal/bookmarks/routes/x-components.templ:246
-#: internal/bookmarks/routes/x-sidebar.templ:106
+#: internal/bookmarks/routes/x-sidebar.templ:104
 msgid "Remove from archive"
 msgstr "Eltávolítás az archívumból"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:548
+#: internal/bookmarks/routes/x-bookmark-list.templ:540
 #: internal/bookmarks/routes/x-components.templ:247
-#: internal/bookmarks/routes/x-sidebar.templ:107
+#: internal/bookmarks/routes/x-sidebar.templ:105
 msgid "Move to archive"
 msgstr "Áthelyezés az archívumba"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:549
+#: internal/bookmarks/routes/x-bookmark-list.templ:541
 #: internal/bookmarks/routes/x-components.templ:234
-#: internal/bookmarks/routes/x-sidebar.templ:110
+#: internal/bookmarks/routes/x-sidebar.templ:108
 msgid "Remove from favorites"
 msgstr "Eltávolítás a kedvencek közül"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:549
+#: internal/bookmarks/routes/x-bookmark-list.templ:541
 #: internal/bookmarks/routes/x-components.templ:235
-#: internal/bookmarks/routes/x-sidebar.templ:111
+#: internal/bookmarks/routes/x-sidebar.templ:109
 msgid "Add to favorites"
 msgstr "Kedvencekhez adás"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:574
+#: internal/bookmarks/routes/x-bookmark-list.templ:566
 msgid "Go to original page"
 msgstr "Tovább az eredeti oldalra"
 
-#: internal/bookmarks/routes/x-bookmark-list.templ:584
-#: internal/bookmarks/routes/x-sidebar.templ:232
+#: internal/bookmarks/routes/x-bookmark-list.templ:576
+#: internal/bookmarks/routes/x-sidebar.templ:231
 msgid "Delete this bookmark"
 msgstr "Könyvjelző törlése"
 
@@ -1626,7 +1645,7 @@ msgid "Bookmark not found"
 msgstr "Könyvjelző nem található"
 
 #: internal/bookmarks/routes/x-bookmark.templ:23
-#: internal/bookmarks/routes/x-bookmark.templ:220
+#: internal/bookmarks/routes/x-bookmark.templ:233
 msgid "Edit bookmark"
 msgstr "Könyvjelző szerkesztése"
 
@@ -1635,8 +1654,8 @@ msgid "Bookmark loading"
 msgstr "Könyvjelző betöltése"
 
 #: internal/bookmarks/routes/x-bookmark.templ:43
-#: internal/bookmarks/routes/x-bookmark.templ:133
-#: internal/bookmarks/routes/x-bookmark.templ:146
+#: internal/bookmarks/routes/x-bookmark.templ:134
+#: internal/bookmarks/routes/x-bookmark.templ:147
 msgid "Bookmark information"
 msgstr "Könyvjelző információ"
 
@@ -1655,17 +1674,22 @@ msgid "Go back"
 msgstr "Vissza"
 
 #: internal/bookmarks/routes/x-bookmark.templ:120
-#: internal/bookmarks/routes/x-bookmark.templ:126
+#: internal/bookmarks/routes/x-bookmark.templ:127
 #: internal/bookmarks/routes/x-collections.templ:187
 msgid "Edit"
 msgstr "Szerkesztés"
 
-#: internal/bookmarks/routes/x-bookmark.templ:169
-#: internal/bookmarks/routes/x-bookmark.templ:181
+#: internal/bookmarks/routes/x-bookmark.templ:151
+#: internal/bookmarks/routes/x-bookmark.templ:159
+msgid "Fullscreen"
+msgstr ""
+
+#: internal/bookmarks/routes/x-bookmark.templ:182
+#: internal/bookmarks/routes/x-bookmark.templ:194
 msgid "Close panel"
 msgstr "Panel bezárása"
 
-#: internal/bookmarks/routes/x-bookmark.templ:210
+#: internal/bookmarks/routes/x-bookmark.templ:223
 #: internal/bookmarks/routes/x-components.templ:36
 #: internal/bookmarks/routes/x-components.templ:363
 msgid "Close dialog"
@@ -1673,110 +1697,110 @@ msgstr "Dialógus bezárása"
 
 # | msgid "Saved with Readeck"
 # | msgid "Saved with"
-#: internal/bookmarks/routes/x-bookmark.templ:221
+#: internal/bookmarks/routes/x-bookmark.templ:234
 #, python-format
 msgid "Edit: %s"
 msgstr "Szerkesztő: %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:233
-#: internal/bookmarks/routes/x-bookmark.templ:240
+#: internal/bookmarks/routes/x-bookmark.templ:246
+#: internal/bookmarks/routes/x-bookmark.templ:253
 #, python-format
 msgid "Share: %s"
 msgstr "Megosztás: %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:256
+#: internal/bookmarks/routes/x-bookmark.templ:269
 #: internal/bookmarks/routes/x-filters.templ:23
 msgid "Title"
 msgstr "Cím"
 
-#: internal/bookmarks/routes/x-bookmark.templ:266
+#: internal/bookmarks/routes/x-bookmark.templ:279
 msgid "Site Name"
 msgstr "Webhely neve"
 
-#: internal/bookmarks/routes/x-bookmark.templ:271
+#: internal/bookmarks/routes/x-bookmark.templ:284
 msgid "Authors"
 msgstr "Szerzők"
 
-#: internal/bookmarks/routes/x-bookmark.templ:274
+#: internal/bookmarks/routes/x-bookmark.templ:287
 msgid "One value per line"
 msgstr "Soronként egy érték"
 
-#: internal/bookmarks/routes/x-bookmark.templ:278
+#: internal/bookmarks/routes/x-bookmark.templ:291
 msgid "Published"
 msgstr "Közzétéve"
 
-#: internal/bookmarks/routes/x-bookmark.templ:282
+#: internal/bookmarks/routes/x-bookmark.templ:295
 #: internal/bookmarks/routes/x-filters.templ:27
 #: internal/profile/x-profile.templ:55
 msgid "Language"
 msgstr "Nyelv"
 
-#: internal/bookmarks/routes/x-bookmark.templ:292
+#: internal/bookmarks/routes/x-bookmark.templ:305
 msgid "Text Direction"
 msgstr "Szövegirány"
 
-#: internal/bookmarks/routes/x-bookmark.templ:316
+#: internal/bookmarks/routes/x-bookmark.templ:329
 msgid "You can share the following link with your friends."
 msgstr "Az alábbi hivatkozást megoszthatja barátaival."
 
-#: internal/bookmarks/routes/x-bookmark.templ:318
+#: internal/bookmarks/routes/x-bookmark.templ:331
 #, python-format
 msgid "It expires on %s"
 msgstr "Lejár ekkor %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:333
+#: internal/bookmarks/routes/x-bookmark.templ:346
 msgid "This link is shared without annotations."
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark.templ:334
+#: internal/bookmarks/routes/x-bookmark.templ:347
 msgid "Share with annotations"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark.templ:336
+#: internal/bookmarks/routes/x-bookmark.templ:349
 msgid "This link is shared with annotations."
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark.templ:337
+#: internal/bookmarks/routes/x-bookmark.templ:350
 #, fuzzy
 msgid "Share without annotations"
 msgstr "Elválasztás nélkül"
 
-#: internal/bookmarks/routes/x-bookmark.templ:357
+#: internal/bookmarks/routes/x-bookmark.templ:370
 msgid "Copy the link"
 msgstr "Hivatkozás másolása"
 
-#: internal/bookmarks/routes/x-bookmark.templ:366
-#: internal/bookmarks/routes/x-bookmark.templ:430
+#: internal/bookmarks/routes/x-bookmark.templ:379
+#: internal/bookmarks/routes/x-bookmark.templ:443
 msgid "Go back to the bookmark"
 msgstr "Tovább a könyvjelzőhöz"
 
-#: internal/bookmarks/routes/x-bookmark.templ:391
+#: internal/bookmarks/routes/x-bookmark.templ:404
 msgid "Sends this bookmark's content in the message."
 msgstr "A könyvjelző tartalmának küldése üzenetben."
 
-#: internal/bookmarks/routes/x-bookmark.templ:393
+#: internal/bookmarks/routes/x-bookmark.templ:406
 msgid "Sends this bookmark as an attached EPUB file."
 msgstr "A könyvjelző küldése, mint csatolt EPUB fájl."
 
 # | msgid "From date"
-#: internal/bookmarks/routes/x-bookmark.templ:401
+#: internal/bookmarks/routes/x-bookmark.templ:414
 msgid "Format"
 msgstr "Formátum"
 
-#: internal/bookmarks/routes/x-bookmark.templ:407
+#: internal/bookmarks/routes/x-bookmark.templ:420
 msgid "Send To"
 msgstr "Címzett"
 
-#: internal/bookmarks/routes/x-bookmark.templ:413
+#: internal/bookmarks/routes/x-bookmark.templ:426
 msgid "Include annotations and notes"
 msgstr ""
 
-#: internal/bookmarks/routes/x-bookmark.templ:418
+#: internal/bookmarks/routes/x-bookmark.templ:431
 #, python-format
 msgid "The bookmark was sent to %s"
 msgstr "A könyvjelző elküldve ide: %s"
 
-#: internal/bookmarks/routes/x-bookmark.templ:423
+#: internal/bookmarks/routes/x-bookmark.templ:436
 msgid "Send message"
 msgstr "Üzenet küldése"
 
@@ -1838,7 +1862,7 @@ msgid "This collection will be removed in a few seconds."
 msgstr "A gyűjtemény néhány másodpercen belül megszűnik."
 
 #: internal/bookmarks/routes/x-collections.templ:107
-#: internal/bookmarks/routes/x-sidebar.templ:131
+#: internal/bookmarks/routes/x-sidebar.templ:129
 msgid "Undo"
 msgstr "Visszavonás"
 
@@ -1884,7 +1908,7 @@ msgid "Highlight"
 msgstr "Kiemelés"
 
 #: internal/bookmarks/routes/x-components.templ:193
-#: internal/bookmarks/routes/x-labels.templ:110
+#: internal/bookmarks/routes/x-labels.templ:109
 msgid "Delete"
 msgstr "Törlés"
 
@@ -1907,7 +1931,7 @@ msgstr "Kinyerési napló"
 
 #: internal/bookmarks/routes/x-components.templ:330
 #: internal/bookmarks/routes/x-components.templ:381
-#: internal/docs/x-about.templ:70
+#: internal/docs/x-about.templ:74
 msgid "copy to clipboard"
 msgstr "vágólapra másolás"
 
@@ -2212,11 +2236,11 @@ msgstr "Elválasztás nélkül"
 msgid "Font"
 msgstr "Betűtípus"
 
-#: internal/bookmarks/routes/x-sidebar.templ:44
+#: internal/bookmarks/routes/x-sidebar.templ:42
 msgid "Errors occurred during extraction."
 msgstr "A kivonatolás során hibák léptek fel."
 
-#: internal/bookmarks/routes/x-sidebar.templ:51
+#: internal/bookmarks/routes/x-sidebar.templ:49
 msgid ""
 "\n"
 "\t\t\t\t\t\tDepending on the error, Readeck's browser extension may provide\n"
@@ -2226,19 +2250,20 @@ msgstr ""
 "\t\t\t\t\t\tAttól függően, hogy milyen hibáról van szó, a Readeck\n"
 "\t\t\t\t\t\tböngészőbővítménye lehet, hogy biztosít egy kerülőmegoldást."
 
-#: internal/bookmarks/routes/x-sidebar.templ:67
+#: internal/bookmarks/routes/x-sidebar.templ:65
 msgid "View log"
 msgstr "Napló nézet"
 
-#: internal/bookmarks/routes/x-sidebar.templ:102
+#: internal/bookmarks/routes/x-sidebar.templ:100
 msgid "Mark as unread"
 msgstr "Olvasatlanak jelöl"
 
-#: internal/bookmarks/routes/x-sidebar.templ:103
+#: internal/bookmarks/routes/x-sidebar.templ:101
 msgid "Mark as read"
 msgstr "Olvasottnak jelöl"
 
-#: internal/bookmarks/routes/x-sidebar.templ:173
+#: internal/bookmarks/routes/x-sidebar.templ:172
+#: internal/bookmarks/routes/x-sidebar.templ:175
 msgid "Export and Share"
 msgstr "Exportálás és Megosztás"
 
@@ -2254,27 +2279,32 @@ msgstr "Cikk küldése e-mail-ben"
 msgid "Send e-book by Email"
 msgstr "E-könyv küldése e-mail-ben"
 
-#: internal/bookmarks/routes/x-sidebar.templ:345
+#: internal/bookmarks/routes/x-sidebar.templ:296
+#, fuzzy
+msgid "Initial URL:"
+msgstr "érvénytelen URL cím"
+
+#: internal/bookmarks/routes/x-sidebar.templ:347
 msgid "Add a label"
 msgstr "Címke hozzáadása"
 
-#: internal/bookmarks/routes/x-sidebar.templ:366
+#: internal/bookmarks/routes/x-sidebar.templ:368
 msgid "Add label"
 msgstr "Címke hozzáadása"
 
-#: internal/bookmarks/routes/x-sidebar.templ:390
+#: internal/bookmarks/routes/x-sidebar.templ:392
 msgid "Remove label"
 msgstr "Címke törlése"
 
-#: internal/bookmarks/routes/x-sidebar.templ:408
+#: internal/bookmarks/routes/x-sidebar.templ:410
 msgid "Start selecting text in the article to create a new highlight."
 msgstr "Kezdje el kijelölni a szöveget a cikkben, hogy új kiemelést hozzon létre."
 
-#: internal/bookmarks/routes/x-sidebar.templ:440
+#: internal/bookmarks/routes/x-sidebar.templ:442
 msgid "Delete highlight"
 msgstr "Kiemelés törlése"
 
-#: internal/bookmarks/routes/x-sidebar.templ:458
+#: internal/bookmarks/routes/x-sidebar.templ:460
 msgid "Links"
 msgstr "Hivatkozások"
 
@@ -2345,132 +2375,132 @@ msgstr "A Readeck-ről"
 msgid "Version:"
 msgstr "Verzió:"
 
-#: internal/docs/x-about.templ:58
+#: internal/docs/x-about.templ:59
 msgid "Build Date:"
 msgstr "Buid dátuma:"
 
-#: internal/docs/x-about.templ:60
+#: internal/docs/x-about.templ:64
 msgid "System Information"
 msgstr "Rendszerinformációk"
 
-#: internal/docs/x-about.templ:62
+#: internal/docs/x-about.templ:66
 msgid "Here are your current system information. Please include them if you report a bug."
 msgstr "Itt vannak az Ön jelenlegi rendszeradatai. Kérjük, adja meg ezeket, ha hibát jelent."
 
-#: internal/docs/x-about.templ:75
+#: internal/docs/x-about.templ:79
 msgid "Storage"
 msgstr "Tárhely"
 
-#: internal/docs/x-about.templ:79
+#: internal/docs/x-about.templ:83
 msgid "Database Size:"
 msgstr "Adatbázis méret:"
 
-#: internal/docs/x-about.templ:83
+#: internal/docs/x-about.templ:87
 msgid "Bookmarks Disk Usage:"
 msgstr "Könyvjelzők lemezhasználata:"
 
-#: internal/docs/x-about.templ:88
+#: internal/docs/x-about.templ:92
 msgid "Project"
 msgstr "Projekt"
 
-#: internal/docs/x-about.templ:91
+#: internal/docs/x-about.templ:95
 msgid "Main website:"
 msgstr "Fő weboldal:"
 
-#: internal/docs/x-about.templ:95
+#: internal/docs/x-about.templ:99
 msgid "Sources and issues:"
 msgstr "Források és hibák:"
 
-#: internal/docs/x-about.templ:99
+#: internal/docs/x-about.templ:103
 msgid "How to contribute:"
 msgstr "Közreműködés:"
 
-#: internal/docs/x-about.templ:103
+#: internal/docs/x-about.templ:107
 msgid "Community Forum:"
 msgstr "Közösségi Fórum:"
 
-#: internal/docs/x-about.templ:107
+#: internal/docs/x-about.templ:111
 msgid "Matrix Chat:"
 msgstr "Matrix Chat:"
 
-#: internal/docs/x-about.templ:111
+#: internal/docs/x-about.templ:115
 msgid "License"
 msgstr "Licence"
 
-#: internal/docs/x-about.templ:113
+#: internal/docs/x-about.templ:117
 #, python-format
 msgid "Readeck is distributed under the terms of the license \"%s\""
 msgstr "A Readeck a következő licenc feltételei szerint kerül terjesztésre \"%s\""
 
-#: internal/docs/x-about.templ:118
+#: internal/docs/x-about.templ:122
 msgid "Here's a short summary of the license conditions:"
 msgstr "Íme egy rövid összefoglaló az engedélyezési feltételekről:"
 
-#: internal/docs/x-about.templ:123 internal/profile/x-applications.templ:56
+#: internal/docs/x-about.templ:127 internal/profile/x-applications.templ:56
 msgid "Permissions"
 msgstr "Jogosultságok"
 
-#: internal/docs/x-about.templ:124
+#: internal/docs/x-about.templ:128
 msgid "Conditions"
 msgstr "Feltételek"
 
-#: internal/docs/x-about.templ:125
+#: internal/docs/x-about.templ:129
 msgid "Limitations"
 msgstr "Korlátozások"
 
-#: internal/docs/x-about.templ:135
+#: internal/docs/x-about.templ:139
 msgid "Commercial use"
 msgstr "Kereskedelmi célú felhasználás"
 
-#: internal/docs/x-about.templ:140
+#: internal/docs/x-about.templ:144
 msgid "Distribution"
 msgstr "Forgalmazás"
 
-#: internal/docs/x-about.templ:145
+#: internal/docs/x-about.templ:149
 msgid "Modification"
 msgstr "Módosítás"
 
-#: internal/docs/x-about.templ:150
+#: internal/docs/x-about.templ:154
 msgid "Patent use"
 msgstr "Szabadalom felhasználása"
 
-#: internal/docs/x-about.templ:155
+#: internal/docs/x-about.templ:159
 msgid "Private use"
 msgstr "Magáncélú felhasználás"
 
-#: internal/docs/x-about.templ:164
+#: internal/docs/x-about.templ:168
 msgid "Disclose source"
 msgstr "A forrás közzététele"
 
-#: internal/docs/x-about.templ:169
+#: internal/docs/x-about.templ:173
 msgid "License and copyright notice"
 msgstr "Licenc és szerzői jogi nyilatkozat"
 
-#: internal/docs/x-about.templ:174
+#: internal/docs/x-about.templ:178
 msgid "Network use is distribution"
 msgstr "Hálózati felhasználás forgalmazás"
 
-#: internal/docs/x-about.templ:179
+#: internal/docs/x-about.templ:183
 msgid "Same license"
 msgstr "Ugyanaz a licenc"
 
-#: internal/docs/x-about.templ:184
+#: internal/docs/x-about.templ:188
 msgid "State changes"
 msgstr "Állami változtatások"
 
-#: internal/docs/x-about.templ:193
+#: internal/docs/x-about.templ:197
 msgid "Liability"
 msgstr "Felelősségvállalás"
 
-#: internal/docs/x-about.templ:198
+#: internal/docs/x-about.templ:202
 msgid "Warranty"
 msgstr "Jótállás"
 
-#: internal/docs/x-about.templ:229
+#: internal/docs/x-about.templ:233
 msgid "Third-Party Licenses"
 msgstr "Harmadik féltől származó licencek"
 
-#: internal/docs/x-about.templ:230
+#: internal/docs/x-about.templ:234
 msgid "Readeck includes and/or uses the following open source assets:"
 msgstr "A Readeck a következő nyílt forráskódú eszközöket tartalmazza és/vagy használja:"
 
@@ -3506,3 +3536,4 @@ msgstr "%a %b %e %H:%M:%S %y"
 #~ msgctxt "date"
 #~ msgid "To"
 #~ msgstr ""
+

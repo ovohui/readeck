@@ -22,7 +22,7 @@ templ (v atomViews) bookmark(b *dataset.Bookmark, resources bookmarks.BookmarkFi
 			<strong>{ Tern(func() bool {return b.SiteName != "" }, b.SiteName, L(ctx).Gettext("no site name")) }</strong>
 		</li>
 		if b.Published != nil {
-			<li>{ L(ctx).Gettext("Published on %s", Strftime(ctx, *b.Published, "%e %B %Y")) }</li>
+			<li>{ L(ctx).Gettext("Published on %s", Date(ctx, *b.Published)) }</li>
 		}
 		if len(b.Authors) > 0 {
 			<li>{ L(ctx).Gettext("By %s", strings.Join(b.Authors, ", ")) }</li>

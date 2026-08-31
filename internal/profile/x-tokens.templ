@@ -50,17 +50,17 @@ templ (v Views) tokenList(tokenList *tokenItemList) {
 								· { token.Application }
 								<small class="block">
 									{ L(ctx).Gettext("Created on: %s",
-										Strftime(ctx, token.Created, "%e %B %Y"),
+										LocalDate(ctx, token.Created),
 									) }
 									if token.Expires != nil {
 										<br/>
 										{ L(ctx).Gettext("Expires on: %s",
-											Strftime(ctx, *token.Expires, "%e %B %Y"),
+											LocalDate(ctx, *token.Expires),
 										) }
 									}
 									if token.LastUsed != nil {
 										<br/>
-										{ L(ctx).Gettext("Last used on: %s", Strftime(ctx, *token.LastUsed, "%c")) }
+										{ L(ctx).Gettext("Last used on: %s", LocalDateTimeFull(ctx, *token.LastUsed)) }
 									}
 								</small>
 							</a>
@@ -118,7 +118,7 @@ templ (v Views) tokenInfo(f *tokenForm, token *tokenItem, encoded string) {
 				<label>{ L(ctx).Gettext("Last used") }</label>
 				<div class="control">
 					if token.LastUsed !=nil {
-						{ Strftime(ctx, *token.LastUsed, "%c") }
+						{ LocalDateTimeFull(ctx, *token.LastUsed) }
 					} else {
 						{ L(ctx).Gettext("never used") }
 					}

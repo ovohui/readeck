@@ -14,7 +14,10 @@
   "strip_id_or_class": [
     "aawp-disclaimer",
     "su-posts",
-    "wp-embedded-content"
+    "wp-embedded-content",
+    "cb-bookmark-container",
+    "cb-error-report-wrap",
+    "cb-internal-link-card"
   ],
   "strip_image_src": null,
   "native_ad_selectors": null,

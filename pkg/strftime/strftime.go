@@ -77,9 +77,14 @@ var (
 	timeRepresentation     = Pgettext("datetime", "%H:%M:%S")
 )
 
-// translator is an interface for type implementing a pgettext method without extra argument.
+// translator is an interface for type implementing a Pgettext method.
 type translator interface {
-	Pgettext(string, string) string
+	Pgettext(string, string, ...any) string
+}
+
+// Translatable is an interface for type implementing a Translate method.
+type Translatable interface {
+	Translate(translator) string
 }
 
 // localeTranslator is an interface for types implementing a full pgettext method.
@@ -87,14 +92,17 @@ type localeTranslator interface {
 	Pgettext(string, string, ...any) string
 }
 
-type translatable string
-
-func (t translatable) Translate(ctx string, tr translator) string {
-	return tr.Pgettext(ctx, string(t))
+type translatable struct {
+	ctx string
+	s   string
 }
 
-func newTranslatable(_, s string) translatable {
-	return translatable(s)
+func newTranslatable(ctx, s string) translatable {
+	return translatable{ctx: ctx, s: s}
+}
+
+func (t translatable) Translate(tr translator) string {
+	return tr.Pgettext(t.ctx, t.s)
 }
 
 // gettextWrapper is a wrapper that implements [translator] around a [localeTranslator].
@@ -102,7 +110,7 @@ type gettextWrapper struct {
 	Translator localeTranslator
 }
 
-func (l *gettextWrapper) Pgettext(ctx, s string) string {
+func (l *gettextWrapper) Pgettext(ctx, s string, _ ...any) string {
 	return l.Translator.Pgettext(ctx, s)
 }
 
@@ -149,22 +157,22 @@ func (f *Formatter) repr(ch rune, t time.Time) string { //nolint:gocyclo
 	switch ch {
 	case 'A':
 		// 	national representation of the full weekday name
-		return longDayNames[t.Weekday()].Translate("datetime_dl", f.tr)
+		return longDayNames[t.Weekday()].Translate(f.tr)
 	case 'a':
 		// 	national representation of the abbreviated weekday
-		return shortDayNames[t.Weekday()].Translate("datetime_ds", f.tr)
+		return shortDayNames[t.Weekday()].Translate(f.tr)
 	case 'B':
 		// 	national representation of the full month name
-		return longMonthNames[t.Month()-1].Translate("datetime_ml", f.tr)
+		return longMonthNames[t.Month()-1].Translate(f.tr)
 	case 'b', 'h':
 		// 	national representation of the abbreviated month name
-		return shortMonthNames[t.Month()-1].Translate("datetime_ms", f.tr)
+		return shortMonthNames[t.Month()-1].Translate(f.tr)
 	case 'C':
 		// 	(year / 100) as decimal number; single digits are preceded by a zero
 		return fmt.Sprintf("%02d", t.Year()/100)
 	case 'c':
 		// 	national representation of time and date
-		return f.Strftime(dateTimeRepresentation.Translate("datetime", f.tr), t)
+		return f.Strftime(dateTimeRepresentation.Translate(f.tr), t)
 	case 'D':
 		// 	equivalent to %m/%d/%y
 		return fmt.Sprintf("%02d/%02d/%04d", t.Month(), t.Day(), t.Year())
@@ -203,13 +211,13 @@ func (f *Formatter) repr(ch rune, t time.Time) string { //nolint:gocyclo
 		return "\n"
 	case 'p':
 		// 	national representation of either "ante meridiem" (a.m.) or "post meridiem" (p.m.) as appropriate.
-		return amPm(t).Translate("datetime", f.tr)
+		return amPm(t).Translate(f.tr)
 	case 'R':
 		// 	equivalent to %H:%M
 		return fmt.Sprintf("%02d:%02d", t.Hour(), t.Minute())
 	case 'r':
 		// 	equivalent to %I:%M:%S %p
-		return fmt.Sprintf("%02d:%02d:%02d %s", twelveHour(t), t.Minute(), t.Second(), amPm(t).Translate("datetime", f.tr))
+		return fmt.Sprintf("%02d:%02d:%02d %s", twelveHour(t), t.Minute(), t.Second(), amPm(t).Translate(f.tr))
 	case 'S':
 		// 	the second as a decimal number (00-60)
 		return fmt.Sprintf("%02d", t.Second())
@@ -230,7 +238,7 @@ func (f *Formatter) repr(ch rune, t time.Time) string { //nolint:gocyclo
 		return fmt.Sprintf("%02d", weekNumber(t, true))
 	case 'v':
 		// 	equivalent to %e-%b-%Y
-		return fmt.Sprintf("%d-%s-%04d", t.Day(), shortMonthNames[t.Month()-1].Translate("datetime_ms", f.tr), t.Year())
+		return fmt.Sprintf("%d-%s-%04d", t.Day(), shortMonthNames[t.Month()-1].Translate(f.tr), t.Year())
 	case 'W':
 		// 	the week number of the year (Monday as the first day of the week) as a decimal number (00-53)
 		return fmt.Sprintf("%02d", weekNumber(t, true)-1)
@@ -239,10 +247,10 @@ func (f *Formatter) repr(ch rune, t time.Time) string { //nolint:gocyclo
 		return fmt.Sprintf("%d", t.Weekday())
 	case 'X':
 		// 	national representation of the time
-		return f.Strftime(timeRepresentation.Translate("datetime", f.tr), t)
+		return f.Strftime(timeRepresentation.Translate(f.tr), t)
 	case 'x':
 		// 	national representation of the date
-		return f.Strftime(dateRepresentation.Translate("datetime", f.tr), t)
+		return f.Strftime(dateRepresentation.Translate(f.tr), t)
 	case 'Y':
 		// 	the year with century as a decimal number
 		return fmt.Sprintf("%04d", t.Year())

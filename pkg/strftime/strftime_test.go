@@ -164,10 +164,11 @@ var translation = translator{
 		"Dec": "déc",
 	},
 	"datetime": map[string]string{
-		"a.m.":                 "AM",
-		"p.m.":                 "PM",
-		"%a %b %e %H:%M:%S %y": "%a %e %b %Y %H:%M:%S",
-		"%m/%d/%Y":             "%d/%m/%Y",
-		"%H:%M:%S":             "",
+		"a.m.":                  "AM",
+		"p.m.":                  "PM",
+		"%a %b %e %H:%M:%S %y":  "%a %e %b %Y %H:%M:%S",
+		"%m/%d/%Y":              "%d/%m/%Y",
+		"%H:%M:%S":              "",
+		"%e %b %Y, %H:%M:%S %Z": "le %a %e %b %Y à %H:%M:%S %Z",
 	},
 }

@@ -27,7 +27,7 @@ templ (c *emailComponent) renderer() {
 				<a href={ c.item.URL }>{ c.item.URL }</a>
 			</li>
 			if c.item.Published != nil {
-				<li>{ L(ctx).Gettext("Published on %s", Strftime(ctx, *c.item.Published, "%e %B %Y")) }</li>
+				<li>{ L(ctx).Gettext("Published on %s", Date(ctx, *c.item.Published)) }</li>
 			}
 			if len(c.item.Authors) > 0 {
 				<li>{ L(ctx).Gettext("By %s", strings.Join(c.item.Authors, ", ")) }</li>

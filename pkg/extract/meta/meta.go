@@ -406,10 +406,10 @@ type mdProp struct {
 // call iterProps("{Article,WebSite}.name").
 // If you want to stop on the first match, you then call iterProps("Article.name", "WebSite.name").
 func (md *mdProp) iterProps(matchers ...string) iter.Seq[any] {
-	patterns := []glob.Glob{}
+	patterns := make([]*glob.Pattern, 0, len(matchers))
 	for _, x := range matchers {
 		if g, ok := mdGlobCache.Load(x); ok {
-			patterns = append(patterns, g.(glob.Glob))
+			patterns = append(patterns, g.(*glob.Pattern))
 		} else {
 			g := glob.MustCompile(x, '.')
 			patterns = append(patterns, g)
