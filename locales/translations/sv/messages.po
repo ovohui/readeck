@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-08-29 18:11+0200\n"
-"PO-Revision-Date: 2026-08-03 08:35+0000\n"
+"PO-Revision-Date: 2026-08-30 18:26+0000\n"
 "Last-Translator: apq <apq@noreply.codeberg.org>\n"
 "Language: sv\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/readeck/application/sv/>\n"
@@ -22,6 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
 #: components/layout.templ:78 components/layout.templ:79
@@ -30,19 +31,19 @@ msgid "Home Page"
 msgstr "Startsida"
 
 #: components/datetime.go:23
-#, fuzzy, python-format
+#, python-format
 msgctxt "datetime"
 msgid "%e %b %Y"
 msgstr "%e %b %Y"
 
 #: components/datetime.go:24
-#, fuzzy, python-format
+#, python-format
 msgctxt "datetime"
 msgid "%e %b %Y, %H:%M"
 msgstr "%e %b %Y, %H:%M"
 
 #: components/datetime.go:25
-#, fuzzy, python-format
+#, python-format
 msgctxt "datetime"
 msgid "%e %b %Y, %H:%M:%S %Z"
 msgstr "%e %b %Y, %H:%M:%S %Z"
@@ -496,7 +497,7 @@ msgstr "måste vara minst 8 tecken långt"
 
 #: internal/auth/onboarding/x-onboarding.templ:43
 msgid "Please note:"
-msgstr "Vänligen notera:"
+msgstr "Notera:"
 
 #: internal/auth/onboarding/x-onboarding.templ:44
 msgid ""
@@ -634,7 +635,7 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"\t\t\t\t\t\t\tVänligen ange den epostadress du använde för att skapa\n"
+"\t\t\t\t\t\t\tAnge den epostadress du använde för att skapa\n"
 "\t\t\t\t\t\t\tditt konto så skickar vi ett meddelande med en länk\n"
 "\t\t\t\t\t\t\tför att återställa ditt lösenord.\n"
 "\t\t\t\t\t\t"
@@ -818,7 +819,7 @@ msgstr "Delad av %[1]s med %[2]s"
 #: internal/bookmarks/routes/x-import.templ:36
 #: internal/profile/x-export.templ:22
 msgid "Browser Bookmarks"
-msgstr "Webläsarbokmärken"
+msgstr "Webbläsarbokmärken"
 
 #: internal/bookmarks/importer/browser.go:77
 msgid "Unable to read HTML content"
@@ -866,7 +867,7 @@ msgstr "Ingen access-token hittad"
 #: internal/bookmarks/importer/x-forms.templ:21
 #: internal/dashboard/x-dashboard.templ:66
 msgid "Import Bookmarks"
-msgstr "Importera Bokmärken"
+msgstr "Importera bokmärken"
 
 #: internal/bookmarks/importer/x-forms.templ:32
 #: internal/bookmarks/importer/x-forms.templ:209
@@ -910,7 +911,7 @@ msgstr "markera alla länkar som lästa, oavsett deras originalstatus"
 
 #: internal/bookmarks/importer/x-forms.templ:65
 msgid "Import your Browser's Bookmarks"
-msgstr "Importera din Webläsares Bokmärken"
+msgstr "Importera din webbläsares bokmärken"
 
 #: internal/bookmarks/importer/x-forms.templ:68
 msgid ""
@@ -1290,7 +1291,7 @@ msgstr "Bläddra i samling: %s"
 
 #: internal/bookmarks/routes/views_bookmarks.go:90
 msgid "All your Bookmarks"
-msgstr "Alla dina Bokmärken"
+msgstr "Alla dina bokmärken"
 
 #: internal/bookmarks/routes/views_bookmarks.go:94
 msgid "Bookmark Search"
@@ -1299,15 +1300,15 @@ msgstr "Bokmärkessökning"
 #: internal/bookmarks/routes/views_bookmarks.go:98
 #: internal/dashboard/x-dashboard.templ:142 internal/opds/http.go:60
 msgid "Unread Bookmarks"
-msgstr "Olästa Bokmärken"
+msgstr "Olästa bokmärken"
 
 #: internal/bookmarks/routes/views_bookmarks.go:100 internal/opds/http.go:64
 msgid "Archived Bookmarks"
-msgstr "Arkiverade Bokmärken"
+msgstr "Arkiverade bokmärken"
 
 #: internal/bookmarks/routes/views_bookmarks.go:102 internal/opds/http.go:68
 msgid "Favorite Bookmarks"
-msgstr "Favoritmarkerade Bokmärken"
+msgstr "Favoritbokmärken"
 
 #: internal/bookmarks/routes/views_bookmarks.go:104
 #: internal/bookmarks/routes/x-base.templ:61
@@ -1652,7 +1653,7 @@ msgstr "Redigera"
 #: internal/bookmarks/routes/x-bookmark.templ:151
 #: internal/bookmarks/routes/x-bookmark.templ:159
 msgid "Fullscreen"
-msgstr ""
+msgstr "Helskärm"
 
 #: internal/bookmarks/routes/x-bookmark.templ:182
 #: internal/bookmarks/routes/x-bookmark.templ:194
@@ -2032,11 +2033,11 @@ msgstr "nej"
 
 #: internal/bookmarks/routes/x-import.templ:24
 msgid "Import your Bookmarks"
-msgstr "Importera dina Bokmärken"
+msgstr "Importera dina bokmärken"
 
 #: internal/bookmarks/routes/x-import.templ:37
 msgid "Import your Browser's Bookmarks, Pinboard, Instapaper"
-msgstr "Importera din Webläsares Bokmärken, Pinboard, Instapaper"
+msgstr "Importera din webbläsares bokmärken, Pinboard, Instapaper"
 
 #: internal/bookmarks/routes/x-import.templ:44
 msgid "Import Links from a CSV File and Instapaper"
@@ -2223,7 +2224,7 @@ msgstr "Markera som läst"
 #: internal/bookmarks/routes/x-sidebar.templ:172
 #: internal/bookmarks/routes/x-sidebar.templ:175
 msgid "Export and Share"
-msgstr "Exportera och Dela"
+msgstr "Exportera och dela"
 
 #: internal/bookmarks/routes/x-sidebar.templ:194
 msgid "Share by Link"
@@ -2238,9 +2239,8 @@ msgid "Send e-book by Email"
 msgstr "Skicka e-bok via Epost"
 
 #: internal/bookmarks/routes/x-sidebar.templ:296
-#, fuzzy
 msgid "Initial URL:"
-msgstr "ogiltig URL"
+msgstr "Inledande URL:"
 
 #: internal/bookmarks/routes/x-sidebar.templ:347
 msgid "Add a label"
@@ -2273,7 +2273,7 @@ msgstr "Hej %s!"
 
 #: internal/dashboard/x-dashboard.templ:60 internal/opds/http.go:72
 msgid "All Bookmarks"
-msgstr "Alla Bokmärken"
+msgstr "Alla bokmärken"
 
 #: internal/dashboard/x-dashboard.templ:72
 msgid "Readeck"
@@ -2293,7 +2293,7 @@ msgstr "Hjälp"
 
 #: internal/dashboard/x-dashboard.templ:146
 msgid "Archived"
-msgstr "Arkiverad"
+msgstr "Arkiverade"
 
 #: internal/dashboard/x-dashboard.templ:201
 msgid "See all"
@@ -2342,7 +2342,7 @@ msgstr "Systeminformation"
 
 #: internal/docs/x-about.templ:66
 msgid "Here are your current system information. Please include them if you report a bug."
-msgstr "Här kommer din nuvarande systeminformation. Vänligen inkludera dem om du raporterar en bugg."
+msgstr "Här är din nuvarande systeminformation. Vänligen inkludera den om du rapporterar en bugg."
 
 #: internal/docs/x-about.templ:79
 msgid "Storage"
@@ -2590,7 +2590,7 @@ msgid ""
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
-"\t\t\t\t\t\t\tOm du planerar att utveckla en applikation, vänligen se\n"
+"\t\t\t\t\t\t\tOm du planerar att utveckla en applikation, se\n"
 "\t\t\t\t\t\t\t<a href=\"%s\">API-dokumentationen</a>.\n"
 "\t\t\t\t\t\t"
 
@@ -2803,7 +2803,7 @@ msgstr "En API-nyckel är en nyckel som ger dig tillgång till Readeck API:t."
 #: internal/profile/x-tokens.templ:19
 #, python-format
 msgid "Please read the <a href=\"%s\">API Documentation</a> if you plan to use it."
-msgstr "Vänligen läs <a href=\"%s\">API-dokumentationen</a> om du planerar att använda det."
+msgstr "Se <a href=\"%s\">API-dokumentationen</a> om du planerar att använda det."
 
 #: internal/profile/x-tokens.templ:28
 msgid "Create a new API token"
@@ -3300,4 +3300,3 @@ msgstr "%H:%M:%S"
 #~ msgctxt "date"
 #~ msgid "To"
 #~ msgstr ""
-
