@@ -33,7 +33,7 @@ func runExport(_ context.Context, args []string) error {
 	fs := flags.Flags()
 	// nolint: errcheck
 	fs.Usage = func() {
-		fmt.Fprintln(fs.Output(), "Usage: import [arguments...] FILE")
+		fmt.Fprintln(fs.Output(), "Usage: export [arguments...] FILE")
 		fmt.Fprintln(fs.Output(), "  FILE")
 		fmt.Fprintln(fs.Output(), "    \tdestination file")
 		fs.PrintDefaults()
