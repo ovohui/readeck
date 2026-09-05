@@ -4,7 +4,12 @@
 
 package components
 
-import "net/http"
+import (
+	"net/http"
+
+	"codeberg.org/readeck/readeck/internal/server"
+	"codeberg.org/readeck/readeck/pkg/http/csp"
+)
 
 // Base renders the layout's base page with head elements.
 templ (c *Layout) Base(title string) {
@@ -15,6 +20,7 @@ templ (c *Layout) Base(title string) {
 	>
 		<head>
 			<meta charset="UTF-8"/>
+			<meta http-equiv={ csp.HeaderName } content={ server.GetCSPHeader(ctx).MetaString() }/>
 			<title>{ title } - Readeck</title>
 			<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>

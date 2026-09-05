@@ -9,6 +9,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"fmt"
+	"iter"
 	"maps"
 	"net/http"
 	"slices"
@@ -55,16 +56,43 @@ func (p Policy) Clone() Policy {
 	return maps.Clone(p)
 }
 
+func (p Policy) directives() iter.Seq2[string, []string] {
+	return func(yield func(string, []string) bool) {
+		keys := make([]string, 0, len(p))
+		for k := range p {
+			keys = append(keys, k)
+		}
+		slices.Sort(keys)
+		for _, k := range keys {
+			if !yield(k, p[k]) {
+				return
+			}
+		}
+	}
+}
+
 // String returns the policy suitable for an http.Header value.
 func (p Policy) String() string {
-	keys := []string{}
-	for k := range p {
-		keys = append(keys, k)
-	}
-	slices.Sort(keys)
 	w := &strings.Builder{}
-	for _, k := range keys {
-		fmt.Fprintf(w, "%s %s; ", k, strings.Join(p[k], " "))
+	for k, v := range p.directives() {
+		fmt.Fprintf(w, "%s %s; ", k, strings.Join(v, " "))
+	}
+
+	return strings.TrimRight(w.String(), "; ")
+}
+
+// MetaString returns the policy suitable for an HTML meta tag.
+// This removes "report-uri", "frame-ancestors" and "sandbox"
+// as they are not used in this context.
+func (p Policy) MetaString() string {
+	w := &strings.Builder{}
+	for k, v := range p.directives() {
+		switch k {
+		case "report-uri", "frame-ancestors", "sandbox":
+			continue
+		default:
+			fmt.Fprintf(w, "%s %s; ", k, strings.Join(v, " "))
+		}
 	}
 
 	return strings.TrimRight(w.String(), "; ")
