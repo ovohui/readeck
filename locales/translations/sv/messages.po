@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-08-29 18:11+0200\n"
-"PO-Revision-Date: 2026-08-30 18:26+0000\n"
-"Last-Translator: apq <apq@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-09-13 08:57+0000\n"
+"Last-Translator: yeager <yeager@noreply.codeberg.org>\n"
 "Language: sv\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/readeck/application/sv/>\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
@@ -923,8 +923,8 @@ msgid ""
 msgstr ""
 "\n"
 "\t\t\t\t\tI din webbläsare, exportera alla bokmärken som en HTML-fil.<br>\n"
-"\t\t\t\t\tLadda upp denna fil i formuläret nedan så kommer Redeck att skapa\n"
-"\t\t\t\t\toch hämta alla bokmärken i filen.\n"
+"\t\t\t\t\tLadda upp filen i formuläret nedan så skapar och hämtar\n"
+"\t\t\t\t\tReadeck alla bokmärken som finns i den.\n"
 "\t\t\t\t"
 
 #: internal/bookmarks/importer/x-forms.templ:77
@@ -1160,7 +1160,7 @@ msgstr "Klient-hemlighet"
 #: internal/bookmarks/routes/forms_bookmarks.go:170
 #: internal/bookmarks/routes/forms_bookmarks.go:188
 msgid "Unable to process input data"
-msgstr "Kunde inte processera inputdata"
+msgstr "Kunde inte bearbeta indata"
 
 #: internal/bookmarks/routes/forms_bookmarks.go:279
 msgid "invalid language code"
@@ -1793,7 +1793,7 @@ msgstr ""
 "\t\t\t\t\t\t\t\tSamlingar låter dig enkelt organisera och exportera dina bokmärken\n"
 "\t\t\t\t\t\t\t\tgenom att spara sökningar som du väljer.\n"
 "\t\t\t\t\t\t\t\tNär du skapar ett nytt bokmärke som matchar en samlings\n"
-"\t\t\t\t\t\t\t\tkriterie, så dyker den upp omedelbart.\n"
+"\t\t\t\t\t\t\t\tkriterier visas det omedelbart.\n"
 "\t\t\t\t\t\t\t\tHär är några exempel:\n"
 "\t\t\t\t\t\t\t"
 
@@ -1955,8 +1955,8 @@ msgid ""
 "\t\tdirectly from your browser!"
 msgstr ""
 "\n"
-"\t\tMed webläsartillägget kan du spara sidor, bilder och markeringar\n"
-"\t\tdirekt från din webläsare!"
+"\t\tMed webbläsartillägget kan du spara sidor, bilder och markeringar\n"
+"\t\tdirekt från din webbläsare!"
 
 #: internal/bookmarks/routes/x-components.templ:430
 msgid ""
@@ -2228,7 +2228,7 @@ msgstr "Exportera och dela"
 
 #: internal/bookmarks/routes/x-sidebar.templ:194
 msgid "Share by Link"
-msgstr "Dele via Länk"
+msgstr "Dela via länk"
 
 #: internal/bookmarks/routes/x-sidebar.templ:206
 msgid "Send article by Email"
@@ -2596,7 +2596,7 @@ msgstr ""
 
 #: internal/profile/x-export.templ:23
 msgid "Bookmark List in Browser Bookmarks Format"
-msgstr "Bokmärkeslista i webläsarens bokmärkesformat"
+msgstr "Bokmärkeslista i webbläsarens bokmärkesformat"
 
 #: internal/profile/x-export.templ:30
 msgid "Bookmark List as Comma Separated Values"
