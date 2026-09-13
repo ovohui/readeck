@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Readeck 1.0.0\n"
 "Report-Msgid-Bugs-To: translate@readeck.com\n"
 "POT-Creation-Date: 2026-08-29 18:11+0200\n"
-"PO-Revision-Date: 2026-08-26 18:25+0000\n"
+"PO-Revision-Date: 2026-09-10 20:25+0000\n"
 "Last-Translator: gallegonovato <gallegonovato@noreply.codeberg.org>\n"
 "Language: de\n"
 "Language-Team: German <https://translate.codeberg.org/projects/readeck/application/de/>\n"
@@ -22,6 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: components/breadcrumbs.templ:13 components/layout.templ:71
 #: components/layout.templ:78 components/layout.templ:79
@@ -30,19 +31,19 @@ msgid "Home Page"
 msgstr "Homepage"
 
 #: components/datetime.go:23
-#, fuzzy, python-format
+#, python-format
 msgctxt "datetime"
 msgid "%e %b %Y"
 msgstr "%e %b %Y"
 
 #: components/datetime.go:24
-#, fuzzy, python-format
+#, python-format
 msgctxt "datetime"
 msgid "%e %b %Y, %H:%M"
 msgstr "%e %b %Y, %H:%M"
 
 #: components/datetime.go:25
-#, fuzzy, python-format
+#, python-format
 msgctxt "datetime"
 msgid "%e %b %Y, %H:%M:%S %Z"
 msgstr "%e %b %Y, %H:%M:%S %Z"
@@ -1663,7 +1664,7 @@ msgstr "Bearbeiten"
 #: internal/bookmarks/routes/x-bookmark.templ:151
 #: internal/bookmarks/routes/x-bookmark.templ:159
 msgid "Fullscreen"
-msgstr ""
+msgstr "Vollbildmodus"
 
 #: internal/bookmarks/routes/x-bookmark.templ:182
 #: internal/bookmarks/routes/x-bookmark.templ:194
@@ -2254,9 +2255,8 @@ msgid "Send e-book by Email"
 msgstr "E-Book per E-Mail versenden"
 
 #: internal/bookmarks/routes/x-sidebar.templ:296
-#, fuzzy
 msgid "Initial URL:"
-msgstr "ungültige URL"
+msgstr "Ausgangs-URL:"
 
 #: internal/bookmarks/routes/x-sidebar.templ:347
 msgid "Add a label"
@@ -3438,4 +3438,3 @@ msgstr "%H:%M:%S"
 #~ msgctxt "date"
 #~ msgid "To"
 #~ msgstr ""
-
