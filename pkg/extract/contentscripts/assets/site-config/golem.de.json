@@ -70,7 +70,7 @@
     ]
   ],
   "http_headers": {
-    "Cookie": "golem_multipage=single",
+    "Cookie": "golem_consent20=cmp|250101",
     "user-agent": "Googlebot"
   },
   "tests": [

@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased]
+### Security
+- Added CSP HTML meta headers to prevent reverse proxy from overriding them with unsafe values
+- Wider default denied IP ranges, reported by [@Cycbake](https://codeberg.org/Cycbake)
+
+### Fixed
+
+- Fediverse content-script, by [@mislav](https://codeberg.org/mislav)
+
 ## [0.23.2] - 2026-08-31
 ### Added
 - Server timezone support (frontend only), with the help of [@boronology](https://codeberg.org/boronology)

@@ -6,11 +6,13 @@
   "date_selectors": null,
   "author_selectors": null,
   "strip_selectors": [
-    "//aside",
     "//header//h1",
-    "//header//time"
+    "//header//time/parent::div",
+    "//figure/following-sibling::div[contains(@class, 'top-0')]"
   ],
-  "strip_id_or_class": null,
+  "strip_id_or_class": [
+    "lg:hidden"
+  ],
   "strip_image_src": null,
   "native_ad_selectors": null,
   "tidy": false,
@@ -22,7 +24,7 @@
   "http_headers": null,
   "tests": [
     {
-      "url": "https://eudi-wallet.gov.de/news/eudi-wallet-community-event-2026",
+      "url": "https://eudi-wallet.gov.de/news/eudi-wallet-hackathon-2026",
       "contains": []
     }
   ]
