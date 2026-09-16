@@ -90,7 +90,7 @@ exports.processMeta = function () {
         .concat(
           n.attachment
             .map((x) => {
-              if (x.mediaType.startsWith("image/")) {
+              if ((x.mediaType || "").startsWith("image/")) {
                 return `<p><img src="${x.url}" alt="${escapeHTML(
                   x.name,
                 )}" width="${x.width}" height="${x.height}"></p>`
@@ -114,6 +114,9 @@ function loadNotes(url, notes) {
     return
   }
   const data = rsp.json()
+  if (!data.content) {
+    return
+  }
 
   const note = {
     context: data["@context"],
