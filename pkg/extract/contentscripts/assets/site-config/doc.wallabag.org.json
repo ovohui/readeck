@@ -1,7 +1,7 @@
 {
   "title_selectors": null,
   "body_selectors": [
-    "//section[contains(@class, 'normal')]"
+    "//article/main//div[@class='content']"
   ],
   "date_selectors": null,
   "author_selectors": null,
