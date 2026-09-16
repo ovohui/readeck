@@ -393,8 +393,15 @@ var Config = config{
 	Extractor: configExtractor{
 		NumWorkers: runtime.NumCPU(),
 		DeniedIPs: []configIPNet{
+			newConfigIPNet("0.0.0.0/8"),
 			newConfigIPNet("127.0.0.0/8"),
+			newConfigIPNet("10.0.0.0/8"),
+			newConfigIPNet("172.16.0.0/12"),
+			newConfigIPNet("192.168.0.0/16"),
+			newConfigIPNet("169.254.0.0/16"),
 			newConfigIPNet("::1/128"),
+			newConfigIPNet("fc00::/7"),
+			newConfigIPNet("fe80::/10"),
 		},
 		ProxyMatch: []configProxyMatch{},
 	},

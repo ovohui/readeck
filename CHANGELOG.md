@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased]
+### Security
+- Wider default denied IP ranges, reported by [@Cycbake](https://codeberg.org/Cycbake)
+
 ## [0.23.2] - 2026-08-31
 ### Added
 - Server timezone support (frontend only), with the help of [@boronology](https://codeberg.org/boronology)
