@@ -1,12 +1,11 @@
 # Changelog
 
-## [Unreleased]
+## [0.23.3] - 2026-09-16
 ### Security
 - Added CSP HTML meta headers to prevent reverse proxy from overriding them with unsafe values
 - Wider default denied IP ranges, reported by [@Cycbake](https://codeberg.org/Cycbake)
 
 ### Fixed
-
 - Fediverse content-script, by [@mislav](https://codeberg.org/mislav)
 
 ## [0.23.2] - 2026-08-31
