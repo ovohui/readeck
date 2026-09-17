@@ -81,23 +81,6 @@ func (p Policy) String() string {
 	return strings.TrimRight(w.String(), "; ")
 }
 
-// MetaString returns the policy suitable for an HTML meta tag.
-// This removes "report-uri", "frame-ancestors" and "sandbox"
-// as they are not used in this context.
-func (p Policy) MetaString() string {
-	w := &strings.Builder{}
-	for k, v := range p.directives() {
-		switch k {
-		case "report-uri", "frame-ancestors", "sandbox":
-			continue
-		default:
-			fmt.Fprintf(w, "%s %s; ", k, strings.Join(v, " "))
-		}
-	}
-
-	return strings.TrimRight(w.String(), "; ")
-}
-
 // Write sets the CSP header to an http.Header.
 func (p Policy) Write(h http.Header) {
 	h.Set(HeaderName, p.String())
