@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased]
+### Fixed
+- Bug with CSP HTML meta tag that prevented OIDC connection from Chromium based browsers
+
 ## [0.23.3] - 2026-09-16
 ### Security
 - Added CSP HTML meta headers to prevent reverse proxy from overriding them with unsafe values
