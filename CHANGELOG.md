@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [0.23.4] - 2026-09-17
 ### Fixed
 - Bug with CSP HTML meta tag that prevented OIDC connection from Chromium based browsers
 
