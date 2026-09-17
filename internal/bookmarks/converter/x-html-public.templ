@@ -24,6 +24,7 @@ templ (v PublicViews) base(b *dataset.Bookmark) {
 	<html lang={ L(ctx).Tag.String() }>
 		<head>
 			<meta charset="UTF-8"/>
+			@CSPMeta
 			<title>
 				if b != nil {
 					{ b.Title }

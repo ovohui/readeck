@@ -4,7 +4,19 @@
 
 package components
 
-import "github.com/a-h/templ"
+import (
+	"context"
+	"fmt"
+	"io"
+	"net/http"
+	"strings"
+
+	"github.com/a-h/templ"
+	"github.com/a-h/templ/runtime"
+	"golang.org/x/net/html"
+
+	"codeberg.org/readeck/readeck/pkg/http/csp"
+)
 
 // Layout is our base layout for every Readeck page.
 type Layout struct {
@@ -84,3 +96,34 @@ func AuthPage(title string) templ.Component {
 func AuthError(status int) templ.Component {
 	return NewLayout().AuthError(status)
 }
+
+// CSPMeta retrieves the CSP directives from the HTTP Header in the component
+// [io.Writer] and, when it found something, injects the string in a meta tag.
+var CSPMeta = templ.ComponentFunc(func(_ context.Context, w io.Writer) error {
+	var policy string
+	if w, ok := w.(*runtime.Buffer); ok {
+		if w, ok := w.Underlying.(http.ResponseWriter); ok {
+			policy = w.Header().Get(csp.HeaderName)
+		}
+	}
+
+	if len(policy) == 0 {
+		return nil
+	}
+
+	p := new(strings.Builder)
+	for x := range strings.SplitSeq(policy, ";") {
+		switch n := strings.SplitN(strings.TrimSpace(x), " ", 2); n[0] {
+		case "report-uri", "frame-ancestors", "sandbox":
+		default:
+			p.WriteString(x)
+			p.WriteRune(';')
+		}
+	}
+
+	_, err := fmt.Fprintf(
+		w, `<meta http-equiv="%s" content="%s">`,
+		csp.HeaderName, html.EscapeString(p.String()),
+	)
+	return err
+})
