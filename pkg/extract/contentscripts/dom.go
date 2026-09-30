@@ -11,7 +11,6 @@ import (
 
 	"codeberg.org/readeck/readeck/pkg/domutils"
 	"golang.org/x/net/html"
-	"golang.org/x/net/html/atom"
 
 	"github.com/andybalholm/cascadia"
 	"github.com/dop251/goja"
@@ -288,13 +287,7 @@ func (m *domModule) createNodePrototype() *goja.Object { //nolint:gocognit,gocyc
 			return
 		}
 
-		context := &html.Node{
-			Type:      html.ElementNode,
-			Data:      "body",
-			DataAtom:  atom.Lookup([]byte("body")),
-			Namespace: "",
-		}
-
+		context := domutils.CreateElement("body")
 		nodes, err := html.ParseFragment(strings.NewReader(v.String()), context)
 		if err != nil {
 			panic(m.r.ToValue(fmt.Sprintf("can't parse HTML (%s)", err.Error())))
@@ -335,13 +328,7 @@ func (m *domModule) createNodePrototype() *goja.Object { //nolint:gocognit,gocyc
 			panic(m.r.ToValue("can't set outerHTML of node without parent"))
 		}
 
-		context := &html.Node{
-			Type:      html.ElementNode,
-			Data:      "body",
-			DataAtom:  atom.Lookup([]byte("body")),
-			Namespace: "",
-		}
-
+		context := domutils.CreateElement("body")
 		nodes, err := html.ParseFragment(strings.NewReader(v.String()), context)
 		if err != nil {
 			panic(m.r.ToValue(fmt.Sprintf("can't parse HTML (%s)", err.Error())))
