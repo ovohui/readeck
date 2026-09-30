@@ -9,6 +9,7 @@ import (
 	"reflect"
 	"strings"
 
+	"codeberg.org/readeck/readeck/pkg/domutils"
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
 
@@ -224,8 +225,8 @@ func (m *domModule) createNodePrototype() *goja.Object { //nolint:gocognit,gocyc
 		if o.node.Type != html.DocumentNode {
 			return goja.Undefined()
 		}
-		if n := dom.GetElementsByTagName(o.node, "body"); len(n) > 0 {
-			return m.newNodeValue(n[0])
+		if n := domutils.FindBody(o.node); n != nil {
+			return m.newNodeValue(n)
 		}
 		return goja.Undefined()
 	})
