@@ -48,3 +48,52 @@ func EachElementByTag(node *html.Node, tagName atom.Atom) iter.Seq[*html.Node] {
 		}
 	}
 }
+
+// FindBody finds the first body element contained by node.
+func FindBody(node *html.Node) *html.Node {
+	var traverse func(*html.Node) *html.Node
+	traverse = func(n *html.Node) *html.Node {
+		for child := n.FirstChild; child != nil; child = child.NextSibling {
+			if child.Type != html.ElementNode {
+				continue
+			}
+			switch child.Data {
+			case "body":
+				return child
+			case "head":
+				// No need to descend into the head element
+				continue
+			default:
+				if found := traverse(child); found != nil {
+					return found
+				}
+			}
+		}
+		return nil
+	}
+	return traverse(node)
+}
+
+// WrapContents moves all child nodes of parent to target. Afterwards, target will become the only
+// child of parent.
+func WrapContents(parent *html.Node, target *html.Node) {
+	for child := parent.FirstChild; child != nil; {
+		nextSibling := child.NextSibling
+		parent.RemoveChild(child)
+		target.AppendChild(child)
+		child = nextSibling
+	}
+	if target.Parent != nil {
+		target.Parent.RemoveChild(target)
+	}
+	parent.AppendChild(target)
+}
+
+// CreateElement creates a HTML element node based on tagName.
+func CreateElement(tagName string) *html.Node {
+	return &html.Node{
+		Type:     html.ElementNode,
+		Data:     tagName,
+		DataAtom: atom.Lookup([]byte(tagName)),
+	}
+}
