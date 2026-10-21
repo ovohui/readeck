@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import {session as _session} from "@hotwired/turbo"
+import {session as _session, StreamElement} from "@hotwired/turbo"
 import type {TurboSession} from "@hotwired/turbo"
 
 interface turboObserver {
@@ -129,6 +129,20 @@ document.addEventListener("turbo:frame-render", () => {
   if (window.scrollY == 0 && scrollPosition > 0) {
     window.scrollTo({top: scrollPosition})
     scrollPosition = 0
+  }
+})
+
+// turbo-frame elements with ID "bookmark-bottom-actions-*" are updated via turbo-stream elements in
+// a response to a turbo-form being submitted, but since they are at the bottom of the viewport, on
+// WebKit the DOM mutation causes the viewport to get scrolled upwards. This event handler protects
+// the scroll position from changing.
+document.addEventListener("turbo:before-stream-render", (evt) => {
+  evt.detail.render = async (newElement: StreamElement) => {
+    const oldPosition = window.scrollY
+    await StreamElement.renderElement(newElement)
+    if (window.scrollY != oldPosition) {
+      window.scrollTo({top: oldPosition})
+    }
   }
 })
 
