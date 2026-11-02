@@ -90,7 +90,7 @@ func (api *apiRouter) bookmaksImportStatus(w http.ResponseWriter, r *http.Reques
 	}
 
 	if server.IsTurboRequest(r) {
-		server.RenderTurboStreamComponent(w, r, importViews{}.progress(
+		server.RenderTurboStreamComponent(w, r, http.StatusOK, importViews{}.progress(
 			trackID,
 			importer.ImportBookmarksTask.IsRunning(trackID),
 			progress,
@@ -99,7 +99,7 @@ func (api *apiRouter) bookmaksImportStatus(w http.ResponseWriter, r *http.Reques
 
 		if counters, err := bookmarks.Bookmarks.CountAll(auth.GetUser(r.Context())); err == nil {
 			ctx := withCounters(r.Context(), counters)
-			server.RenderTurboStreamComponent(w, r.WithContext(ctx), Views{}.sideMenu(),
+			server.RenderTurboStreamComponent(w, r.WithContext(ctx), http.StatusOK, Views{}.sideMenu(),
 				"replace", "bookmarks-sidemenu", nil)
 		}
 		return
