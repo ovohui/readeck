@@ -19,7 +19,8 @@
     "bg-light-green",
     "breadcrumb",
     "short-article-description",
-    "paragraph"
+    "paragraph",
+    "article-seemore-synopsis"
   ],
   "strip_image_src": null,
   "native_ad_selectors": null,
@@ -37,6 +38,10 @@
     },
     {
       "url": "http://www.futura-sciences.com/magazines/high-tech/infos/actu/d/technologie-bientot-plus-besoin-machine-laver-62157/#xtor=RSS-8",
+      "contains": []
+    },
+    {
+      "url": "https://www.futura-sciences.com/planete/questions-reponses/abeille-miel-peut-il-traverser-annees-bacteries-ne-attaquent-k2m6-t9k0-26347/#xtor%3DRSS-11",
       "contains": []
     }
   ]

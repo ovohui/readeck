@@ -1,0 +1,57 @@
+{
+  "title_selectors": [
+    "//h1"
+  ],
+  "body_selectors": null,
+  "date_selectors": null,
+  "author_selectors": null,
+  "strip_selectors": [
+    "//div[@class=\"metabit tags\"]",
+    "//aside[@id=\"toc\"]",
+    "//footer/following-sibling::h2",
+    "//footer",
+    "//section[@id=\"bluesky-likes\"]/following-sibling::h3",
+    "//section[@id=\"bluesky-likes\"]"
+  ],
+  "strip_id_or_class": null,
+  "strip_image_src": null,
+  "native_ad_selectors": null,
+  "tidy": false,
+  "prune": false,
+  "autodetect_on_failure": true,
+  "single_page_link_selectors": null,
+  "next_page_link_selectors": null,
+  "replace_strings": [
+    [
+      "tabindex=\"-1\"",
+      ""
+    ],
+    [
+      "\u003ca class=\"header-anchor\" href=\"",
+      "\u003cspan data-header-href=\""
+    ],
+    [
+      "\u003c/a\u003e\u003c/h2\u003e",
+      "\u003c/span\u003e\u003c/h2\u003e"
+    ],
+    [
+      "\u003cdetails",
+      "\u003cdetails open"
+    ],
+    [
+      "\u003cdetails",
+      "\u003cdiv"
+    ],
+    [
+      "\u003c/details\u003e",
+      "\u003c/div\u003e"
+    ]
+  ],
+  "http_headers": null,
+  "tests": [
+    {
+      "url": "https://verou.me/blog/2026/web-deps/",
+      "contains": []
+    }
+  ]
+}

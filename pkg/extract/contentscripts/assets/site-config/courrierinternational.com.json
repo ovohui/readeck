@@ -1,6 +1,6 @@
 {
   "title_selectors": [
-    "//h1"
+    "//h1[@class='article-title']"
   ],
   "body_selectors": [
     "//div[@class='article-content'] | //p[@class='article-lede']"
@@ -9,20 +9,16 @@
     "//time[@itemprop='datePublished']/@datetime"
   ],
   "author_selectors": [
-    "//div[@class='author-name-short']"
+    "//div[@class='article-authors']"
   ],
   "strip_selectors": [
     "//aside",
     "//details"
   ],
   "strip_id_or_class": [
-    "article-aside",
-    "article-headlines",
-    "article-subject-readmore",
+    "asset-read-more",
     "article-secondary",
-    "box-reserved-abo",
-    "action-zen-off-top",
-    "action-zen-off-bottom"
+    "bloc-newsletter-article"
   ],
   "strip_image_src": null,
   "native_ad_selectors": null,

@@ -19,6 +19,7 @@
     "//a[contains(@href, 'google.com/preferences/')]/parent::p/parent::div",
     "//a[contains(@href, '/podcast/hessenschau-hoeren/')]/ancestor::div[contains(@class, 'relative')][1]",
     "//a[contains(@href, '/die-hessenschau-app-des-hessischen-rundfunks')]/ancestor::div[1]",
+    "//h3[contains(text(), 'Eilmeldungen direkt aufs Handy')]/parent::div",
     "//picture/source[contains(@media, '47.')]",
     "//picture/img[contains(@media, '47.')]",
     "//a[@href='https://whatsapp.com/channel/0029VaDcqVJAu3aJgJtKhX25']/parent::aside",
