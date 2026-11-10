@@ -361,6 +361,7 @@
       @apply flex items-baseline gap-2;
       @apply text-xs text-gray-600;
       line-height: 0;
+      min-width: 0; // works around a Chrome bug with "truncate"
 
       > strong {
         @apply leading-none truncate;
