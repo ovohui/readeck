@@ -76,11 +76,14 @@ func (v *profileViews) userProfile(w http.ResponseWriter, r *http.Request) {
 	user := auth.GetUser(r.Context())
 	f := forms.New[profileForm](r.Context(), withProfileUser(user))
 
+	status := http.StatusOK
+
 	if r.Method == http.MethodPost {
 		forms.Bind(r, f)
 		if f.IsValid() {
 			if _, err := f.update(); err != nil {
 				server.Log(r).Error("", slog.Any("err", err))
+				status = http.StatusInternalServerError
 			} else {
 				// Set the new seed in the session.
 				// We needn't save the session since AddFlash does that already.
@@ -90,15 +93,16 @@ func (v *profileViews) userProfile(w http.ResponseWriter, r *http.Request) {
 				server.Redirect(w, r, "profile")
 				return
 			}
+		} else {
+			status = http.StatusUnprocessableEntity
 		}
-		w.WriteHeader(http.StatusUnprocessableEntity)
 	}
 
 	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
 		{tr.Gettext("Profile")},
 	})
 
-	server.RenderComponent(w, r.WithContext(ctx), http.StatusOK, Views{}.userProfile(f))
+	server.RenderComponent(w, r.WithContext(ctx), status, Views{}.userProfile(f))
 }
 
 // userPassword handles GET and POST requests on /profile/password.
