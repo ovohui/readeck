@@ -1,7 +1,7 @@
 {
   "title_selectors": null,
   "body_selectors": [
-    "//main[@id=\"main-content\"]"
+    "//article[@class=\"h-entry\"]/div[contains(@class, \"rounded-lg\")] | //main[@id=\"main-content\"]"
   ],
   "date_selectors": [
     "//article//time[contains(@class, \"dt-published\")]/@datetime"

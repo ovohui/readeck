@@ -1,7 +1,7 @@
 ---
 
 name: Readeck Tests
-run-name: ${{ github.actor }} tests
+run-name: Tests [${{ forgejo.ref_name }}] ${{ forgejo.event_name }}
 on:
   push:
   pull_request:

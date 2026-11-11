@@ -3,7 +3,7 @@
     "//h1"
   ],
   "body_selectors": [
-    "//div[contains(@class, 'max-w-3xl')] | //div[contains(@class, 'max-w-2xl')]"
+    "//article"
   ],
   "date_selectors": [
     "//div[contains(concat(' ',normalize-space(@class),' '),' mt-4 ')]/p[1]"
@@ -14,7 +14,8 @@
   "strip_selectors": [
     "//div[contains(@class, 'max-w-3xl')]/div[1]",
     "//ul[contains(@class, 'text-muted')]",
-    "//div[contains(concat(' ',normalize-space(@class),' '),' mt-4 ')]"
+    "//div[contains(concat(' ',normalize-space(@class),' '),' mt-4 ')]",
+    "//nav"
   ],
   "strip_id_or_class": [
     "mt-2"

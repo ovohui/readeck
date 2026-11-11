@@ -15,148 +15,148 @@ import (
 
 func basePolicy() (acls.Permissions, []acls.Group) {
 	return acls.Permissions{
-			"/system/read":                     {"system", "read"},
-			"/email/send":                      {"email", "send"},
-			"/api/admin/read":                  {"api:admin:users", "read"},
-			"/api/admin/write":                 {"api:admin:users", "write"},
-			"/web/admin/read":                  {"admin:users", "read"},
-			"/web/admin/write":                 {"admin:users", "write"},
-			"/api/cookbook/read":               {"api:cookbook", "read"},
-			"/web/cookbook/read":               {"cookbook", "read"},
-			"/web/docs/read":                   {"docs", "read"},
-			"/api/profile/read":                {"api:profile", "read"},
-			"/api/profile/write":               {"api:profile", "write"},
-			"/web/profile/read":                {"profile", "read"},
-			"/web/profile/write":               {"profile", "write"},
-			"/api/profile/tokens/delete":       {"api:profile:tokens", "delete"},
-			"/web/profile/tokens/read":         {"profile:tokens", "read"},
-			"/web/profile/tokens/write":        {"profile:tokens", "write"},
-			"/api/bookmarks/read":              {"api:bookmarks", "read"},
-			"/api/bookmarks/write":             {"api:bookmarks", "write"},
-			"/api/bookmarks/export":            {"api:bookmarks", "export"},
-			"/web/bookmarks/read":              {"bookmarks", "read"},
-			"/web/bookmarks/write":             {"bookmarks", "write"},
-			"/web/bookmarks/export":            {"bookmarks", "export"},
-			"/api/bookmarks/collections/read":  {"api:bookmarks:collections", "read"},
-			"/api/bookmarks/collections/write": {"api:bookmarks:collections", "write"},
-			"/web/bookmarks/collections/read":  {"bookmarks:collections", "read"},
-			"/web/bookmarks/collections/write": {"bookmarks:collections", "write"},
-			"/api/bookmarks/import":            {"api:bookmarks", "import"},
-			"/web/bookmarks/import":            {"bookmarks", "import"},
-			"/api/opds/read":                   {"api:opds", "read"},
-		}, []acls.Group{
-			{
-				Name: "",
-				Grants: []string{
-					"/email/send",
-				},
+		"/system/read":                     {"system", "read"},
+		"/email/send":                      {"email", "send"},
+		"/api/admin/read":                  {"api:admin:users", "read"},
+		"/api/admin/write":                 {"api:admin:users", "write"},
+		"/web/admin/read":                  {"admin:users", "read"},
+		"/web/admin/write":                 {"admin:users", "write"},
+		"/api/cookbook/read":               {"api:cookbook", "read"},
+		"/web/cookbook/read":               {"cookbook", "read"},
+		"/web/docs/read":                   {"docs", "read"},
+		"/api/profile/read":                {"api:profile", "read"},
+		"/api/profile/write":               {"api:profile", "write"},
+		"/web/profile/read":                {"profile", "read"},
+		"/web/profile/write":               {"profile", "write"},
+		"/api/profile/tokens/delete":       {"api:profile:tokens", "delete"},
+		"/web/profile/tokens/read":         {"profile:tokens", "read"},
+		"/web/profile/tokens/write":        {"profile:tokens", "write"},
+		"/api/bookmarks/read":              {"api:bookmarks", "read"},
+		"/api/bookmarks/write":             {"api:bookmarks", "write"},
+		"/api/bookmarks/export":            {"api:bookmarks", "export"},
+		"/web/bookmarks/read":              {"bookmarks", "read"},
+		"/web/bookmarks/write":             {"bookmarks", "write"},
+		"/web/bookmarks/export":            {"bookmarks", "export"},
+		"/api/bookmarks/collections/read":  {"api:bookmarks:collections", "read"},
+		"/api/bookmarks/collections/write": {"api:bookmarks:collections", "write"},
+		"/web/bookmarks/collections/read":  {"bookmarks:collections", "read"},
+		"/web/bookmarks/collections/write": {"bookmarks:collections", "write"},
+		"/api/bookmarks/import":            {"api:bookmarks", "import"},
+		"/web/bookmarks/import":            {"bookmarks", "import"},
+		"/api/opds/read":                   {"api:opds", "read"},
+	}, []acls.Group{
+		{
+			Name: "",
+			Grants: []string{
+				"/email/send",
 			},
-			{
-				Name: "api_common",
-				Grants: []string{
-					"/api/profile/read",
-					"/api/profile/tokens/delete",
-				},
+		},
+		{
+			Name: "api_common",
+			Grants: []string{
+				"/api/profile/read",
+				"/api/profile/tokens/delete",
 			},
-			{
-				Name: "user",
-				Parents: []string{
-					"@group",
-					"api_common",
-				},
-				Grants: []string{
-					"/email/send",
-					"/*/docs/read",
-					"/*/profile/*",
-					"/*/profile/tokens/*",
-					"/*/bookmarks/read",
-					"/*/bookmarks/write",
-					"/*/bookmarks/export",
-					"/*/bookmarks/collections/read",
-					"/*/bookmarks/collections/write",
-					"/*/bookmarks/import/write",
-					"/api/opds/*",
-				},
+		},
+		{
+			Name: "user",
+			Parents: []string{
+				"@group",
+				"api_common",
 			},
-			{
-				Name: "staff",
-				Parents: []string{
-					"@group",
-					"user",
-				},
-				Grants: []string{
-					"/system/*",
-				},
+			Grants: []string{
+				"/email/send",
+				"/*/docs/read",
+				"/*/profile/*",
+				"/*/profile/tokens/*",
+				"/*/bookmarks/read",
+				"/*/bookmarks/write",
+				"/*/bookmarks/export",
+				"/*/bookmarks/collections/read",
+				"/*/bookmarks/collections/write",
+				"/*/bookmarks/import/write",
+				"/api/opds/*",
 			},
-			{
-				Name: "admin",
-				Parents: []string{
-					"@group",
-					"staff",
-				},
-				Grants: []string{
-					"/*/admin/*",
-					"/*/cookbook/*",
-				},
+		},
+		{
+			Name: "staff",
+			Parents: []string{
+				"@group",
+				"user",
 			},
-			{
-				Name: "bookmarks:read",
-				Parents: []string{
-					"__token__",
-					"__oauth__",
-					"api_common",
-				},
-				Grants: []string{
-					"/api/bookmarks/read",
-					"/api/bookmarks/export",
-					"/api/bookmarks/collections/read",
-					"/api/opds/read",
-					"/web/bookmarks/read",
-				},
+			Grants: []string{
+				"/system/*",
 			},
-			{
-				Name: "bookmarks:write",
-				Parents: []string{
-					"__token__",
-					"__oauth__",
-					"api_common",
-				},
-				Grants: []string{
-					"/api/bookmarks/write",
-					"/api/bookmarks/collections/write",
-				},
+		},
+		{
+			Name: "admin",
+			Parents: []string{
+				"@group",
+				"staff",
 			},
-			{
-				Name: "admin:read",
-				Parents: []string{
-					"__token__",
-					"api_common",
-				},
-				Grants: []string{
-					"/api/admin/read",
-					"/system/read",
-				},
+			Grants: []string{
+				"/*/admin/*",
+				"/*/cookbook/*",
 			},
-			{
-				Name: "admin:write",
-				Parents: []string{
-					"__token__",
-					"api_common",
-				},
-				Grants: []string{
-					"/api/admin/write",
-				},
+		},
+		{
+			Name: "bookmarks:read",
+			Parents: []string{
+				"__token__",
+				"__oauth__",
+				"api_common",
 			},
-			{
-				Name: "less",
-				Parents: []string{
-					"user",
-				},
-				Grants: []string{
-					"!/api/opds/*",
-				},
+			Grants: []string{
+				"/api/bookmarks/read",
+				"/api/bookmarks/export",
+				"/api/bookmarks/collections/read",
+				"/api/opds/read",
+				"/web/bookmarks/read",
 			},
-		}
+		},
+		{
+			Name: "bookmarks:write",
+			Parents: []string{
+				"__token__",
+				"__oauth__",
+				"api_common",
+			},
+			Grants: []string{
+				"/api/bookmarks/write",
+				"/api/bookmarks/collections/write",
+			},
+		},
+		{
+			Name: "admin:read",
+			Parents: []string{
+				"__token__",
+				"api_common",
+			},
+			Grants: []string{
+				"/api/admin/read",
+				"/system/read",
+			},
+		},
+		{
+			Name: "admin:write",
+			Parents: []string{
+				"__token__",
+				"api_common",
+			},
+			Grants: []string{
+				"/api/admin/write",
+			},
+		},
+		{
+			Name: "less",
+			Parents: []string{
+				"user",
+			},
+			Grants: []string{
+				"!/api/opds/*",
+			},
+		},
+	}
 }
 
 func TestCheckPermission(t *testing.T) {

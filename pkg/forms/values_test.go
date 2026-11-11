@@ -248,7 +248,7 @@ func TestNumberValueInt(t *testing.T) {
 		{
 			data:  `"abc"`,
 			flags: forms.IsEmpty,
-			err:   errors.New("invalid number literal"),
+			err:   errors.New("invalid syntax"),
 		},
 	}))
 
@@ -630,13 +630,13 @@ func TestIntegerListValue(t *testing.T) {
 			data:  `["a", 1, 2, null]`,
 			flags: forms.IsEmpty,
 			value: []int{},
-			err:   errors.New("invalid number"),
+			err:   errors.New("invalid syntax"),
 		},
 		{
 			data:  `["a", "b", "c"]`,
 			flags: forms.IsEmpty,
 			value: []int{},
-			err:   errors.New("invalid number"),
+			err:   errors.New("invalid syntax"),
 		},
 	}))
 

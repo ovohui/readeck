@@ -18,7 +18,7 @@ templ (v Views) userProfile(f *profileForm) {
 		user := server.GetUser(ctx)
 	}}
 	@v.base(title) {
-		<h1 class="title text-h2">{  title }</h1>
+		<h1 class="title text-h2">{ title }</h1>
 		<form action={ URL(ctx, "/logout") } method="post" class="my-8">
 			<p class="btn-block items-center">
 				<span class="grow">

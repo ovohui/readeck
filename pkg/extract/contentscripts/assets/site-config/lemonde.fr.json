@@ -1,18 +1,17 @@
 {
   "title_selectors": [
-    "//h1[@class='article__title']"
+    "//h1[@class='ds-title']"
   ],
   "body_selectors": [
-    "//section[contains(concat(' ',normalize-space(@class), ' '), ' article__content ')]",
-    "//section[contains(concat(' ',normalize-space(@class), ' '), ' video ')]"
+    "//article[contains(concat(' ',normalize-space(@class), ' '), ' article__content ')]",
+    "//article[contains(concat(' ',normalize-space(@class), ' '), ' video ')]"
   ],
   "date_selectors": [
     "//time[@itemprop='dateModified']/@datetime",
     "//time[@itemprop='datePublished']/@datetime"
   ],
   "author_selectors": [
-    "//span[contains(concat(' ',normalize-space(@class),' '),' author__name ')]",
-    "//div[@class=\"entry-meta\"]//a[contains(@class, \"url\")]"
+    "//div[@class=\"article__header-wrap\"]//a[@class=\"article__author-link\"]"
   ],
   "strip_selectors": [
     "//div[contains(concat(' ',normalize-space(@class), ' '), ' related-content--video ')]",
@@ -22,7 +21,6 @@
     "//section[contains(concat(' ',normalize-space(@class),' '),' catcher ')]",
     "//p[contains(strong, 'Lire') and a]",
     "//*[contains(@class, 'comments')]",
-    "//p[@class='article__status']",
     "//p[@class='ds-article-status ds-article-status--premium']",
     "//section[@id='js-capping-old-article']",
     "//p[@class='article__quote']/parent::blockquote",

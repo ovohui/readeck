@@ -1,0 +1,25 @@
+{
+  "title_selectors": null,
+  "body_selectors": null,
+  "date_selectors": null,
+  "author_selectors": [
+    "//div[contains(@class, \"field--name-field-auteur\")]"
+  ],
+  "strip_selectors": null,
+  "strip_id_or_class": null,
+  "strip_image_src": null,
+  "native_ad_selectors": null,
+  "tidy": false,
+  "prune": false,
+  "autodetect_on_failure": true,
+  "single_page_link_selectors": null,
+  "next_page_link_selectors": null,
+  "replace_strings": null,
+  "http_headers": null,
+  "tests": [
+    {
+      "url": "https://blogs.alternatives-economiques.fr/groupeduvendredi/2026/10/08/budget-2027-tout-le-monde-ne-contribue-pas-a-l-effort",
+      "contains": []
+    }
+  ]
+}

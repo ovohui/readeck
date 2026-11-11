@@ -101,13 +101,13 @@ templ (v Views) extract(f *extractForm, res *extractResult, html io.Reader) {
 						</div>
 						<div class="max-w-xs">
 							if tm, ok := res.Images["thumbnail"]; ok {
-								<img src={ tm.Encoded } width={ tm.Size[0] } height={ tm.Size[1] } alt=""/>
+								<img src={ templ.SafeURL(tm.Encoded) } width={ tm.Size[0] } height={ tm.Size[1] } alt=""/>
 							}
 						</div>
 					</div>
 					if img, ok := res.Images["image"]; ok && res.DocumentType == "photo" {
 						<p>
-							<img src={ img.Encoded } width={ img.Size[0] } height={ img.Size[1] } alt=""/>
+							<img src={ templ.SafeURL(img.Encoded) } width={ img.Size[0] } height={ img.Size[1] } alt=""/>
 						</p>
 					}
 					<div class="prose" lang={ res.Lang } dir={ res.TextDirection }>

@@ -48,7 +48,9 @@
     "job-market",
     "tags",
     "topictags",
-    "go-button-bar"
+    "go-button-bar",
+    "go-pagination",
+    "go-index"
   ],
   "strip_image_src": null,
   "native_ad_selectors": null,

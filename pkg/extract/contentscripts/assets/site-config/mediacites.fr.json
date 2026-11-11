@@ -17,7 +17,8 @@
     "send-gift-article-email",
     "point-final",
     "at-above-post",
-    "at-below-post"
+    "at-below-post",
+    "nonabo-message"
   ],
   "strip_image_src": null,
   "native_ad_selectors": null,
