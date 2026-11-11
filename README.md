@@ -12,11 +12,16 @@ See it as a bookmark manager and a read later tool.
 
 ## Contents
 
+- [AI Policy](#ai-policy)
 - [Features](#features)
 - [Installation](#how-to-test-or-install)
 - [FAQ](#faq)
 - [Under the hood](#under-the-hood)
 - [License](#license)
+
+## AI Policy
+
+AI is not welcome on this project. AI-made contributions will be ignored. Low effort security reports *will* be reviewed and, should they be valid, result in a fix without attribution.
 
 ## Features
 
