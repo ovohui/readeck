@@ -1,7 +1,7 @@
 ---
 
 name: Readeck Build
-run-name: ${{ github.actor }} build
+run-name: Build [${{ forgejo.ref_name }}] ${{ forgejo.event_name }}
 on:
   workflow_dispatch:
     inputs:
