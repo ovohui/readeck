@@ -110,7 +110,7 @@ templ (v Views) form(client *oauthClient, scopes []string) {
 	<h2 class="text-h3 mb-8 text-center">{ L(ctx).Gettext("Authorization required") }</h2>
 	<div class="flex gap-4 items-center mb-4">
 		if client.Logo != "" {
-			<img class="max-h-12 max-w-12" src={ client.Logo } alt=""/>
+			<img class="max-h-12 max-w-12" src={ templ.SafeURL(client.Logo) } alt=""/>
 		}
 		<p class="grow">
 			@templ.Raw(L(ctx).Gettext(`

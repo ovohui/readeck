@@ -9,6 +9,7 @@ import (
 	"image/color"
 	"strings"
 
+	"github.com/a-h/templ"
 	"github.com/skip2/go-qrcode"
 )
 
@@ -19,7 +20,7 @@ var ColorPrimary = color.RGBA{6, 76, 92, 255}
 // It panics when src is too big.
 // Size can be a negative number. See [qrcode.QRCode.Image]
 // for details. A value of -6 is a good default for URLs.
-func QRCodeB64(src string, color color.Color, size int) string {
+func QRCodeB64(src string, color color.Color, size int) templ.SafeURL {
 	qr, err := qrcode.New(src, qrcode.Medium)
 	if err != nil {
 		panic(err)
@@ -37,5 +38,5 @@ func QRCodeB64(src string, color color.Color, size int) string {
 	enc := base64.NewEncoder(base64.StdEncoding, res)
 	enc.Write(data) //nolint:errcheck
 
-	return res.String()
+	return templ.SafeURL(res.String())
 }

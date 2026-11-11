@@ -34,7 +34,7 @@ templ (v Views) applicationList(tokenList *tokenItemList) {
 						@ListItem("flex gap-2 items-start hfw:bg-gray-100 max-md:block") {
 							<div class="pl-4 pt-4">
 								if app.ClientLogo != "" {
-									<img class="max-w-8 max-h-8" src={ app.ClientLogo } alt=""/>
+									<img class="max-w-8 max-h-8" src={ templ.SafeURL(app.ClientLogo) } alt=""/>
 								} else {
 									@Icon("o-applications", WithIconClass("text-gray-700"), WithIconSvgClass("w-8 h-8"))
 								}
