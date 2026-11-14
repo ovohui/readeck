@@ -7,6 +7,14 @@
 ### Changed
 - Updated Go to 1.27.10
 
+### Fixed
+- Support "name" attribute in heading anchors, by [@mislav](https://codeberg.org/mislav)
+- Assets build on windows, by [@nalhe](https://codeberg.org/nalhe)
+- Always wrap extracted content in a unique HTML body element, by [@mislav](https://codeberg.org/mislav)
+- Fix Content-Type when rendering Turbo responses, by [@mislav](https://codeberg.org/mislav)
+- Prevent scroll position shifting when updating turbo-frames on webkit, by [@mislav](https://codeberg.org/mislav)
+- Fixed Chrome grid layout bug with bookmark card width, by [@peroksid](https://codeberg.org/peroksid) and [@mislav](https://codeberg.org/mislav)
+
 ## [0.23.5] - 2026-10-23
 ### Security
 - Updated Go to 1.26.10
