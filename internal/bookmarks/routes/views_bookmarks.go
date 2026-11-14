@@ -124,6 +124,7 @@ func (h *viewsRouter) bookmarkInfo(w http.ResponseWriter, r *http.Request) {
 
 	if server.IsTurboRequest(r) {
 		server.RenderTurboStreamComponent(w, r,
+			http.StatusOK,
 			Components{}.card(item),
 			"replace", "bookmark-card-"+b.UID, nil)
 		return
@@ -160,6 +161,7 @@ func (h *viewsRouter) bookmarkCard(w http.ResponseWriter, r *http.Request) {
 	item := dataset.NewBookmark(r.Context(), b)
 
 	server.RenderTurboStreamComponent(w, r,
+		http.StatusOK,
 		Components{}.card(item),
 		"replace", "bookmark-card-"+b.UID, nil)
 }
@@ -169,7 +171,6 @@ func (h *viewsRouter) diagnosis(w http.ResponseWriter, r *http.Request) {
 		server.TextMsg(w, r, http.StatusBadRequest, "not a turbo request")
 		return
 	}
-	w.WriteHeader(http.StatusOK)
 
 	b := getBookmark(r.Context())
 
@@ -181,6 +182,7 @@ func (h *viewsRouter) diagnosis(w http.ResponseWriter, r *http.Request) {
 
 	server.RenderTurboStreamComponent(
 		w, r,
+		http.StatusOK,
 		Components{}.diagnosis(d),
 		"replace", "diagnosis-info", nil,
 	)
@@ -209,9 +211,9 @@ func (h *viewsRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
 
 	case http.MethodPost:
 		forms.Bind(r, f)
-		status = http.StatusUnprocessableEntity
 
 		if !f.IsValid() {
+			status = http.StatusUnprocessableEntity
 			break
 		}
 
@@ -239,6 +241,7 @@ func (h *viewsRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
 			if withTitle || withDescription || withNote {
 				server.RenderTurboStreamComponent(
 					w, r,
+					http.StatusOK,
 					Components{}.titleBlock(item),
 					"replace", "bookmark-title-"+b.UID, nil,
 				)
@@ -254,6 +257,7 @@ func (h *viewsRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
 
 			if before.SiteName != b.SiteName || beforeP != afterP || !slices.Equal(before.Authors, b.Authors) {
 				server.RenderTurboStreamComponent(w, r,
+					http.StatusOK,
 					SidebarComponent{}.sidebar(item),
 					"replace", "bookmark-sidebar-"+b.UID, nil)
 			}
@@ -264,6 +268,7 @@ func (h *viewsRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
 					server.Log(r).Error("", slog.Any("err", err))
 				}
 				server.RenderTurboStreamComponent(w, r,
+					http.StatusOK,
 					Components{}.articleContent(item, buf),
 					"replace", "bookmark-content-"+b.UID,
 					map[string]string{
@@ -273,21 +278,25 @@ func (h *viewsRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
 
 			if !slices.Equal(before.Labels, b.Labels) {
 				server.RenderTurboStreamComponent(w, r,
+					http.StatusOK,
 					SidebarComponent{}.labelList(item),
 					"replace", "bookmark-label-list-"+b.UID, nil)
 			}
 
 			if withMarked || withArchived || withDeleted || withProgress {
 				server.RenderTurboStreamComponent(w, r,
+					http.StatusOK,
 					SidebarComponent{}.actions(item),
 					"replace", "bookmark-actions-"+b.UID, nil)
 				server.RenderTurboStreamComponent(w, r,
+					http.StatusOK,
 					Components{}.card(item),
 					"replace", "bookmark-card-"+b.UID, nil)
 			}
 			if withMarked || withArchived {
 				server.RenderTurboStreamComponent(
 					w, r,
+					http.StatusOK,
 					Components{}.bookmarkInfoBottomActions(item),
 					"replace", "bookmark-bottom-actions-"+b.UID, nil,
 				)
@@ -307,9 +316,9 @@ func (h *viewsRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if server.IsTurboRequest(r) {
-		w.WriteHeader(status)
 		server.RenderTurboStreamComponent(
 			w, r,
+			status,
 			Components{}.bookmarkUpdate(b, f),
 			"replace", "bookmark-update-"+b.UID, nil,
 		)
@@ -329,6 +338,7 @@ func (h *viewsRouter) bookmarkShareLink(w http.ResponseWriter, r *http.Request) 
 	link := getSharedLink(r.Context())
 	if server.IsTurboRequest(r) {
 		server.RenderTurboStreamComponent(w, r,
+			http.StatusOK,
 			Components{}.shareByLink(link),
 			"replace", "bookmark-share-"+link.ID, nil)
 
@@ -360,6 +370,7 @@ func (h *viewsRouter) bookmarkShareEmail(w http.ResponseWriter, r *http.Request)
 
 	if server.IsTurboRequest(r) {
 		server.RenderTurboStreamComponent(w, r,
+			http.StatusOK,
 			Components{}.shareByEmail(info), "replace",
 			"bookmark-share-"+info.ID, nil)
 		return
