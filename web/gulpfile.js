@@ -4,6 +4,7 @@
 
 import fs from "fs"
 import path from "path"
+import {fileURLToPath} from "url"
 import {createRequire} from "module"
 import zlib from "zlib"
 
@@ -333,7 +334,7 @@ function iconSprite() {
       if (url.protocol === "file:") {
         // load from file
         icon = new SVG(
-          fs.readFileSync(url.pathname, {encoding: "utf-8"}).toString(),
+          fs.readFileSync(fileURLToPath(url), {encoding: "utf-8"}).toString(),
         )
         cleanupSVG(icon)
         runSVGO(icon)
