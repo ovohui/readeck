@@ -20,6 +20,7 @@ import (
 	"strconv"
 	"strings"
 
+	"codeberg.org/readeck/readeck/pkg/domutils"
 	"github.com/go-shiori/dom"
 
 	"golang.org/x/net/html"
@@ -425,7 +426,11 @@ func (e *Extractor) Run() {
 				// Render the final document body
 				if m.Dom != nil {
 					buf := bytes.NewBuffer(nil)
-					html.Render(buf, convertBodyNodes(m.Dom))
+					if body := domutils.FindBody(m.Dom); body != nil {
+						for child := body.FirstChild; child != nil; child = child.NextSibling {
+							html.Render(buf, child)
+						}
+					}
 					d.Body = buf.Bytes()
 				}
 			}()
@@ -485,22 +490,6 @@ func (e *Extractor) runProcessors(m *ProcessMessage) {
 			return
 		}
 	}
-}
-
-// convertBodyNodes extracts all the element from a
-// document body and then returns a new HTML Document
-// containing only the body's children.
-func convertBodyNodes(top *html.Node) *html.Node {
-	doc := &html.Node{
-		Type: html.DocumentNode,
-	}
-	for _, node := range dom.GetElementsByTagName(top, "body") {
-		for _, c := range dom.ChildNodes(node) {
-			doc.AppendChild(dom.Clone(c, true))
-		}
-	}
-
-	return doc
 }
 
 func (e *Extractor) setFinalHTML() {

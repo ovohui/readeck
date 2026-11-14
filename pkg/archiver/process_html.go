@@ -18,6 +18,7 @@ import (
 	"slices"
 	"strings"
 
+	"codeberg.org/readeck/readeck/pkg/domutils"
 	"golang.org/x/net/html"
 	"golang.org/x/sync/errgroup"
 
@@ -591,7 +592,7 @@ func (arc *Archiver) convertNoScriptToDiv(_ context.Context, doc *html.Node, res
 		if err != nil {
 			return
 		}
-		body := dom.GetElementsByTagName(doc, "body")[0]
+		body := domutils.FindBody(doc)
 
 		div := dom.CreateElement("div")
 		for _, child := range dom.ChildNodes(body) {

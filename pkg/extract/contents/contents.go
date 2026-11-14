@@ -124,7 +124,7 @@ func Readability(options ...func(*readability.Parser)) extract.Processor {
 		} else {
 			m.Log().Info("readability is disabled by flag")
 			doc = m.Dom
-			body = dom.QuerySelector(doc, "body")
+			body = domutils.FindBody(doc)
 		}
 
 		// final cleanup
@@ -315,7 +315,7 @@ func fixNoscriptImages(top *html.Node) {
 			return
 		}
 
-		tmpBody := dom.GetElementsByTagName(tmpDoc, "body")[0]
+		tmpBody := domutils.FindBody(tmpDoc)
 		if !isSingleImage(tmpBody) {
 			return
 		}
