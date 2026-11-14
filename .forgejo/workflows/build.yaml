@@ -74,16 +74,28 @@ jobs:
         XGO_IN_XGO: 1
 
     steps:
-      - name: Build binary release files
-        working-directory: /workspace/workdir
+      - name: Prep build
         run: |
           mkdir -p /workspace/gocache /workspace/workdir/dist
           ln -s /workspace/gocache /gocache
           ln -s /workspace/workdir/dist /build
+
+      - name: Build Linux binary release
+        working-directory: /workspace/workdir
+        run: |
           make xbuild-linux
-          make xbuild-windows
-          make xbuild-darwin
+      - name: Build FreeBSD binary release files
+        working-directory: /workspace/workdir
+        run: |
           make xbuild-freebsd
+      - name: Build MacOS binary release files
+        working-directory: /workspace/workdir
+        run: |
+          make xbuild-darwin
+      - name: Build Windows binary release files
+        working-directory: /workspace/workdir
+        run: |
+          make xbuild-windows
 
   # This last step creates the container image and copies all the artifact
   # to its destination folder.
