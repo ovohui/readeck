@@ -1,0 +1,42 @@
+{
+  "title_selectors": null,
+  "body_selectors": [
+    "//article"
+  ],
+  "date_selectors": [
+    "//time/@datetime"
+  ],
+  "author_selectors": [
+    "substring-after( //div[@class='flatplan_author'] , 'Text by ')"
+  ],
+  "strip_selectors": [
+    "//section[@id='up-next'] | //section[@id='up-next']/following-sibling::*",
+    "//header//h1/parent::div/parent::div"
+  ],
+  "strip_id_or_class": [
+    "flatplan_title",
+    "flatplan_author",
+    "flatplan_subtitle",
+    "flatplan_pagecredits"
+  ],
+  "strip_image_src": null,
+  "native_ad_selectors": null,
+  "tidy": false,
+  "prune": false,
+  "autodetect_on_failure": true,
+  "single_page_link_selectors": null,
+  "next_page_link_selectors": null,
+  "replace_strings": [
+    [
+      "width=\"200\" height=\"113\"",
+      "width=\"600\" height=\"339\""
+    ]
+  ],
+  "http_headers": null,
+  "tests": [
+    {
+      "url": "https://www.huckmag.com/article/real-life-mermaids-florida-weeki-wachee-springs",
+      "contains": []
+    }
+  ]
+}
