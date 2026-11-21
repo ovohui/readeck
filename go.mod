@@ -33,7 +33,7 @@ require (
 	github.com/komkom/toml v0.1.2
 	github.com/leonelquinteros/gotext v1.8.0
 	github.com/mangoumbrella/goldmark-figure v1.4.0
-	github.com/mattn/go-sqlite3 v1.14.53
+	github.com/mattn/go-sqlite3 v1.14.54-0.20261117134745-8ff398bed68d
 	github.com/phsym/console-slog v0.3.1
 	github.com/pmezard/go-difflib v1.0.0
 	github.com/prometheus/client_golang v1.25.0
