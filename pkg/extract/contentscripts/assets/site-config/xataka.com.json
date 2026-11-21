@@ -1,7 +1,7 @@
 {
   "title_selectors": null,
   "body_selectors": [
-    "//article[contains(@class, 'article-normal')]"
+    "//main/article[1]"
   ],
   "date_selectors": null,
   "author_selectors": null,

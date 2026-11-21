@@ -124,7 +124,7 @@ func Readability(options ...func(*readability.Parser)) extract.Processor {
 		} else {
 			m.Log().Info("readability is disabled by flag")
 			doc = m.Dom
-			body = dom.QuerySelector(doc, "body")
+			body = domutils.FindBody(doc)
 		}
 
 		// final cleanup
@@ -232,7 +232,7 @@ func restoreDataAttributes(top *html.Node) {
 func setIDs(top *html.Node) {
 	// Set a random prefix for the whole document
 	chars := []byte("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
-	rand.Shuffle(len(chars), func(i, j int) {
+	rand.Shuffle(len(chars), func(i, j int) { //nolint:gosec
 		chars[i], chars[j] = chars[j], chars[i]
 	})
 	prefix := fmt.Sprintf("%s.%s", chars[0:2], chars[3:7])
@@ -315,7 +315,7 @@ func fixNoscriptImages(top *html.Node) {
 			return
 		}
 
-		tmpBody := dom.GetElementsByTagName(tmpDoc, "body")[0]
+		tmpBody := domutils.FindBody(tmpDoc)
 		if !isSingleImage(tmpBody) {
 			return
 		}

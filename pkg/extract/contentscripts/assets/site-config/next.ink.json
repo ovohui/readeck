@@ -3,7 +3,7 @@
     "//h1[@id='single-article-title']"
   ],
   "body_selectors": [
-    "//div[@id='next-single-post']",
+    "//div[@id=\"next-header-post\"]//p[@class=\"wp-block-paragraph\"] | //div[@id='next-single-post']",
     "//article[1]",
     "//div[@id='article-single']"
   ],

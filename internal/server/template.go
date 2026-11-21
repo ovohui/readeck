@@ -68,6 +68,7 @@ func RenderComponent(
 // in the same HTTP response.
 func RenderTurboStreamComponent(
 	w http.ResponseWriter, r *http.Request,
+	status int,
 	component templ.Component,
 	action, target string,
 	attrs map[string]string,
@@ -84,6 +85,8 @@ func RenderTurboStreamComponent(
 	)
 
 	w.Header().Set("Content-Type", "text/vnd.turbo-stream.html; charset=utf-8")
+	w.WriteHeader(status)
+
 	fmt.Fprint(
 		w,
 		`<turbo-stream action="`, html.EscapeString(action), `" `,

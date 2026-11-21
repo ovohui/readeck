@@ -5,7 +5,8 @@
   ],
   "date_selectors": null,
   "author_selectors": [
-    "//a[@class=\"article-header-author__name\"]"
+    "//a[@class=\"article-header-author__name\"]",
+    "//div[@class=\"article-author-bottom__name\"]"
   ],
   "strip_selectors": [
     "//a[@class=\"article-body-guide\"]",
@@ -16,7 +17,9 @@
   "strip_id_or_class": [
     "article-tags",
     "article-index",
-    "article-book"
+    "article-book",
+    "article-body-aera-book-wrap",
+    "article-body-recommend"
   ],
   "strip_image_src": null,
   "native_ad_selectors": null,
@@ -53,6 +56,10 @@
     },
     {
       "url": "https://dot.asahi.com/aerakids/articles/-/274981?page=1",
+      "contains": []
+    },
+    {
+      "url": "https://dot.asahi.com/articles/-/292768?page=1",
       "contains": []
     }
   ]

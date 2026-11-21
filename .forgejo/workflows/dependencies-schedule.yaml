@@ -1,7 +1,7 @@
 ---
 
 name: Readeck Dependencies
-run-name: ${{ github.actor }} dependencies updater
+run-name: Dependencies updater [${{ forgejo.ref_name }}] ${{ forgejo.event_name }}
 on:
   schedule:
     - cron: "0 5 * * *"

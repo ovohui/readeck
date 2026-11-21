@@ -5,7 +5,7 @@
   "body_selectors": [
     "//div[@class='editorial']",
     "//div[@id='content']",
-    "//article"
+    "//article[contains(concat(' ',normalize-space(@class),' '),' main-content ')]"
   ],
   "date_selectors": null,
   "author_selectors": [
@@ -14,7 +14,8 @@
   "strip_selectors": [
     "//a[contains(text(),'Page suivante')]",
     "//a[contains(text(),'Page précédente')]",
-    "//article/div[last()]"
+    "//article/div[last()]",
+    "//section[@id='related-news-discussions']"
   ],
   "strip_id_or_class": [
     "breadcrumb",

@@ -19,9 +19,9 @@ import (
 	"net/http/cookiejar"
 	"net/textproto"
 	"net/url"
+	"syscall"
 	"time"
 
-	"golang.org/x/net/idna"
 	"golang.org/x/net/publicsuffix"
 
 	"codeberg.org/readeck/readeck/configs"
@@ -33,9 +33,29 @@ type ctxProxyURLKey struct{}
 const uaString = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36"
 
 // defaultDialer is our own default net.Dialer with shorter timeout and keepalive.
+// This dialer forbids reaching addresses present in the configured denied ranges
+// "configs.Config.Extractor.DeniedIPs".
 var defaultDialer = net.Dialer{
 	Timeout:   15 * time.Second,
 	KeepAlive: 30 * time.Second,
+	ControlContext: func(_ context.Context, _, address string, _ syscall.RawConn) error {
+		if len(configs.ExtractorDeniedIPs()) == 0 {
+			// An empty list disables the IP check.
+			return nil
+		}
+
+		addr, _, err := net.SplitHostPort(address)
+		if err != nil {
+			return fmt.Errorf("invalid address: %w", err)
+		}
+		ip := net.ParseIP(addr)
+		for _, cidr := range configs.ExtractorDeniedIPs() {
+			if cidr.Contains(ip) {
+				return fmt.Errorf("ip %s is blocked by rule %s", ip, cidr)
+			}
+		}
+		return nil
+	},
 }
 
 var cipherSuites = []uint16{
@@ -128,10 +148,6 @@ type Transport struct {
 // It checks if the destination IP is allowed, adds default headers and
 // logs (debug-10 level) every request.
 func (t *Transport) RoundTrip(r *http.Request) (*http.Response, error) {
-	if err := t.checkDestIP(r); err != nil {
-		return nil, err
-	}
-
 	// A RoundTripper should not modify the request. Since we only want to add
 	// headers, we can work with a shallow copy.
 	req := new(http.Request)
@@ -193,34 +209,6 @@ func (t *Transport) setTLSGrease() {
 			greaseCiphers[rand.IntN(len(greaseCiphers))], //nolint:gosec
 		}, cipherSuites...)
 	}
-}
-
-func (t *Transport) checkDestIP(r *http.Request) error {
-	if len(configs.Config.Extractor.DeniedIPs) == 0 {
-		// An empty list disables the IP check.
-		return nil
-	}
-
-	hostname := r.URL.Hostname()
-	host, err := idna.ToASCII(hostname)
-	if err != nil {
-		return fmt.Errorf("invalid hostname %s", hostname)
-	}
-
-	ips, err := net.LookupIP(host)
-	if err != nil {
-		return fmt.Errorf("cannot resolve %s", host)
-	}
-
-	for _, cidr := range configs.Config.Extractor.DeniedIPs {
-		for _, ip := range ips {
-			if cidr.Contains(ip) {
-				return fmt.Errorf("ip %s is blocked by rule %s", ip, cidr)
-			}
-		}
-	}
-
-	return nil
 }
 
 // Log returns the transport's logger.

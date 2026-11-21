@@ -9,8 +9,8 @@ import (
 	"reflect"
 	"strings"
 
+	"codeberg.org/readeck/readeck/pkg/domutils"
 	"golang.org/x/net/html"
-	"golang.org/x/net/html/atom"
 
 	"github.com/andybalholm/cascadia"
 	"github.com/dop251/goja"
@@ -224,8 +224,8 @@ func (m *domModule) createNodePrototype() *goja.Object { //nolint:gocognit,gocyc
 		if o.node.Type != html.DocumentNode {
 			return goja.Undefined()
 		}
-		if n := dom.GetElementsByTagName(o.node, "body"); len(n) > 0 {
-			return m.newNodeValue(n[0])
+		if n := domutils.FindBody(o.node); n != nil {
+			return m.newNodeValue(n)
 		}
 		return goja.Undefined()
 	})
@@ -287,13 +287,7 @@ func (m *domModule) createNodePrototype() *goja.Object { //nolint:gocognit,gocyc
 			return
 		}
 
-		context := &html.Node{
-			Type:      html.ElementNode,
-			Data:      "body",
-			DataAtom:  atom.Lookup([]byte("body")),
-			Namespace: "",
-		}
-
+		context := domutils.CreateElement("body")
 		nodes, err := html.ParseFragment(strings.NewReader(v.String()), context)
 		if err != nil {
 			panic(m.r.ToValue(fmt.Sprintf("can't parse HTML (%s)", err.Error())))
@@ -334,13 +328,7 @@ func (m *domModule) createNodePrototype() *goja.Object { //nolint:gocognit,gocyc
 			panic(m.r.ToValue("can't set outerHTML of node without parent"))
 		}
 
-		context := &html.Node{
-			Type:      html.ElementNode,
-			Data:      "body",
-			DataAtom:  atom.Lookup([]byte("body")),
-			Namespace: "",
-		}
-
+		context := domutils.CreateElement("body")
 		nodes, err := html.ParseFragment(strings.NewReader(v.String()), context)
 		if err != nil {
 			panic(m.r.ToValue(fmt.Sprintf("can't parse HTML (%s)", err.Error())))

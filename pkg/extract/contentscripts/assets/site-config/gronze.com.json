@@ -1,0 +1,37 @@
+{
+  "title_selectors": [
+    "//meta[@property=\"og:title\"]/@content"
+  ],
+  "body_selectors": [
+    "//div[contains(@class, 'field-name-body')]/parent::div"
+  ],
+  "date_selectors": null,
+  "author_selectors": [
+    "//meta[@property=\"schema:name\"]/@content"
+  ],
+  "strip_selectors": null,
+  "strip_id_or_class": [
+    "field-name-field-ref-author",
+    "element-invisible",
+    "rdf-meta"
+  ],
+  "strip_image_src": null,
+  "native_ad_selectors": null,
+  "tidy": false,
+  "prune": false,
+  "autodetect_on_failure": true,
+  "single_page_link_selectors": null,
+  "next_page_link_selectors": null,
+  "replace_strings": null,
+  "http_headers": null,
+  "tests": [
+    {
+      "url": "https://www.gronze.com/articulos/motivaciones-para-hacer-camino-santiago-14167",
+      "contains": []
+    },
+    {
+      "url": "https://www.gronze.com/articulos/hospitalidad-monastica-en-camino-santiago-42747",
+      "contains": []
+    }
+  ]
+}

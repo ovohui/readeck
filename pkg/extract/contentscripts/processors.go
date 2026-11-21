@@ -17,6 +17,7 @@ import (
 	"github.com/itlightning/dateparse"
 	"golang.org/x/net/html"
 
+	"codeberg.org/readeck/readeck/pkg/domutils"
 	"codeberg.org/readeck/readeck/pkg/extract"
 )
 
@@ -180,11 +181,10 @@ func ExtractBody(m *extract.ProcessMessage, next extract.Processor) extract.Proc
 		return next
 	}
 
-	bodyNodes := dom.GetElementsByTagName(m.Dom, "body")
-	if len(bodyNodes) == 0 {
+	body := domutils.FindBody(m.Dom)
+	if body == nil {
 		return next
 	}
-	body := bodyNodes[0]
 
 	for _, selector := range cfg.BodySelectors {
 		nodes, _ := htmlquery.QueryAll(m.Dom, selector)
@@ -212,16 +212,31 @@ func ExtractBody(m *extract.ProcessMessage, next extract.Processor) extract.Proc
 			slog.Int("nodes", len(nodes)),
 		)
 
-		newBody := dom.CreateElement("body")
-		section := dom.CreateElement("section")
-		dom.SetAttribute(section, "class", "article")
-		dom.SetAttribute(section, "id", "article")
-		dom.AppendChild(newBody, section)
-
+		bodyMatched := false
 		for _, node := range nodes {
-			dom.AppendChild(section, node)
+			if node.Type == html.ElementNode && node.Data == "body" {
+				bodyMatched = true
+				break
+			}
 		}
-		dom.ReplaceChild(body.Parent, newBody, body)
+
+		section := domutils.CreateElement("section")
+		section.Attr = append(section.Attr, html.Attribute{Key: "class", Val: "article"})
+		section.Attr = append(section.Attr, html.Attribute{Key: "id", Val: "article"})
+
+		if bodyMatched {
+			domutils.WrapContents(body, section)
+		} else {
+			newBody := domutils.CreateElement("body")
+			newBody.AppendChild(section)
+			for _, node := range nodes {
+				node.Parent.RemoveChild(node)
+				section.AppendChild(node)
+			}
+			head := body.Parent
+			head.RemoveChild(body)
+			head.AppendChild(newBody)
+		}
 
 		break
 	}

@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"net"
 	"strconv"
+	"strings"
 
 	"github.com/cristalhq/acmd"
 
@@ -42,16 +43,24 @@ func runHealthcheck(_ context.Context, args []string) error {
 		return fmt.Errorf("error loading configuration (%s)", err)
 	}
 
+	network := "tcp"
+	address := ""
+	if host, ok := strings.CutPrefix(configs.Config.Server.Host, "unix:"); ok {
+		network = "unix"
+		address = host
+	} else {
+		address = net.JoinHostPort(
+			configs.Config.Server.Host,
+			strconv.Itoa(configs.Config.Server.Port),
+		)
+	}
+
 	// Try to open a TCP connection to the HTTP server.
-	conn, err := net.Dial("tcp", net.JoinHostPort(
-		configs.Config.Server.Host,
-		strconv.Itoa(configs.Config.Server.Port),
-	))
+	conn, err := net.Dial(network, address)
 	if err != nil {
 		return errors.Join(err, errors.New("Readeck server does not answer"))
 	}
-	defer conn.Close() //nolint:errcheck
 
-	fmt.Printf("Readeck is listening on %s\n", conn.RemoteAddr())
-	return nil
+	fmt.Printf("Readeck is listening on %s:%s\n", conn.RemoteAddr().Network(), conn.RemoteAddr())
+	return conn.Close()
 }

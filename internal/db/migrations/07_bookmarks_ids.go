@@ -22,7 +22,7 @@ func M07migrateBookmarkIDs(_ *goqu.TxDatabase, _ fs.FS) error {
 	return updateBookmarkZipFiles(updateArchiveHTML(func(top *html.Node) (changed int, err error) {
 		// Set a random prefix for the whole document
 		chars := []byte("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
-		rand.Shuffle(len(chars), func(i, j int) {
+		rand.Shuffle(len(chars), func(i, j int) { //nolint:gosec
 			chars[i], chars[j] = chars[j], chars[i]
 		})
 		prefix := fmt.Sprintf("%s.%s", chars[0:2], chars[3:7])

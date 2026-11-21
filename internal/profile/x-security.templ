@@ -17,7 +17,7 @@ templ (v Views) userPassword(f *changePasswordForm) {
 		user := server.GetUser(ctx)
 	}}
 	@v.base(title) {
-		<h1 class="title text-h2">{  title }</h1>
+		<h1 class="title text-h2">{ title }</h1>
 		if !user.IsExternal() {
 			<form action={ URL(ctx) } method="post" class="mb-8">
 				@F.Errors(f)
@@ -84,7 +84,7 @@ templ (v Views) userPassword(f *changePasswordForm) {
 templ (v Views) setupTOTP(f *totpForm) {
 	{{ title := L(ctx).Gettext("Setup Verification Code") }}
 	@v.base(title) {
-		<h1 class="title text-h2">{  title }</h1>
+		<h1 class="title text-h2">{ title }</h1>
 		<form action={ URL(ctx) } method="post">
 			<input type="hidden" name={ f.Secret.Name() } value={ f.Secret.Value() }/>
 			if f.code.Secret != "" {
@@ -96,7 +96,7 @@ templ (v Views) setupTOTP(f *totpForm) {
 					alt=""
 					width="304"
 					height="304"
-					data-totp-uri={ f.code.URL().String() }
+					data-totp-uri={ templ.SafeURL(f.code.URL().String()) }
 				/>
 				<p class="mt-4">{ L(ctx).Gettext("If you can't use the QR code, enter the code below instead.") }</p>
 				<p><strong>{ f.code.Secret }</strong></p>

@@ -44,7 +44,7 @@ func StripHeadingAnchors(m *extract.ProcessMessage, next extract.Processor) extr
 		isAnchor := false
 		var headingElement *html.Node
 		for el := range traverseAdjacent(a) {
-			elementID := unescape(dom.GetAttribute(el, "id"))
+			elementID := unescape(anchorName(el))
 			if len(elementID) > 0 && elementID == fragmentID || strings.TrimPrefix(elementID, "user-content-") == fragmentID {
 				isAnchor = true
 			}
@@ -56,7 +56,7 @@ func StripHeadingAnchors(m *extract.ProcessMessage, next extract.Processor) extr
 				if hasLinkContent(a) {
 					unwrapElement(a)
 				}
-				if aID := dom.GetAttribute(a, "id"); aID != "" && !dom.HasAttribute(headingElement, "id") {
+				if aID := anchorName(a); aID != "" && !dom.HasAttribute(headingElement, "id") {
 					// The <a id="..."> element is going away, so preserve its ID attribute by
 					// moving it onto the heading element.
 					dom.SetAttribute(headingElement, "id", aID)
@@ -163,6 +163,23 @@ func traverseAdjacent(node *html.Node) iter.Seq[*html.Node] {
 			return
 		}
 	}
+}
+
+func anchorName(node *html.Node) string {
+	for _, attr := range node.Attr {
+		if attr.Key == "id" {
+			return attr.Val
+		}
+	}
+	if node.Data != "a" {
+		return ""
+	}
+	for _, attr := range node.Attr {
+		if attr.Key == "name" {
+			return attr.Val
+		}
+	}
+	return ""
 }
 
 // Unwrap an HTML element by reparenting its contents.

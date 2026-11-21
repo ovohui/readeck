@@ -1,6 +1,6 @@
 {
   "title_selectors": [
-    "//h1[@class=\"title\"]"
+    "//h1[@id=\"page-title\"]"
   ],
   "body_selectors": [
     "//main[1]"
@@ -29,6 +29,7 @@
     "paywall-login",
     "paywall-message",
     "paywall_no_variance",
+    "paywall-banner",
     "screen-reader-only"
   ],
   "strip_image_src": null,

@@ -32,8 +32,8 @@ export GOARCH?=
 SITECONFIG_SRC=./ftr-site-config
 SITECONFIG_DEST=pkg/extract/contentscripts/assets/site-config
 
-TEMPL ?= $(GO) run github.com/a-h/templ/cmd/templ@v0.3.1020
-GOLANGCI_LINT ?= $(GO) run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.12.2
+TEMPL ?= $(GO) run github.com/a-h/templ/cmd/templ@v0.3.1118
+GOLANGCI_LINT ?= $(GO) run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.15.0
 AIR ?= $(GO) run github.com/air-verse/air@v1.65.3
 SCC ?= $(GO) run github.com/boyter/scc/v3@latest
 

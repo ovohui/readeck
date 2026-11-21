@@ -28,7 +28,8 @@
     "newsletter-form",
     "newsletter-rgpd",
     "stretched-link-container",
-    "to-read"
+    "to-read",
+    "installPwaDiv"
   ],
   "strip_image_src": null,
   "native_ad_selectors": null,

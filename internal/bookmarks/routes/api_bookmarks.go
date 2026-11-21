@@ -67,12 +67,14 @@ func (api *apiRouter) bookmarkArticle(w http.ResponseWriter, r *http.Request) {
 
 	if server.IsTurboRequest(r) {
 		server.RenderTurboStreamComponent(w, r,
+			http.StatusOK,
 			Components{}.articleContent(bi, buf),
 			"replace", "bookmark-content-"+b.UID,
 			map[string]string{
 				"method": "morph",
 			})
 		server.RenderTurboStreamComponent(w, r,
+			http.StatusOK,
 			SidebarComponent{}.annotationList(bi),
 			"replace", "bookmark-annotation-list-"+b.UID,
 			map[string]string{
