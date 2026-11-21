@@ -14,9 +14,9 @@ require (
 	github.com/caarlos0/env/v11 v11.4.2
 	github.com/coreos/go-oidc/v3 v3.21.0
 	github.com/cristalhq/acmd v0.12.0
-	github.com/dop251/goja v0.0.0-20261110204830-f493a2b600d6
+	github.com/dop251/goja v0.0.0-20261118204651-8dfece3d1e1d
 	github.com/dop251/goja_nodejs v0.0.0-20260918173711-b481721df8a2
-	github.com/doug-martin/goqu/v9 v9.25.0
+	github.com/doug-martin/goqu/v9 v9.27.0
 	github.com/fxamacker/cbor/v2 v2.10.0
 	github.com/gabriel-vasile/mimetype v1.4.16
 	github.com/go-chi/chi/v5 v5.5.0
@@ -29,11 +29,11 @@ require (
 	github.com/jackc/pgx/v5 v5.13.0
 	github.com/jarcoal/httpmock v1.4.2
 	github.com/kinbiko/jsonassert v1.2.0
-	github.com/klauspost/compress v1.20.4
+	github.com/klauspost/compress v1.20.5
 	github.com/komkom/toml v0.1.2
 	github.com/leonelquinteros/gotext v1.8.0
 	github.com/mangoumbrella/goldmark-figure v1.4.0
-	github.com/mattn/go-sqlite3 v1.14.52
+	github.com/mattn/go-sqlite3 v1.14.53
 	github.com/phsym/console-slog v0.3.1
 	github.com/pmezard/go-difflib v1.0.0
 	github.com/prometheus/client_golang v1.25.0
@@ -41,14 +41,14 @@ require (
 	github.com/sergeymakinen/go-ico v1.0.0
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
 	github.com/stretchr/testify v1.12.1
-	github.com/tdewolff/parse/v2 v2.8.20
+	github.com/tdewolff/parse/v2 v2.25.0
 	github.com/wneessen/go-mail v0.8.2
 	github.com/wyatt915/treeblood v0.1.16
 	github.com/yuin/goldmark v1.8.7
 	github.com/yuin/goldmark-meta v1.1.0
 	golang.org/x/crypto v0.59.0
 	golang.org/x/image v0.48.0
-	golang.org/x/net v0.62.0
+	golang.org/x/net v0.63.0
 	golang.org/x/oauth2 v0.38.0
 	golang.org/x/sync v0.25.0
 	golang.org/x/term v0.48.0
@@ -59,20 +59,20 @@ require (
 
 require (
 	github.com/JohannesKaufmann/dom v0.3.1 // indirect
-	github.com/PuerkitoBio/goquery v1.13.0 // indirect
+	github.com/PuerkitoBio/goquery v1.14.0 // indirect
 	github.com/antchfx/xpath v1.3.9 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/dlclark/regexp2/v2 v2.13.0 // indirect
+	github.com/dlclark/regexp2/v2 v2.13.2 // indirect
 	github.com/dustin/go-humanize v1.1.0 // indirect
 	github.com/go-sourcemap/sourcemap v2.1.4+incompatible // indirect
 	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
 	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
-	github.com/google/pprof v0.0.0-20261111200114-fac431ef4d26 // indirect
+	github.com/google/pprof v0.0.0-20261118010117-084b33a85f63 // indirect
 	github.com/gorilla/css v1.0.1 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
-	github.com/jackc/puddle/v2 v2.2.3 // indirect
+	github.com/jackc/puddle/v2 v2.2.4 // indirect
 	github.com/kr/text v0.1.0 // indirect
 	github.com/mattn/go-isatty v0.0.24 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
@@ -94,9 +94,9 @@ require (
 	gopkg.in/hlandau/measurable.v1 v1.0.1 // indirect
 	gopkg.in/hlandau/passlib.v1 v1.0.11 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	modernc.org/libc v1.81.0 // indirect
+	modernc.org/libc v1.82.7 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
-	modernc.org/memory v1.12.1 // indirect
+	modernc.org/memory v1.13.0 // indirect
 )
 
 ignore (
