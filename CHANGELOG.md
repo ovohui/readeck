@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [0.23.6] - 2026-11-21
 ### Security
 - Denied IP ranges are now checked during network dial. [Reported by bots](https://codeberg.org/readeck/readeck/pulls/1391).
 
