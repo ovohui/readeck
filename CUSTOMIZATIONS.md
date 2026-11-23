@@ -64,7 +64,8 @@ ytdlp_timeout = 600
 - 下载失败（地区限制、需要登录、超时）不会影响整篇文章归档：iframe 原样保留，日志里有一条 `yt-dlp download failed` 的告警。
 - 需要登录才能看的视频，可把浏览器导出的 Netscape 格式 cookies.txt 放进容器，然后在 yt-dlp 参数里加 `--cookies`（当前实现预留了 `YtdlpConfig.CookiesFile` 字段）。
 - YouTube 常见的 “Sign in to confirm you're not a bot” 属于 yt-dlp 自身的风控，更新 `pip install -U yt-dlp` 或提供 cookies 即可，与 Readeck 无关。
-- 容器基于 Alpine：`apk ffmpeg` + yt-dlp 官方静态 musl 二进制，不装 Python。整体压缩体积约 100MB（Debian + apt ffmpeg + python venv 的版本是 247MB，其中单是 ffmpeg/python 那一层就有 179MB，在 NAS 上下载非常慢，所以换掉了）。
+- 容器基于 Alpine：`apk add ffmpeg yt-dlp`，不再装 Debian 的 ffmpeg/python 依赖树。整体压缩体积从 Debian 版的 247MB（其中 ffmpeg+python 单层就 179MB，NAS 上下载极慢）降到约 100MB。
+- yt-dlp 用的是 Alpine 软件包（python3 实现），版本由 Alpine 仓库更新。若遇到 YouTube 风控/解析失败，进容器执行 `apk upgrade yt-dlp`，或重建镜像。
 
 > 当媒体文件因跨域鉴权或体积过大无法下载时，节点不再被删除，而是保留原始远端 URL，因此在线查看归档页时播放器仍然可用。
 

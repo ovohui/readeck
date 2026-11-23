@@ -86,25 +86,15 @@ RUN make setup generate build
 # fits in roughly a third of that.
 FROM docker.io/library/alpine:3.22
 
-ARG TARGETARCH=amd64
-
+# ffmpeg (remux/merge of DASH streams) and yt-dlp both come from apk: it keeps
+# the image reproducible and avoids downloading a 39 MB standalone binary on
+# every build. Alpine's yt-dlp pulls python3, which is still far smaller than
+# the Debian runtime it replaces.
 RUN apk add --no-cache \
         ca-certificates \
         ffmpeg \
-        tzdata
-
-# yt-dlp publishes self-contained musl binaries, so no Python is needed in the
-# image. YTDLP_VERSION can be pinned to a tag (e.g. 2026.10.26) for
-# reproducible builds; the default always tracks the latest release.
-ARG YTDLP_VERSION=latest
-RUN case "$TARGETARCH" in \
-        amd64) asset=yt-dlp_musllinux ;; \
-        arm64) asset=yt-dlp_musllinux_aarch64 ;; \
-        *) echo "unsupported architecture: $TARGETARCH" >&2; exit 1 ;; \
-    esac && \
-    wget -q -O /usr/local/bin/yt-dlp \
-        "https://github.com/yt-dlp/yt-dlp/releases/${YTDLP_VERSION}/download/${asset}" && \
-    chmod 0755 /usr/local/bin/yt-dlp
+        tzdata \
+        yt-dlp
 
 # Fail the build early if the tools cannot run on this architecture.
 RUN yt-dlp --version && ffmpeg -hide_banner -version | head -n 1
