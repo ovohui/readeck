@@ -46,8 +46,8 @@ RUN apt-get update && \
         && \
     apt-get clean
 
-# Install Go
-RUN curl -s -L https://dl.google.com/go/go1.26.4.linux-amd64.tar.gz \
+# Install Go (must match the version required by go.mod)
+RUN curl -s -L https://dl.google.com/go/go1.27.4.linux-amd64.tar.gz \
     | tar xvz -C /usr/local
 
 # Install uv
