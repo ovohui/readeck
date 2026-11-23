@@ -79,12 +79,11 @@ func (arc *Archiver) processPictureNode(ctx context.Context, node *html.Node) {
 
 	bestImg := arc.findBestImage(withNodeContext(ctx, node), maps.Keys(set))
 	if bestImg == nil {
-		// no candidate, remove the node
+		// Keep the original node/URL on download failure rather than removing it.
 		log.Warn(
-			"couldn't find image candidate for node",
+			"couldn't find image candidate for node; keeping original",
 			slog.String("node", node.Data),
 		)
-		node.Parent.RemoveChild(node)
 		return
 	}
 
@@ -119,9 +118,10 @@ func (arc *Archiver) processImgNode(ctx context.Context, node *html.Node) {
 	log := arc.log().With(slog.Any("node", NodeLogValue(node)))
 	bestImg := arc.findBestImage(withNodeContext(ctx, node), maps.Keys(set))
 	if bestImg == nil {
-		// no candidate, remove the node
-		log.Warn("couldn't find image candidate")
-		node.Parent.RemoveChild(node)
+		// No candidate could be downloaded (e.g. a CDN rejected the request).
+		// Keep the node with its original remote URL instead of dropping it,
+		// so the article still shows the image when the reader has network.
+		log.Warn("couldn't find image candidate; keeping original src")
 		return
 	}
 

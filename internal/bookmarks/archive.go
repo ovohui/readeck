@@ -49,6 +49,11 @@ func currentArchiveFlags() archiver.ArchiveFlag {
 	flags := archiveFlags
 	if configs.Config.Bookmarks.DownloadVideos {
 		flags |= archiver.EnableMedia
+		// Keep embedded players (e.g. Zhihu/Bilibili video iframes). Without
+		// EnableEmbeds the archiver strips every <iframe>, which is why saved
+		// answers with videos showed no player at all. The iframe src stays a
+		// live URL, so the video remains playable when online.
+		flags |= archiver.EnableEmbeds
 	}
 	return flags
 }

@@ -7,6 +7,7 @@ package sitecookies
 import (
 	"log/slog"
 	"net/http"
+	"strings"
 )
 
 // RoundTripper wraps an http.RoundTripper and injects the cookies and headers
@@ -48,7 +49,11 @@ func (t *RoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
 			slog.Debug("injecting site cookies", slog.String("domain", req.URL.Hostname()))
 		}
 		for k, v := range headers {
-			if r.Header.Get(k) == "" {
+			// Referer is intentionally overridable: the archiver sets a
+			// generic Referer for every resource, but a site cookie entry can
+			// supply the exact Referer a CDN requires. Other headers follow
+			// the usual "don't overwrite" rule.
+			if r.Header.Get(k) == "" || strings.EqualFold(k, "Referer") {
 				r.Header.Set(k, v)
 			}
 		}

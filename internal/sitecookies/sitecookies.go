@@ -16,8 +16,10 @@ import (
 	"crypto/cipher"
 	"crypto/md5" //nolint:gosec // required by the CookieCloud protocol
 	"encoding/base64"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"hash"
 	"io"
 	"log/slog"
 	"net/http"
@@ -56,14 +58,14 @@ type CookieCloudConfig struct {
 
 // store is the on-disk representation of the cookie database.
 type store struct {
-	Cookies     []*SiteCookie    `json:"cookies"`
+	Cookies     []*SiteCookie     `json:"cookies"`
 	CookieCloud CookieCloudConfig `json:"cookiecloud"`
 }
 
 var (
-	mu      sync.RWMutex
-	loaded  bool
-	data    = &store{CookieCloud: CookieCloudConfig{Server: "https://www.cookiecloud.com"}}
+	mu       sync.RWMutex
+	loaded   bool
+	data     = &store{CookieCloud: CookieCloudConfig{Server: "https://www.cookiecloud.com"}}
 	dataFile string
 )
 
@@ -224,6 +226,29 @@ func Matching(u *url.URL) (cookieHeader string, headers map[string]string, err e
 	host := strings.ToLower(u.Hostname())
 	headers = map[string]string{}
 
+	// Sites commonly serve assets (especially images) from a separate CDN
+	// domain. Map those asset hosts back to the site domain so that cookies,
+	// Referer and headers configured for the site are also applied when the
+	// archiver downloads its resources. Without this, the page saves fine but
+	// all images fail (login/anti-hotlink check on the CDN).
+	assetHosts := map[string]string{
+		"xhscdn.com":                     "xiaohongshu.com",
+		"xhsimg.com":                     "xiaohongshu.com",
+		"picasso-static.xiaohongshu.com": "xiaohongshu.com",
+		"zhimg.com":                      "zhihu.com",
+		"picx.zhimg.com":                 "zhihu.com",
+		"vdn.zhimg.com":                  "zhihu.com",
+		"bilivideo.com":                  "bilibili.com",
+		"hdslb.com":                      "bilibili.com",
+	}
+	effectiveHost := host
+	for asset, site := range assetHosts {
+		if host == asset || strings.HasSuffix(host, "."+asset) {
+			effectiveHost = site
+			break
+		}
+	}
+
 	type match struct {
 		sc     *SiteCookie
 		length int
@@ -234,7 +259,9 @@ func Matching(u *url.URL) (cookieHeader string, headers map[string]string, err e
 		if d == "" {
 			continue
 		}
-		if host == d || strings.HasSuffix(host, "."+d) {
+		// Match against both the real host and the mapped site host. This lets
+		// a xiaohongshu.com cookie apply to xhscdn.com image requests too.
+		if effectiveHost == d || strings.HasSuffix(effectiveHost, "."+d) || host == d || strings.HasSuffix(host, "."+d) {
 			matches = append(matches, match{sc: sc, length: len(d)})
 		}
 	}
@@ -303,47 +330,106 @@ type cookieCloudResponse struct {
 	Encrypted string `json:"encrypted"`
 }
 
+// cookieCloudEntry is the Playwright-style cookie object used by CookieCloud.
 type cookieCloudEntry struct {
 	Domain string `json:"domain"`
 	Name   string `json:"name"`
 	Value  string `json:"value"`
 }
 
+// cookieCloudData covers both the current ({cookie_data:{...}}) and legacy
+// ({cookies:{...}}) payload shapes returned by CookieCloud.
 type cookieCloudData struct {
-	Cookies map[string][]cookieCloudEntry `json:"cookies"`
+	CookieData map[string][]cookieCloudEntry `json:"cookie_data"`
+	Cookies    map[string][]cookieCloudEntry `json:"cookies"`
 }
 
-// cookieCloudKey derives the AES key from UUID and password, as specified by
-// the CookieCloud end-to-end encryption protocol.
-func cookieCloudKey(uuid, password string) []byte {
-	sum := md5.Sum([]byte(uuid + "-" + password)) //nolint:gosec
-	return sum[:]
+// cookieCloudPassword implements the key derivation shared by both
+// CookieCloud encryption modes: the first 16 hex characters of
+// MD5(uuid + "-" + password). This string is used as the CryptoJS passphrase
+// (legacy mode) or, re-encoded as bytes, as the AES-128 key (fixed-IV mode).
+func cookieCloudPassword(uuid, password string) []byte {
+	sum := md5.Sum([]byte(uuid + "-" + password)) //nolint:gosec // required by CookieCloud protocol
+	return []byte(hex.EncodeToString(sum[:])[:16])
 }
 
-// decryptCookieCloud decrypts the payload returned by the CookieCloud server.
-func decryptCookieCloud(encrypted, uuid, password string) ([]byte, error) {
-	raw, err := base64.StdEncoding.DecodeString(encrypted)
-	if err != nil {
-		return nil, err
+// bytesToKey implements OpenSSL's EVP_BytesToKey, which CryptoJS uses to turn
+// a passphrase + salt into a key and IV. CookieCloud's legacy encryption uses
+// MD5 as the digest with a 32-byte key and 16-byte IV.
+func bytesToKey(salt, data []byte, h hash.Hash, keyLen, blockLen int) (key, iv []byte) {
+	var concat, last []byte
+	total := keyLen + blockLen
+	for len(concat) < total {
+		h.Reset()
+		h.Write(last)
+		h.Write(data)
+		h.Write(salt)
+		last = h.Sum(nil)
+		concat = append(concat, last...)
 	}
-	if len(raw) < aes.BlockSize || (len(raw)-aes.BlockSize)%aes.BlockSize != 0 {
-		return nil, fmt.Errorf("invalid encrypted payload length")
+	return concat[:keyLen], concat[keyLen:total]
+}
+
+// pkcs7Strip validates and removes PKCS#7 padding.
+func pkcs7Strip(data []byte, blockSize int) ([]byte, error) {
+	length := len(data)
+	if length == 0 || length%blockSize != 0 {
+		return nil, fmt.Errorf("invalid padded data length")
 	}
-	block, err := aes.NewCipher(cookieCloudKey(uuid, password))
-	if err != nil {
-		return nil, err
-	}
-	iv := raw[:aes.BlockSize]
-	payload := append([]byte(nil), raw[aes.BlockSize:]...)
-	cipher.NewCBCDecrypter(block, iv).CryptBlocks(payload, payload)
-	if len(payload) == 0 {
-		return nil, fmt.Errorf("empty decrypted payload")
-	}
-	padding := int(payload[len(payload)-1])
-	if padding < 1 || padding > aes.BlockSize || padding > len(payload) {
+	padLen := int(data[length-1])
+	if padLen < 1 || padLen > blockSize || padLen > length {
 		return nil, fmt.Errorf("invalid padding")
 	}
-	return payload[:len(payload)-padding], nil
+	for _, b := range data[length-padLen:] {
+		if int(b) != padLen {
+			return nil, fmt.Errorf("invalid padding")
+		}
+	}
+	return data[:length-padLen], nil
+}
+
+// decryptCookieCloud decrypts a CookieCloud payload. Two formats exist:
+//
+//   - Legacy (CryptoJS AES.encrypt with a passphrase): base64 of
+//     "Salted__" + 8-byte salt + ciphertext. Key/IV are derived with
+//     EVP_BytesToKey(MD5) into 32-byte AES key + 16-byte IV (AES-256-CBC).
+//   - Fixed IV (CookieCloud >= 0.3.0): base64 of raw ciphertext, AES-128-CBC
+//     with the 16-byte key = cookieCloudPassword() and an all-zero IV.
+//
+// Both use PKCS#7 padding. The format is auto-detected from the "Salted__"
+// marker, so the same code handles old and new CookieCloud servers.
+func decryptCookieCloud(encrypted, uuid, password string) ([]byte, error) {
+	raw, err := base64.StdEncoding.DecodeString(strings.TrimSpace(encrypted))
+	if err != nil {
+		return nil, fmt.Errorf("base64 decode: %w", err)
+	}
+
+	pass := cookieCloudPassword(uuid, password)
+	var block cipher.Block
+	var payload []byte
+	var iv []byte
+
+	if len(raw) >= 16 && string(raw[:8]) == "Salted__" {
+		// Legacy CryptoJS format: salt is embedded in the payload.
+		salt := raw[8:16]
+		payload = append([]byte(nil), raw[16:]...)
+		var key []byte
+		key, iv = bytesToKey(salt, pass, md5.New(), 32, aes.BlockSize) //nolint:gosec
+		block, err = aes.NewCipher(key)
+	} else {
+		// Fixed-IV format: all-zero IV, key is the 16-byte password bytes.
+		payload = append([]byte(nil), raw...)
+		block, err = aes.NewCipher(pass)
+		iv = make([]byte, aes.BlockSize)
+	}
+	if err != nil {
+		return nil, err
+	}
+	if len(payload) == 0 || len(payload)%aes.BlockSize != 0 {
+		return nil, fmt.Errorf("invalid encrypted payload length")
+	}
+	cipher.NewCBCDecrypter(block, iv).CryptBlocks(payload, payload)
+	return pkcs7Strip(payload, aes.BlockSize)
 }
 
 // SyncCookieCloud fetches cookies from the configured server, decrypts them
@@ -384,27 +470,44 @@ func SyncCookieCloud() (int, error) {
 		return 0, err
 	}
 
-	// CookieCloud cookie map may be keyed by domain with an array of entries.
+	// Current CookieCloud format: {cookie_data: {domain: [cookies]}}.
+	// Legacy format: {cookies: {domain: [cookies]}}.
 	byDomain := map[string][]string{}
-	for domain, entries := range payload.Cookies {
-		d := normalizeDomain(domain)
-		if d == "" {
-			continue
-		}
-		for _, c := range entries {
-			if c.Name == "" {
-				continue
+	collect := func(groups map[string][]cookieCloudEntry) {
+		for domain, entries := range groups {
+			for _, c := range entries {
+				if c.Name == "" {
+					continue
+				}
+				// Prefer the cookie's own domain; fall back to the map key.
+				d := normalizeDomain(c.Domain)
+				if d == "" {
+					d = normalizeDomain(domain)
+				}
+				if d == "" {
+					continue
+				}
+				byDomain[d] = append(byDomain[d], c.Name+"="+c.Value)
 			}
-			byDomain[d] = append(byDomain[d], c.Name+"="+c.Value)
 		}
 	}
-	// Some servers return a flat list under "cookies".
+	collect(payload.CookieData)
+	collect(payload.Cookies)
+
+	// Some servers return a flat list under either key.
 	if len(byDomain) == 0 {
-		var flat []cookieCloudEntry
-		if err := json.Unmarshal(plain, &struct {
-			Cookies *[]cookieCloudEntry `json:"cookies"`
-		}{Cookies: &flat}); err == nil {
-			for _, c := range flat {
+		var alt struct {
+			CookieData *[]cookieCloudEntry `json:"cookie_data"`
+			Cookies    *[]cookieCloudEntry `json:"cookies"`
+		}
+		if err := json.Unmarshal(plain, &alt); err == nil {
+			var entries []cookieCloudEntry
+			if alt.CookieData != nil {
+				entries = *alt.CookieData
+			} else if alt.Cookies != nil {
+				entries = *alt.Cookies
+			}
+			for _, c := range entries {
 				if c.Domain == "" || c.Name == "" {
 					continue
 				}

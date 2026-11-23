@@ -9,7 +9,6 @@ import (
 	"bytes"
 	"context"
 	"errors"
-	"fmt"
 	"io"
 	"log/slog"
 	"net/http"
@@ -48,7 +47,10 @@ func GetNodeContext(ctx context.Context) *html.Node {
 }
 
 func withReferrerContext(ctx context.Context, u *url.URL) context.Context {
-	return context.WithValue(ctx, ctxReferrerKey{}, fmt.Sprintf("%s://%s/", u.Scheme, u.Hostname()))
+	// Use the full page URL as Referer. Many CDNs (e.g. Xiaohongshu's
+	// xhscdn.com) validate the Referer against the exact article URL, not just
+	// the origin, and return 403 for a bare origin.
+	return context.WithValue(ctx, ctxReferrerKey{}, u.String())
 }
 
 func getReferrerContext(ctx context.Context) string {
@@ -62,6 +64,16 @@ var (
 	rxImgExtensions   = regexp.MustCompile(`(?i)\.(gif|jpg|jpeg|png|webp)`)
 	rxSrcsetURL       = regexp.MustCompile(`(?i)(\S+)(\s+[\d.]+[xw])?(\s*(?:,|$))`)
 	rxB64DataURL      = regexp.MustCompile(`(?i)^data:\s*([^\s;,]+)\s*;\s*base64\s*`)
+
+	// Lazy-loading attribute names used by JS-heavy sites. Values are matched
+	// by attribute name first (rather than by file extension), which also
+	// covers extensionless CDN URLs such as Xiaohongshu's
+	// "...!nd_dft_wlteh_webp_3" image endpoints.
+	lazyImageSrcAttrs = map[string]bool{
+		"data-src": true, "data-original": true, "data-lazy-src": true,
+		"data-actualsrc": true, "data-url": true, "data-echo": true,
+		"data-img": true, "data-image": true, "data-srcset": false,
+	}
 )
 
 // Note: we'll need this when implementing the HTML saving
@@ -675,7 +687,18 @@ func (arc *Archiver) convertLazyImageAttrs(_ context.Context, doc *html.Node) {
 			}
 		}
 
-		if (src != "" || srcset != "") && !strings.Contains(strings.ToLower(nodeClass), "lazy") {
+		// If a real src/srcset is present and there are no lazy-load attributes
+		// to prefer, there's nothing to convert. But when a lazy attribute
+		// (e.g. data-src) exists, always process it even if a placeholder src
+		// is set and the class doesn't literally contain "lazy".
+		hasLazyAttr := false
+		for _, a := range elem.Attr {
+			if _, known := lazyImageSrcAttrs[a.Key]; known && a.Val != "" {
+				hasLazyAttr = true
+				break
+			}
+		}
+		if (src != "" || srcset != "") && !hasLazyAttr && !strings.Contains(strings.ToLower(nodeClass), "lazy") {
 			return
 		}
 
@@ -686,25 +709,40 @@ func (arc *Archiver) convertLazyImageAttrs(_ context.Context, doc *html.Node) {
 			}
 
 			copyTo := ""
-			if rxLazyImageSrcset.MatchString(attr.Val) {
+			val := attr.Val
+
+			// First, recognize well-known lazy-load attribute names. This
+			// covers CDN URLs with no image extension (query/fragment based).
+			if isSrc, known := lazyImageSrcAttrs[attr.Key]; known {
+				if isSrc {
+					copyTo = "src"
+				} else {
+					copyTo = "srcset"
+				}
+			} else if rxLazyImageSrcset.MatchString(val) {
 				copyTo = "srcset"
-			} else if rxLazyImageSrc.MatchString(attr.Val) {
+			} else if rxLazyImageSrc.MatchString(val) {
 				copyTo = "src"
 			}
 
-			if copyTo == "" || !isValidURL(attr.Val) {
+			// Accept protocol-relative URLs ("//host/path") by normalizing
+			// them before validation; isValidURL(ParseRequestURI) rejects them.
+			if strings.HasPrefix(val, "//") {
+				val = "https:" + val
+			}
+			if copyTo == "" || !isValidURL(val) {
 				continue
 			}
 
 			if nodeTag == "img" || nodeTag == "picture" {
 				// if this is an img or picture, set the attribute directly
-				dom.SetAttribute(elem, copyTo, attr.Val)
+				dom.SetAttribute(elem, copyTo, val)
 			} else if nodeTag == "figure" && len(dom.GetAllNodesWithTag(elem, "img", "picture")) == 0 {
 				// if the item is a <figure> that does not contain an image or picture,
 				// create one and place it inside the figure see the nytimes-3
 				// testcase for an example
 				img := dom.CreateElement("img")
-				dom.SetAttribute(img, copyTo, attr.Val)
+				dom.SetAttribute(img, copyTo, val)
 				dom.AppendChild(elem, img)
 			}
 

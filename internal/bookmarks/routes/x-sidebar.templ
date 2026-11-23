@@ -165,6 +165,15 @@ templ (c SidebarComponent) actions(b *dataset.Bookmark) {
 						>
 							@Icon(Tern(func() bool { return b.IsArchived }, "o-archive-on", "o-archive-off"))
 						</button>
+						<a
+							class="btn-outlined btn-primary"
+							href={ URL(ctx, "/api/bookmarks", b.ID, "article.md") }
+							download
+							title={ L(ctx).Gettext("Download Markdown for Obsidian") }
+						>
+							@Icon("o-file")
+							<span class="text-xs font-bold">MD</span>
+						</a>
 						<button
 							type="button"
 							popovertarget="export-menu"
