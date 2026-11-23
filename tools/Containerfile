@@ -86,15 +86,19 @@ RUN make setup generate build
 # fits in roughly a third of that.
 FROM docker.io/library/alpine:3.22
 
-# ffmpeg (remux/merge of DASH streams) and yt-dlp both come from apk: it keeps
-# the image reproducible and avoids downloading a 39 MB standalone binary on
-# every build. Alpine's yt-dlp pulls python3, which is still far smaller than
-# the Debian runtime it replaces.
+# ffmpeg (remux/merge of DASH streams) comes from apk. yt-dlp is installed as
+# the official zipapp over the distro python: the apk package lags a full
+# release cycle behind, and YouTube breaks older extractors quickly.
 RUN apk add --no-cache \
         ca-certificates \
         ffmpeg \
-        tzdata \
-        yt-dlp
+        python3 \
+        tzdata
+
+ARG YTDLP_VERSION=latest
+RUN wget -q -O /usr/local/bin/yt-dlp \
+        "https://github.com/yt-dlp/yt-dlp/releases/${YTDLP_VERSION}/download/yt-dlp" && \
+    chmod 0755 /usr/local/bin/yt-dlp
 
 # Fail the build early if the tools cannot run on this architecture.
 RUN yt-dlp --version && ffmpeg -hide_banner -version | head -n 1
