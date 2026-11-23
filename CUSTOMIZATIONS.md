@@ -63,9 +63,10 @@ ytdlp_timeout = 600
 - 每篇文章最多下载 **3** 个播放器视频（`maxEmbeddedVideosPerPage`），避免一篇文章里有几十个视频时把归档队列堵死。视频按顺序下载，不并发。
 - 下载失败（地区限制、需要登录、超时）不会影响整篇文章归档：iframe 原样保留，日志里有一条 `yt-dlp download failed` 的告警。
 - 需要登录才能看的视频，可把浏览器导出的 Netscape 格式 cookies.txt 放进容器，然后在 yt-dlp 参数里加 `--cookies`（当前实现预留了 `YtdlpConfig.CookiesFile` 字段）。
-- YouTube 常见的 “Sign in to confirm you're not a bot” 属于 yt-dlp 自身的风控，更新 `pip install -U yt-dlp` 或提供 cookies 即可，与 Readeck 无关。
-- 容器基于 Alpine：`apk add ffmpeg yt-dlp`，不再装 Debian 的 ffmpeg/python 依赖树。整体压缩体积从 Debian 版的 247MB（其中 ffmpeg+python 单层就 179MB，NAS 上下载极慢）降到约 100MB。
-- yt-dlp 用的是 Alpine 软件包（python3 实现），版本由 Alpine 仓库更新。若遇到 YouTube 风控/解析失败，进容器执行 `apk upgrade yt-dlp`，或重建镜像。
+- YouTube 常见的 “Sign in to confirm you're not a bot” 属于 yt-dlp 自身的风控，重建镜像拿到最新 yt-dlp 或提供 cookies 即可，与 Readeck 无关。
+- 运行时基于 Alpine 3.22：`apk add ffmpeg python3`，yt-dlp 用官方 zipapp（2.9MB，跑在系统 python3 上）。整体压缩体积 **95MB**，对比 Debian 版的 247MB（其中 `apt install ffmpeg python3 python3-venv` 单层就有 179MB，NAS 上要拉十几分钟）减少 62%。
+- yt-dlp 每次构建都取最新 release（当前 2026.10.26）。需要锁定版本时给 Containerfile 传 `--build-arg YTDLP_VERSION=2026.10.26`。
+- ffmpeg 是 Alpine 仓库版本（6.1.2），负责 DASH 流的音视频合并与转封装，够用。
 
 > 当媒体文件因跨域鉴权或体积过大无法下载时，节点不再被删除，而是保留原始远端 URL，因此在线查看归档页时播放器仍然可用。
 
