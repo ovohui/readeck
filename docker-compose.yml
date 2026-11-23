@@ -5,7 +5,8 @@
 version: '3'
 services:
   readeck:
-    image: ghcr.io/ovohui/readeck:custom
+    # 用南京大学 GHCR 镜像站，国内可直接拉取（原地址 ghcr.io/ovohui/readeck:custom）
+    image: ghcr.nju.edu.cn/ovohui/readeck:custom
     container_name: readeck-12233
     restart: unless-stopped
     ports:
