@@ -312,3 +312,31 @@ if len(ex.HTML) == 0 && ex.Drop().DocumentType == "video" &&
 | 普通文章（知乎、公众号、新闻、论坛） | 直接丢链接给 Readeck |
 | 小红书、站酷、新版贴吧、滚动才出图的页面 | 浏览器油猴脚本（`Ctrl+Alt+Shift+R`） |
 | B 站/YouTube 等视频页 | 丢链接即可，`download_embedded_videos` 会调 yt-dlp 存 mp4 |
+
+## 12. 导出的 Markdown 带上离线视频
+
+`converter/markdown.go` 在 `DocumentType == "video"` 时原来只输出一行 `[Video on 站点](原链接)`。现在会去归档里找 yt-dlp 下载的媒体文件（`.mp4/.webm/.m4v/.mkv/.mov`），找到就额外输出引用：
+
+**单文件 Markdown**（`/api/bookmarks/{id}/article.md`，复制按钮、下载按钮）
+
+```markdown
+[Video on 哔哩哔哩](https://www.bilibili.com/video/BV1GXaA6jEoK/)
+
+<video controls preload="metadata" src="https://<你的实例>/bm/5h/5hKe.../_resources/xxx.mp4"></video>
+```
+
+Obsidian 的阅读视图会直接渲染 `<video>` 标签，可以在笔记里播放。
+
+**zip 导出**（`article.md.zip`）
+
+```markdown
+[Video on 哔哩哔哩](https://www.bilibili.com/video/BV1GXaA6jEoK/)
+
+![[xxx.mp4]]
+```
+
+zip 里 mp4 与 `index.md` 同目录，`![[ ]]` 是 Obsidian 的嵌入语法，视频会随笔记一起走。
+
+实现要点：`resourceURL()` 直接用请求的 scheme/host 拼 `/bm/<FilePath>/<name>`，不用 `urls.AbsoluteURLContext`——后者会相对导出请求路径解析，得到 `/api/bookmarks/{id}/bm/...` 这种坏地址。
+
+单测：`internal/bookmarks/converter/markdown_video_test.go` 构造一个带 `_resources/*.mp4` 的书签，分别断言两种导出的输出。

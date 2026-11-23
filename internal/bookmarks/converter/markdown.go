@@ -14,7 +14,9 @@ import (
 	"mime/multipart"
 	"net/http"
 	"net/textproto"
+	"net/url"
 	"path"
+	"slices"
 	"strings"
 	"time"
 
@@ -33,6 +35,7 @@ import (
 	"codeberg.org/readeck/readeck/internal/server/urls"
 	"codeberg.org/readeck/readeck/pkg/ctxr"
 	"codeberg.org/readeck/readeck/pkg/http/accept"
+	"codeberg.org/readeck/readeck/pkg/http/request"
 	"codeberg.org/readeck/readeck/pkg/utils"
 )
 
@@ -299,6 +302,55 @@ func (e MarkdownExporter) getImageURL(ctx context.Context, b *dataset.Bookmark, 
 	return urls.AbsoluteURLContext(ctx, "/bm", b.FilePath, "img", path.Base(name)).String()
 }
 
+// videoExtensions are the media files an archived video can be stored as.
+var videoExtensions = []string{".mp4", ".webm", ".m4v", ".mkv", ".mov"}
+
+// archivedVideo returns the archive entry name of the video stored for a
+// video bookmark (the file yt-dlp downloaded), when there is one.
+func (e MarkdownExporter) archivedVideo(b *dataset.Bookmark) (string, bool) {
+	if b.DocumentType != "video" {
+		return "", false
+	}
+	bc, err := b.OpenContainer()
+	if err != nil {
+		return "", false
+	}
+	defer bc.Close() //nolint:errcheck
+
+	for _, f := range bc.ListResources() {
+		if slices.Contains(videoExtensions, strings.ToLower(path.Ext(f.Name))) {
+			return f.Name, true
+		}
+	}
+	return "", false
+}
+
+// resourceURL builds the absolute URL of a resource stored in the bookmark
+// archive. [urls.AbsoluteURLContext] cannot be used here: it resolves against
+// the exporting request path, which would produce
+// "/api/bookmarks/{id}/bm/..." instead of "/bm/...".
+func resourceURL(ctx context.Context, b *dataset.Bookmark, name string) string {
+	ru := request.GetURL(ctx)
+	u := &url.URL{
+		Scheme: ru.Scheme,
+		Host:   ru.Host,
+		Path:   path.Join("/", strings.TrimPrefix(urls.Prefix(), "/"), "bm", b.FilePath, name),
+	}
+	return u.String()
+}
+
+// videoMarkdown renders the reference to an archived video.
+//
+// With a zip/multipart export the media file is copied next to the markdown,
+// so an Obsidian embed (![[file.mp4]]) is used. For a plain markdown response
+// there is no companion file, hence a <video> tag pointing at the instance.
+func videoMarkdown(exportType, name, absoluteURL string) string {
+	if exportType == "multipart" {
+		return fmt.Sprintf("![[%s]]\n\n", path.Base(name))
+	}
+	return fmt.Sprintf("<video controls preload=\"metadata\" src=%q></video>\n\n", absoluteURL)
+}
+
 func (e MarkdownExporter) writeArticle(ctx context.Context, w io.Writer, b *dataset.Bookmark, withMeta bool) error {
 	reader, err := e.GetArticle(ctx, b.Bookmark)
 	if err != nil {
@@ -342,6 +394,10 @@ func (e MarkdownExporter) writeArticle(ctx context.Context, w io.Writer, b *data
 
 	if b.DocumentType == "video" {
 		fmt.Fprintf(intro, "[Video on %s](%s)\n\n", b.SiteName, b.URL)
+		if name, ok := e.archivedVideo(b); ok {
+			exportType, _ := checkExportType(ctx)
+			fmt.Fprint(intro, videoMarkdown(exportType, name, resourceURL(ctx, b, name)))
+		}
 	}
 
 	md, err := html2md.ConvertReader(reader)
