@@ -235,11 +235,20 @@ func ArchiveDocument(ctx context.Context, zw *zip.Writer, ex *extract.Extractor)
 		logger: ex.Log(),
 	}
 
-	arc := archiver.New(
+	opts := []archiver.Option{
 		archiver.WithFlags(currentArchiveFlags()),
 		archiver.WithConcurrency(8),
 		archiver.WithCollector(collector),
-	)
+	}
+	if configs.Config.Bookmarks.DownloadEmbeddedVideos {
+		opts = append(opts, archiver.WithYtdlp(archiver.YtdlpConfig{
+			Path:      configs.Config.Bookmarks.YtdlpPath,
+			MaxHeight: configs.Config.Bookmarks.YtdlpMaxHeight,
+			Timeout:   time.Duration(configs.Config.Bookmarks.YtdlpTimeout) * time.Second,
+		}))
+	}
+
+	arc := archiver.New(opts...)
 
 	err := arc.ArchiveReader(ctx, bytes.NewReader(ex.HTML), ex.Drop().URL, "index.html")
 	if err != nil {

@@ -37,8 +37,35 @@ Cookie 以 0600 权限保存在 `<data_directory>/site-cookies.json`，不会写
 - 配置 `[bookmarks] download_videos = true`（或环境变量 `READECK_DOWNLOAD_VIDEOS=true`），归档 HTML 时会同时下载 `<video>`/`<source>` 中的 mp4/webm 等媒体文件到书签 zip 的 `_resources/` 目录。
 - `video_quality`（`READECK_VIDEO_QUALITY`）可选值：`best`（默认）、`1080p`、`720p`、`480p`、`worst`。抓取时会解析 HLS(m3u8) master playlist 并把视频源替换为所选清晰度的地址。
 
-> 说明：YouTube、B 站等站点使用 iframe 嵌入，生成的是缩略图+链接，需要 `yt-dlp` 才能下载原始视频。本实现面向文章内直链视频与 HLS 流；如需 iframe 站点离线，请在容器中额外安装 yt-dlp 后扩展 `video-embedded.js`。
->
+### 播放器类视频（B 站 / YouTube / Vimeo …）用 yt-dlp 真正离线
+
+自定义镜像内已内置 `yt-dlp` + `ffmpeg`（`/usr/local/bin/yt-dlp`、`/usr/bin/ffmpeg`），归档时可以把 iframe 播放器里的视频下载成本地 mp4，并把 `<iframe>` 直接替换成 `<video controls src="_resources/xxx.mp4">`，断网也能播放。
+
+| 配置项 | 环境变量 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `download_embedded_videos` | `READECK_DOWNLOAD_EMBEDDED_VIDEOS` | `false` | 开启播放器视频下载 |
+| `ytdlp_path` | `READECK_YTDLP_PATH` | `yt-dlp` | 可执行文件路径 |
+| `ytdlp_max_height` | `READECK_YTDLP_MAX_HEIGHT` | `720` | 最大高度，`0` 表示取最佳画质 |
+| `ytdlp_timeout` | `READECK_YTDLP_TIMEOUT` | `600` | 单个视频下载超时（秒） |
+
+```toml
+[bookmarks]
+download_videos = true
+download_embedded_videos = true
+ytdlp_path = "/usr/local/bin/yt-dlp"
+ytdlp_max_height = 720
+ytdlp_timeout = 600
+```
+
+行为说明：
+
+- 支持 `youtube.com` / `youtu.be` / `youtube-nocookie.com`、`bilibili.com` / `b23.tv`、`vimeo.com`、`dailymotion`、`youku`、`weibo`、`ixigua`、`douyin`、`tiktok`、`twitch`、`ted`、`nicovideo`、`rutube`、`vk` 等 yt-dlp 能解析的站点。
+- 每篇文章最多下载 **3** 个播放器视频（`maxEmbeddedVideosPerPage`），避免一篇文章里有几十个视频时把归档队列堵死。视频按顺序下载，不并发。
+- 下载失败（地区限制、需要登录、超时）不会影响整篇文章归档：iframe 原样保留，日志里有一条 `yt-dlp download failed` 的告警。
+- 需要登录才能看的视频，可把浏览器导出的 Netscape 格式 cookies.txt 放进容器，然后在 yt-dlp 参数里加 `--cookies`（当前实现预留了 `YtdlpConfig.CookiesFile` 字段）。
+- YouTube 常见的 “Sign in to confirm you're not a bot” 属于 yt-dlp 自身的风控，更新 `pip install -U yt-dlp` 或提供 cookies 即可，与 Readeck 无关。
+- 容器体积会比 Busybox 版大不少（ffmpeg + yt-dlp 约 +450MB），NAS 上首次拉取会慢一些。
+
 > 当媒体文件因跨域鉴权或体积过大无法下载时，节点不再被删除，而是保留原始远端 URL，因此在线查看归档页时播放器仍然可用。
 
 ## 3. 自定义资源存储路径
@@ -101,6 +128,8 @@ make build      # go build
 - `internal/bookmarks/bookmarks.go` — 可配置存储路径
 - `internal/bookmarks/archive.go` — 视频资源下载开关
 - `pkg/extract/contentscripts/assets/scripts/video-quality.js` — HLS 清晰度选择
+- `pkg/archiver/ytdlp.go` — 播放器视频（B 站/YouTube）用 yt-dlp 下载并替换为本地 `<video>`
+- `tools/Containerfile` — 运行层改用 Debian，内置 `ffmpeg` 与 `yt-dlp`
 - `pkg/extract/contentscripts/assets/site-config/xiaohongshu.com.json` — 小红书正文提取规则
 - `internal/bookmarks/routes/x-sidebar.templ` — Markdown 下载按钮
 

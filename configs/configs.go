@@ -104,6 +104,16 @@ type configBookmarks struct {
 	// VideoQuality selects the preferred HLS variant when downloading video.
 	// Accepted values: best (default), 1080p, 720p, 480p, worst.
 	VideoQuality string `json:"video_quality" env:"VIDEO_QUALITY"`
+	// DownloadEmbeddedVideos downloads videos behind a player (YouTube,
+	// Bilibili, Vimeo, ...) with yt-dlp and stores them in the archive.
+	DownloadEmbeddedVideos bool `json:"download_embedded_videos" env:"DOWNLOAD_EMBEDDED_VIDEOS"`
+	// YtdlpPath is the path to the yt-dlp executable.
+	YtdlpPath string `json:"ytdlp_path" env:"YTDLP_PATH"`
+	// YtdlpMaxHeight caps the downloaded video height in pixels (0 = best).
+	YtdlpMaxHeight int `json:"ytdlp_max_height" env:"YTDLP_MAX_HEIGHT"`
+	// YtdlpTimeout is the maximum duration of a single video download, in
+	// seconds.
+	YtdlpTimeout int `json:"ytdlp_timeout" env:"YTDLP_TIMEOUT"`
 }
 
 type configEmail struct {
@@ -392,6 +402,9 @@ var Config = config{
 	Bookmarks: configBookmarks{
 		PublicShareTTL: 24,
 		VideoQuality:   "best",
+		YtdlpPath:      "yt-dlp",
+		YtdlpMaxHeight: 720,
+		YtdlpTimeout:   600,
 	},
 	Worker: configWorker{
 		DSN:         "memory://",

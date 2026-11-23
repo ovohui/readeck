@@ -82,6 +82,7 @@ func IsArchiverRequest(req *http.Request) bool {
 type Archiver struct {
 	collector Collector
 	flags     ArchiveFlag
+	ytdlp     *YtdlpConfig
 
 	fetchGroup     *singleflight.Group
 	fetchSemaphore *semaphore.Weighted

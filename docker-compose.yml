@@ -16,3 +16,7 @@ services:
     environment:
       - READECK_DOWNLOAD_VIDEOS=true
       - READECK_VIDEO_QUALITY=720p
+      # 用容器内置的 yt-dlp + ffmpeg 下载 B 站/YouTube 等播放器里的视频
+      - READECK_DOWNLOAD_EMBEDDED_VIDEOS=true
+      - READECK_YTDLP_PATH=/usr/local/bin/yt-dlp
+      - READECK_YTDLP_MAX_HEIGHT=720

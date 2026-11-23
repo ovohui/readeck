@@ -1,0 +1,361 @@
+// SPDX-FileCopyrightText: © 2026 Readeck custom build
+//
+// SPDX-License-Identifier: MIT
+
+package archiver
+
+import (
+	"bytes"
+	"context"
+	"errors"
+	"fmt"
+	"log/slog"
+	"net/url"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"regexp"
+	"strings"
+	"time"
+
+	"github.com/go-shiori/dom"
+	"golang.org/x/net/html"
+)
+
+// YtdlpConfig configures the optional yt-dlp integration used to download
+// videos that are embedded through a player (YouTube, Bilibili, ...).
+type YtdlpConfig struct {
+	// Path is the yt-dlp executable. Empty disables the feature.
+	Path string
+	// MaxHeight caps the downloaded video height in pixels (0 = best).
+	MaxHeight int
+	// Timeout is the maximum duration of a single download.
+	Timeout time.Duration
+	// CookiesFile is an optional Netscape cookies file passed to yt-dlp.
+	CookiesFile string
+}
+
+// WithYtdlp enables embedded video downloading with yt-dlp.
+func WithYtdlp(cfg YtdlpConfig) Option {
+	return func(arc *Archiver) {
+		arc.ytdlp = &cfg
+	}
+}
+
+// rxYtEmbedded matches the /embed/<id> path of a YouTube iframe.
+var rxYtEmbedded = regexp.MustCompile(`^/embed/([a-zA-Z0-9_-]{6,})`)
+
+// rxBiliVideo matches a Bilibili video page path.
+var rxBiliVideo = regexp.MustCompile(`/(?:video|bangumi/play)/((?:BV[0-9A-Za-z]{8,})|(?:av\d+))`)
+
+// supportedEmbedHosts lists hosts whose players yt-dlp knows how to handle.
+// A host matches when it is equal to an entry or is one of its subdomains.
+var supportedEmbedHosts = []string{
+	"youtube.com",
+	"youtube-nocookie.com",
+	"youtu.be",
+	"bilibili.com",
+	"b23.tv",
+	"vimeo.com",
+	"dailymotion.com",
+	"dai.ly",
+	"youku.com",
+	"weibo.com",
+	"ixigua.com",
+	"douyin.com",
+	"tiktok.com",
+	"twitch.tv",
+	"ted.com",
+	"nicovideo.jp",
+	"rutube.ru",
+	"vk.com",
+}
+
+// isSupportedEmbedHost reports whether host (or one of its parents) is handled
+// by yt-dlp.
+func isSupportedEmbedHost(host string) bool {
+	host = strings.TrimPrefix(strings.ToLower(host), "www.")
+	for _, h := range supportedEmbedHosts {
+		if host == h || strings.HasSuffix(host, "."+h) {
+			return true
+		}
+	}
+	return false
+}
+
+// embeddedVideoPageURL converts a player URL into the canonical page URL that
+// yt-dlp expects. It returns false when the URL is not a supported player.
+func embeddedVideoPageURL(rawURL string) (string, bool) {
+	u, err := url.Parse(strings.TrimSpace(rawURL))
+	if err != nil || (u.Scheme != "http" && u.Scheme != "https") {
+		return "", false
+	}
+
+	host := strings.TrimPrefix(strings.ToLower(u.Hostname()), "www.")
+	if !isSupportedEmbedHost(host) {
+		return "", false
+	}
+
+	switch {
+	case host == "youtu.be":
+		id := strings.Trim(u.Path, "/")
+		if id == "" {
+			return "", false
+		}
+		return "https://www.youtube.com/watch?v=" + id, true
+
+	case strings.HasSuffix(host, "youtube.com"), strings.HasSuffix(host, "youtube-nocookie.com"):
+		if m := rxYtEmbedded.FindStringSubmatch(u.Path); m != nil {
+			return "https://www.youtube.com/watch?v=" + m[1], true
+		}
+		if id := u.Query().Get("v"); id != "" {
+			return "https://www.youtube.com/watch?v=" + id, true
+		}
+		return "", false
+
+	case strings.HasSuffix(host, "bilibili.com"):
+		// Player URLs carry bvid/aid as query parameters.
+		if bvid := u.Query().Get("bvid"); bvid != "" {
+			return "https://www.bilibili.com/video/" + bvid, true
+		}
+		if aid := u.Query().Get("aid"); aid != "" {
+			return "https://www.bilibili.com/video/av" + aid, true
+		}
+		if m := rxBiliVideo.FindStringSubmatch(u.Path); m != nil {
+			return "https://www.bilibili.com/video/" + m[1], true
+		}
+		return u.String(), true
+
+	case strings.HasSuffix(host, "vimeo.com"):
+		// player.vimeo.com/video/<id>
+		parts := strings.Split(strings.Trim(u.Path, "/"), "/")
+		for i, p := range parts {
+			if p == "video" && i+1 < len(parts) {
+				return "https://vimeo.com/" + parts[i+1], true
+			}
+		}
+		if len(parts) > 0 && isDigits(parts[len(parts)-1]) {
+			return "https://vimeo.com/" + parts[len(parts)-1], true
+		}
+		return u.String(), true
+	}
+
+	// Everything else: hand the player URL to yt-dlp as-is. It resolves the
+	// canonical page itself for most supported extractors.
+	return u.String(), true
+}
+
+// isDigits reports whether s is a non empty sequence of ASCII digits.
+func isDigits(s string) bool {
+	if s == "" {
+		return false
+	}
+	for _, r := range s {
+		if r < '0' || r > '9' {
+			return false
+		}
+	}
+	return true
+}
+
+// maxEmbeddedVideosPerPage caps how many player videos are downloaded for a
+// single page. Archiving is synchronous, so an article with dozens of videos
+// must not hold the queue for hours.
+const maxEmbeddedVideosPerPage = 3
+
+// processEmbeddedVideos downloads videos behind player iframes (and the
+// thumbnail placeholders produced by the embedded video content script) and
+// replaces them with a local <video> element.
+// It must run before the concurrent resource processing loop, since it
+// rewrites the document tree.
+func (arc *Archiver) processEmbeddedVideos(ctx context.Context, doc *html.Node) {
+	if arc.ytdlp == nil || arc.ytdlp.Path == "" || arc.flags&EnableEmbeds == 0 {
+		return
+	}
+
+	log := arc.log()
+	done := 0
+
+	// iframes with a supported player.
+	for _, node := range dom.GetElementsByTagName(doc, "iframe") {
+		if done >= maxEmbeddedVideosPerPage {
+			return
+		}
+		src := dom.GetAttribute(node, "src")
+		if src == "" {
+			src = dom.GetAttribute(node, "data-src")
+		}
+		pageURL, ok := embeddedVideoPageURL(src)
+		if !ok {
+			continue
+		}
+		if arc.replaceEmbedWithVideo(ctx, log, node, pageURL) {
+			done++
+		}
+	}
+
+	// Thumbnails created by the "video-embedded" content script. The real
+	// player URL is stored as a query string in data-iframe-params.
+	for _, node := range dom.QuerySelectorAll(doc, "img[data-iframe-params],img[x-data-iframe-params]") {
+		if done >= maxEmbeddedVideosPerPage {
+			return
+		}
+		raw := dom.GetAttribute(node, "data-iframe-params")
+		if raw == "" {
+			raw = dom.GetAttribute(node, "x-data-iframe-params")
+		}
+		params, err := url.ParseQuery(raw)
+		if err != nil {
+			continue
+		}
+		pageURL, ok := embeddedVideoPageURL(params.Get("src"))
+		if !ok {
+			continue
+		}
+		if arc.replaceEmbedWithVideo(ctx, log, node, pageURL) {
+			done++
+		}
+	}
+}
+
+// replaceEmbedWithVideo runs yt-dlp for pageURL and, on success, replaces node
+// with a <video> element pointing at the archived file.
+// It reports whether the node was replaced.
+func (arc *Archiver) replaceEmbedWithVideo(ctx context.Context, log *slog.Logger, node *html.Node, pageURL string) bool {
+	if node.Parent == nil {
+		return false
+	}
+
+	res, err := arc.downloadWithYtdlp(ctx, pageURL)
+	if err != nil {
+		log.Warn(
+			"yt-dlp download failed",
+			slog.String("url", pageURL),
+			slog.Any("err", err),
+		)
+		return false
+	}
+
+	video := dom.CreateElement("video")
+	dom.SetAttribute(video, "src", res.Value())
+	dom.SetAttribute(video, "controls", "")
+	dom.SetAttribute(video, "playsinline", "")
+	dom.SetAttribute(video, "preload", "metadata")
+	if w := dom.GetAttribute(node, "width"); isDigits(w) {
+		dom.SetAttribute(video, "width", w)
+	}
+	if h := dom.GetAttribute(node, "height"); isDigits(h) {
+		dom.SetAttribute(video, "height", h)
+	}
+	if poster := dom.GetAttribute(node, "poster"); poster != "" {
+		dom.SetAttribute(video, "poster", poster)
+	}
+
+	parent := node.Parent
+	dom.ReplaceChild(parent, video, node)
+
+	log.Debug(
+		"embedded video archived",
+		slog.String("url", pageURL),
+		slog.String("resource", res.Name),
+	)
+
+	return true
+}
+
+// downloadWithYtdlp runs yt-dlp in a temporary directory and stores the
+// resulting file as an archive resource.
+func (arc *Archiver) downloadWithYtdlp(ctx context.Context, pageURL string) (*Resource, error) {
+	// A video download can be much longer than the archiver's HTTP timeout,
+	// so it must not be bound to the parent deadline.
+	dlCtx := context.WithoutCancel(ctx)
+	timeout := arc.ytdlp.Timeout
+	if timeout <= 0 {
+		timeout = 10 * time.Minute
+	}
+	dlCtx, cancel := context.WithTimeout(dlCtx, timeout)
+	defer cancel()
+
+	dir, err := os.MkdirTemp("", "readeck-ytdlp-")
+	if err != nil {
+		return nil, err
+	}
+	defer os.RemoveAll(dir) //nolint:errcheck
+
+	format := "bv*+ba/b"
+	if h := arc.ytdlp.MaxHeight; h > 0 {
+		format = fmt.Sprintf("bv*[height<=%d]+ba/b[height<=%d]/bv*+ba/b", h, h)
+	}
+
+	args := []string{
+		"--no-playlist",
+		"--no-warnings",
+		"--no-progress",
+		"--no-part",
+		"--no-mtime",
+		"--retries", "3",
+		"--socket-timeout", "30",
+		"--merge-output-format", "mp4",
+		"-f", format,
+		"-o", filepath.Join(dir, "video.%(ext)s"),
+	}
+	if arc.ytdlp.CookiesFile != "" {
+		args = append(args, "--cookies", arc.ytdlp.CookiesFile)
+	}
+	args = append(args, "--", pageURL)
+
+	cmd := exec.CommandContext(dlCtx, arc.ytdlp.Path, args...) //nolint:gosec // path from configuration
+	var stderr bytes.Buffer
+	cmd.Stdout = &stderr
+	cmd.Stderr = &stderr
+
+	if err := cmd.Run(); err != nil {
+		msg := strings.TrimSpace(stderr.String())
+		if len(msg) > 500 {
+			msg = msg[len(msg)-500:]
+		}
+		if errors.Is(dlCtx.Err(), context.DeadlineExceeded) {
+			return nil, fmt.Errorf("yt-dlp timed out after %s", timeout)
+		}
+		return nil, fmt.Errorf("yt-dlp: %w: %s", err, msg)
+	}
+
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return nil, err
+	}
+	var file string
+	for _, e := range entries {
+		if e.IsDir() || !strings.HasPrefix(e.Name(), "video.") {
+			continue
+		}
+		if strings.HasSuffix(e.Name(), ".part") || strings.HasSuffix(e.Name(), ".ytdl") {
+			continue
+		}
+		file = filepath.Join(dir, e.Name())
+		break
+	}
+	if file == "" {
+		return nil, errors.New("yt-dlp produced no file")
+	}
+
+	f, err := os.Open(file) //nolint:gosec // file comes from our temp dir
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close() //nolint:errcheck
+
+	st, err := f.Stat()
+	if err != nil {
+		return nil, err
+	}
+
+	res := &Resource{
+		url:         pageURL,
+		Name:        arc.collector.Name(pageURL) + ".mp4",
+		ContentType: "video/mp4",
+		Size:        st.Size(),
+	}
+
+	return arc.saveResource(ctx, f, res)
+}

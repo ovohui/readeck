@@ -100,6 +100,10 @@ func (arc *Archiver) processHTML(ctx context.Context, doc *html.Node, baseURL *u
 	arc.removeComments(ctx, doc)
 	arc.convertLazyImageAttrs(ctx, doc)
 	arc.convertRelativeURLs(ctx, doc, baseURL)
+	// Download embedded player videos (YouTube, Bilibili, ...) once every URL
+	// is absolute, and before the concurrent resource loop so the tree can
+	// still be rewritten safely.
+	arc.processEmbeddedVideos(ctx, doc)
 	arc.removeIntegrityAttr(ctx, doc)
 
 	if arc.flags&EnableBestImage > 0 {
@@ -356,16 +360,20 @@ func (arc *Archiver) processEmbedNode(ctx context.Context, node *html.Node) erro
 }
 
 func (arc *Archiver) processMediaNode(ctx context.Context, node *html.Node) error {
-	err := arc.processURLNode(ctx, node, "src")
-	if err != nil {
-		return err
+	// A media resource that was already stored in the archive (for instance a
+	// video downloaded with yt-dlp) must not be fetched again. Locally stored
+	// resources always use a "./" relative path.
+	if src := dom.GetAttribute(node, "src"); !strings.HasPrefix(src, "./") {
+		if err := arc.processURLNode(ctx, node, "src"); err != nil {
+			return err
+		}
 	}
 
 	if node.Data == "use" {
 		return arc.processURLNode(ctx, node, "href")
 	}
 
-	err = arc.processURLNode(ctx, node, "poster")
+	err := arc.processURLNode(ctx, node, "poster")
 	if err != nil {
 		return err
 	}
