@@ -276,3 +276,39 @@ curl -X POST "https://<你的域名>:15351/api/bookmarks" \
 ### 小红书图片位置修正
 
 之前把图片追加到 `#noteContainer` 末尾，但 readability 选中的正文容器往往是它内部的 `.note-content`，追加在外层等于被丢弃。现在按 `.note-content` → `#detail-desc` → `.note-scroller` → `#noteContainer` → `article` 的顺序选最深可用容器，再注入图片与 live photo 视频。
+
+## 10. 视频类书签为什么之前完全没归档（B 站）
+
+线上日志把原因说得很清楚：B 站页面被判定为 `video` 类型，抽取流程在 `step finish` 就结束了，**`ex.HTML` 是空的**；归档代码的条件是 `len(ex.HTML) > 0 && IsHTML()`，于是 `index.html` 根本没生成——之前的 `WithForcedVideo` 连执行机会都没有，Markdown 里自然只剩 `[Video on 哔哩哔哩](原链接)`。
+
+修复：类型为 `video` 且开启了 `download_embedded_videos` 时，先生成一个最小文档再交给归档器，归档器补上播放器 iframe，yt-dlp 把视频存进 `_resources/`：
+
+```go
+if len(ex.HTML) == 0 && ex.Drop().DocumentType == "video" &&
+    configs.Config.Bookmarks.DownloadEmbeddedVideos {
+    ex.HTML = []byte("<!DOCTYPE html>\n<html><head></head><body></body></html>")
+}
+```
+
+日志里会多一行 `synthesized empty document for video page`，之后应看到 `embedded video archived`。
+
+## 11. 小红书图片：服务端为何无解（已实测确认）
+
+在实例上重新归档一篇小红书笔记并查看日志：
+
+```
+[DEBU] content script ... script="builtin/xiaohongshu.js" function="documentReady"
+[DEBU] xiaohongshu: no media in server side HTML
+```
+
+脚本确实执行了，但服务端拿到的 HTML 里**一张笔记图都没有**：`div.note-scroller` 里只有空占位 `elementtiming="note-cover"`，正文文字是 SSR 出来的，图片列表由页面用 `xsec_token` 调 XHR 接口后才插入 DOM。这类内容在服务端不可达（接口还要求 JS 生成的 `x-s` 签名）。
+
+因此小红书的正确入口是第 9 节的油猴脚本：它在浏览器里读取渲染后的 DOM，图片已经在页面上了。针对性地又加了一个兜底：若仍取不到图，就退回 `og:image` 封面。
+
+**结论对照表**
+
+| 站点类型 | 方式 |
+| --- | --- |
+| 普通文章（知乎、公众号、新闻、论坛） | 直接丢链接给 Readeck |
+| 小红书、站酷、新版贴吧、滚动才出图的页面 | 浏览器油猴脚本（`Ctrl+Alt+Shift+R`） |
+| B 站/YouTube 等视频页 | 丢链接即可，`download_embedded_videos` 会调 yt-dlp 存 mp4 |

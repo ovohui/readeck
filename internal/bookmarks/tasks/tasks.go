@@ -533,6 +533,17 @@ func createZipFile(b *bookmarks.Bookmark, ex *extract.Extractor, resourceCount *
 		b.Files[k] = &bookmarks.BookmarkFile{Name: name, Type: p.Type, Size: p.Size}
 	}
 
+	// Video pages (Bilibili, Xiaohongshu videos, ...) are rendered client side:
+	// extraction yields no HTML at all, so there would be nothing to archive.
+	// When embedded video downloading is enabled, hand the archiver a minimal
+	// document and let it rebuild a player from the page URL (yt-dlp then
+	// stores the video inside the archive).
+	if len(ex.HTML) == 0 && ex.Drop().DocumentType == "video" &&
+		configs.Config.Bookmarks.DownloadEmbeddedVideos {
+		ex.HTML = []byte("<!DOCTYPE html>\n<html><head></head><body></body></html>")
+		ex.Log().Info("synthesized empty document for video page")
+	}
+
 	// Archive page
 	if len(ex.HTML) > 0 && ex.Drop().IsHTML() {
 		*resourceCount, err = bookmarks.ArchiveDocument(ex.Context, z.Dest(), ex)

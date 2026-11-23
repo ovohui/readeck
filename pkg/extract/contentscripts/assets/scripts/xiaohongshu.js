@@ -208,11 +208,25 @@ exports.documentReady = function (document) {
   if (acc.images.length == 0) {
     scrapeURLs(texts, acc)
   }
+  if (acc.images.length == 0) {
+    // Last resort: the social card still holds the note cover.
+    const og = document.querySelector('meta[property="og:image"]')
+    const ogURL = og && og.getAttribute("content")
+    if (ogURL) {
+      acc.images.push(ogURL)
+    }
+  }
 
   const images = unique(acc.images, 40)
   const videos = unique(acc.videos, 5)
   if (images.length == 0 && videos.length == 0) {
-    console.debug("xiaohongshu: no media found in initial state")
+    // The note feed is loaded over XHR on xiaohongshu.com: the HTML we fetch
+    // only carries the shell, so there is genuinely nothing to extract here.
+    // Use the browser userscript (tools/userscript) for these pages.
+    console.debug("xiaohongshu: no media in server side HTML", {
+      scripts: texts.length,
+      hasState: texts.join("").indexOf("noteDetailMap") >= 0,
+    })
     return
   }
 
