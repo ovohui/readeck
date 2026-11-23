@@ -10,7 +10,7 @@
 
 ### 使用方式
 
-1. 打开 `https://readeck.zh.ovohui.com:15351/cookies`（或在设置侧栏点 "Site Cookies"）。
+1. 打开 `https://<你的域名>:15351/cookies`（或在设置侧栏点 "Site Cookies"）。
 2. 在 "Add a cookie" 表单中填写：
    - **Domain**：如 `xiaohongshu.com`（自动匹配其子域名）。
    - **Name**：备注名，可留空。
@@ -38,6 +38,8 @@ Cookie 以 0600 权限保存在 `<data_directory>/site-cookies.json`，不会写
 - `video_quality`（`READECK_VIDEO_QUALITY`）可选值：`best`（默认）、`1080p`、`720p`、`480p`、`worst`。抓取时会解析 HLS(m3u8) master playlist 并把视频源替换为所选清晰度的地址。
 
 > 说明：YouTube、B 站等站点使用 iframe 嵌入，生成的是缩略图+链接，需要 `yt-dlp` 才能下载原始视频。本实现面向文章内直链视频与 HLS 流；如需 iframe 站点离线，请在容器中额外安装 yt-dlp 后扩展 `video-embedded.js`。
+>
+> 当媒体文件因跨域鉴权或体积过大无法下载时，节点不再被删除，而是保留原始远端 URL，因此在线查看归档页时播放器仍然可用。
 
 ## 3. 自定义资源存储路径
 
@@ -101,3 +103,46 @@ make build      # go build
 - `pkg/extract/contentscripts/assets/scripts/video-quality.js` — HLS 清晰度选择
 - `pkg/extract/contentscripts/assets/site-config/xiaohongshu.com.json` — 小红书正文提取规则
 - `internal/bookmarks/routes/x-sidebar.templ` — Markdown 下载按钮
+
+## 6. 已知问题修复记录
+
+### CookieCloud 同步报 `invalid padding`
+
+CookieCloud 服务端有两个版本的加密格式，之前只实现了旧版，遇到新版就解不开：
+
+| 版本 | 载荷格式 | 算法 |
+| --- | --- | --- |
+| 旧版（CryptoJS `AES.encrypt`） | base64(`"Salted__"` + 8 字节 salt + 密文) | EVP_BytesToKey(MD5) → AES-256-CBC |
+| 新版（CookieCloud ≥ 0.3.0） | base64(裸密文) | key = `md5(uuid-password)[:16]`，零 IV → AES-128-CBC |
+
+现在按 `Salted__` 标记自动识别两种格式，并同时解析 `cookie_data`（新版）与 `cookies`（旧版）两种 payload，Cookie 的 domain 优先取条目自身的 domain。
+
+### 小红书正文能保存但图片全是空白
+
+三个原因叠加，均已修复：
+
+1. **Referer 不匹配**：原先用 `scheme://host/` 作为 Referer，`xhscdn.com` 会校验具体文章 URL，直接 403。现改为完整页面 URL。
+2. **懒加载属性未被识别**：小红书图片走 `data-src`，且 URL 无扩展名（`...!nd_dft_wlteh_webp_3`），旧逻辑靠扩展名判断导致识别失败。现改为按属性名识别（`data-src`/`data-original`/`data-lazy-src` 等），并支持无扩展名 URL 与 `//host/path` 协议相对地址。
+3. **下载失败就删节点**：旧逻辑把下载失败的 `<img>` 从正文里删除，页面看起来"没有图"。现在保留原始 URL。
+
+另外 `internal/sitecookies` 增加了 CDN 域名回映（`xhscdn.com`/`xhsimg.com` → `xiaohongshu.com`，`zhimg.com` → `zhihu.com`，`hdslb.com` → `bilibili.com`），站点 Cookie 与自定义 Header 会自动应用到 CDN 图片请求上；站点 Cookie 中配置的 `Referer` 也可以覆盖归档器默认值。
+
+### 知乎带视频的回答没有播放器
+
+归档器在未开启 `EnableEmbeds` 时会删除所有 `<iframe>`，于是视频区直接消失。开启 `download_videos` 后现在会同时开启 `EnableEmbeds`，iframe 播放器保留。
+
+### 找到 Markdown 下载入口
+
+分享下拉菜单里本来就有 `article.md`，但不易发现。现在书签侧栏工具栏新增独立的 **MD** 按钮，直接下载 `article.md`，方便拖进 Obsidian。
+
+## 7. 更新已部署的容器
+
+仓库镜像为 `ghcr.io/ovohui/readeck:custom`（国内可用南大镜像 `ghcr.nju.edu.cn/ovohui/readeck:custom`）。每次 `main` 分支推送会自动构建 amd64/arm64 双架构镜像，标签 `custom` 会被覆盖。
+
+```bash
+cd /vol1/1000/docker/readeck-12233   # 你放 docker-compose.yml 的目录
+docker compose pull
+docker compose up -d
+```
+
+数据目录 `./data` 保持不变，Cookie、书签、设置都保留。

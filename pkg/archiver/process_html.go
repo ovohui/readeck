@@ -232,14 +232,28 @@ func (arc *Archiver) processURLNode(ctx context.Context, node *html.Node, attrNa
 	headers := http.Header{}
 
 	switch node.Data {
-	case "img", "picture", "source", "use":
+	case "img", "picture", "use":
 		headers.Set("accept", acceptImageHeader)
+	case "source":
+		// A <source> node may belong to a <picture> (image) or to a
+		// <video>/<audio> (media stream). Only ask for an image when the
+		// parent is a picture, otherwise the CDN may answer with a 406.
+		if node.Parent != nil && node.Parent.Data != "video" && node.Parent.Data != "audio" {
+			headers.Set("accept", acceptImageHeader)
+		}
 	}
 
 	res, err := arc.processURL(withNodeContext(ctx, node), uri, processOptions{headers: headers})
 	if err != nil {
 		if errors.Is(err, ErrSkippedURL) {
 			if errors.Is(err, ErrRemoveSrc) {
+				// Media streams (video/audio/source) are often protected or
+				// too large to archive. Keep the remote URL on the node so the
+				// player still works when the saved page is viewed online,
+				// instead of silently deleting the player from the article.
+				if attrName == "src" && isMediaTag(node.Data) {
+					return nil
+				}
 				dom.RemoveAttribute(node, attrName)
 			}
 			return nil
@@ -638,6 +652,12 @@ func (arc *Archiver) removeComments(_ context.Context, doc *html.Node) {
 	}
 
 	dom.RemoveNodes(comments, nil)
+}
+
+// isMediaTag reports whether a tag carries a media stream (as opposed to an
+// image). Used to keep the remote URL when a media download fails.
+func isMediaTag(tag string) bool {
+	return tag == "video" || tag == "audio" || tag == "source"
 }
 
 func (arc *Archiver) convertLazyImageAttrs(_ context.Context, doc *html.Node) {
