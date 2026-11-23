@@ -17,6 +17,11 @@
 # First stage, build Readeck
 FROM debian:trixie-slim as build
 
+# TARGETARCH is provided by buildx (amd64 / arm64). Using it for the Go
+# tarball lets the same Containerfile build on both x86 and ARM NAS devices.
+ARG TARGETARCH=amd64
+ARG TARGETOS=linux
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         apt-transport-https \
@@ -46,8 +51,9 @@ RUN apt-get update && \
         && \
     apt-get clean
 
-# Install Go (must match the version required by go.mod)
-RUN curl -s -L https://dl.google.com/go/go1.27.4.linux-amd64.tar.gz \
+# Install Go (must match the version required by go.mod).
+# TARGETARCH is provided by buildx (amd64 / arm64).
+RUN curl -s -L "https://dl.google.com/go/go1.27.4.${TARGETOS}-${TARGETARCH}.tar.gz" \
     | tar xvz -C /usr/local
 
 # Install uv
