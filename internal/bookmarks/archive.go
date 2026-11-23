@@ -242,10 +242,17 @@ func ArchiveDocument(ctx context.Context, zw *zip.Writer, ex *extract.Extractor)
 	}
 	if configs.Config.Bookmarks.DownloadEmbeddedVideos {
 		opts = append(opts, archiver.WithYtdlp(archiver.YtdlpConfig{
-			Path:      configs.Config.Bookmarks.YtdlpPath,
-			MaxHeight: configs.Config.Bookmarks.YtdlpMaxHeight,
-			Timeout:   time.Duration(configs.Config.Bookmarks.YtdlpTimeout) * time.Second,
+			Path:        configs.Config.Bookmarks.YtdlpPath,
+			MaxHeight:   configs.Config.Bookmarks.YtdlpMaxHeight,
+			Timeout:     time.Duration(configs.Config.Bookmarks.YtdlpTimeout) * time.Second,
+			CookiesFile: configs.Config.Bookmarks.YtdlpCookiesFile,
+			ExtraArgs:   strings.Fields(configs.Config.Bookmarks.YtdlpExtraArgs),
 		}))
+		// Video bookmarks (Bilibili, ...) have no player in their extracted
+		// HTML: ask the archiver to rebuild one from the page URL.
+		if ex.Drop().DocumentType == "video" {
+			opts = append(opts, archiver.WithForcedVideo(ex.Drop().URL.String()))
+		}
 	}
 
 	arc := archiver.New(opts...)

@@ -33,6 +33,8 @@ type YtdlpConfig struct {
 	Timeout time.Duration
 	// CookiesFile is an optional Netscape cookies file passed to yt-dlp.
 	CookiesFile string
+	// ExtraArgs holds additional yt-dlp arguments (already split).
+	ExtraArgs []string
 }
 
 // WithYtdlp enables embedded video downloading with yt-dlp.
@@ -162,6 +164,34 @@ func isDigits(s string) bool {
 // single page. Archiving is synchronous, so an article with dozens of videos
 // must not hold the queue for hours.
 const maxEmbeddedVideosPerPage = 3
+
+// injectForcedVideo appends a player iframe for arc.forcedVideo when the
+// document has none. Video pages (Bilibili, ...) build their player with
+// JavaScript, so the extracted HTML is often empty and there is nothing for
+// yt-dlp to hook on.
+func (arc *Archiver) injectForcedVideo(doc *html.Node) {
+	if arc.forcedVideo == "" || arc.ytdlp == nil || arc.ytdlp.Path == "" {
+		return
+	}
+
+	for _, node := range dom.GetElementsByTagName(doc, "iframe") {
+		if _, ok := embeddedVideoPageURL(dom.GetAttribute(node, "src")); ok {
+			return
+		}
+	}
+
+	body := dom.QuerySelector(doc, "body")
+	if body == nil {
+		return
+	}
+
+	figure := dom.CreateElement("figure")
+	iframe := dom.CreateElement("iframe")
+	dom.SetAttribute(iframe, "src", arc.forcedVideo)
+	dom.SetAttribute(iframe, "data-forced-video", "1")
+	dom.AppendChild(figure, iframe)
+	dom.AppendChild(body, figure)
+}
 
 // processEmbeddedVideos downloads videos behind player iframes (and the
 // thumbnail placeholders produced by the embedded video content script) and
@@ -300,7 +330,12 @@ func (arc *Archiver) downloadWithYtdlp(ctx context.Context, pageURL string) (*Re
 		"-o", filepath.Join(dir, "video.%(ext)s"),
 	}
 	if arc.ytdlp.CookiesFile != "" {
-		args = append(args, "--cookies", arc.ytdlp.CookiesFile)
+		if _, err := os.Stat(arc.ytdlp.CookiesFile); err == nil {
+			args = append(args, "--cookies", arc.ytdlp.CookiesFile)
+		}
+	}
+	if len(arc.ytdlp.ExtraArgs) > 0 {
+		args = append(args, arc.ytdlp.ExtraArgs...)
 	}
 	args = append(args, "--", pageURL)
 

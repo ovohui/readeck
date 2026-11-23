@@ -177,3 +177,57 @@ docker compose up -d
 ```
 
 数据目录 `./data` 保持不变，Cookie、书签、设置都保留。
+
+## 8. 2026-11 第二轮反馈修复
+
+### 复制 Markdown 全文
+
+侧栏新增 **MD（复制图标）** 按钮：点击后前端 `fetch` 同源 `/api/bookmarks/<id>/article.md`，把返回的 Markdown 全文写入剪贴板，按钮文字短暂变成 `✓`。可直接粘进 Obsidian，不需要先下载再打开文件。
+
+- 控制器：`web/src/controllers/markdowncopy_controller.ts`
+- 按钮：`internal/bookmarks/routes/x-sidebar.templ`（紧挨原来的 MD 下载按钮）
+
+### 论坛附件图（52pojie / Discuz!）
+
+Discuz! 论坛把真实图片地址放在 `file` / `zoomfile` 属性里，`src` 指向 `static/image/common/none.gif` 占位图。懒加载识别表已加入 `file`、`zoomfile`、`data-file`，这类"图片丢一半"的问题解决。
+
+### 小红书图片与动图
+
+小红书正文由 JS 渲染，抓到的 HTML 只有 "1/15" 计数器，图片 URL 只存在于 `<script>` 里的 `window.__INITIAL_STATE__`。新增内容脚本 `xiaohongshu.js`：
+
+1. 取所有内联 script 文本，定位 `"noteDetailMap"`，做花括号配对取出 JSON（容错 `undefined`）；
+2. 递归收集 `xhscdn.com` 域下的图片 URL 与 `masterUrl`（live photo 的 mp4）；
+3. 兜底用正则扫 script 文本里的媒体 URL；
+4. 去重、过滤头像/logo，把 `<figure><img>` 与 `<figure><video>` 追加进 `#noteContainer`。
+
+这样普通图文能拿到全部原图，live photo 会额外带一个可播放的视频。
+
+### B 站等视频页真正离线
+
+B 站书签被 Readeck 判定为 `video` 类型，提取出来的 HTML 里没有播放器，所以之前只有一行 "Video on 哔哩哔哩" 链接。现在：
+
+- `Archiver.WithForcedVideo(pageURL)`：归档视频类书签时，若 HTML 里没有任何可用播放器 iframe，就在 `<body>` 末尾补一个指向原页面的 iframe；
+- yt-dlp 钩子随后把这个 iframe 换成归档内的 `<video src="_resources/xxx.mp4">`。
+
+### yt-dlp 新增两个配置
+
+| 配置项 | 环境变量 | 说明 |
+| --- | --- | --- |
+| `ytdlp_cookies_file` | `READECK_YTDLP_COOKIES_FILE` | Netscape 格式 cookies.txt，YouTube 的机器人校验、会员视频必需 |
+| `ytdlp_extra_args` | `READECK_YTDLP_EXTRA_ARGS` | 追加参数，例如 `--extractor-args youtube:player_client=android` |
+
+YouTube 提示 "Sign in to confirm you're not a bot" 时，把浏览器导出的 cookies.txt 挂进容器并指向它即可：
+
+```yaml
+volumes:
+  - ./data:/readeck
+  - ./cookies.txt:/readeck/cookies.txt:ro
+environment:
+  - READECK_YTDLP_COOKIES_FILE=/readeck/cookies.txt
+```
+
+### 仍需要浏览器扩展的页面（贴吧、站酷等）
+
+有些页面整个正文都由 JavaScript 渲染（新版贴吧 `fr=personalize_page`、站酷作品页），服务端只能拿到空壳，go-readability 的 `textLength` 一直是 0，日志里表现为连续 4 次 `parsed article length is too short` → `could not extract content`。
+
+这不是选择器能解决的问题：HTML 里根本没有正文。正确做法是用 Readeck 的浏览器扩展（设置 → 应用密码 / Browser extension），在已登录的浏览器里点扩展，浏览器会把**渲染后的 DOM** 发给服务器再解析，图片和懒加载内容都在。

@@ -114,6 +114,13 @@ type configBookmarks struct {
 	// YtdlpTimeout is the maximum duration of a single video download, in
 	// seconds.
 	YtdlpTimeout int `json:"ytdlp_timeout" env:"YTDLP_TIMEOUT"`
+	// YtdlpCookiesFile is a Netscape cookies file handed to yt-dlp. Required
+	// by sites that refuse anonymous downloads (YouTube bot checks, members
+	// only videos).
+	YtdlpCookiesFile string `json:"ytdlp_cookies_file" env:"YTDLP_COOKIES_FILE,unset"`
+	// YtdlpExtraArgs is a space separated list of extra yt-dlp arguments,
+	// e.g. "--extractor-args youtube:player_client=android".
+	YtdlpExtraArgs string `json:"ytdlp_extra_args" env:"YTDLP_EXTRA_ARGS,unset"`
 }
 
 type configEmail struct {

@@ -69,10 +69,15 @@ var (
 	// by attribute name first (rather than by file extension), which also
 	// covers extensionless CDN URLs such as Xiaohongshu's
 	// "...!nd_dft_wlteh_webp_3" image endpoints.
+	//
+	// "file" and "zoomfile" are the Discuz! convention (52pojie, many forums):
+	// the real attachment lives in these attributes while src points at
+	// static/image/common/none.gif.
 	lazyImageSrcAttrs = map[string]bool{
 		"data-src": true, "data-original": true, "data-lazy-src": true,
 		"data-actualsrc": true, "data-url": true, "data-echo": true,
 		"data-img": true, "data-image": true, "data-srcset": false,
+		"file": true, "zoomfile": true, "data-file": true,
 	}
 )
 
@@ -98,6 +103,10 @@ func (arc *Archiver) processHTML(ctx context.Context, doc *html.Node, baseURL *u
 	arc.convertNoScriptToDiv(ctx, doc, true)
 	arc.removePrefetch(ctx, doc)
 	arc.removeComments(ctx, doc)
+	// Video-type pages (Bilibili, ...) render their player in JavaScript, so
+	// the extracted HTML has no iframe to hook on. Put one back before the
+	// media pass runs.
+	arc.injectForcedVideo(doc)
 	arc.convertLazyImageAttrs(ctx, doc)
 	arc.convertRelativeURLs(ctx, doc, baseURL)
 	// Download embedded player videos (YouTube, Bilibili, ...) once every URL

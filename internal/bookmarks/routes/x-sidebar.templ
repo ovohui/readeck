@@ -176,6 +176,17 @@ templ (c SidebarComponent) actions(b *dataset.Bookmark) {
 						</a>
 						<button
 							type="button"
+							class="btn-outlined btn-primary"
+							data-controller="markdowncopy"
+							data-markdowncopy-url-value={ URL(ctx, "/api/bookmarks", b.ID, "article.md") }
+							data-action="markdowncopy#copy"
+							title={ L(ctx).Gettext("Copy Markdown to clipboard") }
+						>
+							@Icon("o-copy")
+							<span class="text-xs font-bold" data-markdowncopy-label>MD</span>
+						</button>
+						<button
+							type="button"
 							popovertarget="export-menu"
 							class="btn-outlined btn-primary pr-3"
 							title={ L(ctx).Gettext("Export and Share") }

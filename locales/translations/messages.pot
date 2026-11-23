@@ -3043,6 +3043,9 @@ msgstr ""
 msgid "Download Markdown for Obsidian"
 msgstr ""
 
+msgid "Copy Markdown to clipboard"
+msgstr ""
+
 msgid "Download Markdown"
 msgstr ""
 

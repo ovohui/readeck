@@ -83,6 +83,9 @@ type Archiver struct {
 	collector Collector
 	flags     ArchiveFlag
 	ytdlp     *YtdlpConfig
+	// forcedVideo is a page URL whose player must be archived even when the
+	// page HTML no longer contains a usable <iframe> (video-type bookmarks).
+	forcedVideo string
 
 	fetchGroup     *singleflight.Group
 	fetchSemaphore *semaphore.Weighted
@@ -111,6 +114,16 @@ func WithFlags(flags ArchiveFlag) Option {
 func WithConcurrency(v int64) Option {
 	return func(arc *Archiver) {
 		arc.fetchSemaphore = semaphore.NewWeighted(v)
+	}
+}
+
+// WithForcedVideo tells the archiver to archive the player of pageURL even
+// when the extracted HTML has no iframe left pointing at it. This is used for
+// video-type bookmarks (e.g. Bilibili), whose content is rendered by
+// JavaScript and therefore absent from the archived HTML.
+func WithForcedVideo(pageURL string) Option {
+	return func(arc *Archiver) {
+		arc.forcedVideo = pageURL
 	}
 }
 
