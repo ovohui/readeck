@@ -231,3 +231,48 @@ environment:
 有些页面整个正文都由 JavaScript 渲染（新版贴吧 `fr=personalize_page`、站酷作品页），服务端只能拿到空壳，go-readability 的 `textLength` 一直是 0，日志里表现为连续 4 次 `parsed article length is too short` → `could not extract content`。
 
 这不是选择器能解决的问题：HTML 里根本没有正文。正确做法是用 Readeck 的浏览器扩展（设置 → 应用密码 / Browser extension），在已登录的浏览器里点扩展，浏览器会把**渲染后的 DOM** 发给服务器再解析，图片和懒加载内容都在。
+
+## 9. JS 渲染页面：用油猴脚本把「渲染后的 DOM」发给 Readeck
+
+小红书、新版贴吧、站酷这类页面的正文完全由 JavaScript 渲染，服务端抓到的 HTML 是空壳（readability 的 `textLength` 一直是 0）。Readeck 官方浏览器扩展在部分站点（例如小红书）无法注入，这类页面就彻底存不下来。
+
+Readeck 的 API 本身支持直接提交 HTML，不走服务端抓取：
+
+```http
+POST /api/bookmarks
+Authorization: Bearer <API 令牌>
+Content-Type: application/json
+
+{"url": "页面地址", "title": "标题", "html": "<!DOCTYPE html>…完整 HTML…"}
+```
+
+仓库里附了一个油猴脚本 `tools/userscript/readeck-saver.user.js`，在页面里跑、抓的是**浏览器渲染完成后的 DOM**：
+
+1. 安装 Tampermonkey → 新建脚本 → 粘贴该文件内容 → 保存；
+2. 首次使用时会询问「服务器地址」和「API 令牌」（Readeck：右上角头像 → 设置 → API 令牌 → 新建）；
+3. 页面全部加载完后，点油猴菜单 → **📥 保存到 Readeck（图片内嵌，最稳）**，或按 `Ctrl+Alt+Shift+R`；
+4. 脚本会把懒加载图片解析成真实地址、把 `blob:`/防盗链图片转成 data URL，然后 POST 到 `/api/bookmarks`。
+
+两个菜单项的区别：
+
+| 菜单 | 行为 | 适用 |
+| --- | --- | --- |
+| 图片内嵌 | 逐张抓取并转成 `data:` URL，再提交 | 图片有防盗链、`blob:`、需要登录才能看（最稳，体积大） |
+| 保留图片地址 | 只写回真实 `src`，由服务器自己下载 | 图片可匿名访问（体积小） |
+
+**已实测**：把站酷那篇作品页用同样方式保存出的单文件 HTML（18MB，图片已内联）通过 `POST /api/bookmarks` 上传，服务端正常提取，归档里 **155 张图片**全部落到 `_resources/`，正文标题、图标、日志都正常。
+
+也可以用命令行上传已经保存好的 HTML 文件：
+
+```bash
+curl -X POST "https://<你的域名>:15351/api/bookmarks" \
+  -H "Authorization: Bearer <API令牌>" \
+  -H "Content-Type: application/json" \
+  --data-binary @payload.json
+```
+
+其中 `payload.json` 形如 `{"url":"原始地址","title":"标题","html":"<完整HTML>"}`（HTML 需 JSON 转义，文件大时用脚本生成更稳妥）。
+
+### 小红书图片位置修正
+
+之前把图片追加到 `#noteContainer` 末尾，但 readability 选中的正文容器往往是它内部的 `.note-content`，追加在外层等于被丢弃。现在按 `.note-content` → `#detail-desc` → `.note-scroller` → `#noteContainer` → `article` 的顺序选最深可用容器，再注入图片与 live photo 视频。

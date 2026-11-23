@@ -216,10 +216,26 @@ exports.documentReady = function (document) {
     return
   }
 
-  // Prefer the note container so the archived body keeps everything together.
-  let container = document.querySelector("#noteContainer")
+  // The media must land inside the element go-readability will keep. Note
+  // pages nest the text in .note-content (or #detail-desc), which is a
+  // *child* of #noteContainer: appending to the wrapper would leave the
+  // figures outside the extracted body, which is why they disappeared.
+  const candidates = [
+    ".note-content",
+    "#detail-desc",
+    ".note-scroller",
+    "#noteContainer",
+    "article",
+  ]
+  let container = null
+  for (let i = 0; i < candidates.length; i++) {
+    container = document.querySelector(candidates[i])
+    if (container) {
+      break
+    }
+  }
   if (!container) {
-    container = document.querySelector("article") || document.body
+    container = document.body
   }
 
   const media = document.createElement("div")
