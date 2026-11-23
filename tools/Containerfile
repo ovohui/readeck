@@ -78,26 +78,33 @@ ARG GOAMD64=v1
 RUN make setup generate build
 
 # Second stage
-# A Debian runtime (instead of Busybox) is required by ffmpeg and yt-dlp, which
-# are used to download videos behind embedded players (YouTube, Bilibili, ...).
-FROM docker.io/library/debian:trixie-slim
+# The runtime ships ffmpeg and yt-dlp so videos behind embedded players
+# (YouTube, Bilibili, ...) can be downloaded into the archive.
+# Alpine is used on purpose: the Debian equivalent (apt ffmpeg + python venv)
+# produced a 179 MB layer, which is painfully slow to pull on a NAS. With
+# Alpine's ffmpeg package and the static musl yt-dlp binary the same runtime
+# fits in roughly a third of that.
+FROM docker.io/library/alpine:3.22
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+ARG TARGETARCH=amd64
+
+RUN apk add --no-cache \
         ca-certificates \
         ffmpeg \
-        python3 \
-        python3-venv \
-        && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+        tzdata
 
-# yt-dlp lives in its own virtualenv: Debian marks its system Python as
-# externally managed, and a venv keeps the binary independent from apt so it
-# can be updated without touching the base image.
-RUN python3 -m venv /opt/yt-dlp && \
-    /opt/yt-dlp/bin/pip install --no-cache-dir -U yt-dlp && \
-    ln -sf /opt/yt-dlp/bin/yt-dlp /usr/local/bin/yt-dlp
+# yt-dlp publishes self-contained musl binaries, so no Python is needed in the
+# image. YTDLP_VERSION can be pinned to a tag (e.g. 2026.10.26) for
+# reproducible builds; the default always tracks the latest release.
+ARG YTDLP_VERSION=latest
+RUN case "$TARGETARCH" in \
+        amd64) asset=yt-dlp_musllinux ;; \
+        arm64) asset=yt-dlp_musllinux_aarch64 ;; \
+        *) echo "unsupported architecture: $TARGETARCH" >&2; exit 1 ;; \
+    esac && \
+    wget -q -O /usr/local/bin/yt-dlp \
+        "https://github.com/yt-dlp/yt-dlp/releases/${YTDLP_VERSION}/download/${asset}" && \
+    chmod 0755 /usr/local/bin/yt-dlp
 
 # Fail the build early if the tools cannot run on this architecture.
 RUN yt-dlp --version && ffmpeg -hide_banner -version | head -n 1
