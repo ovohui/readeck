@@ -3198,6 +3198,63 @@ msgctxt "datetime"
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
+msgid "Download Markdown for Obsidian"
+msgstr "下载 Markdown（用于 Obsidian）"
+
+msgid "Download Markdown"
+msgstr "下载 Markdown"
+
+msgid "Download Markdown (with images)"
+msgstr "下载 Markdown（含图片）"
+
+msgid "Markdown with offline images"
+msgstr "含离线图片的 Markdown"
+
+msgid "Site Cookies"
+msgstr "站点 Cookie"
+
+msgid "Store login cookies for sites that require authentication, such as Xiaohongshu and Zhihu. Cookies are matched by domain and injected when a bookmark is fetched."
+msgstr "为需要登录的站点（如小红书、知乎）保存登录 Cookie。Cookie 按域名匹配，并在抓取书签时自动注入。"
+
+msgid "Saved cookies"
+msgstr "已保存的 Cookie"
+
+msgid "No cookies saved yet."
+msgstr "尚未保存 Cookie。"
+
+msgid "Add a cookie"
+msgstr "添加 Cookie"
+
+msgid "Domain (e.g. xiaohongshu.com)"
+msgstr "域名（如 xiaohongshu.com）"
+
+msgid "Name (optional)"
+msgstr "名称（可选）"
+
+msgid "Cookie value"
+msgstr "Cookie 值"
+
+msgid "Save cookie"
+msgstr "保存 Cookie"
+
+msgid "Sync cookies from a CookieCloud server using end-to-end encryption."
+msgstr "使用端到端加密从 CookieCloud 服务器同步 Cookie。"
+
+msgid "Server URL"
+msgstr "服务器地址"
+
+msgid "Password / encryption key"
+msgstr "密码 / 加密密钥"
+
+msgid "Enable CookieCloud sync"
+msgstr "启用 CookieCloud 同步"
+
+msgid "Save settings"
+msgstr "保存设置"
+
+msgid "Sync now"
+msgstr "立即同步"
+
 #~ msgid "Invalid Content-Type"
 #~ msgstr "无效Content-Type"
 

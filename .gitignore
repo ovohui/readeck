@@ -22,3 +22,6 @@
 /web/node_modules
 
 *_templ.go
+
+# WorkBuddy local state
+/.workbuddy

@@ -43,6 +43,11 @@ var defaultPermissions = Permissions{
 	"/web/profile/tokens/read":   {"profile:tokens", "read"},
 	"/web/profile/tokens/write":  {"profile:tokens", "write"},
 
+	// Site cookies (authenticated scraping)
+	"/api/sitecookies/read":  {"api:sitecookies", "read"},
+	"/api/sitecookies/write": {"api:sitecookies", "write"},
+	"/web/sitecookies/read":  {"web:sitecookies", "read"},
+
 	// Bookmarks
 	"/api/bookmarks/read":   {"api:bookmarks", "read"},
 	"/api/bookmarks/write":  {"api:bookmarks", "write"},
@@ -91,6 +96,7 @@ var defaultGroups = []Group{
 			"/email/send",
 			"/*/docs/read",
 			"/*/profile/*",
+			"/*/sitecookies/*",
 			"/*/profile/tokens/*",
 			"/*/bookmarks/read",
 			"/*/bookmarks/write",

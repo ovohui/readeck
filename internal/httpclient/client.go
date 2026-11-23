@@ -227,13 +227,23 @@ func (t *Transport) SetHeader(fn func(h http.Header)) {
 	fn(t.header)
 }
 
+// TransportWrapper is an optional hook that wraps the base transport used by
+// every new client. It is set at startup by the sitecookies package to inject
+// per-domain cookies into outbound requests.
+var TransportWrapper func(http.RoundTripper) http.RoundTripper
+
 // New returns a new client with an empty cookie storage and a [Transport] instance.
 func New() *http.Client {
 	cookies, _ := cookiejar.New(&cookiejar.Options{PublicSuffixList: publicsuffix.List})
 
+	base := http.RoundTripper(defaultTransport.Clone())
+	if TransportWrapper != nil {
+		base = TransportWrapper(base)
+	}
+
 	return &http.Client{
 		Transport: &Transport{
-			RoundTripper: defaultTransport.Clone(),
+			RoundTripper: base,
 			header:       maps.Clone(defaultHeaders),
 			logger:       slog.Default(),
 		},

@@ -20,6 +20,7 @@ import (
 	"github.com/go-shiori/dom"
 	"github.com/google/uuid"
 
+	"codeberg.org/readeck/readeck/configs"
 	"codeberg.org/readeck/readeck/pkg/archiver"
 	"codeberg.org/readeck/readeck/pkg/base58"
 	"codeberg.org/readeck/readeck/pkg/extract"
@@ -40,6 +41,17 @@ var (
 
 	archiveFlags = archiver.EnableImages | archiver.EnableBestImage | archiver.EnableDataAttributes
 )
+
+// currentArchiveFlags returns the archiver flags for the current configuration.
+// When video downloading is enabled, media resources are also downloaded into
+// the bookmark archive.
+func currentArchiveFlags() archiver.ArchiveFlag {
+	flags := archiveFlags
+	if configs.Config.Bookmarks.DownloadVideos {
+		flags |= archiver.EnableMedia
+	}
+	return flags
+}
 
 // ResourceDirName returns the resource folder name in an archive.
 func ResourceDirName() string {
@@ -219,7 +231,7 @@ func ArchiveDocument(ctx context.Context, zw *zip.Writer, ex *extract.Extractor)
 	}
 
 	arc := archiver.New(
-		archiver.WithFlags(archiveFlags),
+		archiver.WithFlags(currentArchiveFlags()),
 		archiver.WithConcurrency(8),
 		archiver.WithCollector(collector),
 	)

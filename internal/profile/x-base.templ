@@ -26,6 +26,14 @@ templ (_ Views) Menu() {
 				{ L(ctx).Gettext("Security") }
 			</a>
 		</li>
+		if HasPermission(ctx, "web:sitecookies", "read") {
+			<li>
+				<a href={ URL(ctx, "/cookies") } data-current={ PathIs(ctx, "/cookies") }>
+					@Icon("o-key")
+					{ L(ctx).Gettext("Site Cookies") }
+				</a>
+			</li>
+		}
 		if HasPermission(ctx, "profile:tokens", "read") {
 			<li>
 				<a href={ URL(ctx, "/profile/applications") } data-current={ PathIs(ctx, "/profile/applications") }>

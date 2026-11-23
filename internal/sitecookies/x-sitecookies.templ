@@ -1,0 +1,134 @@
+// SPDX-FileCopyrightText: © 2026 Readeck custom build
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
+package sitecookies
+
+import (
+	. "codeberg.org/readeck/readeck/components"
+)
+
+templ (v Views) page() {
+	{{
+		cookies, err := All()
+		if err != nil {
+			cookies = []*SiteCookie{}
+		}
+		cc, ccErr := GetCookieCloudConfig()
+		if ccErr != nil {
+			cc = CookieCloudConfig{Server: "https://www.cookiecloud.com"}
+		}
+		title := L(ctx).Gettext("Site Cookies")
+	}}
+	@PageStd(title, WithSideMenu(v.sideMenu())) {
+		<div class="flex flex-col gap-6" data-controller="sitecookies">
+			<h1 class="title text-h2">{ title }</h1>
+			<p class="max-w-3xl">
+				{ L(ctx).Gettext("Store login cookies for sites that require authentication, such as Xiaohongshu and Zhihu. Cookies are matched by domain and injected when a bookmark is fetched.") }
+			</p>
+
+			<section class="card">
+				<h2 class="title text-h3 mb-3">{ L(ctx).Gettext("Saved cookies") }</h2>
+				<div id="sitecookie-list" class="flex flex-col gap-3">
+					for _, c := range cookies {
+						<div class="flex items-start gap-3 border-b pb-3" data-uid={ c.UID }>
+							<div class="grow">
+								<strong>{ c.Domain }</strong>
+								if c.Name != "" {
+									<span class="text-muted"> — { c.Name }</span>
+								}
+								if c.Source == "cookiecloud" {
+									<span class="badge">CookieCloud</span>
+								}
+								<div class="text-sm text-muted truncate" title={ c.Cookies }>{ c.Cookies }</div>
+							</div>
+							<button
+								type="button"
+								class="btn btn-danger"
+								data-action="sitecookies#remove"
+								data-sitecookies-uid-param={ c.UID }
+							>
+								@Icon("o-trash")
+							</button>
+						</div>
+					}
+					if len(cookies) == 0 {
+						<p class="text-muted">{ L(ctx).Gettext("No cookies saved yet.") }</p>
+					}
+				</div>
+
+				<h3 class="title text-h4 mt-6 mb-3">{ L(ctx).Gettext("Add a cookie") }</h3>
+				<form id="sitecookie-form" data-action="sitecookies#add" class="flex flex-col gap-3 max-w-3xl">
+					<label class="flex flex-col gap-1">
+						<span>{ L(ctx).Gettext("Domain (e.g. xiaohongshu.com)") }</span>
+						<input class="input" type="text" name="domain" required placeholder="xiaohongshu.com"/>
+					</label>
+					<label class="flex flex-col gap-1">
+						<span>{ L(ctx).Gettext("Name (optional)") }</span>
+						<input class="input" type="text" name="name" placeholder="my-account"/>
+					</label>
+					<label class="flex flex-col gap-1">
+						<span>{ L(ctx).Gettext("Cookie value") }</span>
+						<textarea class="input" name="cookies" rows="4" required placeholder="web_session=...; a1=..."></textarea>
+					</label>
+					<div>
+						<button class="btn btn-primary" type="submit">{ L(ctx).Gettext("Save cookie") }</button>
+					</div>
+					<p class="text-sm text-red-700" data-sitecookies-target="error"></p>
+				</form>
+			</section>
+
+			<section class="card">
+				<h2 class="title text-h3 mb-3">CookieCloud</h2>
+				<p class="max-w-3xl">
+					{ L(ctx).Gettext("Sync cookies from a CookieCloud server using end-to-end encryption.") }
+				</p>
+				<form id="cookiecloud-form" data-action="sitecookies#saveCookieCloud" class="flex flex-col gap-3 max-w-3xl">
+					<label class="flex flex-col gap-1">
+						<span>{ L(ctx).Gettext("Server URL") }</span>
+						<input class="input" type="url" name="server" value={ cc.Server }/>
+					</label>
+					<label class="flex flex-col gap-1">
+						<span>UUID</span>
+						<input class="input" type="text" name="uuid" value={ cc.UUID }/>
+					</label>
+					<label class="flex flex-col gap-1">
+						<span>{ L(ctx).Gettext("Password / encryption key") }</span>
+						<input class="input" type="password" name="password" placeholder="••••••••"/>
+					</label>
+					<label class="flex items-center gap-2">
+						<input type="checkbox" name="enabled" checked?={ cc.Enabled }/>
+						<span>{ L(ctx).Gettext("Enable CookieCloud sync") }</span>
+					</label>
+					<div class="flex gap-2">
+						<button class="btn btn-primary" type="submit">{ L(ctx).Gettext("Save settings") }</button>
+						<button class="btn" type="button" data-action="sitecookies#sync">
+							{ L(ctx).Gettext("Sync now") }
+						</button>
+					</div>
+					<p class="text-sm" data-sitecookies-target="status"></p>
+				</form>
+			</section>
+		</div>
+	}
+}
+
+templ (v Views) sideMenu() {
+	@SideMenuTitle() {
+		{ L(ctx).Gettext("Settings") }
+	}
+	<menu>
+		<li>
+			<a href={ URL(ctx, "/profile") }>
+				@Icon("o-user")
+				{ L(ctx).Gettext("Profile") }
+			</a>
+		</li>
+		<li>
+			<a href={ URL(ctx, "/cookies") } data-current={ PathIs(ctx, "/cookies") }>
+				@Icon("o-key")
+				{ L(ctx).Gettext("Site Cookies") }
+			</a>
+		</li>
+	</menu>
+}

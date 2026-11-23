@@ -39,7 +39,9 @@ import (
 	"codeberg.org/readeck/readeck/internal/dashboard"
 	"codeberg.org/readeck/readeck/internal/db"
 	"codeberg.org/readeck/readeck/internal/docs"
+	"codeberg.org/readeck/readeck/internal/httpclient"
 	"codeberg.org/readeck/readeck/internal/metrics"
+	"codeberg.org/readeck/readeck/internal/sitecookies"
 	"codeberg.org/readeck/readeck/internal/opds"
 	"codeberg.org/readeck/readeck/internal/profile"
 	"codeberg.org/readeck/readeck/internal/profile/preferences"
@@ -297,6 +299,11 @@ func InitServer(s *server.Server) error {
 	components.InitCustomTemplates()
 	server.DefaultErrorComponent = components.DefaultError
 
+	// Enable per-site cookie injection for the extractor's HTTP clients.
+	httpclient.TransportWrapper = func(rt http.RoundTripper) http.RoundTripper {
+		return sitecookies.NewRoundTripper(rt)
+	}
+
 	// Init session store
 	server.InitSession()
 
@@ -327,6 +334,9 @@ func InitServer(s *server.Server) error {
 
 	// User routes
 	profile.SetupRoutes(s)
+
+	// Site cookies (authenticated scraping)
+	sitecookies.SetupRoutes(s)
 
 	// Admin routes
 	admin.SetupRoutes(s)

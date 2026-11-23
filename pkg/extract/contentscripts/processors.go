@@ -17,6 +17,7 @@ import (
 	"github.com/itlightning/dateparse"
 	"golang.org/x/net/html"
 
+	"codeberg.org/readeck/readeck/configs"
 	"codeberg.org/readeck/readeck/pkg/domutils"
 	"codeberg.org/readeck/readeck/pkg/extract"
 )
@@ -49,6 +50,11 @@ func LoadScripts(programs ...*Program) extract.Processor {
 		}
 		vm.SetLogger(m.Log())
 		vm.SetProcessMessage(m)
+
+		// Expose custom build settings to content scripts (e.g. video quality).
+		vm.Set("readeckConfig", map[string]any{
+			"videoQuality": configs.Config.Bookmarks.VideoQuality,
+		})
 
 		m.Extractor.Context = withRuntime(m.Extractor.Context, vm)
 		m.Log().Debug("content script runtime ready", slog.Any("step", m.Step()))

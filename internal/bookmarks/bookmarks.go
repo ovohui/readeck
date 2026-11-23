@@ -62,7 +62,15 @@ var (
 )
 
 // StoragePath returns the storage base directory for bookmark files.
+//
+// The location can be overridden with [bookmarks] storage_path in config.toml
+// (or READECK_STORAGE_PATH). This makes it possible to keep bookmark archives
+// and their offline resources on a separate mounted volume. Relative paths are
+// resolved against the main data directory.
 func StoragePath() string {
+	if p := configs.Config.Bookmarks.StoragePath; p != "" {
+		return p
+	}
 	return filepath.Join(configs.Config.Main.DataDirectory, "bookmarks")
 }
 

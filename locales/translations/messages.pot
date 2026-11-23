@@ -3039,3 +3039,60 @@ msgctxt "datetime"
 msgid "%H:%M:%S"
 msgstr ""
 
+
+msgid "Download Markdown for Obsidian"
+msgstr ""
+
+msgid "Download Markdown"
+msgstr ""
+
+msgid "Download Markdown (with images)"
+msgstr ""
+
+msgid "Markdown with offline images"
+msgstr ""
+
+msgid "Site Cookies"
+msgstr ""
+
+msgid "Store login cookies for sites that require authentication, such as Xiaohongshu and Zhihu. Cookies are matched by domain and injected when a bookmark is fetched."
+msgstr ""
+
+msgid "Saved cookies"
+msgstr ""
+
+msgid "No cookies saved yet."
+msgstr ""
+
+msgid "Add a cookie"
+msgstr ""
+
+msgid "Domain (e.g. xiaohongshu.com)"
+msgstr ""
+
+msgid "Name (optional)"
+msgstr ""
+
+msgid "Cookie value"
+msgstr ""
+
+msgid "Save cookie"
+msgstr ""
+
+msgid "Sync cookies from a CookieCloud server using end-to-end encryption."
+msgstr ""
+
+msgid "Server URL"
+msgstr ""
+
+msgid "Password / encryption key"
+msgstr ""
+
+msgid "Enable CookieCloud sync"
+msgstr ""
+
+msgid "Save settings"
+msgstr ""
+
+msgid "Sync now"
+msgstr ""

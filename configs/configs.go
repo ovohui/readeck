@@ -96,7 +96,14 @@ type configSession struct {
 }
 
 type configBookmarks struct {
-	PublicShareTTL int `json:"public_share_ttl" env:"PUBLIC_SHARE_TTL"`
+	PublicShareTTL int    `json:"public_share_ttl" env:"PUBLIC_SHARE_TTL"`
+	StoragePath    string `json:"storage_path"    env:"STORAGE_PATH,unset"`
+	// DownloadVideos enables downloading video/media resources found in an
+	// article into its local archive instead of keeping only remote URLs.
+	DownloadVideos bool `json:"download_videos" env:"DOWNLOAD_VIDEOS"`
+	// VideoQuality selects the preferred HLS variant when downloading video.
+	// Accepted values: best (default), 1080p, 720p, 480p, worst.
+	VideoQuality string `json:"video_quality" env:"VIDEO_QUALITY"`
 }
 
 type configEmail struct {
@@ -384,6 +391,7 @@ var Config = config{
 	},
 	Bookmarks: configBookmarks{
 		PublicShareTTL: 24,
+		VideoQuality:   "best",
 	},
 	Worker: configWorker{
 		DSN:         "memory://",
@@ -440,6 +448,16 @@ func InitConfiguration() {
 		Config.Extractor.ContentScripts = []string{
 			filepath.Join(Config.Main.DataDirectory, "content-scripts"),
 		}
+	}
+
+	// StoragePath, when set, overrides the default <data_directory>/bookmarks
+	// location used to store bookmark archives. Make it absolute so it works
+	// reliably when Readeck runs in a container with an external mount.
+	if Config.Bookmarks.StoragePath != "" {
+		if !filepath.IsAbs(Config.Bookmarks.StoragePath) {
+			Config.Bookmarks.StoragePath = filepath.Join(Config.Main.DataDirectory, Config.Bookmarks.StoragePath)
+		}
+		Config.Bookmarks.StoragePath = filepath.Clean(Config.Bookmarks.StoragePath)
 	}
 
 	Config.Email.From.setDefault()
