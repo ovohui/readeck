@@ -68,7 +68,11 @@ RUN ls -al /workspace/readeck
 
 WORKDIR /workspace/readeck
 ENV PATH="/usr/local/go/bin:${PATH}"
-ENV LDFLAGS='-linkmode external -extldflags "-static" -s -w'
+# Readeck uses modernc.org/sqlite (pure Go), so no CGO is required. Disabling
+# it avoids cross-compiler errors when building arm64 under emulation and
+# produces a fully static binary without external linking.
+ENV CGO_ENABLED=0
+ENV LDFLAGS='-s -w'
 ARG GOAMD64=v1
 
 RUN make setup generate build
