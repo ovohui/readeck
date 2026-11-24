@@ -840,3 +840,53 @@ split          base.apk + split_config.arm64_v8a（两个 .so）+ en / zh（语�
 - 打补丁版沿用官方的 `network_security_config`（`cleartextTrafficPermitted="false"`），
   所以实例与目标页都得是 HTTPS；
 - 官方更新后要重新跑一次脚本。
+
+## 24. 2026-11-24 第十一轮：把补丁包翻成中文
+
+### 为什么界面是英文的
+
+官方把翻译做成了 **split**：`split_config.zh.apk` 里只有 `resources.arsc`（33 KB）。
+合并成单 APK 时这个 split 被丢掉了，base 里一条中文都没有，所以整机英文。
+
+### 先量一下有多少
+
+把 split 反编译出来数：
+
+```
+dec_zh/res/values-zh-rCN/strings.xml   339 条
+base   res/values/strings.xml          671 条
+缺失                                   332 条（约一半）
+复数（plurals）  17 个，其中 8 个没有中文
+```
+
+即：**官方自己的中文包只覆盖一半**。只把 split 并进去，界面会变成中英混排。
+
+### 做法
+
+1. `apktool d split_config.zh.apk` → `res/values-zh-rCN|zh-rHK|zh-rTW/`，直接拷进 base 的资源目录。
+   字符串名在 base 里已存在，aapt2 会沿用同一批 resource id，只是多一个 config 分支
+   （实测合并后 1392 个 id 一个没漂）。
+2. 缺的 332 条字符串写在 `tools/mobile-share/locale/values-zh-rCN/strings_extra.xml`，
+   8 条复数写在 `plurals_extra.xml`。**独立成文件**是刻意的：资源名在同一个 config 内唯一，
+   不会和 split 里那份冲突，补丁脚本只要把 `locale/` 整个拷进 `dec/res/`。
+3. 加 `res/xml/locales_config.xml` 与 `<application android:localeConfig="@xml/locales_config">`：
+   Android 13+ 的「设置 → 应用 → Readeck → 语言」里就能手动选中文——手机系统语言是英文时，
+   这是唯一的入口。
+4. 占位符逐个对齐（`%1$s` `%2$d` `%%`），有脚本比对，0 处不一致。
+
+### 验证
+
+```
+strings   671 / 671 有 zh-rCN
+plurals    17 /  17 有 zh-rCN
+resource id 1392 → 1393（只多出 locales_config 这一个新 id，原 id 缺失 0）
+zipalign -c -p 4 通过，apksigner v2+v3 通过
+```
+
+抽样：
+
+```
+string/about_credits_title     () "Credits"   (zh-rCN) "致谢"
+string/welcome_message         (zh-rCN) "Readeck for Android 是 Readeck 的 Android 客户端。…"
+plurals/detail_words           (zh-rCN) other="%1$d 字"
+```

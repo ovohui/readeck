@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Plurals the language split did not translate. Chinese has a single form, so
+  only "other" is provided: Android falls back to it for every quantity.
+-->
+<resources>
+    <plurals name="delete_label_confirm_message">
+        <item quantity="other">确定删除标签「%1$s」吗？它会被从 %2$d 个书签中移除。</item>
+    </plurals>
+    <plurals name="delete_selected_bookmarks_confirm_message">
+        <item quantity="other">删除选中的 %1$d 个书签？</item>
+    </plurals>
+    <plurals name="detail_about_minutes_read">
+        <item quantity="other">约 %1$d 分钟读完</item>
+    </plurals>
+    <plurals name="detail_words">
+        <item quantity="other">%1$d 字</item>
+    </plurals>
+    <plurals name="labels_selected_count">
+        <item quantity="other">已选 %1$d 个</item>
+    </plurals>
+    <plurals name="multi_select_pinned_offline">
+        <item quantity="other">已固定 %1$d 个为离线可用</item>
+    </plurals>
+    <plurals name="multi_select_pinned_with_skipped">
+        <item quantity="other">已固定 %1$d 个 · 另有 %2$d 个没有离线内容</item>
+    </plurals>
+    <plurals name="multi_select_unpinned">
+        <item quantity="other">已取消固定 %1$d 个</item>
+    </plurals>
+</resources>

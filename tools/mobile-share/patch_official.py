@@ -171,8 +171,76 @@ def build_manifest(dec: Path) -> None:
     app.append(share)
     app.append(settings)
 
+    # Android 13 lets a user override the app language. Without this list the
+    # entry does not appear in Settings > Apps > Readeck > Language, which is
+    # the only way to get a Chinese UI on a phone whose system language is not.
+    xml_dir = dec / "res" / "xml"
+    if xml_dir.exists() and not (xml_dir / "locales_config.xml").exists():
+        (xml_dir / "locales_config.xml").write_text(
+            '<?xml version="1.0" encoding="utf-8"?>\n'
+            '<locale-config xmlns:android="http://schemas.android.com/apk/res/android">\n'
+            '    <locale android:name="zh-CN"/>\n'
+            '    <locale android:name="zh-TW"/>\n'
+            '    <locale android:name="zh-HK"/>\n'
+            '    <locale android:name="en"/>\n'
+            '</locale-config>\n',
+            encoding="utf-8")
+        app.set(q("localeConfig"), "@xml/locales_config")
+        log("locale config added")
+
     tree.write(path, encoding="utf-8", xml_declaration=True)
     log("manifest updated")
+
+
+def merge_locales(java: Path, apktool: Path, work: Path, dec: Path, splits: list) -> None:
+    """Pulls the language resources out of the config splits.
+
+    The upstream bundle ships its translations as separate APKs, so a merged
+    single APK ends up with English only. Each split decodes into
+    res/values-<locale>/, and those directories can simply be dropped next to
+    the base resources: the string names already exist, so aapt2 keeps the
+    existing ids and just adds another configuration for them.
+    """
+    for split in splits:
+        split = Path(split).resolve()
+        if not split.exists():
+            die(f"no such locale split: {split}")
+        out = work / ("locale-" + split.stem)
+        run([java, "-jar", apktool, "d", "-s", "-f", "-o", out, split])
+        res = out / "res"
+        if not res.exists():
+            die(f"{split.name} has no resources")
+        copied = 0
+        for values in sorted(res.iterdir()):
+            if not values.is_dir() or not values.name.startswith("values-"):
+                continue
+            target = dec / "res" / values.name
+            if target.exists():
+                shutil.rmtree(target)
+            shutil.copytree(values, target)
+            copied += 1
+        log(f"{split.name}: merged {copied} locale resource dir(s)")
+
+
+def apply_locale_overlay(dec: Path) -> None:
+    """Adds our own translations on top of whatever the splits provided.
+
+    The upstream language pack covers 339 of 671 strings, so half of the UI
+    would still be English. locale/values-<qualifier>/*.xml only holds the
+    missing names, which keeps it a pure addition: same qualifier, different
+    resource names, no duplicates.
+    """
+    src = HERE / "locale"
+    if not src.exists():
+        return
+    for values in sorted(src.iterdir()):
+        if not values.is_dir():
+            continue
+        target = dec / "res" / values.name
+        target.mkdir(parents=True, exist_ok=True)
+        for f in values.iterdir():
+            shutil.copy2(f, target / f.name)
+        log(f"overlay {values.name}: {len(list(values.iterdir()))} file(s)")
 
 
 # -------------------------------------------------------------------- build
@@ -201,6 +269,8 @@ def main() -> None:
     ap.add_argument("--base", required=True, help="the shipped base.apk")
     ap.add_argument("--abi-split", help="split_config.arm64_v8a.apk to merge in")
     ap.add_argument("--out", default=str(HERE / "out" / "readeck-patched.apk"))
+    ap.add_argument("--locale-split", action="append", default=[],
+                    help="a split_config.xx.apk holding translations (repeatable)")
     ap.add_argument("--min-api", default="32")
     args = ap.parse_args()
 
@@ -231,6 +301,9 @@ def main() -> None:
     run([java, "-jar", work / "apktool.jar", "d", "-s", "-f",
          "-o", work / "dec", work / "base.apk"])
     build_manifest(work / "dec")
+    if args.locale_split:
+        merge_locales(java, work / "apktool.jar", work, work / "dec", args.locale_split)
+        apply_locale_overlay(work / "dec")
     run([java, "-jar", work / "apktool.jar", "b", work / "dec",
          "-o", work / "patched-unsigned.apk"])
 

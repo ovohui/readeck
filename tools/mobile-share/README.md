@@ -25,7 +25,11 @@
 - 新 Activity 还注册了 `PROCESS_TEXT`，所以任意应用里**选中文字**也会出现「转存 Readeck」；
 - 额外一个桌面图标（也叫「转存 Readeck」）用来**粘贴链接**、登录、改设置——这就是原来
   「只能复制链接没法粘」的解法；
-- 其它一切不动：收藏列表、阅读、同步、登录、数据库全在原样。
+- 其它一切不动：收藏列表、阅读、同步、登录、数据库全在原样；
+- **界面是中文的**：官方把翻译放在 `split_config.zh.apk` 里（只有 339 条，是全部 671 条的一半），
+  合并成单 APK 时会丢。补丁把这份语言包并进资源，再把缺的 332 条字符串和 8 条复数补齐，
+  另外加了 `localeConfig`——系统语言不是中文时，可以在
+  「设置 → 应用 → Readeck → 语言」里手动选中文。
 
 安装前必须知道的一点：**签名换了**（从作者证书换成本仓库的 `CN=Readeck Share`），
 所以 Android 不允许覆盖安装。步骤是：
@@ -109,6 +113,7 @@ tools/mobile-share/
     Prefs.java                 设置存储
   build.py                     不用 Gradle 的构建脚本（产出独立版）
   patch_official.py            给官方 APK 打补丁（产出合并版）
+  locale/values-zh-rCN/        补齐的 332 条字符串 + 8 条复数（官方语言包缺的部分）
   readeck-share.jks            签名证书（口令 readeck123，别名 readeckshare）
   out/readeck-share.apk        产物
 ```
@@ -118,7 +123,8 @@ tools/mobile-share/
 ```bash
 python tools/mobile-share/patch_official.py \
   --base path/to/base.apk \
-  --abi-split path/to/split_config.arm64_v8a.apk
+  --abi-split path/to/split_config.arm64_v8a.apk \
+  --locale-split path/to/split_config.zh.apk
 ```
 
 脚本做的事：`apktool d -s`（保留原 dex）→ 改清单（去掉 `requiredSplitTypes`、摘掉官方
