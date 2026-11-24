@@ -17,25 +17,38 @@ type CommandParams = {command?: string; value?: string}
  */
 export default class extends Controller {
   static override targets = ["surface", "source", "sourceButton"]
-  static override classes = ["hidden"]
+  static classes = ["hidden"]
 
   declare readonly surfaceTarget: HTMLElement
   declare readonly sourceTarget: HTMLTextAreaElement
   declare readonly sourceButtonTarget: HTMLElement
+  declare readonly hiddenClasses: string[]
 
   private sourceVisible = false
+  private toolbarButtons: HTMLElement[] = []
+  private savedRange: Range | null = null
 
-  connect() {
-    this.sourceTarget.classList.add(this.hiddenClass)
+  override connect() {
+    this.sourceTarget.classList.add(...this.hiddenClasses)
     // Keep the archive clean: pasted rich text brings inline styles, font
     // families and tracking attributes that make the article unreadable on
     // another device. Plain text keeps the structure of what is being read.
     this.surfaceTarget.addEventListener("paste", this.onPaste)
+
+    // A toolbar button must not take the focus away from the editable block:
+    // the selection would collapse and execCommand would apply to nothing.
+    this.toolbarButtons = Array.from(this.element.querySelectorAll(".editor-bar button"))
+    for (const btn of this.toolbarButtons) {
+      btn.addEventListener("mousedown", keepFocus)
+    }
     this.sync()
   }
 
-  disconnect() {
+  override disconnect() {
     this.surfaceTarget.removeEventListener("paste", this.onPaste)
+    for (const btn of this.toolbarButtons) {
+      btn.removeEventListener("mousedown", keepFocus)
+    }
   }
 
   private onPaste = (evt: ClipboardEvent) => {
@@ -44,7 +57,7 @@ export default class extends Controller {
       return
     }
     evt.preventDefault()
-    document.execCommand("insertText", false, text)
+    document.execCommand("insertText", false, text ?? "")
     this.sync()
   }
 
@@ -55,17 +68,19 @@ export default class extends Controller {
       return
     }
     this.surfaceTarget.focus()
-    document.execCommand(command, false, value ?? null)
+    document.execCommand(command, false, value)
     this.sync()
   }
 
   /** Wraps the selection in a link, or inserts one when nothing is selected. */
   link(evt: Event) {
     const {value} = (evt as Event & {params: CommandParams}).params
+    this.saveSelection()
     const url = window.prompt("链接地址", value ?? "https://")
     if (!url) {
       return
     }
+    this.restoreSelection()
     const selection = window.getSelection()
     const hasText = selection != null && !selection.isCollapsed
     this.surfaceTarget.focus()
@@ -80,10 +95,12 @@ export default class extends Controller {
   /** Inserts an image, either by URL or by one of the archive's resources. */
   image(evt: Event) {
     const {value} = (evt as Event & {params: CommandParams}).params
+    this.saveSelection()
     const url = window.prompt("图片地址（存档里的图片是 ./_resources/…）", value ?? "./_resources/")
     if (!url) {
       return
     }
+    this.restoreSelection()
     this.surfaceTarget.focus()
     document.execCommand("insertHTML", false, `<img src="${escapeAttr(url)}" alt="">`)
     this.sync()
@@ -101,14 +118,14 @@ export default class extends Controller {
     this.sourceVisible = !this.sourceVisible
     if (this.sourceVisible) {
       this.sourceTarget.value = this.surfaceTarget.innerHTML
-      this.sourceTarget.classList.remove(this.hiddenClass)
-      this.surfaceTarget.classList.add(this.hiddenClass)
+      this.sourceTarget.classList.remove(...this.hiddenClasses)
+      this.surfaceTarget.classList.add(...this.hiddenClasses)
       this.sourceButtonTarget.setAttribute("aria-pressed", "true")
       this.sourceTarget.focus()
     } else {
       this.surfaceTarget.innerHTML = this.sourceTarget.value
-      this.sourceTarget.classList.add(this.hiddenClass)
-      this.surfaceTarget.classList.remove(this.hiddenClass)
+      this.sourceTarget.classList.add(...this.hiddenClasses)
+      this.surfaceTarget.classList.remove(...this.hiddenClasses)
       this.sourceButtonTarget.setAttribute("aria-pressed", "false")
       this.sync()
     }
@@ -119,6 +136,23 @@ export default class extends Controller {
     if (!this.sourceVisible) {
       this.sourceTarget.value = this.surfaceTarget.innerHTML
     }
+  }
+
+  /** Remembers the caret position, which window.prompt() would lose. */
+  private saveSelection() {
+    const selection = window.getSelection()
+    if (selection && selection.rangeCount > 0 && this.surfaceTarget.contains(selection.anchorNode)) {
+      this.savedRange = selection.getRangeAt(0).cloneRange()
+    }
+  }
+
+  private restoreSelection() {
+    const selection = window.getSelection()
+    if (!selection || !this.savedRange) {
+      return
+    }
+    selection.removeAllRanges()
+    selection.addRange(this.savedRange)
   }
 
   /** Ctrl/⌘+S saves without reaching for the button. */
@@ -140,4 +174,8 @@ function escapeHTML(s: string) {
 
 function escapeAttr(s: string) {
   return escapeHTML(s).replace(/"/g, "&quot;")
+}
+
+function keepFocus(evt: MouseEvent) {
+  evt.preventDefault()
 }
