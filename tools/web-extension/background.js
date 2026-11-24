@@ -28,7 +28,10 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
 
   ;(async () => {
     try {
-      const rsp = await fetch(msg.url, {credentials: "include"})
+      const rsp = await fetch(msg.url, {
+        credentials: "include",
+        referrer: msg.referrer,
+      })
       if (!rsp.ok) {
         sendResponse({error: "HTTP " + rsp.status})
         return

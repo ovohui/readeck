@@ -285,7 +285,7 @@ function element(doc, selector, tag, attrs) {
  */
 exports.documentLoaded = function (document) {
   var texts = scriptTexts(document)
-  var acc = {images: [], videos: []}
+  var acc = {images: [], videos: [], sizes: {}}
 
   if (texts.length > 0) {
     var state = null
@@ -305,6 +305,9 @@ exports.documentLoaded = function (document) {
           var url = imageURL(list[i])
           if (url) {
             acc.images.push(url)
+            if (list[i].width && list[i].height) {
+              acc.sizes[url] = {width: list[i].width, height: list[i].height}
+            }
           }
           // Live photo: the picture has a short video attached.
           var live = streamURL(list[i])
@@ -335,21 +338,21 @@ exports.documentLoaded = function (document) {
     return
   }
 
-  // The media must live inside the element the site configuration extracts
-  // (//div[@id='noteContainer']).
-  var candidates = ["#noteContainer", ".note-scroller", "article", "body"]
-  var container = null
-  for (var c = 0; c < candidates.length; c++) {
-    container = document.querySelector(candidates[c])
-    if (container) {
+  // Where the media goes matters: readability keeps the *deepest* element it
+  // picks, and on some notes that element is div.note-scroller, a child of
+  // #noteContainer. Appending to the wrapper put the pictures outside the kept
+  // subtree, so they were silently dropped and the note archived without a
+  // single image. Insert the block right after the note description instead.
+  var anchor = null
+  var anchors = ["#detail-desc", ".note-content", "#noteContainer", "article"]
+  for (var a = 0; a < anchors.length; a++) {
+    anchor = document.querySelector(anchors[a])
+    if (anchor) {
       break
     }
   }
-  if (!container) {
-    container = document.body
-  }
 
-  removePlaceholders(container)
+  removePlaceholders(anchor || document.body)
 
   var media = element(document, null, "div", {"class": "xhs-media"})
 
@@ -368,16 +371,25 @@ exports.documentLoaded = function (document) {
 
   for (var p = 0; p < images.length; p++) {
     var fig = element(document, null, "figure", {"class": "content"})
-    fig.appendChild(
-      element(document, null, "img", {
-        src: images[p],
-        alt: $.title || "",
-      }),
-    )
+    var attrs = {src: images[p], alt: $.title || ""}
+    var size = acc.sizes[images[p]]
+    if (size) {
+      attrs.width = size.width
+      attrs.height = size.height
+    }
+    fig.appendChild(element(document, null, "img", attrs))
     media.appendChild(fig)
   }
 
-  container.appendChild(media)
+  if (anchor && anchor.parentNode) {
+    if (anchor.nextSibling) {
+      anchor.parentNode.insertBefore(media, anchor.nextSibling)
+    } else {
+      anchor.parentNode.appendChild(media)
+    }
+  } else {
+    document.body.appendChild(media)
+  }
 
   console.debug("xiaohongshu: injected media", {
     images: images.length,

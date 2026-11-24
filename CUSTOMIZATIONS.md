@@ -396,3 +396,42 @@ Readeck 的 DOM 处理器有两个时机：
 前端、API、扩展、油猴脚本走的是同一个 `createForm`，所以全都生效。
 
 单测：`pkg/utils/url_test.go`（8 组用例，含你给的两条真实文案）、`internal/bookmarks/container_test.go`（归档重写后其余条目字节不变）。
+
+## 14. 2026-11-24 第四轮反馈修复
+
+### 动图（GIF）通过扩展保存后不动的真正原因
+
+B 站、部分图床会在浏览器支持 WebP 时把图片地址重写成：
+
+```
+https://i0.hdslb.com/bfs/article/028f2…cdb.gif@880w_880h.webp
+                                                          ↑ 这里的后缀
+```
+
+CDN 对 `.webp` 请求返回的是**单帧静态 WebP**，所以归档里就成了一帧静止图。用无头浏览器抓渲染后 DOM 可以直接看到这个差异：服务端抓的 HTML 是 `.gif@880w_880h`（curl 验证返回 `image/gif`，67 KB 动图），浏览器里的 DOM 是 `.gif@880w_880h.webp`（24 KB 静态图）。
+
+扩展现在在提交前把这个后缀去掉（`restoreOriginal`，只处理 `….gif/.jpg/.png@参数.webp` 这种形态），服务端拿到的就是原始 GIF。同时：
+
+- 抓取前先等 `document.readyState === "complete"`，再滚动；
+- service worker 代取图片时带上 `referrer`，CDN 的防盗链校验才通过。
+
+### 小红书图片：注入位置错了，不是取不到
+
+上一版把媒体块追加到 `#noteContainer` 末尾。这篇笔记（胶带种类）的正文容器是 `div.note-scroller`，它是 `#noteContainer` 的**子节点**，而 readability 保留的是它——追加在外层等于把图片扔出正文，最后被整块丢弃。日志里 `injected media images="1"` 但正文 0 张图，就是这个原因。
+
+现在改为插在正文描述节点（`#detail-desc` / `.note-content`）的**后面一个兄弟位置**，并把 state 里的 `width`/`height` 一起写到 `<img>` 上（readability 对无尺寸图片更倾向丢弃）。
+
+本地用两篇真实笔记页面跑了 `documentLoaded → ExtractBody → Readability` 全链路验证：
+
+| 页面 | 修复前 | 修复后 |
+| --- | --- | --- |
+| 胶带种类（note-scroller 容器） | 0 张图 | 1 张图（原笔记只有 1 张） |
+| 新时代三幻神（3 图） | 0 张图 | 3 张图 |
+
+另外扩展里也加了同样的小红书适配：抓取时把 slider 里的图片摊平成 `<figure>` 列表插到描述后面，避免浏览器路径下图片跟着 slider 一起被丢掉。
+
+### 「Content missing」
+
+侧栏按钮和编辑弹窗都在 Turbo Frame 里（`bookmark-actions-{id}`、`bookmark-update-{id}`）。点链接时 Turbo 会做 frame 内导航，响应里没有同名 frame 就显示 `Content missing`。
+
+给这两个入口加 `data-turbo="false"`（正文编辑页的表单也加），走整页导航即可。

@@ -51,6 +51,14 @@ async function saveSettings() {
 async function capturePage(opts) {
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
+  // 0. The page must be fully parsed before we start scrolling.
+  if (document.readyState !== "complete") {
+    await Promise.race([
+      new Promise((resolve) => window.addEventListener("load", resolve, {once: true})),
+      sleep(4000),
+    ])
+  }
+
   // 1. Scroll through the page so lazy loaded images get their real src.
   if (opts.scroll) {
     const step = Math.max(window.innerHeight, 400)
@@ -96,6 +104,55 @@ async function capturePage(opts) {
     el.removeAttribute("loading")
   })
 
+  // 4b. Sites that detect WebP support rewrite every picture to
+  //     "foo.gif@880w_880h.webp" (Bilibili does it on the fly). The CDN then
+  //     serves a single static frame, so animated GIFs are archived as still
+  //     images. Dropping the trailing ".webp" asks for the original format
+  //     back. See tools/web-extension/README.md.
+  const restoreOriginal = (url) =>
+    url.replace(/(\.(?:gif|png|jpe?g|bmp|webp)(?:@[^/]*?)?)\.webp$/i, "$1")
+  clone.querySelectorAll("img[src], source[src], video[src]").forEach((el) => {
+    if (/\.webp$/i.test(el.getAttribute("src"))) {
+      el.setAttribute("src", restoreOriginal(el.getAttribute("src")))
+    }
+  })
+
+  // 4c. Xiaohongshu: the note keeps its pictures in a slider that the reader
+  //     mode drops. Flatten every note image (and live photo video) into a
+  //     plain list right after the description.
+  if (/xiaohongshu\.com$/i.test(location.hostname)) {
+    const desc = clone.querySelector("#detail-desc, .note-content")
+    const seen = new Set()
+    const urls = []
+    clone.querySelectorAll("img[src]").forEach((el) => {
+      const src = el.getAttribute("src")
+      if (!/xhscdn\.com|xhsimg\.com/.test(src) || /avatar|emoji|logo|fe-platform/i.test(src)) {
+        return
+      }
+      const clean = src.split("?")[0]
+      if (seen.has(clean)) {
+        return
+      }
+      seen.add(clean)
+      urls.push(src)
+    })
+
+    if (desc && desc.parentNode && urls.length > 0) {
+      const wrap = document.createElement("div")
+      urls.forEach((u) => {
+        const figure = document.createElement("figure")
+        const img = document.createElement("img")
+        img.setAttribute("src", u)
+        figure.appendChild(img)
+        wrap.appendChild(figure)
+      })
+      desc.parentNode.insertBefore(wrap, desc.nextSibling)
+      clone
+        .querySelectorAll("[class*='slider'], .swiper, [elementtiming='note-cover']")
+        .forEach((el) => el.remove())
+    }
+  }
+
   // 5. Optionally inline the images so hotlink protection or a login cookie
   //    cannot break the archive later.
   if (opts.inline) {
@@ -120,7 +177,11 @@ async function capturePage(opts) {
         // ignored, fall back to the background worker
       }
 
-      const resp = await chrome.runtime.sendMessage({type: "fetchDataURL", url})
+      const resp = await chrome.runtime.sendMessage({
+        type: "fetchDataURL",
+        url,
+        referrer: location.href,
+      })
       if (!resp || !resp.dataURL) {
         throw new Error(resp && resp.error ? resp.error : "image fetch failed")
       }
