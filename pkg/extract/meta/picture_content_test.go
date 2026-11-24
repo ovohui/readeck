@@ -5,9 +5,17 @@
 package meta
 
 import (
+	"bytes"
+	"image"
+	"image/png"
+	"net/http"
 	"testing"
 
+	"github.com/jarcoal/httpmock"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"codeberg.org/readeck/readeck/pkg/extract"
 )
 
 func TestFirstBodyImage(t *testing.T) {
@@ -49,4 +57,71 @@ func TestFirstBodyImage(t *testing.T) {
 			assert.Equal(t, test.expected, firstBodyImage([]byte(test.body)))
 		})
 	}
+}
+
+func makeTestPNG(t *testing.T) []byte {
+	t.Helper()
+	img := image.NewRGBA(image.Rect(0, 0, 800, 600))
+	for i := range img.Pix {
+		img.Pix[i] = 0xB0
+	}
+	var buf bytes.Buffer
+	if err := png.Encode(&buf, img); err != nil {
+		t.Fatal(err)
+	}
+	return buf.Bytes()
+}
+
+func TestExtractContentPicture(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	body := makeTestPNG(t)
+	httpmock.RegisterResponder("GET", "https://cdn.example.org/photo/cover.jpg",
+		func(*http.Request) (*http.Response, error) {
+			resp := httpmock.NewBytesResponse(http.StatusOK, body)
+			resp.Header.Set("Content-Type", "image/png")
+			return resp, nil
+		})
+
+	newExtractor := func(t *testing.T, docType, dom string) *extract.Extractor {
+		t.Helper()
+		ex, err := extract.New("https://example.org/post")
+		require.NoError(t, err)
+		d := ex.Drop()
+		d.DocumentType = docType
+		d.Body = []byte(dom)
+		return ex
+	}
+
+	t.Run("takes the article picture", func(t *testing.T) {
+		assert := require.New(t)
+		ex := newExtractor(t, "article", `<div><img class="avatar" src="https://cdn.example.org/users/1.png" width="40" height="40">
+			<img src="https://cdn.example.org/photo/cover.jpg" width="1080" height="810"></div>`)
+
+		ExtractContentPicture(ex.NewProcessMessage(extract.StepFinish), nil)
+
+		assert.Contains(ex.Drop().Pictures, "image")
+		assert.Equal("https://cdn.example.org/photo/cover.jpg", ex.Drop().Pictures["image"].Href)
+		assert.Contains(ex.Drop().Pictures, "thumbnail")
+	})
+
+	t.Run("keeps the declared picture", func(t *testing.T) {
+		assert := require.New(t)
+		ex := newExtractor(t, "article", `<div><img src="https://cdn.example.org/photo/cover.jpg"></div>`)
+		ex.Drop().Pictures["image"] = &extract.Picture{Href: "https://example.org/og.png"}
+
+		ExtractContentPicture(ex.NewProcessMessage(extract.StepFinish), nil)
+
+		assert.Equal("https://example.org/og.png", ex.Drop().Pictures["image"].Href)
+	})
+
+	t.Run("skips videos", func(t *testing.T) {
+		assert := require.New(t)
+		ex := newExtractor(t, "video", `<div><img src="https://cdn.example.org/photo/cover.jpg"></div>`)
+
+		ExtractContentPicture(ex.NewProcessMessage(extract.StepFinish), nil)
+
+		assert.NotContains(ex.Drop().Pictures, "image")
+	})
 }
