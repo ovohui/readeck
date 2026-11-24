@@ -189,9 +189,15 @@ def build_manifest(dec: Path) -> None:
         app.set(q("localeConfig"), "@xml/locales_config")
         log("locale config added")
 
-    # Marks the build in Settings > About, so a screenshot immediately says
-    # which APK is installed.
+    # Marks the build. The About screen reads versionName through PackageInfo,
+    # there is no BuildConfig constant in the dex, so this value is what the
+    # app displays. versionCode goes up as well: the stock release is 1001000.
+    root.set(q("versionCode"), "1001001")
     root.set(q("versionName"), "1.1.0-cn")
+
+    # The stock manifest hardcodes the label instead of pointing at app_name,
+    # so the string resource alone would not rename the icon.
+    app.set(q("label"), APP_LABEL)
 
     tree.write(path, encoding="utf-8", xml_declaration=True)
     log("manifest updated")
@@ -250,6 +256,30 @@ def apply_locale_overlay(dec: Path) -> None:
 
 RX_STRING = re.compile(r'(<string\s+name="([^"]+)"([^>]*)>)(.*?)(</string>)', re.S)
 RX_PLURALS = re.compile(r'(<plurals\s+name="([^"]+)"[^>]*>)(.*?)(</plurals>)', re.S)
+RX_APP_NAME = re.compile(r'(<string\s+name="app_name"[^>]*>)(.*?)(</string>)', re.S)
+
+APP_LABEL = "Readeck 中文版"
+
+
+def tag_app_label(dec: Path, label: str = APP_LABEL) -> None:
+    """Renames the launcher label so the installed build is recognisable.
+
+    Version numbers are a poor way to tell two APKs apart: they sit two taps
+    deep in About, and the previous build already claimed 1.1.0. The name
+    under the icon is visible from the home screen, and it survives whatever
+    the About screen chooses to display.
+    """
+    res = dec / "res"
+    changed = 0
+    for path in sorted(res.glob("values*/strings.xml")):
+        text = path.read_text(encoding="utf-8")
+        new = RX_APP_NAME.sub(lambda m: f"{m.group(1)}{label}{m.group(3)}", text)
+        if new != text:
+            path.write_text(new, encoding="utf-8")
+            changed += 1
+    if changed == 0:
+        die("app_name not found, cannot tag the build")
+    log(f"launcher label set to {label} in {changed} file(s)")
 
 
 def _read_string_map(path: Path) -> dict[str, str]:
@@ -383,6 +413,7 @@ def main() -> None:
         merge_locales(java, work / "apktool.jar", work, work / "dec", args.locale_split)
         apply_locale_overlay(work / "dec")
         force_default_chinese(work / "dec")
+        tag_app_label(work / "dec")
     run([java, "-jar", work / "apktool.jar", "b", work / "dec",
          "-o", work / "patched-unsigned.apk"])
 

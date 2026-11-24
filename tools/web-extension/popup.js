@@ -235,7 +235,75 @@ async function capturePage(opts) {
     return null
   }
 
-  const xhsArticle = () => {
+  // A logged-in page carries no stream URL: the player asks a signed API for
+  // it, and the SSR payload stops at the thumbnail. The very same note served
+  // to an anonymous visitor still ships the stream, so fetch a copy without
+  // cookies and read the URL there. Only video notes pay for this request.
+  const xhsAnonymousVideo = async (pageUrl) => {
+    try {
+      const rsp = await fetch(pageUrl, {
+        credentials: "omit",
+        cache: "no-store",
+        headers: {Accept: "text/html,application/xhtml+xml"},
+      })
+      if (!rsp.ok) {
+        return ""
+      }
+      const html = await rsp.text()
+      const idx = html.indexOf('"noteDetailMap"')
+      if (idx < 0) {
+        return ""
+      }
+      const start = html.indexOf("{", idx)
+      if (start < 0) {
+        return ""
+      }
+      let depth = 0
+      let inStr = false
+      let esc = false
+      for (let i = start; i < html.length; i++) {
+        const c = html.charAt(i)
+        if (inStr) {
+          if (esc) {
+            esc = false
+          } else if (c === "\\") {
+            esc = true
+          } else if (c === '"') {
+            inStr = false
+          }
+          continue
+        }
+        if (c === '"') {
+          inStr = true
+        } else if (c === "{") {
+          depth++
+        } else if (c === "}") {
+          depth--
+          if (depth === 0) {
+            try {
+              const state = JSON.parse(html.slice(start, i + 1).replace(/:\s*undefined/g, ":null"))
+              const keys = Object.keys(state)
+              for (let k = 0; k < keys.length; k++) {
+                const entry = state[keys[k]]
+                const url = streamURL(entry && entry.note && entry.note.video)
+                if (url) {
+                  return url
+                }
+              }
+            } catch (e) {
+              // fall through to the empty result
+            }
+            return ""
+          }
+        }
+      }
+    } catch (e) {
+      // network error, ad blocker, offline: keep the note without a video
+    }
+    return ""
+  }
+
+  const xhsArticle = async () => {
     const note = xhsNote()
     if (!note) {
       return null
@@ -313,7 +381,10 @@ async function capturePage(opts) {
       }
     }
 
-    const video = streamURL(note.video)
+    let video = streamURL(note.video)
+    if (!video && String(note.type || "").indexOf("video") === 0) {
+      video = await xhsAnonymousVideo(location.href)
+    }
     if (video) {
       const fig = document.createElement("figure")
       const el = document.createElement("video")
@@ -434,7 +505,7 @@ async function capturePage(opts) {
   }
 
   if (isXhs) {
-    const article = xhsArticle() || xhsArticleFromDOM()
+    const article = (await xhsArticle()) || xhsArticleFromDOM()
     if (article) {
       if (opts.inline) {
         await inlineImages(article.root)

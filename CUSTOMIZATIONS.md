@@ -973,3 +973,85 @@ dump 默认配置（无 locale 限定的那行）
 resource id 1392 → 1393（只多 locales_config），原有 id 缺失 0
 zipalign -c -p 4 通过，apksigner v2+v3 通过，versionName=1.1.0-cn
 ```
+
+## 27. 2026-11-24 第十四轮：小红书视频存不下来
+
+### 现象
+
+一篇视频笔记（`6af2c3ed000000002b0198ff`），两条路都失败：
+
+| 入库方式 | 结果 |
+| --- | --- |
+| 浏览器扩展 | 只有一张封面图，正文 351 字节，没有视频 |
+| 服务端抓取 | 正文只有一个 `<iframe>`，浏览器里显示「myreadeck.zh.ovohui.com 拒绝连接」 |
+
+服务端那条的归档正文是：
+
+```html
+<iframe src="./_resources/JfWxduAY1q13oGToAAGBKE.html" data-forced-video="1">
+```
+
+而 `_resources/JfWxduAY1q13oGToAAGBKE.html` 在归档里根本不存在（404）。
+
+### 三个独立的原因
+
+1. **内容脚本没取到流**。日志 `xiaohongshu: injected media images="1" videos="0"`：SSR 里
+   `note.video.media.stream.h264[0].masterUrl` 是有的（未登录抓取时能读到），但脚本在某些
+   响应下读不到，只拿到封面。
+2. **yt-dlp 不认识这个站**。`supportedEmbedHosts` 里没有 `xiaohongshu.com`，于是
+   `injectForcedVideo` 把页面 URL 塞进 iframe 之后，`processEmbeddedVideos` 直接 `continue`，
+   没有任何人接手。
+3. **失败后留下了坏 iframe**。archiver 把 iframe 的 `src` 当作要抓的资源，抓不到就改写成一个
+   不存在的本地路径，用户看到的就是「拒绝连接」。
+
+### 修复
+
+**a. yt-dlp 支持小红书**（`pkg/archiver/ytdlp.go`）
+
+```go
+"xiaohongshu.com",
+"xhslink.com",
+```
+
+实测（本机 yt-dlp 2026.11.23，无 cookies）：
+
+```
+[XiaoHongShu] 6af2c3ed000000002b0198ff: Downloading webpage
+ID EXT RESOLUTION FPS CH | FILESIZE   TBR PROTO | VCODEC
+0  mp4 720x1282    30  2 |  8.53MiB 3380k http  | h264
+```
+
+`embeddedVideoPageURL` 的默认分支会把完整 URL（含 `xsec_token`）交给 yt-dlp，不带 token 的
+私密笔记要的就是这个参数。
+
+**b. 下载失败不再留坏 iframe**
+
+只在 `data-forced-video="1"`（我们自己注入的那种）时生效：把 iframe 换成
+「视频：打开原页面」的链接。页面原本就有的播放器不动。
+
+**c. 扩展在登录态拿不到流时，用匿名请求再取一次**
+
+登录后小红书的 SSR 只给封面，播放器再去带签名的接口要流。同一个笔记对**未登录访客**仍然
+把流写在 SSR 里，所以插件在 `note.type === "video"` 且流为空时：
+
+```js
+fetch(location.href, {credentials: "omit", cache: "no-store"})
+  → 从返回的 HTML 里取 noteDetailMap
+  → note.video.media.stream.h264[0].masterUrl
+  → 插入 <video src>
+```
+
+只对视频笔记发这一次请求，图片笔记零开销。
+
+### 验证
+
+```
+pkg/archiver: TestEmbeddedVideoPageURL 增加小红书用例（URL 与 query 原样保留）       PASS
+pkg/archiver: TestIsSupportedEmbedHost 增加 www.xiaohongshu.com / xhslink.com        PASS
+pkg/extract/contentscripts: TestXiaohongshuVideoNote
+    用真实 SSR HTML 跑真实脚本 → 归档正文含 <video> 与 .mp4                          PASS
+扩展：从 popup.js 抽出 xhsAnonymousVideo + streamURL，mock fetch 返回真实 HTML
+    logged-in streamURL: ""（确认登录态拿不到）
+    anonymous URL: https://sns-video-v6.xhscdn.com/...258.mp4?sign=...&t=...
+    credentials: omit，4 项断言全过                                                   PASS
+```

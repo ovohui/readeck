@@ -71,6 +71,11 @@ var supportedEmbedHosts = []string{
 	"nicovideo.jp",
 	"rutube.ru",
 	"vk.com",
+	// Xiaohongshu video notes render their player with JavaScript and the
+	// stream URL is signed, so the archived page has nothing to play. yt-dlp
+	// resolves the note on its own, and it does so without cookies.
+	"xiaohongshu.com",
+	"xhslink.com",
 }
 
 // isSupportedEmbedHost reports whether host (or one of its parents) is handled
@@ -263,6 +268,13 @@ func (arc *Archiver) replaceEmbedWithVideo(ctx context.Context, log *slog.Logger
 			slog.String("url", pageURL),
 			slog.Any("err", err),
 		)
+		// The iframe we injected ourselves has no archived document behind
+		// it: leaving it in place gives the reader a "connection refused"
+		// box pointing at a path that does not exist. Replace it with a link
+		// to the page instead.
+		if dom.GetAttribute(node, "data-forced-video") == "1" {
+			replaceWithLink(node, pageURL)
+		}
 		return false
 	}
 
@@ -291,6 +303,24 @@ func (arc *Archiver) replaceEmbedWithVideo(ctx context.Context, log *slog.Logger
 	)
 
 	return true
+}
+
+// replaceWithLink swaps a player iframe for a plain link to the same page, so
+// a failed download leaves something clickable instead of a broken frame.
+func replaceWithLink(node *html.Node, href string) {
+	parent := node.Parent
+	if parent == nil {
+		return
+	}
+
+	figure := dom.CreateElement("figure")
+	link := dom.CreateElement("a")
+	dom.SetAttribute(link, "href", href)
+	dom.SetAttribute(link, "rel", "noopener")
+	dom.SetAttribute(link, "target", "_blank")
+	dom.AppendChild(link, &html.Node{Type: html.TextNode, Data: "视频：打开原页面"})
+	dom.AppendChild(figure, link)
+	dom.ReplaceChild(parent, figure, node)
 }
 
 // downloadWithYtdlp runs yt-dlp in a temporary directory and stores the
