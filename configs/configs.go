@@ -535,3 +535,22 @@ func BuildTime() time.Time {
 	}
 	return buildTime.UTC()
 }
+
+// BinaryBuildTime returns the build time stamped at link time or, when the
+// binary was built without one, the modification time of the executable.
+//
+// Every image used to report "dev" with an empty build time: the Makefile only
+// stamps a version when a git repository is available, and the container build
+// stage has neither a git binary nor a .git directory. The executable's mtime
+// is set when the file is copied into the runtime stage, so it follows the
+// image build and can be compared with what the registry serves.
+func BinaryBuildTime() time.Time {
+	if buildTime.IsZero() {
+		if exe, err := os.Executable(); err == nil {
+			if st, err := os.Stat(exe); err == nil {
+				return st.ModTime().UTC()
+			}
+		}
+	}
+	return buildTime.UTC()
+}

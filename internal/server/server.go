@@ -120,6 +120,10 @@ func infoRoutes() http.Handler {
 		Canonical string `json:"canonical"`
 		Release   string `json:"release"`
 		Build     string `json:"build"`
+		// Built is the build time of the running binary. Images used to be
+		// stamped "dev" with no date at all, which made a freshly pulled
+		// image indistinguishable from a stale one.
+		Built string `json:"built"`
 	}
 
 	type serviceInfo struct {
@@ -130,12 +134,17 @@ func infoRoutes() http.Handler {
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		canonical := configs.Version()
 		release, build, _ := strings.Cut(canonical, "-")
+		built := ""
+		if t := configs.BinaryBuildTime(); !t.IsZero() {
+			built = t.Format(time.RFC3339)
+		}
 
 		res := serviceInfo{
 			Version: versionInfo{
 				Canonical: canonical,
 				Release:   release,
 				Build:     build,
+				Built:     built,
 			},
 			Features: []string{
 				"oauth",
@@ -203,7 +212,7 @@ func sysRoutes() http.Handler {
 
 		res := sysInfo{
 			Version:   configs.Version(),
-			BuildDate: configs.BuildTime(),
+			BuildDate: configs.BinaryBuildTime(),
 			OS:        runtime.GOOS,
 			Platform:  runtime.GOARCH,
 			Hostname:  host,

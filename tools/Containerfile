@@ -75,7 +75,14 @@ ENV CGO_ENABLED=0
 ENV LDFLAGS='-s -w'
 ARG GOAMD64=v1
 
-RUN make setup generate build
+# Version stamped into the binary. Without these two the Makefile falls
+# back to "dev" (there is no git binary or .git directory in this stage),
+# so /api/info reported "dev" for every build and there was no way to tell
+# a freshly pulled image from a stale one.
+ARG BUILD_VERSION=dev
+ARG BUILD_DATE=
+
+RUN make setup generate build VERSION="${BUILD_VERSION}" DATE="${BUILD_DATE}"
 
 # Second stage
 # The runtime ships ffmpeg and yt-dlp so videos behind embedded players

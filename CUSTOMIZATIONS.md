@@ -1320,3 +1320,158 @@ sudo docker compose pull && sudo docker compose up -d
 然后**重新保存**那条笔记：服务端粘贴链接、插件剪藏各一次。两条应该长得一样——
 作者行、正文分段、话题行，下面一个带封面的播放器，zip 的 `_resources/` 里有 mp4。
 旧书签不会自愈（旧归档里没有正文），需要重存。
+
+## 30. 2026-11-24 第二十轮：每个镜像都自称 dev，没法确认更新到底有没有生效
+
+### 现象
+
+拉完新镜像，打开界面和以前一模一样；`/api/info` 永远返回：
+
+```json
+{"version":{"canonical":"dev","release":"dev","build":""},"features":["oauth"]}
+```
+
+这跟镜像是新的还是旧的毫无关系——**所有镜像都这样**。
+
+### 根因
+
+版本号是编译期用 ldflags 写进二进制的，取值来自 Makefile：
+
+```make
+ifeq (, $(shell which git && git status))
+VERSION ?= dev
+```
+
+`tools/Containerfile` 的编译阶段是 Debian slim + 手工装的 Go，**既没有 git
+命令，也不存在 `.git` 目录**（`COPY ./` 不带版本库），所以 `which git` 为空，
+`VERSION` 恒等于 `dev`，`DATE` 同理为空。
+
+也就是说 `/api/info` 里的 `dev` 是一个常量，不是"开发版"的意思。用它判断
+"镜像有没有更新"永远得到同一个答案。
+
+### 修复一：让二进制自己说它是哪一次构建的
+
+`/api/info` 原来只有 `canonical` / `release` / `build`，全部来自 ldflags，没有
+ldflags 就全是占位符。新增 `built` 字段，取运行中可执行文件的修改时间：
+
+```go
+// configs/configs.go
+func BinaryBuildTime() time.Time {
+	if buildTime.IsZero() {
+		if exe, err := os.Executable(); err == nil {
+			if st, err := os.Stat(exe); err == nil {
+				return st.ModTime().UTC()
+			}
+		}
+	}
+	return buildTime.UTC()
+}
+```
+
+镜像里 `/bin/readeck` 是编译阶段的产物，`COPY --from=build` 保留它的 mtime，
+所以这个时间就是**镜像构建时间**，和 registry 上 config 的 `created` 完全对得上。
+不依赖 CI 传参，也不依赖 git。
+
+顺带把 `/api/system` 的 `build_date` 也换成这个值——它原来在无 ldflags 时回退成
+进程启动时间，等于每次重启都"刚构建"。
+
+之后：
+
+```bash
+curl -s https://myreadeck.zh.ovohui.com:15351/api/info
+```
+
+```json
+{"version":{"canonical":"dev","release":"dev","build":"","built":"2026-11-24T12:48:40Z"},"features":["oauth"]}
+```
+
+`built` 和下面这条命令的输出一比对，就知道本地容器有没有跟上：
+
+```bash
+docker image inspect ghcr.nju.edu.cn/ovohui/readeck:custom --format '{{.Created}}'
+```
+
+### 修复二：把 commit 也写进版本号（需要 workflow scope，暂未推）
+
+只靠时间只能判断"新不新"，判断不了"是哪一份代码"。要让 `canonical` 变成
+`custom-79d848d-42`（短 SHA + run number），需要在两个地方传参。
+
+`tools/Containerfile` 编译阶段已经接受这两个参数（本仓库已改）：
+
+```dockerfile
+ARG BUILD_VERSION=dev
+ARG BUILD_DATE=
+
+RUN make setup generate build VERSION="${BUILD_VERSION}" DATE="${BUILD_DATE}"
+```
+
+命令行变量优先级高于 Makefile 里的 `VERSION := $(shell git describe --tags)`，
+`VERSION_FLAGS` 是立即展开的，所以 `-X` 拿到的就是传进来的值。
+
+workflow 还差一段（**本仓库尚未包含**，因为推送用的令牌没有 `workflow` scope，
+GitHub 直接拒绝写入 `.github/workflows/`）。照下面改 `docker-image.yml`，
+在 `Build and push` 之前插入一个步骤，并给该步骤加 `build-args`：
+
+```yaml
+      - name: Compute build stamp
+        id: stamp
+        run: |
+          echo "version=custom-${GITHUB_SHA:0:7}-${GITHUB_RUN_NUMBER}" >> "$GITHUB_OUTPUT"
+          echo "date=$(git log -1 --format=%cI)" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          # ... 原有字段保持不变，只增加下面两行 ...
+          build-args: |
+            BUILD_VERSION=${{ steps.stamp.outputs.version }}
+            BUILD_DATE=${{ steps.stamp.outputs.date }}
+```
+
+（GitHub Actions 的表达式里**没有 `substr`**，短 SHA 只能在 shell 里切。）
+
+也可以直接在网页上改：打开仓库 → `.github/workflows/docker-image.yml` → 铅笔图标
+→ 粘贴上面两段 → Commit。网页提交走浏览器会话，不受令牌 scope 限制。
+
+`run_number` 单调递增，比 SHA 更适合判断新旧：走 API 通道重放提交时 SHA 会变，
+内容却可能是同一份。
+
+### 现在怎么确认更新有没有生效
+
+四条判据，从弱到强：
+
+```bash
+# 1. 本地镜像的时间与 digest
+docker image inspect ghcr.nju.edu.cn/ovohui/readeck:custom \
+  --format '{{.Created}} {{index .RepoDigests 0}}'
+
+# 2. 和 registry 上的比对（这是"有没有新版本"的唯一权威来源）
+docker buildx imagetools inspect ghcr.nju.edu.cn/ovohui/readeck:custom \
+  --format '{{json .Manifest}}' | head -c 400
+#   或直接看南大镜像站：
+curl -sI -H 'Accept: application/vnd.oci.image.index.v1+json' \
+  https://ghcr.nju.edu.cn/v2/ovohui/readeck/manifests/custom | grep -i docker-content-digest
+
+# 3. 容器是不是真的在用这个镜像（pull 了但没重建容器时这里会对不上）
+docker compose ps -q | xargs docker inspect \
+  --format '{{.Name}} {{.Image}} {{.State.StartedAt}}'
+docker image inspect ghcr.nju.edu.cn/ovohui/readeck:custom --format '{{.Id}}'
+
+# 4. 应用自报的构建时间（本地修复之后才有这个字段）
+curl -s https://myreadeck.zh.ovohui.com:15351/api/info
+```
+
+第 3 条最容易踩坑：`docker compose pull` 拿到新镜像后，如果 `up -d` 认为容器
+配置没变，可能不重建，旧进程继续跑旧二进制。判据是 `{{.Image}}` 的 ID 必须等于
+镜像 ID，且 `StartedAt` 晚于 pull 的时刻。真不放心就强制重建：
+
+```bash
+docker compose up -d --force-recreate
+```
+
+### 本次之前那批镜像
+
+`sha256:0ac2247e…`（构建于 2026-11-24T12:48:40Z / 20:48:40 +08）是这次修复之前
+最后一个镜像，它对应远端提交 `f551874c`（第 19 轮：小红书正文保留 + 服务端下视频）。
+它内部的 `/api/info` 仍是老样子（无 `built`），所以它自己没法自证。
+从下一个镜像起才有 `built`。
