@@ -43,6 +43,17 @@ function unescapeJSON(s) {
 }
 
 /**
+ * The state stores some pictures with an http:// URL. Normalizing to https
+ * avoids a mixed-content block when the archive is viewed over TLS.
+ *
+ * @param {string} url
+ * @returns {string}
+ */
+function secureURL(url) {
+  return url.replace(/^http:\/\//i, "https://")
+}
+
+/**
  * Returns the text of every inline script of the document.
  *
  * @param {Node} doc
@@ -151,15 +162,15 @@ function findNotes(node, out, depth) {
  */
 function imageURL(item) {
   if (item.urlDefault) {
-    return unescapeJSON(item.urlDefault)
+    return secureURL(unescapeJSON(item.urlDefault))
   }
   if (item.urlPre) {
-    return unescapeJSON(item.urlPre)
+    return secureURL(unescapeJSON(item.urlPre))
   }
   var list = item.infoList || []
   for (var i = 0; i < list.length; i++) {
     if (list[i].url) {
-      return unescapeJSON(list[i].url)
+      return secureURL(unescapeJSON(list[i].url))
     }
   }
   return ""
@@ -184,7 +195,7 @@ function streamURL(node) {
     var list = stream[codecs[i]] || []
     for (var j = 0; j < list.length; j++) {
       if (list[j].masterUrl) {
-        return unescapeJSON(list[j].masterUrl)
+        return secureURL(unescapeJSON(list[j].masterUrl))
       }
     }
   }
