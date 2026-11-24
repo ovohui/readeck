@@ -5,6 +5,7 @@
 package oauth2
 
 import (
+	"context"
 	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/base64"
@@ -318,9 +319,16 @@ func (f *revokeTokenForm) revoke(r *http.Request) error {
 	return token.Delete()
 }
 
-// isValidClientURI checks the given client URL.
-// It must be https only and resolve to an ip that is not
-// private or a loopback address.
+// isValidClientURI checks the given client URL. It must be https, and must not
+// resolve to a loopback or private address.
+//
+// The lookup is best effort on purpose. A resolver failure says nothing about
+// the client: inside a container the embedded resolver forwards to a host that
+// may refuse the query, and an instance without egress DNS fails every lookup.
+// Rejecting the registration in that case returns "invalid client URI" for
+// every app, which the app reports as a login error with code 400 — the server
+// is up, the credentials are fine, and the login still cannot complete. Only a
+// lookup that succeeds and lands on a private address disqualifies the URL.
 var isValidClientURI = forms.TypedValidator(func(v string) bool {
 	u, err := url.Parse(v)
 	if err != nil {
@@ -337,20 +345,47 @@ var isValidClientURI = forms.TypedValidator(func(v string) bool {
 	if err != nil {
 		return false
 	}
-	ips, err := net.LookupIP(host)
-	if err != nil {
+
+	if ip, err := netip.ParseAddr(host); err == nil {
+		return !(ip.IsLoopback() || ip.IsPrivate() || ip.IsUnspecified())
+	}
+
+	if isLocalHostname(host) {
 		return false
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*2)
+	defer cancel()
+
+	ips, err := net.DefaultResolver.LookupIP(ctx, "ip", host)
+	if err != nil {
+		// Unresolvable, not necessarily invalid.
+		return true
 	}
 
 	// Private and loopback is not allowed
 	for _, ip := range ips {
-		if ip.IsLoopback() || ip.IsPrivate() {
+		if ip.IsLoopback() || ip.IsPrivate() || ip.IsUnspecified() {
 			return false
 		}
 	}
 
 	return true
 }, errors.New("invalid client URI"))
+
+// isLocalHostname reports names that only mean something on a local network.
+func isLocalHostname(host string) bool {
+	h := strings.ToLower(strings.TrimSuffix(host, "."))
+	if h == "localhost" {
+		return true
+	}
+	for _, suffix := range []string{".localhost", ".local", ".localdomain", ".internal", ".invalid", ".home.arpa"} {
+		if strings.HasSuffix(h, suffix) {
+			return true
+		}
+	}
+	return false
+}
 
 var isValidLogoURI = forms.TypedValidator(func(v string) bool {
 	if v == "" {

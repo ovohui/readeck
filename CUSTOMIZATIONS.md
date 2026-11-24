@@ -618,3 +618,81 @@ Save it with the Readeck browser extension.
 ```
 
 侧栏的错误区块本来就有「用浏览器扩展」的入口，现在有具体原因了。
+
+## 21. 2026-11-24 第八轮：安卓 App 登不上，是服务端拒了客户端注册
+
+### 现象
+
+Readeck 官方的安卓客户端（`Readeck_1.1.0.apk`，包名 `com.mydeck.app`，源码
+`github.com/jensomato/ReadeckApp`）填好地址、账号、密码，登录直接失败，只留下一句
+`Login error (code=400)`。
+
+### 客户端用的是 OAuth 设备码，不是账号密码
+
+从 dex 里能读出完整的登录链路：
+
+```
+GET  /.well-known/oauth-authorization-server     ← 读服务端能力
+POST /api/oauth/client                            ← 动态注册一个客户端
+POST /api/oauth/device                            ← 拿 user_code 和 verification_uri
+     （用户在浏览器里输码、点授权）
+POST /api/oauth/token  grant_type=urn:ietf:params:oauth:grant-type:device_code
+```
+
+也就是说**它根本不提交用户名密码**：App 拿到的是一枚 Bearer token，用户在浏览器里
+（已经登录的会话里）替这个设备点一次「授权」。这条路要求服务端接受动态客户端注册，
+而注册的第一步就把请求打回来了。
+
+### 根因：client_uri 的 DNS 校验，把「解析失败」当成「URL 非法」
+
+`internal/auth/oauth2/forms.go` 里的 `isValidClientURI` 会 `net.LookupIP(client_uri 的
+域名)`，解析失败就判定 URL 非法。这台机器的容器 DNS 是坏的（第 20 节：Docker 内嵌
+`127.0.0.11` 转发的上游 resolver 直接拒绝），于是**任何带域名的 client_uri 都注册不上**。
+在实例上直接复现：
+
+| client_uri | 注册结果 |
+| --- | --- |
+| `https://1.1.1.1`（字面量 IP，不用查 DNS） | `201 Created`，拿到 client_id |
+| `https://readeck.org` | `400 invalid_client_metadata：invalid client URI` |
+| `https://github.com` | 同上 |
+| `https://example.com` | 同上 |
+
+App 报的 `code=400` 就是这个 400。
+
+### 修复
+
+`isValidClientURI` 改成**尽力而为**：字面量 IP 直接判公私网；`localhost` / `.local` /
+`.internal` / `.invalid` / `.home.arpa` 这类本地名一律拒绝；其余名字做一次 2 秒超时的
+解析，**解析失败就放行**，只有解析成功且落在私有/回环地址时才拒绝。
+
+理由：解析失败说明这台机器的 DNS 有问题，不说明客户端身份有问题。用一个 DNS 故障去否决
+客户端注册，结果是「服务在线、密码正确、就是登不上」，排查成本极高。
+
+### 修复后服务端全链路验证（不依赖 App）
+
+用 curl 完整跑了一遍设备码流程：
+
+```
+POST /api/oauth/client          201  client_id=urn:uuid:...
+POST /api/oauth/device          200  user_code=HFWVRVLQ  verification_uri=/device
+POST /api/oauth/token           400  {"error":"authorization_pending"}     ← 未授权时
+POST /device  (会话 Cookie)      303  授权
+POST /api/oauth/token           201  access_token=..., scope=bookmarks:read bookmarks:write profile:read
+```
+
+再用这枚 token 打 App 登录后会调用的接口，全部 200：
+
+```
+/api/profile                                  200
+/api/bookmarks?limit=1                        200
+/api/bookmarks/sync?since=1970-01-01T00:00:00Z  200
+/api/bookmarks/<uid>/article                  200
+```
+
+所以 App 不需要改一行代码，也不该去改：它签的是官方签名，改了就装不上、也收不了更新。
+
+### 顺带说明
+
+App 的 `ShareActivity` 注册了 `ACTION_SEND` + `text/plain`，所以手机里任何 App 的
+「分享 → Readeck」都能用，这也正是解决小黑盒这类 SPA 分享链接的正路（服务端抓不到，
+客户端带着已经渲染好的页面来存）。
