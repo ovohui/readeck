@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import glob
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -188,6 +189,10 @@ def build_manifest(dec: Path) -> None:
         app.set(q("localeConfig"), "@xml/locales_config")
         log("locale config added")
 
+    # Marks the build in Settings > About, so a screenshot immediately says
+    # which APK is installed.
+    root.set(q("versionName"), "1.1.0-cn")
+
     tree.write(path, encoding="utf-8", xml_declaration=True)
     log("manifest updated")
 
@@ -241,6 +246,79 @@ def apply_locale_overlay(dec: Path) -> None:
         for f in values.iterdir():
             shutil.copy2(f, target / f.name)
         log(f"overlay {values.name}: {len(list(values.iterdir()))} file(s)")
+
+
+RX_STRING = re.compile(r'(<string\s+name="([^"]+)"([^>]*)>)(.*?)(</string>)', re.S)
+RX_PLURALS = re.compile(r'(<plurals\s+name="([^"]+)"[^>]*>)(.*?)(</plurals>)', re.S)
+
+
+def _read_string_map(path: Path) -> dict[str, str]:
+    if not path.exists():
+        return {}
+    text = path.read_text(encoding="utf-8")
+    return {m.group(2): m.group(4) for m in RX_STRING.finditer(text)}
+
+
+def _read_plurals_map(path: Path) -> dict[str, str]:
+    if not path.exists():
+        return {}
+    text = path.read_text(encoding="utf-8")
+    return {m.group(2): m.group(3) for m in RX_PLURALS.finditer(text)}
+
+
+def force_default_chinese(dec: Path) -> None:
+    """Promotes the Chinese resources to the default configuration.
+
+    A phone whose locale is zh-Hans, zh-SG or anything else that is not
+    exactly zh-CN / zh-TW / zh-HK never matches a zh-rCN configuration and
+    silently falls back to values/, which is English - and on Android 12 the
+    per-app language entry does not exist at all. This build has exactly one
+    audience, so the default values are replaced with the Chinese ones: the
+    interface is Chinese whatever the system locale is. The values-zh-*
+    directories are left alone, so the Android 13 language picker still lists
+    them.
+    """
+    res = dec / "res"
+    strings = _read_string_map(res / "values-zh-rCN" / "strings.xml")
+    strings.update(_read_string_map(HERE / "locale" / "values-zh-rCN" / "strings_extra.xml"))
+    plurals = _read_plurals_map(res / "values-zh-rCN" / "plurals.xml")
+    plurals.update(_read_plurals_map(HERE / "locale" / "values-zh-rCN" / "plurals_extra.xml"))
+
+    if not strings:
+        die("no Chinese strings found, nothing to promote")
+
+    replaced = [0]
+
+    def sub_string(m: re.Match) -> str:
+        head, name, attrs, inner, tail = m.group(1), m.group(2), m.group(3), m.group(4), m.group(5)
+        if 'translatable="false"' in attrs:
+            return m.group(0)
+        value = strings.get(name)
+        if value is None or value.strip() == inner.strip():
+            return m.group(0)
+        replaced[0] += 1
+        return f"{head}{value}{tail}"
+
+    path = res / "values" / "strings.xml"
+    text = RX_STRING.sub(sub_string, path.read_text(encoding="utf-8"))
+    path.write_text(text, encoding="utf-8")
+    log(f"default strings translated: {replaced[0]}")
+
+    replaced[0] = 0
+
+    def sub_plurals(m: re.Match) -> str:
+        head, name, inner, tail = m.group(1), m.group(2), m.group(3), m.group(4)
+        value = plurals.get(name)
+        if value is None or value.strip() == inner.strip():
+            return m.group(0)
+        replaced[0] += 1
+        return f"{head}{value}{tail}"
+
+    path = res / "values" / "plurals.xml"
+    if path.exists():
+        text = RX_PLURALS.sub(sub_plurals, path.read_text(encoding="utf-8"))
+        path.write_text(text, encoding="utf-8")
+        log(f"default plurals translated: {replaced[0]}")
 
 
 # -------------------------------------------------------------------- build
@@ -304,6 +382,7 @@ def main() -> None:
     if args.locale_split:
         merge_locales(java, work / "apktool.jar", work, work / "dec", args.locale_split)
         apply_locale_overlay(work / "dec")
+        force_default_chinese(work / "dec")
     run([java, "-jar", work / "apktool.jar", "b", work / "dec",
          "-o", work / "patched-unsigned.apk"])
 

@@ -289,6 +289,10 @@ func extractPageHandler(data any) {
 		CleanDomProcessor,
 		extractLinksProcessor,
 		contents.Text,
+		// Pages without any social card (forums, Q&A, mobile share links)
+		// would otherwise land in the list with a grey placeholder even
+		// though the article itself is full of pictures.
+		meta.ExtractContentPicture,
 		saveBookmark(b, &saved, &resourceCount),
 		fetchLinksProcessor(b),
 	)

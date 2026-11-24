@@ -890,3 +890,86 @@ string/about_credits_title     () "Credits"   (zh-rCN) "致谢"
 string/welcome_message         (zh-rCN) "Readeck for Android 是 Readeck 的 Android 客户端。…"
 plurals/detail_words           (zh-rCN) other="%1$d 字"
 ```
+
+## 25. 2026-11-24 第十二轮：没有 og:image 的站点，书签列表没有头图
+
+### 现象
+
+安卓 App 的列表里，小红书那条有封面，知乎、小黑盒那几条只有一块渐变占位。
+
+### 原因
+
+头图只来自页面声明的社媒卡片：
+
+```go
+// pkg/extract/meta/picture.go
+href := d.Meta.LookupGet("x.picture_url", "graph.image", "twitter.image",
+                         "oembed.thumbnail_url", "ld.image")
+if href == "" {
+    return next          // ← 这里就结束了
+}
+```
+
+知乎、小黑盒、Discuz 论坛这类站点一个都没声明，于是 `Pictures["image"]` 不存在，
+`b.Files["image"]` 也就没有，客户端只能画占位图。而正文里其实一屏一张图。
+
+### 修复
+
+新增 `pkg/extract/meta/picture_content.go`，处理器 `ExtractContentPicture`，放在
+`contents.Text` 之后、`saveBookmark` 之前（此时 `d.Body` 已是 readability 渲染后的正文）：
+
+- 已经有 `image` 就不动，声明过的站点行为完全不变；
+- 只处理 `article` / `photo`，视频和图片页跳过；
+- 从正文里取**第一张像照片的**图：跳过 `data:`/`blob:`、`.svg`、宽或高 < 200 的属性、
+  以及 URL/class/alt 里带 avatar、emoji、icon、logo、spacer、placeholder、gravatar 的；
+- 懒加载的 `<img src="data:..." data-src="真地址">` 会回退到 `data-src` / `data-original` /
+  `data-actualsrc` / `file`；
+- 按 `ImageSizeRegular`（800px）抓下来，同时生成 380px 缩略图，进 zip 的 `img/`，
+  和社媒卡片那条路产物一致。
+
+`pkg/extract/meta/picture_content_test.go` 覆盖四种情况：普通首图、跳过头像/表情/logo 后取正文图、
+懒加载回退、全是不合格图时返回空。
+
+注意：**已存在的书签不会自动补图**，重新剪藏一次才有。
+
+## 26. 2026-11-24 第十三轮：安卓补丁包界面仍是英文
+
+### 上一版错在哪
+
+上一版把 `split_config.zh.apk` 并进了资源表，实测 `671 条 strings 有 663 条带 zh-rCN`，
+dump 出来也确实有中文值。但装在手机上仍是全英文，系统设置里也没有语言入口。
+
+两个原因叠在一起：
+
+1. **资源匹配只认精确语言**。`values-zh-rCN` 只对 `zh-CN` 生效；系统 locale 是 `zh-Hans`、
+   `zh-SG` 或某些 ROM 上报的 `zh` 时，匹配不到 rCN，直接回退到默认 `values/`，也就是英文；
+2. **per-app language 是 Android 13 才有的入口**，且要求 `localeConfig` 中的语言真的存在资源。
+   系统低于 13 时，根本没有「应用语言」这一项——用户看到的“没有中文选项”就是这个。
+
+### 这一版：直接把默认值换成中文
+
+`patch_official.py` 新增 `force_default_chinese()`：合并 split 与自写 overlay 之后，
+把中文值**写回 `res/values/strings.xml` 和 `res/values/plurals.xml`**（默认配置）。
+
+```
+default strings translated: 655
+default plurals translated:  17
+```
+
+剩下 16 条不翻是有意的：`Android %1$s (API %2$d)`、`URL：%s`、`Readeck URL`、
+`https://readeck.example.com`、`Readeck`、`%1$d/%2$d`、`100 MB`、`25/50/100/200/500`、
+`androidx_startup`。这些是数字、地址和品牌名。
+
+另外 `versionName` 改成 `1.1.0-cn`，装完在「关于」里能直接看出是哪个包。
+
+### 验证
+
+```
+dump 默认配置（无 locale 限定的那行）
+  archive     "归档"      articles  "文章"     favorites "收藏"
+  videos      "视频"      pictures  "图片"     labels    "标签"
+  settings    "设置"
+不再存在任何值为 "Deck" / "Highlights" / "Collections" / "User Guide" / "About" 的默认字符串
+resource id 1392 → 1393（只多 locales_config），原有 id 缺失 0
+zipalign -c -p 4 通过，apksigner v2+v3 通过，versionName=1.1.0-cn
+```
