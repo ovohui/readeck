@@ -3117,3 +3117,56 @@ msgstr ""
 
 msgid "Edit the article content"
 msgstr ""
+
+msgid ""
+"Click in the article and edit it as you read it. Images keep pointing at the "
+"archive with ./_resources/ paths."
+msgstr ""
+
+msgid "Formatting"
+msgstr ""
+
+msgid "Bold"
+msgstr ""
+
+msgid "Italic"
+msgstr ""
+
+msgid "Underline"
+msgstr ""
+
+msgid "Heading 2"
+msgstr ""
+
+msgid "Heading 3"
+msgstr ""
+
+msgid "Paragraph"
+msgstr ""
+
+msgid "Quote"
+msgstr ""
+
+msgid "Bullet list"
+msgstr ""
+
+msgid "Numbered list"
+msgstr ""
+
+msgid "Link"
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "Separator"
+msgstr ""
+
+msgid "Clear formatting"
+msgstr ""
+
+msgid "Redo"
+msgstr ""
+
+msgid "Edit the raw HTML instead"
+msgstr ""
