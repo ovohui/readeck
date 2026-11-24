@@ -334,6 +334,11 @@ templ (c Components) bookmarkUpdate(b *bookmarks.Bookmark, f *updateForm) {
 					F.InputAttr("rows", 5),
 				)
 			</fieldset>
+			<p class="border-t pt-4">
+				<a class="link" href={ URL(ctx, "/bookmarks", b.UID, "content") }>
+					{ L(ctx).Gettext("Edit the article content") }
+				</a>
+			</p>
 		</form>
 	</turbo-frame>
 }
