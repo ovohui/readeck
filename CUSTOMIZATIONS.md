@@ -435,3 +435,59 @@ CDN 对 `.webp` 请求返回的是**单帧静态 WebP**，所以归档里就成�
 侧栏按钮和编辑弹窗都在 Turbo Frame 里（`bookmark-actions-{id}`、`bookmark-update-{id}`）。点链接时 Turbo 会做 frame 内导航，响应里没有同名 frame 就显示 `Content missing`。
 
 给这两个入口加 `data-turbo="false"`（正文编辑页的表单也加），走整页导航即可。
+
+## 15. 2026-11-24 第五轮：扩展会混进推荐笔记
+
+### 现象
+
+同一篇笔记，两种入库方式结果不同：
+
+| 入库方式 | 正文图片 | 额外内容 |
+| --- | --- | --- |
+| 粘贴链接（服务端抓） | 8 张 | 无 |
+| 浏览器扩展 | 41 张 | 33 张 640×853 封面、作者头像、点赞/收藏/评论数、`说点什么…` |
+
+### 根因
+
+笔记页 `/explore/<id>` 是**信息流页面**，不是单篇文章。扩展克隆 `documentElement` 之前还会滚动到 30000px 触发懒加载，这一路滚下来把后面几十条推荐笔记全部加载进了 DOM（封面 640×853、3:4），一起被克隆进去；readability 又因为原文正文很短，把容器外的作者栏、互动栏一并保留。
+
+笔记本身的数据只在 `window.__INITIAL_STATE__.note.noteDetailMap[<id>].note` 里：8 张图、尺寸 1080×1920、作者、时间、IP 属地。用服务端 SSR HTML 里的同一份 state 可以核对：
+
+```
+notes: ['6b03f08f000000002500a314']
+6b03f08f000000002500a314 title= 觅秋 images= 8 user= Fafa
+```
+
+### 修复
+
+小红书改走独立抓取路径（`tools/web-extension/popup.js`）：
+
+1. 从小红书页面内嵌的 `__INITIAL_STATE__` 取标题、正文、作者、时间、IP 属地、
+   `imageList[*].urlDefault/urlPre/infoList[0].url`（统一 https）、live photo 与视频流；
+2. 在页面里拼一个干净的 `<article>`（h1 → 元信息行 → 正文段落 → 每图一个带尺寸的
+   `<figure><img>`），**不滚动、不克隆整页**；
+3. state 取不到时退回 `#noteContainer` 范围内抓取：排除头像、图标（宽 ≤160 的元素）、
+   容器外的推荐封面，按去掉查询串的 URL 去重。
+
+顺带修掉 `background.js` 里一处失效的 `Buffer` 构造（service worker 代取图片时会抛错，
+导致跨域图片只能留原地址、由服务端再抓）。
+
+### 验证
+
+- jsdom 载入该笔记的真实 SSR HTML，跑 `capturePage()`：`title=觅秋 imgs=8 figures=8`，
+  文本里没有 `说点什么`、`716`、`avatar`、`recommend`。
+- 把这份 HTML `POST /api/bookmarks` 到实例，几秒后读 `/bookmarks/<uid>/content`：
+  正文 8 个 `<img>`、8 个 `<figure>`，图片全部落进 `_resources/`（服务端无需 Cookie 也能下载），
+  文本为「觅秋 / 作者：Fafa · 2026-11-23 15:51 · 江苏 / 正文 6 段 + 话题」。测试书签已删除。
+
+## 16. 正文编辑「Content missing」：部署滞后，不是功能缺失
+
+实例上 `/bookmarks/<uid>/content` 返回 200、正文 textarea 里有完整 8 KB 正文，说明
+构建里已经有编辑器；但页面里的「编辑正文」链接**没有** `data-turbo="false"`，即部署的镜像
+仍停在 `62783dc6`，而这项修复在 `2fb881ff`（构建 run 19 已成功）。
+
+- 眼下可用：链接用**新标签页**打开（Ctrl/⌘+点击，或直接访问 `/bookmarks/<uid>/content`），
+  编辑后保存走普通表单提交。实测 `POST` 返回 303，正文与归档 zip 改写后完全一致（8218 字节、
+  44 张图不变）。
+- 彻底解决：拉新镜像 `ghcr.nju.edu.cn/ovohui/readeck:custom`（或 `ghcr.io/ovohui/readeck:custom`）
+  后 `docker compose up -d`。

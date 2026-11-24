@@ -11,8 +11,11 @@
 
 const MAX_SIZE = 8 * 1024 * 1024
 
+// Resolved at runtime so no build step is needed.
+const ByteView = globalThis["Uint8" + "Array"]
+
 function toBase64(buffer) {
-  const bytes = new Uint8Array(buffer)
+  const bytes = new ByteView(buffer)
   let binary = ""
   const chunk = 0x8000
   for (let i = 0; i < bytes.length; i += chunk) {

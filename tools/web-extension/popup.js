@@ -9,6 +9,13 @@
 // images, infinite scroll content, everything the server never sees. The
 // serialized document is posted to Readeck's /api/bookmarks endpoint, which
 // accepts a full HTML payload as the main resource.
+//
+// Two capture modes:
+//   - generic: clone documentElement, resolve lazy attributes, inline images.
+//   - Xiaohongshu: the explore page is an infinite feed, so a clone carries the
+//     author avatar, the like/collect counters, the "说点什么…" composer and
+//     dozens of unrelated note covers. The note itself only lives in
+//     window.__INITIAL_STATE__, so the article is rebuilt from that payload.
 
 const $ = (id) => document.getElementById(id)
 const statusEl = () => $("status")
@@ -50,6 +57,7 @@ async function saveSettings() {
  */
 async function capturePage(opts) {
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+  const isXhs = /(^|\.)xiaohongshu\.com$/i.test(location.hostname)
 
   // 0. The page must be fully parsed before we start scrolling.
   if (document.readyState !== "complete") {
@@ -60,7 +68,9 @@ async function capturePage(opts) {
   }
 
   // 1. Scroll through the page so lazy loaded images get their real src.
-  if (opts.scroll) {
+  //    Not needed on Xiaohongshu: the note comes from the state payload and
+  //    scrolling there only loads more unrelated notes into the feed.
+  if (opts.scroll && !isXhs) {
     const step = Math.max(window.innerHeight, 400)
     const max = Math.min(document.body.scrollHeight, 30000)
     for (let y = 0; y < max; y += step) {
@@ -72,17 +82,379 @@ async function capturePage(opts) {
   }
 
   // 2. Wait (at most 6s) for the images that are already in the DOM.
-  const pending = Array.from(document.images)
-    .filter((img) => !img.complete)
-    .map(
-      (img) =>
-        new Promise((resolve) => {
-          img.addEventListener("load", resolve, {once: true})
-          img.addEventListener("error", resolve, {once: true})
-        }),
-    )
-  await Promise.race([Promise.all(pending), sleep(6000)])
+  if (!isXhs) {
+    const pending = Array.from(document.images)
+      .filter((img) => !img.complete)
+      .map(
+        (img) =>
+          new Promise((resolve) => {
+            img.addEventListener("load", resolve, {once: true})
+            img.addEventListener("error", resolve, {once: true})
+          }),
+      )
+    await Promise.race([Promise.all(pending), sleep(6000)])
+  }
 
+  const escapeHTML = (s) =>
+    String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+
+  // Convert every <img> below root to a data: URL. Direct fetch works for
+  // same-origin or CORS friendly pictures; everything else goes through the
+  // service worker, which holds <all_urls> host permissions and is therefore
+  // not bound by CORS.
+  const toDataURL = async (url) => {
+    try {
+      const rsp = await fetch(url, {credentials: "include", cache: "force-cache"})
+      if (rsp.ok) {
+        const blob = await rsp.blob()
+        if (blob.size <= 8 * 1024 * 1024) {
+          return await new Promise((resolve, reject) => {
+            const fr = new FileReader()
+            fr.onload = () => resolve(fr.result)
+            fr.onerror = reject
+            fr.readAsDataURL(blob)
+          })
+        }
+      }
+    } catch (e) {
+      // ignored, fall back to the background worker
+    }
+
+    const resp = await chrome.runtime.sendMessage({
+      type: "fetchDataURL",
+      url,
+      referrer: location.href,
+    })
+    if (!resp || !resp.dataURL) {
+      throw new Error(resp && resp.error ? resp.error : "image fetch failed")
+    }
+    return resp.dataURL
+  }
+
+  const inlineImages = async (root) => {
+    const nodes = Array.from(root.querySelectorAll("img[src]")).filter((el) => {
+      const src = el.getAttribute("src")
+      return /^https?:/i.test(src) || /^\/\//.test(src)
+    })
+
+    let index = 0
+    const worker = async () => {
+      while (index < nodes.length) {
+        const el = nodes[index++]
+        try {
+          let src = el.getAttribute("src")
+          if (src.startsWith("//")) {
+            src = location.protocol + src
+          }
+          el.setAttribute("src", await toDataURL(src))
+        } catch (e) {
+          // Leave the remote URL in place; the server will try to fetch it.
+        }
+      }
+    }
+    await Promise.all([worker(), worker(), worker(), worker()])
+  }
+
+  // ---------------------------------------------------------------------
+  // Xiaohongshu
+  // ---------------------------------------------------------------------
+  const secureURL = (u) => String(u || "").replace(/^http:\/\//i, "https://")
+
+  const bestImageURL = (item) => {
+    if (!item) {
+      return ""
+    }
+    if (item.urlDefault) {
+      return secureURL(item.urlDefault)
+    }
+    if (item.urlPre) {
+      return secureURL(item.urlPre)
+    }
+    const list = item.infoList || []
+    for (let i = 0; i < list.length; i++) {
+      if (list[i] && list[i].url) {
+        return secureURL(list[i].url)
+      }
+    }
+    return ""
+  }
+
+  const streamURL = (node) => {
+    if (!node) {
+      return ""
+    }
+    const stream = (node.media && node.media.stream) || node.stream
+    if (!stream) {
+      return ""
+    }
+    const codecs = ["h264", "h265", "h264_hd", "av1"]
+    for (let i = 0; i < codecs.length; i++) {
+      const list = stream[codecs[i]] || []
+      for (let j = 0; j < list.length; j++) {
+        if (list[j] && list[j].masterUrl) {
+          return secureURL(list[j].masterUrl)
+        }
+      }
+    }
+    return ""
+  }
+
+  const pad = (n) => (n < 10 ? "0" + n : String(n))
+  const formatTime = (ms) => {
+    const t = Number(ms)
+    if (!t || !isFinite(t)) {
+      return ""
+    }
+    const d = new Date(t)
+    return (
+      d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) +
+      " " + pad(d.getHours()) + ":" + pad(d.getMinutes())
+    )
+  }
+
+  // The state payload is the single source of truth: 8 images for an 8 image
+  // note, in the author's order, with their real dimensions.
+  const xhsNote = () => {
+    const state = window.__INITIAL_STATE__
+    const map = state && state.note && state.note.noteDetailMap
+    if (!map) {
+      return null
+    }
+    const hit = (location.pathname.match(/\/(?:explore|discovery\/item)\/([0-9a-zA-Z]+)/) || [])[1]
+    if (hit && map[hit] && map[hit].note) {
+      return map[hit].note
+    }
+    const keys = Object.keys(map)
+    if (keys.length === 1 && map[keys[0]] && map[keys[0]].note) {
+      return map[keys[0]].note
+    }
+    return null
+  }
+
+  const xhsArticle = () => {
+    const note = xhsNote()
+    if (!note) {
+      return null
+    }
+
+    const title = (note.title || "").trim() || document.title
+    const user = note.user || {}
+    const meta = []
+    if (user.nickname) {
+      meta.push("作者：" + user.nickname)
+    }
+    const when = formatTime(note.time)
+    if (when) {
+      meta.push(when)
+    }
+    if (note.ipLocation) {
+      meta.push(note.ipLocation)
+    }
+
+    const root = document.createElement("article")
+    root.className = "xhs-note"
+
+    if (title) {
+      const h1 = document.createElement("h1")
+      h1.textContent = title
+      root.appendChild(h1)
+    }
+
+    if (meta.length > 0) {
+      const p = document.createElement("p")
+      p.className = "xhs-meta"
+      p.textContent = meta.join(" · ")
+      root.appendChild(p)
+    }
+
+    const desc = String(note.desc || "").replace(/\[话题\]#/g, " ").trim()
+    desc.split(/\n+/).forEach((line) => {
+      const text = line.trim()
+      if (!text) {
+        return
+      }
+      const p = document.createElement("p")
+      p.textContent = text
+      root.appendChild(p)
+    })
+
+    const images = note.imageList || []
+    for (let i = 0; i < images.length; i++) {
+      const url = bestImageURL(images[i])
+      if (!url) {
+        continue
+      }
+      const figure = document.createElement("figure")
+      const img = document.createElement("img")
+      img.setAttribute("src", url)
+      img.setAttribute("alt", title)
+      if (images[i].width && images[i].height) {
+        img.setAttribute("width", images[i].width)
+        img.setAttribute("height", images[i].height)
+      }
+      figure.appendChild(img)
+      root.appendChild(figure)
+
+      // Live photo: the still picture has a short video attached to it.
+      const live = streamURL(images[i])
+      if (live) {
+        const fig = document.createElement("figure")
+        const video = document.createElement("video")
+        video.setAttribute("src", live)
+        video.setAttribute("controls", "")
+        video.setAttribute("playsinline", "")
+        video.setAttribute("preload", "metadata")
+        fig.appendChild(video)
+        root.appendChild(fig)
+      }
+    }
+
+    const video = streamURL(note.video)
+    if (video) {
+      const fig = document.createElement("figure")
+      const el = document.createElement("video")
+      el.setAttribute("src", video)
+      el.setAttribute("controls", "")
+      el.setAttribute("playsinline", "")
+      el.setAttribute("preload", "metadata")
+      fig.appendChild(el)
+      root.appendChild(fig)
+    }
+
+    if (root.querySelector("img, video") === null) {
+      return null
+    }
+
+    return {title, root}
+  }
+
+  // Safety net: if the state payload ever moves or changes shape, fall back to
+  // the note container. Scoping to #noteContainer is what keeps the feed covers
+  // out: the explore page is an infinite list, the note is one box inside it.
+  const xhsArticleFromDOM = () => {
+    const container =
+      document.querySelector("#noteContainer") || document.querySelector(".note-container")
+    if (!container) {
+      return null
+    }
+
+    const text = (sel) => {
+      const el = container.querySelector(sel)
+      return el ? (el.textContent || "").trim() : ""
+    }
+
+    const title =
+      text("#detail-title") ||
+      text(".note-content .title") ||
+      (document.title || "").replace(/\s*[-–|]\s*小红书.*$/, "").trim()
+
+    const meta = []
+    const author = text(".author-container .name") || text(".author-wrapper .name")
+    if (author) {
+      meta.push("作者：" + author)
+    }
+    const date = text(".bottom-container .date") || text(".date")
+    if (date) {
+      meta.push(date)
+    }
+
+    const root = document.createElement("article")
+    root.className = "xhs-note"
+
+    if (title) {
+      const h1 = document.createElement("h1")
+      h1.textContent = title
+      root.appendChild(h1)
+    }
+    if (meta.length > 0) {
+      const p = document.createElement("p")
+      p.className = "xhs-meta"
+      p.textContent = meta.join(" · ")
+      root.appendChild(p)
+    }
+
+    const descEl = container.querySelector("#detail-desc") || container.querySelector(".note-content .desc")
+    if (descEl) {
+      const raw = (descEl.innerText || descEl.textContent || "").replace(/\[话题\]#/g, " ")
+      raw.split(/\n+/).forEach((line) => {
+        const value = line.trim()
+        if (!value) {
+          return
+        }
+        const p = document.createElement("p")
+        p.textContent = value
+        root.appendChild(p)
+      })
+    }
+
+    const seen = {}
+    container.querySelectorAll("img").forEach((el) => {
+      const src = el.currentSrc || el.getAttribute("src") || ""
+      if (!/xhscdn\.com|xhsimg\.com/.test(src)) {
+        return
+      }
+      if (/avatar|emoji|logo|fe-platform/i.test(src)) {
+        return
+      }
+      if (el.closest(".author-container, .author-wrapper, [class*='avatar']")) {
+        return
+      }
+      const width = Number(el.getAttribute("width") || el.naturalWidth || 0)
+      if (width > 0 && width <= 160) {
+        return
+      }
+      const key = src.split("?")[0]
+      if (seen[key]) {
+        return
+      }
+      seen[key] = true
+
+      const figure = document.createElement("figure")
+      const img = document.createElement("img")
+      img.setAttribute("src", src)
+      img.setAttribute("alt", title)
+      const height = Number(el.getAttribute("height") || el.naturalHeight || 0)
+      if (width && height) {
+        img.setAttribute("width", width)
+        img.setAttribute("height", height)
+      }
+      figure.appendChild(img)
+      root.appendChild(figure)
+    })
+
+    if (root.querySelector("img") === null) {
+      return null
+    }
+
+    return {title, root}
+  }
+
+  if (isXhs) {
+    const article = xhsArticle() || xhsArticleFromDOM()
+    if (article) {
+      if (opts.inline) {
+        await inlineImages(article.root)
+      }
+      return {
+        html:
+          '<!DOCTYPE html>\n<html><head><meta charset="utf-8"><title>' +
+          escapeHTML(article.title) +
+          "</title></head><body>" +
+          article.root.outerHTML +
+          "</body></html>",
+        url: location.href,
+        title: article.title || document.title,
+      }
+    }
+  }
+
+  // ---------------------------------------------------------------------
+  // Generic page
+  // ---------------------------------------------------------------------
   // 3. Build a clean copy of the document.
   const clone = document.documentElement.cloneNode(true)
   clone.querySelectorAll("script, link[rel='preload'], link[rel='modulepreload'], link[rel='manifest']").forEach((el) => el.remove())
@@ -117,98 +489,10 @@ async function capturePage(opts) {
     }
   })
 
-  // 4c. Xiaohongshu: the note keeps its pictures in a slider that the reader
-  //     mode drops. Flatten every note image (and live photo video) into a
-  //     plain list right after the description.
-  if (/xiaohongshu\.com$/i.test(location.hostname)) {
-    const desc = clone.querySelector("#detail-desc, .note-content")
-    const seen = new Set()
-    const urls = []
-    clone.querySelectorAll("img[src]").forEach((el) => {
-      const src = el.getAttribute("src")
-      if (!/xhscdn\.com|xhsimg\.com/.test(src) || /avatar|emoji|logo|fe-platform/i.test(src)) {
-        return
-      }
-      const clean = src.split("?")[0]
-      if (seen.has(clean)) {
-        return
-      }
-      seen.add(clean)
-      urls.push(src)
-    })
-
-    if (desc && desc.parentNode && urls.length > 0) {
-      const wrap = document.createElement("div")
-      urls.forEach((u) => {
-        const figure = document.createElement("figure")
-        const img = document.createElement("img")
-        img.setAttribute("src", u)
-        figure.appendChild(img)
-        wrap.appendChild(figure)
-      })
-      desc.parentNode.insertBefore(wrap, desc.nextSibling)
-      clone
-        .querySelectorAll("[class*='slider'], .swiper, [elementtiming='note-cover']")
-        .forEach((el) => el.remove())
-    }
-  }
-
   // 5. Optionally inline the images so hotlink protection or a login cookie
   //    cannot break the archive later.
   if (opts.inline) {
-    const toDataURL = async (url) => {
-      // Direct fetch works for same-origin or CORS-friendly images. Everything
-      // else goes through the service worker, which holds <all_urls> host
-      // permissions and is therefore not bound by CORS.
-      try {
-        const rsp = await fetch(url, {credentials: "include", cache: "force-cache"})
-        if (rsp.ok) {
-          const blob = await rsp.blob()
-          if (blob.size <= 8 * 1024 * 1024) {
-            return await new Promise((resolve, reject) => {
-              const fr = new FileReader()
-              fr.onload = () => resolve(fr.result)
-              fr.onerror = reject
-              fr.readAsDataURL(blob)
-            })
-          }
-        }
-      } catch (e) {
-        // ignored, fall back to the background worker
-      }
-
-      const resp = await chrome.runtime.sendMessage({
-        type: "fetchDataURL",
-        url,
-        referrer: location.href,
-      })
-      if (!resp || !resp.dataURL) {
-        throw new Error(resp && resp.error ? resp.error : "image fetch failed")
-      }
-      return resp.dataURL
-    }
-
-    const nodes = Array.from(clone.querySelectorAll("img[src]")).filter((el) => {
-      const src = el.getAttribute("src")
-      return /^https?:/i.test(src) || /^\/\//.test(src)
-    })
-
-    let index = 0
-    const worker = async () => {
-      while (index < nodes.length) {
-        const el = nodes[index++]
-        try {
-          let src = el.getAttribute("src")
-          if (src.startsWith("//")) {
-            src = location.protocol + src
-          }
-          el.setAttribute("src", await toDataURL(src))
-        } catch (e) {
-          // Leave the remote URL in place; the server will try to fetch it.
-        }
-      }
-    }
-    await Promise.all([worker(), worker(), worker(), worker()])
+    await inlineImages(clone)
   }
 
   const comment = document.createComment(" Saved by Readeck 剪藏助手 — source: " + location.href + " ")
