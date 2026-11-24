@@ -16,6 +16,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"regexp"
 	"slices"
 	"strconv"
 	"strings"
@@ -28,6 +29,7 @@ import (
 	"codeberg.org/readeck/readeck/internal/db"
 	"codeberg.org/readeck/readeck/internal/db/exp"
 	"codeberg.org/readeck/readeck/internal/db/types"
+	"codeberg.org/readeck/readeck/internal/server/urls"
 	"codeberg.org/readeck/readeck/pkg/base58"
 )
 
@@ -538,6 +540,41 @@ func (b *Bookmark) GetFilePath() string {
 		return ""
 	}
 	return filepath.Join(StoragePath(), b.FilePath+".zip")
+}
+
+// ResourcePrefix returns the URL path under which the archived resources are
+// served, e.g. "/bm/AB/AbCdEfGh/_resources/". It is empty when the bookmark
+// has no archive yet.
+func (b *Bookmark) ResourcePrefix() string {
+	if b.FilePath == "" {
+		return ""
+	}
+	p := path.Join("/", strings.TrimPrefix(urls.Prefix(), "/"), "bm", b.FilePath, "_resources")
+	return p + "/"
+}
+
+// ServedArticle returns the article body with its resource paths translated to
+// the URLs the server actually serves. The archive stores pictures as
+// "./_resources/xxx.jpg"; a browser editing the article needs a path it can
+// load from the current page, otherwise every image in the editor is broken.
+func (b *Bookmark) ServedArticle(content string) string {
+	prefix := b.ResourcePrefix()
+	if prefix == "" {
+		return content
+	}
+	return strings.ReplaceAll(content, "./_resources/", prefix)
+}
+
+// StoredArticle is the reverse of [Bookmark.ServedArticle]: whatever the editor
+// submits is normalised back to the archive's own relative paths, including
+// absolute URLs that point at this instance.
+func (b *Bookmark) StoredArticle(content string) string {
+	prefix := b.ResourcePrefix()
+	if prefix == "" {
+		return content
+	}
+	re := regexp.MustCompile(`(?:https?://[^/"'\s]+)?` + regexp.QuoteMeta(prefix))
+	return re.ReplaceAllString(content, "./_resources/")
 }
 
 // replaceLabel replaces "old" label with "new" in the

@@ -3506,3 +3506,56 @@ msgstr "这里直接编辑归档正文的 HTML。图片地址形如 ./_resources
 
 msgid "Edit the article content"
 msgstr "编辑正文内容"
+
+msgid ""
+"Click in the article and edit it as you read it. Images keep pointing at the "
+"archive with ./_resources/ paths."
+msgstr "直接在正文里点一下就能改，看到的就是归档后的样子。图片仍然指向归档目录（./_resources/…），不要在可视化模式里删除它们的地址。"
+
+msgid "Formatting"
+msgstr "格式"
+
+msgid "Bold"
+msgstr "加粗"
+
+msgid "Italic"
+msgstr "斜体"
+
+msgid "Underline"
+msgstr "下划线"
+
+msgid "Heading 2"
+msgstr "二级标题"
+
+msgid "Heading 3"
+msgstr "三级标题"
+
+msgid "Paragraph"
+msgstr "正文段落"
+
+msgid "Quote"
+msgstr "引用"
+
+msgid "Bullet list"
+msgstr "无序列表"
+
+msgid "Numbered list"
+msgstr "有序列表"
+
+msgid "Link"
+msgstr "链接"
+
+msgid "Image"
+msgstr "图片"
+
+msgid "Separator"
+msgstr "分隔线"
+
+msgid "Clear formatting"
+msgstr "清除格式"
+
+msgid "Redo"
+msgstr "重做"
+
+msgid "Edit the raw HTML instead"
+msgstr "切换到 HTML 源码"

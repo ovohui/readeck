@@ -491,3 +491,76 @@ notes: ['6b03f08f000000002500a314']
   44 张图不变）。
 - 彻底解决：拉新镜像 `ghcr.nju.edu.cn/ovohui/readeck:custom`（或 `ghcr.io/ovohui/readeck:custom`）
   后 `docker compose up -d`。
+
+## 17. 2026-11-24 第六轮：服务端小红书图片回退（插入位置）
+
+### 现象
+
+同一篇笔记（`6b03f08f000000002500a314`），两种入库方式：
+
+| 入库方式 | 结果 |
+| --- | --- |
+| 浏览器扩展（1.1.0） | 8 张图，正常 |
+| 粘贴链接（服务端抓） | 0 张图，只剩正文文字 |
+
+而日志里明明有 `xiaohongshu: injected media images="8"`。
+
+### 根因
+
+上一版把媒体块插在 `#detail-desc` 的**下一个兄弟位置**，这个策略依赖 readability 保留
+`.note-content` 或 `.note-scroller`。这篇笔记正文很短、没有评论区，readability 最终选的
+容器就是 `div#detail-desc` 本身 —— 兄弟节点整块被丢弃，图片全没了。
+
+用真实页面做了 A/B 对照（把两种插入结果分别 POST 到实例，再读归档正文）：
+
+| 插入位置 | 归档图片数 | 正文大小 |
+| --- | --- | --- |
+| `#detail-desc` 的兄弟位置 | 0 | 2431 B |
+| `#detail-desc` 的子节点 | 8 | 3875 B |
+
+### 修复
+
+`pkg/extract/contentscripts/assets/scripts/xiaohongshu.js` 改为
+`anchor.appendChild(media)`：无论 readability 最终保留的是 `note-scroller` 还是
+`detail-desc`，媒体块都在它的子树里。
+
+## 18. 正文可视化编辑（所见即所得）
+
+原来的 `/bookmarks/{uid}/content` 只有一个 28 行的 `<textarea>`，显示的是 HTML 源码。
+
+现在这个页面是**所见即所得**：
+
+- 正文用 `contenteditable` 的 `div.prose` 渲染，与阅读页同一套排版（宽度/字号/行高偏好也生效）。
+- 顶部工具条：粗体、斜体、下划线、H2/H3/段落、引用、无序/有序列表、链接、图片、分隔线、
+  清除格式、撤销/重做，最右边 `HTML` 按钮切到源码模式（源码模式里改完再切回来会重新渲染）。
+- 粘贴统一转成纯文本，避免带入原站的行内样式和字体。
+- `Ctrl/⌘+S` 直接保存。
+- 提交时由控制器把 `innerHTML` 写回隐藏的 textarea，服务端仍是原来的 `content` 字段。
+
+图片在编辑器里也能看到：归档里存的是 `./_resources/xxx.jpg`，编辑页渲染前换成
+`/bm/<FilePath>/_resources/xxx.jpg`（`Bookmark.ServedArticle`），保存时再换回去
+（`Bookmark.StoredArticle`，同时兼容粘进来的绝对地址）。不做这层转换，编辑器里所有图片都是坏图。
+
+入口也补上了：阅读页左侧图标栏（返回、铅笔、Aa、书、全屏）里新增一个「编辑正文」按钮，
+点它直接进编辑页，不用再手动在地址栏加 `/content`。
+
+新增文件：`web/src/controllers/contenteditor_controller.ts`、`web/ui/styles/editor.scss`。
+
+## 19. 手机端分享链接：跟随客户端跳转
+
+很多 App 的分享链接不是 301/302 跳转，而是一个「中转页」：只有
+`<meta http-equiv="refresh" content="0;url=...">` 或 `location.replace("...")`。
+Go 的 http.Client 只跟 HTTP 重定向，遇到这种页面会直接把中转页归档，正文自然是空的。
+
+`pkg/extract/drop.go` 现在会在满足全部条件时跟一次：
+
+- 页面 ≤ 8 KB；
+- 正文文字 < 400 字符（真正的文章不会被一个 `location.href=` 带走）；
+- 目标与当前 URL 不同。
+
+最多跟 2 跳，跳转后重新按新 URL 抓取，`Domain` 也重算，站点配置和 Cookie 才匹配。
+
+纯 SPA（小黑盒 `/app/bbs/link/<id>`、抖音分享页等）服务端仍然拿不到正文：这些页面的 HTML
+是空壳（`textLength=0`），正文来自**带签名的接口**。以小黑盒为例，
+`/bbs/app/link/tree` 必须带 `hkey`/`nonce`/`_time`/`_rnd` 四个参数，缺一个就
+`缺少必要参数[_time]`，参数齐了但签名不对则是 `非法请求`。这类站点用浏览器扩展抓即可。

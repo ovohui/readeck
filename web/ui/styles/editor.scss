@@ -1,0 +1,51 @@
+// SPDX-FileCopyrightText: © 2026 Readeck custom build
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
+// In-place article editor (bookmark content page).
+@layer components {
+  .editor-bar {
+    @apply flex flex-wrap items-center gap-1;
+    @apply mb-2 p-2 rounded-md border border-gray-300 bg-gray-50;
+  }
+
+  .editor-bar-button {
+    @apply py-1 px-2 min-w-8 rounded text-sm leading-6 text-gray-700;
+    @apply hf:bg-gray-200 hf:text-gray-900;
+    @apply cursor-pointer;
+
+    &[aria-pressed="true"] {
+      @apply bg-gray-200 text-gray-900;
+    }
+  }
+
+  .editor-bar-sep {
+    @apply w-px h-6 mx-1 bg-gray-300;
+  }
+
+  .editor-surface {
+    @apply border border-gray-300 rounded-md bg-app-bg p-6;
+    @apply min-h-[70vh] max-w-none;
+    @apply overflow-x-auto;
+
+    &:focus,
+    &:focus-visible {
+      @apply outline-none ring-2 ring-primary;
+    }
+
+    &:empty::before {
+      content: "…";
+      @apply text-gray-400;
+    }
+
+    // The archived pictures must stay visible while editing, but they should
+    // not swallow the whole viewport either.
+    img {
+      @apply max-w-full h-auto;
+    }
+
+    figure {
+      @apply my-4;
+    }
+  }
+}

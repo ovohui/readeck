@@ -134,6 +134,12 @@ func (d *Drop) SetURL(src *url.URL) {
 }
 
 // Load loads the remote URL and retrieve data.
+//
+// A share link from a mobile app often lands on an intermediate page that does
+// not redirect with an HTTP status but with a <meta refresh> or a
+// `location.replace(...)` call. Without following those, the extractor archives
+// the stub and the real page is never reached. They are followed (at most
+// [maxRedirectHops] times) only when the document really is a stub.
 func (d *Drop) Load(client *http.Client) error {
 	if d.URL == nil {
 		return errors.New("No document URL")
@@ -153,6 +159,30 @@ func (d *Drop) Load(client *http.Client) error {
 		defer client.CloseIdleConnections()
 	}
 
+	for hop := 0; ; hop++ {
+		if err := d.load(client); err != nil {
+			return err
+		}
+		if hop >= maxRedirectHops {
+			return nil
+		}
+		next := d.shareRedirect()
+		if next == nil {
+			return nil
+		}
+		slog.Debug(
+			"following client side redirect",
+			slog.String("from", d.URL.String()),
+			slog.String("to", next.String()),
+		)
+		d.Body = nil
+		d.Domain = "" // let SetURL recompute it for the new host
+		d.SetURL(next)
+	}
+}
+
+// load performs one request and stores the response.
+func (d *Drop) load(client *http.Client) error {
 	var err error
 	var rsp *http.Response
 
@@ -188,6 +218,89 @@ func (d *Drop) Load(client *http.Client) error {
 	default:
 		return fmt.Errorf("unsupported content-type: %q", rsp.Header.Get("content-type"))
 	}
+}
+
+// maxRedirectHops bounds the number of client side redirects followed from a
+// single page.
+const maxRedirectHops = 2
+
+var (
+	rxJSRedirectAssign = regexp.MustCompile(`(?i)location(?:\s*\.\s*href)?\s*=\s*["']([^"']+)["']`)
+	rxJSRedirectCall   = regexp.MustCompile(`(?i)location\s*\.\s*(?:replace|assign)\s*\(\s*["']([^"']+)["']`)
+)
+
+// shareRedirect returns the target of a client side redirect when the loaded
+// document is nothing but one, and nil otherwise.
+func (d *Drop) shareRedirect() *url.URL {
+	if !d.IsHTML() || len(d.Body) == 0 || len(d.Body) > 8192 {
+		return nil
+	}
+
+	doc, err := html.Parse(bytes.NewReader(d.Body))
+	if err != nil {
+		return nil
+	}
+
+	target := ""
+	for _, m := range dom.GetElementsByTagName(doc, "meta") {
+		if !strings.EqualFold(dom.GetAttribute(m, "http-equiv"), "refresh") {
+			continue
+		}
+		content := dom.GetAttribute(m, "content")
+		if i := strings.Index(strings.ToLower(content), "url="); i >= 0 {
+			target = strings.Trim(content[i+4:], `'" `)
+			break
+		}
+	}
+
+	// Script redirects are only trusted on a page without any text, otherwise
+	// a single "location.href = …" in a real article would send us elsewhere.
+	if target == "" && domTextLength(doc) < 400 {
+		for _, rx := range []*regexp.Regexp{rxJSRedirectCall, rxJSRedirectAssign} {
+			if m := rx.FindStringSubmatch(string(d.Body)); m != nil {
+				target = m[1]
+				break
+			}
+		}
+	}
+
+	if target == "" {
+		return nil
+	}
+
+	u, err := d.URL.Parse(target)
+	if err != nil || u.Hostname() == "" {
+		return nil
+	}
+	if u.String() == d.URL.String() {
+		return nil
+	}
+	return u
+}
+
+// domTextLength returns the length of the text found in the document's body,
+// ignoring script and style contents.
+func domTextLength(doc *html.Node) int {
+	bodies := dom.GetElementsByTagName(doc, "body")
+	if len(bodies) == 0 {
+		return 0
+	}
+
+	var n int
+	var walk func(*html.Node)
+	walk = func(node *html.Node) {
+		if node.Type == html.ElementNode && (node.DataAtom == atom.Script || node.DataAtom == atom.Style) {
+			return
+		}
+		if node.Type == html.TextNode {
+			n += len(strings.TrimSpace(node.Data))
+		}
+		for c := node.FirstChild; c != nil; c = c.NextSibling {
+			walk(c)
+		}
+	}
+	walk(bodies[0])
+	return n
 }
 
 // IsHTML returns true when the MIME type of the resource is one of the known HTML types, and also

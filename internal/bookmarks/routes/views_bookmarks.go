@@ -345,7 +345,7 @@ func (h *viewsRouter) bookmarkContent(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		if err := b.RewriteArticle(r.PostFormValue("content")); err != nil {
+		if err := b.RewriteArticle(b.StoredArticle(r.PostFormValue("content"))); err != nil {
 			server.Log(r).Error("bookmark content", slog.Any("err", err))
 			server.AddFlash(w, r, "error", tr.Gettext("Unable to save the content"))
 		} else {
@@ -368,7 +368,7 @@ func (h *viewsRouter) bookmarkContent(w http.ResponseWriter, r *http.Request) {
 		{tr.Gettext("Edit content")},
 	})
 
-	server.RenderComponent(w, r.WithContext(ctx), http.StatusOK, Views{}.bookmarkContent(b, content))
+	server.RenderComponent(w, r.WithContext(ctx), http.StatusOK, Views{}.bookmarkContent(b, b.ServedArticle(content)))
 }
 
 func (h *viewsRouter) bookmarkShareLink(w http.ResponseWriter, r *http.Request) {

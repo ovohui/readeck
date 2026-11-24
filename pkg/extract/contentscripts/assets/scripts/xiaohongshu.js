@@ -338,11 +338,14 @@ exports.documentLoaded = function (document) {
     return
   }
 
-  // Where the media goes matters: readability keeps the *deepest* element it
-  // picks, and on some notes that element is div.note-scroller, a child of
-  // #noteContainer. Appending to the wrapper put the pictures outside the kept
-  // subtree, so they were silently dropped and the note archived without a
-  // single image. Insert the block right after the note description instead.
+  // Where the media goes matters, and "next to the description" is not enough.
+  // Readability keeps the *deepest* element that scores best, and which element
+  // that is depends on the note: sometimes div.note-scroller, sometimes
+  // div#detail-desc itself (short note, no comments). A block inserted as a
+  // SIBLING of that element disappears whenever the element itself is the one
+  // kept. Appending INSIDE the description puts the pictures in the subtree in
+  // both cases. Verified on a note whose article came out with 0 images when
+  // the block was a sibling, and 8 images when it was a child.
   var anchor = null
   var anchors = ["#detail-desc", ".note-content", "#noteContainer", "article"]
   for (var a = 0; a < anchors.length; a++) {
@@ -381,12 +384,8 @@ exports.documentLoaded = function (document) {
     media.appendChild(fig)
   }
 
-  if (anchor && anchor.parentNode) {
-    if (anchor.nextSibling) {
-      anchor.parentNode.insertBefore(media, anchor.nextSibling)
-    } else {
-      anchor.parentNode.appendChild(media)
-    }
+  if (anchor) {
+    anchor.appendChild(media)
   } else {
     document.body.appendChild(media)
   }

@@ -9,6 +9,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/a-h/templ"
+
 	"codeberg.org/readeck/readeck/internal/bookmarks"
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
 	"codeberg.org/readeck/readeck/internal/server"
@@ -127,6 +129,15 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 							<span class="sr-only">{ L(ctx).Gettext("Edit") }</span>
 						</a>
 						if item.HasArticle {
+							<a
+								href={ URL(ctx, "/bookmarks", item.UID, "content") }
+								title={ L(ctx).Gettext("Edit the article content") }
+								data-turbo="false"
+								class="fullscreen:hidden"
+							>
+								@Icon("o-note", WithIconClass("inline-block"), WithIconSvgClass("w-6 h-6"))
+								<span class="sr-only">{ L(ctx).Gettext("Edit the article content") }</span>
+							</a>
 							@ReaderControlComponent{}.controls()
 						}
 						<button
@@ -243,16 +254,153 @@ templ (v Views) bookmarkUpdate(b *bookmarks.Bookmark, f *updateForm) {
 
 templ (v Views) bookmarkContent(b *bookmarks.Bookmark, content string) {
 	@PageStd(L(ctx).Gettext("Edit content"), WithSideMenu(v.menu())) {
-		<h1 class="title text-h2">{ L(ctx).Gettext("Edit content: %s", b.Title) }</h1>
-		<form method="post" action={ URL(ctx, "/bookmarks", b.UID, "content") }>
-			<p class="text-sm mb-2">
-				{ L(ctx).Gettext("Raw HTML of the archived article. Images use ./_resources/ paths.") }
+		<form
+			method="post"
+			action={ URL(ctx, "/bookmarks", b.UID, "content") }
+			data-turbo="false"
+			data-controller="contenteditor"
+			data-action="submit->contenteditor#sync"
+		>
+			<h1 class="title text-h2 mb-2">{ L(ctx).Gettext("Edit content: %s", b.Title) }</h1>
+			<p class="text-sm mb-3">
+				{ L(ctx).Gettext("Click in the article and edit it as you read it. Images keep pointing at the archive with ./_resources/ paths.") }
 			</p>
+			<div class="editor-bar" role="toolbar" aria-label={ L(ctx).Gettext("Formatting") }>
+				<button
+					type="button"
+					class="editor-bar-button font-bold"
+					title={ L(ctx).Gettext("Bold") }
+					data-action="contenteditor#command"
+					data-contenteditor-command-param="bold"
+				>B</button>
+				<button
+					type="button"
+					class="editor-bar-button italic"
+					title={ L(ctx).Gettext("Italic") }
+					data-action="contenteditor#command"
+					data-contenteditor-command-param="italic"
+				>I</button>
+				<button
+					type="button"
+					class="editor-bar-button underline"
+					title={ L(ctx).Gettext("Underline") }
+					data-action="contenteditor#command"
+					data-contenteditor-command-param="underline"
+				>U</button>
+				<span class="editor-bar-sep"></span>
+				<button
+					type="button"
+					class="editor-bar-button"
+					title={ L(ctx).Gettext("Heading 2") }
+					data-action="contenteditor#command"
+					data-contenteditor-command-param="formatBlock"
+					data-contenteditor-value-param="h2"
+				>H2</button>
+				<button
+					type="button"
+					class="editor-bar-button"
+					title={ L(ctx).Gettext("Heading 3") }
+					data-action="contenteditor#command"
+					data-contenteditor-command-param="formatBlock"
+					data-contenteditor-value-param="h3"
+				>H3</button>
+				<button
+					type="button"
+					class="editor-bar-button"
+					title={ L(ctx).Gettext("Paragraph") }
+					data-action="contenteditor#command"
+					data-contenteditor-command-param="formatBlock"
+					data-contenteditor-value-param="p"
+				>¶</button>
+				<button
+					type="button"
+					class="editor-bar-button"
+					title={ L(ctx).Gettext("Quote") }
+					data-action="contenteditor#command"
+					data-contenteditor-command-param="formatBlock"
+					data-contenteditor-value-param="blockquote"
+				>❝</button>
+				<span class="editor-bar-sep"></span>
+				<button
+					type="button"
+					class="editor-bar-button"
+					title={ L(ctx).Gettext("Bullet list") }
+					data-action="contenteditor#command"
+					data-contenteditor-command-param="insertUnorderedList"
+				>•—</button>
+				<button
+					type="button"
+					class="editor-bar-button"
+					title={ L(ctx).Gettext("Numbered list") }
+					data-action="contenteditor#command"
+					data-contenteditor-command-param="insertOrderedList"
+				>1.</button>
+				<span class="editor-bar-sep"></span>
+				<button
+					type="button"
+					class="editor-bar-button"
+					title={ L(ctx).Gettext("Link") }
+					data-action="contenteditor#link"
+				>🔗</button>
+				<button
+					type="button"
+					class="editor-bar-button"
+					title={ L(ctx).Gettext("Image") }
+					data-action="contenteditor#image"
+				>🖼</button>
+				<button
+					type="button"
+					class="editor-bar-button"
+					title={ L(ctx).Gettext("Separator") }
+					data-action="contenteditor#rule"
+				>—</button>
+				<button
+					type="button"
+					class="editor-bar-button"
+					title={ L(ctx).Gettext("Clear formatting") }
+					data-action="contenteditor#command"
+					data-contenteditor-command-param="removeFormat"
+				>⌫</button>
+				<span class="editor-bar-sep"></span>
+				<button
+					type="button"
+					class="editor-bar-button"
+					title={ L(ctx).Gettext("Undo") }
+					data-action="contenteditor#command"
+					data-contenteditor-command-param="undo"
+				>↶</button>
+				<button
+					type="button"
+					class="editor-bar-button"
+					title={ L(ctx).Gettext("Redo") }
+					data-action="contenteditor#command"
+					data-contenteditor-command-param="redo"
+				>↷</button>
+				<button
+					type="button"
+					class="editor-bar-button ml-auto"
+					aria-pressed="false"
+					title={ L(ctx).Gettext("Edit the raw HTML instead") }
+					data-action="contenteditor#toggleSource"
+					data-contenteditor-target="sourceButton"
+				>HTML</button>
+			</div>
+			<div
+				class="editor-surface prose"
+				contenteditable="true"
+				spellcheck="true"
+				tabindex="0"
+				data-contenteditor-target="surface"
+				data-action="keydown->contenteditor#keydown"
+			>
+				@templ.Raw(content)
+			</div>
 			<textarea
 				name="content"
 				rows="28"
 				class="field-h w-full font-mono text-sm"
 				spellcheck="false"
+				data-contenteditor-target="source"
 			>{ content }</textarea>
 			<p class="btn-block mt-4">
 				<button class="btn btn-primary" type="submit">{ L(ctx).Gettext("Save") }</button>
