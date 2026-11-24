@@ -58,6 +58,9 @@ func TestDrop(t *testing.T) {
 			"html/ch1.html"))
 	httpmock.RegisterResponder("GET", "/ch1-notype",
 		NewContentResponder(200, nil, "html/ch1.html"))
+	// A missing Content-Type on a document that is not HTML must still fail:/r/n	// the sniffing fallback only accepts what really looks like a page.
+	httpmock.RegisterResponder("GET", "/text-notype",
+		httpmock.NewStringResponder(200, "just a plain text body, no markup at all"))
 	httpmock.RegisterResponder("GET", "/ch2",
 		NewContentResponder(200,
 			map[string]string{"content-type": "text/html; charset=ISO-8859-15"},
@@ -100,7 +103,7 @@ func TestDrop(t *testing.T) {
 			{"http", mustParse("http://x/error"), `Get "http://x/error": HTTP`},
 			{"404", mustParse("http://x/404"), "Invalid status code (404)"},
 			{"ioerror", mustParse("http://x/ioerror"), "HTMLReader error: read error"},
-			{"no type", mustParse("http://x/ch1-notype"), "unsupported content-type: \"\""},
+			{"no type and not html", mustParse("http://x/text-notype"), "unsupported content-type: \"\""},
 			{"unsupported", mustParse("http://x/ct-unsupported"), "unsupported content-type: \"application/x-something-weird\""},
 			{"non-XHTML", mustParse("http://x/xml"), "HTMLReader error: html tag not found in application/xml document"},
 		}
@@ -116,6 +119,15 @@ func TestDrop(t *testing.T) {
 				require.Equal(t, x.err, err.Error())
 			})
 		}
+	})
+
+	// cls.cn answers a news page without a Content-Type header. The body is
+	// sniffed so the page loads instead of failing as "unsupported".
+	t.Run("no content type", func(t *testing.T) {
+		d := extract.NewDrop(mustParse("http://x/ch1-notype"))
+		require.NoError(t, d.Load(nil))
+		require.Equal(t, "text/html", d.ContentType)
+		require.NotEmpty(t, d.Body)
 	})
 
 	t.Run("url", func(t *testing.T) {

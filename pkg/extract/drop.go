@@ -5,6 +5,7 @@
 package extract
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"encoding/xml"
@@ -208,6 +209,19 @@ func (d *Drop) load(client *http.Client) error {
 	// Set mime type
 	d.ContentType, _, _ = mime.ParseMediaType(rsp.Header.Get("content-type"))
 
+	// A few sites send no Content-Type at all (cls.cn answers a news page with
+	// the header missing). Without a type the document is neither HTML nor
+	// media, and loading fails on a perfectly good page. Sniff the first bytes
+	// and put them back untouched.
+	if d.ContentType == "" && rsp.Body != nil {
+		br := bufio.NewReaderSize(rsp.Body, 4096)
+		head, _ := br.Peek(1024)
+		if ct := http.DetectContentType(head); strings.HasPrefix(ct, "text/html") {
+			d.ContentType = "text/html"
+		}
+		rsp.Body = bodyReader{Reader: br, Closer: rsp.Body}
+	}
+
 	// Set site
 	d.Site = d.URL.Hostname()
 
@@ -326,6 +340,13 @@ func domTextLength(doc *html.Node) int {
 	}
 	walk(bodies[0])
 	return n
+}
+
+// bodyReader keeps the buffered reader and the original closer together, so a
+// peeked body can still be closed and drained normally.
+type bodyReader struct {
+	*bufio.Reader
+	io.Closer
 }
 
 // IsHTML returns true when the MIME type of the resource is one of the known HTML types, and also

@@ -24,11 +24,28 @@ import (
 	"strings"
 )
 
-// mirrors maps a WAF protected host to a host that serves the same pages to a
-// mobile browser without the JavaScript challenge.
-var mirrors = map[string]string{
-	"zcool.com.cn":     "m.zcool.com.cn",
-	"www.zcool.com.cn": "m.zcool.com.cn",
+// mirrorRule describes how to reach a site that will not serve its content to
+// a plain HTTP client.
+type mirrorRule struct {
+	// target is the host that answers a mobile browser with a real page.
+	target string
+	// marks are site specific strings found in the useless answer instead of
+	// the generic WAF markers. A site can refuse for reasons that have nothing
+	// to do with Aliyun (36kr runs its own interstitial), but the remedy is the
+	// same: the mobile front end behind the same path.
+	marks []string
+}
+
+// mirrors maps a host that hides its content from a HTTP client to a host that
+// serves the same pages to a mobile browser.
+var mirrors = map[string]mirrorRule{
+	"zcool.com.cn":     {target: "m.zcool.com.cn"},
+	"www.zcool.com.cn": {target: "m.zcool.com.cn"},
+
+	// 36kr answers a desktop request with its own "正在进行安全检测" interstitial
+	// (no Aliyun marker). m.36kr.com serves the article as plain markup.
+	"36kr.com":     {target: "m.36kr.com", marks: []string{"正在进行安全检测"}},
+	"www.36kr.com": {target: "m.36kr.com", marks: []string{"正在进行安全检测"}},
 }
 
 // mobileUA identifies the retry as a phone browser. The mobile front end of a
@@ -78,8 +95,8 @@ func (t *Transport) RoundTrip(req *http.Request) (*http.Response, error) {
 		return rsp, nil
 	}
 
-	mirror := mirrorFor(req.URL.Hostname())
-	if mirror == "" {
+	rule, ok := mirrorFor(req.URL.Hostname())
+	if !ok {
 		return rsp, nil
 	}
 
@@ -87,10 +104,11 @@ func (t *Transport) RoundTrip(req *http.Request) (*http.Response, error) {
 	// be handed back byte for byte.
 	br := bufio.NewReaderSize(rsp.Body, probeSize)
 	head, _ := br.Peek(probeSize)
-	if !isChallenge(head) {
+	if !isChallenge(head, rule.marks) {
 		rsp.Body = readCloser{br, rsp.Body}
 		return rsp, nil
 	}
+	mirror := rule.target
 
 	// The challenge page carries nothing worth keeping.
 	_ = rsp.Body.Close()
@@ -120,7 +138,7 @@ func isHTML(rsp *http.Response) bool {
 	return ct == "" || strings.Contains(ct, "text/html") || strings.Contains(ct, "application/xhtml")
 }
 
-func isChallenge(body []byte) bool {
+func isChallenge(body []byte, extra []string) bool {
 	if len(body) == 0 {
 		return false
 	}
@@ -130,15 +148,18 @@ func isChallenge(body []byte) bool {
 			return true
 		}
 	}
+	for _, m := range extra {
+		if strings.Contains(s, m) {
+			return true
+		}
+	}
 	return false
 }
 
-func mirrorFor(host string) string {
+func mirrorFor(host string) (mirrorRule, bool) {
 	host = strings.ToLower(host)
-	if m, ok := mirrors[host]; ok {
-		return m
-	}
-	return ""
+	r, ok := mirrors[host]
+	return r, ok
 }
 
 type readCloser struct {

@@ -1837,3 +1837,83 @@ npx tsc --noEmit / npm run build                                            通�
    - 报错说「the cookie … was refused」→ 配了但过期/被风控，重新导出。
 5. **小红书**：旧书签不会自愈（控制条是渲染时挂上去的，改造在客户端），
    刷新页面即可看到新的播放角标；点一下才出现控制条。
+
+## 33. 2026-11-24 第二十三轮：把中文常用站点过了一遍
+
+这轮没有新功能，是把服务端解析能力摊开测了一遍（50 多个站点、每条真实请求），
+顺手补了三个漏。
+
+### 一、测法与一个教训
+
+统计口径是**去掉 `<script>`/`<style>` 之后的可见正文字数**。第一版脚本直接
+`stripTags`，把 `<script>` 里的 JSON 也算成了正文 —— B 站专栏那个 299 字的
+"浏览器下载建议"页因此显示 9930 字，"小红书有正文没图片"式的误判就是这么来的。
+修正后重跑了全部数据。
+
+### 二、结论：能解析的和不能解析的
+
+资讯、博客、媒体、财经类基本都行：InfoQ、36氪、钛媒体、阮一峰、少数派、
+博客园、掘金、SegmentFault、新华网、人民网、央视、东方财富、界面、澎湃、
+虎扑（首页和帖子都行）、简书、什么值得买、IT之家、汽车之家、太平洋、搜狐、网易。
+
+社区、社交、电商基本都不行，原因只有两类：
+
+- **SPA 空壳**：贴吧（`<div id="app"></div>`，帖子页也一样）、今日头条
+  （`_$jsvmprt`）、抖音、快手、开源中国、华尔街见闻、B 站专栏（灰度）。
+- **登录墙/风控**：微博（Sina Visitor System）、知乎（`__zse_ck`）、
+  豆瓣日记与小组（403）、豆瓣电影（302 → sec.douban.com）、百度百科
+  （"安全校验中"）、雪球（`_waf_bd8ce2ce37`）、NGA、Chiphell、快科技、CSDN（521）。
+
+这些不该在服务端修：它们要的是浏览器里那份签名或 Cookie，插件上传渲染后的
+DOM 才是正路。**服务端的边界就是"不会执行 JavaScript 的 HTTP 客户端"**，
+认了这条，取舍就清楚了。
+
+### 三、修的三个
+
+**36氪**：桌面请求拿到自家"正在进行安全检测"插页（不是阿里云 WAF，没有
+`renderData` 标记）。`m.36kr.com` 用移动 UA 直接给完整文章。
+`internal/wafshield` 的镜像表从 `map[host]string` 扩成带 `marks` 的规则：
+
+```go
+"36kr.com": {target: "m.36kr.com", marks: []string{"正在进行安全检测"}},
+```
+
+效果：172 字 → 22554 字。
+
+**B站视频**：视频页有 SSR，标题和 og 标签都在，但没有段落，readability 提取 0，
+存下来是"有视频没内容"。新增 `scripts/bilibili.js`，读 `window.__INITIAL_STATE__`
+的 `videoData`，重建元信息行 + 简介 + 封面占位：
+
+```
+UP：Nero_闪灵 · 2026-11-20 · 21:06 · 搞笑 · 776.9 万播放
+[封面图，data-iframe-params=页面 URL]  → archiver 换成 <video>
+```
+
+两个坑：B 站封面写成 `http:/u002F/u002F...`，要还原转义并升到 https；
+视频页是 `video` 类型，extractor 会在 readability 前清空内容，必须写
+`<meta name="readeck:keep-content">` 才会保留（和小红书笔记同一机制）。
+`/read/cv...` 专栏不动，脚本只匹配 `/video/`。
+
+效果：0 字 → 427 字 + 封面。
+
+**财联社**：`www.cls.cn` 返回 200、24 KB、**没有 Content-Type 头**，
+`drop.load` 判成"既不是 HTML 也不是媒体"，直接报 `unsupported content-type: ""`。
+现在缺失时嗅探前 1 KB，是 HTML 就当 HTML，读完的字节原样接回；不是 HTML 仍报原错。
+
+效果：加载失败 → 2327 字 + 8 图。
+
+### 四、验证
+
+```
+go test ./pkg/extract/                 TestDrop 新增 no content type 正向用例  PASS
+go test ./pkg/extract/contentscripts/  TestBilibiliVideoLayout / ReadPageIsUntouched PASS
+go test ./internal/wafshield/          5 例（含 36氪插页重放、真页面不动）  PASS
+线上直连：36kr 22554 字 / B站视频 427 字 + 封面 / 财联社 2327 字 + 8 图
+```
+
+既有失败与本次无关（HEAD 同样失败）：`pkg/extract/contents` 的两个 readability 用例、
+`internal/acls`、`internal/db`、`internal/docs`、`internal/profile`、`pkg/strftime`。
+
+### 五、完整清单
+
+见 `SITE-TEST-REPORT.md`。

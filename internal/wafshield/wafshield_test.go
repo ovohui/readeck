@@ -25,8 +25,11 @@ type fakeTransport struct {
 func (f *fakeTransport) RoundTrip(r *http.Request) (*http.Response, error) {
 	f.calls = append(f.calls, r)
 	body := f.body
-	if r.URL.Hostname() == "m.zcool.com.cn" {
+	switch r.URL.Hostname() {
+	case "m.zcool.com.cn":
 		body = "<html><body><article>real work</article></body></html>"
+	case "m.36kr.com":
+		body = "<html><body><article>real article</article></body></html>"
 	}
 	return &http.Response{
 		StatusCode: 200,
@@ -105,4 +108,61 @@ func TestHostsWithoutMirrorAreNotTouched(t *testing.T) {
 	defer rsp.Body.Close()
 
 	assert.Equal(1, len(next.calls))
+}
+
+// 36kr does not run an Aliyun challenge: it answers a desktop client with its
+// own "正在进行安全检测" interstitial. The mirror table carries the marker, so
+// the retry happens for the same reason as on ZCOOL.
+const krInterstitial = `<html><head><title></title></head><body>` +
+	`<section class="page"><p><span>火山引擎</span></p>` +
+	`<p><span>正在进行安全检测...</span></p>` +
+	`<p>为保障您的访问安全，系统正在检测当前网络环境，该过程通常需要几秒钟，请耐心等待</p>` +
+	`</section></body></html>`
+
+func TestSiteSpecificInterstitialIsReplayed(t *testing.T) {
+	assert := assert.New(t)
+	require := require.New(t)
+
+	next := &fakeTransport{body: krInterstitial}
+	rt := New(next)
+
+	req, err := http.NewRequest("GET", "https://36kr.com/p/4083016736478085", nil)
+	require.NoError(err)
+
+	rsp, err := rt.RoundTrip(req)
+	require.NoError(err)
+	defer rsp.Body.Close()
+
+	body, err := io.ReadAll(rsp.Body)
+	require.NoError(err)
+
+	assert.Equal(2, len(next.calls))
+	assert.Equal("m.36kr.com", next.calls[1].URL.Hostname())
+	assert.Equal("/p/4083016736478085", next.calls[1].URL.Path)
+	assert.Contains(string(body), "real article")
+}
+
+// A page that merely mentions the words must not be replayed: the mirror is
+// only tried when the marker really is the interstitial.
+func TestKrRealPageIsKept(t *testing.T) {
+	assert := assert.New(t)
+	require := require.New(t)
+
+	page := "<html><body><article>" + strings.Repeat("<p>36kr story</p>", 40) +
+		"</article></body></html>"
+	next := &fakeTransport{body: page}
+	rt := New(next)
+
+	req, err := http.NewRequest("GET", "https://36kr.com/p/1", nil)
+	require.NoError(err)
+
+	rsp, err := rt.RoundTrip(req)
+	require.NoError(err)
+	defer rsp.Body.Close()
+
+	body, err := io.ReadAll(rsp.Body)
+	require.NoError(err)
+
+	assert.Equal(1, len(next.calls))
+	assert.Equal(page, string(body))
 }
