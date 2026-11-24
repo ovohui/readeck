@@ -564,3 +564,57 @@ Go 的 http.Client 只跟 HTTP 重定向，遇到这种页面会直接把中转�
 是空壳（`textLength=0`），正文来自**带签名的接口**。以小黑盒为例，
 `/bbs/app/link/tree` 必须带 `hkey`/`nonce`/`_time`/`_rnd` 四个参数，缺一个就
 `缺少必要参数[_time]`，参数齐了但签名不对则是 `非法请求`。这类站点用浏览器扩展抓即可。
+
+## 20. 2026-11-24 第七轮：容器 DNS、Discuz 论坛图片、空白书签
+
+### 日志里的真凶是 DNS，不是抽取
+
+两个站点的失败日志完全一样：
+
+```
+dial tcp: lookup sehuatang.net on 127.0.0.11:53: server misbehaving
+dial tcp: lookup tu.djhdhs.us on 127.0.0.11:53: server misbehaving
+```
+
+`127.0.0.11` 是 Docker 的内嵌 DNS，它把查询转发给宿主。宿主（路由器或运营商 DNS）
+对这类域名直接拒绝，容器里就一个域名也解析不了——页面打不开、图片也下不来。
+
+`docker-compose.yml` 里固定公共 DNS 即可：
+
+```yaml
+    dns:
+      - 223.5.5.5
+      - 119.29.29.29
+      - 1.1.1.1
+```
+
+图片本身不需要额外配置：`tu.djhdhs.us` 只校验 Referer，而归档器抓图片时会自动带上
+`Referer: https://<站点>/`（实测：带 Referer 返回 200 / 1.3 MB，不带返回 403）。
+
+### Discuz 论坛：图片被 readability 丢掉
+
+色花堂这类 Discuz 站，帖子正文在 `td.t_f`（`id="postmessage_<pid>"`）里，外面套着
+布局表格。readability 这次的容器选到了外层 `table`，`cleanConditionally` 把表格里的
+图片当成版面垃圾清掉了：
+
+```
+determined the content container ... node="<table>" ... textLength="245"
+```
+
+归档后正文 1.3 KB、0 张图（原帖 20+ 张）。
+
+新增 `pkg/extract/contentscripts/assets/site-config/sehuatang.net.json`：正文直接定位到
+`//*[starts-with(@id,'postmessage_')]`，并把签名、评分、广告、`attach_nopermission` 之类
+剥掉；`strip_image_src` 里排掉 `none.gif` / `emp.gif` 这类占位图和表情。
+
+### 空白书签给个说法
+
+SPA 页面（小黑盒、抖音分享页）抓下来是空壳，readability 反复 4 遍都得到 `textLength=0`，
+最后书签就是空白的，什么提示都没有。现在这种情况会写进书签的 errors：
+
+```
+No content could be extracted: this page is rendered by JavaScript.
+Save it with the Readeck browser extension.
+```
+
+侧栏的错误区块本来就有「用浏览器扩展」的入口，现在有具体原因了。

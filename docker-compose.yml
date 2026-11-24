@@ -11,6 +11,13 @@ services:
     restart: unless-stopped
     ports:
       - 12233:8000
+    # 容器默认会把 DNS 转发给宿主的 127.0.0.11，宿主（路由器/运营商）拒绝解析
+    # 某些域名时，日志里就是 "lookup xxx on 127.0.0.11:53: server misbehaving"，
+    # 页面和图片都下载不到。这里固定用公共 DNS。
+    dns:
+      - 223.5.5.5
+      - 119.29.29.29
+      - 1.1.1.1
     volumes:
       - ./data:/readeck
     environment:

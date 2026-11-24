@@ -365,6 +365,15 @@ func saveBookmark(b *bookmarks.Bookmark, saved *bool, resourceCount *int) extrac
 			b.Errors = append(b.Errors, x.Error())
 		}
 
+		// A page rendered entirely by JavaScript leaves the reader mode with an
+		// empty shell, and the bookmark silently ends up blank. Say it, so the
+		// browser extension is the obvious next step instead of a mystery.
+		if b.DocumentType == "article" && b.Text == "" && len(b.Errors) == 0 {
+			b.Errors = append(b.Errors,
+				"No content could be extracted: this page is rendered by JavaScript. "+
+					"Save it with the Readeck browser extension.")
+		}
+
 		if !drop.Date.IsZero() {
 			b.Published = &drop.Date
 		}
