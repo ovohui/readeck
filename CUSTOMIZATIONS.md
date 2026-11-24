@@ -696,3 +696,77 @@ POST /api/oauth/token           201  access_token=..., scope=bookmarks:read book
 App 的 `ShareActivity` 注册了 `ACTION_SEND` + `text/plain`，所以手机里任何 App 的
 「分享 → Readeck」都能用，这也正是解决小黑盒这类 SPA 分享链接的正路（服务端抓不到，
 客户端带着已经渲染好的页面来存）。
+
+## 22. 2026-11-24 第九轮：手机端分享目标（自建 Android APK）
+
+### 为什么必须要自己做一个
+
+官方客户端（`com.mydeck.app`，1.1.0）的分享入口只把 **URL** 传给服务端：
+
+```
+ShareActivity  ->  ACTION_SEND / text/plain  ->  POST /api/bookmarks {url}
+```
+
+而小黑盒、抖音分享页这类站点，那个 URL 打开是 3917 字节的空壳，正文由带签名的接口拉取
+（见第 19 节）。**分享只带 URL 这件事，决定了服务端再怎么改都拿不到内容**。桌面端能解决是
+因为浏览器扩展把渲染后的 DOM 一起提交了——手机上缺的就是这一步。
+
+### 做法：把浏览器扩展那套搬到手机上
+
+新增 `tools/mobile-share/`，一个 28 KB 的独立 APK，包名 `org.ovohui.readeckshare`：
+
+```
+分享 -> ShareActivity
+         WebView.loadUrl(url)          站点自己的 JS 跑起来（含它的签名请求）
+         onPageFinished
+           自动滚动到底（260ms 一屏，最多 60 次）   <- 触发懒加载图片
+           滚回顶部，等 2 秒
+           evaluateJavascript -> JSON.stringify({title, url, html})
+         POST /api/bookmarks {url, title, html}   <- 服务端只做 readability
+```
+
+关键点只有一个：**提交 html，服务端不再请求原页面**。这与扩展走的是同一个 API 字段，服务端
+一行代码都不用改。
+
+### 登录复用设备码，不存密码
+
+`MainActivity` 走和服务端一致的 OAuth 设备码流程：
+
+```
+POST /api/oauth/client -> client_id
+POST /api/oauth/device -> user_code / verification_uri
+（浏览器里授权）
+POST /api/oauth/token  -> access_token（存 SharedPreferences）
+```
+
+也支持直接粘一个 API 令牌（`/profile/tokens` 里新建），服务端还没升级时用这条路。
+
+### 不用 Gradle
+
+机器上没有 Android Studio，也不想为一个 28 KB 的程序装 SDK Manager。构建脚本
+`build.py` 直接用四件套：
+
+```
+javac -source 11 -target 11 -classpath android.jar
+d8 --min-api 24 --lib android.jar
+aapt2 compile --dir res && aapt2 link -I android.jar --manifest AndroidManifest.xml
+zipalign -p -f 4 && apksigner sign（v2 + v3）
+```
+
+两个 Windows 上的坑：
+
+- `aapt2` 打不开中文目录（本仓库路径含「自定义改造」），所以所有中间文件都放在系统临时目录
+  的 ASCII 路径下，产物再拷回来；
+- `apksigner.bat` 要求 `JAVA_HOME`，直接 `java -jar build-tools/lib/apksigner.jar` 更稳。
+
+图标是 `make_icon.py` 用 zlib 手写 PNG 画出来的（192×192，圆角、书签丝带），不依赖 Pillow。
+
+### 验证
+
+- `aapt2 dump badging`：`org.ovohui.readeckshare`，minSdk 24，targetSdk 34，
+  label「转存 Readeck」，`ShareActivity` 的 `SEND` + `text/plain` 齐全；
+- `apksigner verify`：v2、v3 均通过，证书 `CN=Readeck Share`；
+- 分享文本的链接提取（小黑盒、小红书、中文标点粘连、多链接）用纯 JVM 断言跑过，7 例全过；
+- 端到端：用设备码换到的 Bearer token 直接 `POST /api/bookmarks {url,title,html}`，
+  服务端 `202`，几秒后 `/api/bookmarks/<uid>/article` 里就是提交的那段正文（证明服务端
+  用的是我们递过去的 HTML，而不是自己去抓 `example.com`）。
