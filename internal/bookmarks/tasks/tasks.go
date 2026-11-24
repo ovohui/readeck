@@ -554,6 +554,12 @@ func createZipFile(b *bookmarks.Bookmark, ex *extract.Extractor, resourceCount *
 	if len(ex.HTML) == 0 && ex.Drop().DocumentType == "video" &&
 		configs.Config.Bookmarks.DownloadEmbeddedVideos {
 		ex.HTML = []byte("<!DOCTYPE html>\n<html><head></head><body></body></html>")
+		// The archived document is skipped unless the drop claims to hold
+		// HTML. A redirect (or a site that answers with a non-HTML content
+		// type) leaves ContentType set to whatever came back from the wire,
+		// so the player we just downloaded would end up in a zip with no
+		// index.html to reference it - the reader shows an empty page.
+		ex.Drop().ContentType = "text/html"
 		ex.Log().Info("synthesized empty document for video page")
 	}
 

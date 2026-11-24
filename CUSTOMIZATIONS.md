@@ -1055,3 +1055,65 @@ pkg/extract/contentscripts: TestXiaohongshuVideoNote
     anonymous URL: https://sns-video-v6.xhscdn.com/...258.mp4?sign=...&t=...
     credentials: omit，4 项断言全过                                                   PASS
 ```
+
+## 28. 2026-11-24 第十五轮：视频其实存下来了，但阅读页是空的
+
+### 日志里的证据
+
+新笔记（`6af6ffaf000000002a00c907`）服务端那条：
+
+```
+[INFO] synthesized empty document for video page
+[DEBU] save resource name="./_resources/FsfvzVhjcaArhNi3v1VNko.mp4"
+[INFO] embedded video archived ... resource="./_resources/FsfvzVhjcaArhNi3v1VNko.mp4"
+```
+
+而且这个 mp4 **真的能访问**：`GET /bm/Fd/.../_resources/FsfvzVhjcaArhNi3v1VNko.mp4`
+→ `200 video/mp4`，16,999,626 字节。也就是说上一轮的 yt-dlp 修复**已经生效**。
+
+用户看到空白，是因为归档 zip 里**没有 index.html**（`x/index.html` 返回 404），
+`/api/bookmarks/<uid>/article` 返回 0 字节。`createZipFile` 里：
+
+```go
+if len(ex.HTML) > 0 && ex.Drop().IsHTML() {
+    ... ArchiveDocument(...)
+    b.Files["article"] = ...
+}
+```
+
+合成空文档时只写了 `ex.HTML`，没改 `ContentType`。这次 xsec_token 过期导致 302，
+最终 ContentType 不再是 `text/html` → `IsHTML()` 为 false → 整段被跳过。
+上一轮那条恰好 ContentType 还是 text/html，所以有 103 字节的 iframe 存下来，问题被掩盖了。
+
+### 修复
+
+`internal/bookmarks/tasks/tasks.go`：合成空文档的同时 `ex.Drop().ContentType = "text/html"`。
+否则下载好的视频进了一个没有 index.html 的 zip，等于白下。
+
+### 扩展这一侧
+
+插件保存的那条正文是 3 张 640×1387 的竖图，没有 `<video>`，而且标题是 `<h2>`、
+没有 `xhs-note` class —— 说明 `xhsArticle()` 返回 null，走的是 `xhsArticleFromDOM()` 兜底，
+之前那个匿名取流只加在主路径里，兜底路径没覆盖到。
+
+补上：
+
+- `xhsArticleFromDOM` 改 async；
+- 新增 `xhsVideoFromDOM`：从 `video[src]` / `source[src]` 取 http mp4，
+  再从内联 script 文本里正则找 `.mp4?sign=...`（先把 `\/` 与 `u0026` 还原）；
+- 兜底路径在插入图片后，若还没有 `<video>`，依次尝试 DOM 直链与匿名请求；
+- manifest 1.2.1。
+
+验证：`xhsVideoFromDOM` 的 video / source / 内联 script 三种来源都能取到正确的
+`https://sns-video-v6.xhscdn.com/...mp4?sign=...`，blob URL 正确忽略。
+
+### 已存在的书签
+
+`FdRJBCHyVeo2MT3Qh3AS6d` 的 mp4 已经在归档里，可以不用重存，直接打开
+`/bookmarks/FdRJBCHyVeo2MT3Qh3AS6d/content` → 点 HTML 源码 → 写入：
+
+```html
+<video controls preload="metadata" src="./_resources/FsfvzVhjcaArhNi3v1VNko.mp4"></video>
+```
+
+保存后就能播。新保存的书签不需要这一步。

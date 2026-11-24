@@ -403,10 +403,38 @@ async function capturePage(opts) {
     return {title, root}
   }
 
+  // Last chance to find the stream before giving up: a video that is already
+  // playing has its URL on a media element or in an inline script, even when
+  // the state payload no longer carries it.
+  const xhsVideoFromDOM = () => {
+    const media = document.querySelectorAll("video[src], source[src]")
+    for (let i = 0; i < media.length; i++) {
+      const src = media[i].getAttribute("src") || ""
+      if (/^https?:/i.test(src) && /\.mp4/i.test(src)) {
+        return src
+      }
+    }
+    const rx = /https?:[^"'\s]{6,400}\.mp4[^"'\s]{0,200}/g
+    const scripts = document.querySelectorAll("script")
+    for (let i = 0; i < scripts.length; i++) {
+      // Inline state is JSON-escaped: "https:\/\/x" and "\u0026". Normalise
+      // the text before matching so the URL itself is clean.
+      const text = (scripts[i].textContent || "").replace(/\\/g, "")
+      let m
+      while ((m = rx.exec(text)) !== null) {
+        const url = m[0].replace(/u0026/gi, "&")
+        if (/xhscdn\.com|xhsimg\.com/.test(url)) {
+          return url
+        }
+      }
+    }
+    return ""
+  }
+
   // Safety net: if the state payload ever moves or changes shape, fall back to
   // the note container. Scoping to #noteContainer is what keeps the feed covers
   // out: the explore page is an infinite list, the note is one box inside it.
-  const xhsArticleFromDOM = () => {
+  const xhsArticleFromDOM = async () => {
     const container =
       document.querySelector("#noteContainer") || document.querySelector(".note-container")
     if (!container) {
@@ -501,11 +529,25 @@ async function capturePage(opts) {
       return null
     }
 
+    if (!root.querySelector("video")) {
+      const video = xhsVideoFromDOM() || (await xhsAnonymousVideo(location.href))
+      if (video) {
+        const fig = document.createElement("figure")
+        const el = document.createElement("video")
+        el.setAttribute("src", video)
+        el.setAttribute("controls", "")
+        el.setAttribute("playsinline", "")
+        el.setAttribute("preload", "metadata")
+        fig.appendChild(el)
+        root.appendChild(fig)
+      }
+    }
+
     return {title, root}
   }
 
   if (isXhs) {
-    const article = (await xhsArticle()) || xhsArticleFromDOM()
+    const article = (await xhsArticle()) || (await xhsArticleFromDOM())
     if (article) {
       if (opts.inline) {
         await inlineImages(article.root)
