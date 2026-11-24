@@ -86,12 +86,12 @@ func ExtractMeta(m *extract.ProcessMessage, next extract.Processor) extract.Proc
 		}
 	}
 
-	d.Title = d.Meta.LookupGet(
+	d.Title = cleanTitle(d.Meta.LookupGet(
 		"ld.headline",
 		"graph.title",
 		"twitter.title",
 		"html.title",
-	)
+	))
 
 	d.Description = d.Meta.LookupGet(
 		"ld.description",

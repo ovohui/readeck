@@ -197,7 +197,8 @@ func TestExtractorRun(t *testing.T) {
 		ex, _ := extract.New("http://example.net/404", nil)
 		ex.Run()
 		assert.Len(ex.Errors(), 1)
-		assert.Equal("cannot load resource", ex.Errors().Error())
+		assert.Contains(ex.Errors().Error(), "cannot load resource")
+		assert.Contains(ex.Errors().Error(), "Invalid status code (404)")
 	})
 
 	t.Run("process body", func(t *testing.T) {

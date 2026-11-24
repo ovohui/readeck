@@ -45,6 +45,11 @@ var (
 // currentArchiveFlags returns the archiver flags for the current configuration.
 // When video downloading is enabled, media resources are also downloaded into
 // the bookmark archive.
+// SiteCookiesFile returns a Netscape cookies file holding the cookies saved in
+// Settings > Site cookies. It is set at startup by internal/app, because the
+// sitecookies package imports internal/server, which imports this one.
+var SiteCookiesFile func() (string, error)
+
 func currentArchiveFlags() archiver.ArchiveFlag {
 	flags := archiveFlags
 	if configs.Config.Bookmarks.DownloadVideos {
@@ -241,11 +246,24 @@ func ArchiveDocument(ctx context.Context, zw *zip.Writer, ex *extract.Extractor)
 		archiver.WithCollector(collector),
 	}
 	if configs.Config.Bookmarks.DownloadEmbeddedVideos {
+		// yt-dlp runs as a separate process and never sees the cookie
+		// injection the extractor's HTTP client gets. A site that answers an
+		// anonymous request with a login wall (Zhihu) also refuses to hand
+		// over its clip, so hand the saved site cookies to yt-dlp as well.
+		// An explicitly configured file still wins.
+		cookiesFile := configs.Config.Bookmarks.YtdlpCookiesFile
+		if cookiesFile == "" && SiteCookiesFile != nil {
+			if f, err := SiteCookiesFile(); err == nil {
+				cookiesFile = f
+			} else {
+				slog.Debug("no site cookie for yt-dlp", slog.Any("err", err))
+			}
+		}
 		opts = append(opts, archiver.WithYtdlp(archiver.YtdlpConfig{
 			Path:        configs.Config.Bookmarks.YtdlpPath,
 			MaxHeight:   configs.Config.Bookmarks.YtdlpMaxHeight,
 			Timeout:     time.Duration(configs.Config.Bookmarks.YtdlpTimeout) * time.Second,
-			CookiesFile: configs.Config.Bookmarks.YtdlpCookiesFile,
+			CookiesFile: cookiesFile,
 			ExtraArgs:   strings.Fields(configs.Config.Bookmarks.YtdlpExtraArgs),
 		}))
 		// Video bookmarks (Bilibili, ...) have no player in their extracted

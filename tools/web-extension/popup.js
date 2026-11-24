@@ -115,6 +115,48 @@ async function capturePage(opts) {
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
   const isXhs = /(^|\.)xiaohongshu\.com$/i.test(location.hostname)
 
+  /**
+   * Browsers fold the inbox counter into document.title on sites that have one,
+   * and every template appends its own name. Both are noise in a bookmark card:
+   *
+   *   (99+ 封私信 / 80 条消息) 神舟二十四号载人飞船瞄准11月25日8时18分发射 - 知乎
+   *   -> 神舟二十四号载人飞船瞄准11月25日8时18分发射
+   *
+   * A leading bracketed year "(2026)" is part of the headline, so a badge must
+   * either name an inbox or be nothing but a small counter.
+   */
+  function cleanTitle(raw) {
+    let t = String(raw || "").trim()
+    if (!t) {
+      return t
+    }
+
+    const banner = t.match(/^[(\[（【][^)\]）】]{1,60}[)\]）】]\s*/)
+    if (banner) {
+      const inner = banner[0].replace(/[()[\]（）【】\s]/g, "")
+      const rest = t.slice(banner[0].length).trim()
+      const digits = (inner.match(/\d/g) || []).length
+      const named = /私信|消息|未读|通知|条新|inbox|unread|messages|notifications/i.test(inner)
+      const bare = digits > 0 && digits <= 3 && /^[\d+/,.kK百千万]*$/.test(inner)
+      if (rest && (named || bare)) {
+        t = rest
+      }
+    }
+
+    for (let i = 0; i < 2; i++) {
+      const m = t.match(/^(.+?)(?:\s+[-–—]\s*|\s*[_|·]\s*)([^-–—|_·\s]{1,20})$/)
+      if (!m) {
+        break
+      }
+      if (/[.。,，!！?？:：;；]/.test(m[2]) || m[2].length * 2 > t.length) {
+        break
+      }
+      t = m[1].trim()
+    }
+
+    return t.trim()
+  }
+
   // 0. The page must be fully parsed before we start scrolling.
   if (document.readyState !== "complete") {
     await Promise.race([
@@ -402,7 +444,7 @@ async function capturePage(opts) {
     const title =
       text("#detail-title") ||
       text(".note-content .title") ||
-      (document.title || "").replace(/\s*[-–|]\s*小红书.*$/, "").trim()
+      cleanTitle(document.title)
 
     const meta = []
     const author = text(".author-container .name") || text(".author-wrapper .name")
@@ -505,7 +547,7 @@ async function capturePage(opts) {
           article.root.outerHTML +
           "</body></html>",
         url: location.href,
-        title: article.title || document.title,
+        title: article.title || cleanTitle(document.title),
       }
     }
   }
@@ -547,6 +589,33 @@ async function capturePage(opts) {
     }
   })
 
+  // 4c. A player never survives extraction: the archiver strips every <video>
+  //     and <iframe> and rebuilds only the ones it can download itself. On a
+  //     Zhihu answer the clip is rendered by a player, so the archive would
+  //     lose it. Replacing the player with its poster plus the URL of the
+  //     page that hosts the clip hands the download to yt-dlp on the server.
+  if (/(^|\.)zhihu\.com$/i.test(location.hostname)) {
+    clone.querySelectorAll("video").forEach((el) => {
+      const poster = el.getAttribute("poster") || ""
+      const holder = el.closest("a[href*='/video/'], a[href*='/zvideo/']")
+      const page = holder ? holder.href : location.href
+      const figure = document.createElement("figure")
+      if (poster) {
+        const img = document.createElement("img")
+        img.setAttribute("src", poster)
+        img.setAttribute("poster", poster)
+        img.setAttribute("data-iframe-params", "src=" + encodeURIComponent(page))
+        figure.appendChild(img)
+      } else {
+        const link = document.createElement("a")
+        link.setAttribute("href", page)
+        link.textContent = page
+        figure.appendChild(link)
+      }
+      el.replaceWith(figure)
+    })
+  }
+
   // 5. Optionally inline the images so hotlink protection or a login cookie
   //    cannot break the archive later.
   if (opts.inline) {
@@ -559,7 +628,7 @@ async function capturePage(opts) {
   return {
     html: "<!DOCTYPE html>\n" + clone.outerHTML,
     url: location.href,
-    title: document.title,
+    title: cleanTitle(document.title),
   }
 }
 

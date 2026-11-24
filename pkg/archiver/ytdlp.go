@@ -50,6 +50,9 @@ var rxYtEmbedded = regexp.MustCompile(`^/embed/([a-zA-Z0-9_-]{6,})`)
 // rxBiliVideo matches a Bilibili video page path.
 var rxBiliVideo = regexp.MustCompile(`/(?:video|bangumi/play)/((?:BV[0-9A-Za-z]{8,})|(?:av\d+))`)
 
+// rxZhihuVideo matches a Zhihu clip path: /video/<id> or /zvideo/<id>.
+var rxZhihuVideo = regexp.MustCompile(`/(?:video|zvideo)/(\d+)`)
+
 // supportedEmbedHosts lists hosts whose players yt-dlp knows how to handle.
 // A host matches when it is equal to an entry or is one of its subdomains.
 var supportedEmbedHosts = []string{
@@ -76,6 +79,9 @@ var supportedEmbedHosts = []string{
 	// resolves the note on its own, and it does so without cookies.
 	"xiaohongshu.com",
 	"xhslink.com",
+	// Zhihu answers embed their clip in a player the extractor strips. The
+	// canonical /video/<id> page resolves without the answer shell.
+	"zhihu.com",
 }
 
 // isSupportedEmbedHost reports whether host (or one of its parents) is handled
@@ -130,6 +136,14 @@ func embeddedVideoPageURL(rawURL string) (string, bool) {
 		}
 		if m := rxBiliVideo.FindStringSubmatch(u.Path); m != nil {
 			return "https://www.bilibili.com/video/" + m[1], true
+		}
+		return u.String(), true
+
+	case strings.HasSuffix(host, "zhihu.com"):
+		// An answer page is handed over untouched: yt-dlp's Zhihu extractor
+		// accepts /question/<id>/answer/<id> as well as /video/<id>.
+		if m := rxZhihuVideo.FindStringSubmatch(u.Path); m != nil {
+			return "https://www.zhihu.com/video/" + m[1], true
 		}
 		return u.String(), true
 

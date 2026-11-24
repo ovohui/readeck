@@ -384,7 +384,11 @@ func (e *Extractor) Run() {
 
 		err := d.Load(e.client)
 		if err != nil {
-			m.Log().Error("cannot load resource", slog.Any("err", err))
+			// The log recorder keeps the message and drops the attributes,
+			// so the reason has to live in the message itself: "Invalid
+			// status code (403): the site refused the request" tells the user
+			// to save a login cookie, a bare "cannot load resource" does not.
+			m.Log().Error("cannot load resource: "+err.Error(), slog.Any("err", err))
 			return
 		}
 

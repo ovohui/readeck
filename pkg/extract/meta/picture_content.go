@@ -39,15 +39,21 @@ func ExtractContentPicture(m *extract.ProcessMessage, next extract.Processor) ex
 	}
 
 	d := m.Extractor.Drop()
-	if _, ok := d.Pictures["image"]; ok {
-		return next
-	}
 	switch d.DocumentType {
 	case "", "article", "photo":
 	default:
 		return next
 	}
 	if len(d.Body) == 0 {
+		return next
+	}
+
+	// A declared cover wins, unless it is too small to be artwork: sites that
+	// have no og:image often point it at a 200px logo or a share badge, and
+	// the card then shows the logo instead of the picture the article is
+	// about.
+	old, hasOld := d.Pictures["image"]
+	if hasOld && !weakCover(old) {
 		return next
 	}
 
@@ -76,6 +82,12 @@ func ExtractContentPicture(m *extract.ProcessMessage, next extract.Processor) ex
 		return next
 	}
 
+	// Keep whichever is bigger. A cover that is only slightly better than the
+	// one already there is not worth a second download.
+	if hasOld && old.Size[0] >= picture.Size[0] {
+		return next
+	}
+
 	d.Pictures["image"] = picture
 	if thumbnail, err := picture.Copy(extract.ImageSizeThumbnail, ""); err == nil {
 		d.Pictures["thumbnail"] = thumbnail
@@ -87,6 +99,17 @@ func ExtractContentPicture(m *extract.ProcessMessage, next extract.Processor) ex
 	)
 
 	return next
+}
+
+// minCoverWidth is the width below which a declared cover is treated as an
+// icon rather than artwork.
+const minCoverWidth = 400
+
+// weakCover reports whether an already declared cover is worth replacing.
+// A picture whose size is still unknown is left alone: it may not have been
+// loaded yet, and guessing would throw away a good image.
+func weakCover(p *extract.Picture) bool {
+	return p == nil || (p.Size[0] > 0 && p.Size[0] < minCoverWidth)
 }
 
 // firstBodyImage returns the first image URL of a rendered article that looks

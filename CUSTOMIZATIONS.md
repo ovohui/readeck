@@ -1475,3 +1475,170 @@ docker compose up -d --force-recreate
 最后一个镜像，它对应远端提交 `f551874c`（第 19 轮：小红书正文保留 + 服务端下视频）。
 它内部的 `/api/info` 仍是老样子（无 `built`），所以它自己没法自证。
 从下一个镜像起才有 `built`。
+
+## 31. 2026-11-24 第二十一轮：知乎 403、书签头图、卡片排版
+
+### 现象
+
+服务端粘贴知乎链接，日志只有一行错误：
+
+```
+[ERRO] cannot load resource err="Invalid status code (403)"
+```
+
+书签标题空、没有正文、没有封面，卡片显示「未命名」加一块字母渐变。插件
+保存的那条有图但标题是 `(99+ 封私信 / 80 条消息) 神舟二十四号…… - 知乎`。
+
+### 一、403 不是 UA 问题，是登录墙
+
+配置里钉着一个 2018 年的 UA：
+
+```json
+"user-agent": "Mozilla/5.0 (Windows NT 6.1; ...) Chrome/70.0.3538.110 Safari/537.36"
+```
+
+换 UA 再试，仍然是 403，但响应体说明了原因：
+
+```html
+<meta id="zh-zse-ck" content="2mIcG+OGMT+a7HXakxY/NO25...">
+<script src="https://static.zhihu.com/zse-ck/v4/....js">
+```
+
+```json
+{"error":{"need_login":true,"code":40353,"message":"请您登录后查看更多专业优质内容。"}}
+```
+
+知乎对匿名请求一律返回 `zse-ck` 的 JS 挑战页，三个入口都一样：
+
+| 入口 | 结果 |
+|---|---|
+| 桌面 UA 抓 answer 页 | 403，zse-ck 挑战 |
+| 移动 UA 抓同一页 | 403 |
+| `/appview/answer/<id>` | 403 `code 40362` |
+| `/api/v4/answers/<id>` | 403 `code 40353`，`need_login: true` |
+
+所以**唯一的解法是给它一份登录态 Cookie**，Readeck 已经有这个能力
+（`设置 → 站点 Cookie`，`/cookies` 页面，第 2 轮做的）。抓取时通过
+`httpclient.TransportWrapper` 注入到请求里。
+
+本次的三处改动：
+
+1. `zhihu.com.json` 删掉那个老 UA，改走 `internal/httpclient` 的默认值
+   （Chrome 144），另外补上 `accept-language` 和 `referer`。
+2. 错误信息带上原因。原来日志记录器只留 message、丢掉属性，
+   `errors` 里永远是 `cannot load resource`，等于什么都没说：
+
+   ```go
+   m.Log().Error("cannot load resource: "+err.Error(), slog.Any("err", err))
+   ```
+
+   现在书签详情里直接是
+   `cannot load resource: Invalid status code (403): the site refused the request, it usually needs a login cookie (Settings > Site cookies)`。
+3. `drop.go` 对 401/403 单独给提示，其它状态码保持原样。
+
+### 二、知乎视频：yt-dlp 认得，但缺 Cookie
+
+`yt-dlp` 有 `Zhihu` 提取器，接受 `/video/<id>`、`/zvideo/<id>` 和
+`/question/<qid>/answer/<aid>`。于是：
+
+1. `supportedEmbedHosts` 加 `zhihu.com`，`embeddedVideoPageURL` 里补一个
+   `case`，把 `/video/<id>` 规范化成 `https://www.zhihu.com/video/<id>`，
+   回答页原样交给 yt-dlp。
+2. 插件把页面里的 `<video>` 换成「封面 + 宿主页 URL」的占位图
+   （`data-iframe-params="src=<urlencoded>"`）。抽取阶段本来就会删掉所有
+   `<video>`/`<iframe>`，留着播放器等于留一个死元素；换成占位图后归档阶段
+   会把它换成 `<video src="./_resources/xxx.mp4" poster="...">`。
+3. **Cookie 打通**。yt-dlp 是独立进程，看不到 HTTP 客户端的 Cookie 注入，
+   知乎连视频也一起拒。新增 `sitecookies.NetscapeFile()`，把「站点 Cookie」
+   里的内容写成 Netscape cookies 文件交给 yt-dlp：
+
+   ```go
+   cookiesFile := configs.Config.Bookmarks.YtdlpCookiesFile
+   if cookiesFile == "" && SiteCookiesFile != nil {
+       if f, err := SiteCookiesFile(); err == nil {
+           cookiesFile = f
+       }
+   }
+   ```
+
+   `SiteCookiesFile` 这个钩子在 `internal/app/serve.go` 里赋值——直接
+   import 会成环（`sitecookies → internal/server → bookmarks`）。
+   显式配置的 `ytdlp_cookies_file` 仍然优先。
+
+   换句话说：**在「站点 Cookie」里存一次知乎，页面和视频都能用**，不用再去
+   容器里放一份 cookies.txt。
+
+### 三、标题里的通知角标
+
+`document.title` 在登录状态下会带未读计数，站点再拼上自己的名字：
+
+```
+(99+ 封私信 / 80 条消息) 神舟二十四号载人飞船瞄准11月25日8时18分发射 - 知乎
+```
+
+服务端（`pkg/extract/meta/title.go`）和插件（`cleanTitle`）各实现一份同样
+的规则：
+
+- 开头的括号横幅，**要么点名收件箱**（私信/消息/未读/inbox/unread…），
+  **要么就是个纯计数**（`3`、`99+`、`1.2k`），才当作噪音删掉；
+- 四位以上数字当成年份/编号保留，`(2026) 年度总结` 不变；
+- 结尾的站点名按 ` - `、`|`、`_`、`·` 剥，最多剥两层；带空格或标点的不剥，
+  `A - B 两种方案的对比` 原样保留。
+
+### 四、书签头图是怎么来的
+
+卡片上那张图是 `thumbnail`（380px 宽），来源按优先级：
+
+1. `og:image` / `twitter:image` / JSON-LD `image` —— 页面自己声明的封面；
+2. 没有声明 → 正文第一张「像图片」的 img：跳过 `data:`、`blob:`、
+   `.svg`、小于 200px 的，以及 URL/class/alt 里带
+   `avatar|icon|logo|emoji|spacer|pixel|...` 的（`picture_content.go`）；
+3. 本次新增：声明了但**宽度小于 400px** 的封面当作 logo 处理，同样回退到
+   正文首图，且只在新图更大时才换。很多站没有真封面，`og:image` 就指到
+   站点 logo，卡片于是整片红（小红书就是这样）；
+4. 都没有 → `rndSVG`，按域名哈希生成的渐变块加首字母（截图里的紫色 `Z`
+   和绿色 `X`）。
+
+所以「有没有头图」取决于三件事：页面能不能抓到（知乎必须先配 Cookie）、
+正文里有没有图、`og:image` 是不是真图。
+
+### 五、卡片排版
+
+只动了三处，都是呼吸感的调整，没碰配色和栅格：
+
+```scss
+&--img   { @apply block overflow-hidden bg-gray-100; }   // 浅色/透明图不再融进白底
+&--title { @apply px-2.5 pt-2.5 pb-1; a { @apply line-clamp-3 leading-snug; } }
+&--meta  { @apply px-2.5 pb-0.5 …; }
+```
+
+标题仍是三行截断，行高收紧到 `leading-snug`，让三行标题和封面之间的
+距离看起来是刻意留白而不是挤压。
+
+### 六、验证
+
+```
+go test ./pkg/extract/meta/ -run TestCleanTitle
+  11 例：知乎角标 / 站点后缀 / 括号年份 / 驼峰连字符 / 纯计数徽标      PASS
+go test ./pkg/extract/ -run TestExtractorRun                            PASS
+go test ./pkg/archiver/ ./pkg/bleach/ ./pkg/extract/contentscripts/     PASS
+jsdom title-test.js（插件 cleanTitle 同一批用例）                        ALL PASS
+go build ./...                                                          通过
+```
+
+既有失败与本次无关，在 HEAD 上同样失败：`TestExtractor_StripHeadingAnchors`、
+`TestExtractor_ConvertMathBlocks`、`TestStrftime`、`internal/acls` 的两个
+策略测试（期望值还没跟上站点 Cookie 权限）、`TestSqliteDSN`、
+`internal/docs` 与 `internal/profile` 的 `TestPermissions`。
+
+### 七、升级后
+
+1. 拉镜像 `docker compose pull && docker compose up -d`。
+2. 扩展重载到 **1.3.1**。
+3. **先配 Cookie**：浏览器登录知乎 → 复制 `Cookie` 请求头 → `设置 → 站点
+   Cookie` 新增一条，域名填 `zhihu.com`，保存。
+4. 重新保存那条知乎回答。成功后：标题不带角标、正文有作者行、卡片有图；
+   如果该回答带视频，归档里会有 `<video src="./_resources/xxx.mp4">`，
+   日志里能看到 `yt-dlp` 那次下载。
+
+没配 Cookie 之前，知乎只会给出上面那句带 `403` 的错误，这是预期行为。

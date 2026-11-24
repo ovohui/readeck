@@ -205,6 +205,16 @@ func (d *Drop) load(client *http.Client) error {
 	d.Site = d.URL.Hostname()
 
 	if rsp.StatusCode/100 != 2 {
+		// A 401 or 403 almost always means the page wants a session: Chinese
+		// Q&A and forum sites answer anonymous requests with a login wall
+		// rather than a redirect. Saying so saves a round of guessing.
+		if rsp.StatusCode == http.StatusUnauthorized || rsp.StatusCode == http.StatusForbidden {
+			return fmt.Errorf(
+				"Invalid status code (%d): the site refused the request, "+
+					"it usually needs a login cookie (Settings > Site cookies)",
+				rsp.StatusCode,
+			)
+		}
 		return fmt.Errorf("Invalid status code (%d)", rsp.StatusCode)
 	}
 

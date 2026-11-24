@@ -313,7 +313,8 @@
     }
 
     &--img {
-      @apply block overflow-hidden;
+      // A transparent or very light picture used to melt into the page.
+      @apply block overflow-hidden bg-gray-100;
 
       > img {
         @apply w-full aspect-video object-cover object-center filter;
@@ -338,10 +339,10 @@
     }
 
     &--title {
-      @apply p-2;
+      @apply px-2.5 pt-2.5 pb-1;
 
       a {
-        @apply line-clamp-3;
+        @apply line-clamp-3 leading-snug;
       }
 
       a::after {
@@ -357,7 +358,7 @@
 
     &--meta {
       @apply self-center;
-      @apply px-2 overflow-x-clip overflow-y-hidden;
+      @apply px-2.5 pb-0.5 overflow-x-clip overflow-y-hidden;
       @apply flex items-baseline gap-2;
       @apply text-xs text-gray-600;
       line-height: 0;

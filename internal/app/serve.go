@@ -33,6 +33,7 @@ import (
 	"codeberg.org/readeck/readeck/internal/auth/oidc"
 	"codeberg.org/readeck/readeck/internal/auth/onboarding"
 	"codeberg.org/readeck/readeck/internal/auth/signin"
+	"codeberg.org/readeck/readeck/internal/bookmarks"
 	bookmark_routes "codeberg.org/readeck/readeck/internal/bookmarks/routes"
 	"codeberg.org/readeck/readeck/internal/bus"
 	"codeberg.org/readeck/readeck/internal/cookbook"
@@ -41,12 +42,12 @@ import (
 	"codeberg.org/readeck/readeck/internal/docs"
 	"codeberg.org/readeck/readeck/internal/httpclient"
 	"codeberg.org/readeck/readeck/internal/metrics"
-	"codeberg.org/readeck/readeck/internal/sitecookies"
 	"codeberg.org/readeck/readeck/internal/opds"
 	"codeberg.org/readeck/readeck/internal/profile"
 	"codeberg.org/readeck/readeck/internal/profile/preferences"
 	"codeberg.org/readeck/readeck/internal/server"
 	"codeberg.org/readeck/readeck/internal/server/urls"
+	"codeberg.org/readeck/readeck/internal/sitecookies"
 	"codeberg.org/readeck/readeck/internal/videoplayer"
 )
 
@@ -303,6 +304,11 @@ func InitServer(s *server.Server) error {
 	httpclient.TransportWrapper = func(rt http.RoundTripper) http.RoundTripper {
 		return sitecookies.NewRoundTripper(rt)
 	}
+
+	// yt-dlp is a separate process and does not go through the transport
+	// wrapper, so the saved site cookies are handed to it as a file. Set here
+	// rather than in the bookmarks package to keep the import graph acyclic.
+	bookmarks.SiteCookiesFile = sitecookies.NetscapeFile
 
 	// Init session store
 	server.InitSession()
