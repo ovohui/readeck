@@ -44,8 +44,15 @@ func (t *RoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
 	} else {
 		// Clone to avoid mutating the caller's request.
 		r := req.Clone(req.Context())
-		if cookie != "" && r.Header.Get("Cookie") == "" {
-			r.Header.Set("Cookie", cookie)
+		if cookie != "" {
+			// The client's jar may already hold a cookie for this host: the
+			// first request of an extraction often receives a device id, and
+			// a page load can set half a dozen more. Skipping injection in
+			// that case silently dropped the saved session and the site
+			// answered with its login wall, which looked exactly like "the
+			// cookie was never saved". Merge instead: the saved cookies win,
+			// the jar keeps whatever else it collected.
+			r.Header.Set("Cookie", mergeCookieHeader(r.Header.Get("Cookie"), cookie))
 			slog.Debug("injecting site cookies", slog.String("domain", req.URL.Hostname()))
 		}
 		for k, v := range headers {
@@ -60,4 +67,47 @@ func (t *RoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
 		return t.RoundTripper.RoundTrip(r)
 	}
 	return t.RoundTripper.RoundTrip(req)
+}
+
+// mergeCookieHeader combines the cookies already attached to a request with the
+// ones saved for the site. A name present in both keeps the saved value: that
+// is the session the user pasted, the other one is whatever the site handed out
+// during this extraction.
+func mergeCookieHeader(existing, injected string) string {
+	if existing == "" {
+		return injected
+	}
+	if injected == "" {
+		return existing
+	}
+
+	order := []string{}
+	value := map[string]string{}
+
+	for _, part := range []string{existing, injected} {
+		for _, pair := range strings.Split(part, ";") {
+			pair = strings.TrimSpace(pair)
+			if pair == "" {
+				continue
+			}
+			name, val, ok := strings.Cut(pair, "=")
+			if !ok {
+				continue
+			}
+			name = strings.TrimSpace(name)
+			if name == "" {
+				continue
+			}
+			if _, seen := value[name]; !seen {
+				order = append(order, name)
+			}
+			value[name] = strings.TrimSpace(val)
+		}
+	}
+
+	out := make([]string, 0, len(order))
+	for _, name := range order {
+		out = append(out, name+"="+value[name])
+	}
+	return strings.Join(out, "; ")
 }

@@ -78,3 +78,67 @@
     }
   }
 }
+
+// An archived clip, downloaded by the server and stored with the bookmark.
+// Its native control bar is painted inside the frame, at the very bottom of
+// the picture - on a vertical video that is where the subtitles are - and it
+// cannot be hidden or moved: it belongs to the player, not to the page. The
+// bar only appears once the clip is started (see modal_videos_controller), so
+// until then the frame is the clean cover with a play badge on top.
+//
+// This rule lives outside @layer components on purpose: Tailwind only keeps
+// the component rules whose class name appears in the scanned files, and this
+// one is added by a controller at runtime.
+.embedded-video {
+  position: relative;
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  cursor: pointer;
+  line-height: 0;
+
+  video {
+    display: block;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 80dvh;
+    @apply rounded-md bg-black;
+  }
+
+  &:not(.is-playing) {
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+    }
+
+    &::after {
+      top: 50%;
+      left: 50%;
+      width: 90px;
+      height: 90px;
+      transform: translate(-50%, -50%);
+      background-color: #000;
+      opacity: 0.75;
+      border-radius: 100%;
+    }
+
+    &::before {
+      top: 50%;
+      left: 50%;
+      z-index: 1;
+      transform: translate(-38%, -50%);
+      border-style: solid;
+      border-width: 15px 0 15px 26px;
+      border-color: transparent transparent transparent #fff;
+    }
+
+    &:hover::after,
+    &:focus-visible::after {
+      opacity: 1;
+    }
+  }
+}

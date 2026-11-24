@@ -18,6 +18,7 @@ export default class extends Controller {
   }
 
   declare readonly dialogTarget: HTMLDialogElement
+  declare readonly hasDialogTarget: boolean
   declare readonly imgTarget: HTMLImageElement
   declare readonly triggerTarget: HTMLTemplateElement
 
@@ -25,7 +26,9 @@ export default class extends Controller {
   declare baseUrlValue: string
 
   override connect() {
-    if (!this.selectorValue) {
+    this.#prepareInlineVideos()
+
+    if (!this.selectorValue || !this.hasDialogTarget) {
       return
     }
 
@@ -46,6 +49,50 @@ export default class extends Controller {
       this.disconnect()
       this.connect()
     }
+  }
+
+  /**
+   * Archived videos (downloaded by the server with yt-dlp) are plain <video
+   * controls> elements. The native control bar is painted inside the frame, so
+   * it covers the bottom of the picture - on a vertical video that is exactly
+   * where the subtitles are. It cannot be hidden or moved: it belongs to the
+   * player, not to the page.
+   *
+   * So the bar is removed until the video is actually started: the element
+   * shows its poster (a clean cover frame) and a play badge, and the controls
+   * are put back on the first click. The stored HTML keeps its controls
+   * attribute, so an exported page still plays without JavaScript.
+   */
+  #prepareInlineVideos() {
+    this.element.querySelectorAll("video").forEach((node) => {
+      const video = node as HTMLVideoElement
+      if (video.dataset.inlineReady == "1" || !video.hasAttribute("controls")) {
+        return
+      }
+      const parent = video.parentNode
+      if (!parent) {
+        return
+      }
+
+      video.dataset.inlineReady = "1"
+      video.removeAttribute("controls")
+      video.setAttribute("playsinline", "")
+
+      const wrapper = document.createElement("div")
+      wrapper.className = "embedded-video"
+      parent.insertBefore(wrapper, video)
+      wrapper.appendChild(video)
+
+      wrapper.addEventListener("click", (evt) => {
+        evt.preventDefault()
+        wrapper.classList.add("is-playing")
+        video.setAttribute("controls", "")
+        const playing = video.play()
+        if (playing) {
+          playing.catch(() => {})
+        }
+      })
+    })
   }
 
   get #iframe() {

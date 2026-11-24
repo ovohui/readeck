@@ -45,6 +45,13 @@ var (
 	mediaTypes = []string{"photo", "video", "audio", "music"}
 )
 
+// SiteCookieLookup reports whether a login cookie is stored for a host. It is
+// set at startup by the site cookies package, which cannot be imported here
+// without a cycle. A refusal reads very differently depending on the answer:
+// "you never saved a cookie" and "the cookie you saved is not accepted" have
+// nothing in common as a next step.
+var SiteCookieLookup func(host string) bool
+
 // Drop is the result of a content extraction of one resource.
 type Drop struct {
 	URL          *url.URL
@@ -209,10 +216,18 @@ func (d *Drop) load(client *http.Client) error {
 		// Q&A and forum sites answer anonymous requests with a login wall
 		// rather than a redirect. Saying so saves a round of guessing.
 		if rsp.StatusCode == http.StatusUnauthorized || rsp.StatusCode == http.StatusForbidden {
+			host := d.URL.Hostname()
+			hint := "no login cookie is saved for " + host +
+				" yet, add one in Settings > Site cookies"
+			if SiteCookieLookup != nil && SiteCookieLookup(host) {
+				hint = "the cookie saved for " + host +
+					" was refused, export a fresh one from a logged-in browser session" +
+					" (Settings > Site cookies)"
+			}
 			return fmt.Errorf(
-				"Invalid status code (%d): the site refused the request, "+
-					"it usually needs a login cookie (Settings > Site cookies)",
+				"Invalid status code (%d): the site refused the request, %s",
 				rsp.StatusCode,
+				hint,
 			)
 		}
 		return fmt.Errorf("Invalid status code (%d)", rsp.StatusCode)

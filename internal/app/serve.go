@@ -49,6 +49,8 @@ import (
 	"codeberg.org/readeck/readeck/internal/server/urls"
 	"codeberg.org/readeck/readeck/internal/sitecookies"
 	"codeberg.org/readeck/readeck/internal/videoplayer"
+	"codeberg.org/readeck/readeck/internal/wafshield"
+	"codeberg.org/readeck/readeck/pkg/extract"
 )
 
 type serveFlags struct {
@@ -301,14 +303,22 @@ func InitServer(s *server.Server) error {
 	server.DefaultErrorComponent = components.DefaultError
 
 	// Enable per-site cookie injection for the extractor's HTTP clients.
+	// The WAF shield sits on the outside: when it has to replay a request
+	// against a mobile mirror, the replay still goes through the cookie
+	// injection layer, so a site that needs both (login + challenge) works.
 	httpclient.TransportWrapper = func(rt http.RoundTripper) http.RoundTripper {
-		return sitecookies.NewRoundTripper(rt)
+		return wafshield.New(sitecookies.NewRoundTripper(rt))
 	}
 
 	// yt-dlp is a separate process and does not go through the transport
 	// wrapper, so the saved site cookies are handed to it as a file. Set here
 	// rather than in the bookmarks package to keep the import graph acyclic.
 	bookmarks.SiteCookiesFile = sitecookies.NetscapeFile
+
+	// The extractor reports a login wall with a hint that depends on whether a
+	// cookie was ever saved. The package cannot import the store directly
+	// (cycle), so the lookup is handed over here.
+	extract.SiteCookieLookup = sitecookies.HasCookieFor
 
 	// Init session store
 	server.InitSession()

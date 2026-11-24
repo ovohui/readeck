@@ -1642,3 +1642,198 @@ go build ./...                                                          通过
    日志里能看到 `yt-dlp` 那次下载。
 
 没配 Cookie 之前，知乎只会给出上面那句带 `403` 的错误，这是预期行为。
+
+## 32. 2026-11-24 第二十二轮：站酷的 WAF、知乎的 Cookie 顺序、小红书那条进度条
+
+### 现象
+
+1. 站酷作品页（`https://www.zcool.com.cn/work/....html`）服务端和插件都存不下来。
+2. 知乎还是 403；插件存知乎回答仍只有图没有视频。
+3. 小红书视频上面压着一条原生进度条，`0:03 / 0:57`，挡住画面底部的字幕，
+   而且关不掉（就是截图里那个「下载该视频 / ? / ✕」浮层旁边的东西）。
+
+### 一、站酷：不是 UA 问题，是阿里云 WAF 的 JS 挑战
+
+裸抓 www 主机，无论桌面 UA 还是 iPhone UA，拿到的都是一个 23KB 的壳：
+
+```html
+<textarea id="renderData" style="display:none">{"l1":"var arg1='5c2849…';", "l2":"GET"}</textarea>
+<meta name="aliyun_waf_aa" content="1adb65ab…">
+<script>(function xXRQBR(){ … })();</script>
+```
+
+页面逻辑是 `setCookie("acw_sc__v2", e); location.reload()`：脚本先把 `arg1`
+喂进一段混淆过的函数算出 `acw_sc__v2`，写进 Cookie 再重载。函数被
+`vA` 字符串表加 `D5()` 解码器包着，每次部署都换一套常量，`arg1` 的长度
+也不是固定的 40（这次是 50，与常见的 acw_sc__v2 实现不兼容）。
+
+**结论：这条路走不通，不要试图在 Go 里复现。** 试过带全套浏览器头、带
+`acw_tc` 会话 Cookie、加 `Referer`、换成 XHR 头，全部还是挑战页。
+
+真正可行的是**移动端镜像**：
+
+```bash
+# 仍然挑战
+curl -A "<iPhone UA>" https://www.zcool.com.cn/work/ZNzQ0Mzk0ODg=.html
+# 200，68KB，正文齐全
+curl -A "<iPhone UA>" https://m.zcool.com.cn/work/ZNzQ0Mzk0ODg=.html
+# 302（m 站不认桌面 UA）
+curl -A "<Chrome 桌面 UA>" https://m.zcool.com.cn/work/ZNzQ0Mzk0ODg=.html
+```
+
+所以**主机和 UA 必须同时换**。新增 `internal/wafshield`：一个包在
+transport 链最外层的 RoundTripper，`Peek` 响应体前 32KB，命中
+`aliyun_waf` / `aliyunwaf_` / `id="renderData"` 就把请求重放到移动镜像上；
+没命中就把读过的字节原样接回去，一个字节都不改。
+
+**踩到的坑**：第一次实现只改了 UA 和 Referer，重放依旧被挑战。原因是
+`httpclient.defaultHeaders` 里带着桌面 Chrome 的指纹：
+
+```
+Sec-CH-UA: "Google Chrome";v="144", "Chromium";v="144"
+Sec-CH-UA-mobile: ?0
+Sec-CH-UA-platform: "Windows"
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+```
+
+「iPhone 的 UA + Windows Chrome 的 client hints」是 WAF 眼里的标准机器人。
+现在重放请求的 header 是**整体重建**的，不是打补丁：iOS Safari 根本不发
+`Sec-CH-*` 和 `Sec-Fetch-*`，那就一个都不发。
+
+镜像表在 `internal/wafshield/wafshield.go` 的 `mirrors`，要加站点只改这里。
+
+### 二、站酷：内容在 Next.js 的 payload 里
+
+m 站是 Next.js，`<body>` 只有一个空容器，作品全部在：
+
+```html
+<script id="__NEXT_DATA__" type="application/json">
+  {"props":{"pageProps":{"workData":{"title":"…","productImages":[{"url":"…","width":3000,"height":2250}],"productTags":[…],"creatorObj":{"username":"…"},"copyrightStr":"…"}}}}
+</script>
+```
+
+新增内容脚本 `pkg/extract/contentscripts/assets/scripts/zcool.js`
+（`documentLoaded` 阶段跑，早于 readability）把 payload 读出来重建成：
+
+```
+作者：1To3_Design_Lab · 原创 · 平面 / 品牌 · 2026-11-24    ← 一行元信息
+<figure><img src=… width=3000 height=2250></figure> × 21     ← 画廊，按原顺序
+#品牌设计 #包装设计 #LOGO设计 …                              ← 话题行
+作品版权由 1To3_Design_Lab 解释, 署名-非商业性使用-禁止演绎
+```
+
+`publishTime`/`createTime` 统一按 UTC+8 渲染，服务器在哪个时区都显示站酷的钟点。
+配套 `site-config/zcool.com.cn.json` 只做两件事：`body_selectors` 指向
+`article.zcool-work`，`title_selectors` 优先 og:title。
+
+线上实测（`go run` 跑完整管线，不是 fixture）：
+
+```
+URL: https://m.zcool.com.cn/work/ZNzQ0Mzk0ODg=.html
+TITLE: Panda Factory熊猫工厂品牌设计
+AUTHOR: [1To3_Design_Lab]
+HTML: <article>… 21 个 <figure><img> …</article>     6790 字节
+```
+
+### 三、知乎：Cookie 存了，但被 jar 顶掉
+
+`sitecookies/transport.go` 原来是：
+
+```go
+if cookie != "" && r.Header.Get("Cookie") == "" {   // ← 就这一行
+    r.Header.Set("Cookie", cookie)
+}
+```
+
+客户端自带 `cookiejar`，同一次抽取里前面任何一个请求收到过 `Set-Cookie`
+（知乎首页就会下发 `d_c0`），下一次请求的 `Cookie` 头就非空了，于是**保存的
+登录 Cookie 被整条跳过**。现象和「Cookie 根本没配」完全一样，这也是为什么
+上一轮加了提示，用户照着配了还是 403。
+
+改成合并：`mergeCookieHeader` 保留 jar 里的、用保存值覆盖同名项（保存的是
+用户明确粘贴的会话，优先级更高）。
+
+同时把 403 的报错分成两种，因为下一步动作完全不同：
+
+```
+Invalid status code (403): the site refused the request,
+  no login cookie is saved for www.zhihu.com yet, add one in Settings > Site cookies
+Invalid status code (403): the site refused the request,
+  the cookie saved for www.zhihu.com was refused, export a fresh one from a
+  logged-in browser session (Settings > Site cookies)
+```
+
+判定靠 `extract.SiteCookieLookup` 这个钩子变量（`pkg/extract` 不能直接
+import `internal/sitecookies`，会成环），在 `InitServer` 里赋值。
+
+**知乎本身没有绕过的可能**：`www`、`m.zhihu.com`、`/appview/answer/<id>`、
+`api.zhihu.com` 四个入口匿名一律 403，页面里带 `zh-zse-ck` 和
+`/zse-ck/v4/*.js`。它要的是浏览器里那份 `__zse_ck`（JS 算出、写回 Cookie 的
+签名），只能从已登录的浏览器导出。
+
+### 四、插件侧：站酷整页重建 + 知乎视频的两种情况
+
+`tools/web-extension/popup.js`（1.4.0）：
+
+- **站酷**：DOM 里读 `script#__NEXT_DATA__`，按同样的结构重建 `<article>`，
+  并把 `og:title` 和 `<title>` 改成作品名（原本是「作品名 - 站酷 (ZCOOL)」）。
+  服务端因为 WAF 抓不到，插件这条路是唯一能拿到画廊的。
+- **知乎 `<video>`**：
+  - `src` 是真实 http(s) 流（`vdn.vzuu.com/xxx.mp4`）→ 原样留下，服务端当
+    普通媒体资源归档；
+  - `src` 是 `blob:`（MSE）→ 换成封面 `<img data-iframe-params="src=<回答页URL>">`，
+    交给服务端 yt-dlp；
+  - 封面缺失时退到页面的 `og:image`，否则只留一个链接、什么也下载不到。
+- **知乎 `<iframe src="…/video/<id>">`**：同上，用 iframe 自己的 URL。
+
+### 五、小红书：那条进度条是播放器自带的，关不掉
+
+`<video controls>` 的控制条画在元素内部最底下，不是页面上的元素，CSS 挪不动、
+藏不掉。竖屏视频底部通常正是烧进画面的字幕，于是被盖住。
+
+做法是**把控制条延后到点了才给**：
+
+- `modal_videos_controller.ts` 连接时扫一遍正文里的 `video`：去掉 `controls`，
+  套一层 `.embedded-video`，点一下才 `setAttribute("controls","")` 并 `play()`。
+  存下来的 HTML 仍然带 `controls`，所以导出/EPUB 里没有 JS 也能播。
+- `video.scss` 加 `.embedded-video`：封面居中、`max-height:80dvh`、
+  `.is-playing` 之前用 `::after`(黑圆) + `::before`(白三角) 画一个播放角标。
+
+**第二个坑**：`.embedded-video` 一开始写在 `@layer components` 里，构建出来的
+CSS 里根本没有这条规则。Tailwind 只会保留「类名在扫描文件里出现过」的
+component 规则，而 `content` 只配了 `src/**/*.js` 和 `../**/*.templ` ——
+这条类名是 `.ts` 里的控制器在运行时加上的，扫描不到就被裁掉。
+现在这条规则移出了 `@layer`（普通 CSS 不参与裁剪），并在源码里写明了原因。
+
+### 六、验证
+
+```
+go test ./internal/wafshield/            3 例（重放 / 原样透传 / 无镜像不动） PASS
+go test ./internal/sitecookies/          合并 6 例（含"保存值覆盖 jar 值"）   PASS
+go test ./pkg/extract/contentscripts/    TestZcoolWorkLayout                 PASS
+go test ./pkg/extract/ -run TestExtractorRun                                PASS
+go test ./pkg/archiver/ ./pkg/bleach/ ./pkg/extract/meta/                   PASS
+jsdom zcool-test.js  站酷 7 项 / 知乎 5 项                                   ALL PASS
+npx tsc --noEmit / npm run build                                            通过
+线上：go run 直连站酷，21 张图 + 标题 + 作者全部到位
+```
+
+既有失败与本次无关（HEAD 上同样失败）：`TestExtractor_StripHeadingAnchors`、
+`TestExtractor_ConvertMathBlocks`、`TestStrftime`、`internal/acls` 的两个
+策略测试、`TestSqliteDSN`、`internal/docs` 与 `internal/profile` 的
+`TestPermissions`。
+
+### 七、升级后
+
+1. 拉镜像 `docker compose pull && docker compose up -d`。
+2. 扩展重载到 **1.4.0**。
+3. **站酷**：直接粘贴链接即可，不需要 Cookie。存下来应该是「一行元信息 +
+   21 张图 + 话题行 + 版权行」，图片按原顺序。
+4. **知乎**：`设置 → 站点 Cookie`，域名 `zhihu.com`，值粘贴浏览器里完整的
+   `Cookie` 请求头（要包含 `z_c0` 和 `__zse_ck`）。这次即使客户端 jar 里
+   已经有 Cookie，保存的这份也会生效。
+   - 报错说「no login cookie is saved」→ 确实没配；
+   - 报错说「the cookie … was refused」→ 配了但过期/被风控，重新导出。
+5. **小红书**：旧书签不会自愈（控制条是渲染时挂上去的，改造在客户端），
+   刷新页面即可看到新的播放角标；点一下才出现控制条。

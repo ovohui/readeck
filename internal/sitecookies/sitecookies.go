@@ -283,6 +283,14 @@ func Matching(u *url.URL) (cookieHeader string, headers map[string]string, err e
 	return strings.Join(parts, "; "), headers, nil
 }
 
+// HasCookieFor reports whether at least one cookie string is stored for host.
+// Used to tell "you never saved a cookie" from "the cookie you saved was
+// refused" when a site answers 401/403.
+func HasCookieFor(host string) bool {
+	cookie, _, err := Matching(&url.URL{Host: host})
+	return err == nil && strings.TrimSpace(cookie) != ""
+}
+
 // normalizeDomain cleans a domain string, accepting full URLs as input.
 func normalizeDomain(d string) string {
 	d = strings.ToLower(strings.TrimSpace(d))
