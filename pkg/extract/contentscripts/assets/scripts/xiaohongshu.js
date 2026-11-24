@@ -5,19 +5,30 @@
 exports.priority = 10
 
 /**
- * Xiaohongshu (小红书) renders its note with JavaScript: the server side HTML
- * carries the note text and an empty slider ("1/3" counter), but the pictures
- * only exist as URLs in the `window.__INITIAL_STATE__` payload embedded in a
- * <script> tag of the document head.
+ * Xiaohongshu (小红书) renders its note with JavaScript. The server side HTML
+ * carries the note text and a skeleton container, but the pictures only exist
+ * as URLs in the `window.__INITIAL_STATE__` payload embedded in a <script> tag
+ * of the document head. Readability then keeps the *skeleton* - a slider
+ * placeholder, the author row, the interaction bar - and throws the note
+ * itself away.
  *
  * This script runs on `documentLoaded`, i.e. BEFORE the article body is
  * extracted. That matters: `documentReady` runs after ExtractBody, when the
  * <head> (and therefore the state payload) has already been dropped, which is
  * why an earlier version of this script never found anything.
  *
- * It reads the state, then appends a flat list of <figure><img> and
- * <figure><video> elements inside the note container, so the archived note
- * keeps every image (and live photos) whatever the original layout was.
+ * Rather than injecting a media block next to whatever readability left
+ * behind, it rebuilds the note as a small, clean article - title line,
+ * author/date/location line, the description as paragraphs, then the pictures
+ * - and replaces the body with it. The archive then reads like the note page
+ * does, and the same structure is what the browser extension produces, so a
+ * note archived from either side looks the same.
+ *
+ * Video notes have no playable stream in the payload (the player asks a
+ * signed API for it at runtime, and that URL expires). A player element would
+ * be stripped from the extracted content anyway, so the note cover doubles as
+ * a placeholder: it carries `data-iframe-params` and the archiver replaces it
+ * with a locally stored <video> downloaded from the note URL.
  *
  * @returns {boolean}
  */
@@ -155,6 +166,40 @@ function findNotes(node, out, depth) {
 }
 
 /**
+ * Returns the note id of the current URL.
+ *
+ * @param {string} url
+ * @returns {string}
+ */
+function noteID(url) {
+  var m = /\/(?:explore|discovery\/item)\/([0-9a-zA-Z]+)/.exec(url || "")
+  return m ? m[1] : ""
+}
+
+/**
+ * The detail map can hold more than one note (the feed caches the notes it
+ * visited). Pick the one the reader opened.
+ *
+ * @param {any[]} notes
+ * @returns {any|null}
+ */
+function pickNote(notes) {
+  if (!notes || notes.length == 0) {
+    return null
+  }
+  var id = noteID($.url)
+  if (id) {
+    for (var i = 0; i < notes.length; i++) {
+      var n = notes[i]
+      if (n.noteId == id || n.id == id) {
+        return n
+      }
+    }
+  }
+  return notes[0]
+}
+
+/**
  * Picks the best image URL of an imageList entry.
  *
  * @param {any} item
@@ -247,151 +292,283 @@ function unique(urls, limit) {
 }
 
 /**
- * Detaches the empty slider placeholder produced by the server side render,
- * so the flat media list is not preceded by a "1/3" skeleton.
+ * The published description carries "[话题]" before every hashtag.
  *
- * @param {Node} container
+ * @param {string} desc
+ * @returns {string}
  */
-function removePlaceholders(container) {
-  var selectors = ['[elementtiming="note-cover"]', ".swiper", ".note-slider", ".slider-container"]
-  for (var i = 0; i < selectors.length; i++) {
-    var nodes = container.querySelectorAll(selectors[i])
-    for (var j = nodes.length - 1; j >= 0; j--) {
-      var parent = nodes[j].parentNode
-      if (parent) {
-        parent.removeChild(nodes[j])
-      }
-    }
+function cleanDesc(desc) {
+  return String(desc || "")
+    .replace(/\[话题\]#/g, "")
+    .replace(/\[话题\]/g, "")
+    .replace(/\r\n/g, "\n")
+}
+
+function pad2(n) {
+  return n < 10 ? "0" + n : String(n)
+}
+
+/**
+ * Renders the publication time in UTC+8, so the archive shows the same clock
+ * reading whatever timezone the server runs in.
+ *
+ * @param {number} ms
+ * @returns {string}
+ */
+function formatTime(ms) {
+  var t = Number(ms)
+  if (!t || !isFinite(t)) {
+    return ""
+  }
+  var d = new Date(t + 8 * 3600 * 1000)
+  if (isNaN(d.getTime()) || !d.getUTCFullYear) {
+    return ""
+  }
+  return (
+    d.getUTCFullYear() +
+    "-" +
+    pad2(d.getUTCMonth() + 1) +
+    "-" +
+    pad2(d.getUTCDate()) +
+    " " +
+    pad2(d.getUTCHours()) +
+    ":" +
+    pad2(d.getUTCMinutes())
+  )
+}
+
+/**
+ * @param {string} url
+ * @param {number} w
+ * @param {number} h
+ * @returns {string}
+ */
+function iframeParams(url, w, h) {
+  return "src=" + encodeURIComponent(url) + "&w=" + (w || 0) + "&h=" + (h || 0)
+}
+
+/**
+ * Fallback when the state payload is missing: the note container still holds
+ * the text, the author and the date (but no pictures, they are a CSS
+ * background on the server side render).
+ *
+ * @param {Node} doc
+ * @returns {any|null}
+ */
+function noteFromDOM(doc) {
+  var box = doc.querySelector("#noteContainer") || doc.querySelector(".note-container")
+  if (!box) {
+    return null
+  }
+  var text = function (sel) {
+    var el = box.querySelector(sel)
+    return el ? String(el.textContent || "").replace(/^\s+|\s+$/g, "") : ""
+  }
+  var desc = text("#detail-desc")
+  var user = text(".author-wrapper .name") || text(".author-container .name")
+  var where = text(".bottom-container .date")
+  if (!desc && !user) {
+    return null
+  }
+  return {
+    type: "",
+    title: "",
+    desc: desc,
+    time: 0,
+    ipLocation: where,
+    user: user ? {nickname: user} : null,
+    imageList: [],
+    video: null,
   }
 }
 
 /**
- * @param {Node} doc
- * @param {string} selector
- * @param {string} tag
- * @param {Object} attrs
- * @returns {Node}
+ * @param {string[]} parts
+ * @param {any} item
+ * @param {string} title
  */
-function element(doc, selector, tag, attrs) {
-  var el = doc.createElement(tag)
-  Object.keys(attrs).forEach(function (k) {
-    el.setAttribute(k, attrs[k])
-  })
-  return el
+function pushPicture(parts, item, title) {
+  if (item.url) {
+    var attrs = ' src="' + escapeHTML(item.url) + '" alt="' + escapeHTML(title) + '"'
+    if (item.width) {
+      attrs += ' width="' + item.width + '" height="' + item.height + '"'
+    }
+    parts.push("<figure><img" + attrs + "></figure>")
+  }
 }
 
 /**
- *  @param {Node} document
+ * Writes (or creates) a <meta> tag.
+ *
+ * @param {Node} doc
+ * @param {string} attr "property" or "name"
+ * @param {string} key
+ * @param {string} content
+ */
+function setMeta(doc, attr, key, content) {
+  var nodes = doc.querySelectorAll("meta[" + attr + '="' + key + '"]')
+  if (nodes && nodes.length > 0) {
+    for (var i = 0; i < nodes.length; i++) {
+      nodes[i].setAttribute("content", content)
+    }
+    return
+  }
+  var head = doc.querySelector("head")
+  if (!head) {
+    return
+  }
+  var meta = doc.createElement("meta")
+  meta.setAttribute(attr, key)
+  meta.setAttribute("content", content)
+  head.appendChild(meta)
+}
+
+/**
+ * @param {Node} document
  */
 exports.documentLoaded = function (document) {
-  var texts = scriptTexts(document)
-  var acc = {images: [], videos: [], sizes: {}}
+  // Only a note page carries a single note. A profile or feed page keeps the
+  // notes it visited in the same payload, and rebuilding one of them over the
+  // whole page would archive the wrong thing.
+  var notePath = noteID($.url)
+  if (!notePath) {
+    return
+  }
 
+  var texts = scriptTexts(document)
+  var state = null
   if (texts.length > 0) {
-    var state = null
     try {
       state = parseNoteDetail(texts)
     } catch (e) {
       state = null
     }
+  }
 
-    if (state != null) {
-      var notes = []
-      findNotes(state, notes, 0)
-      for (var n = 0; n < notes.length; n++) {
-        var note = notes[n]
-        var list = note.imageList
-        for (var i = 0; i < list.length; i++) {
-          var url = imageURL(list[i])
-          if (url) {
-            acc.images.push(url)
-            if (list[i].width && list[i].height) {
-              acc.sizes[url] = {width: list[i].width, height: list[i].height}
-            }
-          }
-          // Live photo: the picture has a short video attached.
-          var live = streamURL(list[i])
-          if (live) {
-            acc.videos.push(live)
-          }
+  var note = null
+  var items = []
+  var video = ""
+
+  if (state != null) {
+    var notes = []
+    findNotes(state, notes, 0)
+    note = pickNote(notes)
+    if (note) {
+      video = streamURL(note.video)
+      var list = note.imageList || []
+      for (var i = 0; i < list.length; i++) {
+        var url = imageURL(list[i])
+        if (!url) {
+          continue
         }
-        var video = streamURL(note.video)
-        if (video) {
-          acc.videos.push(video)
-        }
+        items.push({
+          url: url,
+          live: streamURL(list[i]),
+          width: list[i].width || 0,
+          height: list[i].height || 0,
+        })
       }
-    }
-
-    if (acc.images.length == 0) {
-      scrapeURLs(texts, acc)
     }
   }
 
-  var images = unique(acc.images, 40)
-  var videos = unique(acc.videos, 6)
+  if (!note) {
+    note = noteFromDOM(document)
+  }
 
-  if (images.length == 0 && videos.length == 0) {
-    console.debug("xiaohongshu: no media in server side HTML", {
-      scripts: texts.length,
-      hasState: texts.join("").indexOf("noteDetailMap") >= 0,
-    })
+  // No note at all: the page is a feed or a login wall, leave it alone.
+  if (!note && items.length == 0) {
     return
   }
 
-  // Where the media goes matters, and "next to the description" is not enough.
-  // Readability keeps the *deepest* element that scores best, and which element
-  // that is depends on the note: sometimes div.note-scroller, sometimes
-  // div#detail-desc itself (short note, no comments). A block inserted as a
-  // SIBLING of that element disappears whenever the element itself is the one
-  // kept. Appending INSIDE the description puts the pictures in the subtree in
-  // both cases. Verified on a note whose article came out with 0 images when
-  // the block was a sibling, and 8 images when it was a child.
-  var anchor = null
-  var anchors = ["#detail-desc", ".note-content", "#noteContainer", "article"]
-  for (var a = 0; a < anchors.length; a++) {
-    anchor = document.querySelector(anchors[a])
-    if (anchor) {
-      break
+  // The state was there but held no picture (deleted note, video without a
+  // cover). The inline scripts still quote the CDN URLs.
+  if (items.length == 0 && state != null) {
+    var acc = {images: [], videos: [], sizes: {}}
+    scrapeURLs(texts, acc)
+    var scraped = unique(acc.images, 40)
+    for (var s = 0; s < scraped.length; s++) {
+      items.push({url: scraped[s], live: "", width: 0, height: 0})
+    }
+    if (!video) {
+      video = unique(acc.videos, 1)[0] || ""
     }
   }
 
-  removePlaceholders(anchor || document.body)
-
-  var media = element(document, null, "div", {"class": "xhs-media"})
-
-  for (var v = 0; v < videos.length; v++) {
-    var figure = element(document, null, "figure", {"class": "content"})
-    figure.appendChild(
-      element(document, null, "video", {
-        src: videos[v],
-        controls: "",
-        playsinline: "",
-        preload: "metadata",
-      }),
-    )
-    media.appendChild(figure)
+  var title = note && note.title ? String(note.title).replace(/^\s+|\s+$/g, "") : ""
+  if (!title) {
+    var titleNode = document.querySelector("title")
+    title = titleNode ? String(titleNode.textContent || "") : ""
+    title = title.replace(/\s*[-–|]\s*小红书\s*$/, "").replace(/^\s+|\s+$/g, "")
   }
 
-  for (var p = 0; p < images.length; p++) {
-    var fig = element(document, null, "figure", {"class": "content"})
-    var attrs = {src: images[p], alt: $.title || ""}
-    var size = acc.sizes[images[p]]
-    if (size) {
-      attrs.width = size.width
-      attrs.height = size.height
+  var desc = cleanDesc(note ? note.desc : "")
+  var author = note && note.user && note.user.nickname ? String(note.user.nickname) : ""
+  var when = note ? formatTime(note.time) : ""
+  var where = note ? String(note.ipLocation || "") : ""
+  var isVideoNote = video != "" || (note && /^video/i.test(String(note.type || "")))
+
+  var parts = ['<article class="xhs-note">']
+
+  var meta = []
+  if (author) {
+    meta.push("作者：" + author)
+  }
+  if (when) {
+    meta.push(when)
+  }
+  if (where) {
+    meta.push(where)
+  }
+  if (meta.length > 0) {
+    parts.push('<p class="xhs-meta">' + escapeHTML(meta.join(" · ")) + "</p>")
+  }
+
+  var lines = desc.split(/\n+/)
+  for (var l = 0; l < lines.length; l++) {
+    var line = lines[l].replace(/^\s+|\s+$/g, "")
+    if (line) {
+      parts.push("<p>" + escapeHTML(line) + "</p>")
     }
-    fig.appendChild(element(document, null, "img", attrs))
-    media.appendChild(fig)
   }
 
-  if (anchor) {
-    anchor.appendChild(media)
+  if (isVideoNote && items.length > 0) {
+    // One picture, the cover, that the archiver turns into the player. The
+    // signed stream is not in the payload and would expire anyway.
+    var cover = items[0]
+    var attrs = ' src="' + escapeHTML(cover.url) + '" alt="' + escapeHTML(title) + '"'
+    if (cover.width) {
+      attrs += ' width="' + cover.width + '" height="' + cover.height + '"'
+    }
+    attrs += ' poster="' + escapeHTML(cover.url) + '"'
+    attrs += ' data-iframe-params="' + escapeHTML(iframeParams($.url, cover.width, cover.height)) + '"'
+    parts.push("<figure><img" + attrs + "></figure>")
+    for (var r = 1; r < items.length; r++) {
+      pushPicture(parts, items[r], title)
+    }
   } else {
-    document.body.appendChild(media)
+    for (var p = 0; p < items.length; p++) {
+      pushPicture(parts, items[p], title)
+    }
   }
 
-  console.debug("xiaohongshu: injected media", {
-    images: images.length,
-    videos: videos.length,
-  })
+  parts.push("</article>")
+
+  var body = document.body
+  if (!body) {
+    return
+  }
+  body.innerHTML = parts.join("")
+
+  // The reader takes the title from og:title ("... - 小红书" is the page
+  // title, not the note title) and the excerpt from og:description.
+  if (title) {
+    setMeta(document, "property", "og:title", title)
+    $.title = title
+  }
+  if (desc) {
+    setMeta(document, "property", "og:description", desc.replace(/\n+/g, " "))
+  }
+  // A video note is a media document, and the readability pass throws media
+  // content away before it can be archived. Ask it to keep what we just built.
+  setMeta(document, "name", "readeck:keep-content", "1")
 }

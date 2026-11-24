@@ -50,16 +50,15 @@ async function saveSettings() {
 
 /**
  * Runs in the page's main world (world: "MAIN"). A content script lives in an
- * isolated world: `window.__INITIAL_STATE__` and the page's resource timeline
- * are invisible there, which is why a Xiaohongshu note used to come back as a
- * handful of thumbnails with no video. This probe copies out only the fields
- * the archiver needs. It must stay self contained.
+ * isolated world: `window.__INITIAL_STATE__` is invisible there, which is why a
+ * Xiaohongshu note used to come back as a handful of 640px thumbnails. This
+ * probe copies out only the fields the archiver needs. It must stay self
+ * contained.
  *
- * @returns {Promise<{note: object|null, videoURL: string}>}
+ * @returns {Promise<{note: object|null}>}
  */
 async function xhsProbe() {
-  const secure = (u) => String(u || "").replace(/^http:\/\//i, "https://")
-  const out = {note: null, videoURL: ""}
+  const out = {note: null}
 
   const slimImage = (item) => {
     if (!item) {
@@ -71,8 +70,6 @@ async function xhsProbe() {
       infoList: item.infoList,
       width: item.width,
       height: item.height,
-      media: item.media,
-      stream: item.stream,
     }
   }
 
@@ -97,40 +94,11 @@ async function xhsProbe() {
           ipLocation: note.ipLocation,
           user: note.user ? {nickname: note.user.nickname} : null,
           imageList: (note.imageList || []).map(slimImage),
-          video: note.video ? {media: note.video.media, stream: note.video.stream} : null,
         }
       }
     }
   } catch (e) {
     // state moved or changed shape: the caller falls back to the DOM
-  }
-
-  // A player that already started holds the signed stream URL.
-  try {
-    const v = document.querySelector("video")
-    const src = (v && (v.currentSrc || v.src)) || ""
-    if (/^https?:/i.test(src) && /\.mp4/i.test(src)) {
-      out.videoURL = secure(src)
-    }
-  } catch (e) {
-    // no player on the page
-  }
-
-  // Otherwise look at what the page actually fetched. Xiaohongshu serves the
-  // clip from sns-video-*.xhscdn.com with a signed query string.
-  if (!out.videoURL) {
-    try {
-      const entries = performance.getEntriesByType("resource")
-      for (let i = entries.length - 1; i >= 0; i--) {
-        const name = entries[i].name || ""
-        if (/sns-video|xhscdn\.com\/stream/i.test(name) && /\.mp4/i.test(name)) {
-          out.videoURL = secure(name)
-          break
-        }
-      }
-    } catch (e) {
-      // performance API unavailable
-    }
   }
 
   return out
@@ -271,36 +239,46 @@ async function capturePage(opts) {
     return ""
   }
 
-  const streamURL = (node) => {
-    if (!node) {
-      return ""
+  // A video note has no usable stream in the browser: the payload stops at
+  // the cover, the player asks a signed API for the clip, and that URL
+  // expires. Players do not survive archiving either - the extractor removes
+  // every <video> and <iframe> from the content and rebuilds one from the page
+  // URL. Leaving the note URL on the cover gets yt-dlp to do the download on
+  // the server, where the time budget is minutes rather than a popup's second.
+  const xhsIsVideoNote = (note) => {
+    if (note && /^video/i.test(String(note.type || ""))) {
+      return true
     }
-    const stream = (node.media && node.media.stream) || node.stream
-    if (!stream) {
-      return ""
+    const meta = document.querySelector('meta[property="og:type"]')
+    return !!meta && /video/i.test(meta.getAttribute("content") || "")
+  }
+
+  const markVideoCover = (img) => {
+    const src = img.getAttribute("src") || ""
+    if (!/^https?:/i.test(src)) {
+      return
     }
-    const codecs = ["h264", "h265", "h264_hd", "av1"]
-    for (let i = 0; i < codecs.length; i++) {
-      const list = stream[codecs[i]] || []
-      for (let j = 0; j < list.length; j++) {
-        if (list[j] && list[j].masterUrl) {
-          return secureURL(list[j].masterUrl)
-        }
-      }
-    }
-    return ""
+    const params = new URLSearchParams()
+    params.set("src", location.href)
+    params.set("w", img.getAttribute("width") || "0")
+    params.set("h", img.getAttribute("height") || "0")
+    img.setAttribute("data-iframe-params", params.toString())
+    // The cover doubles as the poster of the archived video.
+    img.setAttribute("poster", src)
   }
 
   const pad = (n) => (n < 10 ? "0" + n : String(n))
+  // Published time in UTC+8, the same clock the server side pass renders, so a
+  // note archived from either side shows the same line.
   const formatTime = (ms) => {
     const t = Number(ms)
     if (!t || !isFinite(t)) {
       return ""
     }
-    const d = new Date(t)
+    const d = new Date(t + 8 * 3600 * 1000)
     return (
-      d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) +
-      " " + pad(d.getHours()) + ":" + pad(d.getMinutes())
+      d.getUTCFullYear() + "-" + pad(d.getUTCMonth() + 1) + "-" + pad(d.getUTCDate()) +
+      " " + pad(d.getUTCHours()) + ":" + pad(d.getUTCMinutes())
     )
   }
 
@@ -325,74 +303,6 @@ async function capturePage(opts) {
       return map[keys[0]].note
     }
     return null
-  }
-
-  // A logged-in page carries no stream URL: the player asks a signed API for
-  // it, and the SSR payload stops at the thumbnail. The very same note served
-  // to an anonymous visitor still ships the stream, so fetch a copy without
-  // cookies and read the URL there. Only video notes pay for this request.
-  const xhsAnonymousVideo = async (pageUrl) => {
-    try {
-      const rsp = await fetch(pageUrl, {
-        credentials: "omit",
-        cache: "no-store",
-        headers: {Accept: "text/html,application/xhtml+xml"},
-      })
-      if (!rsp.ok) {
-        return ""
-      }
-      const html = await rsp.text()
-      const idx = html.indexOf('"noteDetailMap"')
-      if (idx < 0) {
-        return ""
-      }
-      const start = html.indexOf("{", idx)
-      if (start < 0) {
-        return ""
-      }
-      let depth = 0
-      let inStr = false
-      let esc = false
-      for (let i = start; i < html.length; i++) {
-        const c = html.charAt(i)
-        if (inStr) {
-          if (esc) {
-            esc = false
-          } else if (c === "\\") {
-            esc = true
-          } else if (c === '"') {
-            inStr = false
-          }
-          continue
-        }
-        if (c === '"') {
-          inStr = true
-        } else if (c === "{") {
-          depth++
-        } else if (c === "}") {
-          depth--
-          if (depth === 0) {
-            try {
-              const state = JSON.parse(html.slice(start, i + 1).replace(/:\s*undefined/g, ":null"))
-              const keys = Object.keys(state)
-              for (let k = 0; k < keys.length; k++) {
-                const entry = state[keys[k]]
-                const url = streamURL(entry && entry.note && entry.note.video)
-                if (url) {
-                  return url
-                }
-              }
-            } catch (e) {
-              // fall through to the empty result
-            }
-            return ""
-          }
-        }
-      }
-    } catch (e) {
-      // network error, ad blocker, offline: keep the note without a video
-    }
-    return ""
   }
 
   const xhsArticle = async () => {
@@ -431,7 +341,7 @@ async function capturePage(opts) {
       root.appendChild(p)
     }
 
-    const desc = String(note.desc || "").replace(/\[话题\]#/g, " ").trim()
+    const desc = String(note.desc || "").replace(/\[话题\]#/g, "").trim()
     desc.split(/\n+/).forEach((line) => {
       const text = line.trim()
       if (!text) {
@@ -443,6 +353,7 @@ async function capturePage(opts) {
     })
 
     const images = note.imageList || []
+    const videoNote = xhsIsVideoNote(note)
     for (let i = 0; i < images.length; i++) {
       const url = bestImageURL(images[i])
       if (!url) {
@@ -459,71 +370,18 @@ async function capturePage(opts) {
       figure.appendChild(img)
       root.appendChild(figure)
 
-      // Live photo: the still picture has a short video attached to it.
-      const live = streamURL(images[i])
-      if (live) {
-        const fig = document.createElement("figure")
-        const video = document.createElement("video")
-        video.setAttribute("src", live)
-        video.setAttribute("controls", "")
-        video.setAttribute("playsinline", "")
-        video.setAttribute("preload", "metadata")
-        fig.appendChild(video)
-        root.appendChild(fig)
+      // The cover of a video note stands in for the player: the server
+      // downloads the clip and swaps this image for a local <video>.
+      if (videoNote && i === 0) {
+        markVideoCover(img)
       }
     }
 
-    let video = streamURL(note.video)
-    if (!video && opts.xhs && opts.xhs.videoURL) {
-      video = opts.xhs.videoURL
-    }
-    if (!video && String(note.type || "").indexOf("video") === 0) {
-      video = await xhsAnonymousVideo(location.href)
-    }
-    if (video) {
-      const fig = document.createElement("figure")
-      const el = document.createElement("video")
-      el.setAttribute("src", video)
-      el.setAttribute("controls", "")
-      el.setAttribute("playsinline", "")
-      el.setAttribute("preload", "metadata")
-      fig.appendChild(el)
-      root.appendChild(fig)
-    }
-
-    if (root.querySelector("img, video") === null) {
+    if (root.querySelector("img") === null) {
       return null
     }
 
     return {title, root}
-  }
-
-  // Last chance to find the stream before giving up: a video that is already
-  // playing has its URL on a media element or in an inline script, even when
-  // the state payload no longer carries it.
-  const xhsVideoFromDOM = () => {
-    const media = document.querySelectorAll("video[src], source[src]")
-    for (let i = 0; i < media.length; i++) {
-      const src = media[i].getAttribute("src") || ""
-      if (/^https?:/i.test(src) && /\.mp4/i.test(src)) {
-        return src
-      }
-    }
-    const rx = /https?:[^"'\s]{6,400}\.mp4[^"'\s]{0,200}/g
-    const scripts = document.querySelectorAll("script")
-    for (let i = 0; i < scripts.length; i++) {
-      // Inline state is JSON-escaped: "https:\/\/x" and "\u0026". Normalise
-      // the text before matching so the URL itself is clean.
-      const text = (scripts[i].textContent || "").replace(/\\/g, "")
-      let m
-      while ((m = rx.exec(text)) !== null) {
-        const url = m[0].replace(/u0026/gi, "&")
-        if (/xhscdn\.com|xhsimg\.com/.test(url)) {
-          return url
-        }
-      }
-    }
-    return ""
   }
 
   // Safety net: if the state payload ever moves or changes shape, fall back to
@@ -573,7 +431,7 @@ async function capturePage(opts) {
 
     const descEl = container.querySelector("#detail-desc") || container.querySelector(".note-content .desc")
     if (descEl) {
-      const raw = (descEl.innerText || descEl.textContent || "").replace(/\[话题\]#/g, " ")
+      const raw = (descEl.innerText || descEl.textContent || "").replace(/\[话题\]#/g, "")
       raw.split(/\n+/).forEach((line) => {
         const value = line.trim()
         if (!value) {
@@ -624,21 +482,10 @@ async function capturePage(opts) {
       return null
     }
 
-    if (!root.querySelector("video")) {
-      const video =
-        xhsVideoFromDOM() ||
-        (opts.xhs && opts.xhs.videoURL) ||
-        (await xhsAnonymousVideo(location.href))
-      if (video) {
-        const fig = document.createElement("figure")
-        const el = document.createElement("video")
-        el.setAttribute("src", video)
-        el.setAttribute("controls", "")
-        el.setAttribute("playsinline", "")
-        el.setAttribute("preload", "metadata")
-        fig.appendChild(el)
-        root.appendChild(fig)
-      }
+    // No state payload means no image list either, so the first picture of the
+    // container doubles as the player placeholder.
+    if (xhsIsVideoNote(null)) {
+      markVideoCover(root.querySelector("img"))
     }
 
     return {title, root}

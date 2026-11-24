@@ -1204,3 +1204,119 @@ go vet + go build ./...                                                       �
 - 扩展重新加载，确认版本 **1.2.2**；再打开笔记页剪藏，正文里应直接出现 `<video>`。
 - 若插件那条仍无视频：说明播放器还没起播（`currentSrc` 为空）且资源时间线里没有 mp4。
   先在页面上点一下播放，再剪藏即可。
+
+## 30. 2026-11-24 第十七轮：服务端有视频没正文，插件有正文没视频
+
+### 现象
+
+同一条笔记，两条书签互补：
+
+| | 服务端粘贴链接（`QYZvT1mh7m4H1jkrUBTePj`） | 插件剪藏（`MsmhHenrkGQCav9MATbXDj`） |
+|---|---|---|
+| 视频 | 有（64 MB 在 zip 里） | 无 |
+| 正文 | 只有一个播放器 | 标题行、作者行、正文分段、话题，排版好 |
+| 类型 | `video` | `article` |
+
+用户的原话是「插件端的排版比服务端更好看」。所以这里其实是两个 bug 撞在一起。
+
+### 根因一：媒体页的正文被整段丢掉
+
+`pkg/extract/contents/contents.go` 的 Readability 处理器开头有一条：
+
+```go
+// Immediate stop on a media where readability is not explicitly set.
+if m.Extractor.Drop().IsMedia() && !readabilityForced {
+    m.ResetContent()          // m.Dom = nil; d.Body = []byte{}
+    return next
+}
+```
+
+小红书视频笔记的 `og:type` 是 `video.other`，`DocumentType` 就是 `video`，
+于是**整页 DOM 连同正文一起被清零**，`ex.HTML` 为空，`createZipFile` 打出
+` synthesized empty document for video page`，最后只剩一个 yt-dlp 下载回来的播放器。
+
+日志里的对照很清楚：服务端那条走到 `document type video` 就直接 `step finish`，
+没有任何 `go-readability` 记录；插件那条是 `article`，readability 正常跑了四轮。
+
+### 根因二：`<video>` 和 `<iframe>` 本来就会在抽取阶段被删掉
+
+`contents.go` 里还有：
+
+```go
+func removeEmbeds(top *html.Node) {
+    dom.RemoveNodes(dom.GetAllNodesWithTag(top, "object", "embed", "iframe", "video", "audio"), nil)
+}
+```
+
+播放器元素过不了抽取关，架构上就是「抽取阶段删干净，归档阶段按页面 URL 重建」。
+所以插件前几轮往正文里塞 `<video src="sns-video-...mp4">` 一直是无效功
+（上一轮之所以还能看到视频，是因为服务端那条走的是 yt-dlp 重建路径）。
+
+另外 bleach 默认策略会删掉除 `data-readeck-*` 之外的所有 `data-*` 属性，
+所以 `data-iframe-params` 这种「缩略图代替播放器」的标记必须先在策略里放行，
+否则归档阶段找不到它。
+
+### 修法
+
+1. **让带正文的媒体页保住正文**：内容脚本重建完文章后写入
+   `<meta name="readeck:keep-content" content="1">`，Readability 见到这个标记就不再
+   `ResetContent()`。没标记的媒体页（B 站等）行为完全不变。
+2. **播放器改由「封面图占位」表达**：服务端脚本和插件都把笔记 URL 写进封面图的
+   `data-iframe-params`，`poster` 也用同一张封面。归档时 `processEmbeddedVideos`
+   把这张图换成 `<video src="./_resources/xxx.mp4" poster="./_resources/yyy.jpg">`，
+   yt-dlp 在服务端下载（时间预算几分钟，不是弹窗的一秒）。
+   `injectForcedVideo` 增加一条判断：文档里已有占位图就不再塞 iframe，避免下载两次、
+   出现两个播放器。
+3. **bleach 放行 `data-iframe-params`**，否则标记会在 CleanDom 阶段被清掉。
+4. **服务端直接重建文章**（`xiaohongshu.js` 重写）：读 `noteDetailMap` 里的
+   note，输出
+
+   ```html
+   <article class="xhs-note">
+     <p class="xhs-meta">作者：证人筠筠 · 2026-11-16 16:30 · 福建</p>
+     <p>还有我的联名靴哦哦哦！</p>
+     <p>这期更是精彩吧？</p>
+     <p>#鞋控の日常 #通勤穿搭 …</p>
+     <figure><img src="封面" width height poster="封面" data-iframe-params="src=笔记URL&w=&h="></figure>
+   </article>
+   ```
+
+   和插件端一字不差，区别只是多了视频。标题顺带修好：`og:title` 改成 note 标题
+   （去掉「 - 小红书」），`og:description` 改成正文，读者页不再显示
+   「决戦美鞋… - 小红书」这种带站点后缀的标题。
+   时间统一按 UTC+8 渲染，容器时区变了也不会漂。
+
+### 顺带清掉的死代码
+
+插件里的 `xhsAnonymousVideo()`（匿名再请求一次页面取签名流）、`xhsVideoFromDOM()`
+（从 DOM/内联脚本里捞 mp4）、以及 live photo 的 `<video>`，全部删除——
+它们产出的元素都会被 `removeEmbeds` 删掉。扩展升到 **1.3.0**。
+
+### 验证
+
+```
+go test ./pkg/extract/contentscripts/
+  TestXiaohongshuNoteLayout      PASS  （正文分段、作者行、话题、标题去后缀）
+  TestXiaohongshuVideoNoteMarker PASS  （封面带 data-iframe-params + poster，只有一个 img）
+  TestXiaohongshuVideoPipeline   PASS  （真实视频页走完 readability+bleach 后正文仍在）
+  TestExtensionNotePipeline      PASS  （插件产出的 HTML 走同一管线，占位图存活）
+go test ./pkg/extract/contents/
+  TestReadabilityKeepsFlaggedMediaContent PASS （有标记保留 / 无标记仍清零）
+go test ./pkg/archiver/
+  TestInjectForcedVideoSkipsExistingPlaceholder PASS （占位图存在时不再塞 iframe）
+jsdom capture-test.js / probe-test.js   ALL PASS
+go build ./... / go vet                通过
+```
+
+### 升级后要做的
+
+```bash
+cd /vol1/1000/docker/readeck-custom
+sudo docker compose pull && sudo docker compose up -d
+```
+
+扩展 `chrome://extensions` 点 ↻，版本应显示 **1.3.0**。
+
+然后**重新保存**那条笔记：服务端粘贴链接、插件剪藏各一次。两条应该长得一样——
+作者行、正文分段、话题行，下面一个带封面的播放器，zip 的 `_resources/` 里有 mp4。
+旧书签不会自愈（旧归档里没有正文），需要重存。

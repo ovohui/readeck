@@ -79,7 +79,14 @@ func Readability(options ...func(*readability.Parser)) extract.Processor {
 		readabilityEnabled, readabilityForced := IsReadabilityEnabled(m.Extractor.Context)
 
 		// Immediate stop on a media where readability is not explicitly set.
-		if m.Extractor.Drop().IsMedia() && !readabilityForced {
+		// A media page is usually nothing but a player, so the content is
+		// dropped and the archiver rebuilds one from the page URL. A note
+		// that carries its own text (Xiaohongshu video notes) has already
+		// been rewritten into a clean article by a content script and asks
+		// to be kept: without this the reader shows a player and nothing
+		// else, and the note text is lost.
+		keepContent := dom.QuerySelector(m.Dom, `meta[name="readeck:keep-content"]`) != nil
+		if m.Extractor.Drop().IsMedia() && !readabilityForced && !keepContent {
 			m.ResetContent()
 			return next
 		}

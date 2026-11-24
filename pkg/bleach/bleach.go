@@ -47,7 +47,14 @@ var DefaultPolicy = New(
 				return false
 			}
 			switch attr {
-			case "data-readeck-width", "data-readeck-height":
+			case "data-readeck-width", "data-readeck-height",
+				// "data-iframe-params" marks a thumbnail as the stand-in for
+				// a video player: removing players from the extracted
+				// content also removes the <iframe> it came from, so the
+				// archiver finds the page to download through this attribute
+				// instead. It is only ever written by a content script or by
+				// the browser extension.
+				"data-iframe-params":
 				return false
 			default:
 				return true

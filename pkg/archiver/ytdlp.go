@@ -185,6 +185,17 @@ func (arc *Archiver) injectForcedVideo(doc *html.Node) {
 		}
 	}
 
+	// A thumbnail placeholder is a player too: the Xiaohongshu content script
+	// (and the browser extension) leave one on the note cover instead of an
+	// iframe, because players are stripped from the extracted content.
+	// Forcing another one here would archive the clip twice and show two
+	// players.
+	for _, node := range dom.QuerySelectorAll(doc, "img[data-iframe-params],img[x-data-iframe-params]") {
+		if _, ok := embeddedVideoPageURL(iframeParamsSrc(node)); ok {
+			return
+		}
+	}
+
 	body := dom.QuerySelector(doc, "body")
 	if body == nil {
 		return
@@ -235,15 +246,7 @@ func (arc *Archiver) processEmbeddedVideos(ctx context.Context, doc *html.Node) 
 		if done >= maxEmbeddedVideosPerPage {
 			return
 		}
-		raw := dom.GetAttribute(node, "data-iframe-params")
-		if raw == "" {
-			raw = dom.GetAttribute(node, "x-data-iframe-params")
-		}
-		params, err := url.ParseQuery(raw)
-		if err != nil {
-			continue
-		}
-		pageURL, ok := embeddedVideoPageURL(params.Get("src"))
+		pageURL, ok := embeddedVideoPageURL(iframeParamsSrc(node))
 		if !ok {
 			continue
 		}
@@ -251,6 +254,24 @@ func (arc *Archiver) processEmbeddedVideos(ctx context.Context, doc *html.Node) 
 			done++
 		}
 	}
+}
+
+// iframeParamsSrc returns the player URL carried by a thumbnail placeholder.
+// The attribute name comes back as "data-iframe-params" once the extractor has
+// restored the "x-data-" prefix it uses to shield it from bleach.
+func iframeParamsSrc(node *html.Node) string {
+	raw := dom.GetAttribute(node, "data-iframe-params")
+	if raw == "" {
+		raw = dom.GetAttribute(node, "x-data-iframe-params")
+	}
+	if raw == "" {
+		return ""
+	}
+	params, err := url.ParseQuery(raw)
+	if err != nil {
+		return ""
+	}
+	return params.Get("src")
 }
 
 // replaceEmbedWithVideo runs yt-dlp for pageURL and, on success, replaces node
