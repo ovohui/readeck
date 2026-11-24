@@ -323,9 +323,29 @@ func replaceWithLink(node *html.Node, href string) {
 	dom.ReplaceChild(parent, figure, node)
 }
 
+// videoResourceURL gives the downloaded file its own slot in the collector.
+// Archiving the page and archiving its video both happen under the page URL,
+// and a shared key made the HTML step believe the page was already saved: the
+// zip ended up with the mp4 but no index.html, so the reader was blank.
+func videoResourceURL(pageURL string) string {
+	sep := "?"
+	if strings.Contains(pageURL, "?") {
+		sep = "&"
+	}
+	return pageURL + sep + "__readeck_video=1"
+}
+
 // downloadWithYtdlp runs yt-dlp in a temporary directory and stores the
 // resulting file as an archive resource.
 func (arc *Archiver) downloadWithYtdlp(ctx context.Context, pageURL string) (*Resource, error) {
+	// When the page is archived twice (re-fetch, manual re-run) reuse the file
+	// instead of pulling hundreds of megabytes again.
+	key := videoResourceURL(pageURL)
+	if res, ok := arc.collector.Get(key); ok && res.Saved() &&
+		strings.HasPrefix(res.ContentType, "video/") {
+		return res, nil
+	}
+
 	// A video download can be much longer than the archiver's HTTP timeout,
 	// so it must not be bound to the parent deadline.
 	dlCtx := context.WithoutCancel(ctx)
@@ -416,7 +436,7 @@ func (arc *Archiver) downloadWithYtdlp(ctx context.Context, pageURL string) (*Re
 	}
 
 	res := &Resource{
-		url:         pageURL,
+		url:         key,
 		Name:        arc.collector.Name(pageURL) + ".mp4",
 		ContentType: "video/mp4",
 		Size:        st.Size(),

@@ -49,10 +49,98 @@ async function saveSettings() {
 }
 
 /**
+ * Runs in the page's main world (world: "MAIN"). A content script lives in an
+ * isolated world: `window.__INITIAL_STATE__` and the page's resource timeline
+ * are invisible there, which is why a Xiaohongshu note used to come back as a
+ * handful of thumbnails with no video. This probe copies out only the fields
+ * the archiver needs. It must stay self contained.
+ *
+ * @returns {Promise<{note: object|null, videoURL: string}>}
+ */
+async function xhsProbe() {
+  const secure = (u) => String(u || "").replace(/^http:\/\//i, "https://")
+  const out = {note: null, videoURL: ""}
+
+  const slimImage = (item) => {
+    if (!item) {
+      return null
+    }
+    return {
+      urlDefault: item.urlDefault,
+      urlPre: item.urlPre,
+      infoList: item.infoList,
+      width: item.width,
+      height: item.height,
+      media: item.media,
+      stream: item.stream,
+    }
+  }
+
+  try {
+    const state = window.__INITIAL_STATE__
+    const map = state && state.note && state.note.noteDetailMap
+    if (map) {
+      const hit = (location.pathname.match(/\/(?:explore|discovery\/item)\/([0-9a-zA-Z]+)/) || [])[1]
+      let note = hit && map[hit] && map[hit].note
+      if (!note) {
+        const keys = Object.keys(map)
+        if (keys.length === 1 && map[keys[0]] && map[keys[0]].note) {
+          note = map[keys[0]].note
+        }
+      }
+      if (note) {
+        out.note = {
+          type: note.type,
+          title: note.title,
+          desc: note.desc,
+          time: note.time,
+          ipLocation: note.ipLocation,
+          user: note.user ? {nickname: note.user.nickname} : null,
+          imageList: (note.imageList || []).map(slimImage),
+          video: note.video ? {media: note.video.media, stream: note.video.stream} : null,
+        }
+      }
+    }
+  } catch (e) {
+    // state moved or changed shape: the caller falls back to the DOM
+  }
+
+  // A player that already started holds the signed stream URL.
+  try {
+    const v = document.querySelector("video")
+    const src = (v && (v.currentSrc || v.src)) || ""
+    if (/^https?:/i.test(src) && /\.mp4/i.test(src)) {
+      out.videoURL = secure(src)
+    }
+  } catch (e) {
+    // no player on the page
+  }
+
+  // Otherwise look at what the page actually fetched. Xiaohongshu serves the
+  // clip from sns-video-*.xhscdn.com with a signed query string.
+  if (!out.videoURL) {
+    try {
+      const entries = performance.getEntriesByType("resource")
+      for (let i = entries.length - 1; i >= 0; i--) {
+        const name = entries[i].name || ""
+        if (/sns-video|xhscdn\.com\/stream/i.test(name) && /\.mp4/i.test(name)) {
+          out.videoURL = secure(name)
+          break
+        }
+      }
+    } catch (e) {
+      // performance API unavailable
+    }
+  }
+
+  return out
+}
+
+/**
  * Runs inside the page. Must be self contained: it is serialized and injected
  * with chrome.scripting.executeScript.
  *
- * @param {{inline: boolean, scroll: boolean}} opts
+ * @param {{inline: boolean, scroll: boolean, xhs: object|null}} opts
  * @returns {Promise<{html: string, url: string, title: string}>}
  */
 async function capturePage(opts) {
@@ -217,8 +305,12 @@ async function capturePage(opts) {
   }
 
   // The state payload is the single source of truth: 8 images for an 8 image
-  // note, in the author's order, with their real dimensions.
+  // note, in the author's order, with their real dimensions. The isolated
+  // world cannot read it, so prefer the copy handed over by xhsProbe.
   const xhsNote = () => {
+    if (opts.xhs && opts.xhs.note) {
+      return opts.xhs.note
+    }
     const state = window.__INITIAL_STATE__
     const map = state && state.note && state.note.noteDetailMap
     if (!map) {
@@ -382,6 +474,9 @@ async function capturePage(opts) {
     }
 
     let video = streamURL(note.video)
+    if (!video && opts.xhs && opts.xhs.videoURL) {
+      video = opts.xhs.videoURL
+    }
     if (!video && String(note.type || "").indexOf("video") === 0) {
       video = await xhsAnonymousVideo(location.href)
     }
@@ -530,7 +625,10 @@ async function capturePage(opts) {
     }
 
     if (!root.querySelector("video")) {
-      const video = xhsVideoFromDOM() || (await xhsAnonymousVideo(location.href))
+      const video =
+        xhsVideoFromDOM() ||
+        (opts.xhs && opts.xhs.videoURL) ||
+        (await xhsAnonymousVideo(location.href))
       if (video) {
         const fig = document.createElement("figure")
         const el = document.createElement("video")
@@ -643,10 +741,27 @@ async function savePage() {
       throw new Error("当前标签页无法剪藏（只支持 http/https 页面）")
     }
 
+    // Xiaohongshu keeps the note (images, signed video stream) in the page's
+    // main world. Read it there first, then hand the copy to the isolated
+    // capture: an isolated content script cannot see __INITIAL_STATE__.
+    let xhs = null
+    if (/:\/\/[^/]*xiaohongshu\.com/i.test(tab.url || "")) {
+      try {
+        const [probe] = await chrome.scripting.executeScript({
+          target: {tabId: tab.id},
+          world: "MAIN",
+          func: xhsProbe,
+        })
+        xhs = (probe && probe.result) || null
+      } catch (e) {
+        xhs = null
+      }
+    }
+
     const [res] = await chrome.scripting.executeScript({
       target: {tabId: tab.id},
       func: capturePage,
-      args: [{inline: $("inline").checked, scroll: $("scroll").checked}],
+      args: [{inline: $("inline").checked, scroll: $("scroll").checked, xhs}],
     })
     const page = res && res.result
     if (!page || !page.html) {

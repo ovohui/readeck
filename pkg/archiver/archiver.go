@@ -157,7 +157,10 @@ func (arc *Archiver) log() *slog.Logger {
 // ArchiveDocument runs the archiver on a document [*html.Node] for a given URL.
 // If name is empty, the [Collector] will generate one.
 func (arc *Archiver) ArchiveDocument(ctx context.Context, doc *html.Node, uri *url.URL, name string) (err error) {
-	if res, ok := arc.collector.Get(uri.String()); ok && res.Saved() {
+	// Skip only when this URL already holds the HTML document. A video
+	// archived by yt-dlp is stored under the page URL too, and treating that
+	// as "page already archived" dropped index.html from the zip.
+	if res, ok := arc.collector.Get(uri.String()); ok && res.Saved() && res.ContentType == "text/html" {
 		return nil
 	}
 
@@ -171,7 +174,7 @@ func (arc *Archiver) ArchiveDocument(ctx context.Context, doc *html.Node, uri *u
 // ArchiveReader runs the archiver on an [io.Reader] for a given URL.
 // If name is empty, the [Collector] will generate one.
 func (arc *Archiver) ArchiveReader(ctx context.Context, r io.Reader, uri *url.URL, name string) error {
-	if res, ok := arc.collector.Get(uri.String()); ok && res.Saved() {
+	if res, ok := arc.collector.Get(uri.String()); ok && res.Saved() && res.ContentType == "text/html" {
 		return nil
 	}
 

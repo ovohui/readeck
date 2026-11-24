@@ -212,7 +212,12 @@ func (arc *Archiver) processHTML(ctx context.Context, doc *html.Node, baseURL *u
 
 func (arc *Archiver) saveHTML(ctx context.Context, doc *html.Node, uri, name string) error {
 	uri = requestURI(uri)
-	if _, ok := arc.collector.Get(uri); ok {
+	// A resource registered on this URL is not necessarily the document
+	// itself. yt-dlp stores an embedded video under the page URL, so an
+	// unconditional check here made the reader page disappear: the archive
+	// kept the mp4 but never wrote index.html. Only skip when the URL
+	// already holds an HTML document.
+	if res, ok := arc.collector.Get(uri); ok && res.Saved() && res.ContentType == "text/html" {
 		return nil
 	}
 

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Readeck 剪藏助手（中文）",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "把当前网页（含动态渲染、懒加载的图片）保存到你自己的 Readeck 服务器。",
   "permissions": [
     "activeTab",

@@ -1117,3 +1117,90 @@ if len(ex.HTML) > 0 && ex.Drop().IsHTML() {
 ```
 
 保存后就能播。新保存的书签不需要这一步。
+
+## 29. 2026-11-24 第十六轮：视频下载成功，正文却还是空的
+
+### 现象
+
+服务端粘贴链接保存的那条（`85svuqQXQpfvx5LqVVmuMc`）：
+
+```
+/api/bookmarks/<uid>/article  →  200, 0 字节
+/bm/85/<uid>/index.html       →  404
+/bm/85/<uid>/_resources/AjpKMvXdi3xqzB57ytpEzt.mp4  → 200, 64,113,751 字节 video/mp4
+```
+
+视频**已经完整下载**（64 MB），但归档 zip 里没有 `index.html`，阅读页只能空白。
+插件保存的那条（`2dBnaqXomPxkeiT7UMhx8c`）则只有 7 张 640 宽的缩略图，没有视频。
+
+### 根因一：mp4 占用了页面 URL 的槽位
+
+`downloadWithYtdlp` 把下载结果登记成 `Resource{url: pageURL, Name: ...mp4}`，
+collector 的键就是页面 URL。随后 `saveHTML` 开头有一段：
+
+```go
+if _, ok := arc.collector.Get(uri); ok {
+    return nil          // ← 以为页面已经存过了
+}
+```
+
+`uri` 就是页面 URL，而这时的条目是那个 mp4，于是 `index.html` 从未被写入。
+第 15 轮补的 `ContentType = "text/html"` 只解决了「要不要归档」，
+没解决「归档时被自己的视频挡住」。
+
+**修复**：`videoResourceURL()` 给视频一个独立键
+（`<pageURL>?__readeck_video=1` 或 `&__readeck_video=1`），页面 URL 的槽位留给文档本身。
+另外三处判断都收紧成「只跳过已保存的 HTML」：
+
+- `saveHTML`：`res.Saved() && res.ContentType == "text/html"`
+- `ArchiveDocument` / `ArchiveReader`：同上
+- `downloadWithYtdlp`：重复归档时直接复用已有视频，不再二次下载几百 MB
+
+### 根因二：扩展读不到页面的 state
+
+`chrome.scripting.executeScript` 不指定 `world` 时默认是 **ISOLATED**，与页面共享 DOM
+但不共享 JS 全局变量。`window.__INITIAL_STATE__` 在页面主世界，所以：
+
+- `xhsArticle()` 永远返回 `null`（读不到 note）；
+- 一直走 `xhsArticleFromDOM()` 兜底，拿到的是 `#noteContainer` 里 640 宽的缩略图；
+- 补流的 `xhsAnonymousVideo()` 现在也失效了——匿名请求被 302 到登录页：
+
+```
+GET /explore/6afabf31... (无 Cookie) → 302
+Location: https://www.xiaohongshu.com/login?redirectPath=...
+```
+
+**修复**：新增主世界探针 `xhsProbe()`，由 popup 先注入：
+
+```js
+chrome.scripting.executeScript({target: {tabId}, world: "MAIN", func: xhsProbe})
+```
+
+它只搬运需要的东西，不返回整棵 DOM：
+
+1. `__INITIAL_STATE__` 里的 note（type / title / desc / 作者 / 图片 / video.stream）；
+2. 页面上 `<video>` 的 `currentSrc`（登录态播放器拿到的是签名 mp4 直链）；
+3. `performance.getEntriesByType("resource")` 里 `sns-video*` 的 mp4 请求。
+
+拿到后作为参数传给隔离世界的 `capturePage`，`xhsNote()` 优先用这份副本，
+视频选取顺序变成：`state.stream` → 探针 `videoURL` → DOM 扫描 → 匿名请求（保留作最后兜底）。
+manifest 升到 1.2.2。
+
+### 验证
+
+```
+go test ./pkg/archiver/
+  TestArchiveDocumentWritesHTMLWithYtdlpVideo    PASS   （预置 mp4 后仍写入 index.html）
+  TestArchiveDocumentSkipsSavedHTML              PASS   （重复归档仍幂等）
+jsdom probe-test.js    3 例：有 state+播放器 / 只有 state / 无 state      ALL PASS
+jsdom capture-test.js  端到端：探针 → article 含
+                       <video src="https://sns-video-v6.xhscdn.com/...mp4?sign=1">   ALL PASS
+go vet + go build ./...                                                       通过
+```
+
+### 升级后要做的
+
+- 拉新镜像后**重新保存**那条笔记（旧归档里本来就没有 index.html，不会自愈）。
+- 扩展重新加载，确认版本 **1.2.2**；再打开笔记页剪藏，正文里应直接出现 `<video>`。
+- 若插件那条仍无视频：说明播放器还没起播（`currentSrc` 为空）且资源时间线里没有 mp4。
+  先在页面上点一下播放，再剪藏即可。
