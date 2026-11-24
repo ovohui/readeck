@@ -241,6 +241,27 @@ templ (v Views) bookmarkUpdate(b *bookmarks.Bookmark, f *updateForm) {
 	}
 }
 
+templ (v Views) bookmarkContent(b *bookmarks.Bookmark, content string) {
+	@PageStd(L(ctx).Gettext("Edit content"), WithSideMenu(v.menu())) {
+		<h1 class="title text-h2">{ L(ctx).Gettext("Edit content: %s", b.Title) }</h1>
+		<form method="post" action={ URL(ctx, "/bookmarks", b.UID, "content") }>
+			<p class="text-sm mb-2">
+				{ L(ctx).Gettext("Raw HTML of the archived article. Images use ./_resources/ paths.") }
+			</p>
+			<textarea
+				name="content"
+				rows="28"
+				class="field-h w-full font-mono text-sm"
+				spellcheck="false"
+			>{ content }</textarea>
+			<p class="btn-block mt-4">
+				<button class="btn btn-primary" type="submit">{ L(ctx).Gettext("Save") }</button>
+				<a class="btn" href={ URL(ctx, "/bookmarks", b.UID) }>{ L(ctx).Gettext("Cancel") }</a>
+			</p>
+		</form>
+	}
+}
+
 templ (v Views) shareByLink(link dataset.SharedLink) {
 	@PageStd(L(ctx).Gettext("Share link"), WithSideMenu(v.menu())) {
 		<h1 class="title text-h2">{ L(ctx).Gettext("Share: %s", link.Title) }</h1>

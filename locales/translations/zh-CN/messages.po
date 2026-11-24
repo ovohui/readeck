@@ -3488,3 +3488,18 @@ msgstr "立即同步"
 #~ msgctxt "date"
 #~ msgid "To"
 #~ msgstr ""
+
+msgid "Edit content"
+msgstr "编辑正文"
+
+msgid "Edit content: %s"
+msgstr "编辑正文：%s"
+
+msgid "Content updated"
+msgstr "正文已保存"
+
+msgid "Unable to save the content"
+msgstr "正文保存失败"
+
+msgid "Raw HTML of the archived article. Images use ./_resources/ paths."
+msgstr "这里直接编辑归档正文的 HTML。图片地址形如 ./_resources/xxx.jpg，请勿改动，否则图片会失效。"

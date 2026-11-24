@@ -185,6 +185,13 @@ templ (c SidebarComponent) actions(b *dataset.Bookmark) {
 							@Icon("o-copy")
 							<span class="text-xs font-bold" data-markdowncopy-label>MD</span>
 						</button>
+						<a
+							class="btn-outlined btn-primary"
+							href={ URL(ctx, "/bookmarks", b.ID, "content") }
+							title={ L(ctx).Gettext("Edit content") }
+						>
+							@Icon("o-pencil")
+						</a>
 						<button
 							type="button"
 							popovertarget="export-menu"

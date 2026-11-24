@@ -340,3 +340,59 @@ zip 里 mp4 与 `index.md` 同目录，`![[ ]]` 是 Obsidian 的嵌入语法，�
 实现要点：`resourceURL()` 直接用请求的 scheme/host 拼 `/bm/<FilePath>/<name>`，不用 `urls.AbsoluteURLContext`——后者会相对导出请求路径解析，得到 `/api/bookmarks/{id}/bm/...` 这种坏地址。
 
 单测：`internal/bookmarks/converter/markdown_video_test.go` 构造一个带 `_resources/*.mp4` 的书签，分别断言两种导出的输出。
+
+## 13. 2026-11-24 第三轮反馈修复
+
+### 正文可以编辑了
+
+编辑弹窗原来只能改标题、描述、作者等元数据。侧栏新增一个铅笔按钮，打开 `/bookmarks/{id}/content`，里面是归档正文的 HTML，改完保存即生效（阅读视图、Markdown 导出、复制按钮都会用新内容）。
+
+实现：`bookmarks.RewriteArticle()` 把归档 zip 里的 `index.html` 换掉，其余条目（`_resources/*`、`props.json`、`log`）用 `zip.File.OpenRaw()` + `zip.Writer.CreateRaw()` 原样搬运，不重新压缩，因此几 MB 的图片不会因为一次编辑而掉质量或变慢。
+
+注意两点：
+- 编辑框里的图片地址是 `./_resources/xxx.jpg`，改了名字图片就断，改文字或增删段落没问题。
+- Windows 上不能一边读 zip 一边覆盖它（`Access is denied`），所以先写临时文件、关闭原归档后再 `os.Rename`。
+
+### 小红书正文里的图片（根因找到并修好）
+
+之前一直以为"服务端拿不到图"，其实是**内容脚本跑在了错误的阶段**。
+
+Readeck 的 DOM 处理器有两个时机：
+
+| 时机 | 说明 |
+| --- | --- |
+| `documentLoaded` | 刚解析完的原始页面，`<head>` 还在 |
+| `documentReady` | `ExtractBody` 之后，`<head>` 已被丢弃，只剩正文容器 |
+
+小红书的 `window.__INITIAL_STATE__`（图片、视频地址都在里面）在 `<head>` 的 script 里。脚本挂在 `documentReady` 上，那时 head 已经没了——日志里 `scripts="3"`（body 里的三个内联脚本）就是证据，而原始页面有 20 个 script。
+
+现在脚本改挂 `documentLoaded`，从 head 读取 state，解析 `note.imageList[*].urlDefault`、`infoList[0].url`，以及 live photo 的 `stream.h264[0].masterUrl`（动图），再把结果拼成一段**平铺**的 `<figure><img>` / `<figure><video>` 追加到 `#noteContainer`（也就是站点配置里 `body` 选择器选中的节点），顺手删掉 "1/3" 那个空滑块占位。
+
+因此现在保存小红书**不需要**额外操作：服务端带站点 Cookie 抓页面 → 脚本读 state → 图片本地化。前提是「站点 Cookie」里存在 `xiaohongshu.com` 的 `a1` 与 `web_session`（CookieCloud 同步过来的那份就够）。
+
+### 浏览器扩展重写（中文、任意站点、抓渲染后 DOM）
+
+官方的浏览器扩展在小红书、贴吧这类站点注入不了，界面也是英文的。仓库里现在带一个自己的 MV3 扩展：`tools/web-extension/`。
+
+| 能力 | 说明 |
+| --- | --- |
+| 中文界面 | 弹窗、提示、错误信息都是中文 |
+| 任意站点 | 直接对当前标签页 `executeScript` 抓 DOM，不依赖站点适配，小红书/贴吧/站酷都能用 |
+| 等加载完成 | 可勾选"先滚动到底触发懒加载"，并等待图片 load 完（最多 6 秒）再抓 |
+| 图片内嵌 | 图片转 `data:` URL；跨域图片由 service worker 代取（它有 host 权限，不受 CORS 限制） |
+
+安装：`chrome://extensions` → 开发者模式 → 加载已解压的扩展程序 → 选 `tools/web-extension`，然后在弹窗里填服务器地址和 API 令牌。
+
+### 粘贴的分享文案自动提取链接
+
+小红书分享出来的是「小红书（25 【标题 - 作者】😆 token 😆 https://…）」，知乎是「问题标题 - 某某的回答 - 知乎\nhttps://…」。以前直接粘进输入框会报 URL 无效。
+
+现在表单的 `url` 字段多了一个 `clean_url` 清洗器（`utils.ExtractURL`）：
+
+1. 找到第一个 `http://` 或 `https://`；
+2. 截断到第一个空白、控制字符或中文标点（`），。、；：！？【】「」` 等）；
+3. 去掉结尾的英文标点，但括号做配对检查，`…/Foo_(bar)` 这种地址不会被误伤。
+
+前端、API、扩展、油猴脚本走的是同一个 `createForm`，所以全都生效。
+
+单测：`pkg/utils/url_test.go`（8 组用例，含你给的两条真实文案）、`internal/bookmarks/container_test.go`（归档重写后其余条目字节不变）。

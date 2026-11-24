@@ -201,6 +201,8 @@ func newViewsRouter(api *apiRouter) *viewsRouter {
 				r.Get("/", h.bookmarkInfo)
 				r.Get("/card", h.bookmarkCard)
 				r.Get("/diagnosis", h.diagnosis)
+				r.Get("/content", h.bookmarkContent)
+				r.Post("/content", h.bookmarkContent)
 				r.With(server.WithPermission("bookmarks", "share")).Route(
 					"/share", func(r chi.Router) {
 						r.With(

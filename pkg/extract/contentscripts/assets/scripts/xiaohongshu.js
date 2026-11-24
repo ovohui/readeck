@@ -5,14 +5,19 @@
 exports.priority = 10
 
 /**
- * Xiaohongshu (小红书) renders its note slider with JavaScript: the HTML we
- * fetch contains the note text but no usable <img> (the counter "1/15" is
- * there, the pictures are not). The real URLs only exist in the
- * `window.__INITIAL_STATE__` payload embedded in a <script> tag.
+ * Xiaohongshu (小红书) renders its note with JavaScript: the server side HTML
+ * carries the note text and an empty slider ("1/3" counter), but the pictures
+ * only exist as URLs in the `window.__INITIAL_STATE__` payload embedded in a
+ * <script> tag of the document head.
  *
- * This script extracts those URLs and injects real <img> elements, plus a
- * <video> for live photos (动图), before the DOM is handed over to
- * go-readability.
+ * This script runs on `documentLoaded`, i.e. BEFORE the article body is
+ * extracted. That matters: `documentReady` runs after ExtractBody, when the
+ * <head> (and therefore the state payload) has already been dropped, which is
+ * why an earlier version of this script never found anything.
+ *
+ * It reads the state, then appends a flat list of <figure><img> and
+ * <figure><video> elements inside the note container, so the archived note
+ * keeps every image (and live photos) whatever the original layout was.
  *
  * @returns {boolean}
  */
@@ -20,7 +25,7 @@ exports.isActive = function () {
   return /xiaohongshu\.com$/.test($.domain)
 }
 
-const MEDIA_HOST = /(xhscdn\.com|sns-webpic|xhsimg\.com)/
+var MEDIA_HOST = /(xhscdn\.com|xhsimg\.com)/
 
 /**
  * Removes the JSON escaping that appears in inline scripts: "\/" -> "/",
@@ -40,54 +45,19 @@ function unescapeJSON(s) {
 /**
  * Returns the text of every inline script of the document.
  *
- * @param {Node} document
+ * @param {Node} doc
  * @returns {string[]}
  */
-function scriptTexts(document) {
-  const out = []
-  document.querySelectorAll("script").forEach((s) => {
-    const txt = s.textContent
-    if (txt && txt.length > 1000) {
+function scriptTexts(doc) {
+  var out = []
+  var nodes = doc.querySelectorAll("script")
+  for (var i = 0; i < nodes.length; i++) {
+    var txt = nodes[i].textContent
+    if (txt && txt.length > 200) {
       out.push(txt)
     }
-  })
+  }
   return out
-}
-
-/**
- * Walks any parsed value and collects image/video URLs.
- *
- * @param {any} node
- * @param {{images: string[], videos: string[]}} acc
- * @param {number} depth
- */
-function walk(node, acc, depth) {
-  if (node == null || depth > 12) {
-    return
-  }
-  if (Array.isArray(node)) {
-    node.forEach((n) => walk(n, acc, depth + 1))
-    return
-  }
-  if (typeof node != "object") {
-    return
-  }
-  Object.keys(node).forEach((k) => {
-    const v = node[k]
-    if (typeof v == "string") {
-      const url = unescapeJSON(v)
-      if (!/^https?:\/\//.test(url) || !MEDIA_HOST.test(url)) {
-        return
-      }
-      if (/\.(mp4|m3u8)(\?|$)/.test(url) || k == "masterUrl" || k == "originVideoKey") {
-        acc.videos.push(url)
-      } else {
-        acc.images.push(url)
-      }
-      return
-    }
-    walk(v, acc, depth + 1)
-  })
 }
 
 /**
@@ -97,22 +67,22 @@ function walk(node, acc, depth) {
  * @returns {any|null}
  */
 function parseNoteDetail(texts) {
-  for (let t = 0; t < texts.length; t++) {
-    const txt = texts[t]
-    const idx = txt.indexOf('"noteDetailMap"')
+  for (var t = 0; t < texts.length; t++) {
+    var txt = texts[t]
+    var idx = txt.indexOf('"noteDetailMap"')
     if (idx < 0) {
       continue
     }
-    const start = txt.indexOf("{", idx)
+    var start = txt.indexOf("{", idx)
     if (start < 0) {
       continue
     }
     // Brace matching, ignoring braces inside strings.
-    let depth = 0
-    let inStr = false
-    let esc = false
-    for (let i = start; i < txt.length; i++) {
-      const c = txt[i]
+    var depth = 0
+    var inStr = false
+    var esc = false
+    for (var i = start; i < txt.length; i++) {
+      var c = txt.charAt(i)
       if (inStr) {
         if (esc) {
           esc = false
@@ -130,7 +100,10 @@ function parseNoteDetail(texts) {
       } else if (c == "}") {
         depth--
         if (depth == 0) {
-          const raw = txt.slice(start, i + 1)
+          var raw = txt.slice(start, i + 1)
+          // The state is serialized by React: it can contain bare
+          // `undefined`, which is not valid JSON.
+          raw = raw.replace(/:\s*undefined/g, ":null")
           try {
             return JSON.parse(raw)
           } catch (e) {
@@ -144,18 +117,93 @@ function parseNoteDetail(texts) {
 }
 
 /**
+ * Walks any parsed value and returns every object that carries an imageList
+ * (i.e. a note).
+ *
+ * @param {any} node
+ * @param {any[]} out
+ * @param {number} depth
+ */
+function findNotes(node, out, depth) {
+  if (node == null || typeof node != "object" || depth > 10) {
+    return
+  }
+  if (Array.isArray(node)) {
+    for (var i = 0; i < node.length; i++) {
+      findNotes(node[i], out, depth + 1)
+    }
+    return
+  }
+  if (Array.isArray(node.imageList) && node.imageList.length > 0) {
+    out.push(node)
+  }
+  var keys = Object.keys(node)
+  for (var k = 0; k < keys.length; k++) {
+    findNotes(node[keys[k]], out, depth + 1)
+  }
+}
+
+/**
+ * Picks the best image URL of an imageList entry.
+ *
+ * @param {any} item
+ * @returns {string}
+ */
+function imageURL(item) {
+  if (item.urlDefault) {
+    return unescapeJSON(item.urlDefault)
+  }
+  if (item.urlPre) {
+    return unescapeJSON(item.urlPre)
+  }
+  var list = item.infoList || []
+  for (var i = 0; i < list.length; i++) {
+    if (list[i].url) {
+      return unescapeJSON(list[i].url)
+    }
+  }
+  return ""
+}
+
+/**
+ * Returns the master URL of a live photo (动图) or of a video note.
+ *
+ * @param {any} node
+ * @returns {string}
+ */
+function streamURL(node) {
+  if (!node) {
+    return ""
+  }
+  var stream = node.media ? node.media.stream : node.stream
+  if (!stream) {
+    return ""
+  }
+  var codecs = ["h264", "h265", "av1"]
+  for (var i = 0; i < codecs.length; i++) {
+    var list = stream[codecs[i]] || []
+    for (var j = 0; j < list.length; j++) {
+      if (list[j].masterUrl) {
+        return unescapeJSON(list[j].masterUrl)
+      }
+    }
+  }
+  return ""
+}
+
+/**
  * Last resort: scrape every media URL from the inline scripts.
  *
  * @param {string[]} texts
  * @param {{images: string[], videos: string[]}} acc
  */
 function scrapeURLs(texts, acc) {
-  const rx = /https?:[^"'\\\s]{6,}/g
-  texts.forEach((txt) => {
-    const clean = unescapeJSON(txt)
-    let m
+  var rx = /https?:[^"'\\\s]{6,}/g
+  for (var t = 0; t < texts.length; t++) {
+    var clean = unescapeJSON(texts[t])
+    var m
     while ((m = rx.exec(clean)) != null) {
-      const url = m[0]
+      var url = m[0]
       if (!MEDIA_HOST.test(url)) {
         continue
       }
@@ -165,7 +213,7 @@ function scrapeURLs(texts, acc) {
         acc.images.push(url)
       }
     }
-  })
+  }
 }
 
 /**
@@ -174,55 +222,101 @@ function scrapeURLs(texts, acc) {
  * @returns {string[]}
  */
 function unique(urls, limit) {
-  const seen = {}
-  const out = []
-  urls.forEach((u) => {
-    if (seen[u] || /avatar|emoji|fe-platform|logo/i.test(u)) {
-      return
+  var seen = {}
+  var out = []
+  for (var i = 0; i < urls.length; i++) {
+    var u = urls[i]
+    if (!/^https?:\/\//.test(u) || seen[u] || /avatar|emoji|logo|fe-platform/i.test(u)) {
+      continue
     }
     seen[u] = true
     out.push(u)
-  })
+  }
   return out.slice(0, limit)
+}
+
+/**
+ * Detaches the empty slider placeholder produced by the server side render,
+ * so the flat media list is not preceded by a "1/3" skeleton.
+ *
+ * @param {Node} container
+ */
+function removePlaceholders(container) {
+  var selectors = ['[elementtiming="note-cover"]', ".swiper", ".note-slider", ".slider-container"]
+  for (var i = 0; i < selectors.length; i++) {
+    var nodes = container.querySelectorAll(selectors[i])
+    for (var j = nodes.length - 1; j >= 0; j--) {
+      var parent = nodes[j].parentNode
+      if (parent) {
+        parent.removeChild(nodes[j])
+      }
+    }
+  }
+}
+
+/**
+ * @param {Node} doc
+ * @param {string} selector
+ * @param {string} tag
+ * @param {Object} attrs
+ * @returns {Node}
+ */
+function element(doc, selector, tag, attrs) {
+  var el = doc.createElement(tag)
+  Object.keys(attrs).forEach(function (k) {
+    el.setAttribute(k, attrs[k])
+  })
+  return el
 }
 
 /**
  *  @param {Node} document
  */
-exports.documentReady = function (document) {
-  const texts = scriptTexts(document)
-  if (texts.length == 0) {
-    return
-  }
+exports.documentLoaded = function (document) {
+  var texts = scriptTexts(document)
+  var acc = {images: [], videos: []}
 
-  const acc = {images: [], videos: []}
-  let state = null
-  try {
-    state = parseNoteDetail(texts)
-  } catch (e) {
-    state = null
-  }
-  if (state != null) {
-    walk(state, acc, 0)
-  }
-  if (acc.images.length == 0) {
-    scrapeURLs(texts, acc)
-  }
-  if (acc.images.length == 0) {
-    // Last resort: the social card still holds the note cover.
-    const og = document.querySelector('meta[property="og:image"]')
-    const ogURL = og && og.getAttribute("content")
-    if (ogURL) {
-      acc.images.push(ogURL)
+  if (texts.length > 0) {
+    var state = null
+    try {
+      state = parseNoteDetail(texts)
+    } catch (e) {
+      state = null
+    }
+
+    if (state != null) {
+      var notes = []
+      findNotes(state, notes, 0)
+      for (var n = 0; n < notes.length; n++) {
+        var note = notes[n]
+        var list = note.imageList
+        for (var i = 0; i < list.length; i++) {
+          var url = imageURL(list[i])
+          if (url) {
+            acc.images.push(url)
+          }
+          // Live photo: the picture has a short video attached.
+          var live = streamURL(list[i])
+          if (live) {
+            acc.videos.push(live)
+          }
+        }
+        var video = streamURL(note.video)
+        if (video) {
+          acc.videos.push(video)
+        }
+      }
+    }
+
+    if (acc.images.length == 0) {
+      scrapeURLs(texts, acc)
     }
   }
 
-  const images = unique(acc.images, 40)
-  const videos = unique(acc.videos, 5)
+  var images = unique(acc.images, 40)
+  var videos = unique(acc.videos, 6)
+
   if (images.length == 0 && videos.length == 0) {
-    // The note feed is loaded over XHR on xiaohongshu.com: the HTML we fetch
-    // only carries the shell, so there is genuinely nothing to extract here.
-    // Use the browser userscript (tools/userscript) for these pages.
     console.debug("xiaohongshu: no media in server side HTML", {
       scripts: texts.length,
       hasState: texts.join("").indexOf("noteDetailMap") >= 0,
@@ -230,20 +324,12 @@ exports.documentReady = function (document) {
     return
   }
 
-  // The media must land inside the element go-readability will keep. Note
-  // pages nest the text in .note-content (or #detail-desc), which is a
-  // *child* of #noteContainer: appending to the wrapper would leave the
-  // figures outside the extracted body, which is why they disappeared.
-  const candidates = [
-    ".note-content",
-    "#detail-desc",
-    ".note-scroller",
-    "#noteContainer",
-    "article",
-  ]
-  let container = null
-  for (let i = 0; i < candidates.length; i++) {
-    container = document.querySelector(candidates[i])
+  // The media must live inside the element the site configuration extracts
+  // (//div[@id='noteContainer']).
+  var candidates = ["#noteContainer", ".note-scroller", "article", "body"]
+  var container = null
+  for (var c = 0; c < candidates.length; c++) {
+    container = document.querySelector(candidates[c])
     if (container) {
       break
     }
@@ -252,32 +338,34 @@ exports.documentReady = function (document) {
     container = document.body
   }
 
-  const media = document.createElement("div")
-  media.setAttribute("class", "xhs-media")
+  removePlaceholders(container)
 
-  const addVideo = (url) => {
-    const figure = document.createElement("figure")
-    figure.setAttribute("class", "content")
-    const video = document.createElement("video")
-    video.setAttribute("src", url)
-    video.setAttribute("controls", "")
-    video.setAttribute("playsinline", "")
-    video.setAttribute("preload", "metadata")
-    figure.appendChild(video)
+  var media = element(document, null, "div", {"class": "xhs-media"})
+
+  for (var v = 0; v < videos.length; v++) {
+    var figure = element(document, null, "figure", {"class": "content"})
+    figure.appendChild(
+      element(document, null, "video", {
+        src: videos[v],
+        controls: "",
+        playsinline: "",
+        preload: "metadata",
+      }),
+    )
     media.appendChild(figure)
   }
 
-  images.forEach((url) => {
-    const figure = document.createElement("figure")
-    figure.setAttribute("class", "content")
-    const img = document.createElement("img")
-    img.setAttribute("src", url)
-    img.setAttribute("alt", $.title || "")
-    figure.appendChild(img)
-    media.appendChild(figure)
-  })
+  for (var p = 0; p < images.length; p++) {
+    var fig = element(document, null, "figure", {"class": "content"})
+    fig.appendChild(
+      element(document, null, "img", {
+        src: images[p],
+        alt: $.title || "",
+      }),
+    )
+    media.appendChild(fig)
+  }
 
-  videos.forEach(addVideo)
   container.appendChild(media)
 
   console.debug("xiaohongshu: injected media", {

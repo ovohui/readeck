@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>保存到 Readeck</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #ffffff;
+        --fg: #1c1d21;
+        --muted: #6b7280;
+        --border: #d8dbe0;
+        --accent: #0f7b8f;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        width: 340px;
+        margin: 0;
+        padding: 14px;
+        font: 13px/1.5 "Microsoft YaHei", -apple-system, "Segoe UI", sans-serif;
+        color: var(--fg);
+        background: var(--bg);
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 15px;
+      }
+      label {
+        display: block;
+        margin: 8px 0 3px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 6px 8px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        font: inherit;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 8px;
+      }
+      .row input[type="checkbox"] {
+        margin: 0;
+      }
+      .hint {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      button {
+        font: inherit;
+        border-radius: 4px;
+        border: 1px solid var(--border);
+        background: #f5f6f7;
+        padding: 7px 10px;
+        cursor: pointer;
+      }
+      button.primary {
+        flex: 1;
+        border-color: var(--accent);
+        background: var(--accent);
+        color: #fff;
+        font-weight: 600;
+      }
+      button:disabled {
+        opacity: 0.55;
+        cursor: default;
+      }
+      #status {
+        min-height: 18px;
+        margin-top: 10px;
+        font-size: 12px;
+        word-break: break-all;
+      }
+      #status.ok {
+        color: #0a7d33;
+      }
+      #status.err {
+        color: #b42318;
+      }
+      hr {
+        border: 0;
+        border-top: 1px solid var(--border);
+        margin: 12px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>保存到 Readeck</h1>
+
+    <label for="server">服务器地址</label>
+    <input id="server" type="text" placeholder="https://readeck.example.com" />
+
+    <label for="token">API 令牌</label>
+    <input id="token" type="password" placeholder="Readeck → 设置 → API 令牌" />
+
+    <div class="row">
+      <input id="inline" type="checkbox" checked />
+      <label for="inline" style="margin: 0">图片内嵌为 data URL（最稳）</label>
+    </div>
+    <p class="hint">关闭后只保存图片地址，由服务器自行下载，体积更小。</p>
+
+    <div class="row">
+      <input id="scroll" type="checkbox" checked />
+      <label for="scroll" style="margin: 0">先滚动到底触发懒加载</label>
+    </div>
+
+    <hr />
+
+    <div class="row">
+      <button id="save" class="primary">保存到 Readeck</button>
+      <button id="settings" title="保存服务器与令牌">保存设置</button>
+    </div>
+
+    <div id="status"></div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

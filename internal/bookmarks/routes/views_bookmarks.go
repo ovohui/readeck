@@ -334,6 +334,43 @@ func (h *viewsRouter) bookmarkUpdate(w http.ResponseWriter, r *http.Request) {
 	server.RenderComponent(w, r.WithContext(ctx), status, Views{}.bookmarkUpdate(b, f))
 }
 
+// bookmarkContent lets the user edit the archived article's HTML body.
+func (h *viewsRouter) bookmarkContent(w http.ResponseWriter, r *http.Request) {
+	b := getBookmark(r.Context())
+	tr := server.Locale(r.Context())
+
+	if r.Method == http.MethodPost {
+		if err := r.ParseForm(); err != nil {
+			server.Err(w, r, err)
+			return
+		}
+
+		if err := b.RewriteArticle(r.PostFormValue("content")); err != nil {
+			server.Log(r).Error("bookmark content", slog.Any("err", err))
+			server.AddFlash(w, r, "error", tr.Gettext("Unable to save the content"))
+		} else {
+			server.AddFlash(w, r, "success", tr.Gettext("Content updated"))
+		}
+
+		server.Redirect(w, r, "/bookmarks/"+b.UID)
+		return
+	}
+
+	content, err := b.ArticleBody()
+	if err != nil {
+		server.Err(w, r, err)
+		return
+	}
+
+	ctx := components.WithBreadcrumb(r.Context(), [][2]string{
+		{tr.Gettext("Bookmarks"), urls.AbsoluteURL(r, "/bookmarks").String()},
+		{utils.ShortText(b.Title, 50), urls.AbsoluteURL(r, "/bookmarks", b.UID).String()},
+		{tr.Gettext("Edit content")},
+	})
+
+	server.RenderComponent(w, r.WithContext(ctx), http.StatusOK, Views{}.bookmarkContent(b, content))
+}
+
 func (h *viewsRouter) bookmarkShareLink(w http.ResponseWriter, r *http.Request) {
 	link := getSharedLink(r.Context())
 	if server.IsTurboRequest(r) {

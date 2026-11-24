@@ -3099,3 +3099,18 @@ msgstr ""
 
 msgid "Sync now"
 msgstr ""
+
+msgid "Edit content"
+msgstr ""
+
+msgid "Edit content: %s"
+msgstr ""
+
+msgid "Content updated"
+msgstr ""
+
+msgid "Unable to save the content"
+msgstr ""
+
+msgid "Raw HTML of the archived article. Images use ./_resources/ paths."
+msgstr ""

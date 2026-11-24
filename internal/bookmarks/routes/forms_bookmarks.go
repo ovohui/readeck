@@ -137,7 +137,7 @@ func LoadMultipartResource(opener forms.FileOpener, res *tasks.MultipartResource
 
 type createForm struct {
 	forms.Form
-	URL       forms.TextField     `json:"url"               validate:"trim required max_len:1024 is_url"`
+	URL       forms.TextField     `json:"url"               validate:"trim clean_url required max_len:1024 is_url"`
 	Title     forms.TextField     `json:"title"             validate:"trim max_len:1024"`
 	Labels    forms.TextListField `json:"labels"            validate:"trim discard_empty"`
 	Created   forms.DatetimeField `json:"created"`
@@ -149,11 +149,22 @@ type createForm struct {
 	resources []tasks.MultipartResource
 }
 
+// GetTaggedValidator adds the "clean_url" cleaner. Shared links are often
+// pasted together with their title or trailing punctuation, and only the URL
+// itself is meaningful.
+func (f *createForm) GetTaggedValidator(name, _ string, _ *forms.TagContext) (forms.Validator, bool) {
+	switch name {
+	case "clean_url":
+		return forms.CleanerFunc[string](utils.ExtractURL), true
+	default:
+		return nil, false
+	}
+}
+
 func (f *createForm) Validate() error {
 	if !f.IsValid() {
 		return nil
 	}
-
 	// Load the html when provided.
 	if f.HTML.IsBound() && !f.HTML.IsEmpty() {
 		opener := f.HTML.Value()
