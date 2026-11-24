@@ -3,6 +3,7 @@ package org.ovohui.readeckshare;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import org.json.JSONObject;
 public class MainActivity extends Activity {
     private final Handler ui = new Handler(Looper.getMainLooper());
 
+    private EditText linkField;
     private EditText serverField;
     private EditText tokenField;
     private EditText settleField;
@@ -64,12 +66,30 @@ public class MainActivity extends Activity {
         root.addView(title);
 
         TextView intro = new TextView(this);
-        intro.setText("在任何 App 里点「分享」→ 选「转存 Readeck」，本应用会用内置浏览器把页面完整渲染一遍，"
-                + "再把渲染后的网页连同图片地址一起交给你的 Readeck 服务端。"
-                + "这样连小黑盒、抖音这类「正文由脚本拉取」的页面也能存下内容，而不只是一个链接。");
+        intro.setText("转存 Readeck：把网页完整渲染后交给服务端，正文和图片一起存下来。"
+                + "可以在任何 App 里「分享」给本应用，也可以在下面粘贴一个链接。");
         intro.setTextSize(13);
         intro.setPadding(0, dp(8), 0, dp(16));
         root.addView(intro);
+
+        root.addView(label("链接"));
+        linkField = field(false);
+        linkField.setHint("粘贴分享来的链接");
+        root.addView(linkField);
+
+        LinearLayout linkRow = new LinearLayout(this);
+        linkRow.setOrientation(LinearLayout.HORIZONTAL);
+        Button paste = new Button(this);
+        paste.setText("粘贴");
+        paste.setOnClickListener(v -> pasteFromClipboard());
+        linkRow.addView(paste, new LinearLayout.LayoutParams(0,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        Button grab = new Button(this);
+        grab.setText("抓取并保存");
+        grab.setOnClickListener(v -> captureFromField());
+        linkRow.addView(grab, new LinearLayout.LayoutParams(0,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        root.addView(linkRow);
 
         root.addView(label("服务器地址"));
         serverField = field(false);
@@ -141,6 +161,40 @@ public class MainActivity extends Activity {
             e.setInputType(InputType.TYPE_CLASS_NUMBER);
         }
         return e;
+    }
+
+    /** Fills the link box from the clipboard, which is how a copied share link arrives. */
+    private void pasteFromClipboard() {
+        try {
+            ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+            CharSequence text = cm == null ? null : cm.getPrimaryClip() == null ? null
+                    : cm.getPrimaryClip().getItemAt(0).coerceToText(this);
+            if (text == null || text.length() == 0) {
+                toast("剪贴板是空的");
+                return;
+            }
+            linkField.setText(text.toString().trim());
+        } catch (Exception e) {
+            toast("读不到剪贴板：" + e.getMessage());
+        }
+    }
+
+    /** Sends the typed link through the same pipeline a share would use. */
+    private void captureFromField() {
+        String url = linkField.getText().toString().trim();
+        if (url.isEmpty()) {
+            toast("先粘贴一个链接");
+            return;
+        }
+        if (Prefs.token(this).isEmpty()) {
+            toast("先登录");
+            return;
+        }
+        Intent i = new Intent(this, ShareActivity.class);
+        i.setAction(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_TEXT, url);
+        startActivity(i);
     }
 
     private void load() {

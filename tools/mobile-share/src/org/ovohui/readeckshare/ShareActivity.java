@@ -436,6 +436,10 @@ public class ShareActivity extends Activity {
             return null;
         }
         CharSequence text = intent.getCharSequenceExtra(Intent.EXTRA_TEXT);
+        if (text == null) {
+            // "转存" in a text selection menu arrives as PROCESS_TEXT instead.
+            text = intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT);
+        }
         String body = text == null ? "" : text.toString();
         if (body.isEmpty() && intent.getDataString() != null) {
             body = intent.getDataString();

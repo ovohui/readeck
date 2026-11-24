@@ -770,3 +770,73 @@ zipalign -p -f 4 && apksigner sign（v2 + v3）
 - 端到端：用设备码换到的 Bearer token 直接 `POST /api/bookmarks {url,title,html}`，
   服务端 `202`，几秒后 `/api/bookmarks/<uid>/article` 里就是提交的那段正文（证明服务端
   用的是我们递过去的 HTML，而不是自己去抓 `example.com`）。
+
+## 23. 2026-11-24 第十轮：把抓取功能塞进官方 App（而不是另装一个）
+
+### 为什么要改官方 APK
+
+用户的两句反馈把需求说清楚了：
+
+1. 「原 app 可以直接查看我收藏的内容」——独立的小工具只能存，不能看；
+2. 「很多 APP 识别不到这个软件，而且只能复制分享链接，这个 app 不能粘贴链接」。
+
+第 2 条尤其关键：**很多应用只把分享发给它认识的、或者是自家清单里的应用**，一个陌生包名
+的分享目标经常根本不出现。而官方客户端的分享入口是系统里早就注册好的，一直在。
+
+所以方向改成「官方 APK + 我们的抓取 Activity」。
+
+### 官方 APK 的结构（先摸清楚再动）
+
+```
+package        org.readeck.apps.android（类名还是 com.mydeck.app）
+version        1.1.0 (1001000)
+minSdk 32 / targetSdk 36 / compileSdk 37
+组件           com.mydeck.app.MainActivity           MAIN + LAUNCHER
+                                                   VIEW readeck://oauth-callback
+               com.mydeck.app.ui.share.ShareActivity SEND + text/plain   ← 只传 URL 的那个
+split          base.apk + split_config.arm64_v8a（两个 .so）+ en / zh（语言资源）
+```
+
+它本来就有分享目标，但只做 `POST /api/bookmarks {url}`。要改的就是这一处。
+
+### 补丁做了什么
+
+`tools/mobile-share/patch_official.py`：
+
+1. `apktool d -s` 反编译（`-s` 保留原 `classes.dex` / `classes2.dex`，不解 smali）；
+2. 清单三点改动：
+   - 删掉 `requiredSplitTypes="base__abi"` 和 `splitTypes=""`（合并成单 APK 后不能还要求
+     ABI split，否则安装报 `INSTALL_FAILED_MISSING_SPLIT`）；
+   - 摘掉官方 `ShareActivity` 的 SEND 过滤（避免分享面板出现两个同名条目）；
+   - 加两个 Activity：`org.ovohui.readeckshare.ShareActivity`（SEND + PROCESS_TEXT）、
+     `org.ovohui.readeckshare.MainActivity`（LAUNCHER，粘贴框 + 登录 + 设置）；
+3. `apktool b` 重建，追加 `classes3.dex`（我们那 5 个类，`--min-api 32`，原生 multidex）；
+4. 把 ABI split 里的 `lib/arm64-v8a/*.so` 以 **stored** 塞回 —— 清单里
+   `extractNativeLibs="false"`，系统直接从 APK mmap，压缩了会崩；
+5. `zipalign -p -f 4` + `apksigner` 签我们的证书。
+
+### 两个 Windows 上的坑
+
+- **aapt2 打不开中文路径**：本仓库叫「Readeck 自定义改造」，apktool 调 aapt2 时直接崩
+  （`could not exec ... aapt2 compile --dir D:/.../Readeck ?Զ???`）。所有中间文件必须放在
+  系统临时目录的 ASCII 路径下，产物再拷回仓库。
+- **apktool 2.11.1 太旧**：这个 App 用 compileSdk 37 构建，2.11 不认识新属性。换
+  **apktool 3.0.3** 之后重建干净。
+
+### 验证（静态，能验的都验了）
+
+| 项 | 结果 |
+| --- | --- |
+| 资源表 | 原包 1392 个 resource id，补丁包 1392 个，**缺失 0 / 新增 0**；归一化 diff 只剩同一 bag 内条目顺序差异（值完全一致） |
+| 清单 | `requiredSplitTypes` 已消失；新 Activity 的 SEND / PROCESS_TEXT / LAUNCHER 齐全；官方 `ShareActivity` 已无 SEND 过滤；`@style/Theme.MyDeck` 仍是 `0x7f11035b`（id 没漂） |
+| dex | `classes3.dex` magic `dex\n039`，含 `Api`、`Api$ApiException`、`MainActivity`、`Prefs`、`ShareActivity` |
+| 原生库 | `lib/arm64-v8a/*.so` 两条，`compress_type=0`（stored），`zipalign -c -p` 全 OK |
+| 签名 | `apksigner verify` 通过（v2 + v3），证书 `CN=Readeck Share` |
+| 残留 | 无 `original/META-INF` 旧签名残留 |
+
+### 代价，必须提前说
+
+- 签名换了 → **不能覆盖安装**，得先卸载官方 App（书签在服务端，本地只是缓存）；
+- 打补丁版沿用官方的 `network_security_config`（`cleartextTrafficPermitted="false"`），
+  所以实例与目标页都得是 HTTPS；
+- 官方更新后要重新跑一次脚本。

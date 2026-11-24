@@ -9,17 +9,44 @@
 
 ---
 
-## 安装
+## 两个产物，按需选一个
+
+| 文件 | 大小 | 是什么 | 适合谁 |
+| --- | --- | --- | --- |
+| `out/readeck-patched.apk` | 8.5 MB | **官方 App + 抓取功能**，一个应用既看收藏也能抓页面 | 只想装一个应用（推荐） |
+| `out/readeck-share.apk` | 29 KB | 独立的小工具，只有分享/粘贴抓取 | 想保留官方原版不动 |
+
+### A. 官方 App 打补丁版（推荐）
+
+就是把官方 1.1.0 的 APK 拆开，加进去一个 Activity：
+
+- 官方原本的「分享」只把 URL 递给服务端（`com.mydeck.app.ui.share.ShareActivity`，SEND +
+  text/plain），我们把这个 intent-filter 摘掉，换成会渲染页面的那个；
+- 新 Activity 还注册了 `PROCESS_TEXT`，所以任意应用里**选中文字**也会出现「转存 Readeck」；
+- 额外一个桌面图标（也叫「转存 Readeck」）用来**粘贴链接**、登录、改设置——这就是原来
+  「只能复制链接没法粘」的解法；
+- 其它一切不动：收藏列表、阅读、同步、登录、数据库全在原样。
+
+安装前必须知道的一点：**签名换了**（从作者证书换成本仓库的 `CN=Readeck Share`），
+所以 Android 不允许覆盖安装。步骤是：
 
 ```
-tools/mobile-share/out/readeck-share.apk      ← 28 KB，已签名（v2 + v3）
+1. 记下官方 App 里的登录信息（书签都在服务端，本地只是缓存）
+2. 卸载官方 App
+3. 安装 readeck-patched.apk
+4. 打开「Readeck」重新登录一次
+5. 打开「转存 Readeck」登录一次（抓取用的是它自己的令牌）
 ```
 
-1. 传到手机（微信文件传输、数据线、`adb install` 都行）；
-2. 首次安装需要在系统里允许「安装未知来源应用」；
-3. 装完桌面出现「转存 Readeck」。
+以后官方出新版，重新跑一次 `patch_official.py` 就能把功能带过去，不用重做。
 
-包名 `org.ovohui.readeckshare`，与官方客户端 `com.mydeck.app` 互不影响，可以共存。
+### B. 独立工具版
+
+```
+tools/mobile-share/out/readeck-share.apk      ← 29 KB，已签名（v2 + v3）
+```
+
+包名 `org.ovohui.readeckshare`，与官方客户端共存，互不影响。装完桌面出现「转存 Readeck」。
 
 ## 首次使用：登录
 
@@ -64,6 +91,8 @@ tools/mobile-share/out/readeck-share.apk      ← 28 KB，已签名（v2 + v3）
 - **强制跳 App 的页面**：有些分享页只给一句「打开 App 查看」。那种页面里本来就没有正文，
   WebView 也变不出来。
 - **纯视频页**：本应用抓的是 HTML，不处理视频流；视频离线仍然靠服务端的 yt-dlp。
+- **打补丁版沿用官方 App 的网络安全配置**：`cleartextTrafficPermitted="false"`，所以服务端地址
+  和目标页都必须是 HTTPS。独立版自己带 `usesCleartextTraffic`，没有这个限制。
 - **服务端要有可用的 DNS**：图片是服务端下载的，容器 DNS 坏了图片就存不下来（见
   `CUSTOMIZATIONS.md` 第 20 节）。
 
@@ -78,10 +107,29 @@ tools/mobile-share/
     ShareActivity.java         WebView 渲染、滚动、抓取、提交
     Api.java                   OAuth 设备码 + POST /api/bookmarks
     Prefs.java                 设置存储
-  build.py                     不用 Gradle 的构建脚本
+  build.py                     不用 Gradle 的构建脚本（产出独立版）
+  patch_official.py            给官方 APK 打补丁（产出合并版）
   readeck-share.jks            签名证书（口令 readeck123，别名 readeckshare）
   out/readeck-share.apk        产物
 ```
+
+### 打补丁版怎么来
+
+```bash
+python tools/mobile-share/patch_official.py \
+  --base path/to/base.apk \
+  --abi-split path/to/split_config.arm64_v8a.apk
+```
+
+脚本做的事：`apktool d -s`（保留原 dex）→ 改清单（去掉 `requiredSplitTypes`、摘掉官方
+分享过滤、加入我们的两个 Activity）→ `apktool b` → 追加 `classes3.dex` →
+把 ABI split 里的 `lib/arm64-v8a/*.so` 以 **stored** 方式塞回（清单里
+`extractNativeLibs="false"`，系统直接从 APK 里 mmap，所以不能压缩）→ `zipalign -p` →
+`apksigner`。
+
+需要 `.workbuddy/tmp/apktool3.jar`（apktool 3.0.3，能正确解析 compileSdk 37 的资源属性）。
+
+### 独立版怎么来
 
 构建不需要 Android Studio，也不需要 Gradle，只要有 JDK 17 + build-tools + 一个 android.jar：
 
