@@ -2194,3 +2194,68 @@ go test ./internal/acls/          顺带修好了 sitecookies 权限没进快照
 顺带一提，`internal/acls` 那两例从加了站点 Cookie 权限起就一直是红的（快照没跟上），
 这轮一并补上；`internal/db`、`internal/docs`、`pkg/extract/contents`、`pkg/strftime`
 仍然是 HEAD 上就红的，与本次无关。
+
+## 37. 2026-11-25 第二十七轮：服务端与插件，谁能存下什么
+
+### 一、为什么要测
+
+同一篇网页，粘链接进网页界面和点插件保存，结果经常不一样，但没人说得清差别在哪。
+这轮用同一个实例、同一批站点，两条路径各跑一遍，把差别量化。
+
+判定口径不看抓取日志，只看**归档后的正文**：`/api/bookmarks/{id}/article` 的可见字符数、
+正文里的 `<img>` 数、`resources` 里有没有 thumbnail。
+
+### 二、两条路径的本质区别
+
+- 服务端（粘贴链接 / API）：NAS 自己发请求，拿到的是**原始 HTML**，正文完整与否取决于
+  站点是否服务端渲染、是否给非浏览器 UA 完整内容、有没有登录/付费墙。
+- 插件：浏览器先渲染，把**渲染后的 DOM** 整份 multipart 上传（`html` 字段，Readeck
+  `createForm.HTML`），服务端只做整理、存图和读正文。
+
+所以插件赢在“看到的东西”，服务端赢在“不依赖浏览器”。29 站实测见 `SITE-COMPAT.md`。
+
+### 三、顺手修掉的问题：公众号正文
+
+`mp.weixin.qq.com` 的正文在 `#js_content` 里，出厂带着
+`style="visibility: hidden; opacity: 0;"`，由页面脚本在渲染后揭开。readability 跳过隐藏节点，
+所以服务端只存下标题、作者和题图区——17000 字的文章只剩 38 字。
+
+配置里本来就有这条替换，但写成了**带引号**的形式：
+
+```json
+["\"visibility: hidden\"", "\"visibility: visible\""]
+```
+
+它只能匹配 `style` 里只有这一个声明的属性，而页面给的是 `visibility: hidden; opacity: 0;`，
+于是从来没生效过。改成不带引号的子串匹配：
+
+```json
+["visibility: hidden", "visibility: visible"]
+```
+
+`data-src` → `src` 那条保留（公众号图片走懒加载，不换过来一张都存不下）。
+
+### 四、验证
+
+```
+go test ./pkg/extract/contentscripts -run "Weixin|Zhihu"       PASS
+```
+
+`weixin_test.go` 不只断言配置里有这条规则，还把规则**真的套用到**
+`<div id="js_content" style="visibility: hidden; opacity: 0; ">` 上，确认替换后不再有隐藏标记
+——带引号的旧写法在这条断言下必然失败。
+
+真实管线复跑（本地 `batch3`，`LoadSiteConfig` + `ReplaceStrings` 与 `tasks.go` 同序）：
+
+```
+改前  38 字     （只有标题区）
+改后  46743 字  （正文全部）
+```
+
+### 五、结论
+
+- 一半站点两条路径等价（13/29），粘链接最省事。
+- 微信公众号、博客园、开源中国、知乎回答**必须用插件**（前三个是渲染/反爬，知乎回答是登录）。
+- 虎扑、小红书**服务端更稳**（插件那一路分别拿到精简页和登录墙）。
+- 财新（付费墙）、豆瓣小组、京东商品两边都不行。
+- 公众号的服务端支持随下个镜像生效，之后不必再为它开插件。

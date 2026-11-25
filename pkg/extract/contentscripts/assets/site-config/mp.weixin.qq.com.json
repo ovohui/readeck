@@ -18,8 +18,8 @@
       "src=\""
     ],
     [
-      "\"visibility: hidden\"",
-      "\"visibility: visible\""
+      "visibility: hidden",
+      "visibility: visible"
     ]
   ],
   "http_headers": {
