@@ -2042,3 +2042,83 @@ cd web && npm run build（SCSS/Tailwind 校验，产物已还原）             
 - 知乎：删掉旧的知乎站点 Cookie，重新从**已登录的浏览器标签页**导出，务必带上
   `z_c0`、`d_c0`、`__zse_ck`；或者直接用浏览器扩展保存（扩展送的是渲染后的 DOM，
   不经过这道挑战）。
+
+## 35. 2026-11-25 第二十五轮：知乎的钥匙是它自己的 App UA
+
+用户更新镜像（`built=2026-11-25T13:14:04Z`）后反馈「知乎还是不能解析、小红书视频播不了」。
+逐项复验，一半已经好了，一半差一个请求头。
+
+### 一、已经好的部分（在线上直接验的）
+
+```
+GET /bm/HC/.../_resources/8ubb81FoXJ1Ad831Wh4jwM.mp4   -r 0-1023
+HTTP/1.1 206 Partial Content
+Accept-Ranges: bytes
+Content-Range: bytes 0-1023/18237943        ← 旧归档，没重存就已经能拖进度条
+
+重存同一条笔记（4sxebf9fvTmgCha5WQnodh）：
+日志：downloaded video vcodec="h264" acodec="aac"
+文件：40089231 字节，avc1×2，mp4a×1，hvc1=0      ← H.264 + AAC，Chrome 直接放
+```
+
+前端产物也在镜像里：`bundle.*.js` 中 `s(\"is-error\")` 分支与
+`\u8FD9\u4E2A\u89C6\u9891\u7684\u7F16\u7801...`（“这个视频的编码浏览器无法播放”）都在，
+是打包器把中文转成了 `\u` 转义——第一次用 grep 找中文没找到，差点误判成旧资源。
+
+### 二、知乎：不是 Cookie 的问题，是 UA
+
+上一轮把错误信息改准了（线上日志现在会写 `JavaScript anti-bot challenge (zh-zse-ck)`），
+但「裸试一次」也过不去。这一轮把入口矩阵全打了一遍：
+
+```
+chrome / googlebot / baiduspider / bingbot / sogou / 360spider / 微信 / 知乎自家 app UA
+    → 全部 403，650 字节，<meta id="zh-zse-ck">
+api/v4（自算 x-zse-96 = "2.0_"+md5("101_3_3.0+"+path+query+"+"+d_c0)）
+    → 40362「请求存在异常」；签名对了也只到 need_login（unhuman U4E3Z1）
+m.zhihu.com/question/<id>
+    → 200，147 KB，但返回的是首页信息流，路径被忽略
+https://www.zhihu.com/...   User-Agent: ZhihuHybrid com.zhihu.android/9.30.0 Mozilla/5.0
+    → 200！回答页 164 KB、问题页 222 KB、专栏 235 KB，无挑战页
+```
+
+**`ZhihuHybrid` 是知乎 App 内嵌 WebView 的标识，是它唯一还愿意直接给页面的客户端。**
+三家 UA（桌面、爬虫、微信）都被挡，唯独自家 WebView 放行——白名单在服务端，不在 Cookie 里。
+
+两处配置：
+
+1. `zhihu.com.json` 的 `http_headers` 加 `user-agent`（问题页、回答页）。
+2. `zhuanlan.zhihu.com.json` 同样处理——它原来是
+   `Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:39.0) Firefox/39.0'`（注意结尾那个单引号，
+   抄来的残留），早就不可能通过。**专栏配置是单独加载的**：`FindConfigHostFile` 对
+   `zhuanlan.zhihu.com` 只命中 `zhuanlan.zhihu.com.json`，父域那份 `zhihu.com.json`
+   对它不生效，所以只改一处不够。
+
+结果（本地跑完整管线）：
+
+| URL | 正文 | 标题 |
+|---|---|---|
+| `question/7414593311/answer/2103407459410913` | 226 字 | 为什么网上总说刘亦菲多么漂亮呢？ - Serena 的回答 |
+| `question/19550225` | 9840 字 | 如何正确使用知乎？ |
+| `zhuanlan.zhihu.com/p/2100121489433535118` | 11898 字 | 4070元的冰柜插着电躺在后厨里… |
+| `zhuanlan.zhihu.com/p/2097585156043363895` | 14885 字 | 96万索赔只判了1.3万… |
+
+已知边界：知乎 SSR 只带前 1–2 条回答，分页接口要登录态，所以**问题页拿到的是首屏答案**；
+单条回答的 URL（`/question/x/answer/y`）是完整的。专栏页图片若作者没插图就是 0 张
+（这两篇 DOM 里只有分享 logo 和一个占位 SVG，不是丢图）。
+
+`zhihu_test.go` 两例守着这两份配置：`TestZhihuConfigSendsAppUserAgent`（三个入口都必须带
+`ZhihuHybrid`）、`TestZhihuColumnConfigIsNotTheOldBrowserUA`（专栏那份不能再回退到 Firefox）。
+丢了这个头不会让任何别的测试红，只会在归档时安静地 403——所以值得单独钉住。
+
+### 三、顺带复验的历史修复（全部仍然成立）
+
+```
+zcool  ZNzQ0Mzk0ODg=        314 字 + 21 图      WAF 镜像到 m.zcool 生效
+36kr   p/4083016736478085   22554 字            插页重放生效（新 URL 用 404 试过，是文章本身没了）
+cls    detail/2543080       2327 字 + 8 图      无 Content-Type 嗅探生效
+cls    detail/2544461       623 字              新文章
+hupu   644194112.html       26731 字
+sspai  post/119527          15533 字
+bilibili BV1GJ411x7h7       UP 行 + 封面 figure（data-iframe-params 指向原页）
+ithome 0/851/909.htm        1301 字 + 16 图
+```
