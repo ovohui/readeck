@@ -6,6 +6,7 @@ package extract_test
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"fmt"
 	"io"
@@ -93,6 +94,15 @@ func TestDrop(t *testing.T) {
 		httpmock.NewStringResponder(200, "<message>Hello</message>").
 			HeaderAdd(http.Header{"Content-Type": []string{"application/xml"}}))
 
+	// Zhihu refuses every non-browser client with this interstitial. Telling
+	// the user "your cookie was refused" would be wrong: the page never even
+	// looks at the cookie, it wants a value computed by its script.
+	httpmock.RegisterResponder("GET", "/zhihu-challenge",
+		httpmock.NewStringResponder(403,
+			`<!DOCTYPE html><html><head><meta id="zh-zse-ck" content="FFMrV8PK8ISodxds"></head>`+
+				`<body><div>知乎，让每一次点击都充满意义</div></body></html>`).
+			HeaderAdd(http.Header{"Content-Type": []string{"text/html"}}))
+
 	t.Run("errors", func(t *testing.T) {
 		tests := []struct {
 			name string
@@ -121,6 +131,46 @@ func TestDrop(t *testing.T) {
 		}
 	})
 
+	// A stale saved cookie can be what the site is refusing. The page is
+	// fetched a second time without it before the extraction gives up.
+	t.Run("refused cookie is retried without it", func(t *testing.T) {
+		calls := 0
+		httpmock.RegisterResponder("GET", "/saved-cookie", func(req *http.Request) (*http.Response, error) {
+			calls++
+			if calls == 1 {
+				return &http.Response{
+					Request:    req,
+					StatusCode: 403,
+					Header:     http.Header{"Content-Type": {"text/html"}},
+					Body:       io.NopCloser(bytes.NewBufferString("<html><body>Forbidden</body></html>")),
+				}, nil
+			}
+			return &http.Response{
+				Request:    req,
+				StatusCode: 200,
+				Header:     http.Header{"Content-Type": {"text/html; charset=UTF-8"}},
+				Body:       io.NopCloser(bytes.NewBufferString("<html><body><p>Hello</p></body></html>")),
+			}, nil
+		})
+
+		used := false
+		extract.SiteCookieLookup = func(host string) bool { return host == "x" }
+		extract.WithoutSiteCookie = func(ctx context.Context) context.Context {
+			used = true
+			return ctx
+		}
+		defer func() {
+			extract.SiteCookieLookup = nil
+			extract.WithoutSiteCookie = nil
+		}()
+
+		d := extract.NewDrop(mustParse("http://x/saved-cookie"))
+		require.NoError(t, d.Load(nil))
+		assert.True(t, used)
+		assert.Equal(t, 2, calls)
+		assert.NotEmpty(t, d.Body)
+	})
+
 	// cls.cn answers a news page without a Content-Type header. The body is
 	// sniffed so the page loads instead of failing as "unsupported".
 	t.Run("no content type", func(t *testing.T) {
@@ -128,6 +178,18 @@ func TestDrop(t *testing.T) {
 		require.NoError(t, d.Load(nil))
 		require.Equal(t, "text/html", d.ContentType)
 		require.NotEmpty(t, d.Body)
+	})
+
+	// A JavaScript challenge must be reported as such instead of blaming the
+	// saved cookie: no cookie can satisfy it.
+	t.Run("js challenge", func(t *testing.T) {
+		d := extract.NewDrop(mustParse("http://x/zhihu-challenge"))
+		err := d.Load(nil)
+		require.Error(t, err)
+		assert.Contains(t, err.Error(), "JavaScript anti-bot challenge")
+		assert.Contains(t, err.Error(), "zh-zse-ck")
+		assert.Contains(t, err.Error(), "browser extension")
+		assert.NotContains(t, err.Error(), "was refused")
 	})
 
 	t.Run("url", func(t *testing.T) {

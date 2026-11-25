@@ -1917,3 +1917,128 @@ go test ./internal/wafshield/          5 例（含 36氪插页重放、真页面
 ### 五、完整清单
 
 见 `SITE-TEST-REPORT.md`。
+
+## 34. 2026-11-25 第二十四轮：视频为什么播不了、知乎为什么过不去
+
+镜像 `built=2026-11-24T14:09:57Z`（含第 22 轮 b5479b41）上的两个反馈，逐条落到代码。
+
+### 一、小红书的视频：HEVC + 没有音轨
+
+拿线上那条 `HCwdL754PpzhALZ2vtenYB` 的归档文件验尸：
+
+```
+GET /bm/HC/.../_resources/8ubb81FoXJ1Ad831Wh4jwM.mp4
+200, 18 237 943 字节, video/mp4
+stsd 里是 hvc1（H.265），1080x1920，全文件没有 mp4a（没有音轨）
+同一个笔记用本机 yt-dlp 匿名取：只有 0/1/2 三个 h264+aac 720x1280
+```
+
+也就是说：**带站点 Cookie 时 yt-dlp 拿到的是 H.265，裸取时是 H.264**。H.265 在
+Chrome/Edge 里要系统装了 HEVC 解码包才能放，否则就是一块不会动的黑屏，`play()`
+直接 reject，而控制器把 reject 吞了——用户看到的就是"无法播放"。
+
+两层修法：
+
+1. yt-dlp 参数加 `-S "vcodec:h264,acodec:aac"`，让它在同一份清单里优先挑 H.264/AAC。
+   首选参数是偏好不是保证，所以——
+2. 下载完成后 `ensurePlayable()`：`ffprobe` 读 codec，不在
+   `{h264, av1, vp9}` / 音频不在 `{aac, mp3, opus}` 就 `ffmpeg -c:v libx264 -crf 23
+   -pix_fmt yuv420p -movflags +faststart` 重编码一次。ffprobe/ffmpeg 缺失、探测失败、
+   转码失败都退回原文件（有问题的视频好过没有视频）。
+
+日志里现在会多一行 `downloaded video vcodec=... acodec=...`。
+
+前端补一条兜底：`<video>` 触发 `error` 时不再只是黑屏，而是显示
+「这个视频的编码浏览器无法播放，下载原文件」，链接直指 `_resources/*.mp4`。
+旧归档（在修好之前存的 HEVC 文件）也能靠这句话拿到文件，而不是干瞪眼。
+
+### 二、`/bm/...` 不支持 Range
+
+顺手测出来的第二个问题，独立于编码：
+
+```
+curl -r 0-1023 .../8ubb81FoXJ1Ad831Wh4jwM.mp4
+HTTP/1.1 200 OK
+Content-Length: 18237943        ← 整个文件，不是 206
+```
+
+`pkg/zipfs` 的 `serveEntry` 一直是"整包 io.Copy"，没有 `Accept-Ranges`。视频要拖动进度条
+就得能按字节取，Safari 更是**必须**拿到 206 才肯播。归档里的 mp4 本来就是 `zip.Store`
+（`compressedTypes` 不含 video/*），所以可以直接读：
+
+```go
+if zf.Method == zip.Store {
+    fh, _ := os.Open(string(f))
+    offset, _ := zf.DataOffset()
+    http.ServeContent(w, r, zf.Name, zf.Modified.UTC(),
+        io.NewSectionReader(fh, offset, int64(zf.UncompressedSize64)))
+    return
+}
+```
+
+`ServeContent` 把 Range、If-Range、Content-Length、HEAD 全部接管，`Content-Type`
+用前面 mimetype 嗅探出来的值。这条对**已经存下来的**视频立刻生效，不用重存。
+
+### 三、知乎：真正拦住服务端的是 `zh-zse-ck`
+
+线上复现（新提交两条，测完即删）：
+
+```
+POST /api/bookmarks {"url": "https://www.zhihu.com/question/19550225"}
+→ 403  cannot load resource: Invalid status code (403):
+       the cookie saved for www.zhihu.com was refused
+```
+
+本机用任意 UA 直连同一个地址，拿到的都是 650 字节的插页：
+
+```html
+<meta id="zh-zse-ck" content="FFMrV8PK...">
+<script src="https://static.zhihu.com/zse-ck/v4/<hash>.js">
+```
+
+脚本里那段就是全部逻辑（`sc()`）：
+
+```js
+t = (typeof __g.ck == "string" && __g.ck || "001_jW6qUp+...") + '-' + meta.content
+document.cookie = "__zse_ck=" + t + "; domain=.zhihu.com; ... +7 天"
+```
+
+`__g.ck` 由页面里那个 522 KB 的 VM 按浏览器指纹算，`001_` 兜底值服务端不认
+（实测三种编码变体全 403，API 侧直接 40362「请求存在异常」），续期窗口只有
+**7 天**。所以：
+
+- 这不是"没配 Cookie"，也不是"Cookie 过期"那么简单——Cookie 里少了 `__zse_ck`，
+  或者那份 `__zse_ck` 已经过了 7 天，知乎就会退回到挑战页，页面正文一个字都不给。
+- 昨天的 `5StZhZ5UEDETggbLnjn8gR` 是能解析的（readability score 126），说明这条路
+  本身通，只是那份会话现在不成立了。
+
+两处改动：
+
+1. `drop.load` 新增 `detectJSChallenge()`，认出 `zh-zse-ck` / `acw_sc__v2` /
+   `waf_bd8ce2ce37` / `__jsl_clearance` / `Sina Visitor System` 时给准确的错：
+   「站点回的是 JS 反爬挑战（zh-zse-ck），需要它自己脚本写下的那个 Cookie」，
+   不再是误导人的 "your cookie was refused"。
+2. **失败前先裸试一次**：`401/403` + 该域名配了 Cookie 时，用
+   `sitecookies.WithoutSaved(ctx)` 重发一遍只带 jar 的请求。过期的反爬 Cookie
+   比没有更糟，摘掉它往往就能过（第 22 轮的 mergeCookieHeader 让保存值覆盖 jar，
+   好处是登录态生效，副作用就是 stale `__zse_ck` 也会被一起塞进去）。裸试成功就
+   用那次的结果，并在日志里写 `the page loaded without the saved site cookies`。
+
+### 四、验证
+
+```
+go test ./pkg/archiver/      TestParseProbeStreams / TestIsPlayable                 PASS
+go test ./pkg/zipfs/         TestHttp/range（206 + Content-Range: bytes 0-3/35）      PASS
+go test ./pkg/extract/       TestDrop：js challenge / refused cookie retried        PASS
+go test ./internal/sitecookies/  TestWithoutSaved                                   PASS
+go build ./...                                                                     OK
+cd web && ./node_modules/.bin/tsc --noEmit                                         OK
+cd web && npm run build（SCSS/Tailwind 校验，产物已还原）                            OK
+```
+
+### 五、用户侧要做的事
+
+- 视频：**重存**那条笔记（旧归档里的 mp4 还是 H.265；Range 是服务端行为，旧归档直接受益）。
+- 知乎：删掉旧的知乎站点 Cookie，重新从**已登录的浏览器标签页**导出，务必带上
+  `z_c0`、`d_c0`、`__zse_ck`；或者直接用浏览器扩展保存（扩展送的是渲染后的 DOM，
+  不经过这道挑战）。

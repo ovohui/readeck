@@ -141,4 +141,31 @@
       opacity: 1;
     }
   }
+
+  // The browser could not decode the file: an archive saved as H.265 (Chrome
+  // and Edge only play it with an OS codec pack) or a truncated download. A
+  // sentence and a download link beat a black frame that ignores every click.
+  &.is-error {
+    cursor: default;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+
+  .video-error {
+    margin: 0;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    line-height: 1.5;
+    font-size: 0.875rem;
+    color: rgb(var(--color-app-fg) / 0.7);
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+  }
 }

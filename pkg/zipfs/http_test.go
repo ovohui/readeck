@@ -121,6 +121,22 @@ func TestHttp(t *testing.T) {
 	})
 
 	//nolint:bodyclose
+	t.Run("range", func(t *testing.T) {
+		assert := require.New(t)
+		w := httptest.NewRecorder()
+		r, err := http.NewRequest("GET", "test-base.txt", nil)
+		assert.NoError(err)
+		r.Header.Set("Range", "bytes=0-3")
+		srv.ServeHTTP(w, r)
+
+		res := w.Result()
+		assert.Equal(http.StatusPartialContent, res.StatusCode)
+		assert.Equal("some", w.Body.String())
+		assert.Equal("bytes 0-3/35", res.Header.Get("Content-Range"))
+		assert.Equal("bytes", res.Header.Get("Accept-Ranges"))
+	})
+
+	//nolint:bodyclose
 	t.Run("zip not found", func(t *testing.T) {
 		assert := require.New(t)
 		w := httptest.NewRecorder()

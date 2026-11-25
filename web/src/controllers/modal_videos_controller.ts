@@ -83,7 +83,33 @@ export default class extends Controller {
       parent.insertBefore(wrapper, video)
       wrapper.appendChild(video)
 
+      // When the browser cannot decode the file (an archive saved before the
+      // downloader started asking for H.264, for instance) the element simply
+      // stays black and play() rejects. Say so instead, and offer the file.
+      video.addEventListener("error", () => {
+        if (wrapper.classList.contains("is-error")) {
+          return
+        }
+        wrapper.classList.add("is-error")
+        video.removeAttribute("controls")
+
+        const note = document.createElement("p")
+        note.className = "video-error"
+        const link = document.createElement("a")
+        link.href = video.getAttribute("src") || video.currentSrc
+        link.setAttribute("download", "")
+        link.textContent = "这个视频的编码浏览器无法播放，下载原文件"
+        // The wrapper starts playback on click; the download link must not be
+        // swallowed by it.
+        link.addEventListener("click", (evt) => evt.stopPropagation())
+        note.appendChild(link)
+        wrapper.appendChild(note)
+      })
+
       wrapper.addEventListener("click", (evt) => {
+        if (wrapper.classList.contains("is-error")) {
+          return
+        }
         evt.preventDefault()
         wrapper.classList.add("is-playing")
         video.setAttribute("controls", "")

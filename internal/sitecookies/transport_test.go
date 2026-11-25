@@ -5,6 +5,7 @@
 package sitecookies
 
 import (
+	"context"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -33,4 +34,21 @@ func TestMergeCookieHeader(t *testing.T) {
 
 	assert.Equal("", mergeCookieHeader("", ""))
 	assert.Equal("a=1", mergeCookieHeader("a=1", ""))
+}
+
+// The retry path calls WithoutSaved to ask for a request that carries only the
+// cookies the client collected itself.
+func TestWithoutSaved(t *testing.T) {
+	assert := assert.New(t)
+
+	ctx := context.Background()
+	assert.False(isWithoutSaved(ctx))
+	assert.True(isWithoutSaved(WithoutSaved(ctx)))
+
+	// A child context keeps the flag.
+	child, cancel := context.WithCancel(WithoutSaved(ctx))
+	defer cancel()
+	assert.True(isWithoutSaved(child))
+
+	assert.False(isWithoutSaved(context.WithValue(ctx, withoutSavedKey{}, "yes")))
 }

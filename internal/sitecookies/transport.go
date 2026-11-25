@@ -5,6 +5,7 @@
 package sitecookies
 
 import (
+	"context"
 	"log/slog"
 	"net/http"
 	"strings"
@@ -36,6 +37,25 @@ func (t *RoundTripper) SetHeader(fn func(http.Header)) {
 	}
 }
 
+type withoutSavedKey struct{}
+
+// WithoutSaved returns a context that makes the next request skip the cookies
+// saved for the site and send only the ones the HTTP client collected itself.
+//
+// A saved cookie can go sour while the page stays readable: anti-bot cookies
+// carry a date (Zhihu's __zse_ck lives about a week) and a stale one is worse
+// than none at all, because the site treats it as a forged session and answers
+// with a challenge instead of the article. The caller retries with this
+// context to find out whether the cookie is the problem.
+func WithoutSaved(ctx context.Context) context.Context {
+	return context.WithValue(ctx, withoutSavedKey{}, true)
+}
+
+func isWithoutSaved(ctx context.Context) bool {
+	v, _ := ctx.Value(withoutSavedKey{}).(bool)
+	return v
+}
+
 // RoundTrip implements http.RoundTripper.
 func (t *RoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
 	cookie, headers, err := Matching(req.URL)
@@ -44,7 +64,7 @@ func (t *RoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
 	} else {
 		// Clone to avoid mutating the caller's request.
 		r := req.Clone(req.Context())
-		if cookie != "" {
+		if cookie != "" && !isWithoutSaved(r.Context()) {
 			// The client's jar may already hold a cookie for this host: the
 			// first request of an extraction often receives a device id, and
 			// a page load can set half a dozen more. Skipping injection in

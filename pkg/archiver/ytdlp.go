@@ -7,6 +7,7 @@ package archiver
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log/slog"
@@ -411,6 +412,14 @@ func (arc *Archiver) downloadWithYtdlp(ctx context.Context, pageURL string) (*Re
 		"--retries", "3",
 		"--socket-timeout", "30",
 		"--merge-output-format", "mp4",
+		// Sites publish the same clip as H.264 and H.265. Without a preference
+		// yt-dlp takes the "better" one, which on a phone-oriented site is
+		// almost always HEVC at a higher resolution. Chrome and Edge only
+		// decode HEVC when the operating system ships the codec pack, so the
+		// archived clip showed a black frame and never started - it read as a
+		// broken video rather than as the wrong codec. Prefer H.264/AAC, the
+		// pair every browser plays out of the box.
+		"-S", "vcodec:h264,acodec:aac",
 		"-f", format,
 		"-o", filepath.Join(dir, "video.%(ext)s"),
 	}
@@ -459,6 +468,16 @@ func (arc *Archiver) downloadWithYtdlp(ctx context.Context, pageURL string) (*Re
 		return nil, errors.New("yt-dlp produced no file")
 	}
 
+	// The format sort above is a preference, not a guarantee: when a site only
+	// publishes HEVC the download comes back unplayable in every browser that
+	// lacks a system codec pack. Rewrite such a file to H.264/AAC once, here,
+	// so the archive always holds something a reader can actually play.
+	if playable, err := arc.ensurePlayable(ctx, file); err != nil {
+		return nil, err
+	} else {
+		file = playable
+	}
+
 	f, err := os.Open(file) //nolint:gosec // file comes from our temp dir
 	if err != nil {
 		return nil, err
@@ -478,4 +497,136 @@ func (arc *Archiver) downloadWithYtdlp(ctx context.Context, pageURL string) (*Re
 	}
 
 	return arc.saveResource(ctx, f, res)
+}
+
+// playableVideoCodecs lists the codecs a browser plays inside an MP4 without
+// extra software. HEVC (hvc1/hev1) and anything exotic are missing on purpose:
+// Chrome and Edge only decode HEVC when the OS has a codec pack installed, and
+// the resulting "black frame that never starts" is indistinguishable from a
+// broken download.
+var playableVideoCodecs = map[string]bool{
+	"h264": true,
+	"av1":  true,
+	"vp9":  true,
+}
+
+// playableAudioCodecs lists the audio codecs supported in an MP4 across
+// browsers. AC-3/E-AC-3 (common in DASH manifests) are not.
+var playableAudioCodecs = map[string]bool{
+	"aac":  true,
+	"mp3":  true,
+	"opus": true,
+}
+
+// probeStreams is the subset of ffprobe's JSON output this package needs.
+type probeStreams struct {
+	Streams []struct {
+		CodecType string `json:"codec_type"`
+		CodecName string `json:"codec_name"`
+	} `json:"streams"`
+}
+
+// parseProbeStreams returns the codec name of the first video and the first
+// audio stream. Either is empty when the file has no such stream.
+func parseProbeStreams(data []byte) (video, audio string) {
+	var out probeStreams
+	if err := json.Unmarshal(data, &out); err != nil {
+		return "", ""
+	}
+	for _, s := range out.Streams {
+		switch s.CodecType {
+		case "video":
+			if video == "" {
+				video = s.CodecName
+			}
+		case "audio":
+			if audio == "" {
+				audio = s.CodecName
+			}
+		}
+	}
+	return video, audio
+}
+
+// isPlayable reports whether a probed file can be played by a browser as is.
+// A file with no video stream is never playable; a missing audio track is
+// normal (many short clips are silent) and does not require a rewrite.
+func isPlayable(video, audio string) bool {
+	if video == "" || !playableVideoCodecs[video] {
+		return false
+	}
+	return audio == "" || playableAudioCodecs[audio]
+}
+
+// ensurePlayable probes the downloaded file and, when its codecs cannot be
+// played in a browser, transcodes it to H.264/AAC. Any failure leaves the
+// original file in place: a wrong codec is better than a missing video.
+func (arc *Archiver) ensurePlayable(ctx context.Context, file string) (string, error) {
+	log := arc.log()
+
+	ffprobe, err := exec.LookPath("ffprobe")
+	if err != nil {
+		log.Debug("ffprobe not available, keeping the downloaded file", slog.Any("err", err))
+		return file, nil
+	}
+
+	probe, err := exec.CommandContext(ctx, ffprobe, //nolint:gosec // path from PATH
+		"-v", "error",
+		"-show_entries", "stream=codec_type,codec_name",
+		"-of", "json",
+		file,
+	).Output()
+	if err != nil {
+		log.Warn("cannot probe the downloaded video", slog.Any("err", err))
+		return file, nil
+	}
+
+	video, audio := parseProbeStreams(probe)
+	log.Debug("downloaded video", slog.String("vcodec", video), slog.String("acodec", audio))
+
+	if video == "" {
+		return "", errors.New("the downloaded file has no video stream")
+	}
+	if isPlayable(video, audio) {
+		return file, nil
+	}
+
+	ffmpeg, err := exec.LookPath("ffmpeg")
+	if err != nil {
+		log.Warn("ffmpeg not available, keeping an unplayable video",
+			slog.String("vcodec", video), slog.Any("err", err))
+		return file, nil
+	}
+
+	out := filepath.Join(filepath.Dir(file), "playable.mp4")
+	args := []string{
+		"-hide_banner", "-loglevel", "error",
+		"-y", "-i", file,
+		"-c:v", "libx264",
+		"-preset", "veryfast",
+		"-crf", "23",
+		"-pix_fmt", "yuv420p",
+		"-movflags", "+faststart",
+	}
+	if audio != "" {
+		args = append(args, "-c:a", "aac", "-b:a", "128k")
+	} else {
+		args = append(args, "-an")
+	}
+	args = append(args, out)
+
+	if err := exec.CommandContext(ctx, ffmpeg, args...).Run(); err != nil { //nolint:gosec // path from PATH
+		log.Warn("cannot transcode the downloaded video",
+			slog.String("vcodec", video), slog.Any("err", err))
+		return file, nil
+	}
+
+	if st, err := os.Stat(out); err != nil || st.Size() == 0 {
+		log.Warn("transcoded video is empty")
+		return file, nil
+	}
+
+	log.Debug("transcoded the downloaded video to h264",
+		slog.String("from", video), slog.String("file", out))
+	return out, nil
 }

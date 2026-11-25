@@ -319,6 +319,7 @@ func InitServer(s *server.Server) error {
 	// cookie was ever saved. The package cannot import the store directly
 	// (cycle), so the lookup is handed over here.
 	extract.SiteCookieLookup = sitecookies.HasCookieFor
+	extract.WithoutSiteCookie = sitecookies.WithoutSaved
 
 	// Init session store
 	server.InitSession()

@@ -53,6 +53,11 @@ var (
 // nothing in common as a next step.
 var SiteCookieLookup func(host string) bool
 
+// WithoutSiteCookie returns a context that suppresses the saved site cookies
+// for one request. Set at startup by the site cookies package, for the same
+// reason as SiteCookieLookup.
+var WithoutSiteCookie func(ctx context.Context) context.Context
+
 // Drop is the result of a content extraction of one resource.
 type Drop struct {
 	URL          *url.URL
@@ -141,6 +146,34 @@ func (d *Drop) SetURL(src *url.URL) {
 	d.URL = uri
 }
 
+// jsChallengeMarkers are fragments that only appear in the interstitial page a
+// site serves to a client it takes for a bot. They are specific enough that a
+// real article body never contains them.
+var jsChallengeMarkers = []string{
+	"zh-zse-ck",           // Zhihu
+	"acw_sc__v2",          // Alibaba Cloud WAF
+	"waf_bd8ce2ce37",      // Xueqiu
+	"__jsl_clearance",     // generic JavaScript challenge CDN
+	"sina visitor system", // Weibo
+}
+
+// detectJSChallenge reads the head of a refusal body and returns the marker of
+// the JavaScript anti-bot challenge it found. The body is consumed: the caller
+// only reaches this point when it is about to fail anyway.
+func detectJSChallenge(body io.Reader) string {
+	if body == nil {
+		return ""
+	}
+	head, _ := io.ReadAll(io.LimitReader(body, 8192))
+	lower := strings.ToLower(string(head))
+	for _, marker := range jsChallengeMarkers {
+		if strings.Contains(lower, marker) {
+			return marker
+		}
+	}
+	return ""
+}
+
 // Load loads the remote URL and retrieve data.
 //
 // A share link from a mobile app often lands on an intermediate page that does
@@ -189,15 +222,50 @@ func (d *Drop) Load(client *http.Client) error {
 	}
 }
 
+// fetchPage performs the page request. When noSaved is true the saved site
+// cookies are left out, which is how the caller checks whether a stale cookie
+// is what the site is objecting to.
+func (d *Drop) fetchPage(client *http.Client, noSaved bool) (*http.Response, error) {
+	ctx := WithRequestType(context.Background(), PageRequest)
+	if noSaved && WithoutSiteCookie != nil {
+		ctx = WithoutSiteCookie(ctx)
+	}
+	return Fetch(ctx, client, d.URL.String())
+}
+
 // load performs one request and stores the response.
 func (d *Drop) load(client *http.Client) error {
 	var err error
 	var rsp *http.Response
 
-	ctx := WithRequestType(context.Background(), PageRequest)
-	if rsp, err = Fetch(ctx, client, d.URL.String()); err != nil {
+	if rsp, err = d.fetchPage(client, false); err != nil {
 		return err
 	}
+
+	// A refusal on a site that has a saved cookie may be the cookie's fault.
+	// Anti-bot cookies are dated (Zhihu's __zse_ck lasts about a week) and the
+	// site answers a stale one with a challenge it would not have sent to an
+	// anonymous visitor. Try once without the saved cookies before blaming
+	// them; when that page loads, the saved set is the thing to replace.
+	if (rsp.StatusCode == http.StatusUnauthorized || rsp.StatusCode == http.StatusForbidden) &&
+		WithoutSiteCookie != nil && SiteCookieLookup != nil && SiteCookieLookup(d.URL.Hostname()) {
+		retry, rerr := d.fetchPage(client, true)
+		switch {
+		case rerr != nil:
+			slog.Debug("retry without saved site cookies failed", slog.Any("err", rerr))
+		case retry.StatusCode/100 == 2:
+			slog.Debug(
+				"the page loaded without the saved site cookies",
+				slog.String("host", d.URL.Hostname()),
+				slog.Int("status", rsp.StatusCode),
+			)
+			rsp.Body.Close() //nolint:errcheck
+			rsp = retry
+		default:
+			retry.Body.Close() //nolint:errcheck
+		}
+	}
+
 	defer rsp.Body.Close() //nolint:errcheck
 
 	// Save headers
@@ -231,6 +299,26 @@ func (d *Drop) load(client *http.Client) error {
 		// rather than a redirect. Saying so saves a round of guessing.
 		if rsp.StatusCode == http.StatusUnauthorized || rsp.StatusCode == http.StatusForbidden {
 			host := d.URL.Hostname()
+
+			// Some sites answer with an anti-bot challenge instead of a login
+			// wall. That case must be reported apart: the site hands the value
+			// out through JavaScript and only accepts it back as a cookie, so
+			// "export a fresher cookie" is the fix - but the user has to know
+			// which cookie to keep, or they will export the same broken set
+			// again.
+			if marker := detectJSChallenge(rsp.Body); marker != "" {
+				return fmt.Errorf(
+					"Invalid status code (%d): %s answered with a JavaScript anti-bot"+
+						" challenge (%s) instead of the page. The site expects the cookie"+
+						" its own script writes (Zhihu's __zse_ck, valid about 7 days);"+
+						" without it every request is refused before the article is read."+
+						" Re-export the site cookie from a logged-in browser tab on this"+
+						" domain (Settings > Site cookies), or save the page with the"+
+						" Readeck browser extension, which sends the rendered page",
+					rsp.StatusCode, host, marker,
+				)
+			}
+
 			hint := "no login cookie is saved for " + host +
 				" yet, add one in Settings > Site cookies"
 			if SiteCookieLookup != nil && SiteCookieLookup(host) {

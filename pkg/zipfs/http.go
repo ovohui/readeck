@@ -86,6 +86,34 @@ func (f HTTPZipFile) serveEntry(w http.ResponseWriter, r *http.Request, zf *zip.
 
 	w.Header().Set("Content-Type", mtype.String())
 
+	// A stored entry (video, image, audio, PDF) can be read straight out of
+	// the archive, so hand it to http.ServeContent. That adds byte-range
+	// support, which a video player needs to seek and which Safari requires
+	// before it will play at all: without it every request returned the whole
+	// file with a 200, and a 18 MB clip had to be downloaded in full before
+	// the first frame could be shown.
+	if zf.Method == zip.Store {
+		fh, err := os.Open(string(f))
+		if err != nil {
+			f.error(w, err, options...)
+			return
+		}
+		defer fh.Close() //nolint:errcheck
+
+		offset, err := zf.DataOffset()
+		if err != nil {
+			f.error(w, err, options...)
+			return
+		}
+
+		applyOptions(options, w, http.StatusOK)
+		http.ServeContent(
+			w, r, zf.Name, zf.Modified.UTC(),
+			io.NewSectionReader(fh, offset, int64(zf.UncompressedSize64)),
+		)
+		return
+	}
+
 	ae := r.Header.Get("Accept-Encoding")
 
 	if r.Method == "HEAD" {
