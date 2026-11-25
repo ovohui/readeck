@@ -99,7 +99,7 @@ python probe.py -mode ext -only weixin -w 1   # 只测一个
 
 结果逐条落盘在 `results-server.jsonl` / `results-ext.jsonl`，重跑会自动跳过已测条目（换个模式或删文件即可重来）。
 
-测试产生的书签全部带 `sitetest` 标签，共 58 条，留在库里方便你点开对比。不需要时：
+测试产生的书签全部带 `sitetest` 标签，共 49 条，留在库里方便你点开对比。不需要时：
 
 ```bash
 python purge.py -dry-run   # 先看会删哪些
