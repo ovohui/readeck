@@ -2122,3 +2122,75 @@ sspai  post/119527          15533 字
 bilibili BV1GJ411x7h7       UP 行 + 封面 figure（data-iframe-params 指向原页）
 ithome 0/851/909.htm        1301 字 + 16 图
 ```
+
+## 36. 2026-11-25 第二十六轮：书签封面——从“页面的社交卡片”到“文章的第一张图”
+
+反馈是「有的书签没封面」。查下来，缺封面的书签**全部是小红书图文**，而它们的正文里明明有 18 张图。
+
+### 一、为什么一张都选不上
+
+归档日志里这几行是关键：
+
+```
+[DEBU] save resource name="./_resources/Egkt96cWBFXa2kij7Y2uSj.jpg" url="data:image/webp;base64,UklGRsy3AgBXRUJQV..."
+[DEBU] convert image url="data:image/webp;base64,UklGRuLqBABXRUJQV..." 
+```
+
+小红书的笔记图不是 URL，是**内联的 base64**（页面自己把图塞进 `src`，省掉几十个请求）。
+而封面选择器里有这么一句：
+
+```go
+href := dom.GetAttribute(img, "src")
+if href == "" || strings.HasPrefix(href, "data:") {   // ← 这里
+    href = ""   // 去找 data-src
+}
+```
+
+`data:` 是为了绕开懒加载占位图才写的，结果把“图片本身就是数据”这种情况一起判死了：
+`data-src` 不存在 → `href == ""` → 跳过。18 张图，一张都没进候选。
+
+所以不是封面规则没跑，是它从来没看见过这些图。
+
+### 二、三处改动
+
+1. **`pkg/extract/image.go`**：`Picture` 认识内联图片。
+   - `NewPicture()` 遇到 `data:` 直接原样保留（交给 `base.Parse` 会被路径规整吃掉 payload）。
+   - 新增 `decodeDataURI()`：拆 `data:<type>[;base64],<payload>`，支持 base64 与百分号编码，
+     非 `image/*` 一律拒绝；`Picture.open()` 在解码后**按字节嗅探**真实类型
+     （声明 `image/jpeg` 实际是 WebP 的页面太多了），嗅探失败再回落到声明的类型。
+2. **`pkg/extract/meta/picture_content.go`**：
+   - `data:image/*` 且没有 `data-src` 时，保留这张内联图当封面；**跳过** URL 里的
+     “icon/logo/badge” 关键词过滤——base64 是随机字节，几乎必然包含 `icon` 这种子串，
+     照旧过滤等于全灭。尺寸属性（`width`/`height` < 200）仍然生效，小图标照样排除。
+   - **视频页也参与**（`documentType == "video"`）。视频唯一的图就是封面，
+     卡片不显示它就只能显示灰块。B站那条现在有封面了。
+3. **`internal/app/covers.go`（新命令 `readeck covers`）**：给**已经存下的**书签补封面。
+   老书签在数据库里没有 thumbnail，重抓又常常不可能（小红书链接里的 `xsec_token` 会过期），
+   所以从归档自己的 zip 里取：读 `index.html` → 找第一个 `./_resources/xxx` 的 `<img>`
+   → 把这条文件登记成 `thumbnail`。
+
+   它**不重写 zip**：`b.Files["thumbnail"].Name` 直接指向 `_resources/xxx.jpg`，
+   资源路由本来就能按这个路径取。为此把 dataset 的资源过滤从「只认 `img/`」放宽到
+   「`img/` 或 `_resources/`」。图片尺寸顺手解出来（`covers_test.go` 三个用例守着
+   `firstPictureName` / `pictureSize` / `pictureType`），解不出来也不影响出封面。
+
+   ```
+   docker exec -it readeck /bin/readeck covers            # 干跑：加 -dry-run
+   covers: 6 set, 3 without a picture in the archive, 0 errors
+   ```
+
+### 三、验证
+
+```
+go test ./pkg/extract/            TestPictureFromDataURI / ...RejectsNonImages        PASS
+go test ./pkg/extract/meta/       TestFirstBodyImage/inline_picture 等 7 例 + 
+                                  TestExtractContentPicture（含 takes_an_inline_picture、
+                                  takes_the_cover_of_a_video_page）                    PASS
+go test ./pkg/extract/contentscripts/  TestBilibiliCoverBecomesThumbnail               PASS
+go test ./internal/app/           TestFirstPictureName / TestPictureSize / TestPictureType  PASS
+go test ./internal/acls/          顺带修好了 sitecookies 权限没进快照的老红                PASS
+```
+
+顺带一提，`internal/acls` 那两例从加了站点 Cookie 权限起就一直是红的（快照没跟上），
+这轮一并补上；`internal/db`、`internal/docs`、`pkg/extract/contents`、`pkg/strftime`
+仍然是 HEAD 上就红的，与本次无关。

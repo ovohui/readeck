@@ -260,7 +260,12 @@ func NewBookmark(ctx context.Context, b *bookmarks.Bookmark) *Bookmark {
 
 	// Files and resources
 	for k, v := range b.Files {
-		if path.Dir(v.Name) != "img" {
+		// Pictures live under img/ when the extractor produced them (a social
+		// card, a video cover) and under _resources/ when they were copied out
+		// of the article itself. Both can serve as the card image: the covers
+		// command points a bookmark without a cover at the first picture its
+		// archive holds, and rewriting the zip to move it would be pointless.
+		if dir := path.Dir(v.Name); dir != "img" && dir != bookmarks.ResourceDirName() {
 			continue
 		}
 

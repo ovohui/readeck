@@ -7,9 +7,11 @@ package extract_test
 import (
 	"bytes"
 	"context"
+	"encoding/base64"
 	"errors"
 	"image"
 	"net/url"
+	"os"
 	"strings"
 	"testing"
 
@@ -162,4 +164,49 @@ func TestPicture(t *testing.T) {
 		assert.Equal(header, p.Bytes()[0:8])
 		assert.Equal("iVBORw0K", p.Encoded()[0:8])
 	})
+}
+
+// Chinese mobile sites inline their pictures in the page itself: there is no
+// URL to request, and the bookmark cover has to come out of the bytes.
+func TestPictureFromDataURI(t *testing.T) {
+	assert := require.New(t)
+
+	raw, err := os.ReadFile("test-fixtures/images/img.png")
+	assert.NoError(err)
+	src := "data:image/png;base64," + base64.StdEncoding.EncodeToString(raw)
+
+	p, err := extract.NewPicture(src, mustParseURL("https://example.org/post"))
+	assert.NoError(err)
+	assert.Equal(src, p.Href, "an inline picture must not be resolved against the page")
+
+	assert.NoError(p.Load(context.Background(), nil, 380, ""))
+	assert.Equal("image/png", p.Type)
+	assert.NotEmpty(p.Bytes())
+	assert.True(p.Size[0] <= 380 && p.Size[0] > 0, "width %d", p.Size[0])
+
+	thumb, err := p.Copy(200, "")
+	assert.NoError(err)
+	assert.True(thumb.Size[0] <= 200)
+}
+
+func TestPictureFromDataURIRejectsNonImages(t *testing.T) {
+	assert := require.New(t)
+
+	for _, src := range []string{
+		"data:text/plain;base64,SGVsbG8=",
+		"data:image/png;base64,not-base64-at-all!!",
+		"data:image/png",
+	} {
+		p, err := extract.NewPicture(src, mustParseURL("https://example.org/post"))
+		assert.NoError(err)
+		assert.Error(p.Load(context.Background(), nil, 380, ""), src)
+	}
+}
+
+func mustParseURL(s string) *url.URL {
+	u, err := url.Parse(s)
+	if err != nil {
+		panic(err)
+	}
+	return u
 }

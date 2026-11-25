@@ -5,12 +5,17 @@
 package contentscripts
 
 import (
+	"bytes"
+	"image"
+	"image/png"
+	"net/http"
 	"testing"
 
 	"github.com/jarcoal/httpmock"
 	"github.com/stretchr/testify/require"
 
 	"codeberg.org/readeck/readeck/pkg/extract"
+	"codeberg.org/readeck/readeck/pkg/extract/contents"
 	"codeberg.org/readeck/readeck/pkg/extract/meta"
 	. "codeberg.org/readeck/readeck/pkg/extract/testing" //revive:disable:dot-imports
 )
@@ -83,4 +88,48 @@ func TestBilibiliReadPageIsUntouched(t *testing.T) {
 	html := string(ex.HTML)
 	assert.NotContains(html, "bili-meta")
 	assert.Contains(html, "video-title")
+}
+
+// A video page has exactly one picture: the cover. Without it the bookmark
+// card is a grey placeholder, so the cover must reach the thumbnail even
+// though the document is of type video.
+func TestBilibiliCoverBecomesThumbnail(t *testing.T) {
+	assert := require.New(t)
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	pageURL := "https://www.bilibili.com/video/BV1atse6EEfx"
+	httpmock.RegisterResponder("GET", pageURL, NewHTMLResponder(200, "bilibili_video.html"))
+
+	img := image.NewRGBA(image.Rect(0, 0, 1146, 717))
+	var buf bytes.Buffer
+	require.NoError(t, png.Encode(&buf, img))
+	httpmock.RegisterResponder("GET", "https://i2.hdslb.com/bfs/archive/cover.jpg",
+		func(*http.Request) (*http.Response, error) {
+			rsp := httpmock.NewBytesResponse(http.StatusOK, buf.Bytes())
+			rsp.Header.Set("Content-Type", "image/png")
+			return rsp, nil
+		})
+
+	ex, _ := extract.New(pageURL)
+	ex.Drop().DocumentType = "video"
+	ex.AddProcessors(
+		LoadScripts(),
+		ProcessDom("documentLoaded"),
+		LoadSiteConfig,
+		ExtractBody,
+		ProcessDom("documentReady"),
+		contents.StripHeadingAnchors,
+		contents.ExtractInlineSVGs,
+		contents.Readability(),
+		ProcessDom("documentDone"),
+		cleanDOM,
+		meta.ExtractContentPicture,
+	)
+	ex.Run()
+	assert.Empty(ex.Errors())
+
+	assert.Contains(ex.Drop().Pictures, "image")
+	assert.Equal("https://i2.hdslb.com/bfs/archive/cover.jpg", ex.Drop().Pictures["image"].Href)
+	assert.Contains(ex.Drop().Pictures, "thumbnail")
 }

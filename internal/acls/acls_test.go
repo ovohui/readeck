@@ -35,6 +35,8 @@ var defaultResolved = map[string][]string{
 		"api:profile:tokens:delete",
 		"api:profile:tokens:read",
 		"api:profile:write",
+		"api:sitecookies:read",
+		"api:sitecookies:write",
 		"bookmarks:collections:read",
 		"bookmarks:collections:write",
 		"bookmarks:export",
@@ -52,6 +54,7 @@ var defaultResolved = map[string][]string{
 		"profile:tokens:write",
 		"profile:write",
 		"system:read",
+		"web:sitecookies:read",
 	},
 	"admin:read": {
 		"api:admin:users:read",
@@ -104,6 +107,8 @@ var defaultResolved = map[string][]string{
 		"api:profile:tokens:delete",
 		"api:profile:tokens:read",
 		"api:profile:write",
+		"api:sitecookies:read",
+		"api:sitecookies:write",
 		"bookmarks:collections:read",
 		"bookmarks:collections:write",
 		"bookmarks:export",
@@ -120,6 +125,7 @@ var defaultResolved = map[string][]string{
 		"profile:tokens:write",
 		"profile:write",
 		"system:read",
+		"web:sitecookies:read",
 	},
 	"user": {
 		"api:bookmarks:collections:read",
@@ -135,6 +141,8 @@ var defaultResolved = map[string][]string{
 		"api:profile:tokens:delete",
 		"api:profile:tokens:read",
 		"api:profile:write",
+		"api:sitecookies:read",
+		"api:sitecookies:write",
 		"bookmarks:collections:read",
 		"bookmarks:collections:write",
 		"bookmarks:export",
@@ -150,6 +158,7 @@ var defaultResolved = map[string][]string{
 		"profile:tokens:read",
 		"profile:tokens:write",
 		"profile:write",
+		"web:sitecookies:read",
 	},
 }
 
@@ -228,6 +237,8 @@ func TestExtraPolicy(t *testing.T) {
 		"api:profile:tokens:delete",
 		"api:profile:tokens:read",
 		"api:profile:write",
+		"api:sitecookies:read",
+		"api:sitecookies:write",
 		"bookmarks:collections:read",
 		"bookmarks:collections:write",
 		"bookmarks:export",
@@ -243,6 +254,7 @@ func TestExtraPolicy(t *testing.T) {
 		"profile:tokens:read",
 		"profile:tokens:write",
 		"profile:write",
+		"web:sitecookies:read",
 	}
 
 	require.Equal(t, expected, permissions)

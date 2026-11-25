@@ -29,10 +29,15 @@ var coverImageSkipWords = []string{
 // ExtractContentPicture uses the first meaningful picture of the article as
 // the bookmark cover when the page itself declares none.
 //
-// A lot of sites have no og:image at all - forums, Chinese Q&A and mobile
-// share pages - so the bookmark list ends up showing a grey placeholder while
-// the article below is full of pictures. Must run after the body is rendered,
-// that is, at StepFinish in the processor chain.
+// A lot of sites have no og:image at all - forums, Chinese Q&A, mobile share
+// pages and every page saved by the browser extension - so the bookmark list
+// ends up showing a grey placeholder while the article below is full of
+// pictures. Inline pictures (data:image/webp;base64,...) count: on Xiaohongshu
+// the whole note is inlined, so skipping them means the card has no cover at
+// all. Video pages are included too, their only picture being the cover the
+// player shows before it starts.
+// Must run after the body is rendered, that is, at StepFinish in the
+// processor chain.
 func ExtractContentPicture(m *extract.ProcessMessage, next extract.Processor) extract.Processor {
 	if m.Step() != extract.StepFinish || m.Position() > 0 {
 		return next
@@ -40,7 +45,7 @@ func ExtractContentPicture(m *extract.ProcessMessage, next extract.Processor) ex
 
 	d := m.Extractor.Drop()
 	switch d.DocumentType {
-	case "", "article", "photo":
+	case "", "article", "photo", "video":
 	default:
 		return next
 	}
@@ -77,7 +82,7 @@ func ExtractContentPicture(m *extract.ProcessMessage, next extract.Processor) ex
 		m.Log().Debug(
 			"no usable picture in content",
 			slog.Any("err", err),
-			slog.String("url", href),
+			slog.String("url", shortHref(href)),
 		)
 		return next
 	}
@@ -94,7 +99,7 @@ func ExtractContentPicture(m *extract.ProcessMessage, next extract.Processor) ex
 	}
 	m.Log().Debug(
 		"picture taken from content",
-		slog.String("url", href),
+		slog.String("url", shortHref(href)),
 		slog.Any("size", picture.Size[:]),
 	)
 
@@ -132,19 +137,35 @@ func firstBodyImage(body []byte) string {
 func coverImageHref(img *html.Node) string {
 	// Lazy loading leaves an inline placeholder in src and the real URL in a
 	// data attribute, so a data: src must not end the search.
-	href := strings.TrimSpace(dom.GetAttribute(img, "src"))
-	if href == "" || strings.HasPrefix(href, "data:") || strings.HasPrefix(href, "blob:") {
+	src := strings.TrimSpace(dom.GetAttribute(img, "src"))
+	inline := isInlinePicture(src)
+
+	href := src
+	if href == "" || inline || strings.HasPrefix(href, "blob:") {
 		href = ""
 		for _, attr := range []string{"data-src", "data-original", "data-actualsrc", "file"} {
 			v := strings.TrimSpace(dom.GetAttribute(img, attr))
-			if v != "" && !strings.HasPrefix(v, "data:") {
+			if v != "" && !isInlinePicture(v) {
 				href = v
 				break
 			}
 		}
 	}
 	if href == "" {
-		return ""
+		if !inline {
+			return ""
+		}
+		// The picture never existed as a URL: the page inlined it
+		// (data:image/webp;base64,...), which is what Xiaohongshu and every
+		// page saved by the browser extension do. Keep it, but only after the
+		// size attributes have had their say, and skip the URL heuristics
+		// below: base64 is random bytes and will happily contain "icon".
+		for _, attr := range []string{"width", "height"} {
+			if px, ok := pixelSize(dom.GetAttribute(img, attr)); ok && px < 200 {
+				return ""
+			}
+		}
+		return src
 	}
 
 	// An explicitly small image is a bullet point, an avatar or an emoji.
@@ -179,6 +200,19 @@ func coverImageHref(img *html.Node) string {
 	}
 
 	return href
+}
+
+// isInlinePicture reports whether a src attribute carries the picture itself.
+func isInlinePicture(s string) bool {
+	return len(s) > 11 && strings.EqualFold(s[:11], "data:image/")
+}
+
+// shortHref keeps a base64 payload out of the log.
+func shortHref(href string) string {
+	if len(href) <= 90 {
+		return href
+	}
+	return href[:90] + "..."
 }
 
 // pixelSize parses a width/height attribute, ignoring CSS units and values

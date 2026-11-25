@@ -6,6 +6,7 @@ package meta
 
 import (
 	"bytes"
+	"encoding/base64"
 	"image"
 	"image/png"
 	"net/http"
@@ -48,6 +49,24 @@ func TestFirstBodyImage(t *testing.T) {
 		{
 			name:     "no picture at all",
 			body:     `<div><p>只有文字</p><img src="/static/spacer.gif"></div>`,
+			expected: "",
+		},
+		{
+			// Xiaohongshu inlines the note: the payload is the only source of
+			// a cover, and its base64 must not be mistaken for chrome.
+			name:     "inline picture",
+			body:     `<figure><img src="data:image/webp;base64,UklGRsy3AgBXRUJQV" alt="穿搭" width="1080" height="1440"></figure>`,
+			expected: "data:image/webp;base64,UklGRsy3AgBXRUJQV",
+		},
+		{
+			name: "inline placeholder with a real url",
+			body: `<div><img src="data:image/svg+xml;utf8,&lt;svg/&gt;"
+				data-src="https://cdn.example.org/photo/2.jpg" width="900" height="1200"></div>`,
+			expected: "https://cdn.example.org/photo/2.jpg",
+		},
+		{
+			name:     "inline picture too small to be artwork",
+			body:     `<div><img src="data:image/png;base64,iVBORw0KGgo=" width="48" height="48"></div>`,
 			expected: "",
 		},
 	}
@@ -106,6 +125,32 @@ func TestExtractContentPicture(t *testing.T) {
 		assert.Contains(ex.Drop().Pictures, "thumbnail")
 	})
 
+	t.Run("takes an inline picture", func(t *testing.T) {
+		assert := require.New(t)
+		src := "data:image/png;base64," + base64.StdEncoding.EncodeToString(makeTestPNG(t))
+		ex := newExtractor(t, "article", `<div><p>穿搭</p><img src="`+src+`" width="800" height="600"></div>`)
+
+		ExtractContentPicture(ex.NewProcessMessage(extract.StepFinish), nil)
+
+		assert.Contains(ex.Drop().Pictures, "image")
+		assert.Equal(src, ex.Drop().Pictures["image"].Href)
+		assert.Contains(ex.Drop().Pictures, "thumbnail")
+		assert.Equal([2]int{380, 285}, ex.Drop().Pictures["thumbnail"].Size)
+	})
+
+	// A video page has exactly one picture before it plays: the cover. The
+	// bookmark card has nothing else to show.
+	t.Run("takes the cover of a video page", func(t *testing.T) {
+		assert := require.New(t)
+		ex := newExtractor(t, "video", `<figure><img src="https://cdn.example.org/photo/cover.jpg"
+			width="1080" height="810" data-iframe-params="src=https%3A%2F%2Fexample.org%2Fvideo%2F1"></figure>`)
+
+		ExtractContentPicture(ex.NewProcessMessage(extract.StepFinish), nil)
+
+		assert.Contains(ex.Drop().Pictures, "image")
+		assert.Contains(ex.Drop().Pictures, "thumbnail")
+	})
+
 	t.Run("keeps the declared picture", func(t *testing.T) {
 		assert := require.New(t)
 		ex := newExtractor(t, "article", `<div><img src="https://cdn.example.org/photo/cover.jpg"></div>`)
@@ -116,9 +161,11 @@ func TestExtractContentPicture(t *testing.T) {
 		assert.Equal("https://example.org/og.png", ex.Drop().Pictures["image"].Href)
 	})
 
-	t.Run("skips videos", func(t *testing.T) {
+	// Documents that are not read as an article (a raw file, a PDF, an audio
+	// track) never show a cover of their own.
+	t.Run("skips documents with no article body", func(t *testing.T) {
 		assert := require.New(t)
-		ex := newExtractor(t, "video", `<div><img src="https://cdn.example.org/photo/cover.jpg"></div>`)
+		ex := newExtractor(t, "image", `<div><img src="https://cdn.example.org/photo/cover.jpg"></div>`)
 
 		ExtractContentPicture(ex.NewProcessMessage(extract.StepFinish), nil)
 
