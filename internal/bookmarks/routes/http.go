@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: © 2021 Olivier Meunier <olivier@neokraft.net>
+﻿// SPDX-FileCopyrightText: © 2021 Olivier Meunier <olivier@neokraft.net>
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
@@ -240,6 +240,7 @@ func newViewsRouter(api *apiRouter) *viewsRouter {
 		r.With(h.withBaseContext, api.withDefaultLimit(listDefaultLimit)).Group(func(r chi.Router) {
 			r.With(api.withBookmarkList).Post("/", h.bookmarkList)
 			r.Get("/folders", h.folderList)
+			r.Get("/folders/manage", h.folderManage)
 			r.Post("/folders", h.folderCreate)
 			r.Post("/folders/rename", h.folderRename)
 			r.Post("/folders/delete", h.folderDelete)

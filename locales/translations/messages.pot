@@ -3482,3 +3482,12 @@ msgstr ""
 
 msgid "Manage folders"
 msgstr ""
+
+msgid "Folder settings"
+msgstr ""
+
+msgid "Create folders, rename them, or lock folders with a password."
+msgstr ""
+
+msgid "All folders"
+msgstr ""

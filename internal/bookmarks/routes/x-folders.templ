@@ -50,16 +50,10 @@ templ (v Views) folderList(tree []*bookmarks.FolderNode) {
 					}
 				</nav>
 
-				if len(tree) > 0 {
-					<details class="folder-manage">
-						<summary>@Icon("o-menu-dots") { L(ctx).Gettext("Manage folders") }</summary>
-						<ul class="folder-tree">
-							for _, n := range tree {
-								@folderNode(n)
-							}
-						</ul>
-					</details>
-				}
+				<a class="folder-manage-link" href={ URL(ctx, "/bookmarks/folders/manage") }>
+					@Icon("o-menu-dots")
+					{ L(ctx).Gettext("Manage folders") }
+				</a>
 			</aside>
 
 			<main class="folder-main">
@@ -76,6 +70,47 @@ templ (v Views) folderList(tree []*bookmarks.FolderNode) {
 					<div class="folder-loading">{ L(ctx).Gettext("Loading bookmarks…") }</div>
 				</div>
 			</main>
+		</div>
+	}
+}
+
+
+templ (v Views) folderManage(tree []*bookmarks.FolderNode) {
+	@Page(L(ctx).Gettext("Folder settings"), WithSideMenu(v.menu())) {
+		<h1 class="title text-h2">{ L(ctx).Gettext("Folder settings") }</h1>
+		<p class="my-4 text-gray-700">{ L(ctx).Gettext("Create folders, rename them, or lock folders with a password.") }</p>
+		<div class="folder-manage-page">
+			<section class="folder-manage-card">
+				<h2>{ L(ctx).Gettext("New folder") }</h2>
+				<form action={ URL(ctx, "/bookmarks/folders") } method="post" class="flex flex-wrap items-end gap-2">
+					<label class="field">
+						<span class="field--label">{ L(ctx).Gettext("Name") }</span>
+						<input class="form-input" type="text" name="name" required maxlength="128"/>
+					</label>
+					<label class="field">
+						<span class="field--label">{ L(ctx).Gettext("Parent folder") }</span>
+						<select class="form-select" name="parent_id">
+							<option value="">{ L(ctx).Gettext("Root") }</option>
+							for _, n := range folderOptions(ctx) {
+								<option value={ strconv.Itoa(n.ID) }>{ folderIndent(n.Depth) + n.Name }</option>
+							}
+						</select>
+					</label>
+					<button class="btn btn-primary" type="submit">{ L(ctx).Gettext("Create folder") }</button>
+				</form>
+			</section>
+			<section class="folder-manage-card">
+				<h2>{ L(ctx).Gettext("All folders") }</h2>
+				if len(tree) == 0 {
+					<p class="text-gray-600">{ L(ctx).Gettext("No folders yet.") }</p>
+				} else {
+					<ul class="folder-tree">
+						for _, n := range tree {
+							@folderNode(n)
+						}
+					</ul>
+				}
+			</section>
 		</div>
 	}
 }

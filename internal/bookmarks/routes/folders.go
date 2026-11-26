@@ -24,6 +24,15 @@ func (h *viewsRouter) folderList(w http.ResponseWriter, r *http.Request) {
 	server.RenderComponent(w, r, http.StatusOK, Views{}.folderList(tree))
 }
 
+func (h *viewsRouter) folderManage(w http.ResponseWriter, r *http.Request) {
+	tree, err := bookmarks.Folders.Tree(auth.GetUser(r.Context()).ID)
+	if err != nil {
+		server.Err(w, r, err)
+		return
+	}
+	server.RenderComponent(w, r, http.StatusOK, Views{}.folderManage(tree))
+}
+
 func (h *viewsRouter) folderCreate(w http.ResponseWriter, r *http.Request) {
 	userID := auth.GetUser(r.Context()).ID
 	name := strings.TrimSpace(r.FormValue("name"))

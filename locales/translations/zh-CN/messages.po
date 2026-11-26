@@ -3871,3 +3871,12 @@ msgstr "正在加载书签…"
 
 msgid "Manage folders"
 msgstr "管理文件夹"
+
+msgid "Folder settings"
+msgstr "文件夹设置"
+
+msgid "Create folders, rename them, or lock folders with a password."
+msgstr "新建、重命名文件夹，或给文件夹设置密码锁。"
+
+msgid "All folders"
+msgstr "所有文件夹"

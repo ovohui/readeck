@@ -84,6 +84,8 @@ func (h *viewsRouter) aiClean(w http.ResponseWriter, r *http.Request) {
 	}
 
 	client := ai.New(aiConfig(r.Context()))
+	aiCtx, cancel := context.WithTimeout(context.Background(), 150*time.Second)
+	defer cancel()
 	if !client.Configured() {
 		fail(server.Locale(r.Context()).Gettext("AI is not configured."))
 		return
@@ -134,7 +136,7 @@ func (h *viewsRouter) aiClean(w http.ResponseWriter, r *http.Request) {
 		system := "你是阅读助手。只根据下面的文章内容回答用户，不要编造；用中文，简洁。"
 		context := fmt.Sprintf("标题: %s\nURL: %s\n\n正文:\n%s\n\n图片:\n%s",
 			b.Title, b.URL, outline, aiImageList(images))
-		answer, err := client.Ask(r.Context(), system, context+"\n\n用户要求:\n"+instruction)
+		answer, err := client.Ask(aiCtx, system, context+"\n\n用户要求:\n"+instruction)
 		if err != nil {
 			server.Log(r).Warn("ai chat", slog.Any("err", err))
 			fail(server.Locale(r.Context()).Gettext("AI cleanup failed: %s", err.Error()))
@@ -150,7 +152,7 @@ func (h *viewsRouter) aiClean(w http.ResponseWriter, r *http.Request) {
 	case "tag":
 		system := "你是书签标签助手。只输出 3 到 6 个简短中文标签，用英文逗号分隔，不要解释，不要编号，每个标签不超过 8 个字。"
 		context := fmt.Sprintf("标题: %s\n站点: %s\n\n正文:\n%s", b.Title, b.Site, outline)
-		rawLabels, err := client.Ask(r.Context(), system, context)
+		rawLabels, err := client.Ask(aiCtx, system, context)
 		if err != nil {
 			server.Log(r).Warn("ai tag", slog.Any("err", err))
 			fail(server.Locale(r.Context()).Gettext("AI cleanup failed: %s", err.Error()))
@@ -179,7 +181,7 @@ func (h *viewsRouter) aiClean(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result, err := client.CleanWithInstruction(r.Context(), b.Title, b.URL, outline, images, instruction)
+	result, err := client.CleanWithInstruction(aiCtx, b.Title, b.URL, outline, images, instruction)
 	if err != nil {
 		server.Log(r).Warn("ai cleanup", slog.Any("err", err))
 		fail(server.Locale(r.Context()).Gettext("AI cleanup failed: %s", err.Error()))

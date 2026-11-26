@@ -47,6 +47,12 @@ templ (_ Views) Menu() {
 					{ L(ctx).Gettext("API Tokens") }
 				</a>
 			</li>
+			<li>
+				<a href={ URL(ctx, "/bookmarks/folders/manage") } data-current={ PathIs(ctx, "/bookmarks/folders/manage") }>
+					@Icon("o-collection")
+					{ L(ctx).Gettext("Folder settings") }
+				</a>
+			</li>
 		}
 	</menu>
 	if HasPermission(ctx, "profile", "export") || HasPermission(ctx, "profile", "import") {

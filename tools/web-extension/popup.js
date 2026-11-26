@@ -755,6 +755,26 @@ async function capturePage(opts) {
       placeholder(el, poster, holder ? holder.href : answerPage())
     })
 
+    // A column video is only an <a class="video-box"> with a poster.
+    clone.querySelectorAll("a.video-box, a[data-lens-id]").forEach((el) => {
+      const raw = el.getAttribute("data-lens-id") || el.getAttribute("href") || ""
+      let decoded = raw
+      try {
+        decoded = decodeURIComponent(raw)
+      } catch (e) {
+        // keep raw
+      }
+      const hit = decoded.match(/video\/(\d{6,})/)
+      if (!hit) {
+        return
+      }
+      const poster =
+        el.getAttribute("data-poster") ||
+        (el.querySelector("img") ? el.querySelector("img").getAttribute("src") : "") ||
+        ""
+      placeholder(el, poster, "https://www.zhihu.com/video/" + hit[1])
+    })
+
     // A clip embedded as a player frame: keep the frame's own URL, which is a
     // canonical /video/<id> page yt-dlp knows how to resolve.
     clone.querySelectorAll("iframe[src*='zhihu.com/video/']").forEach((el) => {

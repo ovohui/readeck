@@ -5,8 +5,10 @@
 package routes
 
 import (
+	stdctx "context"
 	"encoding/json"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 
@@ -22,16 +24,19 @@ type aiListItem struct {
 	ID          string `json:"id"`
 	Title       string `json:"title"`
 	Site        string `json:"site"`
+	Domain      string `json:"domain,omitempty"`
 	Description string `json:"description"`
 	Text        string `json:"text"`
 }
 
 type aiListResponse struct {
-	OK      bool         `json:"ok"`
-	Error   string       `json:"error,omitempty"`
-	Answer  string       `json:"answer,omitempty"`
-	Labels  []string     `json:"labels,omitempty"`
-	Matches []aiListItem `json:"matches,omitempty"`
+	OK         bool         `json:"ok"`
+	Error      string       `json:"error,omitempty"`
+	Answer     string       `json:"answer,omitempty"`
+	Labels     []string     `json:"labels,omitempty"`
+	Matches    []aiListItem `json:"matches,omitempty"`
+	FilterURL  string       `json:"filter_url,omitempty"`
+	AutoFilter bool         `json:"auto_filter,omitempty"`
 }
 
 func writeAIList(w http.ResponseWriter, status int, res aiListResponse) {
@@ -88,9 +93,8 @@ func (h *viewsRouter) aiList(w http.ResponseWriter, r *http.Request) {
 
 	system := `你是一个中文阅读助手。只根据用户给出的收藏列表回答，不要编造。
 返回 JSON 对象，不要 markdown 代码块：
-{"answer":"回答/摘要","ids":["与问题最相关的书签 ID"]}
-ids 只能从列表里的 ID 选择；不确定时返回空数组。
-如果用户只是让总结，把总结放在 answer；如果让打标签，改用 {"labels":["标签"]}。`
+{"answer":"回答/摘要","ids":["与问题最相关的书签ID"]}
+ids 只能从列表里的 ID 选择；不确定时返回空数组。如果用户只是让总结，把总结放在 answer；如果让打标签，改用 {"labels":["标签"]}。`
 
 	var user strings.Builder
 	user.WriteString("收藏列表:\n")
@@ -105,7 +109,9 @@ ids 只能从列表里的 ID 选择；不确定时返回空数组。
 	}
 
 	client := ai.New(aiConfig(r.Context()))
-	answer, err := client.Ask(r.Context(), system, user.String())
+	aiCtx, cancel := stdctx.WithTimeout(stdctx.Background(), 150*time.Second)
+	defer cancel()
+	answer, err := client.Ask(aiCtx, system, user.String())
 	if err != nil {
 		server.Log(r).Warn("ai list", "err", err)
 		writeAIList(w, http.StatusBadGateway, aiListResponse{Error: err.Error()})
@@ -173,7 +179,26 @@ ids 只能从列表里的 ID 选择；不确定时返回空数组。
 	if parsed.Answer == "" {
 		parsed.Answer = "AI 没有返回内容。"
 	}
-	writeAIList(w, http.StatusOK, aiListResponse{OK: true, Answer: parsed.Answer, Matches: matches})
+	filterURL := ""
+	autoFilter := false
+	if len(matches) > 0 {
+		domain := matches[0].Domain
+		sameDomain := domain != ""
+		for _, m := range matches {
+			if m.Domain != domain {
+				sameDomain = false
+				break
+			}
+		}
+		if sameDomain {
+			q := strings.ToLower(question)
+			if strings.Contains(q, "筛选") || strings.Contains(q, "只看") || strings.Contains(q, "过滤") || strings.Contains(q, "展示") || strings.Contains(q, "列出") || strings.Contains(q, "来自") {
+				filterURL = "/bookmarks?bf=1&site=" + url.QueryEscape(domain)
+				autoFilter = true
+			}
+		}
+	}
+	writeAIList(w, http.StatusOK, aiListResponse{OK: true, Answer: parsed.Answer, Matches: matches, FilterURL: filterURL, AutoFilter: autoFilter})
 }
 
 func aiListItems(r *http.Request) []aiListItem {
@@ -210,6 +235,7 @@ func bookmarkToAIItem(b *bookmarks.Bookmark) aiListItem {
 		ID:          b.UID,
 		Title:       b.Title,
 		Site:        b.SiteName,
+		Domain:      b.Domain,
 		Description: b.Description,
 		Text:        b.Text,
 	}

@@ -1554,3 +1554,72 @@
     width: 100%;
   }
 }
+
+.ai-filter-button {
+  display: inline-flex;
+  align-self: flex-start;
+  border-radius: 0.55rem;
+  background: theme("colors.primary.600");
+  padding: 0.4rem 0.7rem;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  &:hover {
+    background: theme("colors.primary.700");
+  }
+}
+
+.ai-match-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.ai-match-row .ai-match {
+  min-width: 0;
+  flex: 1;
+}
+
+.ai-match-delete {
+  flex: none;
+  border-radius: 0.4rem;
+  padding: 0.3rem 0.4rem;
+  color: theme("colors.red.500");
+  font-size: 0.7rem;
+
+  &:hover {
+    background: theme("colors.red.50");
+  }
+}
+
+.folder-manage-link {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.7rem;
+  border-top: 1px solid theme("colors.gray.100");
+  padding-top: 0.55rem;
+  color: theme("colors.gray.500");
+  font-size: 0.72rem;
+}
+
+.folder-manage-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 52rem;
+}
+
+.folder-manage-card {
+  border: 1px solid theme("colors.gray.200");
+  border-radius: 0.9rem;
+  background: #fff;
+  padding: 1rem;
+
+  h2 {
+    margin: 0 0 0.8rem;
+    font-size: 0.95rem;
+    font-weight: 650;
+  }
+}

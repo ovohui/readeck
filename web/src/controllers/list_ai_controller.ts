@@ -158,6 +158,21 @@ export default class extends Controller<HTMLElement> {
       answer.textContent = data.answer || ""
       this.resultTarget.appendChild(answer)
 
+      if (data.filter_url) {
+        const filter = document.createElement("a")
+        filter.className = "ai-filter-button"
+        filter.href = data.filter_url
+        filter.textContent = document.documentElement.lang.startsWith("zh")
+          ? "只显示这些书签"
+          : "Show only these bookmarks"
+        this.resultTarget.appendChild(filter)
+        if (data.auto_filter) {
+          window.setTimeout(() => {
+            window.location.href = data.filter_url
+          }, 900)
+        }
+      }
+
       if (data.matches && data.matches.length > 0) {
         const label = document.createElement("p")
         label.className = "ai-matches-label"
@@ -169,11 +184,36 @@ export default class extends Controller<HTMLElement> {
         const list = document.createElement("div")
         list.className = "ai-matches"
         for (const item of data.matches) {
+          const row = document.createElement("div")
+          row.className = "ai-match-row"
           const a = document.createElement("a")
           a.className = "ai-match"
           a.href = `/bookmarks/${item.id}`
           a.textContent = item.title || item.id
-          list.appendChild(a)
+          row.appendChild(a)
+          const del = document.createElement("button")
+          del.type = "button"
+          del.className = "ai-match-delete"
+          del.textContent = document.documentElement.lang.startsWith("zh") ? "删除" : "Delete"
+          del.addEventListener("click", async () => {
+            const ok = window.confirm(
+              document.documentElement.lang.startsWith("zh")
+                ? `确定删除「${item.title || item.id}」？`
+                : `Delete “${item.title || item.id}”?`,
+            )
+            if (!ok) return
+            del.disabled = true
+            try {
+              const r = await fetch(`/api/bookmarks/${item.id}`, {method: "DELETE", credentials: "same-origin"})
+              if (!r.ok) throw new Error(`HTTP ${r.status}`)
+              window.location.reload()
+            } catch (e) {
+              del.disabled = false
+              this.statusTarget.textContent = e instanceof Error ? e.message : String(e)
+            }
+          })
+          row.appendChild(del)
+          list.appendChild(row)
         }
         this.resultTarget.appendChild(list)
       }
