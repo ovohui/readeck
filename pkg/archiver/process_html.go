@@ -112,6 +112,7 @@ func (arc *Archiver) processHTML(ctx context.Context, doc *html.Node, baseURL *u
 	// Download embedded player videos (YouTube, Bilibili, ...) once every URL
 	// is absolute, and before the concurrent resource loop so the tree can
 	// still be rewritten safely.
+	arc.processZhihuVideos(ctx, doc)
 	arc.processEmbeddedVideos(ctx, doc)
 	arc.removeIntegrityAttr(ctx, doc)
 

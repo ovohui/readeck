@@ -1,32 +1,66 @@
-﻿// SPDX-FileCopyrightText: © 2026 Readeck custom build
+// SPDX-FileCopyrightText: © 2026 Readeck custom build
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {Controller} from "@hotwired/stimulus"
 
 /**
- * Assistant for the bookmark list: summarize the filtered list, tag selected
- * cards, or ask a question and get the matching bookmarks back.
+ * Right-hand AI drawer for the bookmark list. The trigger sits next to the
+ * filter button; the panel is a proper dialog-like drawer with a backdrop,
+ * Escape handling, a context line and a composer.
  */
 export default class extends Controller<HTMLElement> {
-  static override targets = ["question", "status", "result"]
+  static override targets = ["drawer", "toggle", "question", "status", "result", "context"]
   static override values = {url: String}
 
+  declare readonly drawerTarget: HTMLElement
+  declare readonly toggleTarget: HTMLButtonElement
   declare readonly questionTarget: HTMLTextAreaElement
   declare readonly statusTarget: HTMLElement
   declare readonly resultTarget: HTMLElement
+  declare readonly contextTarget: HTMLElement
   declare readonly urlValue: string
 
-  summary() {
-    void this.run("summary")
+  private keydown = (event: KeyboardEvent) => {
+    if (event.key === "Escape" && this.isOpen()) {
+      this.close()
+    }
   }
 
-  tag() {
-    void this.run("tag")
+  override connect() {
+    document.addEventListener("keydown", this.keydown)
+    document.addEventListener("change", this.refreshContext)
+    this.refreshContext()
   }
 
-  ask() {
-    void this.run("ask")
+  override disconnect() {
+    document.removeEventListener("keydown", this.keydown)
+    document.removeEventListener("change", this.refreshContext)
+  }
+
+  private isOpen() {
+    return !this.drawerTarget.hidden
+  }
+
+  toggle() {
+    this.isOpen() ? this.close() : this.open()
+  }
+
+  open() {
+    this.drawerTarget.hidden = false
+    this.toggleTarget.setAttribute("aria-expanded", "true")
+    window.requestAnimationFrame(() => this.drawerTarget.classList.add("is-open"))
+    this.questionTarget.focus()
+  }
+
+  close() {
+    this.drawerTarget.classList.remove("is-open")
+    this.toggleTarget.setAttribute("aria-expanded", "false")
+    window.setTimeout(() => {
+      if (!this.drawerTarget.classList.contains("is-open")) {
+        this.drawerTarget.hidden = true
+      }
+    }, 220)
   }
 
   private selected(): string[] {
@@ -37,6 +71,33 @@ export default class extends Controller<HTMLElement> {
       .filter(Boolean)
   }
 
+  refreshContext = () => {
+    const ids = this.selected()
+    this.contextTarget.textContent =
+      ids.length > 0
+        ? document.documentElement.lang.startsWith("zh")
+          ? `已选 ${ids.length} 篇`
+          : `${ids.length} selected`
+        : document.documentElement.lang.startsWith("zh")
+          ? "当前筛选结果"
+          : "current filter"
+  }
+
+  summary() {
+    this.open()
+    void this.run("summary")
+  }
+
+  tag() {
+    this.open()
+    void this.run("tag")
+  }
+
+  ask() {
+    this.open()
+    void this.run("ask")
+  }
+
   private async run(action: string) {
     const ids = this.selected()
     if (action === "tag" && ids.length === 0) {
@@ -45,8 +106,14 @@ export default class extends Controller<HTMLElement> {
         : "Select bookmarks first."
       return
     }
+    if (action === "ask" && !this.questionTarget.value.trim()) {
+      this.statusTarget.textContent = document.documentElement.lang.startsWith("zh")
+        ? "先输入一个问题，或点下面的快捷操作。"
+        : "Type a question or use a shortcut."
+      return
+    }
 
-    const buttons = Array.from(this.element.querySelectorAll("button"))
+    const buttons = Array.from(this.drawerTarget.querySelectorAll<HTMLButtonElement>("button"))
     buttons.forEach((b) => (b.disabled = true))
     this.resultTarget.textContent = ""
     this.statusTarget.textContent = document.documentElement.lang.startsWith("zh")
@@ -83,22 +150,27 @@ export default class extends Controller<HTMLElement> {
         return
       }
 
-      const answer = document.createElement("p")
-      answer.className = "whitespace-pre-wrap"
+      const answer = document.createElement("div")
+      answer.className = "ai-answer"
       answer.textContent = data.answer || ""
       this.resultTarget.appendChild(answer)
 
       if (data.matches && data.matches.length > 0) {
-        const list = document.createElement("ul")
-        list.className = "mt-3 space-y-1"
+        const label = document.createElement("p")
+        label.className = "ai-matches-label"
+        label.textContent = document.documentElement.lang.startsWith("zh")
+          ? "相关书签"
+          : "Matching bookmarks"
+        this.resultTarget.appendChild(label)
+
+        const list = document.createElement("div")
+        list.className = "ai-matches"
         for (const item of data.matches) {
-          const li = document.createElement("li")
           const a = document.createElement("a")
-          a.className = "link"
+          a.className = "ai-match"
           a.href = `/bookmarks/${item.id}`
           a.textContent = item.title || item.id
-          li.appendChild(a)
-          list.appendChild(li)
+          list.appendChild(a)
         }
         this.resultTarget.appendChild(list)
       }

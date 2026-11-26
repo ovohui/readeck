@@ -71,6 +71,19 @@ templ (v Views) bookmarkList(title string, bl *dataset.BookmarkList, f *createFo
 								{ " " }
 								{ L(ctx).Gettext("Filters") }
 							</button>
+							if aiEnabled(ctx) {
+								<button
+									type="button"
+									class="btn-outlined py-1"
+									data-action="list-ai#toggle"
+									data-list-ai-target="toggle"
+									aria-expanded="false"
+								>
+									@Icon("o-create")
+									{ " " }
+									{ L(ctx).Gettext("AI assistant") }
+								</button>
+							}
 						</form>
 						{{
 							q := filters.getQueryParams()
@@ -420,7 +433,11 @@ templ (c Components) exportMenu(q url.Values) {
 }
 
 templ (c Components) bookmarkList(bl *dataset.BookmarkList) {
-	<div class="bookmark-list" data-controller="folder-picker">
+	<div
+		class="bookmark-list"
+		data-controller="folder-picker list-ai"
+		data-list-ai-url-value={ URL(ctx, "/bookmarks/ai/ask") }
+	>
 		<dialog id="folder-picker-dialog" class="dialog max-w-sm" data-folder-picker-target="dialog">
 			<form method="post" action="" data-folder-picker-target="form">
 				<h2 class="title text-h3 mb-3">{ L(ctx).Gettext("Move to folder") }</h2>
@@ -474,43 +491,6 @@ templ (c Components) bookmarkList(bl *dataset.BookmarkList) {
 				{ L(ctx).Gettext("Delete") }
 			</button>
 		</div>
-		if aiEnabled(ctx) {
-			<aside
-				class="bookmark-ai-chat"
-				data-controller="list-ai"
-				data-list-ai-url-value={ URL(ctx, "/bookmarks/ai/ask") }
-			>
-				<details>
-					<summary class="bookmark-ai-chat--title">
-						@Icon("o-create")
-						{ " " }
-						{ L(ctx).Gettext("AI assistant") }
-					</summary>
-					<p class="text-sm text-gray-600 mt-2">
-						{ L(ctx).Gettext("Summarize the filtered list, tag the selected bookmarks, or ask which bookmarks answer a question.") }
-					</p>
-					<textarea
-						class="form-input mt-2"
-						rows="3"
-						data-list-ai-target="question"
-						placeholder={ L(ctx).Gettext("e.g. which bookmarks are about Go? / summarize these articles") }
-					></textarea>
-					<div class="flex flex-wrap gap-2 mt-2">
-						<button type="button" class="btn btn-outlined py-1" data-action="list-ai#summary">
-							{ L(ctx).Gettext("Summarize") }
-						</button>
-						<button type="button" class="btn btn-outlined py-1" data-action="list-ai#tag">
-							{ L(ctx).Gettext("Tag selected") }
-						</button>
-						<button type="button" class="btn btn-primary py-1" data-action="list-ai#ask">
-							{ L(ctx).Gettext("Ask") }
-						</button>
-					</div>
-					<p class="mt-2 text-sm" data-list-ai-target="status"></p>
-					<div class="mt-2 text-sm" data-list-ai-target="result"></div>
-				</details>
-			</aside>
-		}
 		@Pagination(&bl.Pagination)
 		<div
 			class={ "my-4", Preferences(ctx).BookmarkList.Layout.Class() }
@@ -521,6 +501,63 @@ templ (c Components) bookmarkList(bl *dataset.BookmarkList) {
 			}
 		</div>
 		@Pagination(&bl.Pagination)
+		if aiEnabled(ctx) {
+			<div class="ai-drawer" data-list-ai-target="drawer" hidden>
+				<div class="ai-drawer-backdrop" data-action="click->list-ai#close"></div>
+				<aside class="ai-drawer-panel" role="dialog" aria-modal="true" aria-label={ L(ctx).Gettext("AI assistant") }>
+					<header class="ai-drawer-header">
+						<div class="ai-drawer-heading">
+							<span class="ai-drawer-icon">@Icon("o-create")</span>
+							<div>
+								<h2>{ L(ctx).Gettext("AI assistant") }</h2>
+								<p>{ L(ctx).Gettext("Ask your bookmarks") }</p>
+							</div>
+						</div>
+						<button type="button" class="ai-drawer-close" data-action="list-ai#close" aria-label={ L(ctx).Gettext("Close") }>
+							@Icon("o-close")
+						</button>
+					</header>
+					<div class="ai-drawer-body">
+						<div class="ai-context">
+							@Icon("o-filter")
+							<span>{ L(ctx).Gettext("Current filter") }</span>
+							<strong data-list-ai-target="context"></strong>
+						</div>
+						<div class="ai-result" data-list-ai-target="result">
+							<div class="ai-empty">
+								<div class="ai-empty-icon">@Icon("o-create")</div>
+								<h3>{ L(ctx).Gettext("Talk to your bookmarks") }</h3>
+								<p>{ L(ctx).Gettext("Summarize what you filtered, tag the selected cards, or ask which bookmarks answer a question.") }</p>
+							</div>
+						</div>
+						<p class="ai-status" data-list-ai-target="status"></p>
+					</div>
+					<div class="ai-composer">
+						<textarea
+							class="ai-input"
+							rows="3"
+							data-list-ai-target="question"
+							placeholder={ L(ctx).Gettext("e.g. which bookmarks are about Go? / summarize these articles") }
+						></textarea>
+						<div class="ai-quick">
+							<button type="button" class="ai-chip" data-action="list-ai#summary">
+								{ L(ctx).Gettext("Summarize") }
+							</button>
+							<button type="button" class="ai-chip" data-action="list-ai#tag">
+								{ L(ctx).Gettext("Tag selected") }
+							</button>
+						</div>
+						<div class="ai-composer-actions">
+							<span class="ai-hint">{ L(ctx).Gettext("Uses the current filter or selected bookmarks") }</span>
+							<button type="button" class="ai-send" data-action="list-ai#ask">
+								@Icon("o-create")
+								{ L(ctx).Gettext("Send") }
+							</button>
+						</div>
+					</div>
+				</aside>
+			</div>
+		}
 	</div>
 }
 

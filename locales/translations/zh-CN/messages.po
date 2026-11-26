@@ -3838,3 +3838,15 @@ msgstr "深度思考"
 
 msgid "Ask AI, or type an edit instruction"
 msgstr "向 AI 提问，或输入整理要求"
+
+msgid "Ask your bookmarks"
+msgstr "和你的收藏对话"
+
+msgid "Current filter"
+msgstr "当前筛选"
+
+msgid "Talk to your bookmarks"
+msgstr "和收藏聊一聊"
+
+msgid "Uses the current filter or selected bookmarks"
+msgstr "使用当前筛选或已选书签"

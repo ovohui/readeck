@@ -3449,3 +3449,15 @@ msgstr ""
 
 msgid "Ask AI, or type an edit instruction"
 msgstr ""
+
+msgid "Ask your bookmarks"
+msgstr ""
+
+msgid "Current filter"
+msgstr ""
+
+msgid "Talk to your bookmarks"
+msgstr ""
+
+msgid "Uses the current filter or selected bookmarks"
+msgstr ""
