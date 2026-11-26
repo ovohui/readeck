@@ -242,6 +242,8 @@ func newViewsRouter(api *apiRouter) *viewsRouter {
 			r.With(api.withBookmark).Group(func(r chi.Router) {
 				r.Get("/{uid:[a-zA-Z0-9]{18,22}}/update", h.bookmarkUpdate)
 				r.Post("/{uid:[a-zA-Z0-9]{18,22}}/update", h.bookmarkUpdate)
+				r.Get("/{uid:[a-zA-Z0-9]{18,22}}/cover", h.bookmarkCover)
+				r.Post("/{uid:[a-zA-Z0-9]{18,22}}/cover", h.bookmarkCover)
 			})
 
 			r.With(api.withLabel, api.withBookmarkList).Group(func(r chi.Router) {

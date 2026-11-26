@@ -1,0 +1,59 @@
+// SPDX-FileCopyrightText: © 2026 Readeck custom build
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
+package routes
+
+import (
+	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
+
+	. "codeberg.org/readeck/readeck/components"
+	F "codeberg.org/readeck/readeck/components/forms"
+)
+
+templ (v Views) bookmarkCover(item *dataset.Bookmark, f *coverForm) {
+	@PageStd(L(ctx).Gettext("Bookmark cover"), WithSideMenu(v.menu())) {
+		<h1 class="title text-h2">{ L(ctx).Gettext("Bookmark cover") }</h1>
+		<p class="mb-4">
+			{ L(ctx).Gettext("Set a cover image for this bookmark. It is stored with the bookmark and used on cards and in the reader.") }
+		</p>
+		if img, ok := item.Resources["image"]; ok {
+			<img
+				class="block max-h-64 max-w-full mb-6 rounded-lg border border-gray-200 object-cover"
+				src={ img.Src }
+				width={ img.Width }
+				height={ img.Height }
+				alt=""
+			/>
+		}
+		<form
+			method="post"
+			action={ URL(ctx, "/bookmarks", item.ID, "cover") }
+			enctype="multipart/form-data"
+			data-turbo="false"
+		>
+			@F.Errors(f)
+			<fieldset class="mb-6">
+				@F.FiledDropField(&f.File,
+					F.Label(L(ctx).Gettext("Image file")),
+					F.Classes("field-h"),
+					F.Help(L(ctx).Gettext("JPEG, PNG, GIF, WebP, BMP or TIFF, up to 20 MB.")),
+				)
+				<p class="my-2 text-center text-sm text-gray-600">{ L(ctx).Gettext("or") }</p>
+				@F.TextField(&f.URL,
+					F.Label(L(ctx).Gettext("Image URL")),
+					F.Classes("field-h"),
+					F.Help(L(ctx).Gettext("Paste a direct link to an image.")),
+				)
+			</fieldset>
+			@F.CheckboxField(&f.Remove,
+				F.Label(L(ctx).Gettext("Remove the current cover")),
+				F.Classes("field-h"),
+			)
+			<p class="btn-block mt-6">
+				<button class="btn btn-primary" type="submit">{ L(ctx).Gettext("Save cover") }</button>
+				<a class="btn" href={ URL(ctx, "/bookmarks", item.ID) }>{ L(ctx).Gettext("Cancel") }</a>
+			</p>
+		</form>
+	}
+}

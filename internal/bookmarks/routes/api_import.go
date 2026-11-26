@@ -18,7 +18,9 @@ import (
 	"codeberg.org/readeck/readeck/pkg/forms"
 )
 
-const maxUploadSize = 4 << 20
+// A saved page can carry its pictures inline as base64; 64 MB covers a
+// forum thread with a handful of full-size photos.
+const maxUploadSize = 64 << 20
 
 func (api *apiRouter) bookmarksImport(w http.ResponseWriter, r *http.Request) {
 	source := chi.URLParam(r, "source")

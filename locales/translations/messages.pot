@@ -3176,3 +3176,72 @@ msgstr ""
 
 msgid "This page is rendered by JavaScript or requires a login. Open the original page, or save it again with the browser extension."
 msgstr ""
+
+msgid "Bookmark cover"
+msgstr ""
+
+msgid "Cover"
+msgstr ""
+
+msgid "Set a cover image for this bookmark. It is stored with the bookmark and used on cards and in the reader."
+msgstr ""
+
+msgid "Image file"
+msgstr ""
+
+msgid "JPEG, PNG, GIF, WebP, BMP or TIFF, up to 20 MB."
+msgstr ""
+
+msgid "Image URL"
+msgstr ""
+
+msgid "Paste a direct link to an image."
+msgstr ""
+
+msgid "Remove the current cover"
+msgstr ""
+
+msgid "Save cover"
+msgstr ""
+
+msgid "Choose an image file or enter an image URL."
+msgstr ""
+
+msgid "The cover was updated."
+msgstr ""
+
+msgid "This image is too large."
+msgstr ""
+
+msgid "Unable to download this image."
+msgstr ""
+
+msgid "Enter a valid image URL."
+msgstr ""
+
+msgid "Unable to read this image. Use a JPEG, PNG, GIF, WebP, BMP or TIFF file."
+msgstr ""
+
+msgid "Saved HTML Page"
+msgstr ""
+
+msgid "Import a local .html page as one bookmark"
+msgstr ""
+
+msgid "Import a saved HTML page"
+msgstr ""
+
+msgid "Upload a page saved with your browser (Save page as…). Readeck turns the file into a single bookmark and does not fetch the page again."
+msgstr ""
+
+msgid "This is different from Browser Bookmarks: that importer reads a bookmarks export and fetches every link."
+msgstr ""
+
+msgid "Original page URL (optional)"
+msgstr ""
+
+msgid "Used to resolve relative pictures and to avoid duplicates. Leave empty to use the canonical URL in the file."
+msgstr ""
+
+msgid "This file is too large. The limit is 64 MB."
+msgstr ""

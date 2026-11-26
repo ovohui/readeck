@@ -466,6 +466,20 @@ templ (c Components) card(b *dataset.Bookmark) {
 				<span class="bookmark-card--img">
 					if img, ok := b.Resources["thumbnail"]; ok {
 						@c.cardImage(img.Src, img.Width, img.Height)
+					} else if icon, ok := b.Resources["icon"]; ok {
+						// No picture on the page: the site's own logo on the
+						// generated gradient is more useful than a bare letter.
+						<span class="bookmark-card--logo">
+							@c.rndSVG(ctx, b)
+							<img
+								class="bookmark-card--logo-icon"
+								loading="lazy"
+								src={ icon.Src }
+								width={ icon.Width }
+								height={ icon.Height }
+								alt=""
+							/>
+						</span>
 					} else {
 						@c.rndSVG(ctx, b)
 					}

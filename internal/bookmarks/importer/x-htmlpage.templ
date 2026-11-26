@@ -1,0 +1,32 @@
+// SPDX-FileCopyrightText: © 2026 Readeck custom build
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
+package importer
+
+import (
+	"codeberg.org/readeck/readeck/pkg/forms"
+
+	. "codeberg.org/readeck/readeck/components"
+	F "codeberg.org/readeck/readeck/components/forms"
+)
+
+templ (_ *htmlPageAdapter) Component(form forms.FormBinder) {
+	<h1 class="title text-h2">{ L(ctx).Gettext("Import a saved HTML page") }</h1>
+	<div class="prose mb-8">
+		<p>
+			{ L(ctx).Gettext("Upload a page saved with your browser (Save page as…). Readeck turns the file into a single bookmark and does not fetch the page again.") }
+		</p>
+		<p>
+			{ L(ctx).Gettext("This is different from Browser Bookmarks: that importer reads a bookmarks export and fetches every link.") }
+		</p>
+	</div>
+	{{ f := form.(*htmlPageForm) }}
+	@formViews{}.fileForm(&f.FileImportForm) {
+		@F.TextField(&f.URL,
+			F.Label(L(ctx).Gettext("Original page URL (optional)")),
+			F.Classes("field-h"),
+			F.Help(L(ctx).Gettext("Used to resolve relative pictures and to avoid duplicates. Leave empty to use the canonical URL in the file.")),
+		)
+	}
+}

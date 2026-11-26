@@ -71,6 +71,16 @@ templ (c Components) bookmarkKicker(item *dataset.Bookmark) {
 			@Icon("o-link-ext", WithIconSvgClass("w-3.5 h-3.5"))
 			{ L(ctx).Gettext("Open link") }
 		</a>
+		if HasPermission(ctx, "bookmarks", "write") {
+			<a
+				class="bookmark-cover-edit"
+				href={ URL(ctx, "/bookmarks", item.ID, "cover") }
+				title={ L(ctx).Gettext("Bookmark cover") }
+			>
+				@Icon("o-photo", WithIconSvgClass("w-3.5 h-3.5"))
+				{ L(ctx).Gettext("Cover") }
+			</a>
+		}
 	</div>
 }
 
@@ -129,6 +139,13 @@ templ (c Components) contentBlock(item *dataset.Bookmark, html io.Reader) {
 					</div>
 				}
 			}
+	}
+	if showHero(item) {
+		if img, ok := item.Resources["image"]; ok {
+			<figure class="bookmark-hero">
+				<img src={ img.Src } width={ img.Width } height={ img.Height } alt=""/>
+			</figure>
+		}
 	}
 	@c.articleContent(item, html)
 	@c.qrCode(item)
@@ -208,10 +225,16 @@ templ (c Components) emptyContent(item *dataset.Bookmark) {
 			<p class="bookmark-empty-text">
 				{ L(ctx).Gettext("This page is rendered by JavaScript or requires a login. Open the original page, or save it again with the browser extension.") }
 			</p>
-			<a class="btn btn-primary" href={ item.URL } target="_blank" rel="noopener noreferrer">
-				@Icon("o-link-ext", WithIconSvgClass("w-4 h-4"))
-				{ L(ctx).Gettext("Open link") }
-			</a>
+			<div class="bookmark-empty-actions">
+				<a class="btn btn-primary" href={ item.URL } target="_blank" rel="noopener noreferrer">
+					@Icon("o-link-ext", WithIconSvgClass("w-4 h-4"))
+					{ L(ctx).Gettext("Open link") }
+				</a>
+				<a class="btn" href={ URL(ctx, "/cookies") }>
+					@Icon("o-key", WithIconSvgClass("w-4 h-4"))
+					{ L(ctx).Gettext("Site Cookies") }
+				</a>
+			</div>
 		</div>
 	</div>
 }

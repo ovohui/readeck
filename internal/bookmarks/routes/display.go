@@ -5,6 +5,7 @@
 package routes
 
 import (
+	"regexp"
 	"strconv"
 	"strings"
 	"unicode"
@@ -12,6 +13,10 @@ import (
 
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
 )
+
+// rxPoweredBy removes the footer a CMS glues to the document title, such as
+// "… - Powered by Discuz!".
+var rxPoweredBy = regexp.MustCompile(`(?i)\s*[-–—|]\s*powered by .*$`)
 
 // The reading page shows two fields that come straight from the page and are
 // therefore as noisy as the page wants them to be: the title (usually with the
@@ -50,6 +55,8 @@ func displayTitle(item *dataset.Bookmark) string {
 	if title == "" {
 		return title
 	}
+
+	title = strings.TrimSpace(rxPoweredBy.ReplaceAllString(title, ""))
 
 	// The bookmark's own site name is the most reliable suffix. Cutting at its
 	// last occurrence also removes whatever the template put after it
@@ -275,6 +282,24 @@ func compareText(s string) string {
 		b.WriteRune(r)
 	}
 	return b.String()
+}
+
+// showHero reports whether the reading page should show the bookmark cover as
+// a banner above the article. Photo notes already are their pictures, and an
+// empty article shows the "no content" card instead.
+func showHero(item *dataset.Bookmark) bool {
+	if item.Type != "article" || !item.HasArticle || item.WordCount == 0 {
+		return false
+	}
+	if _, ok := item.Resources["image"]; !ok {
+		return false
+	}
+	for _, host := range []string{"xiaohongshu", "douban", "weibo"} {
+		if strings.Contains(item.Site, host) {
+			return false
+		}
+	}
+	return true
 }
 
 // authorLine keeps the kicker to one line when a page lists a whole editorial

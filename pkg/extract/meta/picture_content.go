@@ -61,6 +61,14 @@ func ExtractContentPicture(m *extract.ProcessMessage, next extract.Processor) ex
 	if hasOld && !weakCover(old) {
 		return next
 	}
+	if hasOld {
+		// A 16px smilie or a site logo is not a cover. Drop it now; if the
+		// content has nothing better the card falls back to the site logo
+		// instead of showing a pixelated thumbnail.
+		delete(d.Pictures, "image")
+		delete(d.Pictures, "thumbnail")
+		hasOld = false
+	}
 
 	href := firstBodyImage(d.Body)
 	if href == "" {
@@ -83,6 +91,18 @@ func ExtractContentPicture(m *extract.ProcessMessage, next extract.Processor) ex
 			"no usable picture in content",
 			slog.Any("err", err),
 			slog.String("url", shortHref(href)),
+		)
+		return next
+	}
+
+	// The first picture of a saved forum page is often a smilie or a rank
+	// badge. Reject it after loading: the next candidate would be better, but
+	// returning now leaves the logo fallback rather than a 16px cover.
+	if picture.Size[0] > 0 && picture.Size[0] < 200 {
+		m.Log().Debug(
+			"first picture in content is too small",
+			slog.String("url", shortHref(href)),
+			slog.Any("size", picture.Size[:]),
 		)
 		return next
 	}

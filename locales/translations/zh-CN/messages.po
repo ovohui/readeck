@@ -3565,3 +3565,72 @@ msgstr "没有保存到可读正文"
 
 msgid "This page is rendered by JavaScript or requires a login. Open the original page, or save it again with the browser extension."
 msgstr "这个页面由脚本渲染或需要登录，服务端没有抓到正文。可以打开原网页阅读，或用浏览器扩展重新保存。"
+
+msgid "Bookmark cover"
+msgstr "书签封面"
+
+msgid "Cover"
+msgstr "封面"
+
+msgid "Set a cover image for this bookmark. It is stored with the bookmark and used on cards and in the reader."
+msgstr "为这本书签设置封面。图片会存进书签归档，列表卡片和阅读页都会使用它。"
+
+msgid "Image file"
+msgstr "图片文件"
+
+msgid "JPEG, PNG, GIF, WebP, BMP or TIFF, up to 20 MB."
+msgstr "支持 JPEG、PNG、GIF、WebP、BMP、TIFF，最大 20 MB。"
+
+msgid "Image URL"
+msgstr "图片直链"
+
+msgid "Paste a direct link to an image."
+msgstr "粘贴一张图片的直接链接。"
+
+msgid "Remove the current cover"
+msgstr "移除当前封面"
+
+msgid "Save cover"
+msgstr "保存封面"
+
+msgid "Choose an image file or enter an image URL."
+msgstr "请选择图片文件，或填写图片直链。"
+
+msgid "The cover was updated."
+msgstr "封面已更新。"
+
+msgid "This image is too large."
+msgstr "这张图片太大了。"
+
+msgid "Unable to download this image."
+msgstr "无法下载这张图片。"
+
+msgid "Enter a valid image URL."
+msgstr "请填写有效的图片直链。"
+
+msgid "Unable to read this image. Use a JPEG, PNG, GIF, WebP, BMP or TIFF file."
+msgstr "无法读取这张图片。请使用 JPEG、PNG、GIF、WebP、BMP 或 TIFF 文件。"
+
+msgid "Saved HTML Page"
+msgstr "本地 HTML 网页"
+
+msgid "Import a local .html page as one bookmark"
+msgstr "把一个本地 .html 网页导入为一条书签"
+
+msgid "Import a saved HTML page"
+msgstr "导入本地保存的网页"
+
+msgid "Upload a page saved with your browser (Save page as…). Readeck turns the file into a single bookmark and does not fetch the page again."
+msgstr "上传浏览器“网页另存为”得到的 HTML 文件。Readeck 会把它作为一条书签，不会重新抓取。"
+
+msgid "This is different from Browser Bookmarks: that importer reads a bookmarks export and fetches every link."
+msgstr "这和“浏览器书签”不同：那个导入的是书签导出文件，并会逐条抓取链接。"
+
+msgid "Original page URL (optional)"
+msgstr "原网页地址（可选）"
+
+msgid "Used to resolve relative pictures and to avoid duplicates. Leave empty to use the canonical URL in the file."
+msgstr "用于解析相对图片地址和去重。留空则使用文件里的 canonical 地址。"
+
+msgid "This file is too large. The limit is 64 MB."
+msgstr "这个文件太大了，上限是 64 MB。"

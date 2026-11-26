@@ -78,6 +78,11 @@ func TestDisplayTitle(t *testing.T) {
 			displayItem("Windows 163 个新功能 - 示例", "", "www.163.com", "news.163.com", "article"),
 			"Windows 163 个新功能 - 示例",
 		},
+		{
+			"cms footer is removed",
+			displayItem("我的帖子 - 原创区 - 98堂 - Powered by Discuz!", "", "import.local", "import.local", "article"),
+			"我的帖子 - 原创区 - 98堂",
+		},
 	}
 
 	for _, tt := range tests {
