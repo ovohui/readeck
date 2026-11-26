@@ -137,6 +137,21 @@ See [docs/browser-extension.md](docs/browser-extension.md) for details.
 
 ---
 
+## Android APK
+
+The Android share target is optional. It adds a “Save to Readeck” entry to the Android share sheet and saves the rendered page.
+
+Android 分享目标为可选功能，会在系统分享菜单增加「转存 Readeck」，保存渲染后的页面。
+
+Release assets:
+
+- `readeck-1.1.0-cn.apk` — patched app with the share target, Chinese UI, version `1.1.0-cn`.
+- APK binaries are not committed to the repository; download them from Releases.
+
+> The APK is signed with a project test key. Uninstall the official app before installing the patched build (signatures differ).
+
+---
+
 ## Privacy / 隐私
 
 **English** — Bookmarks, images, videos, and article bodies stay in your own Readeck instance. AI requests go only to the model service you configure. This repository contains no instance URL, API token, account, or personal data. Folder passwords are application-level access control, not encryption of the archive zip.
