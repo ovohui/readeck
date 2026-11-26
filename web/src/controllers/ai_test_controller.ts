@@ -1,4 +1,4 @@
-﻿// SPDX-FileCopyrightText: © 2026 Readeck custom build
+// SPDX-FileCopyrightText: © 2026 Readeck custom build
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
@@ -49,8 +49,9 @@ export default class extends Controller<HTMLElement> {
           ? "✅ 连接成功"
           : "✅ Connected"
       } else {
+        const hint = data && data.key_hint ? ` (key: ${data.key_hint})` : ""
         this.resultTarget.textContent =
-          "❌ " + ((data && data.error) || `HTTP ${rsp.status}`)
+          "❌ " + ((data && data.error) || `HTTP ${rsp.status}`) + hint
       }
     } catch (err) {
       this.resultTarget.textContent = "❌ " + (err instanceof Error ? err.message : String(err))

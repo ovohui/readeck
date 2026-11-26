@@ -7,6 +7,7 @@ package profile
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"codeberg.org/readeck/readeck/internal/ai"
@@ -15,8 +16,9 @@ import (
 )
 
 type aiTestResponse struct {
-	OK    bool   `json:"ok"`
-	Error string `json:"error,omitempty"`
+	OK      bool   `json:"ok"`
+	Error   string `json:"error,omitempty"`
+	KeyHint string `json:"key_hint,omitempty"`
 }
 
 func (v *profileViews) aiTest(w http.ResponseWriter, r *http.Request) {
@@ -38,8 +40,8 @@ func (v *profileViews) aiTest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := client.Test(r.Context()); err != nil {
-		server.Log(r).Warn("ai test", "err", err)
-		writeAITest(w, http.StatusBadGateway, aiTestResponse{Error: err.Error()})
+		server.Log(r).Warn("ai test", "err", err, "key_len", len(key))
+		writeAITest(w, http.StatusBadGateway, aiTestResponse{Error: err.Error(), KeyHint: keyHint(key)})
 		return
 	}
 	writeAITest(w, http.StatusOK, aiTestResponse{OK: true})
@@ -49,4 +51,11 @@ func writeAITest(w http.ResponseWriter, status int, res aiTestResponse) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	_ = json.NewEncoder(w).Encode(res)
+}
+
+func keyHint(key string) string {
+	if len(key) <= 10 {
+		return "len=" + strconv.Itoa(len(key))
+	}
+	return key[:6] + "…" + key[len(key)-4:] + " (len=" + strconv.Itoa(len(key)) + ")"
 }
