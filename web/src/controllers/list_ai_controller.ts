@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: © 2026 Readeck custom build
+﻿// SPDX-FileCopyrightText: © 2026 Readeck custom build
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
@@ -15,6 +15,7 @@ export default class extends Controller<HTMLElement> {
 
   declare readonly drawerTarget: HTMLElement
   declare readonly toggleTarget: HTMLButtonElement
+  declare readonly hasToggleTarget: boolean
   declare readonly questionTarget: HTMLTextAreaElement
   declare readonly statusTarget: HTMLElement
   declare readonly resultTarget: HTMLElement
@@ -48,14 +49,15 @@ export default class extends Controller<HTMLElement> {
 
   open() {
     this.drawerTarget.hidden = false
-    this.toggleTarget.setAttribute("aria-expanded", "true")
-    window.requestAnimationFrame(() => this.drawerTarget.classList.add("is-open"))
+    if (this.hasToggleTarget) this.toggleTarget.setAttribute("aria-expanded", "true")
+    void this.drawerTarget.offsetWidth
+    this.drawerTarget.classList.add("is-open")
     this.questionTarget.focus()
   }
 
   close() {
     this.drawerTarget.classList.remove("is-open")
-    this.toggleTarget.setAttribute("aria-expanded", "false")
+    if (this.hasToggleTarget) this.toggleTarget.setAttribute("aria-expanded", "false")
     window.setTimeout(() => {
       if (!this.drawerTarget.classList.contains("is-open")) {
         this.drawerTarget.hidden = true
@@ -113,6 +115,7 @@ export default class extends Controller<HTMLElement> {
       return
     }
 
+    this.element.querySelector(".ai-empty")?.remove()
     const buttons = Array.from(this.drawerTarget.querySelectorAll<HTMLButtonElement>("button"))
     buttons.forEach((b) => (b.disabled = true))
     this.resultTarget.textContent = ""

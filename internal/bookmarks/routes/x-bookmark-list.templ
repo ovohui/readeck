@@ -75,8 +75,9 @@ templ (v Views) bookmarkList(title string, bl *dataset.BookmarkList, f *createFo
 								<button
 									type="button"
 									class="btn-outlined py-1"
-									data-action="list-ai#toggle"
-									data-list-ai-target="toggle"
+									data-controller="ai-drawer"
+									data-action="ai-drawer#toggle"
+									data-ai-drawer-toggle
 									aria-expanded="false"
 								>
 									@Icon("o-create")
@@ -523,13 +524,12 @@ templ (c Components) bookmarkList(bl *dataset.BookmarkList) {
 							<span>{ L(ctx).Gettext("Current filter") }</span>
 							<strong data-list-ai-target="context"></strong>
 						</div>
-						<div class="ai-result" data-list-ai-target="result">
-							<div class="ai-empty">
-								<div class="ai-empty-icon">@Icon("o-create")</div>
-								<h3>{ L(ctx).Gettext("Talk to your bookmarks") }</h3>
-								<p>{ L(ctx).Gettext("Summarize what you filtered, tag the selected cards, or ask which bookmarks answer a question.") }</p>
-							</div>
+						<div class="ai-empty">
+							<div class="ai-empty-icon">@Icon("o-create")</div>
+							<h3>{ L(ctx).Gettext("Talk to your bookmarks") }</h3>
+							<p>{ L(ctx).Gettext("Summarize what you filtered, tag the selected cards, or ask which bookmarks answer a question.") }</p>
 						</div>
+						<div class="ai-result" data-list-ai-target="result"></div>
 						<p class="ai-status" data-list-ai-target="status"></p>
 					</div>
 					<div class="ai-composer">

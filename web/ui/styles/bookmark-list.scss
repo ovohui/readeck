@@ -1069,6 +1069,10 @@
 }
 
 .ai-empty {
+  display: flex;
+  min-height: 12rem;
+  flex-direction: column;
+  justify-content: center;
   padding: 1.8rem 0.5rem 0.5rem;
   text-align: center;
   color: theme("colors.gray.500");
