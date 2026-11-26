@@ -7,6 +7,7 @@ package routes
 import (
 	"io"
 	"net/url"
+	"regexp"
 	"strings"
 
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
@@ -31,9 +32,9 @@ templ (c Components) titleBlock(item *dataset.Bookmark) {
 			</p>
 		}
 		@c.bookmarkKicker(item)
-		if len(item.Labels) > 0 {
+		if tags := articleTags(item); len(tags) > 0 {
 			<div class="bookmark-tagline">
-				for _, label := range item.Labels {
+				for _, label := range tags {
 					<span>#{ label }</span>
 				}
 			</div>
@@ -544,4 +545,32 @@ templ (c Components) TextImport() {
 		Would you like to import from a similar tool or from a file with existing bookmarks?
 		Try Readeck's import tool.
 	`) }
+}
+
+
+var hashtagRE = regexp.MustCompile(`#([^#\s]{1,30})#?`)
+
+// articleTags merges stored labels with hashtags found in the article text,
+// so a freshly saved Xiaohongshu post shows its tags without running AI first.
+func articleTags(item *dataset.Bookmark) []string {
+	seen := map[string]bool{}
+	res := []string{}
+	add := func(v string) {
+		v = strings.TrimSpace(strings.Trim(v, "#"))
+		if v == "" || len([]rune(v)) > 30 || seen[v] {
+			return
+		}
+		seen[v] = true
+		res = append(res, v)
+	}
+	for _, label := range item.Labels {
+		add(label)
+	}
+	for _, m := range hashtagRE.FindAllStringSubmatch(item.Text, -1) {
+		add(m[1])
+		if len(res) >= 16 {
+			break
+		}
+	}
+	return res
 }

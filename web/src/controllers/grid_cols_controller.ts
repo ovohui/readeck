@@ -26,7 +26,7 @@ export default class GridColsController extends Controller<HTMLElement> {
   }
 
   private apply(value: string) {
-    document.querySelectorAll<HTMLElement>(".ai-image-grid").forEach((grid) => {
+    document.querySelectorAll<HTMLElement>(".ai-image-grid, .photo-gallery").forEach((grid) => {
       grid.style.setProperty("--ai-cols", value)
     })
   }
