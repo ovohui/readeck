@@ -101,6 +101,34 @@ templ (v Views) userProfile(f *profileForm) {
 					</div>
 				</fieldset>
 			}
+			<fieldset class="mb-6">
+				<legend class="title text-h3">{ L(ctx).Gettext("AI cleanup") }</legend>
+				@F.CheckboxField(&f.Settings.AIEnabled,
+					F.Label(L(ctx).Gettext("Enable AI cleanup")),
+					F.Help(L(ctx).Gettext("Adds an “AI cleanup” button to bookmarks and the batch bar.")),
+				)
+				@F.SelectField[string](&f.Settings.AIProvider,
+					F.Label(L(ctx).Gettext("Provider")),
+					F.Classes("field-h"),
+					F.Help(L(ctx).Gettext("OpenAI, DeepSeek, Moonshot, SiliconFlow, Ollama, Anthropic or any OpenAI-compatible endpoint.")),
+				)
+				@F.TextField(&f.Settings.AIBaseURL,
+					F.Label(L(ctx).Gettext("Base URL")),
+					F.Classes("field-h"),
+					F.Help(L(ctx).Gettext("Leave empty for the provider default. SiliconFlow: https://api.siliconflow.cn/v1")),
+				)
+				@F.TextField(&f.Settings.AIModel,
+					F.Label(L(ctx).Gettext("Model")),
+					F.Classes("field-h"),
+					F.Help(L(ctx).Gettext("Leave empty for the provider default.")),
+				)
+				@F.TextField(&f.Settings.AIAPIKey,
+					F.Label(L(ctx).Gettext("API key")),
+					F.InputType("password"),
+					F.Classes("field-h"),
+					F.Help(L(ctx).Gettext("Stored on this server. Leave empty to keep the current key.")),
+				)
+			</fieldset>
 			<p class="btn-block">
 				<button class="btn btn-primary" type="submit">{ L(ctx).Gettext("Save") }</button>
 			</p>

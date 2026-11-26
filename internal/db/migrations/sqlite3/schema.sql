@@ -54,6 +54,21 @@ CREATE TABLE IF NOT EXISTS credential (
     CONSTRAINT fk_app_password_user FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS folder (
+    id        integer  PRIMARY KEY AUTOINCREMENT,
+    user_id   integer  NOT NULL,
+    parent_id integer  NULL,
+    name      text     NOT NULL,
+    created   datetime NOT NULL,
+    updated   datetime NOT NULL,
+
+    CONSTRAINT fk_folder_user FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    CONSTRAINT fk_folder_parent FOREIGN KEY (parent_id) REFERENCES folder(id) ON DELETE CASCADE
+);
+
+CREATE INDEX folder_user_idx ON "folder" (user_id);
+CREATE INDEX folder_parent_idx ON "folder" (parent_id);
+
 CREATE TABLE IF NOT EXISTS bookmark (
     id            integer  PRIMARY KEY AUTOINCREMENT,
     uid           text     UNIQUE NOT NULL,
@@ -81,6 +96,7 @@ CREATE TABLE IF NOT EXISTS bookmark (
     duration      integer  NOT NULL DEFAULT 0,
     embed         text     NOT NULL DEFAULT "",
     file_path     text     NOT NULL DEFAULT "",
+    folder_id     integer  NULL,
     files         json     NOT NULL DEFAULT "",
     errors        json     NOT NULL DEFAULT "",
     labels        json     NOT NULL DEFAULT "",
@@ -96,6 +112,7 @@ CREATE INDEX bookmark_created_idx ON "bookmark" (created DESC);
 CREATE INDEX bookmark_updated_idx ON "bookmark" (updated DESC);
 CREATE INDEX bookmark_url_idx ON "bookmark" (url);
 CREATE INDEX bookmark_initial_url_idx ON "bookmark" (initial_url);
+CREATE INDEX bookmark_folder_idx ON "bookmark" (folder_id);
 
 CREATE TABLE IF NOT EXISTS bookmark_removed (
     uid     text     NOT NULL,

@@ -322,6 +322,18 @@ type UserSettings struct {
 	Lang          string        `json:"lang"`
 	AddonReminder bool          `json:"addon_reminder"`
 	EmailSettings EmailSettings `json:"email_settings"`
+	AI            AISettings    `json:"ai"`
+}
+
+// AISettings contains the optional AI cleanup configuration. The key is stored
+// in the user's settings JSON; it is never sent to the browser except when the
+// profile form is rendered (masked input).
+type AISettings struct {
+	Enabled  bool   `json:"enabled"`
+	Provider string `json:"provider"`
+	BaseURL  string `json:"base_url"`
+	APIKey   string `json:"api_key"`
+	Model    string `json:"model"`
 }
 
 // EmailSettings contains the user's email settings.

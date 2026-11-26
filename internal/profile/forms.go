@@ -38,11 +38,27 @@ type profileForm struct {
 		AddonReminder forms.BooleanField `json:"addon_reminder"`
 		EmailReplyTo  forms.TextField    `json:"email_reply_to" validate:"trim skip is_email"`
 		EmailEpubTo   forms.TextField    `json:"email_epub_to"  validate:"trim skip is_email"`
+		AIEnabled     forms.BooleanField `json:"ai_enabled"`
+		AIProvider    forms.TextField    `json:"ai_provider" validate:"trim ai_provider_choices"`
+		AIBaseURL     forms.TextField    `json:"ai_base_url" validate:"trim max_len:512"`
+		AIAPIKey      forms.TextField    `json:"ai_api_key"  validate:"trim max_len:512"`
+		AIModel       forms.TextField    `json:"ai_model"    validate:"trim max_len:128"`
 	} `json:"settings"`
 }
 
 func (f *profileForm) GetTaggedValidator(name, _ string, tc *forms.TagContext) (forms.Validator, bool) {
 	switch name {
+	case "ai_provider_choices":
+		forms.Choices(tc.Field,
+			forms.Choice("OpenAI", "openai"),
+			forms.Choice("DeepSeek", "deepseek"),
+			forms.Choice("Moonshot", "moonshot"),
+			forms.Choice("SiliconFlow", "siliconflow"),
+			forms.Choice("Ollama", "ollama"),
+			forms.Choice("Anthropic", "anthropic"),
+			forms.Choice("Custom OpenAI-compatible", "custom"),
+		)
+		return nil, true
 	case "lang_choices":
 		var tag language.Tag
 		tr := forms.GetTranslator(tc.Context)
@@ -73,6 +89,15 @@ func withProfileUser(u *users.User) func(forms.FormBinder) {
 		f.Settings.Lang.Set(u.Lang())
 		f.Settings.EmailReplyTo.Set(u.Settings.EmailSettings.ReplyTo)
 		f.Settings.EmailEpubTo.Set(u.Settings.EmailSettings.EpubTo)
+		f.Settings.AIEnabled.Set(u.Settings.AI.Enabled)
+		provider := u.Settings.AI.Provider
+		if provider == "" {
+			provider = "openai"
+		}
+		f.Settings.AIProvider.Set(provider)
+		f.Settings.AIBaseURL.Set(u.Settings.AI.BaseURL)
+		f.Settings.AIAPIKey.Set(u.Settings.AI.APIKey)
+		f.Settings.AIModel.Set(u.Settings.AI.Model)
 	}
 }
 
@@ -131,6 +156,22 @@ func (f *profileForm) update() (res map[string]any, err error) {
 				user.Settings.EmailSettings.ReplyTo = field.String()
 			case "epub_to":
 				user.Settings.EmailSettings.EpubTo = field.String()
+			}
+			res["settings"] = user.Settings
+		case strings.HasPrefix(n, "settings.ai_"):
+			switch strings.TrimPrefix(n, "settings.ai_") {
+			case "enabled":
+				user.Settings.AI.Enabled = field.V().(bool)
+			case "provider":
+				user.Settings.AI.Provider = field.String()
+			case "base_url":
+				user.Settings.AI.BaseURL = field.String()
+			case "api_key":
+				if field.String() != "" {
+					user.Settings.AI.APIKey = field.String()
+				}
+			case "model":
+				user.Settings.AI.Model = field.String()
 			}
 			res["settings"] = user.Settings
 		case n == "settings.lang":

@@ -442,6 +442,17 @@ templ (c Components) bookmarkUpdate(b *bookmarks.Bookmark, f *updateForm) {
 					F.Classes("field-h"),
 					F.InputAttr("rows", 5),
 				)
+				<label class="field field-h">
+					<span class="field--label">{ L(ctx).Gettext("Folder") }</span>
+					<select class="form-select" name="folder_id">
+						<option value="0">{ L(ctx).Gettext("Root") }</option>
+						for _, n := range folderOptions(ctx) {
+							<option value={ strconv.Itoa(n.ID) } selected?={ folderSelected(b, n.ID) }>
+								{ folderIndent(n.Depth) + n.Name }
+							</option>
+						}
+					</select>
+				</label>
 				@F.TextField(&f.SiteName,
 					F.Label(L(ctx).Gettext("Site Name")),
 					F.Required(true),

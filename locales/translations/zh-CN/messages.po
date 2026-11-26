@@ -3646,3 +3646,111 @@ msgstr "反选"
 
 msgid "Select"
 msgstr "选择"
+
+msgid "AI cleanup"
+msgstr "AI 整理"
+
+msgid "Ask AI to clean this article"
+msgstr "让 AI 整理这篇文章"
+
+msgid "AI is not configured."
+msgstr "AI 尚未配置。"
+
+msgid "Could not read the saved article."
+msgstr "读取已保存正文失败。"
+
+msgid "There is no text to clean."
+msgstr "没有可整理的正文。"
+
+msgid "AI cleanup failed: %s"
+msgstr "AI 整理失败：%s"
+
+msgid "AI returned an empty article."
+msgstr "AI 返回了空正文。"
+
+msgid "Could not save the cleaned article."
+msgstr "保存整理后的正文失败。"
+
+msgid "The article was cleaned but the bookmark could not be updated."
+msgstr "正文已整理，但书签信息更新失败。"
+
+msgid "AI cleanup finished."
+msgstr "AI 整理完成。"
+
+msgid "Enable AI cleanup"
+msgstr "启用 AI 整理"
+
+msgid "Adds an “AI cleanup” button to bookmarks and the batch bar."
+msgstr "在书签页和批量条增加「AI 整理」按钮。"
+
+msgid "Provider"
+msgstr "服务商"
+
+msgid "Base URL"
+msgstr "接口地址"
+
+msgid "Model"
+msgstr "模型"
+
+msgid "API key"
+msgstr "API Key"
+
+msgid "Stored on this server. Leave empty to keep the current key."
+msgstr "保存在本服务端；留空表示不修改现有 Key。"
+
+msgid "OpenAI, DeepSeek, Moonshot, SiliconFlow, Ollama, Anthropic or any OpenAI-compatible endpoint."
+msgstr "OpenAI、DeepSeek、Moonshot、硅基流动、Ollama、Anthropic，或任意 OpenAI-compatible 接口。"
+
+msgid "Leave empty for the provider default. SiliconFlow: https://api.siliconflow.cn/v1"
+msgstr "留空用服务商默认值。硅基流动：https://api.siliconflow.cn/v1"
+
+msgid "Leave empty for the provider default."
+msgstr "留空用服务商默认值。"
+
+msgid "Folders"
+msgstr "文件夹"
+
+msgid "Folders can be nested. A bookmark belongs to one folder; deleting a folder moves its bookmarks to the root."
+msgstr "文件夹可以多层嵌套；每个书签属于一个文件夹，删除文件夹时书签会回到根目录。"
+
+msgid "Parent folder"
+msgstr "上级文件夹"
+
+msgid "Root"
+msgstr "根目录"
+
+msgid "Create folder"
+msgstr "新建文件夹"
+
+msgid "No folders yet."
+msgstr "还没有文件夹。"
+
+msgid "subfolders"
+msgstr "个子文件夹"
+
+msgid "Rename"
+msgstr "重命名"
+
+msgid "Folder"
+msgstr "文件夹"
+
+msgid "Move"
+msgstr "移动"
+
+msgid "Could not create the folder."
+msgstr "创建文件夹失败。"
+
+msgid "Folder created."
+msgstr "文件夹已创建。"
+
+msgid "Could not rename the folder."
+msgstr "重命名文件夹失败。"
+
+msgid "Folder renamed."
+msgstr "文件夹已重命名。"
+
+msgid "Could not delete the folder."
+msgstr "删除文件夹失败。"
+
+msgid "Folder deleted; its bookmarks were moved to the root."
+msgstr "文件夹已删除，书签已移到根目录。"

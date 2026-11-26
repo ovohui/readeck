@@ -101,6 +101,7 @@ type Bookmark struct {
 	Duration      int                 `db:"duration"`
 	Embed         string              `db:"embed"`
 	FilePath      string              `db:"file_path"`
+	FolderID      *int                `db:"folder_id"`
 	Files         BookmarkFiles       `db:"files"`
 	Errors        types.Strings       `db:"errors"`
 	Labels        types.Strings       `db:"labels"`

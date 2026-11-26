@@ -888,3 +888,24 @@
 .brand-c7 { background-color: #b45309; color: #fff; }
 .brand-c8 { background-color: #7c3aed; color: #fff; }
 .brand-c9 { background-color: #0369a1; color: #fff; }
+
+.folder-tree {
+  margin: 0 0 0.5rem;
+  padding-left: 0;
+  list-style: none;
+
+  .folder-tree {
+    margin-left: 1.5rem;
+  }
+}
+
+.folder-tree--item {
+  margin: 0.35rem 0;
+}
+
+.folder-tree--row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}

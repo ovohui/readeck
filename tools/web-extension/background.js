@@ -9,7 +9,7 @@
 // permissions, which lifts that restriction and also sends the site cookies
 // (credentials: "include").
 
-const MAX_SIZE = 8 * 1024 * 1024
+const MAX_SIZE = 32 * 1024 * 1024
 
 // Resolved at runtime so no build step is needed.
 const ByteView = globalThis["Uint8" + "Array"]
@@ -34,6 +34,8 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
       const rsp = await fetch(msg.url, {
         credentials: "include",
         referrer: msg.referrer,
+        referrerPolicy: "unsafe-url",
+        headers: {"Accept": "image/gif,image/png,image/jpeg,image/*;q=0.8"},
       })
       if (!rsp.ok) {
         sendResponse({error: "HTTP " + rsp.status})

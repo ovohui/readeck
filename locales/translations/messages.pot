@@ -3257,3 +3257,111 @@ msgstr ""
 
 msgid "Select"
 msgstr ""
+
+msgid "AI cleanup"
+msgstr ""
+
+msgid "Ask AI to clean this article"
+msgstr ""
+
+msgid "AI is not configured."
+msgstr ""
+
+msgid "Could not read the saved article."
+msgstr ""
+
+msgid "There is no text to clean."
+msgstr ""
+
+msgid "AI cleanup failed: %s"
+msgstr ""
+
+msgid "AI returned an empty article."
+msgstr ""
+
+msgid "Could not save the cleaned article."
+msgstr ""
+
+msgid "The article was cleaned but the bookmark could not be updated."
+msgstr ""
+
+msgid "AI cleanup finished."
+msgstr ""
+
+msgid "Enable AI cleanup"
+msgstr ""
+
+msgid "Adds an “AI cleanup” button to bookmarks and the batch bar."
+msgstr ""
+
+msgid "Provider"
+msgstr ""
+
+msgid "Base URL"
+msgstr ""
+
+msgid "Model"
+msgstr ""
+
+msgid "API key"
+msgstr ""
+
+msgid "Stored on this server. Leave empty to keep the current key."
+msgstr ""
+
+msgid "OpenAI, DeepSeek, Moonshot, SiliconFlow, Ollama, Anthropic or any OpenAI-compatible endpoint."
+msgstr ""
+
+msgid "Leave empty for the provider default. SiliconFlow: https://api.siliconflow.cn/v1"
+msgstr ""
+
+msgid "Leave empty for the provider default."
+msgstr ""
+
+msgid "Folders"
+msgstr ""
+
+msgid "Folders can be nested. A bookmark belongs to one folder; deleting a folder moves its bookmarks to the root."
+msgstr ""
+
+msgid "Parent folder"
+msgstr ""
+
+msgid "Root"
+msgstr ""
+
+msgid "Create folder"
+msgstr ""
+
+msgid "No folders yet."
+msgstr ""
+
+msgid "subfolders"
+msgstr ""
+
+msgid "Rename"
+msgstr ""
+
+msgid "Folder"
+msgstr ""
+
+msgid "Move"
+msgstr ""
+
+msgid "Could not create the folder."
+msgstr ""
+
+msgid "Folder created."
+msgstr ""
+
+msgid "Could not rename the folder."
+msgstr ""
+
+msgid "Folder renamed."
+msgstr ""
+
+msgid "Could not delete the folder."
+msgstr ""
+
+msgid "Folder deleted; its bookmarks were moved to the root."
+msgstr ""

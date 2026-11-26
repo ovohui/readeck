@@ -171,10 +171,13 @@ func (f *createForm) Validate() error {
 
 		// The html field is exactly a resource for the main page,
 		// set its properties now so we only need to read its content.
+		// The extension serialises the rendered DOM as UTF-8. The page's own
+		// <meta charset> may still say gbk (52pojie); without an explicit
+		// charset the extractor trusted it and turned Chinese into mojibake.
 		resource := tasks.MultipartResource{
 			URL: f.URL.Value(),
 			Header: http.Header{
-				"Content-Type": {"text/html"},
+				"Content-Type": {"text/html; charset=utf-8"},
 			},
 		}
 		if err := LoadMultipartResource(opener, &resource); err != nil {
@@ -270,6 +273,7 @@ type updateForm struct {
 	IsDeleted     forms.BooleanField  `json:"is_deleted"`
 	ReadProgress  forms.IntegerField  `json:"read_progress"  validate:"gte:0 lte:100"`
 	ReadAnchor    forms.TextField     `json:"read_anchor"    validate:"trim max_len:256"`
+	FolderID      forms.IntegerField  `json:"folder_id"      validate:"gte:0"`
 	Labels        forms.TextListField `json:"labels"         validate:"trim discard_empty"`
 	AddLabels     forms.TextListField `json:"add_labels"     validate:"trim discard_empty"`
 	RemoveLabels  forms.TextListField `json:"remove_labels"  validate:"trim discard_empty"`
@@ -373,6 +377,19 @@ func (f *updateForm) update(b *bookmarks.Bookmark) (updated map[string]any, err 
 	if f.ReadAnchor.IsBound() {
 		b.ReadAnchor = f.ReadAnchor.Value()
 		updated["read_anchor"] = b.ReadAnchor
+	}
+
+	if f.FolderID.IsBound() {
+		id := f.FolderID.Value()
+		if id <= 0 {
+			b.FolderID = nil
+		} else {
+			if _, err = bookmarks.Folders.GetOne(auth.GetUser(f.Context()).ID, id); err != nil {
+				return
+			}
+			b.FolderID = &id
+		}
+		updated["folder_id"] = b.FolderID
 	}
 
 	// labels, add_labels and remove_labels are declared and

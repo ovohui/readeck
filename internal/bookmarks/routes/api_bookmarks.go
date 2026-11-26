@@ -658,6 +658,7 @@ func (api *apiRouter) withBookmarkListSelectDataset(next http.Handler) http.Hand
 			}
 		} else {
 			filters := filterForm.toFilters()
+			filters.Folder = r.URL.Query().Get("folder")
 			ds = filters.ToSelectDataSet(ds)
 		}
 

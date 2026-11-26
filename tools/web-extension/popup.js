@@ -228,14 +228,17 @@ async function capturePage(opts) {
   //    Not needed on Xiaohongshu: the note comes from the state payload and
   //    scrolling there only loads more unrelated notes into the feed.
   if (opts.scroll && !isXhs) {
-    const step = Math.max(window.innerHeight, 400)
-    const max = Math.min(document.body.scrollHeight, 30000)
+    // A 25-picture forum post is taller than 30k. Stopping there left the
+    // GIFs at the bottom unloaded, so the saved page had 25 photos and no
+    // animation. Walk the whole document (with a sane cap) instead.
+    const step = Math.max(Math.floor(window.innerHeight * 0.8), 600)
+    const max = Math.min(document.body.scrollHeight, 160000)
     for (let y = 0; y < max; y += step) {
       window.scrollTo(0, y)
-      await sleep(120)
+      await sleep(80)
     }
     window.scrollTo(0, 0)
-    await sleep(200)
+    await sleep(1200)
   }
 
   // 2. Wait (at most 6s) for the images that are already in the DOM.
@@ -265,10 +268,14 @@ async function capturePage(opts) {
   // not bound by CORS.
   const toDataURL = async (url) => {
     try {
-      const rsp = await fetch(url, {credentials: "include", cache: "force-cache"})
+      const rsp = await fetch(url, {
+        credentials: "include",
+        cache: "force-cache",
+        headers: {"Accept": "image/gif,image/png,image/jpeg,image/*;q=0.8"},
+      })
       if (rsp.ok) {
         const blob = await rsp.blob()
-        if (blob.size <= 8 * 1024 * 1024) {
+        if (blob.size <= 32 * 1024 * 1024) {
           return await new Promise((resolve, reject) => {
             const fr = new FileReader()
             fr.onload = () => resolve(fr.result)
@@ -292,28 +299,64 @@ async function capturePage(opts) {
     return resp.dataURL
   }
 
+  const lazyImageAttrs = [
+    "data-src", "data-original", "data-lazy-src", "data-lazy",
+    "data-actualsrc", "data-real-src", "data-echo", "data-file",
+    "file", "zoomfile",
+  ]
+
+  // Discuz keeps the real picture in file/zoomfile while src may still be a
+  // placeholder. Pick the best source before fetching, not just img.src.
+  const resolveImageURL = (el) => {
+    const src = el.getAttribute("src") || ""
+    if (/^data:/i.test(src)) {
+      return src
+    }
+    const absolute = (v) => {
+      try {
+        return new URL(v, location.href).href
+      } catch (e) {
+        return ""
+      }
+    }
+    for (const attr of lazyImageAttrs) {
+      const v = el.getAttribute(attr)
+      if (v && !/^data:/i.test(v)) {
+        return absolute(v)
+      }
+    }
+    return src ? absolute(src) : ""
+  }
+
   const inlineImages = async (root) => {
-    const nodes = Array.from(root.querySelectorAll("img[src]")).filter((el) => {
-      const src = el.getAttribute("src")
-      return /^https?:/i.test(src) || /^\/\//.test(src)
-    })
+    const nodes = Array.from(root.querySelectorAll("img"))
 
     let index = 0
     const worker = async () => {
       while (index < nodes.length) {
         const el = nodes[index++]
-        try {
-          let src = el.getAttribute("src")
-          if (src.startsWith("//")) {
-            src = location.protocol + src
-          }
-          el.setAttribute("src", await toDataURL(src))
-        } catch (e) {
-          // Leave the remote URL in place; the server will try to fetch it.
+        const src = resolveImageURL(el)
+        if (!src) {
+          continue
         }
+        if (/^data:/i.test(src)) {
+          el.setAttribute("src", src)
+        } else {
+          try {
+            el.setAttribute("src", await toDataURL(src))
+          } catch (e) {
+            // Leave the remote URL in place; the server will try to fetch it.
+            el.setAttribute("src", src)
+          }
+        }
+        for (const attr of lazyImageAttrs) {
+          el.removeAttribute(attr)
+        }
+        el.removeAttribute("srcset")
       }
     }
     await Promise.all([worker(), worker(), worker(), worker()])
+    root.querySelectorAll("picture source").forEach((s) => s.remove())
   }
 
   // ---------------------------------------------------------------------
@@ -832,6 +875,17 @@ async function capturePage(opts) {
   //    cannot break the archive later.
   if (opts.inline) {
     await inlineImages(clone)
+  }
+
+  // The DOM is Unicode and the payload is UTF-8, but the cloned page may still
+  // carry <meta charset="gbk">. Replace it, otherwise the server decodes UTF-8
+  // bytes as GBK and Chinese text becomes mojibake (52pojie).
+  const head = clone.querySelector("head")
+  if (head) {
+    head.querySelectorAll("meta[charset], meta[http-equiv='Content-Type']").forEach((el) => el.remove())
+    const charset = document.createElement("meta")
+    charset.setAttribute("charset", "utf-8")
+    head.insertBefore(charset, head.firstChild)
   }
 
   const comment = document.createComment(" Saved by Readeck 剪藏助手 — source: " + location.href + " ")

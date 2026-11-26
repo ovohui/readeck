@@ -29,6 +29,7 @@ const (
 	TableBookmark           = "bookmark"
 	TableBookmarkRemoved    = "bookmark_removed"
 	TableBookmarkCollection = "bookmark_collection"
+	TableFolder             = "folder"
 )
 
 // Connector is an interface for a database connector.

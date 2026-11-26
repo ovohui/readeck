@@ -1,0 +1,80 @@
+package routes
+
+import (
+	"strconv"
+	"strings"
+
+	"codeberg.org/readeck/readeck/internal/bookmarks"
+
+	. "codeberg.org/readeck/readeck/components"
+)
+
+templ (v Views) folderList(tree []*bookmarks.FolderNode) {
+	@Page(L(ctx).Gettext("Folders"), WithSideMenu(v.menu())) {
+		<h1 class="title text-h2">{ L(ctx).Gettext("Folders") }</h1>
+		<p class="my-4 text-gray-700">
+			{ L(ctx).Gettext("Folders can be nested. A bookmark belongs to one folder; deleting a folder moves its bookmarks to the root.") }
+		</p>
+
+		<form action={ URL(ctx, "/bookmarks/folders") } method="post" class="mb-8 flex flex-wrap items-end gap-2">
+			<label class="field">
+				<span class="field--label">{ L(ctx).Gettext("Name") }</span>
+				<input class="form-input" type="text" name="name" required maxlength="128"/>
+			</label>
+			<label class="field">
+				<span class="field--label">{ L(ctx).Gettext("Parent folder") }</span>
+				<select class="form-select" name="parent_id">
+					<option value="">{ L(ctx).Gettext("Root") }</option>
+					for _, n := range folderOptions(ctx) {
+						<option value={ strconv.Itoa(n.ID) }>{ folderIndent(n.Depth) + n.Name }</option>
+					}
+				</select>
+			</label>
+			<button class="btn btn-primary" type="submit">{ L(ctx).Gettext("Create folder") }</button>
+		</form>
+
+		if len(tree) == 0 {
+			<p class="text-gray-600">{ L(ctx).Gettext("No folders yet.") }</p>
+		} else {
+			<ul class="folder-tree">
+				for _, n := range tree {
+					@folderNode(n)
+				}
+			</ul>
+		}
+	}
+}
+
+templ folderNode(n *bookmarks.FolderNode) {
+	<li class="folder-tree--item">
+		<div class="folder-tree--row">
+			<a class="link font-semibold" href={ string(URL(ctx, "/bookmarks")) + "?bf=1&folder=" + strconv.Itoa(n.ID) }>
+				{ n.Name }
+			</a>
+			<span class="text-gray-500 text-sm">{ strconv.Itoa(len(n.Children)) } { L(ctx).Gettext("subfolders") }</span>
+			<form action={ URL(ctx, "/bookmarks/folders/rename") } method="post" class="flex gap-1">
+				<input type="hidden" name="id" value={ strconv.Itoa(n.ID) }/>
+				<input class="form-input py-1" type="text" name="name" value={ n.Name } required maxlength="128"/>
+				<button class="btn btn-outlined py-1" type="submit">{ L(ctx).Gettext("Rename") }</button>
+			</form>
+			<form action={ URL(ctx, "/bookmarks/folders/delete") } method="post">
+				<input type="hidden" name="id" value={ strconv.Itoa(n.ID) }/>
+				<button class="btn btn-danger py-1" type="submit">{ L(ctx).Gettext("Delete") }</button>
+			</form>
+		</div>
+		if len(n.Children) > 0 {
+			<ul class="folder-tree">
+				for _, c := range n.Children {
+					@folderNode(c)
+				}
+			</ul>
+		}
+	</li>
+}
+
+func folderIndent(depth int) string {
+	if depth <= 0 {
+		return ""
+	}
+	return strings.Repeat("— ", depth)
+}

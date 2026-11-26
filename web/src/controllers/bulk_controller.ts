@@ -10,11 +10,12 @@ import {Controller} from "@hotwired/stimulus"
  * only carries the single field being changed.
  */
 export default class extends Controller<HTMLElement> {
-  static override targets = ["checkbox", "toolbar", "count"]
+  static override targets = ["checkbox", "toolbar", "count", "folder"]
 
   declare readonly checkboxTargets: HTMLInputElement[]
   declare readonly toolbarTarget: HTMLElement
   declare readonly countTarget: HTMLElement
+  declare readonly folderTarget: HTMLSelectElement
 
   override connect() {
     this.update()
@@ -38,6 +39,10 @@ export default class extends Controller<HTMLElement> {
     await this.batch("is_archived", "1")
   }
 
+  async move() {
+    await this.batch("folder_id", this.folderTarget.value || "0")
+  }
+
   async label() {
     const label = window.prompt(
       document.documentElement.lang.startsWith("zh")
@@ -48,6 +53,24 @@ export default class extends Controller<HTMLElement> {
       return
     }
     await this.batch("add_labels", label.trim())
+  }
+
+  async ai() {
+    const ok = window.confirm(
+      document.documentElement.lang.startsWith("zh")
+        ? "对选中的书签逐条执行 AI 整理？这可能需要几分钟。"
+        : "Run AI cleanup on the selected bookmarks? This can take a few minutes.",
+    )
+    if (!ok) {
+      return
+    }
+    for (const id of this.selected()) {
+      await fetch(`/bookmarks/${id}/ai`, {
+        method: "POST",
+        credentials: "same-origin",
+      })
+    }
+    window.location.reload()
   }
 
   async delete() {

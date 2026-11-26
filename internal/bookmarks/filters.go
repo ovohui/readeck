@@ -7,6 +7,7 @@ package bookmarks
 import (
 	"database/sql/driver"
 	"encoding/json"
+	"strconv"
 	"strings"
 	"time"
 
@@ -46,6 +47,7 @@ type Filters struct {
 	HasErrors  *bool         `json:"has_errors"`
 	HasLabels  *bool         `json:"has_labels"`
 	HasNotes   *bool         `json:"has_notes"`
+	Folder     string        `json:"folder,omitempty"`
 	RangeStart string        `json:"range_start"`
 	RangeEnd   string        `json:"range_end"`
 }
@@ -191,6 +193,13 @@ func (f Filters) ToSelectDataSet(ds *goqu.SelectDataset) *goqu.SelectDataset {
 				exp.DateTime(end.RelativeTo(nil)),
 			),
 		))
+	}
+
+	// folder filter
+	if f.Folder != "" {
+		if id, err := strconv.Atoi(f.Folder); err == nil {
+			ds = ds.Where(goqu.C("folder_id").Table("b").Eq(id))
+		}
 	}
 
 	// lang filter

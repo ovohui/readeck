@@ -82,6 +82,11 @@ var directCopyFormats = map[string]struct{}{
 	"image/gif":  {},
 	"image/jpeg": {},
 	"image/png":  {},
+	// Animated WebP/AVIF cannot be decoded by x/image (and AVIF at all), but a
+	// browser can. Forums increasingly serve a .gif URL as animated WebP; the
+	// old code tried to decode it, failed, and removed the picture.
+	"image/webp": {},
+	"image/avif": {},
 }
 
 type bookmarkCollector struct {

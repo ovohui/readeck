@@ -80,6 +80,19 @@ templ (c Components) bookmarkKicker(item *dataset.Bookmark) {
 				@Icon("o-photo", WithIconSvgClass("w-3.5 h-3.5"))
 				{ L(ctx).Gettext("Cover") }
 			</a>
+			if aiEnabled(ctx) {
+				<form method="post" action={ URL(ctx, "/bookmarks", item.ID, "ai") } class="inline">
+					<button
+						type="submit"
+						class="bookmark-cover-edit"
+						title={ L(ctx).Gettext("Ask AI to clean this article") }
+						data-turbo="false"
+					>
+						@Icon("o-create", WithIconSvgClass("w-3.5 h-3.5"))
+						{ L(ctx).Gettext("AI cleanup") }
+					</button>
+				</form>
+			}
 		}
 	</div>
 }

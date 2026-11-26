@@ -75,6 +75,8 @@ templ (v Views) sideMenu() {
 		<menu class="mt-4">
 			@v.sideMenuItem(L(ctx).Gettext("Labels"), "o-label",
 				"/bookmarks/labels", PathIs(ctx, "/bookmarks/labels"), 0)
+			@v.sideMenuItem(L(ctx).Gettext("Folders"), "o-collection",
+				"/bookmarks/folders", PathIs(ctx, "/bookmarks/folders", "/bookmarks/folders/*"), 0)
 			@v.sideMenuItem(L(ctx).Gettext("Highlights"), "o-highlight",
 				"/bookmarks/highlights", PathIs(ctx, "/bookmarks/highlights"), 0)
 			@v.sideMenuItem(L(ctx).Gettext("Collections"), "o-collection",

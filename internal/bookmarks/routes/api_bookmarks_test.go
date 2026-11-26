@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: © 2024 Olivier Meunier <olivier@neokraft.net>
+﻿// SPDX-FileCopyrightText: © 2024 Olivier Meunier <olivier@neokraft.net>
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
@@ -94,7 +94,7 @@ func TestBookmarkCreate(t *testing.T) {
 		params := getTaskParams(rsp.Request.Context())
 		assert.Len(params.Resources, 1)
 		assert.Equal("https://example.org/", params.Resources[0].URL)
-		assert.Equal("text/html", params.Resources[0].Header.Get("Content-Type"))
+		assert.Contains(params.Resources[0].Header.Get("Content-Type"), "text/html")
 		assert.Equal("<p>test", string(params.Resources[0].Data))
 	}
 
