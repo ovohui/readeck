@@ -10,7 +10,7 @@
 
 ### 使用方式
 
-1. 打开 `https://<你的域名>:15351/cookies`（或在设置侧栏点 "Site Cookies"）。
+1. 打开 `https://readeck.example.com/cookies`（或在设置侧栏点 "Site Cookies"）。
 2. 在 "Add a cookie" 表单中填写：
    - **Domain**：如 `xiaohongshu.com`（自动匹配其子域名）。
    - **Name**：备注名，可留空。
@@ -265,7 +265,7 @@ Content-Type: application/json
 也可以用命令行上传已经保存好的 HTML 文件：
 
 ```bash
-curl -X POST "https://<你的域名>:15351/api/bookmarks" \
+curl -X POST "https://readeck.example.com/api/bookmarks" \
   -H "Authorization: Bearer <API令牌>" \
   -H "Content-Type: application/json" \
   --data-binary @payload.json
@@ -983,7 +983,7 @@ zipalign -c -p 4 通过，apksigner v2+v3 通过，versionName=1.1.0-cn
 | 入库方式 | 结果 |
 | --- | --- |
 | 浏览器扩展 | 只有一张封面图，正文 351 字节，没有视频 |
-| 服务端抓取 | 正文只有一个 `<iframe>`，浏览器里显示「myreadeck.zh.ovohui.com 拒绝连接」 |
+| 服务端抓取 | 正文只有一个 `<iframe>`，浏览器里显示「readeck.example.com 拒绝连接」 |
 
 服务端那条的归档正文是：
 
@@ -1378,7 +1378,7 @@ func BinaryBuildTime() time.Time {
 之后：
 
 ```bash
-curl -s https://myreadeck.zh.ovohui.com:15351/api/info
+curl -s https://readeck.example.com/api/info
 ```
 
 ```json
@@ -1458,7 +1458,7 @@ docker compose ps -q | xargs docker inspect \
 docker image inspect ghcr.nju.edu.cn/ovohui/readeck:custom --format '{{.Id}}'
 
 # 4. 应用自报的构建时间（本地修复之后才有这个字段）
-curl -s https://myreadeck.zh.ovohui.com:15351/api/info
+curl -s https://readeck.example.com/api/info
 ```
 
 第 3 条最容易踩坑：`docker compose pull` 拿到新镜像后，如果 `up -d` 认为容器

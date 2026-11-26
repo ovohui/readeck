@@ -1,61 +1,37 @@
-# Readeck 中文定制版
+# Readeck Chinese Custom Build / 中文定制版
 
-> 基于 [Readeck](https://readeck.org) 的定制分支，专注于中文网站收藏、长文阅读和离线归档体验。
-> 上游项目：<https://codeberg.org/readeck/readeck>，许可证 AGPL-3.0。
+> A self-hosted bookmark and read-later app for Chinese websites, based on [Readeck](https://readeck.org).
+> 基于 [Readeck](https://readeck.org) 的自托管中文书签与“稍后读”定制版。
 
-这是一个自托管的书签与“稍后读”应用，保留了 Readeck 的隐私和长期归档设计，并针对中文站点补了一批实用功能。
+Upstream / 上游：<https://codeberg.org/readeck/readeck> · License / 许可证：AGPL-3.0
 
-## 主要改动
+---
 
-### 中文站点
+## Overview / 概述
 
-- 知乎专栏 / 问答：使用知乎 App UA 取正文，专栏视频通过 lens API 直链下载为本地 MP4；
-- 小红书：图文笔记、视频笔记、封面与话题标签；
-- 微信公众号、博客园、开源中国、52pojie 等站点的正文与编码处理；
-- Discuz 论坛（含 `sehuatang.net`）从 `td.t_f` 提取帖子正文；
-- B 站、AcFun、小红书视频：yt-dlp 下载、H.264/AAC 兼容转码、Range 播放。
+**English** — This fork keeps Readeck's privacy-first, long-term archiving model and adds practical support for Chinese sites, a reading layout designed for long articles, optional AI tools, nested folders with password locks, and a companion browser extension.
 
-### 阅读与整理
+**中文** — 这个分支保留 Readeck 隐私优先、长期归档的设计，补上了中文站点抓取、长文阅读布局、可选 AI 工具、多级加密文件夹，以及配套浏览器扩展。
 
-- 标题 / 站点·作者·日期 / `#标签` / 正文的阅读页布局；
-- 标签行同时展示书签标签和正文中的 `#话题#`；
-- 图片按 1 / 2 / 3 列切换，普通相册和 AI 整理后的图片网格都支持；
-- 原地编辑正文、复制 Markdown、自定义封面、图片网格；
-- 批量选择、标签、归档、删除、移动文件夹；
-- 多级文件夹、文件夹密码锁定（应用层访问控制）。
+---
 
-### AI 助手（可选）
+## Features / 功能
 
-支持 OpenAI、DeepSeek、Moonshot、SiliconFlow、Ollama、Anthropic 和 OpenAI 兼容服务。
+| Area / 模块 | English | 中文 |
+|---|---|---|
+| Chinese sites / 中文站点 | Zhihu columns and answers, Xiaohongshu notes, WeChat articles, Discuz forums, 52pojie, Bilibili/AcFun video | 知乎专栏/问答、小红书、公众号、Discuz 论坛、52pojie、B站/AcFun 视频 |
+| Reading layout / 阅读布局 | Title, site · author · date, labels, then article body | 标题、站点·作者·日期、标签、正文 |
+| Images / 图片 | 1/2/3 columns, photo galleries, custom cover | 1/2/3 列、相册、自定义封面 |
+| Organization / 整理 | Nested folders, batch actions, labels, archive/favorites | 多级文件夹、批量操作、标签、归档/收藏 |
+| Folder lock / 文件夹锁 | bcrypt password + session unlock; app-level access control | bcrypt 密码 + 会话解锁；应用层访问控制 |
+| AI assistant / AI 助手 | Summary, clean article, labels, chat, list assistant, optional vision model | 总结、整理正文、标签、问答、列表助手、可选视觉模型 |
+| Video / 视频 | yt-dlp download, H.264/AAC transcode, Range playback | yt-dlp 下载、H.264/AAC 转码、Range 播放 |
+| Export / 导出 | Markdown copy, EPUB, OPDS | Markdown 复制、EPUB、OPDS |
+| Extension / 扩展 | MV3, full rendered DOM, lazy images, GIF, Zhihu video | MV3、渲染后 DOM、懒加载、GIF、知乎视频 |
 
-- 文章侧栏：总结、按层级整理正文、生成标签、自由问答；
-- 列表侧栏：总结当前筛选、给选中书签打标签、提问并返回匹配书签；
-- 整理正文时保留标题层级、列表、引用和图片，支持“每行 N 张图”；
-- 可配置独立视觉模型，识别归档图片中的文字；
-- AI 结果可配合筛选和删除操作，删除前需要用户确认。
+---
 
-### 浏览器扩展
-
-`tools/web-extension/` 是配套的 MV3 扩展：
-
-- 保存浏览器渲染后的完整 DOM，适合服务端抓不到的中文站点；
-- 整页滚动、懒加载图片、GIF 原图、UTF-8；
-- 知乎专栏 `video-box`、小红书图文/视频；
-- 保存后由服务端继续归档图片和视频。
-
-安装方式：
-
-1. 从本仓库 Releases 下载最新 `readeck-web-extension-*.zip`；
-2. 解压到固定目录；
-3. 打开 `edge://extensions` 或 `chrome://extensions`；
-4. 开启“开发者模式” → “加载解压的扩展”；
-5. 在扩展设置中填写自己的 Readeck 地址和 API Token。
-
-> 扩展只把页面内容发到你填写的 Readeck 实例，不经过第三方服务器。
-
-详细说明：[docs/browser-extension.md](docs/browser-extension.md)。
-
-## 快速开始
+## Quick start / 快速开始
 
 ### Docker
 
@@ -64,21 +40,28 @@ docker build -t readeck-custom .
 docker run -d \
   --name readeck \
   -p 8000:8000 \
+  -e READECK_SERVER_HOST=0.0.0.0 \
   -v readeck-data:/readeck \
   readeck-custom
 ```
 
-也可以使用本仓库 GitHub Actions 构建的镜像，把 `<owner>` 替换为实际仓库所有者：
+Or use the image built by this repository's GitHub Actions:
+
+也可以使用本仓库 GitHub Actions 构建的镜像：
 
 ```bash
 docker pull ghcr.io/<owner>/readeck:custom
 ```
 
-首次启动后创建账号，在“个人资料 → AI”里按需配置模型。
+Create an account after the first start. AI is optional.
 
-### 从源码构建
+首次启动后创建账号；AI 功能是可选的。
 
-需要 Go 1.24+、Node.js 20+：
+### Build from source / 从源码构建
+
+Requires Go 1.24+ and Node.js 20+.
+
+需要 Go 1.24+ 和 Node.js 20+。
 
 ```bash
 cd web
@@ -90,62 +73,83 @@ go build -o readeck .
 ./readeck serve
 ```
 
-前端使用了 templ 生成代码；修改 `.templ` 后运行：
+Templates use templ; after editing `.templ` files:
+
+修改 `.templ` 后需要重新生成：
 
 ```bash
 templ generate
 ```
 
-## 配置
+### Configuration / 配置
 
-常用环境变量：
-
-| 变量 | 说明 |
+| Variable / 变量 | Description / 说明 |
 |---|---|
-| `READECK_SERVER_HOST` | 监听地址，默认 `127.0.0.1` |
-| `READECK_SERVER_PORT` | 端口，默认 `8000` |
-| `READECK_DATA_DIRECTORY` | 数据目录 |
-| `READECK_DATABASE_URL` | 数据库连接串（SQLite/PostgreSQL） |
+| `READECK_SERVER_HOST` | Listen address, default `127.0.0.1` / 监听地址 |
+| `READECK_SERVER_PORT` | HTTP port, default `8000` / 端口 |
+| `READECK_DATA_DIRECTORY` | Data directory / 数据目录 |
+| `READECK_DATABASE_URL` | SQLite or PostgreSQL URL / 数据库连接串 |
 
-完整配置见 [Readeck 文档](https://readeck.org/en/docs/)。
+See the [Readeck documentation](https://readeck.org/en/docs/) for all options.
 
-### AI 设置
+---
 
-在“个人资料 → AI”中填写：
+## AI / AI 设置
 
-- 服务商（OpenAI / DeepSeek / SiliconFlow / Ollama / Anthropic / 自定义）；
-- Base URL；
-- 模型名；
-- API Key；
-- 可选：视觉模型，例如 `Qwen/Qwen3-VL-8B-Instruct`。
+**English** — Supports OpenAI, DeepSeek, Moonshot, SiliconFlow, Ollama, Anthropic, and OpenAI-compatible endpoints. Configure the provider, base URL, model, API key, and an optional vision model under Profile → AI. The vision model is only used for reading text from images; a text-only model such as DeepSeek cannot see images.
 
-保存后可用“测试连接”验证。密钥只保存在实例数据库中，不会写入仓库。
+**中文** — 支持 OpenAI、DeepSeek、Moonshot、SiliconFlow、Ollama、Anthropic 和 OpenAI 兼容服务。在“个人资料 → AI”中填写服务商、Base URL、模型、API Key，以及可选的视觉模型。视觉模型只用于识图；DeepSeek 这类纯文本模型不能看图。
 
-## 浏览器扩展开发
+Example vision model:
 
-```bash
-cd tools/web-extension
-# 修改 popup.js / manifest.json
-# 重新打包：
-zip -r readeck-web-extension.zip .
+```text
+Qwen/Qwen3-VL-8B-Instruct
 ```
 
-扩展权限只有 `activeTab`、`scripting`、`storage`、`tabs` 和 `<all_urls>`，用于读取当前页面并提交到你配置的实例。
+Keys are stored only in your instance database. They are never committed to this repository.
 
-## 隐私
+密钥只保存在你的实例数据库中，不会写入本仓库。
 
-- 所有书签、图片、视频和正文保存在你自己的 Readeck 实例；
-- AI 功能只向你在设置中配置的模型服务发送必要文本/图片 URL；
-- 仓库不包含任何实例地址、API Token、账号密码或个人数据；
-- 文件夹密码是应用层访问控制，不是对归档 zip 的加密；如需磁盘级加密，请自行加密数据目录。
+---
 
-## 与上游的关系
+## Browser extension / 浏览器扩展
 
-本项目是 Readeck 的 fork，不是上游官方版本。上游版权归 Readeck 作者所有；本仓库新增代码同样以 AGPL-3.0 发布。
+The MV3 extension in [`tools/web-extension/`](tools/web-extension/) saves the fully rendered DOM, which helps on sites that block server-side fetching.
 
-- 上游：<https://codeberg.org/readeck/readeck>
-- 问题与改动记录：`docs/` 或提交历史
+[`tools/web-extension/`](tools/web-extension/) 里的 MV3 扩展会保存浏览器渲染后的完整 DOM，适合服务端抓不到的中文站点。
 
-## License
+- Full-page scroll and lazy images / 整页滚动、懒加载图片
+- GIF and WebP originals / 保留 GIF、WebP 原图
+- Zhihu column videos, Xiaohongshu notes / 知乎专栏视频、小红书图文
+- Saves to your own Readeck instance / 保存到你自己的 Readeck 实例
 
-AGPL-3.0-only. See [LICENSE](LICENSE).
+Install / 安装：
+
+1. Download the latest `readeck-web-extension-*.zip` from Releases.
+2. Extract it to a fixed directory.
+3. Open `edge://extensions` or `chrome://extensions`.
+4. Enable Developer mode, then “Load unpacked”.
+5. Enter your Readeck URL and API token in the extension settings.
+
+See [docs/browser-extension.md](docs/browser-extension.md) for details.
+
+详细说明见 [docs/browser-extension.md](docs/browser-extension.md)。
+
+---
+
+## Privacy / 隐私
+
+**English** — Bookmarks, images, videos, and article bodies stay in your own Readeck instance. AI requests go only to the model service you configure. This repository contains no instance URL, API token, account, or personal data. Folder passwords are application-level access control, not encryption of the archive zip.
+
+**中文** — 所有书签、图片、视频和正文都保存在你自己的 Readeck 实例；AI 请求只发送到你配置的模型服务。本仓库不包含实例地址、API Token、账号或个人信息。文件夹密码是应用层访问控制，不是对归档 zip 的加密。
+
+---
+
+## Upstream and license / 上游与许可证
+
+This is a fork, not an official Readeck release. Upstream copyright belongs to the Readeck authors; new code in this repository is released under AGPL-3.0.
+
+这是 Readeck 的 fork，不是上游官方版本。上游版权归 Readeck 作者所有；本仓库新增代码同样以 AGPL-3.0 发布。
+
+- Upstream / 上游：<https://codeberg.org/readeck/readeck>
+- License / 许可证：[LICENSE](LICENSE)

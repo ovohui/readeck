@@ -60,7 +60,7 @@ tools/mobile-share/out/readeck-share.apk      ← 29 KB，已签名（v2 + v3）
 打开应用，两件事：
 
 **服务器地址** —— 填你实例的完整地址，带端口，例如
-`https://myreadeck.zh.ovohui.com:15351`。
+`https://readeck.example.com`。
 
 **登录**，两种方式：
 

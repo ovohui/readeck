@@ -137,7 +137,7 @@ public class MainActivity extends Activity {
         hint.setTextSize(12);
         hint.setPadding(0, dp(16), 0, 0);
         hint.setText("提示：第一次用先登录。服务端地址必须能在手机上打开，"
-                + "自建实例记得带上端口，例如 https://example.com:15351。");
+                + "自建实例记得带上端口，例如 https://example.com:8000。");
         root.addView(hint);
 
         ScrollView scroll = new ScrollView(this);

@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 
 /** Settings shared by the two activities. */
 final class Prefs {
-    static final String DEFAULT_SERVER = "https://myreadeck.zh.ovohui.com:15351";
+    static final String DEFAULT_SERVER = "https://readeck.example.com";
 
     private Prefs() {
     }

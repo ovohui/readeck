@@ -17,10 +17,10 @@ SRC_DIR="${SRC_DIR:-/opt/readeck-custom}"
 DOWNLOAD_VIDEOS="true"                 # offline video download
 VIDEO_QUALITY="720p"                   # best / 1080p / 720p / 480p / worst
 
-# If accessed through a reverse proxy at https://readeck.zh.ovohui.com:12233/,
+# If accessed through a reverse proxy at https://readeck.example.com/,
 # uncomment and set the public URL below. Otherwise leave commented for direct
 # http://<server-ip>:12233 access.
-# PUBLIC_URL="https://readeck.zh.ovohui.com:12233/"
+# PUBLIC_URL="https://readeck.example.com/"
 # TRUSTED_PROXIES="172.16.0.0/12,127.0.0.0/8"
 # ---------------------------------------------------------------------------
 

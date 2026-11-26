@@ -41,7 +41,7 @@
 
     if (!server) {
       server = window.prompt(
-        "Readeck 服务器地址（例如 https://myreadeck.example.com:15351，不要带结尾斜杠）",
+        "Readeck 服务器地址（例如 https://myreadeck.example.com:8000，不要带结尾斜杠）",
         "",
       )
       if (!server) {
