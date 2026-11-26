@@ -1,194 +1,151 @@
-# Readeck
+# Readeck 中文定制版
 
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-<a rel="me" href="https://mastodon.online/@readeck"><img src="https://img.shields.io/badge/%40readeck-blue?logo=mastodon&logoColor=%23fff&color=%236364ff" alt="Follow on Mastodon" /></a>
+> 基于 [Readeck](https://readeck.org) 的定制分支，专注于中文网站收藏、长文阅读和离线归档体验。
+> 上游项目：<https://codeberg.org/readeck/readeck>，许可证 AGPL-3.0。
 
-Readeck is a simple web application that lets you save the
-precious readable content of web pages you like and want to keep
-forever. \
-See it as a bookmark manager and a read later tool.
+这是一个自托管的书签与“稍后读”应用，保留了 Readeck 的隐私和长期归档设计，并针对中文站点补了一批实用功能。
 
-![Readeck Bookmark List](./screenshots/bookmark-list.webp)
+## 主要改动
 
-## Contents
+### 中文站点
 
-- [AI Policy](#ai-policy)
-- [Features](#features)
-- [Installation](#how-to-test-or-install)
-- [FAQ](#faq)
-- [Under the hood](#under-the-hood)
-- [License](#license)
+- 知乎专栏 / 问答：使用知乎 App UA 取正文，专栏视频通过 lens API 直链下载为本地 MP4；
+- 小红书：图文笔记、视频笔记、封面与话题标签；
+- 微信公众号、博客园、开源中国、52pojie 等站点的正文与编码处理；
+- Discuz 论坛（含 `sehuatang.net`）从 `td.t_f` 提取帖子正文；
+- B 站、AcFun、小红书视频：yt-dlp 下载、H.264/AAC 兼容转码、Range 播放。
 
-## AI Policy
+### 阅读与整理
 
-AI is not welcome on this project. AI-made contributions will be ignored. Low effort security reports *will* be reviewed and, should they be valid, result in a fix without attribution.
+- 标题 / 站点·作者·日期 / `#标签` / 正文的阅读页布局；
+- 标签行同时展示书签标签和正文中的 `#话题#`；
+- 图片按 1 / 2 / 3 列切换，普通相册和 AI 整理后的图片网格都支持；
+- 原地编辑正文、复制 Markdown、自定义封面、图片网格；
+- 批量选择、标签、归档、删除、移动文件夹；
+- 多级文件夹、文件夹密码锁定（应用层访问控制）。
 
-## Features
+### AI 助手（可选）
 
-### 🔖 Bookmarks
+支持 OpenAI、DeepSeek、Moonshot、SiliconFlow、Ollama、Anthropic 和 OpenAI 兼容服务。
 
-Like a page you're reading? Paste the link in Readeck and you're done!
+- 文章侧栏：总结、按层级整理正文、生成标签、自由问答；
+- 列表侧栏：总结当前筛选、给选中书签打标签、提问并返回匹配书签；
+- 整理正文时保留标题层级、列表、引用和图片，支持“每行 N 张图”；
+- 可配置独立视觉模型，识别归档图片中的文字；
+- AI 结果可配合筛选和删除操作，删除前需要用户确认。
 
-### 📸 Articles, pictures and videos
+### 浏览器扩展
 
-Readeck saves the readable content of web pages for you to read later. It also detects when a page is an image or a video and adapts its process accordingly.
+`tools/web-extension/` 是配套的 MV3 扩展：
 
-### ⭐ Labels, favorites, archives
+- 保存浏览器渲染后的完整 DOM，适合服务端抓不到的中文站点；
+- 整页滚动、懒加载图片、GIF 原图、UTF-8；
+- 知乎专栏 `video-box`、小红书图文/视频；
+- 保存后由服务端继续归档图片和视频。
 
-Move bookmarks to archives or favorites and add as many labels as you want.
+安装方式：
 
-### 🖍️ Highlights
+1. 从本仓库 Releases 下载最新 `readeck-web-extension-*.zip`；
+2. 解压到固定目录；
+3. 打开 `edge://extensions` 或 `chrome://extensions`；
+4. 开启“开发者模式” → “加载解压的扩展”；
+5. 在扩展设置中填写自己的 Readeck 地址和 API Token。
 
-Highlight and annotate the important content of your bookmarks to easily find it later.
+> 扩展只把页面内容发到你填写的 Readeck 实例，不经过第三方服务器。
 
-### 🗃️ Collections
+详细说明：[docs/browser-extension.md](docs/browser-extension.md)。
 
-If you need a dedicated section with all your bookmarks from the past 2 weeks labeled with "cat", Readeck lets you save this search query into a collection so you can access it later.
+## 快速开始
 
-### 📱 Smartphone applications
+### Docker
 
-Synchronize your bookmark collection on your phone with the [dedicated applications](https://readeck.org/en/apps).
-
-### 🧩 Browser Extension
-
-Want to keep something for later while browsing? No need to copy and paste a link. Install the browser extension and save bookmarks in one click!
-
-- [For Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/readeck/)
-- [For Google Chrome](https://chromewebstore.google.com/detail/readeck/jnmcpmfimecibicbojhopfkcbmkafhee)
-- [More Information and Source Code](https://codeberg.org/readeck/browser-extension)
-
-### 📖 E-Book export
-
-What's better than reading your collected articles on your e-reader? You can export any article to an e-book file (EPUB). You can even export a collection to a single book!
-
-On top of that, you can directly access Readeck's catalog and collections from your e-reader if it supports OPDS.
-
-### 🔎 Full text search
-
-Whether you need to find a vague piece of text from an article, or all the articles with a specific label or from a specific website, we've got you covered!
-
-### 🚀 Fast!
-
-Readeck is a modern take on so-called boring, but proven, technology pieces. It guarantees very quick response times and a smooth user experience.
-
-### 🔒 Built for your privacy and long term archival
-
-Will this article you like be online next year? In 10 year? Maybe not; maybe it's all gone, text and images. For this reason, and for your privacy, text and images are all stored in your Readeck instance the moment you save a link.
-
-With the exception of videos, not a single request is made from your browser to an external website.
-
-## How to test or install
-
-Done reading this promotional content? Good! Want to try Readeck on your laptop or a server? Even better!
-
-### Container
-
-To install or test Readeck with Docker or Podman, simply run the image:
-
-```shell
-docker run --rm -ti -p 8000:8000 -v readeck-data:/readeck codeberg.org/readeck/readeck:latest
+```bash
+docker build -t readeck-custom .
+docker run -d \
+  --name readeck \
+  -p 8000:8000 \
+  -v readeck-data:/readeck \
+  readeck-custom
 ```
 
-You'll find all the container images there: \
-[https://codeberg.org/readeck/-/packages/container/readeck/latest](https://codeberg.org/readeck/-/packages/container/readeck/latest)
+也可以使用本仓库 GitHub Actions 构建的镜像，把 `<owner>` 替换为实际仓库所有者：
 
-### Binary file installation
-
-Readeck is distributed as a single binary file. Using it is almost as easy as a container.
-
-- Create a new directory
-  ```shell
-  mkdir -p readeck-install
-  cd readeck-install
-  ```
-- Download the file matching your system from the [last release](https://codeberg.org/readeck/readeck/releases)
-
-- Make this file executable
-- Launch Readeck with the `serve` argument, for example:
-  ```shell
-  ./readeck-0.9.1-linux-amd64 serve
-  ```
-
-### First time launch
-
-Once Readeck has started, it is accessible at: \
-**[http://localhost:8000/](http://localhost:8000/)**
-
-### Installation from source code
-
-Installing from source can be useful to try out unreleased Readeck versions, or to set up a development environment for contributing code. For more information, see the [development documentation](https://readeck.org/en/docs/dev).
-
-### Build your own container image
-
-If you'd like to build your own container image so you can get the most recent changes and/or help with testing, we provide a simple procedure.
-
-Clone this repository and run the following command:
-
-```shell
-docker build -t readeck -f tools/Containerfile .
+```bash
+docker pull ghcr.io/<owner>/readeck:custom
 ```
 
-### Installation for production
+首次启动后创建账号，在“个人资料 → AI”里按需配置模型。
 
-If you already know how to deploy containers on a server, installing Readeck for production should be quite straightforward. As for deploying to Linux servers with systemd and a reverse proxy, see the [deployment guide](https://readeck.org/en/docs/deploy).
+### 从源码构建
 
-## FAQ
+需要 Go 1.24+、Node.js 20+：
 
-Please refer to the [FAQ on readeck.org](https://readeck.org/en/docs/faq).
+```bash
+cd web
+npm install
+npm run build
 
-## Under the hood
+cd ..
+go build -o readeck .
+./readeck serve
+```
 
-Readeck was born out of frustration (and COVID lock-downs) from the tools that don't save everything related to the saved content, primarily images.
-This key principle guided every step of Readeck development.
+前端使用了 templ 生成代码；修改 `.templ` 后运行：
 
-### The ZIP file
+```bash
+templ generate
+```
 
-Every bookmark is stored in a single, immutable, ZIP file. Parts of this file (HTML content, images, etc.) are directly served by the application or converted to a web page or an e-book when needed.
+## 配置
 
-### A simple database
+常用环境变量：
 
-Readeck has a very simple database schema with a few tables (and a bit of clever JSON fields here and there). The recommended database engine is SQLite for most installations.
+| 变量 | 说明 |
+|---|---|
+| `READECK_SERVER_HOST` | 监听地址，默认 `127.0.0.1` |
+| `READECK_SERVER_PORT` | 端口，默认 `8000` |
+| `READECK_DATA_DIRECTORY` | 数据目录 |
+| `READECK_DATABASE_URL` | 数据库连接串（SQLite/PostgreSQL） |
 
-### A simple stack
+完整配置见 [Readeck 文档](https://readeck.org/en/docs/)。
 
-Unlike many modern web applications, Readeck is not a single page application built on top of an API with impossible to install dependencies and a mess of background processes.
+### AI 设置
 
-Readeck is written in [Go](https://go.dev/) and all its content is rendered server side with some interactivity brought by [Stimulus](https://stimulus.hotwired.dev/) and [Turbo](https://turbo.hotwired.dev/).
+在“个人资料 → AI”中填写：
 
-This has proven to be a great combination when performance really matters.
+- 服务商（OpenAI / DeepSeek / SiliconFlow / Ollama / Anthropic / 自定义）；
+- Base URL；
+- 模型名；
+- API Key；
+- 可选：视觉模型，例如 `Qwen/Qwen3-VL-8B-Instruct`。
 
-### Contributing
+保存后可用“测试连接”验证。密钥只保存在实例数据库中，不会写入仓库。
 
-Readeck's simple stack means that the barrier to entry is relatively low when it comes to contributing to the Readeck project. Contributions are welcome by filing issues, participating in community discussions, submitting translations, and proposing changes to the source code. For more information, see the [documentation on contributing](https://readeck.org/en/contribute).
+## 浏览器扩展开发
+
+```bash
+cd tools/web-extension
+# 修改 popup.js / manifest.json
+# 重新打包：
+zip -r readeck-web-extension.zip .
+```
+
+扩展权限只有 `activeTab`、`scripting`、`storage`、`tabs` 和 `<all_urls>`，用于读取当前页面并提交到你配置的实例。
+
+## 隐私
+
+- 所有书签、图片、视频和正文保存在你自己的 Readeck 实例；
+- AI 功能只向你在设置中配置的模型服务发送必要文本/图片 URL；
+- 仓库不包含任何实例地址、API Token、账号密码或个人数据；
+- 文件夹密码是应用层访问控制，不是对归档 zip 的加密；如需磁盘级加密，请自行加密数据目录。
+
+## 与上游的关系
+
+本项目是 Readeck 的 fork，不是上游官方版本。上游版权归 Readeck 作者所有；本仓库新增代码同样以 AGPL-3.0 发布。
+
+- 上游：<https://codeberg.org/readeck/readeck>
+- 问题与改动记录：`docs/` 或提交历史
 
 ## License
 
-Readeck is distributed under the terms of the [GNU Affero General Public License v3.0](https://www.gnu.org/licenses/agpl-3.0.html). Here's a short summary of the license conditions:
-
-- Permissions
-  - **Commercial use** \
-     The licensed material and derivatives may be used for commercial purposes.
-  - **Distribution** \
-     The licensed material may be distributed.
-  - **Modification** \
-     The licensed material may be modified.
-  - **Patent use** \
-     This license provides an express grant of patent rights from contributors.
-  - **Private use** \
-     The licensed material may be used and modified in private.
-- Conditions
-  - **Disclose source** \
-    Source code must be made available when the licensed material is distributed.
-  - **License and copyright notice** \
-    A copy of the license and copyright notice must be included with the licensed material.
-  - **Network use is distribution** \
-    Users who interact with the licensed material via network are given the right to receive a copy of the source code.
-  - **Same license** \
-    Modifications must be released under the same license when distributing the licensed material. In some cases a similar or related license may be used.
-  - **State changes** \
-    Changes made to the licensed material must be documented.
-- Limitations
-  - **Liability** \
-    This license includes a limitation of liability.
-  - **Warranty** \
-    This license explicitly states that it does NOT provide any warranty.
+AGPL-3.0-only. See [LICENSE](LICENSE).
