@@ -88,13 +88,10 @@ func siteNameCandidates(item *dataset.Bookmark) []string {
 	if i := strings.IndexAny(item.SiteName, "-|·"); i > 0 {
 		add(item.SiteName[:i])
 	}
-	if host := item.Site; host != "" {
-		parts := strings.Split(host, ".")
-		if len(parts) >= 2 {
-			add(parts[len(parts)-2])
-		}
-	}
 
+	// The domain's second-level label is deliberately not a candidate:
+	// "163", "qq" or "360" also occur inside headlines, and cutting there
+	// would eat the sentence. The alias table covers the domains that need it.
 	return out
 }
 
@@ -195,16 +192,9 @@ func isKnownTitleTail(tail string) bool {
 	if strings.ContainsAny(tail, "。！？：；，、,.!?:;()（）【】") {
 		return false
 	}
-	if titleSiteLabels[strings.ToLower(tail)] {
-		return true
-	}
-	// "The Paper", "OSCHINA", "36Kr": a short ASCII tail is a site name too.
-	for _, r := range tail {
-		if r > unicode.MaxASCII {
-			return false
-		}
-	}
-	return len(strings.Fields(tail)) <= 3
+	// Only names in the table are stripped: "Test - Hello World" is a
+	// subtitle, not a site suffix, and must survive.
+	return titleSiteLabels[strings.ToLower(tail)]
 }
 
 func isTitleSeparator(r rune) bool {

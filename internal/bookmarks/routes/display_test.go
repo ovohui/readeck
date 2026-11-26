@@ -68,6 +68,16 @@ func TestDisplayTitle(t *testing.T) {
 			displayItem("知乎", "", "知乎", "www.zhihu.com", "article"),
 			"知乎",
 		},
+		{
+			"english subtitle is not a site name",
+			displayItem("A - Hello World", "", "Example", "example.com", "article"),
+			"A - Hello World",
+		},
+		{
+			"numeric domain label inside the headline is left alone",
+			displayItem("Windows 163 个新功能 - 示例", "", "www.163.com", "news.163.com", "article"),
+			"Windows 163 个新功能 - 示例",
+		},
 	}
 
 	for _, tt := range tests {
