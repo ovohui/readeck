@@ -27,8 +27,8 @@ export default class extends Controller<HTMLElement> {
     void this.run("clean")
   }
 
-  links() {
-    void this.run("links")
+  tag() {
+    void this.run("tag")
   }
 
   chat() {
@@ -78,6 +78,12 @@ export default class extends Controller<HTMLElement> {
       this.statusTarget.textContent = ""
       if (mode === "summary" || mode === "chat") {
         this.resultTarget.textContent = data.summary || ""
+        return
+      }
+      if (mode === "tag") {
+        this.statusTarget.textContent =
+          (data.labels || []).join("、") + (document.documentElement.lang.startsWith("zh") ? "，正在刷新…" : ", reloading…")
+        window.setTimeout(() => window.location.reload(), 600)
         return
       }
       this.statusTarget.textContent =

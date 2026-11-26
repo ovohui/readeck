@@ -3850,3 +3850,24 @@ msgstr "和收藏聊一聊"
 
 msgid "Uses the current filter or selected bookmarks"
 msgstr "使用当前筛选或已选书签"
+
+msgid "Choose where this bookmark should live."
+msgstr "选择这个书签要放到哪里。"
+
+msgid "New folder"
+msgstr "新建文件夹"
+
+msgid "Organize bookmarks into nested folders."
+msgstr "把书签整理到多级文件夹里。"
+
+msgid "All bookmarks"
+msgstr "全部书签"
+
+msgid "Open full list"
+msgstr "打开完整列表"
+
+msgid "Loading bookmarks…"
+msgstr "正在加载书签…"
+
+msgid "Manage folders"
+msgstr "管理文件夹"

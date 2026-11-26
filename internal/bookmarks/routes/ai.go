@@ -17,6 +17,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/doug-martin/goqu/v9"
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
 
@@ -119,6 +120,12 @@ func (h *viewsRouter) aiClean(w http.ResponseWriter, r *http.Request) {
 		instruction = "只做摘要，不要改写正文。用两三句话总结文章；如果正文主要是链接列表，说明它是什么列表。"
 	case "links":
 		instruction = "删除导航、相关文章、推荐阅读、作者简介、评论和所有链接列表；保留正文段落和图片。不要保留任何多余的超链接。"
+	case "clean":
+		base := "按原文的标题层级整理正文：保留 h2/h3、段落、列表、引用和图片；删除广告、导航、来源声明、作者卡、相关推荐、评论、二维码等无关元素。"
+		if instruction != "" {
+			base += "\n用户额外要求：" + instruction
+		}
+		instruction = base
 	case "chat":
 		if instruction == "" {
 			fail("请先输入想让 AI 做什么。")
@@ -138,6 +145,36 @@ func (h *viewsRouter) aiClean(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		_ = server.AddFlash(w, r, "success", answer)
+		server.Redirect(w, r, "/bookmarks/"+b.UID)
+		return
+	case "tag":
+		system := "你是书签标签助手。只输出 3 到 6 个简短中文标签，用英文逗号分隔，不要解释，不要编号，每个标签不超过 8 个字。"
+		context := fmt.Sprintf("标题: %s\n站点: %s\n\n正文:\n%s", b.Title, b.Site, outline)
+		rawLabels, err := client.Ask(r.Context(), system, context)
+		if err != nil {
+			server.Log(r).Warn("ai tag", slog.Any("err", err))
+			fail(server.Locale(r.Context()).Gettext("AI cleanup failed: %s", err.Error()))
+			return
+		}
+		labels := parseAILabels(rawLabels)
+		if len(labels) == 0 {
+			fail(server.Locale(r.Context()).Gettext("AI did not return any labels."))
+			return
+		}
+		for _, label := range labels {
+			if !slices.Contains(b.Labels, label) {
+				b.Labels = append(b.Labels, label)
+			}
+		}
+		if err := b.Update(goqu.Record{"labels": b.Labels, "updated": time.Now().UTC()}); err != nil {
+			fail(server.Locale(r.Context()).Gettext("Could not save labels."))
+			return
+		}
+		if jsonMode {
+			writeAIJSON(w, http.StatusOK, aiJSONResponse{OK: true, Labels: b.Labels})
+			return
+		}
+		_ = server.AddFlash(w, r, "success", server.Locale(r.Context()).Gettext("Labels added: %s", strings.Join(labels, ", ")))
 		server.Redirect(w, r, "/bookmarks/"+b.UID)
 		return
 	}
@@ -394,4 +431,25 @@ func renderAIBlocks(blocks []ai.Block, images []ai.Image) string {
 	}
 
 	return b.String()
+}
+
+func parseAILabels(raw string) []string {
+	raw = strings.NewReplacer("，", ",", "、", ",", "\n", ",", "#", "").Replace(raw)
+	seen := map[string]struct{}{}
+	labels := []string{}
+	for _, part := range strings.Split(raw, ",") {
+		label := strings.Trim(strings.TrimSpace(part), `"'“”`)
+		if label == "" || len([]rune(label)) > 20 {
+			continue
+		}
+		if _, ok := seen[label]; ok {
+			continue
+		}
+		seen[label] = struct{}{}
+		labels = append(labels, label)
+		if len(labels) == 6 {
+			break
+		}
+	}
+	return labels
 }

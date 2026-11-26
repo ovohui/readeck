@@ -13,7 +13,7 @@ export default class extends Controller<HTMLElement> {
   static override targets = ["drawer", "toggle", "question", "status", "result", "context"]
   static override values = {url: String}
 
-  declare readonly drawerTarget: HTMLElement
+  declare readonly drawerTarget: HTMLDetailsElement
   declare readonly toggleTarget: HTMLButtonElement
   declare readonly hasToggleTarget: boolean
   declare readonly questionTarget: HTMLTextAreaElement
@@ -40,7 +40,7 @@ export default class extends Controller<HTMLElement> {
   }
 
   private isOpen() {
-    return !this.drawerTarget.hidden
+    return this.drawerTarget.hasAttribute("open")
   }
 
   toggle() {

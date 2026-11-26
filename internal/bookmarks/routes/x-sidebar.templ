@@ -66,14 +66,14 @@ templ (c SidebarComponent) aiPanel(b *dataset.Bookmark) {
 			<button type="button" class="btn btn-outlined py-1" data-action="bookmark-ai#summary">
 				{ L(ctx).Gettext("Summarize") }
 			</button>
-			<button type="button" class="btn btn-primary py-1" data-action="bookmark-ai#chat">
-				{ L(ctx).Gettext("Send") }
-			</button>
 			<button type="button" class="btn btn-outlined py-1" data-action="bookmark-ai#clean">
 				{ L(ctx).Gettext("Clean article") }
 			</button>
-			<button type="button" class="btn btn-outlined py-1" data-action="bookmark-ai#links">
-				{ L(ctx).Gettext("Remove links") }
+			<button type="button" class="btn btn-outlined py-1" data-action="bookmark-ai#tag">
+				{ L(ctx).Gettext("Labels") }
+			</button>
+			<button type="button" class="btn btn-primary py-1" data-action="bookmark-ai#chat">
+				{ L(ctx).Gettext("Send") }
 			</button>
 		</div>
 		<p class="mt-2 text-sm" data-bookmark-ai-target="status"></p>

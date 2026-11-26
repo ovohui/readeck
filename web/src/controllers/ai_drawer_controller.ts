@@ -11,27 +11,18 @@ import {Controller} from "@hotwired/stimulus"
  * selector; the drawer's own list-ai controller handles its actions.
  */
 export default class extends Controller<HTMLElement> {
-  private drawer(): HTMLElement | null {
-    return document.querySelector<HTMLElement>('[data-list-ai-target="drawer"]')
+  private drawer(): HTMLDetailsElement | null {
+    return document.querySelector<HTMLDetailsElement>('[data-list-ai-target="drawer"]')
   }
 
   toggle() {
     const drawer = this.drawer()
     if (!drawer) return
-    if (drawer.hidden) {
-      drawer.hidden = false
-      void drawer.offsetWidth
-      drawer.classList.add("is-open")
-      this.element.setAttribute("aria-expanded", "true")
+    const open = !drawer.hasAttribute("open")
+    drawer.toggleAttribute("open", open)
+    this.element.setAttribute("aria-expanded", open ? "true" : "false")
+    if (open) {
       document.querySelector<HTMLTextAreaElement>('[data-list-ai-target="question"]')?.focus()
-    } else {
-      drawer.classList.remove("is-open")
-      this.element.setAttribute("aria-expanded", "false")
-      window.setTimeout(() => {
-        if (!drawer.classList.contains("is-open")) {
-          drawer.hidden = true
-        }
-      }, 220)
     }
   }
 }

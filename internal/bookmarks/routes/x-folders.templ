@@ -11,37 +11,91 @@ import (
 
 templ (v Views) folderList(tree []*bookmarks.FolderNode) {
 	@Page(L(ctx).Gettext("Folders"), WithSideMenu(v.menu())) {
-		<h1 class="title text-h2">{ L(ctx).Gettext("Folders") }</h1>
-		<p class="my-4 text-gray-700">
-			{ L(ctx).Gettext("Folders can be nested. A bookmark belongs to one folder; deleting a folder moves its bookmarks to the root.") }
-		</p>
+		<div class="folder-page" data-controller="folder-browser" data-folder-browser-url-value={ URL(ctx, "/api/bookmarks") }>
+			<aside class="folder-sidebar">
+				<header class="folder-sidebar-head">
+					<div>
+						<h1>{ L(ctx).Gettext("Folders") }</h1>
+						<p>{ L(ctx).Gettext("Organize bookmarks into nested folders.") }</p>
+					</div>
+				</header>
 
-		<form action={ URL(ctx, "/bookmarks/folders") } method="post" class="mb-8 flex flex-wrap items-end gap-2">
-			<label class="field">
-				<span class="field--label">{ L(ctx).Gettext("Name") }</span>
-				<input class="form-input" type="text" name="name" required maxlength="128"/>
-			</label>
-			<label class="field">
-				<span class="field--label">{ L(ctx).Gettext("Parent folder") }</span>
-				<select class="form-select" name="parent_id">
-					<option value="">{ L(ctx).Gettext("Root") }</option>
-					for _, n := range folderOptions(ctx) {
-						<option value={ strconv.Itoa(n.ID) }>{ folderIndent(n.Depth) + n.Name }</option>
+				<details class="folder-create">
+					<summary>@Icon("o-plus") { L(ctx).Gettext("New folder") }</summary>
+					<form action={ URL(ctx, "/bookmarks/folders") } method="post">
+						<label class="field">
+							<span class="field--label">{ L(ctx).Gettext("Name") }</span>
+							<input class="form-input" type="text" name="name" required maxlength="128"/>
+						</label>
+						<label class="field">
+							<span class="field--label">{ L(ctx).Gettext("Parent folder") }</span>
+							<select class="form-select" name="parent_id">
+								<option value="">{ L(ctx).Gettext("Root") }</option>
+								for _, n := range folderOptions(ctx) {
+									<option value={ strconv.Itoa(n.ID) }>{ folderIndent(n.Depth) + n.Name }</option>
+								}
+							</select>
+						</label>
+						<button class="btn btn-primary w-full" type="submit">{ L(ctx).Gettext("Create folder") }</button>
+					</form>
+				</details>
+
+				<nav class="folder-nav" aria-label={ L(ctx).Gettext("Folders") }>
+					<a class="folder-nav--item is-active" href="?folder=0" data-action="folder-browser#select" data-folder-browser-id-param="0" data-folder-browser-name-param={ L(ctx).Gettext("All bookmarks") }>
+						<span class="folder-nav--icon">@Icon("o-collection")</span>
+						<span class="folder-nav--name">{ L(ctx).Gettext("All bookmarks") }</span>
+					</a>
+					for _, n := range tree {
+						@folderNavLink(n)
 					}
-				</select>
-			</label>
-			<button class="btn btn-primary" type="submit">{ L(ctx).Gettext("Create folder") }</button>
-		</form>
+				</nav>
 
-		if len(tree) == 0 {
-			<p class="text-gray-600">{ L(ctx).Gettext("No folders yet.") }</p>
-		} else {
-			<ul class="folder-tree">
-				for _, n := range tree {
-					@folderNode(n)
+				if len(tree) > 0 {
+					<details class="folder-manage">
+						<summary>@Icon("o-menu-dots") { L(ctx).Gettext("Manage folders") }</summary>
+						<ul class="folder-tree">
+							for _, n := range tree {
+								@folderNode(n)
+							}
+						</ul>
+					</details>
 				}
-			</ul>
+			</aside>
+
+			<main class="folder-main">
+				<header class="folder-main-head">
+					<div>
+						<h2 data-folder-browser-target="title">{ L(ctx).Gettext("All bookmarks") }</h2>
+						<p data-folder-browser-target="count"></p>
+					</div>
+					<a class="btn btn-outlined" href={ URL(ctx, "/bookmarks") }>
+						{ L(ctx).Gettext("Open full list") }
+					</a>
+				</header>
+				<div class="folder-bookmarks" data-folder-browser-target="list">
+					<div class="folder-loading">{ L(ctx).Gettext("Loading bookmarks…") }</div>
+				</div>
+			</main>
+		</div>
+	}
+}
+
+templ folderNavLink(n *bookmarks.FolderNode) {
+	<a
+		class="folder-nav--item"
+		href={ "?folder=" + strconv.Itoa(n.ID) }
+		data-action="folder-browser#select"
+		data-folder-browser-id-param={ strconv.Itoa(n.ID) }
+		data-folder-browser-name-param={ n.Name }
+	>
+		<span class="folder-nav--icon">@Icon("o-collection")</span>
+		<span class="folder-nav--name">{ n.Name }</span>
+		if len(n.Children) > 0 {
+			<span class="folder-nav--count">{ strconv.Itoa(len(n.Children)) }</span>
 		}
+	</a>
+	for _, c := range n.Children {
+		@folderNavLink(c)
 	}
 }
 
@@ -103,5 +157,5 @@ func folderIndent(depth int) string {
 	if depth <= 0 {
 		return ""
 	}
-	return strings.Repeat("— ", depth)
+	return strings.Repeat("　", depth)
 }

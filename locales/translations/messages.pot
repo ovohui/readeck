@@ -3461,3 +3461,24 @@ msgstr ""
 
 msgid "Uses the current filter or selected bookmarks"
 msgstr ""
+
+msgid "Choose where this bookmark should live."
+msgstr ""
+
+msgid "New folder"
+msgstr ""
+
+msgid "Organize bookmarks into nested folders."
+msgstr ""
+
+msgid "All bookmarks"
+msgstr ""
+
+msgid "Open full list"
+msgstr ""
+
+msgid "Loading bookmarks…"
+msgstr ""
+
+msgid "Manage folders"
+msgstr ""
