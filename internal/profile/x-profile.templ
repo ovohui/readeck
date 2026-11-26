@@ -122,6 +122,11 @@ templ (v Views) userProfile(f *profileForm) {
 					F.Classes("field-h"),
 					F.Help(L(ctx).Gettext("Leave empty for the provider default.")),
 				)
+				@F.TextField(&f.Settings.AIVisionModel,
+					F.Label(L(ctx).Gettext("Vision model")),
+					F.Classes("field-h"),
+					F.Help(L(ctx).Gettext("Optional multimodal model for reading text from images.")),
+				)
 				@F.TextField(&f.Settings.AIAPIKey,
 					F.Label(L(ctx).Gettext("API key")),
 					F.InputType("password"),

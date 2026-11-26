@@ -1,4 +1,4 @@
-﻿// SPDX-FileCopyrightText: © 2025 Olivier Meunier <olivier@neokraft.net>
+// SPDX-FileCopyrightText: © 2025 Olivier Meunier <olivier@neokraft.net>
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
@@ -121,7 +121,8 @@ func TestAPI(t *testing.T) {
 				"settings.ai_provider": "<<PRESENCE>>",
 				"settings.ai_base_url": "<<PRESENCE>>",
 				"settings.ai_api_key": "<<PRESENCE>>",
-				"settings.ai_model": "<<PRESENCE>>"
+				"settings.ai_model": "<<PRESENCE>>",
+				"settings.ai_vision_model": "<<PRESENCE>>"
 			}
 		}`),
 	)
@@ -160,7 +161,8 @@ func TestAPI(t *testing.T) {
 				"settings.ai_provider": "<<PRESENCE>>",
 				"settings.ai_base_url": "<<PRESENCE>>",
 				"settings.ai_api_key": "<<PRESENCE>>",
-				"settings.ai_model": "<<PRESENCE>>"
+				"settings.ai_model": "<<PRESENCE>>",
+				"settings.ai_vision_model": "<<PRESENCE>>"
 			}
 		}`),
 	)
@@ -202,7 +204,8 @@ func TestAPI(t *testing.T) {
 				"settings.ai_provider": "<<PRESENCE>>",
 				"settings.ai_base_url": "<<PRESENCE>>",
 				"settings.ai_api_key": "<<PRESENCE>>",
-				"settings.ai_model": "<<PRESENCE>>"
+				"settings.ai_model": "<<PRESENCE>>",
+				"settings.ai_vision_model": "<<PRESENCE>>"
 			}
 		}`),
 	)

@@ -3491,3 +3491,9 @@ msgstr ""
 
 msgid "All folders"
 msgstr ""
+
+msgid "Vision model"
+msgstr ""
+
+msgid "Optional multimodal model for reading text from images."
+msgstr ""

@@ -43,6 +43,7 @@ type profileForm struct {
 		AIBaseURL     forms.TextField    `json:"ai_base_url" validate:"trim max_len:512"`
 		AIAPIKey      forms.TextField    `json:"ai_api_key"  validate:"trim max_len:512"`
 		AIModel       forms.TextField    `json:"ai_model"    validate:"trim max_len:128"`
+		AIVisionModel forms.TextField    `json:"ai_vision_model" validate:"trim max_len:128"`
 	} `json:"settings"`
 }
 
@@ -98,6 +99,7 @@ func withProfileUser(u *users.User) func(forms.FormBinder) {
 		f.Settings.AIBaseURL.Set(u.Settings.AI.BaseURL)
 		f.Settings.AIAPIKey.Set(u.Settings.AI.APIKey)
 		f.Settings.AIModel.Set(u.Settings.AI.Model)
+		f.Settings.AIVisionModel.Set(u.Settings.AI.VisionModel)
 	}
 }
 
@@ -172,6 +174,8 @@ func (f *profileForm) update() (res map[string]any, err error) {
 				}
 			case "model":
 				user.Settings.AI.Model = field.String()
+			case "vision_model":
+				user.Settings.AI.VisionModel = field.String()
 			}
 			res["settings"] = user.Settings
 		case n == "settings.lang":

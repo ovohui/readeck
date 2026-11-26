@@ -21,11 +21,12 @@ import (
 
 // Config is a user's AI settings.
 type Config struct {
-	Provider string
-	BaseURL  string
-	APIKey   string
-	Model    string
-	Timeout  time.Duration
+	Provider    string
+	BaseURL     string
+	APIKey      string
+	Model       string
+	VisionModel string
+	Timeout     time.Duration
 }
 
 // Image is one picture referenced by the article outline.
@@ -216,6 +217,39 @@ func (c *Client) CleanWithInstruction(ctx context.Context, title, pageURL, outli
 
 // Ask sends a free-form question. It is used by the list assistant and by the
 // connection test, where structured article blocks are not needed.
+// AskVision sends images to an OpenAI-compatible multimodal model and returns
+// the model's text answer. The provider must support image_url content parts.
+func (c *Client) AskVision(ctx context.Context, model, system, user string, imageURLs []string) (string, error) {
+	if !c.Configured() {
+		return "", ErrNotConfigured
+	}
+	if model == "" {
+		model = c.cfg.VisionModel
+	}
+	if model == "" {
+		model = c.cfg.Model
+	}
+	content := []any{map[string]any{"type": "text", "text": user}}
+	for _, u := range imageURLs {
+		content = append(content, map[string]any{
+			"type":      "image_url",
+			"image_url": map[string]any{"url": u},
+		})
+	}
+	payload := map[string]any{
+		"model": model,
+		"messages": []map[string]any{
+			{"role": "system", "content": system},
+			{"role": "user", "content": content},
+		},
+	}
+	raw, err := c.postJSON(ctx, c.chatEndpoint(), map[string]string{"Authorization": "Bearer " + c.cfg.APIKey}, payload)
+	if err != nil {
+		return "", err
+	}
+	return contentFromResponse(raw)
+}
+
 func (c *Client) Ask(ctx context.Context, system, user string) (string, error) {
 	if !c.Configured() {
 		return "", ErrNotConfigured

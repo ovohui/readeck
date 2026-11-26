@@ -1,48 +1,19 @@
 {
-  "title_selectors": [
-    "//meta[@property='og:title']/@content",
-    "//span[@id='thread_subject']",
-    "//h1"
-  ],
+  "title_selectors": null,
   "body_selectors": [
-    "//*[starts-with(@id,'postmessage_')]",
-    "//td[contains(@class,'t_f')]",
-    "//div[contains(@class,'t_fsz')]"
+    "//td[contains(concat(' ',normalize-space(@class),' '),' t_f ')]",
+    "//div[contains(concat(' ',normalize-space(@class),' '),' t_f ')]",
+    "//div[starts-with(@id,'postmessage_')]"
   ],
-  "date_selectors": [
-    "//em[@id='authorposton']",
-    "//div[contains(@class,'authi')]//em"
-  ],
-  "author_selectors": [
-    "//meta[@property='og:article:author']/@content",
-    "//div[contains(@class,'authi')]//a[contains(@href,'space-uid')]"
-  ],
+  "date_selectors": null,
+  "author_selectors": null,
   "strip_selectors": [
-    "//div[contains(@class,'attach_nopermission')]",
-    "//div[contains(@class,'sign')]",
-    "//div[contains(@class,'rate')]",
-    "//div[contains(@class,'pstatus')]",
     "//div[contains(@class,'quote')]",
-    "//div[contains(@class,'ad')]",
-    "//div[@id='comment']"
+    "//div[contains(@class,'blockcode')]",
+    "//div[contains(@class,'attach_nopermission')]"
   ],
-  "strip_id_or_class": [
-    "sign",
-    "attach_nopermission",
-    "pstatus",
-    "rate",
-    "adshow",
-    "ad",
-    "forum-rules",
-    "post-rate",
-    "cm"
-  ],
-  "strip_image_src": [
-    "static/image/common/none.gif",
-    "static/image/common/emp.gif",
-    "static/image/common/LOGO",
-    "static/image/smiley"
-  ],
+  "strip_id_or_class": null,
+  "strip_image_src": null,
   "native_ad_selectors": null,
   "tidy": false,
   "prune": false,
@@ -51,7 +22,14 @@
   "next_page_link_selectors": null,
   "replace_strings": null,
   "http_headers": {
-    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
-    "accept-language": "zh-CN,zh;q=0.9,en;q=0.8"
-  }
+    "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+    "referer": "https://sehuatang.net/",
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+  },
+  "tests": [
+    {
+      "url": "https://sehuatang.net/forum.php?mod=viewthread&tid=3925782",
+      "contains": []
+    }
+  ]
 }

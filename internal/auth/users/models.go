@@ -334,6 +334,7 @@ type AISettings struct {
 	BaseURL  string `json:"base_url"`
 	APIKey   string `json:"api_key"`
 	Model    string `json:"model"`
+	VisionModel string `json:"vision_model"`
 }
 
 // EmailSettings contains the user's email settings.

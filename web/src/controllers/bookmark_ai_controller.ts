@@ -42,6 +42,10 @@ export default class extends Controller<HTMLElement> {
   }
 
   private async run(mode: string) {
+    const instruction = this.instructionTarget.value.trim()
+    if (mode === "chat" && /识图|识别图片|图片.{0,6}文字|OCR/i.test(instruction)) {
+      mode = "ocr"
+    }
     const buttons = Array.from(this.element.querySelectorAll("button"))
     buttons.forEach((b) => (b.disabled = true))
     this.resultTarget.textContent = ""
@@ -66,7 +70,7 @@ export default class extends Controller<HTMLElement> {
         },
         body: new URLSearchParams({
           mode,
-          instruction: this.instructionTarget.value.trim(),
+          instruction,
           deep: this.deepTarget.checked ? "1" : "0",
         }),
         credentials: "same-origin",
@@ -82,7 +86,7 @@ export default class extends Controller<HTMLElement> {
       }
 
       this.statusTarget.textContent = ""
-      if (mode === "summary" || mode === "chat") {
+      if (mode === "summary" || mode === "chat" || mode === "ocr") {
         this.resultTarget.textContent = data.summary || ""
         return
       }

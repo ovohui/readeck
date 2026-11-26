@@ -3880,3 +3880,9 @@ msgstr "新建、重命名文件夹，或给文件夹设置密码锁。"
 
 msgid "All folders"
 msgstr "所有文件夹"
+
+msgid "Vision model"
+msgstr "视觉模型"
+
+msgid "Optional multimodal model for reading text from images."
+msgstr "可选：用于识别图片文字的多模态模型，例如 Qwen/Qwen3-VL-8B-Instruct。"

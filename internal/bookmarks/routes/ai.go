@@ -26,6 +26,7 @@ import (
 	"codeberg.org/readeck/readeck/internal/auth"
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
 	"codeberg.org/readeck/readeck/internal/server"
+	"codeberg.org/readeck/readeck/internal/server/urls"
 )
 
 func aiConfig(ctx context.Context) ai.Config {
@@ -35,10 +36,11 @@ func aiConfig(ctx context.Context) ai.Config {
 	}
 	s := u.Settings.AI
 	return ai.Config{
-		Provider: s.Provider,
-		BaseURL:  s.BaseURL,
-		APIKey:   s.APIKey,
-		Model:    s.Model,
+		Provider:    s.Provider,
+		BaseURL:     s.BaseURL,
+		APIKey:      s.APIKey,
+		Model:       s.Model,
+		VisionModel: s.VisionModel,
 	}
 }
 
@@ -129,6 +131,36 @@ func (h *viewsRouter) aiClean(w http.ResponseWriter, r *http.Request) {
 			base += "\n用户额外要求：" + instruction
 		}
 		instruction = base
+	case "ocr":
+		var imageURLs []string
+		for _, img := range images {
+			if len(imageURLs) >= 8 {
+				break
+			}
+			imageURLs = append(imageURLs, urls.AbsoluteURL(r, img.URL).String())
+		}
+		if len(imageURLs) == 0 {
+			fail("这篇文章没有图片。")
+			return
+		}
+		system := "你是 OCR 助手。只提取图片中的文字，按图片顺序和版面层级输出纯文本；不要描述画面，不要编造。"
+		prompt := "识别这些图片中的文字，并按标题、段落、列表的层级整理。"
+		if instruction != "" {
+			prompt += "\n用户要求：" + instruction
+		}
+		answer, err := client.AskVision(r.Context(), "", system, prompt, imageURLs)
+		if err != nil {
+			server.Log(r).Warn("ai ocr", slog.Any("err", err))
+			fail(server.Locale(r.Context()).Gettext("AI cleanup failed: %s", err.Error()))
+			return
+		}
+		if jsonMode {
+			writeAIJSON(w, http.StatusOK, aiJSONResponse{OK: true, Summary: answer})
+			return
+		}
+		_ = server.AddFlash(w, r, "success", answer)
+		server.Redirect(w, r, "/bookmarks/"+b.UID)
+		return
 	case "chat":
 		if instruction == "" {
 			fail("请先输入想让 AI 做什么。")
