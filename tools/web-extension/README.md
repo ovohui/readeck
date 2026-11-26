@@ -18,7 +18,7 @@
 1. 打开 `chrome://extensions`（Edge 是 `edge://extensions`），右上角打开 **开发者模式**。
 2. 点 **加载已解压的扩展程序**，选择本目录 `tools/web-extension`。
 3. 点扩展图标，填两项设置：
-   - **服务器地址**：例如 `https://myreadeck.example.com:15351`（不要带尾斜杠）
+   - **服务器地址**：例如 `https://readeck.example.com`（不要带尾斜杠）
    - **API 令牌**：Readeck 右上角头像 → 设置 → **API 令牌** → 新建，复制生成的令牌
 4. 点 **保存设置**。
 
