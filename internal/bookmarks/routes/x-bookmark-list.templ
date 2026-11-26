@@ -420,7 +420,25 @@ templ (c Components) exportMenu(q url.Values) {
 }
 
 templ (c Components) bookmarkList(bl *dataset.BookmarkList) {
-	<div class="bookmark-list">
+	<div class="bookmark-list" data-controller="folder-picker">
+		<dialog id="folder-picker-dialog" class="dialog max-w-sm" data-folder-picker-target="dialog">
+			<form method="post" action="" data-folder-picker-target="form">
+				<h2 class="title text-h3 mb-3">{ L(ctx).Gettext("Move to folder") }</h2>
+				<input type="hidden" name="_to" data-folder-picker-target="to"/>
+				<select class="form-select" name="folder_id" data-folder-picker-target="select">
+					<option value="0">{ L(ctx).Gettext("Root") }</option>
+					for _, n := range folderOptions(ctx) {
+						<option value={ strconv.Itoa(n.ID) }>{ folderIndent(n.Depth) + n.Name }</option>
+					}
+				</select>
+				<div class="flex justify-end gap-2 mt-4">
+					<button type="button" class="btn btn-outlined" data-action="folder-picker#close">
+						{ L(ctx).Gettext("Cancel") }
+					</button>
+					<button type="submit" class="btn btn-primary">{ L(ctx).Gettext("Move") }</button>
+				</div>
+			</form>
+		</dialog>
 		<div class="bulk-toolbar" data-bulk-target="toolbar" hidden>
 			<span class="bulk-toolbar-count">
 				<strong data-bulk-target="count">0</strong>
@@ -462,7 +480,7 @@ templ (c Components) bookmarkList(bl *dataset.BookmarkList) {
 				data-controller="list-ai"
 				data-list-ai-url-value={ URL(ctx, "/bookmarks/ai/ask") }
 			>
-				<details open>
+				<details>
 					<summary class="bookmark-ai-chat--title">
 						@Icon("o-create")
 						{ " " }
@@ -650,6 +668,14 @@ templ (c Components) card(b *dataset.Bookmark) {
 								@Icon(Tern(func() bool { return b.IsArchived }, "o-archive-on", "o-archive-off"))
 							</button>
 						}
+						<button
+							type="button"
+							data-action="folder-picker#open"
+							data-folder-picker-id-param={ b.ID }
+							title={ L(ctx).Gettext("Move to folder") }
+						>
+							@Icon("o-collection")
+						</button>
 						<a href={ b.URL } target="_blank" title={ L(ctx).Gettext("Go to original page") }>
 							@Icon("o-link-ext")
 						</a>

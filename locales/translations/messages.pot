@@ -3437,3 +3437,15 @@ msgstr ""
 
 msgid "Unlock the folder before deleting it."
 msgstr ""
+
+msgid "Move to folder"
+msgstr ""
+
+msgid "Send"
+msgstr ""
+
+msgid "Deep thinking"
+msgstr ""
+
+msgid "Ask AI, or type an edit instruction"
+msgstr ""

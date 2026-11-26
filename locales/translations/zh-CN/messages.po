@@ -3826,3 +3826,15 @@ msgstr "已解锁"
 
 msgid "Unlock the folder before deleting it."
 msgstr "请先解锁文件夹再删除。"
+
+msgid "Move to folder"
+msgstr "移动到文件夹"
+
+msgid "Send"
+msgstr "发送"
+
+msgid "Deep thinking"
+msgstr "深度思考"
+
+msgid "Ask AI, or type an edit instruction"
+msgstr "向 AI 提问，或输入整理要求"

@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/doug-martin/goqu/v9"
 
@@ -149,7 +150,7 @@ ids 只能从列表里的 ID 选择；不确定时返回空数组。
 				}
 			}
 			b.Labels = dedupeLabels(b.Labels)
-			_ = b.Update(goqu.Record{"labels": b.Labels})
+			_ = b.Update(goqu.Record{"labels": b.Labels, "updated": time.Now().UTC()})
 		}
 		writeAIList(w, http.StatusOK, aiListResponse{OK: true, Labels: parsed.Labels})
 		return

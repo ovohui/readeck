@@ -7,6 +7,7 @@ package routes
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	stdhtml "html"
 	"io"
 	"log/slog"
@@ -110,11 +111,35 @@ func (h *viewsRouter) aiClean(w http.ResponseWriter, r *http.Request) {
 		mode = "clean"
 	}
 	instruction := strings.TrimSpace(r.FormValue("instruction"))
+	if r.FormValue("deep") == "1" {
+		instruction = "先深入分析文章结构和用户要求，再执行。\n" + instruction
+	}
 	switch mode {
 	case "summary":
 		instruction = "只做摘要，不要改写正文。用两三句话总结文章；如果正文主要是链接列表，说明它是什么列表。"
 	case "links":
 		instruction = "删除导航、相关文章、推荐阅读、作者简介、评论和所有链接列表；保留正文段落和图片。不要保留任何多余的超链接。"
+	case "chat":
+		if instruction == "" {
+			fail("请先输入想让 AI 做什么。")
+			return
+		}
+		system := "你是阅读助手。只根据下面的文章内容回答用户，不要编造；用中文，简洁。"
+		context := fmt.Sprintf("标题: %s\nURL: %s\n\n正文:\n%s\n\n图片:\n%s",
+			b.Title, b.URL, outline, aiImageList(images))
+		answer, err := client.Ask(r.Context(), system, context+"\n\n用户要求:\n"+instruction)
+		if err != nil {
+			server.Log(r).Warn("ai chat", slog.Any("err", err))
+			fail(server.Locale(r.Context()).Gettext("AI cleanup failed: %s", err.Error()))
+			return
+		}
+		if jsonMode {
+			writeAIJSON(w, http.StatusOK, aiJSONResponse{OK: true, Summary: answer})
+			return
+		}
+		_ = server.AddFlash(w, r, "success", answer)
+		server.Redirect(w, r, "/bookmarks/"+b.UID)
+		return
 	}
 
 	result, err := client.CleanWithInstruction(r.Context(), b.Title, b.URL, outline, images, instruction)
@@ -184,6 +209,14 @@ func (h *viewsRouter) aiClean(w http.ResponseWriter, r *http.Request) {
 	}
 	_ = server.AddFlash(w, r, "success", server.Locale(r.Context()).Gettext("AI cleanup finished."))
 	server.Redirect(w, r, "/bookmarks/"+b.UID)
+}
+
+func aiImageList(images []ai.Image) string {
+	var b strings.Builder
+	for i, img := range images {
+		fmt.Fprintf(&b, "[IMG %d] %s\n", i, img.URL)
+	}
+	return b.String()
 }
 
 // buildAIOutline flattens the archived article into a compact outline with

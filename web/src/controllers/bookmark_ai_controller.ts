@@ -1,4 +1,4 @@
-﻿// SPDX-FileCopyrightText: © 2026 Readeck custom build
+// SPDX-FileCopyrightText: © 2026 Readeck custom build
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
@@ -10,12 +10,13 @@ import {Controller} from "@hotwired/stimulus"
  * button that did nothing).
  */
 export default class extends Controller<HTMLElement> {
-  static override targets = ["instruction", "status", "result"]
+  static override targets = ["instruction", "status", "result", "deep"]
   static override values = {url: String}
 
   declare readonly instructionTarget: HTMLTextAreaElement
   declare readonly statusTarget: HTMLElement
   declare readonly resultTarget: HTMLElement
+  declare readonly deepTarget: HTMLInputElement
   declare readonly urlValue: string
 
   summary() {
@@ -30,14 +31,24 @@ export default class extends Controller<HTMLElement> {
     void this.run("links")
   }
 
+  chat() {
+    void this.run("chat")
+  }
+
   private async run(mode: string) {
     const buttons = Array.from(this.element.querySelectorAll("button"))
     buttons.forEach((b) => (b.disabled = true))
     this.resultTarget.textContent = ""
-    this.statusTarget.textContent =
-      document.documentElement.lang.startsWith("zh")
-        ? "AI 正在处理，通常需要 10～60 秒…"
-        : "AI is working, usually 10–60 seconds…"
+    const zh = document.documentElement.lang.startsWith("zh")
+    const stages = zh
+      ? ["读取正文…", "请求 AI…", "等待 AI 生成…", "整理结果…"]
+      : ["Reading the article…", "Calling AI…", "Waiting for the model…", "Preparing the result…"]
+    let stage = 0
+    this.statusTarget.textContent = stages[0]
+    const timer = window.setInterval(() => {
+      stage = Math.min(stage + 1, stages.length - 1)
+      this.statusTarget.textContent = stages[stage]
+    }, 2500)
 
     try {
       const rsp = await fetch(this.urlValue, {
@@ -50,6 +61,7 @@ export default class extends Controller<HTMLElement> {
         body: new URLSearchParams({
           mode,
           instruction: this.instructionTarget.value.trim(),
+          deep: this.deepTarget.checked ? "1" : "0",
         }),
         credentials: "same-origin",
       })
@@ -64,7 +76,7 @@ export default class extends Controller<HTMLElement> {
       }
 
       this.statusTarget.textContent = ""
-      if (mode === "summary") {
+      if (mode === "summary" || mode === "chat") {
         this.resultTarget.textContent = data.summary || ""
         return
       }
@@ -72,8 +84,9 @@ export default class extends Controller<HTMLElement> {
         document.documentElement.lang.startsWith("zh") ? "完成，正在刷新…" : "Done, reloading…"
       window.setTimeout(() => window.location.reload(), 600)
     } catch (err) {
-      this.statusTarget.textContent = (err instanceof Error ? err.message : String(err))
+      this.statusTarget.textContent = err instanceof Error ? err.message : String(err)
     } finally {
+      window.clearInterval(timer)
       buttons.forEach((b) => (b.disabled = false))
     }
   }

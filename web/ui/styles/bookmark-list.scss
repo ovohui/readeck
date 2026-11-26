@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: © 2023 Joachim Robert <joachim.robert@protonmail.com>
+﻿// SPDX-FileCopyrightText: © 2023 Joachim Robert <joachim.robert@protonmail.com>
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
@@ -927,6 +927,11 @@
   @media (max-width: 1100px) {
     display: none;
   }
+}
+
+.bookmark-ai-chat:not([open]) {
+  width: auto;
+  padding: 0.5rem 0.75rem;
 }
 
 .bookmark-ai-chat--title {

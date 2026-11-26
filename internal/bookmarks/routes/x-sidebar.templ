@@ -56,13 +56,20 @@ templ (c SidebarComponent) aiPanel(b *dataset.Bookmark) {
 			class="form-input mt-2"
 			rows="2"
 			data-bookmark-ai-target="instruction"
-			placeholder={ L(ctx).Gettext("Optional instruction, e.g. keep only the recipe") }
+			placeholder={ L(ctx).Gettext("Ask AI, or type an edit instruction") }
 		></textarea>
+		<label class="flex items-center gap-2 mt-2 text-sm">
+			<input type="checkbox" data-bookmark-ai-target="deep"/>
+			{ L(ctx).Gettext("Deep thinking") }
+		</label>
 		<div class="flex flex-wrap gap-2 mt-2">
 			<button type="button" class="btn btn-outlined py-1" data-action="bookmark-ai#summary">
 				{ L(ctx).Gettext("Summarize") }
 			</button>
-			<button type="button" class="btn btn-primary py-1" data-action="bookmark-ai#clean">
+			<button type="button" class="btn btn-primary py-1" data-action="bookmark-ai#chat">
+				{ L(ctx).Gettext("Send") }
+			</button>
+			<button type="button" class="btn btn-outlined py-1" data-action="bookmark-ai#clean">
 				{ L(ctx).Gettext("Clean article") }
 			</button>
 			<button type="button" class="btn btn-outlined py-1" data-action="bookmark-ai#links">
