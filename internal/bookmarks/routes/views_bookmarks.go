@@ -349,6 +349,10 @@ func (h *viewsRouter) bookmarkContent(w http.ResponseWriter, r *http.Request) {
 			server.Log(r).Error("bookmark content", slog.Any("err", err))
 			server.AddFlash(w, r, "error", tr.Gettext("Unable to save the content"))
 		} else {
+			b.Updated = time.Now().UTC()
+			if err := b.Save(); err != nil {
+				server.Log(r).Error("bookmark content updated", slog.Any("err", err))
+			}
 			server.AddFlash(w, r, "success", tr.Gettext("Content updated"))
 		}
 
