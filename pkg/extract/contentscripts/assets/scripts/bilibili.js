@@ -414,8 +414,10 @@ exports.documentLoaded = function (document) {
   // missing. Fix it here as well as in the metadata.
   setMeta(document, "property", "og:title", title)
   setMeta(document, "property", "og:type", "video.other")
-  setMeta(document, "property", "og:description", desc.substring(0, 300))
-  setMeta(document, "name", "description", desc.substring(0, 300))
+  if (desc) {
+    setMeta(document, "property", "og:description", desc.substring(0, 300))
+    setMeta(document, "name", "description", desc.substring(0, 300))
+  }
   if (data.pic) {
     setMeta(document, "property", "og:image", data.pic)
   }
