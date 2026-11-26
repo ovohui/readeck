@@ -69,7 +69,7 @@ type Client struct {
 // New creates a client and fills provider defaults.
 func New(cfg Config) *Client {
 	if cfg.Timeout <= 0 {
-		cfg.Timeout = 120 * time.Second
+		cfg.Timeout = 150 * time.Second
 	}
 	c := &Client{cfg: cfg, http: &http.Client{Timeout: cfg.Timeout}}
 	c.normalize()
