@@ -3634,3 +3634,15 @@ msgstr "用于解析相对图片地址和去重。留空则使用文件里的 ca
 
 msgid "This file is too large. The limit is 64 MB."
 msgstr "这个文件太大了，上限是 64 MB。"
+
+msgid "selected"
+msgstr "已选择"
+
+msgid "Select all"
+msgstr "全选"
+
+msgid "Invert selection"
+msgstr "反选"
+
+msgid "Select"
+msgstr "选择"

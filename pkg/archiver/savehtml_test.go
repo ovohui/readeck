@@ -13,6 +13,9 @@ import (
 	"net/url"
 	"strings"
 	"testing"
+
+	"github.com/go-shiori/dom"
+	"golang.org/x/net/html"
 )
 
 // A video archived by yt-dlp must not occupy the page URL slot: doing so made
@@ -60,6 +63,31 @@ func TestArchiveDocumentWritesHTMLWithYtdlpVideo(t *testing.T) {
 	got, ok := col.Get(videoResourceURL(pageURL))
 	if !ok || got.Name != "./_resources/video.mp4" {
 		t.Fatalf("video resource was overwritten: %+v", got)
+	}
+}
+
+// A forum attachment carries the picture inline in src and a hotlink-protected
+// copy in file=. The inline copy must win; preferring the remote one loses the
+// GIF when the CDN answers with a challenge.
+func TestConvertLazyImageAttrsKeepsInlineImage(t *testing.T) {
+	payload := strings.Repeat("A", 200)
+	doc, err := html.Parse(strings.NewReader(
+		`<html><body><img src="data:image/gif;base64,` + payload +
+			`" file="https://cdn.example.com/a.gif"></body></html>`,
+	))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	arc := New()
+	arc.convertLazyImageAttrs(context.Background(), doc)
+
+	img := dom.QuerySelector(doc, "img")
+	if img == nil {
+		t.Fatal("image disappeared")
+	}
+	if src := dom.GetAttribute(img, "src"); !strings.HasPrefix(src, "data:image/gif") {
+		t.Fatalf("src = %q, want the inline GIF", src)
 	}
 }
 

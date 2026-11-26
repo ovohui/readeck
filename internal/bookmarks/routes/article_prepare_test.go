@@ -88,3 +88,38 @@ func TestPrepareArticleEmpty(t *testing.T) {
 	item := prepareItem("article", "标题")
 	assert.Equal(t, "", prepareArticleHTML(item, "   "))
 }
+
+func TestPrepareArticleCleansTencentChromeAndCoverDuplicate(t *testing.T) {
+	item := prepareItem("article", "标题")
+	item.WordCount = 100
+	item.HasArticle = true
+	raw := `<section>
+		<div id="article-author"><img alt="头像" width="200" src="/avatar.jpg"><p>央视新闻</p></div>
+		<div id="article-content">
+			<p>正文第一段。</p>
+			<figure><img src="/bm/xx/img/cover.jpg" width="800" height="400"></figure>
+			<p>正文第二段。</p>
+		</div>
+	</section>`
+
+	out := prepareArticleHTML(item, raw)
+	assert.NotContains(t, out, "article-author")
+	assert.NotContains(t, out, "avatar.jpg")
+	assert.NotContains(t, out, `src="/bm/xx/img/cover.jpg"`)
+	assert.Contains(t, out, "正文第一段。")
+	assert.Contains(t, out, "正文第二段。")
+}
+
+func TestPrepareArticleImageClasses(t *testing.T) {
+	item := prepareItem("article", "标题")
+	raw := `<section><p>正文</p>
+		<figure><img src="/large.png" width="800"></figure>
+		<figure><img src="/small.png" width="400"></figure>
+		<figure><img src="/static/image/smiley/1.gif" width="16"></figure>
+	</section>`
+
+	out := prepareArticleHTML(item, raw)
+	assert.Contains(t, out, "prose-image-full")
+	assert.Contains(t, out, "prose-image-natural")
+	assert.Contains(t, out, "prose-image-icon")
+}

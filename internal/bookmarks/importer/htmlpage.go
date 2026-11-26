@@ -11,11 +11,13 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"path"
 	"path/filepath"
 	"strings"
 
 	"github.com/go-shiori/dom"
 	"golang.org/x/net/html"
+	"golang.org/x/net/html/atom"
 
 	"codeberg.org/readeck/readeck/internal/bookmarks/tasks"
 	"codeberg.org/readeck/readeck/internal/db/types"
@@ -130,6 +132,9 @@ func (a *htmlPageAdapter) Params(form forms.FormBinder) ([]byte, error) {
 	explicitURL := strings.TrimSpace(f.URL.Value())
 	link, base := htmlPageURL(root, explicitURL, f.Data.Value().Filename())
 	trimmed := trimSavedPage(root)
+	convertAttachmentImages(root)
+	stripInlineImageLazyAttrs(root)
+	cleanAttachmentCaptions(root)
 	if base != nil && explicitURL == "" {
 		absolutize(root, base)
 	}
@@ -278,8 +283,9 @@ func trimSavedPage(root *html.Node) bool {
 	}
 
 	for _, sel := range []string{
-		"#postlist",   // Discuz threads
-		"#js_content", // WeChat
+		`[id^="postmessage_"]`, // Discuz: the first post body, not the whole thread
+		"#postlist",            // Discuz threads without a postmessage id
+		"#js_content",          // WeChat
 		"article",
 		"main",
 		"[role=main]",
@@ -305,6 +311,112 @@ func trimSavedPage(root *html.Node) bool {
 	}
 
 	return false
+}
+
+// stripInlineImageLazyAttrs removes the remote copy of an image that is already
+// embedded as base64. Discuz writes both: src holds the data: GIF and file /
+// zoomfile hold a CDN URL protected by a browser challenge. The archive must be
+// allowed to use the inline copy, otherwise the GIF turns into a download link.
+func stripInlineImageLazyAttrs(root *html.Node) {
+	body := dom.QuerySelector(root, "body")
+	if body == nil {
+		return
+	}
+	for _, img := range dom.QuerySelectorAll(body, "img") {
+		if !strings.HasPrefix(dom.GetAttribute(img, "src"), "data:") {
+			continue
+		}
+		for _, attr := range []string{"file", "zoomfile", "data-file", "data-src", "data-original", "data-actualsrc"} {
+			dom.RemoveAttribute(img, attr)
+		}
+	}
+}
+
+// cleanAttachmentCaptions removes "filename.gif (4.57 MB, 下载次数: 13)" and
+// "昨天 11:38 上传" paragraphs. They sit between pictures and break a photo
+// gallery into a long vertical list.
+func cleanAttachmentCaptions(root *html.Node) {
+	body := dom.QuerySelector(root, "body")
+	if body == nil {
+		return
+	}
+	for _, p := range dom.QuerySelectorAll(body, "p") {
+		text := strings.TrimSpace(dom.TextContent(p))
+		if strings.Contains(text, "下载次数") ||
+			(strings.Contains(text, "上传") && len([]rune(text)) <= 24) {
+			if p.Parent != nil {
+				p.Parent.RemoveChild(p)
+			}
+		}
+	}
+}
+
+// hasInlineImage reports whether the saved page already shows the picture that
+// an attachment link points at. Discuz keeps a hidden tooltip with the file
+// name and the download link next to the inline preview; converting that link
+// again leaves an empty figure after the archive drops the protected CDN copy.
+func hasInlineImage(root *html.Node, href string) bool {
+	for _, img := range dom.QuerySelectorAll(root, "img") {
+		for _, attr := range []string{"src", "file", "zoomfile", "data-src"} {
+			if strings.TrimSpace(dom.GetAttribute(img, attr)) == href {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// convertAttachmentImages turns forum "下载附件" links that point at an image
+// into real pictures. Discuz renders image attachments as a file name, a size
+// and a download link when the visitor is not allowed to see them inline; the
+// archive then shows a download link instead of the GIF or photo.
+func convertAttachmentImages(root *html.Node) {
+	body := dom.QuerySelector(root, "body")
+	if body == nil {
+		return
+	}
+
+	imageExt := map[string]bool{
+		".gif": true, ".png": true, ".jpg": true, ".jpeg": true,
+		".webp": true, ".bmp": true,
+	}
+
+	for _, a := range dom.QuerySelectorAll(body, "a[href]") {
+		href := strings.TrimSpace(dom.GetAttribute(a, "href"))
+		if href == "" {
+			continue
+		}
+		u, err := url.Parse(href)
+		if err != nil || !imageExt[strings.ToLower(path.Ext(u.Path))] {
+			continue
+		}
+
+		text := strings.TrimSpace(dom.TextContent(a))
+		title := strings.TrimSpace(dom.GetAttribute(a, "title"))
+		if !strings.Contains(text, "下载") && !strings.Contains(text, "附件") &&
+			!strings.Contains(title, "下载") {
+			continue
+		}
+		if hasInlineImage(body, href) {
+			continue
+		}
+
+		img := dom.CreateElement("img")
+		dom.SetAttribute(img, "src", href)
+		dom.SetAttribute(img, "alt", path.Base(u.Path))
+		fig := dom.CreateElement("figure")
+		dom.AppendChild(fig, img)
+
+		parent := a.Parent
+		if parent == nil {
+			continue
+		}
+		if parent.DataAtom == atom.P && strings.TrimSpace(dom.TextContent(parent)) == text {
+			dom.ReplaceChild(parent.Parent, fig, parent)
+		} else {
+			dom.ReplaceChild(parent, fig, a)
+		}
+	}
 }
 
 // absolutize rewrites picture URLs that are relative to the page. Without it

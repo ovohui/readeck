@@ -729,6 +729,14 @@ func (arc *Archiver) convertLazyImageAttrs(_ context.Context, doc *html.Node) {
 			}
 		}
 
+		// An inline picture is already the real content. Forums put both the
+		// base64 image in src and a remote copy in file/zoomfile; preferring
+		// the remote copy made the archive depend on a hotlink-protected CDN
+		// and lose the image when that CDN answered 403.
+		if src != "" && rxB64DataURL.MatchString(src) {
+			return
+		}
+
 		// If a real src/srcset is present and there are no lazy-load attributes
 		// to prefer, there's nothing to convert. But when a lazy attribute
 		// (e.g. data-src) exists, always process it even if a placeholder src

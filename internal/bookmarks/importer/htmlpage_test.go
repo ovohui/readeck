@@ -63,6 +63,68 @@ func TestHTMLPageTrimsSiteChrome(t *testing.T) {
 	assert.NotContains(t, string(res[0].Data), "页脚")
 }
 
+func TestHTMLPageTurnsAttachmentLinksIntoPictures(t *testing.T) {
+	page := `<!DOCTYPE html><html><head><title>帖子</title></head><body>
+		<div id="postmessage_1">
+			<p>文字</p>
+			<p><a href="https://example.com/a.gif">下载附件</a></p>
+			<p><a href="https://example.com/b.pdf">下载附件</a></p>
+		</div>
+	</body></html>`
+
+	adapter := LoadAdapter(ImportHTMLPage)
+	f, items := loadFile(t, dataFile(page), adapter)
+	require.True(t, f.IsValid())
+	require.Len(t, items, 1)
+
+	res := items[0].(BookmarkResourceProvider).Resources()
+	require.Len(t, res, 1)
+	out := string(res[0].Data)
+	assert.Contains(t, out, `<img src="https://example.com/a.gif"`)
+	assert.NotContains(t, out, `href="https://example.com/a.gif"`)
+	// A PDF attachment is not a picture and must stay a link.
+	assert.Contains(t, out, `href="https://example.com/b.pdf"`)
+}
+
+func TestHTMLPageKeepsInlineImageOverRemoteCopy(t *testing.T) {
+	payload := strings.Repeat("A", 200)
+	page := `<!DOCTYPE html><html><head><title>帖子</title></head><body>
+		<div id="postmessage_1">
+			<img src="data:image/gif;base64,` + payload + `" file="https://cdn.example.com/a.gif" width="200">
+		</div>
+	</body></html>`
+
+	adapter := LoadAdapter(ImportHTMLPage)
+	f, items := loadFile(t, dataFile(page), adapter)
+	require.True(t, f.IsValid())
+
+	res := items[0].(BookmarkResourceProvider).Resources()
+	require.Len(t, res, 1)
+	out := string(res[0].Data)
+	assert.Contains(t, out, "data:image/gif;base64,"+payload)
+	assert.NotContains(t, out, `file="https://cdn.example.com/a.gif"`)
+}
+
+func TestHTMLPageDoesNotDuplicateInlineAttachment(t *testing.T) {
+	payload := strings.Repeat("A", 200)
+	page := `<!DOCTYPE html><html><head><title>帖子</title></head><body>
+		<div id="postmessage_1">
+			<img src="data:image/gif;base64,` + payload + `" file="https://example.com/a.gif" width="200">
+			<p><a href="https://example.com/a.gif">下载附件</a></p>
+		</div>
+	</body></html>`
+
+	adapter := LoadAdapter(ImportHTMLPage)
+	f, items := loadFile(t, dataFile(page), adapter)
+	require.True(t, f.IsValid())
+
+	res := items[0].(BookmarkResourceProvider).Resources()
+	out := string(res[0].Data)
+	assert.Equal(t, 1, strings.Count(out, "<img"))
+	assert.NotContains(t, out, "<figure>")
+	assert.NotContains(t, out, `file="https://example.com/a.gif"`)
+}
+
 func TestHTMLPageCanonicalAndRelativePictures(t *testing.T) {
 	page := `<!DOCTYPE html><html><head>
 		<title>标题</title>

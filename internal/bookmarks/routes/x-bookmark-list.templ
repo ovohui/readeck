@@ -105,7 +105,7 @@ templ (v Views) bookmarkList(title string, bl *dataset.BookmarkList, f *createFo
 					}
 				</p>
 			}
-			<div class="bookmark-list-container">
+			<div class="bookmark-list-container bulk" data-controller="bulk">
 				<details
 					id="filters"
 					class="bookmark-filters"
@@ -420,6 +420,27 @@ templ (c Components) exportMenu(q url.Values) {
 
 templ (c Components) bookmarkList(bl *dataset.BookmarkList) {
 	<div class="bookmark-list">
+		<div class="bulk-toolbar" data-bulk-target="toolbar" hidden>
+			<span class="bulk-toolbar-count">
+				<strong data-bulk-target="count">0</strong>
+				{ L(ctx).Gettext("selected") }
+			</span>
+			<button type="button" class="btn btn-outlined py-1" data-action="bulk#selectAll">
+				{ L(ctx).Gettext("Select all") }
+			</button>
+			<button type="button" class="btn btn-outlined py-1" data-action="bulk#invert">
+				{ L(ctx).Gettext("Invert selection") }
+			</button>
+			<button type="button" class="btn btn-outlined py-1" data-action="bulk#label">
+				{ L(ctx).Gettext("Add label") }
+			</button>
+			<button type="button" class="btn btn-outlined py-1" data-action="bulk#archive">
+				{ L(ctx).Gettext("Archive") }
+			</button>
+			<button type="button" class="btn btn-danger py-1 ml-auto" data-action="bulk#delete">
+				{ L(ctx).Gettext("Delete") }
+			</button>
+		</div>
 		@Pagination(&bl.Pagination)
 		<div
 			class={ "my-4", Preferences(ctx).BookmarkList.Layout.Class() }
@@ -448,6 +469,16 @@ templ (c Components) card(b *dataset.Bookmark) {
 		}
 	>
 		<div class="bookmark-card" data-deleted={ b.IsDeleted } data-loading={ !b.Loaded }>
+			if b.Loaded && !b.IsDeleted {
+				<input
+					type="checkbox"
+					class="bookmark-card--select"
+					data-bulk-target="checkbox"
+					data-bulk-id={ b.ID }
+					data-action="bulk#toggle"
+					aria-label={ L(ctx).Gettext("Select") }
+				/>
+			}
 			if !b.Loaded {
 				<div class="bookmark-card--img">
 					@c.rndSVG(ctx, b)
@@ -466,19 +497,9 @@ templ (c Components) card(b *dataset.Bookmark) {
 				<span class="bookmark-card--img">
 					if img, ok := b.Resources["thumbnail"]; ok {
 						@c.cardImage(img.Src, img.Width, img.Height)
-					} else if icon, ok := b.Resources["icon"]; ok {
-						// No picture on the page: the site's own logo on the
-						// generated gradient is more useful than a bare letter.
-						<span class="bookmark-card--logo">
-							@c.rndSVG(ctx, b)
-							<img
-								class="bookmark-card--logo-icon"
-								loading="lazy"
-								src={ icon.Src }
-								width={ icon.Width }
-								height={ icon.Height }
-								alt=""
-							/>
+					} else if name := brandName(b); name != "" {
+						<span class={ "bookmark-card--brand " + brandClass(b) }>
+							<span class="bookmark-card--brand-name">{ name }</span>
 						</span>
 					} else {
 						@c.rndSVG(ctx, b)

@@ -3245,3 +3245,15 @@ msgstr ""
 
 msgid "This file is too large. The limit is 64 MB."
 msgstr ""
+
+msgid "selected"
+msgstr ""
+
+msgid "Select all"
+msgstr ""
+
+msgid "Invert selection"
+msgstr ""
+
+msgid "Select"
+msgstr ""

@@ -392,6 +392,14 @@ func saveBookmark(b *bookmarks.Bookmark, saved *bool, resourceCount *int) extrac
 
 		b.Links = GetExtractedLinks(ex.Context)
 
+		// Every bookmark gets a source label, so a collection or a label list
+		// can group clips by site without the user tagging each one.
+		if label := sourceLabel(b); label != "" {
+			b.Labels = append(b.Labels, label)
+			slices.Sort(b.Labels)
+			b.Labels = slices.Compact(b.Labels)
+		}
+
 		// Create the zip file
 		err = createZipFile(b, ex, resourceCount)
 		if err != nil {
@@ -506,6 +514,20 @@ func fetchLinksProcessor(b *bookmarks.Bookmark) extract.Processor {
 
 		return next
 	}
+}
+
+// sourceLabel returns the automatic "来源/<site>" label of a bookmark.
+func sourceLabel(b *bookmarks.Bookmark) string {
+	name := strings.TrimSpace(b.SiteName)
+	if name == "" || name == b.Site {
+		name = strings.TrimSpace(b.Domain)
+	}
+	name = strings.TrimPrefix(name, "www.")
+	name = strings.TrimSpace(name)
+	if name == "" {
+		return ""
+	}
+	return "来源/" + name
 }
 
 func createZipFile(b *bookmarks.Bookmark, ex *extract.Extractor, resourceCount *int) error {

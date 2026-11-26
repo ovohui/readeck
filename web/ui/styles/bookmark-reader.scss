@@ -89,6 +89,46 @@
     margin-left: 0.75rem;
   }
 
+  // Article pictures used to follow their own width attributes: a 720px
+  // screenshot filled the column while a 516px GIF looked tiny next to it.
+  // Wide pictures now fill the column, small diagrams keep their size, and
+  // smilies stay inline instead of becoming banners.
+  .prose {
+    img.prose-image-full {
+      display: block;
+      width: 100%;
+      max-height: 68vh;
+      height: auto;
+      margin-right: auto;
+      margin-left: auto;
+      object-fit: contain;
+    }
+
+    img.prose-image-natural {
+      display: block;
+      width: auto;
+      max-width: 100%;
+      max-height: 68vh;
+      height: auto;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    img.prose-image-icon {
+      display: inline;
+      width: auto;
+      max-width: 1.6em;
+      max-height: 1.6em;
+      margin: 0 0.15em;
+      vertical-align: middle;
+    }
+
+    figure:has(> img.prose-image-full) {
+      display: block;
+      width: 100%;
+    }
+  }
+
   // A banner for article bookmarks that have a cover: the card and the
   // sidebar show it, but on a phone the sidebar is hidden and the article
   // opens on text. The hero gives the page an obvious visual entry point.
@@ -99,9 +139,11 @@
 
     img {
       display: block;
-      width: 100%;
-      max-height: 60dvh;
-      object-fit: cover;
+      width: auto;
+      max-width: 100%;
+      max-height: 45dvh;
+      margin: 0 auto;
+      object-fit: contain;
       border-radius: theme("borderRadius.lg");
       background-color: theme("colors.gray.100");
     }
@@ -223,6 +265,8 @@
   img {
     width: 100%;
     height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
     margin: 0;
     border-radius: theme("borderRadius.lg");
   }
