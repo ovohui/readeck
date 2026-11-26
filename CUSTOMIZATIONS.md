@@ -572,7 +572,7 @@ Go 的 http.Client 只跟 HTTP 重定向，遇到这种页面会直接把中转�
 两个站点的失败日志完全一样：
 
 ```
-dial tcp: lookup sehuatang.net on 127.0.0.11:53: server misbehaving
+dial tcp: lookup 某 Discuz 论坛 on 127.0.0.11:53: server misbehaving
 dial tcp: lookup tu.djhdhs.us on 127.0.0.11:53: server misbehaving
 ```
 
@@ -603,7 +603,7 @@ determined the content container ... node="<table>" ... textLength="245"
 
 归档后正文 1.3 KB、0 张图（原帖 20+ 张）。
 
-新增 `pkg/extract/contentscripts/assets/site-config/sehuatang.net.json`：正文直接定位到
+新增 `pkg/extract/contentscripts/assets/site-config/某 Discuz 论坛.json`：正文直接定位到
 `//*[starts-with(@id,'postmessage_')]`，并把签名、评分、广告、`attach_nopermission` 之类
 剥掉；`strip_image_src` 里排掉 `none.gif` / `emp.gif` 这类占位图和表情。
 
