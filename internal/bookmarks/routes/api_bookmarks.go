@@ -98,10 +98,16 @@ func (api *apiRouter) bookmarkArticle(w http.ResponseWriter, r *http.Request) {
 			Write(w)
 	}
 
-	w.Header().Set("Content-Length", strconv.Itoa(buf.Len()))
+	// The reading page loads this route into its turbo frame, so it must carry
+	// the same presentation fixes as the server render: poster on archived
+	// video, no duplicated title heading, gallery layout for photo notes.
+	raw, _ := io.ReadAll(buf)
+	prepared := prepareArticleHTML(bi, string(raw))
+
+	w.Header().Set("Content-Length", strconv.Itoa(len(prepared)))
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.WriteHeader(200)
-	io.Copy(w, buf)
+	io.WriteString(w, prepared)
 }
 
 func (api *apiRouter) bookmarkListFeed(w http.ResponseWriter, r *http.Request) {

@@ -1,0 +1,196 @@
+// SPDX-FileCopyrightText: © 2026 Readeck custom build
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
+// Reading page polish. Kept next to bookmark.scss because everything here is
+// about the bookmark header and article, not the bookmark list.
+@layer components {
+  .bookmark-container {
+    .bookmark-header {
+      & > turbo-frame > h1 {
+        text-wrap: balance;
+      }
+
+      // The summary is stored as one paragraph from the page's own meta tag.
+      // Italic serif reads badly in Chinese (the browser slants every glyph),
+      // so it is set upright, a little smaller and clamped to four lines. The
+      // full text stays in the title attribute and in the bookmark editor.
+      & > turbo-frame > p.bookmark-summary {
+        margin-top: 0.75rem;
+        font-size: 1rem;
+        line-height: 1.6;
+        font-style: normal;
+        text-align: left;
+        color: theme("colors.gray.700");
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        overflow: hidden;
+      }
+    }
+  }
+
+  .bookmark-kicker {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.5rem;
+    margin: 0.75rem 0 0.25rem;
+    font-size: 0.875rem;
+    color: theme("colors.gray.600");
+  }
+
+  .bookmark-kind {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.125rem 0.5rem;
+    border: 1px solid theme("colors.gray.200");
+    border-radius: 9999px;
+    background-color: theme("colors.gray.100");
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: theme("colors.gray.700");
+  }
+
+  .bookmark-kicker-site,
+  .bookmark-kicker-author {
+    max-width: 18rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .bookmark-kicker-sep {
+    color: theme("colors.gray.400");
+  }
+
+  .bookmark-origin {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-left: auto;
+    font-size: 0.875rem;
+    color: rgb(var(--color-primary));
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      color: rgb(var(--color-primary-dark));
+      text-decoration: underline;
+    }
+  }
+
+  // Archived video. The player is the page on a video bookmark: give it the
+  // full reading column, the cover as poster (added by prepareArticleHTML) and
+  // enough black around it that a vertical clip does not look like a bug.
+  .bookmark-article {
+    .prose figure:has(> video) {
+      display: block;
+      width: 100%;
+      margin: 0 0 1.5rem;
+    }
+
+    .prose video {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 78dvh;
+      margin: 0 auto;
+      border-radius: theme("borderRadius.lg");
+      background-color: #000;
+    }
+
+    .prose .embedded-video {
+      width: 100%;
+    }
+
+    .prose .embedded-video video {
+      max-height: 78dvh;
+    }
+  }
+
+  .bookmark-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    max-width: 42rem;
+    margin: 1.5rem auto;
+    padding: 1.25rem;
+    border: 1px solid theme("colors.gray.200");
+    border-radius: theme("borderRadius.xl");
+    background-color: theme("colors.gray.50");
+
+    @screen sm {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+  }
+
+  .bookmark-empty-image {
+    width: 100%;
+    max-height: 12rem;
+    object-fit: cover;
+    border-radius: theme("borderRadius.lg");
+
+    @screen sm {
+      width: 10rem;
+    }
+  }
+
+  .bookmark-empty-body {
+    flex: 1;
+    text-align: center;
+
+    @screen sm {
+      text-align: left;
+    }
+  }
+
+  .bookmark-empty-title {
+    margin-bottom: 0.25rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: theme("colors.gray.900");
+  }
+
+  .bookmark-empty-text {
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: theme("colors.gray.600");
+  }
+}
+
+// A photo note is a handful of tall pictures. Stacked at full width they turn
+// into several screens of scrolling before the reader sees the next note; two
+// columns keep the whole set visible.
+//
+// This rule lives outside @layer components on purpose: the gallery wrapper is
+// added by prepareArticleHTML at runtime, so Tailwind's content scan never sees
+// the class name and would drop the rule.
+.photo-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+
+  figure {
+    display: block;
+    width: 100%;
+    margin: 0;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    border-radius: theme("borderRadius.lg");
+  }
+
+  @screen max-sm {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

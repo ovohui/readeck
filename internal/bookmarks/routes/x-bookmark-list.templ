@@ -489,7 +489,7 @@ templ (c Components) card(b *dataset.Bookmark) {
 							href={ bURL }
 							data-turbo-frame="_top"
 						>
-							{ utils.ShortText(Tern(func() bool { return b.Title != ""}, b.Title, L(ctx).Gettext("untitled")), 90) }
+							{ utils.ShortText(Tern(func() bool { return b.Title != ""}, displayTitle(b), L(ctx).Gettext("untitled")), 90) }
 						</a>
 					</h3>
 				</div>

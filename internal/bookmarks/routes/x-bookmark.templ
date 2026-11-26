@@ -91,7 +91,7 @@ templ (v Views) bookmarkInfo(item *dataset.Bookmark, html io.Reader) {
 					data-controller="styler"
 					dir={ Tern(func() bool { return item.TextDirection != "" }, item.TextDirection, "ltr") }
 				>
-					<h1 class="px-6 py-4 text-3xl print:px-0">{ item.Title }</h1>
+					<h1 class="px-6 py-4 text-3xl print:px-0">{ displayTitle(item) }</h1>
 				</div>
 				<progress
 					class="bookmark-scroll-progress"

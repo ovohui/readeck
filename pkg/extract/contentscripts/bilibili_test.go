@@ -67,6 +67,44 @@ func TestBilibiliVideoLayout(t *testing.T) {
 	assert.Equal("video.other", ex.Drop().Meta.LookupGet("graph.type"))
 }
 
+// When the page state payload is missing the script used to return early,
+// leaving a media page with no article: the archiver then synthesized an empty
+// document and the reader showed only the downloaded video. The meta tags are
+// enough to build the article, and the statistics block is cut off.
+func TestBilibiliFallbackWithoutState(t *testing.T) {
+	assert := require.New(t)
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	pageURL := "https://www.bilibili.com/video/BV1fallback1"
+	page := `<!DOCTYPE html><html><head>
+<title>一个宝藏开源项目_哔哩哔哩_bilibili</title>
+<meta property="og:title" content="一个宝藏开源项目_哔哩哔哩_bilibili">
+<meta property="og:description" content="视频中出现的工具已经整理到下面的下载地址，喜欢的点个关注，谢谢啦, 视频播放量 62、弹幕量 0、点赞数 1、投硬币枚数 0、收藏人数 8、转发人数 0, 视频作者 创心宝库, 作者简介 资源在简介或评论区自取，相关视频：别的视频">
+<meta property="og:image" content="http://i2.hdslb.com/bfs/archive/cover.jpg">
+</head><body><h1 class="video-title">一个宝藏开源项目</h1><div class="up-name">创心宝库</div></body></html>`
+	httpmock.RegisterResponder("GET", pageURL, httpmock.NewStringResponder(200, page))
+
+	ex, _ := extract.New(pageURL)
+	ex.AddProcessors(
+		LoadScripts(),
+		ProcessDom("documentLoaded"),
+		meta.ExtractMeta,
+		meta.SetDropProperties,
+	)
+	ex.Run()
+	assert.Empty(ex.Errors())
+
+	html := string(ex.HTML)
+	assert.Contains(html, `<article`)
+	assert.Contains(html, "视频中出现的工具已经整理到下面的下载地址")
+	assert.NotContains(html, "视频播放量")
+	assert.NotContains(html, "相关视频")
+	assert.Contains(html, "data-iframe-params")
+	assert.Equal("一个宝藏开源项目", ex.Drop().Title)
+	assert.Equal("视频中出现的工具已经整理到下面的下载地址，喜欢的点个关注，谢谢啦", ex.Drop().Description)
+}
+
 // A column page (/read/cv...) is not a video: the script must leave it alone
 // rather than replace its body with an empty article.
 func TestBilibiliReadPageIsUntouched(t *testing.T) {

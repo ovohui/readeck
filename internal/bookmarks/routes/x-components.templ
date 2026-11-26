@@ -7,6 +7,7 @@ package routes
 import (
 	"io"
 	"net/url"
+	"strings"
 
 	"codeberg.org/readeck/readeck/internal/bookmarks/dataset"
 	"codeberg.org/readeck/readeck/internal/server"
@@ -19,15 +20,58 @@ type Components struct{}
 
 templ (c Components) titleBlock(item *dataset.Bookmark) {
 	<turbo-frame id={ "bookmark-title-" + item.ID } class="leading-normal">
-		<h1>{ item.Title }</h1>
-		if item.Description != "" && (item.OmitDescription == nil || *item.OmitDescription == false) {
-			<p dir={ Tern(func() bool { return item.TextDirection != "" }, item.TextDirection, "ltr") }>
-				{ item.Description }
+		<h1>{ displayTitle(item) }</h1>
+		if desc := displayDescription(item); desc != "" {
+			<p
+				class="bookmark-summary"
+				title={ desc }
+				dir={ Tern(func() bool { return item.TextDirection != "" }, item.TextDirection, "ltr") }
+			>
+				{ desc }
 			</p>
 		}
+		@c.bookmarkKicker(item)
 		@c.note(item)
 		@c.editDialog(item)
 	</turbo-frame>
+}
+
+// bookmarkKicker is the small line under the title: what kind of page this is,
+// where it comes from, who wrote it and when, plus a way back to the original
+// page. The sidebar repeats some of it on wide screens, but the sidebar is
+// hidden on phones - and on a video page "open the original" is the one action
+// that is always useful.
+templ (c Components) bookmarkKicker(item *dataset.Bookmark) {
+	<div class="bookmark-kicker">
+		if item.Type == "video" {
+			<span class="bookmark-kind">@Icon("o-video", WithIconSvgClass("w-3.5 h-3.5")){ L(ctx).Gettext("Video") }</span>
+		} else if item.Type == "photo" {
+			<span class="bookmark-kind">@Icon("o-photo", WithIconSvgClass("w-3.5 h-3.5")){ L(ctx).Gettext("Pictures") }</span>
+		}
+		if item.SiteName != "" {
+			<span class="bookmark-kicker-site">{ item.SiteName }</span>
+		}
+		if len(item.Authors) > 0 {
+			<span class="bookmark-kicker-sep">·</span>
+			<span class="bookmark-kicker-author" title={ strings.Join(item.Authors, ", ") }>
+				{ authorLine(item) }
+			</span>
+		}
+		if item.Published != nil {
+			<span class="bookmark-kicker-sep">·</span>
+			<span>{ LocalDate(ctx, *item.Published) }</span>
+		}
+		<a
+			class="bookmark-origin"
+			href={ item.URL }
+			target="_blank"
+			rel="noopener noreferrer"
+			title={ L(ctx).Gettext("Open link") }
+		>
+			@Icon("o-link-ext", WithIconSvgClass("w-3.5 h-3.5"))
+			{ L(ctx).Gettext("Open link") }
+		</a>
+	</div>
 }
 
 templ (c Components) editDialog(item *dataset.Bookmark) {
@@ -61,28 +105,29 @@ templ (c Components) contentBlock(item *dataset.Bookmark, html io.Reader) {
 				</figure>
 			}
 		case "video":
-			if img, ok := item.Resources["image"]; ok && item.Embed != "" {
-				{{
-					action := "click->video#play"
-					if !item.HasArticle {
-						action = "click->scroll-progress#setPosition " + action
-					}
-				}}
-				<div class="video-player mb-8" data-controller="video">
-					<img alt="" src={ img.Src } width={ img.Width } height={ img.Height }/>
-					<template data-video-target="embed">
-						@templ.Raw(item.Embed)
-					</template>
-					<template data-video-target="play">
-						<button
-							class="play-button"
-							data-action={ action }
-							data-scroll-progress-position-param="100"
-						>
-							<span></span>
-						</button>
-					</template>
-				</div>
+			// A bookmark that kept an article already carries the playable
+			// thing: the archived <video>, or the cover placeholder the
+			// content script left for the original player. Showing the embed
+			// player on top of it gave the reader the same cover twice and,
+			// on Bilibili, a second, slower player above the offline one.
+			if !item.HasArticle {
+				if img, ok := item.Resources["image"]; ok && item.Embed != "" {
+					<div class="video-player mb-8" data-controller="video">
+						<img alt="" src={ img.Src } width={ img.Width } height={ img.Height }/>
+						<template data-video-target="embed">
+							@templ.Raw(item.Embed)
+						</template>
+						<template data-video-target="play">
+							<button
+								class="play-button"
+								data-action="click->scroll-progress#setPosition click->video#play"
+								data-scroll-progress-position-param="100"
+							>
+								<span></span>
+							</button>
+						</template>
+					</div>
+				}
 			}
 	}
 	@c.articleContent(item, html)
@@ -91,47 +136,84 @@ templ (c Components) contentBlock(item *dataset.Bookmark, html io.Reader) {
 
 templ (c Components) articleContent(item *dataset.Bookmark, html io.Reader) {
 	if item.HasArticle {
-		{{ prefs := Preferences(ctx) }}
-		<turbo-frame
-			id={ "bookmark-content-" + item.ID }
-			src={ URL(ctx, "/api/bookmarks", item.ID, "article") }
-			disabled
-			data-controller="annotations"
-			data-action="request:annotation-removed@document->annotations#reload"
-			data-annotations-api-url-value={ URL(ctx, "/api/bookmarks", item.ID, "annotations") }
-			data-annotations-hidden-class="hidden"
-		>
-			<div
-				class={ "bookmark-article print:max-w-none relative", prefs.Bookmark.ReaderWidth.Class() }
-				data-controller="styler"
+		{{
+			raw, _ := io.ReadAll(html)
+			prepared := prepareArticleHTML(item, string(raw))
+			prefs := Preferences(ctx)
+		}}
+		if prepared == "" {
+			@c.emptyContent(item)
+		} else {
+			<turbo-frame
+				id={ "bookmark-content-" + item.ID }
+				src={ URL(ctx, "/api/bookmarks", item.ID, "article") }
+				disabled
+				data-controller="annotations"
+				data-action="request:annotation-removed@document->annotations#reload"
+				data-annotations-api-url-value={ URL(ctx, "/api/bookmarks", item.ID, "annotations") }
+				data-annotations-hidden-class="hidden"
 			>
-				@c.articleAnnotator()
 				<div
 					class={
-						"prose", "overflow-x-auto",
-						prefs.Bookmark.FontFamily.Class(),
-						prefs.Bookmark.FontSize.Class(),
-						prefs.Bookmark.LineHeight.Class(),
-						prefs.Bookmark.Justified.Class(),
-						prefs.Bookmark.Hyphenated.Class(),
+						"bookmark-article print:max-w-none relative",
+						templ.KV("bookmark-article--video", item.Type == "video"),
+						templ.KV("bookmark-article--photo", item.Type == "photo"),
+						prefs.Bookmark.ReaderWidth.Class(),
 					}
-					lang={ item.Lang }
-					dir={ Tern(func() bool { return item.TextDirection != "" }, item.TextDirection, "ltr") }
-					data-controller="styler modal-images modal-videos"
-					data-modal-images-selector-value="img[src]:not([data-iframe-params])"
-					data-modal-videos-selector-value="img[data-iframe-params]"
-					data-modal-videos-base-url-value={ URL(ctx, "/videoplayer") + "?type=embed" }
-					data-annotations-target="root"
-					data-scroll-progress-target="tracked"
-					data-action="turbo:morph-element->modal-images#reload turbo:morph-element->modal-videos#reload"
+					data-controller="styler"
 				>
-					@HTML(html)
-					@c.imageModal()
-					@c.videoModal()
+					@c.articleAnnotator()
+					<div
+						class={
+							"prose", "overflow-x-auto",
+							prefs.Bookmark.FontFamily.Class(),
+							prefs.Bookmark.FontSize.Class(),
+							prefs.Bookmark.LineHeight.Class(),
+							prefs.Bookmark.Justified.Class(),
+							prefs.Bookmark.Hyphenated.Class(),
+						}
+						lang={ item.Lang }
+						dir={ Tern(func() bool { return item.TextDirection != "" }, item.TextDirection, "ltr") }
+						data-controller="styler modal-images modal-videos"
+						data-modal-images-selector-value="img[src]:not([data-iframe-params])"
+						data-modal-videos-selector-value="img[data-iframe-params]"
+						data-modal-videos-base-url-value={ URL(ctx, "/videoplayer") + "?type=embed" }
+						data-annotations-target="root"
+						data-scroll-progress-target="tracked"
+						data-action="turbo:morph-element->modal-images#reload turbo:morph-element->modal-videos#reload"
+					>
+						@templ.Raw(prepared)
+						@c.imageModal()
+						@c.videoModal()
+					</div>
 				</div>
-			</div>
-		</turbo-frame>
+			</turbo-frame>
+		}
+	} else {
+		@c.emptyContent(item)
 	}
+}
+
+// emptyContent is what the reader shows when there is nothing to read: a
+// JavaScript-only page, a login wall, or a failed extraction. Blank paper with
+// a title is the worst possible answer; say what happened and give the one
+// action that works.
+templ (c Components) emptyContent(item *dataset.Bookmark) {
+	<div class="bookmark-empty">
+		if img, ok := item.Resources["image"]; ok {
+			<img class="bookmark-empty-image" alt="" src={ img.Src } width={ img.Width } height={ img.Height }/>
+		}
+		<div class="bookmark-empty-body">
+			<p class="bookmark-empty-title">{ L(ctx).Gettext("No readable content was saved") }</p>
+			<p class="bookmark-empty-text">
+				{ L(ctx).Gettext("This page is rendered by JavaScript or requires a login. Open the original page, or save it again with the browser extension.") }
+			</p>
+			<a class="btn btn-primary" href={ item.URL } target="_blank" rel="noopener noreferrer">
+				@Icon("o-link-ext", WithIconSvgClass("w-4 h-4"))
+				{ L(ctx).Gettext("Open link") }
+			</a>
+		</div>
+	</div>
 }
 
 templ (c Components) articleAnnotator() {

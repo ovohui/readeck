@@ -3559,3 +3559,9 @@ msgstr "重做"
 
 msgid "Edit the raw HTML instead"
 msgstr "切换到 HTML 源码"
+
+msgid "No readable content was saved"
+msgstr "没有保存到可读正文"
+
+msgid "This page is rendered by JavaScript or requires a login. Open the original page, or save it again with the browser extension."
+msgstr "这个页面由脚本渲染或需要登录，服务端没有抓到正文。可以打开原网页阅读，或用浏览器扩展重新保存。"

@@ -7,6 +7,7 @@ package meta
 import (
 	"regexp"
 	"strings"
+	"unicode/utf8"
 )
 
 // Browsers put notification counters into document.title on sites that keep
@@ -72,7 +73,86 @@ func cleanTitle(title string) string {
 		title = head
 	}
 
+	// Templates glue more than one site name on, and some of those names have
+	// spaces or a second brand ("_哔哩哔哩_bilibili",
+	// "- OSCHINA - 开源 × AI · 开发者生态社区", "_财新网_财新网"). Cut at the last
+	// known site name when it sits behind a separator.
+	for i := 0; i < 3; i++ {
+		head, ok := cutAtKnownSite(title)
+		if !ok {
+			break
+		}
+		title = head
+	}
+
+	title = stripTitleTags(title)
+
 	return strings.TrimSpace(title)
+}
+
+// cutAtKnownSite cuts everything from the last known site name, provided it is
+// preceded by a separator and what follows is short enough to be a suffix.
+func cutAtKnownSite(title string) (string, bool) {
+	lower := strings.ToLower(title)
+	best := -1
+	for label := range siteLabels {
+		idx := strings.LastIndex(lower, strings.ToLower(label))
+		if idx <= 0 || idx <= best {
+			continue
+		}
+		prev, _ := utf8.DecodeLastRuneInString(title[:idx])
+		after := title[idx+len(label):]
+		if !isTitleSeparator(prev) {
+			continue
+		}
+		if after != "" {
+			next, _ := utf8.DecodeRuneInString(after)
+			if !isTitleSeparator(next) {
+				continue
+			}
+		}
+		if len([]rune(after)) > 48 {
+			continue
+		}
+		best = idx
+	}
+	if best <= 0 {
+		return title, false
+	}
+	return strings.TrimRightFunc(strings.TrimSpace(title[:best]), isTitleSeparator), true
+}
+
+// stripTitleTags removes a trailing tag list: "…的决定|总书记|中央纪委".
+func stripTitleTags(title string) string {
+	parts := strings.Split(title, "|")
+	if len(parts) < 2 {
+		return title
+	}
+	end := len(parts)
+	for end > 1 && len(parts)-end < 4 {
+		tag := strings.TrimSpace(parts[end-1])
+		if tag == "" || len([]rune(tag)) > 8 || strings.ContainsAny(tag, ".。,，!！?？:：;；、()（）") {
+			break
+		}
+		end--
+	}
+	if len(parts)-end == 0 {
+		return title
+	}
+	// A single trailing tag is only removed when what remains is a real
+	// headline: "设计|界面" must not become "设计".
+	if len(parts)-end == 1 && len([]rune(strings.Join(parts[:end], "|"))) < 10 {
+		return title
+	}
+	return strings.TrimSpace(strings.Join(parts[:end], "|"))
+}
+
+func isTitleSeparator(r rune) bool {
+	switch r {
+	case ' ', '\t', '_', '|', '｜', '-', '–', '—', '·', ':', '：':
+		return true
+	}
+	return false
 }
 
 // isCounterOnly reports whether s is just a badge count: "3", "99+", "1.2k",

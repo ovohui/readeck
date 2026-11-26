@@ -93,17 +93,12 @@ func ExtractMeta(m *extract.ProcessMessage, next extract.Processor) extract.Proc
 		"html.title",
 	))
 
-	d.Description = d.Meta.LookupGet(
+	d.Description = cleanDescription(d.Meta.LookupGet(
 		"ld.description",
 		"graph.description",
 		"twitter.description",
 		"html.description",
-	)
-
-	// Keep a short description (60 words)
-	if parts := strings.Fields(d.Description); len(parts) > 60 {
-		d.Description = strings.Join(parts[:60], " ") + "..."
-	}
+	))
 
 	d.AddAuthors(d.Meta.Lookup(
 		"ld.author",

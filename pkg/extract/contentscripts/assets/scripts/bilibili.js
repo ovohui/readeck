@@ -227,6 +227,94 @@ function readTags(doc) {
 }
 
 /**
+ * Cuts the statistics block Bilibili appends to the description. The rest of
+ * the text is the uploader's own writing and is worth keeping.
+ *
+ * @param {string} s
+ * @returns {string}
+ */
+function cleanDescription(s) {
+  // Keep line breaks: the article turns each one into a paragraph.
+  s = String(s || "")
+    .replace(/\r\n/g, "\n")
+    .replace(/[ \t\f\v]+/g, " ")
+    .replace(/\n{2,}/g, "\n")
+    .trim()
+  var markers = ["视频播放量", "弹幕量", "视频作者", "作者简介", "相关视频：", "相关视频:"]
+  var cut = -1
+  for (var i = 0; i < markers.length; i++) {
+    var at = s.indexOf(markers[i])
+    if (at > 20 && (cut < 0 || at < cut)) {
+      cut = at
+    }
+  }
+  if (cut > 0) {
+    s = s.substring(0, cut)
+  }
+  return s.replace(/[\s,，、;；:：–—-]+$/, "")
+}
+
+/**
+ * Builds the video data from the DOM when the state payload is missing or has
+ * moved. The page still has its title, description and cover in meta tags, and
+ * that is enough for a readable bookmark; without this fallback the script
+ * returns early, the extractor sees a media page with no article, and the
+ * reader shows an empty page next to the downloaded video.
+ *
+ * @param {Node} doc
+ * @returns {any}
+ */
+function readFallback(doc) {
+  var meta = function (sel) {
+    var el = doc.querySelector(sel)
+    return el ? String(el.getAttribute("content") || "") : ""
+  }
+  var text = function (sel) {
+    var el = doc.querySelector(sel)
+    return el ? String(el.textContent || "").replace(/^\s+|\s+$/g, "") : ""
+  }
+
+  var title = cleanTitle(
+    meta('meta[property="og:title"]') ||
+      text("h1.video-title") ||
+      (doc.title || ""),
+  )
+  if (!title) {
+    return null
+  }
+
+  return {
+    title: title,
+    desc: cleanDescription(
+      meta('meta[property="og:description"]') ||
+        meta('meta[name="description"]') ||
+        text("#v_desc") ||
+        text(".desc-info"),
+    ),
+    pic: (meta('meta[property="og:image"]') || "").replace(/^http:/, "https:"),
+    owner: text(".up-name") || text(".username"),
+    category: "",
+    pubdate: 0,
+    duration: 0,
+    views: 0,
+  }
+}
+
+/**
+ * Removes the site suffix Bilibili puts on document.title.
+ *
+ * @param {string} s
+ * @returns {string}
+ */
+function cleanTitle(s) {
+  return String(s || "")
+    .replace(/\s*[-_|]\s*哔哩哔哩\s*[-_|]?\s*bilibili\s*$/i, "")
+    .replace(/\s*[-_|]\s*哔哩哔哩\s*$/i, "")
+    .replace(/\s*[-_|]\s*bilibili\s*$/i, "")
+    .replace(/^\s+|\s+$/g, "")
+}
+
+/**
  * @param {Node} document
  */
 exports.documentLoaded = function (document) {
@@ -240,19 +328,21 @@ exports.documentLoaded = function (document) {
     return
   }
 
-  var data = readVideoData(document)
+  var data = readVideoData(document) || readFallback(document)
   if (!data) {
     return
   }
 
-  var title = data.title
+  var title = cleanTitle(data.title)
   if (!title) {
     var h1 = document.querySelector("h1.video-title")
-    title = h1 ? String(h1.textContent || "").replace(/^\s+|\s+$/g, "") : ""
+    title = h1 ? cleanTitle(h1.textContent || "") : ""
   }
   if (!title) {
     return
   }
+
+  var desc = cleanDescription(data.desc)
 
   var meta = []
   if (data.owner) {
@@ -279,7 +369,7 @@ exports.documentLoaded = function (document) {
     parts.push('<p class="bili-meta">' + escapeHTML(meta.join(" · ")) + "</p>")
   }
 
-  var lines = data.desc.replace(/\r\n/g, "\n").split(/\n+/)
+  var lines = desc.replace(/\r\n/g, "\n").split(/\n+/)
   for (var i = 0; i < lines.length; i++) {
     var line = lines[i].replace(/^\s+|\s+$/g, "")
     if (line) {
@@ -319,9 +409,13 @@ exports.documentLoaded = function (document) {
   }
   body.innerHTML = parts.join("")
 
+  // The extension and the mobile share sheet read document.title, and the
+  // <title> tag still carries "_哔哩哔哩_bilibili" when the state payload was
+  // missing. Fix it here as well as in the metadata.
   setMeta(document, "property", "og:title", title)
   setMeta(document, "property", "og:type", "video.other")
-  setMeta(document, "property", "og:description", data.desc.replace(/\n+/g, " ").substring(0, 300))
+  setMeta(document, "property", "og:description", desc.substring(0, 300))
+  setMeta(document, "name", "description", desc.substring(0, 300))
   if (data.pic) {
     setMeta(document, "property", "og:image", data.pic)
   }

@@ -81,6 +81,36 @@ func TestCleanTitle(t *testing.T) {
 			"(2026) Example News",
 			"(2026) Example News",
 		},
+		{
+			"bilibili glues two site names",
+			"一个宝藏开源项目，它干的事就是把动效整理成名字。_哔哩哔哩_bilibili",
+			"一个宝藏开源项目，它干的事就是把动效整理成名字。",
+		},
+		{
+			"repeated caixin suffix",
+			"华为AI专利超8000件 2025年专利许可收入8亿美元_财新网_财新网",
+			"华为AI专利超8000件 2025年专利许可收入8亿美元",
+		},
+		{
+			"tagline after a dash",
+			"🔥 xbatis 1.10.13 正式发版 - OSCHINA - 开源 × AI · 开发者生态社区",
+			"🔥 xbatis 1.10.13 正式发版",
+		},
+		{
+			"news tags before the site name",
+			"上海市委常委会举行扩大会议的决定|总书记|中央纪委_网易政务",
+			"上海市委常委会举行扩大会议的决定",
+		},
+		{
+			"the paper suffix with an english brand",
+			"广西：打击非法猎捕专项行动_中国政库_澎湃新闻-The Paper",
+			"广西：打击非法猎捕专项行动",
+		},
+		{
+			"hyphenated english words are not site names",
+			"state-of-the-art 综述",
+			"state-of-the-art 综述",
+		},
 	}
 
 	for _, tt := range tests {

@@ -156,6 +156,63 @@ async function capturePage(opts) {
       t = m[1].trim()
     }
 
+    // News templates append a tag list after the headline
+    // ("…的决定|总书记|中央纪委"). Only short, punctuation-free trailing
+    // segments are removed, and a single tag only when a real headline
+    // remains, so "设计|界面" keeps its title.
+    {
+      const parts = t.split("|")
+      let end = parts.length
+      while (end > 1 && parts.length - end < 4) {
+        const tag = parts[end - 1].trim()
+        if (!tag || tag.length > 8 || /[.。,，!！?？:：;；、()（）]/.test(tag)) {
+          break
+        }
+        end--
+      }
+      const removed = parts.length - end
+      if (removed > 0 && (removed > 1 || parts.slice(0, end).join("|").length >= 10)) {
+        t = parts.slice(0, end).join("|").trim()
+      }
+    }
+
+    // Templates that append a whole brand line ("- OSCHINA - 开源 × AI · 开发者
+    // 生态社区", "_财新网_财新网", "_哔哩哔哩_bilibili") are not covered by the
+    // last-word rule above. Cut at the last known site name when it sits behind
+    // a separator and what follows is short.
+    const labels = [
+      "哔哩哔哩", "bilibili", "财新网", "界面新闻", "网易政务", "澎湃新闻",
+      "中国政库", "the paper", "oschina", "ithome", "少数派", "什么值得买",
+      "36氪", "虎扑社区", "开源中国", "腾讯新闻", "微信公众平台", "小红书",
+      "smzdm", "sspai", "infoq", "cnblogs", "juejin", "douban", "hupu",
+    ]
+    for (let pass = 0; pass < 3; pass++) {
+      const lower = t.toLowerCase()
+      let best = -1
+      for (const label of labels) {
+        const at = lower.lastIndexOf(label)
+        if (at <= best) {
+          continue
+        }
+        const prev = t[at - 1] || ""
+        const after = t.slice(at + label.length)
+        if (!/[\s_|·\-–—:]/.test(prev)) {
+          continue
+        }
+        if (after && !/^[\s_|·\-–—:]/.test(after)) {
+          continue
+        }
+        if (Array.from(after).length > 48) {
+          continue
+        }
+        best = at
+      }
+      if (best <= 0) {
+        break
+      }
+      t = t.slice(0, best).replace(/[\s_|·\-–—:]+$/, "").trim()
+    }
+
     return t.trim()
   }
 

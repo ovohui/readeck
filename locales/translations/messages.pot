@@ -3170,3 +3170,9 @@ msgstr ""
 
 msgid "Edit the raw HTML instead"
 msgstr ""
+
+msgid "No readable content was saved"
+msgstr ""
+
+msgid "This page is rendered by JavaScript or requires a login. Open the original page, or save it again with the browser extension."
+msgstr ""

@@ -325,7 +325,14 @@ func (arc *Archiver) replaceEmbedWithVideo(ctx context.Context, log *slog.Logger
 	if h := dom.GetAttribute(node, "height"); isDigits(h) {
 		dom.SetAttribute(video, "height", h)
 	}
-	if poster := dom.GetAttribute(node, "poster"); poster != "" {
+	// The placeholder is an <img> whose cover sits in src; an <iframe> has no
+	// cover at all. Keeping src as poster is what stops an archived Bilibili
+	// or Xiaohongshu clip from opening on a black frame.
+	poster := dom.GetAttribute(node, "poster")
+	if poster == "" && dom.TagName(node) == "img" {
+		poster = dom.GetAttribute(node, "src")
+	}
+	if poster != "" {
 		dom.SetAttribute(video, "poster", poster)
 	}
 

@@ -229,6 +229,48 @@
 
   /* ---------------- 提交 ---------------- */
 
+  /**
+   * 去掉标题尾巴上的站点名。document.title 几乎总会带一份：
+   * "标题_哔哩哔哩_bilibili"、"标题 - 少数派"、"标题 | 知乎"。
+   * @param {string} raw
+   * @returns {string}
+   */
+  function cleanTitle(raw) {
+    let t = String(raw || "").trim()
+    if (!t) {
+      return t
+    }
+    t = t
+      .replace(/\s*[-_|]\s*哔哩哔哩\s*[-_|]?\s*bilibili\s*$/i, "")
+      .replace(/\s*[-_|]\s*哔哩哔哩\s*$/i, "")
+      .replace(/\s*[-_|]\s*bilibili\s*$/i, "")
+
+    for (let i = 0; i < 2; i++) {
+      const m = t.match(/^(.+?)(?:\s+[-–—]\s*|\s*[_|·]\s*)([^-–—|_·\s]{1,20})$/)
+      if (!m || /[.。,，!！?？:：;；]/.test(m[2]) || m[2].length * 2 > t.length) {
+        break
+      }
+      t = m[1].trim()
+    }
+
+    // 新闻站会把标签接在标题后面：…的决定|总书记|中央纪委
+    const parts = t.split("|")
+    let end = parts.length
+    while (end > 1 && parts.length - end < 4) {
+      const tag = parts[end - 1].trim()
+      if (!tag || tag.length > 8 || /[.。,，!！?？:：;；、()（）]/.test(tag)) {
+        break
+      }
+      end--
+    }
+    const removed = parts.length - end
+    if (removed > 0 && (removed > 1 || parts.slice(0, end).join("|").length >= 10)) {
+      t = parts.slice(0, end).join("|").trim()
+    }
+
+    return t.trim()
+  }
+
   function postToReadeck(cfg, html) {
     return new Promise((resolve, reject) => {
       GM_xmlhttpRequest({
@@ -241,7 +283,7 @@
         },
         data: JSON.stringify({
           url: location.href,
-          title: document.title,
+          title: cleanTitle(document.title),
           html: html,
         }),
         timeout: 180000,
