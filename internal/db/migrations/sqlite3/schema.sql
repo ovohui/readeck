@@ -58,9 +58,11 @@ CREATE TABLE IF NOT EXISTS folder (
     id        integer  PRIMARY KEY AUTOINCREMENT,
     user_id   integer  NOT NULL,
     parent_id integer  NULL,
-    name      text     NOT NULL,
-    created   datetime NOT NULL,
-    updated   datetime NOT NULL,
+    name          text     NOT NULL,
+    password_hash text     NOT NULL DEFAULT '',
+    is_locked     integer  NOT NULL DEFAULT 0,
+    created       datetime NOT NULL,
+    updated       datetime NOT NULL,
 
     CONSTRAINT fk_folder_user FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
     CONSTRAINT fk_folder_parent FOREIGN KEY (parent_id) REFERENCES folder(id) ON DELETE CASCADE

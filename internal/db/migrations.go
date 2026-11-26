@@ -109,4 +109,5 @@ var migrationList = []migrationEntry{
 	newMigrationEntry(28, "user_ext", applyMigrationFile("28_user_ext.sql")),
 	newMigrationEntry(29, "bookmark_note", applyMigrationFile("29_bookmark_note.sql")),
 	newMigrationEntry(30, "folders", applyMigrationFile("30_folder.sql")),
+	newMigrationEntry(31, "folder_lock", applyMigrationFile("31_folder_lock.sql")),
 }

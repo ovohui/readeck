@@ -106,6 +106,14 @@ func GetSession(r *http.Request) *sessions.Session {
 	return nil
 }
 
+// GetSessionFromContext returns the session stored in a context, when present.
+func GetSessionFromContext(ctx context.Context) *sessions.Session {
+	if sess, ok := checkSession(ctx); ok {
+		return sess
+	}
+	return nil
+}
+
 // AddFlash saves a flash message in the session.
 func AddFlash(w http.ResponseWriter, r *http.Request, typ, msg string) error {
 	session := GetSession(r)

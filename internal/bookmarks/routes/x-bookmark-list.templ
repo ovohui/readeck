@@ -456,6 +456,43 @@ templ (c Components) bookmarkList(bl *dataset.BookmarkList) {
 				{ L(ctx).Gettext("Delete") }
 			</button>
 		</div>
+		if aiEnabled(ctx) {
+			<aside
+				class="bookmark-ai-chat"
+				data-controller="list-ai"
+				data-list-ai-url-value={ URL(ctx, "/bookmarks/ai/ask") }
+			>
+				<details open>
+					<summary class="bookmark-ai-chat--title">
+						@Icon("o-create")
+						{ " " }
+						{ L(ctx).Gettext("AI assistant") }
+					</summary>
+					<p class="text-sm text-gray-600 mt-2">
+						{ L(ctx).Gettext("Summarize the filtered list, tag the selected bookmarks, or ask which bookmarks answer a question.") }
+					</p>
+					<textarea
+						class="form-input mt-2"
+						rows="3"
+						data-list-ai-target="question"
+						placeholder={ L(ctx).Gettext("e.g. which bookmarks are about Go? / summarize these articles") }
+					></textarea>
+					<div class="flex flex-wrap gap-2 mt-2">
+						<button type="button" class="btn btn-outlined py-1" data-action="list-ai#summary">
+							{ L(ctx).Gettext("Summarize") }
+						</button>
+						<button type="button" class="btn btn-outlined py-1" data-action="list-ai#tag">
+							{ L(ctx).Gettext("Tag selected") }
+						</button>
+						<button type="button" class="btn btn-primary py-1" data-action="list-ai#ask">
+							{ L(ctx).Gettext("Ask") }
+						</button>
+					</div>
+					<p class="mt-2 text-sm" data-list-ai-target="status"></p>
+					<div class="mt-2 text-sm" data-list-ai-target="result"></div>
+				</details>
+			</aside>
+		}
 		@Pagination(&bl.Pagination)
 		<div
 			class={ "my-4", Preferences(ctx).BookmarkList.Layout.Class() }

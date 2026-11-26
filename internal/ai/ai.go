@@ -177,12 +177,21 @@ Use the language of the article for title, summary, labels and text.`
 
 // Clean asks the model to turn an outline into structured blocks.
 func (c *Client) Clean(ctx context.Context, title, pageURL, outline string, images []Image) (*Result, error) {
+	return c.CleanWithInstruction(ctx, title, pageURL, outline, images, "")
+}
+
+// CleanWithInstruction is [Clean] with an extra user instruction, such as
+// "remove every link" or "keep only the recipe".
+func (c *Client) CleanWithInstruction(ctx context.Context, title, pageURL, outline string, images []Image, instruction string) (*Result, error) {
 	if !c.Configured() {
 		return nil, ErrNotConfigured
 	}
 
 	user := fmt.Sprintf("标题: %s\nURL: %s\n\n正文大纲:\n%s\n\n图片列表:\n%s",
 		title, pageURL, outline, imageList(images))
+	if strings.TrimSpace(instruction) != "" {
+		user += "\n\n额外要求（优先级最高）:\n" + strings.TrimSpace(instruction)
+	}
 
 	var body []byte
 	var err error
@@ -203,6 +212,93 @@ func (c *Client) Clean(ctx context.Context, title, pageURL, outline string, imag
 		return nil, err
 	}
 	return res, nil
+}
+
+// Ask sends a free-form question. It is used by the list assistant and by the
+// connection test, where structured article blocks are not needed.
+func (c *Client) Ask(ctx context.Context, system, user string) (string, error) {
+	if !c.Configured() {
+		return "", ErrNotConfigured
+	}
+
+	var raw []byte
+	var err error
+	switch c.cfg.Provider {
+	case "anthropic":
+		payload := map[string]any{
+			"model":      c.cfg.Model,
+			"max_tokens": 4096,
+			"system":     system,
+			"messages": []map[string]string{
+				{"role": "user", "content": user},
+			},
+		}
+		raw, err = c.postJSON(ctx, c.chatEndpoint(), map[string]string{
+			"x-api-key":         c.cfg.APIKey,
+			"anthropic-version": "2023-06-01",
+		}, payload)
+	case "ollama":
+		payload := map[string]any{
+			"model":  c.cfg.Model,
+			"stream": false,
+			"messages": []map[string]string{
+				{"role": "system", "content": system},
+				{"role": "user", "content": user},
+			},
+		}
+		raw, err = c.postJSON(ctx, c.chatEndpoint(), nil, payload)
+	default:
+		payload := map[string]any{
+			"model": c.cfg.Model,
+			"messages": []map[string]string{
+				{"role": "system", "content": system},
+				{"role": "user", "content": user},
+			},
+			"temperature": 0.2,
+		}
+		raw, err = c.postJSON(ctx, c.chatEndpoint(), map[string]string{
+			"Authorization": "Bearer " + c.cfg.APIKey,
+		}, payload)
+	}
+	if err != nil {
+		return "", err
+	}
+	return contentFromResponse(raw)
+}
+
+// Test verifies the key, base URL and model with a tiny request.
+func (c *Client) Test(ctx context.Context) error {
+	_, err := c.Ask(ctx, "You are a connection tester. Reply with the single word OK.", "OK")
+	return err
+}
+
+func contentFromResponse(raw []byte) (string, error) {
+	text := strings.TrimSpace(string(raw))
+	var wrapper struct {
+		Choices []struct {
+			Message struct {
+				Content string `json:"content"`
+			} `json:"message"`
+		} `json:"choices"`
+		Content []struct {
+			Type string `json:"type"`
+			Text string `json:"text"`
+		} `json:"content"`
+		Message struct {
+			Content string `json:"content"`
+		} `json:"message"`
+	}
+	if err := json.Unmarshal([]byte(text), &wrapper); err != nil {
+		return "", fmt.Errorf("%w: %v", ErrBadResponse, err)
+	}
+	switch {
+	case len(wrapper.Choices) > 0:
+		return wrapper.Choices[0].Message.Content, nil
+	case len(wrapper.Content) > 0:
+		return wrapper.Content[0].Text, nil
+	default:
+		return wrapper.Message.Content, nil
+	}
 }
 
 func imageList(images []Image) string {

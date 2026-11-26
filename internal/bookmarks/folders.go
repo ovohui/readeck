@@ -10,18 +10,21 @@ import (
 	"time"
 
 	"github.com/doug-martin/goqu/v9"
+	"golang.org/x/crypto/bcrypt"
 
 	"codeberg.org/readeck/readeck/internal/db"
 )
 
 // Folder is one node in the user's folder tree.
 type Folder struct {
-	ID       int       `db:"id"       goqu:"skipinsert"`
-	UserID   int       `db:"user_id"`
-	ParentID *int      `db:"parent_id"`
-	Name     string    `db:"name"`
-	Created  time.Time `db:"created"`
-	Updated  time.Time `db:"updated"`
+	ID           int       `db:"id"       goqu:"skipinsert"`
+	UserID       int       `db:"user_id"`
+	ParentID     *int      `db:"parent_id"`
+	Name         string    `db:"name"`
+	PasswordHash string    `db:"password_hash" json:"-"`
+	IsLocked     bool      `db:"is_locked" json:"is_locked"`
+	Created      time.Time `db:"created"`
+	Updated      time.Time `db:"updated"`
 }
 
 // FolderNode is a folder with its children.
@@ -180,6 +183,87 @@ func (m *FolderManager) Tree(userID int) ([]*FolderNode, error) {
 		setDepth(n, 0)
 	}
 	return roots, nil
+}
+
+// SetLock stores a bcrypt password and locks the folder.
+func (m *FolderManager) SetLock(userID, id int, password string) error {
+	password = strings.TrimSpace(password)
+	if len(password) < 4 {
+		return errors.New("password too short")
+	}
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	_, err = db.Q().Update(db.TableFolder).Prepared(true).
+		Set(goqu.Record{
+			"password_hash": string(hash),
+			"is_locked":     true,
+			"updated":       time.Now().UTC(),
+		}).
+		Where(goqu.C("user_id").Eq(userID), goqu.C("id").Eq(id)).
+		Executor().Exec()
+	return err
+}
+
+// ClearLock removes the password and unlocks the folder.
+func (m *FolderManager) ClearLock(userID, id int) error {
+	_, err := db.Q().Update(db.TableFolder).Prepared(true).
+		Set(goqu.Record{
+			"password_hash": "",
+			"is_locked":     false,
+			"updated":       time.Now().UTC(),
+		}).
+		Where(goqu.C("user_id").Eq(userID), goqu.C("id").Eq(id)).
+		Executor().Exec()
+	return err
+}
+
+// CheckPassword verifies a folder password.
+func (m *FolderManager) CheckPassword(userID, id int, password string) error {
+	f, err := m.GetOne(userID, id)
+	if err != nil {
+		return err
+	}
+	if !f.IsLocked || f.PasswordHash == "" {
+		return nil
+	}
+	return bcrypt.CompareHashAndPassword([]byte(f.PasswordHash), []byte(password))
+}
+
+// LockedFolderIDs returns locked folders and all their descendants.
+func (m *FolderManager) LockedFolderIDs(userID int) ([]int, error) {
+	folders, err := m.List(userID)
+	if err != nil {
+		return nil, err
+	}
+	children := map[int][]int{}
+	locked := []int{}
+	for _, f := range folders {
+		if f.ParentID != nil {
+			children[*f.ParentID] = append(children[*f.ParentID], f.ID)
+		}
+		if f.IsLocked {
+			locked = append(locked, f.ID)
+		}
+	}
+	var res []int
+	seen := map[int]bool{}
+	var walk func(int)
+	walk = func(id int) {
+		if seen[id] {
+			return
+		}
+		seen[id] = true
+		res = append(res, id)
+		for _, c := range children[id] {
+			walk(c)
+		}
+	}
+	for _, id := range locked {
+		walk(id)
+	}
+	return res, nil
 }
 
 // SetBookmarkFolder moves one bookmark to a folder (nil means root).

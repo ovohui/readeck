@@ -3754,3 +3754,75 @@ msgstr "删除文件夹失败。"
 
 msgid "Folder deleted; its bookmarks were moved to the root."
 msgstr "文件夹已删除，书签已移到根目录。"
+
+msgid "AI assistant"
+msgstr "AI 助手"
+
+msgid "Summarize"
+msgstr "总结"
+
+msgid "Clean article"
+msgstr "整理正文"
+
+msgid "Remove links"
+msgstr "去链接"
+
+msgid "Optional instruction, e.g. keep only the recipe"
+msgstr "可选要求，例如：只保留菜谱"
+
+msgid "Test connection"
+msgstr "测试连接"
+
+msgid "Summarize the article, or let AI remove ads, navigation and extra links."
+msgstr "总结文章，或让 AI 去掉广告、导航和多余链接。"
+
+msgid "Summarize the filtered list, tag the selected bookmarks, or ask which bookmarks answer a question."
+msgstr "总结当前筛选结果、给选中的书签打标签，或提问让 AI 找出相关收藏。"
+
+msgid "e.g. which bookmarks are about Go? / summarize these articles"
+msgstr "例如：哪些收藏和 Go 有关？/ 总结这些文章"
+
+msgid "Tag selected"
+msgstr "给选中打标签"
+
+msgid "Ask"
+msgstr "提问"
+
+msgid "Could not lock the folder: %s"
+msgstr "锁定文件夹失败：%s"
+
+msgid "Folder locked."
+msgstr "文件夹已锁定。"
+
+msgid "Wrong password."
+msgstr "密码错误。"
+
+msgid "Folder unlocked for this session."
+msgstr "文件夹已在本次会话解锁。"
+
+msgid "Could not remove the folder lock."
+msgstr "移除文件夹密码失败。"
+
+msgid "Folder lock removed."
+msgstr "文件夹密码已移除。"
+
+msgid "Lock again"
+msgstr "重新锁定"
+
+msgid "Remove lock"
+msgstr "移除密码"
+
+msgid "Set password and lock"
+msgstr "设置密码并锁定"
+
+msgid "Lock"
+msgstr "锁定"
+
+msgid "Locked"
+msgstr "已锁定"
+
+msgid "Unlocked"
+msgstr "已解锁"
+
+msgid "Unlock the folder before deleting it."
+msgstr "请先解锁文件夹再删除。"

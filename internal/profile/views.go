@@ -46,6 +46,7 @@ func newProfileViews(api *profileAPI) *profileViews {
 
 	r.With(server.WithPermission("profile", "write")).Group(func(r chi.Router) {
 		r.Post("/", v.userProfile)
+		r.Post("/ai/test", v.aiTest)
 		r.Post("/password", v.userPassword)
 		r.Get("/otp", v.userTOTP)
 		r.Post("/otp", v.userTOTP)

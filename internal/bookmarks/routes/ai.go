@@ -6,6 +6,7 @@ package routes
 
 import (
 	"context"
+	"encoding/json"
 	stdhtml "html"
 	"io"
 	"log/slog"
@@ -46,67 +47,115 @@ func aiEnabled(ctx context.Context) bool {
 	return ai.New(aiConfig(ctx)).Configured()
 }
 
-// aiClean runs the synchronous cleanup. It is deliberately a normal POST: the
-// user sees a page reload with the result, and no API key ever reaches the
-// browser.
+type aiJSONResponse struct {
+	OK      bool     `json:"ok"`
+	Error   string   `json:"error,omitempty"`
+	Summary string   `json:"summary,omitempty"`
+	Title   string   `json:"title,omitempty"`
+	Labels  []string `json:"labels,omitempty"`
+	HTML    string   `json:"html,omitempty"`
+}
+
+func wantsJSON(r *http.Request) bool {
+	return strings.Contains(r.Header.Get("Accept"), "application/json") ||
+		r.Header.Get("X-Requested-With") == "XMLHttpRequest"
+}
+
+func writeAIJSON(w http.ResponseWriter, status int, res aiJSONResponse) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	_ = json.NewEncoder(w).Encode(res)
+}
+
+// aiClean runs summary or cleanup. With an AJAX request it returns JSON so the
+// sidebar can show progress and an error instead of a page that appears dead.
 func (h *viewsRouter) aiClean(w http.ResponseWriter, r *http.Request) {
 	b := getBookmark(r.Context())
-	cfg := aiConfig(r.Context())
-	client := ai.New(cfg)
-	if !client.Configured() {
-		_ = server.AddFlash(w, r, "error", server.Locale(r.Context()).Gettext("AI is not configured."))
+	jsonMode := wantsJSON(r)
+	fail := func(msg string) {
+		if jsonMode {
+			writeAIJSON(w, http.StatusBadRequest, aiJSONResponse{Error: msg})
+			return
+		}
+		_ = server.AddFlash(w, r, "error", msg)
 		server.Redirect(w, r, "/bookmarks/"+b.UID)
+	}
+
+	client := ai.New(aiConfig(r.Context()))
+	if !client.Configured() {
+		fail(server.Locale(r.Context()).Gettext("AI is not configured."))
 		return
 	}
 
 	bi := dataset.NewBookmark(r.Context(), b)
 	reader, err := bi.GetArticle()
 	if err != nil {
-		_ = server.AddFlash(w, r, "error", server.Locale(r.Context()).Gettext("Could not read the saved article."))
-		server.Redirect(w, r, "/bookmarks/"+b.UID)
+		fail(server.Locale(r.Context()).Gettext("Could not read the saved article."))
 		return
 	}
 	raw, err := io.ReadAll(reader)
 	if err != nil {
-		_ = server.AddFlash(w, r, "error", server.Locale(r.Context()).Gettext("Could not read the saved article."))
-		server.Redirect(w, r, "/bookmarks/"+b.UID)
+		fail(server.Locale(r.Context()).Gettext("Could not read the saved article."))
 		return
 	}
 
 	outline, images := buildAIOutline(string(raw))
 	if strings.TrimSpace(outline) == "" {
-		_ = server.AddFlash(w, r, "error", server.Locale(r.Context()).Gettext("There is no text to clean."))
-		server.Redirect(w, r, "/bookmarks/"+b.UID)
+		fail(server.Locale(r.Context()).Gettext("There is no text to clean."))
 		return
 	}
 
-	result, err := client.Clean(r.Context(), b.Title, b.URL, outline, images)
+	mode := strings.ToLower(strings.TrimSpace(r.FormValue("mode")))
+	if mode == "" {
+		mode = "clean"
+	}
+	instruction := strings.TrimSpace(r.FormValue("instruction"))
+	switch mode {
+	case "summary":
+		instruction = "只做摘要，不要改写正文。用两三句话总结文章；如果正文主要是链接列表，说明它是什么列表。"
+	case "links":
+		instruction = "删除导航、相关文章、推荐阅读、作者简介、评论和所有链接列表；保留正文段落和图片。不要保留任何多余的超链接。"
+	}
+
+	result, err := client.CleanWithInstruction(r.Context(), b.Title, b.URL, outline, images, instruction)
 	if err != nil {
 		server.Log(r).Warn("ai cleanup", slog.Any("err", err))
-		_ = server.AddFlash(w, r, "error",
-			server.Locale(r.Context()).Gettext("AI cleanup failed: %s", err.Error()))
-		server.Redirect(w, r, "/bookmarks/"+b.UID)
+		fail(server.Locale(r.Context()).Gettext("AI cleanup failed: %s", err.Error()))
 		return
 	}
 
-	body := renderAIBlocks(result.Blocks, images)
-	if strings.TrimSpace(body) == "" {
-		_ = server.AddFlash(w, r, "error", server.Locale(r.Context()).Gettext("AI returned an empty article."))
-		server.Redirect(w, r, "/bookmarks/"+b.UID)
-		return
-	}
-	if err := b.RewriteArticle(body); err != nil {
-		server.Log(r).Error("ai rewrite", slog.Any("err", err))
-		_ = server.AddFlash(w, r, "error", server.Locale(r.Context()).Gettext("Could not save the cleaned article."))
-		server.Redirect(w, r, "/bookmarks/"+b.UID)
-		return
+	summary := strings.TrimSpace(result.Summary)
+	if summary == "" {
+		var parts []string
+		for _, block := range result.Blocks {
+			if t := strings.TrimSpace(block.Text); t != "" {
+				parts = append(parts, t)
+			}
+		}
+		summary = strings.Join(parts, " ")
 	}
 
-	if t := strings.TrimSpace(result.Title); t != "" && len([]rune(t)) <= 512 {
-		b.Title = t
+	var body string
+	if mode != "summary" {
+		body = renderAIBlocks(result.Blocks, images)
+		if strings.TrimSpace(body) == "" {
+			fail(server.Locale(r.Context()).Gettext("AI returned an empty article."))
+			return
+		}
+		if err := b.RewriteArticle(body); err != nil {
+			server.Log(r).Error("ai rewrite", slog.Any("err", err))
+			fail(server.Locale(r.Context()).Gettext("Could not save the cleaned article."))
+			return
+		}
 	}
-	if s := strings.TrimSpace(result.Summary); s != "" {
-		b.Description = s
+
+	if mode != "summary" {
+		if t := strings.TrimSpace(result.Title); t != "" && len([]rune(t)) <= 512 {
+			b.Title = t
+		}
+	}
+	if summary != "" {
+		b.Description = summary
 	}
 	for _, label := range result.Labels {
 		label = strings.TrimSpace(label)
@@ -115,17 +164,24 @@ func (h *viewsRouter) aiClean(w http.ResponseWriter, r *http.Request) {
 		}
 		b.Labels = append(b.Labels, label)
 	}
-	b.Labels = append(b.Labels, "AI整理")
+	if mode != "summary" {
+		b.Labels = append(b.Labels, "AI整理")
+	}
 	slices.Sort(b.Labels)
 	b.Labels = slices.Compact(b.Labels)
 	b.Updated = time.Now().UTC()
 	if err := b.Save(); err != nil {
 		server.Log(r).Error("ai save", slog.Any("err", err))
-		_ = server.AddFlash(w, r, "error", server.Locale(r.Context()).Gettext("The article was cleaned but the bookmark could not be updated."))
-		server.Redirect(w, r, "/bookmarks/"+b.UID)
+		fail(server.Locale(r.Context()).Gettext("The article was cleaned but the bookmark could not be updated."))
 		return
 	}
 
+	if jsonMode {
+		writeAIJSON(w, http.StatusOK, aiJSONResponse{
+			OK: true, Summary: summary, Title: b.Title, Labels: b.Labels, HTML: body,
+		})
+		return
+	}
 	_ = server.AddFlash(w, r, "success", server.Locale(r.Context()).Gettext("AI cleanup finished."))
 	server.Redirect(w, r, "/bookmarks/"+b.UID)
 }

@@ -61,6 +61,33 @@ templ folderNode(n *bookmarks.FolderNode) {
 				<input type="hidden" name="id" value={ strconv.Itoa(n.ID) }/>
 				<button class="btn btn-danger py-1" type="submit">{ L(ctx).Gettext("Delete") }</button>
 			</form>
+			if n.IsLocked {
+				if folderUnlocked(ctx, n.ID) {
+					<span class="text-green-700 text-sm">{ L(ctx).Gettext("Unlocked") }</span>
+					<form action={ URL(ctx, "/bookmarks/folders/relock") } method="post">
+						<input type="hidden" name="id" value={ strconv.Itoa(n.ID) }/>
+						<button class="btn btn-outlined py-1" type="submit">{ L(ctx).Gettext("Lock again") }</button>
+					</form>
+					<form action={ URL(ctx, "/bookmarks/folders/lock/remove") } method="post" class="flex gap-1">
+						<input type="hidden" name="id" value={ strconv.Itoa(n.ID) }/>
+						<input class="form-input py-1" type="password" name="password" placeholder={ L(ctx).Gettext("Current password") } required/>
+						<button class="btn btn-outlined py-1" type="submit">{ L(ctx).Gettext("Remove lock") }</button>
+					</form>
+				} else {
+					<span class="text-yellow-700 text-sm">{ L(ctx).Gettext("Locked") }</span>
+					<form action={ URL(ctx, "/bookmarks/folders/unlock") } method="post" class="flex gap-1">
+						<input type="hidden" name="id" value={ strconv.Itoa(n.ID) }/>
+						<input class="form-input py-1" type="password" name="password" placeholder={ L(ctx).Gettext("Password") } required/>
+						<button class="btn btn-primary py-1" type="submit">{ L(ctx).Gettext("Unlock") }</button>
+					</form>
+				}
+			} else {
+				<form action={ URL(ctx, "/bookmarks/folders/lock") } method="post" class="flex gap-1">
+					<input type="hidden" name="id" value={ strconv.Itoa(n.ID) }/>
+					<input class="form-input py-1" type="password" name="password" placeholder={ L(ctx).Gettext("Set password and lock") } required/>
+					<button class="btn btn-outlined py-1" type="submit">{ L(ctx).Gettext("Lock") }</button>
+				</form>
+			}
 		</div>
 		if len(n.Children) > 0 {
 			<ul class="folder-tree">

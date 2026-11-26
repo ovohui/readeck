@@ -243,6 +243,11 @@ func newViewsRouter(api *apiRouter) *viewsRouter {
 			r.Post("/folders", h.folderCreate)
 			r.Post("/folders/rename", h.folderRename)
 			r.Post("/folders/delete", h.folderDelete)
+			r.Post("/folders/lock", h.folderLock)
+			r.Post("/folders/unlock", h.folderUnlock)
+			r.Post("/folders/lock/remove", h.folderClearLock)
+			r.Post("/folders/relock", h.folderRelock)
+			r.With(api.withBookmarkList).Post("/ai/ask", h.aiList)
 			r.With(api.withBookmark).Group(func(r chi.Router) {
 				r.Get("/{uid:[a-zA-Z0-9]{18,22}}/update", h.bookmarkUpdate)
 				r.Post("/{uid:[a-zA-Z0-9]{18,22}}/update", h.bookmarkUpdate)

@@ -19,11 +19,12 @@ import (
 
 // Payload contains session values.
 type Payload struct {
-	Seed        int            `json:"s"`
-	User        int            `json:"u"`
-	RequiresMFA bool           `json:"mfa"`
-	LastUpdate  int64          `json:"lu"`
-	Flashes     []FlashMessage `json:"f"`
+	Seed            int            `json:"s"`
+	User            int            `json:"u"`
+	RequiresMFA     bool           `json:"mfa"`
+	LastUpdate      int64          `json:"lu"`
+	Flashes         []FlashMessage `json:"f"`
+	UnlockedFolders []int          `json:"uf,omitempty"`
 }
 
 // FlashMessage is a message stored in the session.

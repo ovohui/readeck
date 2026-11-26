@@ -3365,3 +3365,75 @@ msgstr ""
 
 msgid "Folder deleted; its bookmarks were moved to the root."
 msgstr ""
+
+msgid "AI assistant"
+msgstr ""
+
+msgid "Summarize"
+msgstr ""
+
+msgid "Clean article"
+msgstr ""
+
+msgid "Remove links"
+msgstr ""
+
+msgid "Optional instruction, e.g. keep only the recipe"
+msgstr ""
+
+msgid "Test connection"
+msgstr ""
+
+msgid "Summarize the article, or let AI remove ads, navigation and extra links."
+msgstr ""
+
+msgid "Summarize the filtered list, tag the selected bookmarks, or ask which bookmarks answer a question."
+msgstr ""
+
+msgid "e.g. which bookmarks are about Go? / summarize these articles"
+msgstr ""
+
+msgid "Tag selected"
+msgstr ""
+
+msgid "Ask"
+msgstr ""
+
+msgid "Could not lock the folder: %s"
+msgstr ""
+
+msgid "Folder locked."
+msgstr ""
+
+msgid "Wrong password."
+msgstr ""
+
+msgid "Folder unlocked for this session."
+msgstr ""
+
+msgid "Could not remove the folder lock."
+msgstr ""
+
+msgid "Folder lock removed."
+msgstr ""
+
+msgid "Lock again"
+msgstr ""
+
+msgid "Remove lock"
+msgstr ""
+
+msgid "Set password and lock"
+msgstr ""
+
+msgid "Lock"
+msgstr ""
+
+msgid "Locked"
+msgstr ""
+
+msgid "Unlocked"
+msgstr ""
+
+msgid "Unlock the folder before deleting it."
+msgstr ""

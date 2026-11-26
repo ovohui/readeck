@@ -482,6 +482,10 @@ func (api *apiRouter) withBookmark(next http.Handler) http.Handler {
 			server.Status(w, r, http.StatusNotFound)
 			return
 		}
+		if isFolderBlocked(r, b.FolderID) {
+			server.Status(w, r, http.StatusNotFound)
+			return
+		}
 		ctx := withBookmark(r.Context(), b)
 
 		if b.State == bookmarks.StateLoaded {
@@ -641,6 +645,13 @@ func (api *apiRouter) withBookmarkListSelectDataset(next http.Handler) http.Hand
 			Where(
 				goqu.C("user_id").Table("b").Eq(auth.GetUser(r.Context()).ID),
 			)
+
+		if blocked := blockedFolderIDs(r); len(blocked) > 0 {
+			ds = ds.Where(goqu.Or(
+				goqu.C("folder_id").Table("b").IsNull(),
+				goqu.C("folder_id").Table("b").NotIn(blocked),
+			))
+		}
 
 		ds = ds.Order(exp.DateTime(goqu.I("created")).Desc())
 
