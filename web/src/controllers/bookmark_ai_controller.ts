@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: © 2026 Readeck custom build
+﻿// SPDX-FileCopyrightText: © 2026 Readeck custom build
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
@@ -10,13 +10,14 @@ import {Controller} from "@hotwired/stimulus"
  * button that did nothing).
  */
 export default class extends Controller<HTMLElement> {
-  static override targets = ["instruction", "status", "result", "deep"]
+  static override targets = ["instruction", "status", "result", "deep", "cover"]
   static override values = {url: String}
 
   declare readonly instructionTarget: HTMLTextAreaElement
   declare readonly statusTarget: HTMLElement
   declare readonly resultTarget: HTMLElement
   declare readonly deepTarget: HTMLInputElement
+  declare readonly coverTarget: HTMLInputElement
   declare readonly urlValue: string
 
   summary() {
@@ -29,6 +30,11 @@ export default class extends Controller<HTMLElement> {
 
   tag() {
     void this.run("tag")
+  }
+
+  firstCover() {
+    const img = document.querySelector<HTMLImageElement>(".prose img[src]:not([data-iframe-params])")
+    if (img) this.coverTarget.value = new URL(img.src, window.location.href).href
   }
 
   chat() {

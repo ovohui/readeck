@@ -37,6 +37,9 @@ function videoID(a) {
 }
 
 exports.documentLoaded = function (document) {
+  document.querySelectorAll('sup[data-draft-type="reference"], sup.reference').forEach(function (node) {
+    node.remove()
+  })
   const links = Array.from(document.querySelectorAll("a.video-box"))
   for (const a of links) {
     const id = videoID(a)

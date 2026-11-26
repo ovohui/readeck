@@ -28,6 +28,14 @@ templ (c ReaderControlComponent) controls() {
 		</button>
 		<div popover id="reader-options">
 			@c.fontChoice()
+			<div class="flex items-center gap-2 border-b py-2" data-controller="grid-cols">
+				<span class="flex-grow text-sm">{ L(ctx).Gettext("Images per row") }</span>
+				<select class="form-select py-1" data-grid-cols-target="select" data-action="change->grid-cols#set">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+				</select>
+			</div>
 			@c.numericChoice("bookmark.reader_width",
 				uint(prefs.Bookmark.ReaderWidth), preferences.WidthChoices.Classes(),
 				"o-width",

@@ -31,6 +31,13 @@ templ (c Components) titleBlock(item *dataset.Bookmark) {
 			</p>
 		}
 		@c.bookmarkKicker(item)
+		if len(item.Labels) > 0 {
+			<div class="bookmark-tagline">
+				for _, label := range item.Labels {
+					<span>#{ label }</span>
+				}
+			</div>
+		}
 		@c.note(item)
 		@c.editDialog(item)
 	</turbo-frame>

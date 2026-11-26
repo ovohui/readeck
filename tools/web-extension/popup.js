@@ -703,6 +703,10 @@ async function capturePage(opts) {
   //       - it plays from MediaSource (blob:) or the clip sits in an iframe:
   //         poster + page URL, and the server asks yt-dlp for the file.
   if (/(^|\.)zhihu\.com$/i.test(location.hostname)) {
+    clone.querySelectorAll("sup[data-draft-type='reference'], sup.reference").forEach((node) => {
+      node.remove()
+    })
+
     const answerPage = () => {
       const hit = location.pathname.match(/\/question\/(\d+)\/answer\/(\d+)/)
       return hit

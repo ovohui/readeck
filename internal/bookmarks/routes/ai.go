@@ -12,6 +12,7 @@ import (
 	"io"
 	"log/slog"
 	"net/http"
+	"regexp"
 	"slices"
 	"strconv"
 	"strings"
@@ -201,7 +202,7 @@ func (h *viewsRouter) aiClean(w http.ResponseWriter, r *http.Request) {
 
 	var body string
 	if mode != "summary" {
-		body = renderAIBlocks(result.Blocks, images)
+		body = renderAIBlocks(result.Blocks, images, aiImageColumns(instruction))
 		if strings.TrimSpace(body) == "" {
 			fail(server.Locale(r.Context()).Gettext("AI returned an empty article."))
 			return
@@ -344,31 +345,74 @@ func buildAIOutline(raw string) (string, []ai.Image) {
 	return out, images
 }
 
-func renderAIBlocks(blocks []ai.Block, images []ai.Image) string {
+func renderAIBlocks(blocks []ai.Block, images []ai.Image, columnArg ...int) string {
+	columns := 2
+	if len(columnArg) > 0 && columnArg[0] > 0 {
+		columns = columnArg[0]
+	}
+	if columns > 4 {
+		columns = 4
+	}
+
 	var b strings.Builder
 	used := map[int]bool{}
 
-	writeImg := func(index int, caption string) {
+	imgHTML := func(index int, caption string) string {
 		if index < 0 || index >= len(images) || used[index] {
-			return
+			return ""
 		}
 		used[index] = true
-		b.WriteString(`<figure><img loading="lazy" src="`)
-		b.WriteString(stdhtml.EscapeString(images[index].URL))
-		b.WriteString(`" alt="`)
-		b.WriteString(stdhtml.EscapeString(images[index].Alt))
-		b.WriteString(`">`)
+		var x strings.Builder
+		x.WriteString(`<figure><img loading="lazy" src="`)
+		x.WriteString(stdhtml.EscapeString(images[index].URL))
+		x.WriteString(`" alt="`)
+		x.WriteString(stdhtml.EscapeString(images[index].Alt))
+		x.WriteString(`">`)
 		if c := strings.TrimSpace(caption); c != "" {
-			b.WriteString(`<figcaption>`)
-			b.WriteString(stdhtml.EscapeString(c))
-			b.WriteString(`</figcaption>`)
+			x.WriteString(`<figcaption>`)
+			x.WriteString(stdhtml.EscapeString(c))
+			x.WriteString(`</figcaption>`)
 		}
-		b.WriteString(`</figure>`)
+		x.WriteString(`</figure>`)
+		return x.String()
 	}
 
+	flushImages := func(queue []ai.Block) {
+		parts := make([]string, 0, len(queue))
+		for _, block := range queue {
+			if x := imgHTML(block.Index, block.Caption); x != "" {
+				parts = append(parts, x)
+			}
+		}
+		if len(parts) == 0 {
+			return
+		}
+		if columns > 1 && len(parts) > 1 {
+			fmt.Fprintf(&b, `<div class="ai-image-grid" style="--ai-cols:%d">`, columns)
+			for _, x := range parts {
+				b.WriteString(x)
+			}
+			b.WriteString(`</div>`)
+			return
+		}
+		for _, x := range parts {
+			b.WriteString(x)
+		}
+	}
+
+	var imageQueue []ai.Block
 	for _, block := range blocks {
 		text := strings.TrimSpace(block.Text)
-		switch strings.ToLower(block.Type) {
+		typ := strings.ToLower(block.Type)
+		if typ == "img" || typ == "image" {
+			imageQueue = append(imageQueue, block)
+			continue
+		}
+		if len(imageQueue) > 0 {
+			flushImages(imageQueue)
+			imageQueue = imageQueue[:0]
+		}
+		switch typ {
 		case "p", "paragraph":
 			if text != "" {
 				b.WriteString("<p>")
@@ -411,13 +455,14 @@ func renderAIBlocks(blocks []ai.Block, images []ai.Image) string {
 				}
 				b.WriteString("</ul>")
 			}
-		case "img", "image":
-			writeImg(block.Index, block.Caption)
 		}
+	}
+	if len(imageQueue) > 0 {
+		flushImages(imageQueue)
 	}
 
 	// The model sometimes drops pictures while shortening a post. Put every
-	// omitted picture back at the end in its original order; no image is lost.
+	// omitted picture back at the end in the original order; group them too.
 	var missing []ai.Block
 	for i := range images {
 		if !used[i] {
@@ -425,14 +470,40 @@ func renderAIBlocks(blocks []ai.Block, images []ai.Image) string {
 		}
 	}
 	if len(missing) > 0 {
-		b.WriteString(`<div class="photo-gallery">`)
-		for _, block := range missing {
-			writeImg(block.Index, "")
-		}
-		b.WriteString(`</div>`)
+		flushImages(missing)
 	}
-
 	return b.String()
+}
+
+func aiImageColumns(instruction string) int {
+	if m := regexp.MustCompile(`(?i)(?:每行|一行|每排|每列)\s*([1-4一二三四两])\s*(?:张|列|个|幅)`).FindStringSubmatch(instruction); m != nil {
+		return chineseColumn(m[1])
+	}
+	if m := regexp.MustCompile(`(?i)([1-4])\s*(?:张|列|个|幅)\s*(?:一行|每行|一排|每排)`).FindStringSubmatch(instruction); m != nil {
+		return chineseColumn(m[1])
+	}
+	return 2
+}
+
+func chineseColumn(s string) int {
+	switch s {
+	case "一":
+		return 1
+	case "二", "两":
+		return 2
+	case "三":
+		return 3
+	case "四":
+		return 4
+	}
+	n, _ := strconv.Atoi(s)
+	if n < 1 {
+		n = 1
+	}
+	if n > 4 {
+		n = 4
+	}
+	return n
 }
 
 func parseAILabels(raw string) []string {
